@@ -1,4 +1,4 @@
-![Landing Page](./screenshots/landing-welcome.png)
+<p align="center"><img src="https://raw.githubusercontent.com/yogijowo/laravel12-react-starterkit/refs/heads/main/screenshots/landing-welcome.png" alt="Laravel 12 + React Starter Kit"></p>
 
 # 🚀 Laravel 12 + React Starter Kit
 
