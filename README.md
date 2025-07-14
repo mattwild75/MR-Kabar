@@ -48,7 +48,6 @@ cd my-app
 
 # Backend setup
 composer install
-php artisan key:generate
 
 # Configure your database settings in .env
 php artisan migrate:fresh --seed
