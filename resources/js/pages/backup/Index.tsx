@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Github } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
 import {
@@ -26,17 +29,34 @@ interface Backup {
 
 interface Props {
   backups: Backup[];
+  canPushGit: boolean;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Backup', href: '/backup' },
 ];
 
-export default function BackupIndex({ backups }: Props) {
+export default function BackupIndex({ backups, canPushGit }: Props) {
+  const [gitMessage, setGitMessage] = useState('');
+  const [pushing, setPushing] = useState(false);
+
   const handleBackup = () => {
     router.post('/backup/run', {}, {
       onSuccess: () => toast.success('Backup created successfully'),
       onError: () => toast.error('Failed to create backup'),
+      preserveScroll: true,
+    });
+  };
+
+  const handleGitPush = () => {
+    setPushing(true);
+    router.post('/backup/git-push', { message: gitMessage }, {
+      onSuccess: () => {
+        toast.success('Kode berhasil di-push ke GitHub.');
+        setGitMessage('');
+      },
+      onError: () => toast.error('Git push gagal — cek pesan error di halaman.'),
+      onFinish: () => setPushing(false),
       preserveScroll: true,
     });
   };
@@ -117,6 +137,37 @@ export default function BackupIndex({ backups }: Props) {
             )}
           </CardContent>
         </Card>
+
+        {canPushGit && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl font-bold">
+                <Github className="h-5 w-5" />
+                Push Kode ke GitHub
+              </CardTitle>
+              <p className="text-muted-foreground text-sm">
+                Menyimpan snapshot kode aplikasi terbaru ke repository GitHub — bukan backup database
+                (gunakan tombol "Create Backup" di atas untuk itu), dan bukan deploy ke server produksi.
+              </p>
+            </CardHeader>
+            <Separator />
+            <CardContent className="pt-4 space-y-3">
+              <div className="space-y-1">
+                <Label htmlFor="git_message">Pesan commit (opsional)</Label>
+                <Input
+                  id="git_message"
+                  value={gitMessage}
+                  onChange={(e) => setGitMessage(e.target.value)}
+                  placeholder="mis. Update fitur CEE — 10 Juli 2026"
+                />
+              </div>
+              <Button onClick={handleGitPush} disabled={pushing}>
+                <Github className="mr-2 h-4 w-4" />
+                {pushing ? 'Mendorong ke GitHub...' : 'Push ke GitHub'}
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </AppLayout>
   );
