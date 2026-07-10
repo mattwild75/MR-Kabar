@@ -8,7 +8,7 @@ import { FormEventHandler, useRef } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -60,12 +60,11 @@ export default function Password() {
                         <div className="grid gap-2">
                             <Label htmlFor="current_password">Current password</Label>
 
-                            <Input
+                            <PasswordInput
                                 id="current_password"
                                 ref={currentPasswordInput}
                                 value={data.current_password}
                                 onChange={(e) => setData('current_password', e.target.value)}
-                                type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="current-password"
                                 placeholder="Current password"
@@ -77,12 +76,11 @@ export default function Password() {
                         <div className="grid gap-2">
                             <Label htmlFor="password">New password</Label>
 
-                            <Input
+                            <PasswordInput
                                 id="password"
                                 ref={passwordInput}
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
-                                type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
                                 placeholder="New password"
@@ -94,11 +92,10 @@ export default function Password() {
                         <div className="grid gap-2">
                             <Label htmlFor="password_confirmation">Confirm password</Label>
 
-                            <Input
+                            <PasswordInput
                                 id="password_confirmation"
                                 value={data.password_confirmation}
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
-                                type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
                                 placeholder="Confirm password"
@@ -117,7 +114,7 @@ export default function Password() {
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-gray-600">Saved</p>
+                                <p className="text-sm text-muted-foreground">Saved</p>
                             </Transition>
                         </div>
                     </form>

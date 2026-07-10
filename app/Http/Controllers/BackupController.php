@@ -34,12 +34,17 @@ class BackupController extends Controller
 
     public function run()
     {
-        Artisan::call('backup:run --only-db');
+        Artisan::call('backup:run', ['--only-db' => true]);
         return redirect()->back()->with('success', 'Backup berhasil dibuat.');
     }
 
     public function download($file)
     {
+        $file = basename($file);
+        if (!str_ends_with($file, '.zip')) {
+            abort(404, 'File tidak ditemukan.');
+        }
+
         $path = storage_path('app/' . $this->backupPath . '/' . $file);
 
         if (!file_exists($path)) {
@@ -51,6 +56,11 @@ class BackupController extends Controller
 
     public function delete($file)
     {
+        $file = basename($file);
+        if (!str_ends_with($file, '.zip')) {
+            return redirect()->back()->with('error', 'File tidak ditemukan.');
+        }
+
         $path = storage_path('app/' . $this->backupPath . '/' . $file);
 
         if (!file_exists($path)) {

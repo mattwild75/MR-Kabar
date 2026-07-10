@@ -2,27 +2,50 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MediaFolder;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class UserFileController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Menentukan pemilik folder/file yang sedang ditampilkan. Super-admin
+     * boleh melihat milik user lain lewat parameter `user_id`; pengguna
+     * biasa selalu dipaksa ke akun mereka sendiri, mengabaikan parameter
+     * apa pun yang dikirim, supaya tidak bisa mengintip data user lain
+     * hanya dengan mengubah query string.
+     */
+    private function resolveTargetUser(Request $request): User
     {
-        $user = $request->user();
-        $folderId = $request->input('folder_id');
+        $requester = $request->user();
 
-        $folders = $user->mediaFolders()->orderBy('name')->get();
-
-        // ✅ Cek folder aktif
-        $currentFolder = $folderId ? $user->mediaFolders()->find($folderId) : null;
-
-        if ($folderId && !$currentFolder) {
-            // 🛑 Jika folder tidak ada, redirect ke root
-            return redirect('/files');
+        if ($requester->hasRole('super-admin') && $request->filled('user_id')) {
+            return User::findOrFail($request->input('user_id'));
         }
 
-        $files = $user
+        return $requester;
+    }
+
+    public function index(Request $request)
+    {
+        $requester = $request->user();
+        $isSuperAdmin = $requester->hasRole('super-admin');
+        $targetUser = $this->resolveTargetUser($request);
+
+        $folderId = $request->input('folder_id');
+
+        $folders = $targetUser->mediaFolders()->orderBy('name')->get();
+
+        // Cek folder aktif
+        $currentFolder = $folderId ? $targetUser->mediaFolders()->find($folderId) : null;
+
+        if ($folderId && !$currentFolder) {
+            // Jika folder tidak ada, redirect ke root
+            return redirect('/files' . ($isSuperAdmin ? '?user_id=' . $targetUser->id : ''));
+        }
+
+        $files = $targetUser
             ->media()
             ->where('collection_name', 'files')
             ->when($folderId, function ($query) use ($folderId) {
@@ -47,6 +70,10 @@ class UserFileController extends Controller
                 'url' => $media->getFullUrl(),
                 'created_at' => $media->created_at->diffForHumans(),
             ]),
+            'isSuperAdmin' => $isSuperAdmin,
+            'viewingUserId' => $targetUser->id,
+            'viewingUserName' => $targetUser->name,
+            'users' => $isSuperAdmin ? User::orderBy('name')->get(['id', 'name']) : [],
         ]);
     }
 
@@ -54,16 +81,24 @@ class UserFileController extends Controller
     {
         $request->validate([
             'files' => 'required|array',
-            'files.*' => 'file|max:10240',
+            'files.*' => 'file|max:10240|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,jpg,jpeg,png,gif,zip,rar',
         ]);
 
+        // Super-admin bisa mengunggah ke folder milik user lain (mis. untuk
+        // membantu user tersebut); pengguna biasa selalu upload ke akunnya
+        // sendiri.
+        $requester = $request->user();
+        $targetUser = $this->resolveTargetUser($request);
+
         foreach ($request->file('files') as $file) {
-            $request->user()
+            $media = $targetUser
                 ->addMedia($file)
                 ->withCustomProperties([
                     'folder_id' => $request->input('folder_id'),
                 ])
                 ->toMediaCollection('files');
+
+            $this->logFileActivity('uploaded', $media, $requester, $targetUser);
         }
 
         return back()->with('success', 'Files uploaded successfully');
@@ -71,9 +106,46 @@ class UserFileController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $media = $request->user()->media()->where('id', $id)->firstOrFail();
+        $requester = $request->user();
+
+        $media = $requester->hasRole('super-admin')
+            ? \Spatie\MediaLibrary\MediaCollections\Models\Media::where('id', $id)->firstOrFail()
+            : $requester->media()->where('id', $id)->firstOrFail();
+
+        $owner = $media->model instanceof User ? $media->model : null;
+
+        $this->logFileActivity('deleted', $media, $requester, $owner);
+
         $media->delete();
 
         return back()->with('success', 'File berhasil dihapus.');
+    }
+
+    /**
+     * Media (Spatie MediaLibrary) bukan model milik aplikasi ini, jadi tidak
+     * bisa di-observe lewat GlobalActivityLogger seperti model lain — dicatat
+     * manual di sini. Pemilik folder disertakan hanya kalau BERBEDA dari
+     * causer (super-admin upload/hapus file milik user lain), supaya jejak
+     * "siapa bertindak atas nama siapa" jelas tanpa membuat log gaduh untuk
+     * kasus normal (upload ke folder sendiri).
+     */
+    private function logFileActivity(string $action, $media, User $causer, ?User $owner): void
+    {
+        $properties = [
+            'file_name' => $media->file_name,
+            'size' => $media->humanReadableSize,
+            'mime_type' => $media->mime_type,
+        ];
+
+        if ($owner && $owner->id !== $causer->id) {
+            $properties['owner_id'] = $owner->id;
+            $properties['owner_name'] = $owner->name;
+        }
+
+        activity('global')
+            ->causedBy($causer)
+            ->performedOn($media)
+            ->withProperties($properties)
+            ->log("{$action} File");
     }
 }

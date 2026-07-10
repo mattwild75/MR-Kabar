@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
@@ -8,21 +8,27 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Checkbox } from '@/components/ui/checkbox';
 import { type BreadcrumbItem } from '@/types';
 
 const DEFAULT_WARNA = '#181818';
+const DEFAULT_LOGO_BG = '#ffffff';
 
 interface SettingApp {
   nama_app: string;
   deskripsi: string;
   warna: string;
   logo: string;
+  logo_bg: string | null;
   favicon: string;
   seo: {
     title?: string;
     description?: string;
     keywords?: string;
   };
+  contact_email: string | null;
+  contact_email_secondary: string | null;
+  footer_credit: string | null;
 }
 
 interface Props {
@@ -34,15 +40,26 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function SettingForm({ setting }: Props) {
-  const { data, setData, post, processing, errors } = useForm({
+  // Whether the logo should render on a solid background color, or stay
+  // transparent (e.g. for an already-background-removed PNG). Tracked
+  // separately from the color value itself, since a native color input
+  // always has *some* hex value and can't represent "no background".
+  const [useLogoBg, setUseLogoBg] = useState(Boolean(setting?.logo_bg));
+  const [faviconFromLogo, setFaviconFromLogo] = useState(false);
+
+  const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
     deskripsi: setting?.deskripsi || '',
     warna: setting?.warna || '#0ea5e9',
+    logo_bg: setting?.logo_bg || DEFAULT_LOGO_BG,
     seo: {
       title: setting?.seo?.title || '',
       description: setting?.seo?.description || '',
       keywords: setting?.seo?.keywords || '',
     },
+    contact_email: setting?.contact_email || '',
+    contact_email_secondary: setting?.contact_email_secondary || '',
+    footer_credit: setting?.footer_credit || '',
     logo: null as File | null,
     favicon: null as File | null,
   });
@@ -52,6 +69,13 @@ export default function SettingForm({ setting }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // When the toggle is off, send an empty string so the backend stores
+    // "no background" rather than whatever color was last picked.
+    transform((current) => ({
+      ...current,
+      logo_bg: useLogoBg ? current.logo_bg : '',
+      favicon_from_logo: faviconFromLogo,
+    }));
     post('/settingsapp', {
       forceFormData: true,
       preserveScroll: true,
@@ -127,8 +151,36 @@ export default function SettingForm({ setting }: Props) {
                     if (file) logoPreview.current = URL.createObjectURL(file);
                   }}
                 />
+                <p className="text-muted-foreground text-xs">
+                  Boleh pakai PNG transparan (latar belakang sudah dihapus) — atur warna latar di bawah jika perlu.
+                </p>
+
+                {/* Logo background toggle + color picker */}
+                <div className="mt-3 flex items-center gap-3 rounded-md border p-3">
+                  <Checkbox
+                    id="use_logo_bg"
+                    checked={useLogoBg}
+                    onCheckedChange={(checked) => setUseLogoBg(checked === true)}
+                  />
+                  <Label htmlFor="use_logo_bg" className="flex-1 text-sm font-normal">
+                    Gunakan warna latar di belakang logo
+                  </Label>
+                  <Input
+                    type="color"
+                    value={data.logo_bg}
+                    onChange={(e) => setData('logo_bg', e.target.value)}
+                    disabled={!useLogoBg}
+                    className="h-9 w-14 p-1 disabled:opacity-40"
+                  />
+                </div>
+
                 {logoPreview.current && (
-                  <img src={logoPreview.current} alt="Preview Logo" className="mt-2 h-16 rounded" />
+                  <div
+                    className="mt-2 inline-flex items-center justify-center rounded p-2"
+                    style={{ backgroundColor: useLogoBg ? data.logo_bg : 'transparent' }}
+                  >
+                    <img src={logoPreview.current} alt="Preview Logo" className="h-16 rounded" />
+                  </div>
                 )}
               </div>
 
@@ -139,13 +191,31 @@ export default function SettingForm({ setting }: Props) {
                   id="favicon"
                   type="file"
                   accept="image/*"
+                  disabled={faviconFromLogo}
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
                     setData('favicon', file);
                     if (file) faviconPreview.current = URL.createObjectURL(file);
                   }}
                 />
-                {faviconPreview.current && (
+
+                <div className="mt-3 flex items-center gap-3 rounded-md border p-3">
+                  <Checkbox
+                    id="favicon_from_logo"
+                    checked={faviconFromLogo}
+                    onCheckedChange={(checked) => setFaviconFromLogo(checked === true)}
+                  />
+                  <Label htmlFor="favicon_from_logo" className="flex-1 text-sm font-normal">
+                    Buat favicon otomatis dari logo (memakai warna latar logo di atas)
+                  </Label>
+                </div>
+                {faviconFromLogo && (
+                  <p className="text-muted-foreground text-xs">
+                    Favicon akan dibuat ulang dari logo saat ini, dikomposit dengan warna latar yang dipilih di atas, setiap kali pengaturan ini disimpan.
+                  </p>
+                )}
+
+                {faviconPreview.current && !faviconFromLogo && (
                   <img src={faviconPreview.current} alt="Preview Favicon" className="mt-2 h-10 rounded" />
                 )}
               </div>
@@ -179,6 +249,37 @@ export default function SettingForm({ setting }: Props) {
                   value={data.seo.keywords}
                   onChange={(e) => setData('seo', { ...data.seo, keywords: e.target.value })}
                 />
+              </div>
+
+              {/* Footer Section */}
+              <Separator />
+              <h3 className="text-lg font-semibold">Footer Settings</h3>
+
+              <div className="space-y-1">
+                <Label htmlFor="contact_email">Contact Us Email (Utama)</Label>
+                <Input
+                  id="contact_email"
+                  type="email"
+                  value={data.contact_email}
+                  onChange={(e) => setData('contact_email', e.target.value)}
+                  className={errors.contact_email ? 'border-red-500' : ''}
+                />
+                {errors.contact_email && <p className="text-sm text-red-500">{errors.contact_email}</p>}
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="contact_email_secondary">Contact Us Email (Kedua)</Label>
+                <Input
+                  id="contact_email_secondary"
+                  type="email"
+                  value={data.contact_email_secondary}
+                  onChange={(e) => setData('contact_email_secondary', e.target.value)}
+                  className={errors.contact_email_secondary ? 'border-red-500' : ''}
+                />
+                <p className="text-muted-foreground text-xs">
+                  Alamat email kedua yang ikut ditambahkan sebagai penerima saat tombol "Contact Us → Email" ditekan.
+                </p>
+                {errors.contact_email_secondary && <p className="text-sm text-red-500">{errors.contact_email_secondary}</p>}
               </div>
 
               {/* Submit Button */}

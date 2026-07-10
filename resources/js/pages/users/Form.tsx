@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm, Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
 import { Head } from '@inertiajs/react';
@@ -18,6 +19,7 @@ interface Role {
 interface User {
   id?: number;
   name: string;
+  username: string;
   email: string;
   role?: string;
 }
@@ -33,6 +35,7 @@ export default function UserForm({ user, roles, currentRole }: Props) {
 
   const { data, setData, post, put, processing, errors } = useForm({
     name: user?.name || '',
+    username: user?.username || '',
     email: user?.email || '',
     password: '',
     role: currentRole || '',
@@ -80,9 +83,22 @@ export default function UserForm({ user, roles, currentRole }: Props) {
                   {errors.name && <p className="text-sm text-red-500 mt-2">{errors.name}</p>}
                 </div>
 
+                {/* Username */}
+                <div>
+                  <Label htmlFor="username" className="mb-2 block">Username</Label>
+                  <Input
+                    id="username"
+                    placeholder="Username untuk login"
+                    value={data.username}
+                    onChange={(e) => setData('username', e.target.value)}
+                    className={errors.username ? 'border-red-500' : ''}
+                  />
+                  {errors.username && <p className="text-sm text-red-500 mt-2">{errors.username}</p>}
+                </div>
+
                 {/* Email */}
                 <div>
-                  <Label htmlFor="email" className="mb-2 block">Email</Label>
+                  <Label htmlFor="email" className="mb-2 block">Email (Opsional)</Label>
                   <Input
                     id="email"
                     placeholder="Email address"
@@ -96,9 +112,8 @@ export default function UserForm({ user, roles, currentRole }: Props) {
                 {/* Password */}
                 <div>
                   <Label htmlFor="password" className="mb-2 block">Password {isEdit ? '(Optional)' : ''}</Label>
-                  <Input
+                  <PasswordInput
                     id="password"
-                    type="password"
                     placeholder="••••••••"
                     value={data.password}
                     onChange={(e) => setData('password', e.target.value)}

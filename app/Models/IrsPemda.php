@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class IrsPemda extends Model
+{
+    use SoftDeletes;
+
+    protected $table = 'tbl_irs_pemda';
+
+    protected $fillable = [
+        'user_id',
+        'SASARAN RPJMD',
+        'URAIAN RISIKO',
+        'TINGKAT RISIKO',
+        'TAHUN DINILAI RISIKO',
+        'JENIS RISIKO',
+        'ENTITAS PD YANG MENILAI',
+        'NOMOR URUT RISIKO',
+        'PEMILIK RISIKO',
+        'URAIAN PENYEBAB RISIKO',
+        'SUMBER SEBAB RISIKO',
+        'C / UC',
+        'URAIAN DAMPAK RISIKO',
+        'PIHAK YANG TERKENA DAMPAK RISIKO',
+        'URAIAN PENGENDALIAN YANG SUDAH ADA',
+        'CELAH PENGENDALIAN',
+        'RENCANA TINDAK PENGENDALIAN',
+        'PEMILIK / PENANGGUNGJAWAB',
+        'TRIWULAN',
+        'TAHUN TARGET PENYELESAIAN',
+        'SKALA DAMPAK',
+        'SKALA KEMUNGKINAN',
+        'SKALA RISIKO',
+        'SKALA PRIORITAS',
+    ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+}

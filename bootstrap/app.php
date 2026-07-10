@@ -3,6 +3,8 @@
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\ShareMenus;
 use App\Http\Middleware\CheckMenuPermission;
+use App\Http\Middleware\ForceLogoutAfterMaxDuration;
+use App\Http\Middleware\RestrictCeeSurveyRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,9 +18,11 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
+            ForceLogoutAfterMaxDuration::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
             ShareMenus::class,
+            RestrictCeeSurveyRole::class,
         ]);
 
         $middleware->alias([

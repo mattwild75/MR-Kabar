@@ -35,6 +35,7 @@ class RolePermissionSeeder extends Seeder
                 'utilities-view',
                 'log-view',
                 'filemanager-view',
+                'troubleshoot-view',
             ],
         ];
 

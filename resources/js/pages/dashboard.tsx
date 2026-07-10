@@ -56,11 +56,11 @@ export default function Dashboard() {
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {summaryData.map((item, index) => (
-            <Card key={index} className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+            <Card key={index} className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
               <CardHeader className="px-4 py-3">
-                <CardTitle className="text-lg font-semibold text-gray-800 dark:text-white">{item.label}</CardTitle>
+                <CardTitle className="text-lg font-semibold text-foreground">{item.label}</CardTitle>
               </CardHeader>
-              <CardContent className="px-4 py-2 text-3xl font-bold text-gray-900 dark:text-gray-100">{item.value}</CardContent>
+              <CardContent className="px-4 py-2 text-3xl font-bold text-foreground">{item.value}</CardContent>
             </Card>
           ))}
         </div>
@@ -68,9 +68,9 @@ export default function Dashboard() {
         {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Bar Chart */}
-          <Card className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+          <Card className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <CardHeader className="px-4 py-3">
-              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-white">Monthly Activity</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">Monthly Activity</CardTitle>
             </CardHeader>
             <CardContent className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -87,9 +87,9 @@ export default function Dashboard() {
           </Card>
 
           {/* Line Chart */}
-          <Card className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+          <Card className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <CardHeader className="px-4 py-3">
-              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-white">Monthly Trends</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">Monthly Trends</CardTitle>
             </CardHeader>
             <CardContent className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -106,9 +106,9 @@ export default function Dashboard() {
           </Card>
 
           {/* Pie Chart */}
-          <Card className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+          <Card className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <CardHeader className="px-4 py-3">
-              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-white">User Roles</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">User Roles</CardTitle>
             </CardHeader>
             <CardContent className="h-[300px] flex items-center justify-center">
               <ResponsiveContainer width="100%" height="100%">
@@ -134,9 +134,9 @@ export default function Dashboard() {
           </Card>
 
           {/* Area Chart */}
-          <Card className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+          <Card className="overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <CardHeader className="px-4 py-3">
-              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-white">Resource Usage</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">Resource Usage</CardTitle>
             </CardHeader>
             <CardContent className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -152,9 +152,9 @@ export default function Dashboard() {
           </Card>
 
           {/* Radial Bar Chart */}
-          <Card className="md:col-span-2 bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+          <Card className="md:col-span-2 overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm">
             <CardHeader className="px-4 py-3">
-              <CardTitle className="text-lg font-semibold text-gray-800 dark:text-white">Performance Metrics</CardTitle>
+              <CardTitle className="text-lg font-semibold text-foreground">Performance Metrics</CardTitle>
             </CardHeader>
             <CardContent className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">

@@ -9,17 +9,17 @@ export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: Breadcrum
   const [lang, setLang] = useState('id');
 
   return (
-    <header className="border-sidebar-border/50 flex h-16 shrink-0 items-center justify-between px-6 md:px-4 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b border-border/70 bg-background/95 px-4 shadow-sm backdrop-blur transition-[width,height] ease-linear md:px-6 group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
       {/* Left: Sidebar + Breadcrumb */}
       <div className="flex items-center gap-2">
-        <SidebarTrigger className="-ml-1" />
+        <SidebarTrigger className="-ml-1 text-foreground" />
         <Breadcrumbs breadcrumbs={breadcrumbs} />
       </div>
 
       {/* Right: Language + Theme */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
         <Select value={lang} onValueChange={setLang}>
-          <SelectTrigger className="w-[120px]">
+          <SelectTrigger className="w-[120px] bg-background">
             <SelectValue placeholder="Language" />
           </SelectTrigger>
           <SelectContent>

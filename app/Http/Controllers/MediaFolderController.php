@@ -61,9 +61,19 @@ class MediaFolderController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'nullable|exists:media_folders,id',
+            'user_id' => 'nullable|exists:users,id',
         ]);
 
-        $request->user()->mediaFolders()->create([
+        $requester = $request->user();
+
+        // Super-admin boleh membuat folder di akun user lain (mis. saat
+        // sedang melihat file management milik user tertentu); pengguna
+        // biasa selalu membuat folder di akunnya sendiri.
+        $targetUser = ($requester->hasRole('super-admin') && $request->filled('user_id'))
+            ? \App\Models\User::findOrFail($request->input('user_id'))
+            : $requester;
+
+        $targetUser->mediaFolders()->create([
             'name' => $request->name,
             'parent_id' => $request->parent_id,
         ]);
@@ -71,9 +81,16 @@ class MediaFolderController extends Controller
         return back()->with('success', 'Folder berhasil dibuat.');
     }
 
-    public function destroy(MediaFolder $medium)
+    public function destroy(Request $request, MediaFolder $medium)
     {
         $folder = $medium;
+
+        // Folder hanya boleh dihapus oleh pemiliknya, kecuali super-admin
+        // yang boleh mengelola folder siapa pun.
+        if ($folder->user_id !== $request->user()->id && !$request->user()->hasRole('super-admin')) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus folder ini.');
+        }
+
         $user = $folder->user;
 
         // 🔁 Hapus semua file dalam folder ini

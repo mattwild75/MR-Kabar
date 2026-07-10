@@ -1,9 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Head, usePage, router } from '@inertiajs/react';
 import { AppContent } from '@/components/app-content';
+import { AppFooter } from '@/components/app-footer';
 import { AppShell } from '@/components/app-shell';
 import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
+import { LoginSplash } from '@/components/login-splash';
+import { SessionTimeoutWarning } from '@/components/session-timeout-warning';
 import { type BreadcrumbItem } from '@/types';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
@@ -21,7 +24,8 @@ export default function AppSidebarLayout({
 }: Props) {
   const { props } = usePage();
 
-  const flash = (props?.flash as { success?: string; error?: string }) ?? {};
+  const flash = (props?.flash as { success?: string; error?: string; justLoggedIn?: boolean }) ?? {};
+  const [showSplash, setShowSplash] = useState(!!flash.justLoggedIn);
   const setting = props?.setting as {
     nama_app: string;
     logo?: string;
@@ -31,6 +35,9 @@ export default function AppSidebarLayout({
       description?: string;
       keywords?: string;
     };
+    contact_email?: string | null;
+    contact_email_secondary?: string | null;
+    footer_credit?: string | null;
   };
 
   useEffect(() => {
@@ -87,14 +94,21 @@ export default function AppSidebarLayout({
       >
         <AppShell variant="sidebar">
           <AppSidebar />
-          <AppContent variant="sidebar">
+          <AppContent variant="sidebar" className="flex flex-col">
             <AppSidebarHeader breadcrumbs={breadcrumbs} />
-            {children}
+            <div className="flex-1">{children}</div>
+            <AppFooter
+              contactEmail={setting?.contact_email}
+              contactEmailSecondary={setting?.contact_email_secondary}
+              footerCredit={setting?.footer_credit}
+            />
           </AppContent>
         </AppShell>
       </div>
 
       <Toaster />
+      <SessionTimeoutWarning />
+      {showSplash && <LoginSplash onDone={() => setShowSplash(false)} />}
     </>
   );
 }

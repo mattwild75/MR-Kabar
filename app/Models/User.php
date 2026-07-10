@@ -22,8 +22,10 @@ class User extends Authenticatable implements HasMedia
      */
     protected $fillable = [
         'name',
+        'username',
         'email',
         'password',
+        'opd_id',
     ];
 
     /**
@@ -52,5 +54,11 @@ class User extends Authenticatable implements HasMedia
     public function mediaFolders()
     {
         return $this->hasMany(MediaFolder::class);
+    }
+
+    /** OPD milik akun PIC (nullable) — dipakai membatasi akses CEE per-OPD. */
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
     }
 }

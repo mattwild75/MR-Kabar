@@ -9,6 +9,9 @@ import { Separator } from '@/components/ui/separator';
 import { type BreadcrumbItem } from '@/types';
 import IconPicker from '@/components/ui/icon-picker';
 import ComboboxPermission from '@/components/ui/combobox-permission';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+
+const NO_PARENT_VALUE = 'none';
 
 interface MenuFormProps {
   menu?: {
@@ -95,21 +98,24 @@ export default function MenuForm({ menu, parentMenus, permissions }: MenuFormPro
 
                 <div className="space-y-2">
                   <Label htmlFor="parent_id">Parent Menu</Label>
-                  <select
-                    id="parent_id"
-                    value={data.parent_id ?? ''}
-                    onChange={(e) =>
-                      setData('parent_id', e.target.value === '' ? null : Number(e.target.value))
+                  <Select
+                    value={data.parent_id === null ? NO_PARENT_VALUE : String(data.parent_id)}
+                    onValueChange={(val) =>
+                      setData('parent_id', val === NO_PARENT_VALUE ? null : Number(val))
                     }
-                    className="w-full rounded border px-3 py-2"
                   >
-                    <option value="">— None —</option>
-                    {parentMenus.map((m) => (
-                      <option key={m.id} value={m.id}>
-                        {m.title}
-                      </option>
-                    ))}
-                  </select>
+                    <SelectTrigger id="parent_id">
+                      <SelectValue placeholder="— None —" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={NO_PARENT_VALUE}>— None —</SelectItem>
+                      {parentMenus.map((m) => (
+                        <SelectItem key={m.id} value={String(m.id)}>
+                          {m.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2 md:col-span-2">

@@ -35,13 +35,14 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user()?->load('roles:id,name'),
             ],
             'flash' => [
                 'success' => session('success'),
                 'error' => session('error'),
+                'justLoggedIn' => session('just_logged_in'),
             ],
-            'setting' => fn() => SettingApp::first(),
+            'setting' => fn() => SettingApp::cached(),
         ]);
     }
 }

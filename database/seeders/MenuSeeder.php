@@ -12,112 +12,455 @@ class MenuSeeder extends Seeder
     public function run(): void
     {
         // MENU: Dashboard
-        Menu::create([
-            'title' => 'Dashboard',
-            'icon' => 'Home',
-            'route' => '/dashboard',
-            'order' => 1,
-            'permission_name' => 'dashboard-view',
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Dashboard', 'parent_id' => null],
+            [
+                'icon' => 'Home',
+                'route' => '/dashboard',
+                'order' => 1,
+                'permission_name' => 'dashboard-view',
+            ]
+        );
 
         // GROUP: Access
-        $access = Menu::create([
-            'title' => 'Access',
-            'icon' => 'Contact',
-            'route' => '#',
-            'order' => 2,
-            'permission_name' => 'access-view',
-        ]);
+        $access = Menu::updateOrCreate(
+            ['title' => 'Access', 'parent_id' => null],
+            [
+                'icon' => 'Contact',
+                'route' => '#',
+                'order' => 2,
+                'permission_name' => 'access-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'Permissions',
-            'icon' => 'AlertOctagon',
-            'route' => '/permissions',
-            'order' => 2,
-            'permission_name' => 'permission-view',
-            'parent_id' => $access->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Permissions', 'parent_id' => $access->id],
+            [
+                'icon' => 'AlertOctagon',
+                'route' => '/permissions',
+                'order' => 2,
+                'permission_name' => 'permission-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'Users',
-            'icon' => 'Users',
-            'route' => '/users',
-            'order' => 3,
-            'permission_name' => 'users-view',
-            'parent_id' => $access->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Users', 'parent_id' => $access->id],
+            [
+                'icon' => 'Users',
+                'route' => '/users',
+                'order' => 3,
+                'permission_name' => 'users-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'Roles',
-            'icon' => 'AlertTriangle',
-            'route' => '/roles',
-            'order' => 4,
-            'permission_name' => 'roles-view',
-            'parent_id' => $access->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Roles', 'parent_id' => $access->id],
+            [
+                'icon' => 'AlertTriangle',
+                'route' => '/roles',
+                'order' => 4,
+                'permission_name' => 'roles-view',
+            ]
+        );
 
         // GROUP: Settings
-        $settings = Menu::create([
-            'title' => 'Settings',
-            'icon' => 'Settings',
-            'route' => '#',
-            'order' => 3,
-            'permission_name' => 'settings-view',
-        ]);
+        $settings = Menu::updateOrCreate(
+            ['title' => 'Settings', 'parent_id' => null],
+            [
+                'icon' => 'Settings',
+                'route' => '#',
+                'order' => 3,
+                'permission_name' => 'settings-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'Menu Manager',
-            'icon' => 'Menu',
-            'route' => '/menus',
-            'order' => 1,
-            'permission_name' => 'menu-view',
-            'parent_id' => $settings->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Menu Manager', 'parent_id' => $settings->id],
+            [
+                'icon' => 'Menu',
+                'route' => '/menus',
+                'order' => 1,
+                'permission_name' => 'menu-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'App Settings',
-            'icon' => 'AtSign',
-            'route' => '/settingsapp',
-            'order' => 2,
-            'permission_name' => 'app-settings-view',
-            'parent_id' => $settings->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'App Settings', 'parent_id' => $settings->id],
+            [
+                'icon' => 'AtSign',
+                'route' => '/settingsapp',
+                'order' => 2,
+                'permission_name' => 'app-settings-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'Backup',
-            'icon' => 'Inbox',
-            'route' => '/backup',
-            'order' => 3,
-            'permission_name' => 'backup-view',
-            'parent_id' => $settings->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Backup', 'parent_id' => $settings->id],
+            [
+                'icon' => 'Inbox',
+                'route' => '/backup',
+                'order' => 3,
+                'permission_name' => 'backup-view',
+            ]
+        );
 
         // GROUP: Utilities
-        $utilities = Menu::create([
-            'title' => 'Utilities',
-            'icon' => 'CreditCard',
-            'route' => '#',
-            'order' => 4,
-            'permission_name' => 'utilities-view',
-        ]);
+        $utilities = Menu::updateOrCreate(
+            ['title' => 'Utilities', 'parent_id' => null],
+            [
+                'icon' => 'CreditCard',
+                'route' => '#',
+                'order' => 4,
+                'permission_name' => 'utilities-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'Audit Logs',
-            'icon' => 'Activity',
-            'route' => '/audit-logs',
-            'order' => 2,
-            'permission_name' => 'log-view',
-            'parent_id' => $utilities->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'Audit Logs', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'Activity',
+                'route' => '/audit-logs',
+                'order' => 2,
+                'permission_name' => 'log-view',
+            ]
+        );
 
-        Menu::create([
-            'title' => 'File Manager',
-            'icon' => 'Folder',
-            'route' => '/files',
-            'order' => 3,
-            'permission_name' => 'filemanager-view',
-            'parent_id' => $utilities->id,
-        ]);
+        Menu::updateOrCreate(
+            ['title' => 'File Manager', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'Folder',
+                'route' => '/files',
+                'order' => 3,
+                'permission_name' => 'filemanager-view',
+            ]
+        );
+
+        // Rekapan laporan troubleshoot — hanya admin/super-admin. Permission
+        // 'troubleshoot-view' di-assign ke admin di RolePermissionSeeder;
+        // super-admin lolos lewat Gate::before di AuthServiceProvider.
+        Menu::updateOrCreate(
+            ['title' => 'Troubleshoot', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'Wrench',
+                'route' => '/troubleshoot',
+                'order' => 4,
+                'permission_name' => 'troubleshoot-view',
+            ]
+        );
+
+        // Data Terhapus (sampah soft-delete). permission_name kosong (fail-open)
+        // agar PIC juga bisa membuka & memulihkan data MILIKNYA sendiri — apa
+        // yang tampil & boleh dikelola sudah dibatasi di TrashController per
+        // kepemilikan (hapus permanen tetap admin-only di controller).
+        Menu::updateOrCreate(
+            ['title' => 'Data Terhapus', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'Trash2',
+                'route' => '/trash',
+                'order' => 5,
+                'permission_name' => '',
+            ]
+        );
+
+        // GROUP: Form Input — wadah untuk seluruh menu input data risiko
+        // (Risiko Strategis Pemda/PD & Risiko Operasional PD beserta
+        // turunannya). Ketiga grup risiko kini menjadi SUB-grup di bawah sini,
+        // bukan lagi grup top-level tersendiri.
+        $formInput = Menu::updateOrCreate(
+            ['title' => 'Form Input', 'parent_id' => null],
+            [
+                'icon' => 'FilePlus',
+                'route' => '#',
+                'order' => 5,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: Form Cetak — wadah untuk menu cetak/laporan.
+        $formCetak = Menu::updateOrCreate(
+            ['title' => 'Form Cetak', 'parent_id' => null],
+            [
+                'icon' => 'Printer',
+                'route' => '#',
+                'order' => 6,
+                'permission_name' => null,
+            ]
+        );
+
+        // Sub-grup: Form Cetak -> CEE -> 1a/1b/1c. Judul menu ringkas
+        // ("1a_Rekapitulasi Kuesioner..."); judul LENGKAP sesuai redaksi
+        // Perdep ditampilkan di halaman cetaknya masing-masing.
+        $formCetakCee = Menu::updateOrCreate(
+            ['title' => 'CEE', 'parent_id' => $formCetak->id],
+            [
+                'icon' => 'ClipboardCheck',
+                'route' => '#',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/cee/1a'],
+            [
+                'title' => '1a_Rekapitulasi Kuesioner',
+                'parent_id' => $formCetakCee->id,
+                'icon' => 'ListChecks',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/cee/1b'],
+            [
+                'title' => '1b_CEE Berdasarkan Dokumen',
+                'parent_id' => $formCetakCee->id,
+                'icon' => 'FileSearch',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/cee/1c'],
+            [
+                'title' => '1c_Simpulan Survei Persepsi',
+                'parent_id' => $formCetakCee->id,
+                'icon' => 'FileCheck',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // Data Umum — item pertama di Form Input (sebelum Risiko Strategis
+        // Pemda). Berisi header identitas + penanda tangan per-PIC untuk Form
+        // Cetak. permission_name null (fail-open); isi dibatasi per-user di
+        // controller.
+        Menu::updateOrCreate(
+            ['route' => '/data-umum'],
+            [
+                'title' => 'Data Umum',
+                'parent_id' => $formInput->id,
+                'icon' => 'ClipboardList',
+                'order' => 0,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: CEE (Control Environment Evaluation) — sub-grup Form Input,
+        // setelah Data Umum & SEBELUM Risiko Strategis Pemda. Form 1a/1b/1c
+        // sesuai Lampiran 5 Perdep PPKD No.4/2019. permission_name null
+        // (fail-open) — akses akun CEE_Survey dibatasi middleware terpisah
+        // (RestrictCeeSurveyRole), bukan lewat permission menu.
+        $formInputCee = Menu::updateOrCreate(
+            ['title' => 'CEE', 'parent_id' => $formInput->id],
+            [
+                'icon' => 'ClipboardCheck',
+                'route' => '#',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cee/1a'],
+            [
+                'title' => '1a_Kuesioner CEE',
+                'parent_id' => $formInputCee->id,
+                'icon' => 'ListChecks',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cee/1b'],
+            [
+                'title' => '1b_CEE Berdasarkan Dokumen',
+                'parent_id' => $formInputCee->id,
+                'icon' => 'FileSearch',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cee/1c'],
+            [
+                'title' => '1c_Simpulan Survei Persepsi',
+                'parent_id' => $formInputCee->id,
+                'icon' => 'FileCheck',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // Kelola pertanyaan kuesioner — admin/super-admin saja (ditegakkan di
+        // controller). permission_name tetap null (fail-open di menu level);
+        // proteksi sebenarnya di CeePertanyaanController::ensureCanManage.
+        Menu::updateOrCreate(
+            ['route' => '/cee/pertanyaan'],
+            [
+                'title' => 'Kelola Pertanyaan CEE',
+                'parent_id' => $formInputCee->id,
+                'icon' => 'Settings2',
+                'order' => 4,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: Risiko — induk bersama utk 3 tingkatan risiko (Strategis
+        // Pemda/PD, Operasional PD), supaya sidebar Form Input tidak penuh
+        // 3 grup sejajar. Ikon Shield merepresentasikan manajemen risiko.
+        $risikoGroup = Menu::updateOrCreate(
+            ['title' => 'Risiko', 'parent_id' => $formInput->id],
+            [
+                'icon' => 'Shield',
+                'route' => '#',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: Risiko Strategis Pemda (Level I) — sub-grup di bawah Risiko.
+        // Ikon Flag (penanda strategis tertinggi/seluruh Pemda).
+        $risikoStrategisPemda = Menu::updateOrCreate(
+            ['title' => 'Risiko Strategis Pemda'],
+            [
+                'parent_id' => $risikoGroup->id,
+                'icon' => 'Flag',
+                'route' => '',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/krs_pemda'],
+            [
+                'title' => 'I_a_KRS_Pemda',
+                'parent_id' => $risikoStrategisPemda->id,
+                'icon' => 'List',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/irs_pemda'],
+            [
+                'title' => 'I_b_IRS_Pemda',
+                'parent_id' => $risikoStrategisPemda->id,
+                'icon' => 'AlertTriangle',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/krs_irs_pemda_visualisasi'],
+            [
+                'title' => 'KRS_IRS_Pemda Visualisasi',
+                'parent_id' => $risikoStrategisPemda->id,
+                'icon' => 'BarChart',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: Risiko Strategis PD (Level II) — sub-grup di bawah Risiko.
+        // Ikon Briefcase (institusi/organisasi Perangkat Daerah).
+        $risikoStrategisPd = Menu::updateOrCreate(
+            ['title' => 'Risiko Strategis PD'],
+            [
+                'parent_id' => $risikoGroup->id,
+                'icon' => 'Briefcase',
+                'route' => '',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/krs_pd'],
+            [
+                'title' => 'II_a_KRS_PD',
+                'parent_id' => $risikoStrategisPd->id,
+                'icon' => 'List',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/irs_pd'],
+            [
+                'title' => 'II_b_IRS_PD',
+                'parent_id' => $risikoStrategisPd->id,
+                'icon' => 'AlertTriangle',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/krs_irs_pd_visualisasi'],
+            [
+                'title' => 'KRS_IRS_PD Visualisasi',
+                'parent_id' => $risikoStrategisPd->id,
+                'icon' => 'BarChart',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: Risiko Operasional PD (Level III) — sub-grup di bawah
+        // Risiko, dasarnya Renja/RKA Perangkat Daerah. Ikon Layers (level
+        // operasional di bawah level strategis Pemda/PD di atasnya).
+        $risikoOperasionalPd = Menu::updateOrCreate(
+            ['title' => 'Risiko Operasional PD'],
+            [
+                'parent_id' => $risikoGroup->id,
+                'icon' => 'Layers',
+                'route' => '',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/kro_pd'],
+            [
+                'title' => 'III_a_KRO_PD',
+                'parent_id' => $risikoOperasionalPd->id,
+                'icon' => 'List',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/iro_pd'],
+            [
+                'title' => 'III_b_IRO_PD',
+                'parent_id' => $risikoOperasionalPd->id,
+                'icon' => 'AlertTriangle',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/kro_iro_pd_visualisasi'],
+            [
+                'title' => 'KRO_IRO_PD Visualisasi',
+                'parent_id' => $risikoOperasionalPd->id,
+                'icon' => 'BarChart',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
 
         $permissions = Menu::pluck('permission_name')->unique()->filter();
 
@@ -127,5 +470,14 @@ class MenuSeeder extends Seeder
 
         $role = Role::firstOrCreate(['name' => 'user']);
         $role->givePermissionTo('dashboard-view');
+
+        // File Manager dibuka untuk semua pengguna terautentikasi — setiap
+        // user (termasuk PIC/admin-instansi) sudah otomatis punya folder
+        // root sendiri (lihat UserFolderObserver) dan MediaFolderController
+        // sudah men-scope query ke user_id masing-masing, jadi aman dibuka
+        // luas tanpa membocorkan file antar user.
+        foreach (['user', 'admin-instansi', 'admin-inspektorat'] as $roleName) {
+            Role::firstOrCreate(['name' => $roleName])->givePermissionTo('filemanager-view');
+        }
     }
 }

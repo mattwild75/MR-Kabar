@@ -99,9 +99,6 @@ return [
                 'use_single_transaction' => true,
                 'timeout' => 60,
                 'exclude_tables' => [],
-                'extra_options' => [
-                    '--socket=/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock',
-                ],
             ],
         ],
 

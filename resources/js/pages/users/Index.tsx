@@ -32,6 +32,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 interface User {
   id: number;
   name: string;
+  username: string;
   email: string;
   created_at: string;
   roles: {
@@ -98,7 +99,8 @@ export default function UserIndex({ users }: Props) {
                   </div>
                   <div className="space-y-1">
                     <div className="text-base font-medium">{user.name}</div>
-                    <div className="text-sm text-muted-foreground">{user.email}</div>
+                    <div className="text-sm text-muted-foreground">@{user.username}</div>
+                    {user.email && <div className="text-xs text-muted-foreground">{user.email}</div>}
                     <div className="text-xs text-muted-foreground italic">
                       Registered {dayjs(user.created_at).fromNow()}
                     </div>
@@ -172,6 +174,26 @@ export default function UserIndex({ users }: Props) {
             ))
           )}
         </div>
+
+        {users.last_page > 1 && (
+          <div className="flex flex-wrap items-center justify-center gap-1">
+            {users.links.map((link, i) => (
+              <Link
+                key={i}
+                href={link.url || '#'}
+                preserveScroll
+                className={`rounded-md border px-3 py-1.5 text-sm transition ${
+                  link.active
+                    ? 'border-primary bg-primary text-primary-foreground'
+                    : link.url
+                      ? 'hover:bg-muted'
+                      : 'cursor-not-allowed text-muted-foreground opacity-50'
+                }`}
+                dangerouslySetInnerHTML={{ __html: link.label }}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </AppLayout>
   );
