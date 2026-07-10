@@ -143,11 +143,12 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl font-bold">
                 <Github className="h-5 w-5" />
-                Push Kode ke GitHub
+                Backup Database & Push Kode ke GitHub
               </CardTitle>
               <p className="text-muted-foreground text-sm">
-                Menyimpan snapshot kode aplikasi terbaru ke repository GitHub — bukan backup database
-                (gunakan tombol "Create Backup" di atas untuk itu), dan bukan deploy ke server produksi.
+                Satu tombol, dua langkah: (1) backup database baru (tersimpan lokal saja, sama seperti
+                "Create Backup" di atas — <strong>tidak pernah</strong> ikut terkirim ke GitHub), lalu
+                (2) push snapshot kode terbaru ke repository GitHub. Bukan deploy ke server produksi.
               </p>
             </CardHeader>
             <Separator />
@@ -163,7 +164,7 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
               </div>
               <Button onClick={handleGitPush} disabled={pushing}>
                 <Github className="mr-2 h-4 w-4" />
-                {pushing ? 'Mendorong ke GitHub...' : 'Push ke GitHub'}
+                {pushing ? 'Membackup & push...' : 'Backup & Push ke GitHub'}
               </Button>
             </CardContent>
           </Card>
