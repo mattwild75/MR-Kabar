@@ -10,11 +10,20 @@ use Inertia\Inertia;
 
 class BackupController extends Controller
 {
-    protected string $backupPath = 'private/Laravel';
+    /**
+     * Folder tujuan backup Spatie ikut config('backup.backup.name'), yang
+     * defaultnya env('APP_NAME') — BUKAN selalu "Laravel". Sempat hardcode
+     * 'private/Laravel' di sini, jadi setelah APP_NAME diubah ke "MR KABAR"
+     * backup baru tertulis ke folder lain & terlihat seolah gagal/hilang.
+     */
+    protected function backupPath(): string
+    {
+        return 'private/' . config('backup.backup.name', 'Laravel');
+    }
 
     public function index()
     {
-        $realPath = storage_path('app/' . $this->backupPath);
+        $realPath = storage_path('app/' . $this->backupPath());
 
         $files = File::exists($realPath) ? File::files($realPath) : [];
 
@@ -41,6 +50,26 @@ class BackupController extends Controller
     }
 
     /**
+     * Hapus semua backup KECUALI yang paling baru — dipanggil setelah tiap
+     * backup:run supaya daftar backup tidak menumpuk & membingungkan.
+     * Selalu maksimal 1 file backup tersimpan setiap saat.
+     */
+    private function keepOnlyLatestBackup(): void
+    {
+        $realPath = storage_path('app/' . $this->backupPath());
+        if (!File::exists($realPath)) {
+            return;
+        }
+
+        $zips = collect(File::files($realPath))
+            ->filter(fn($file) => $file->getExtension() === 'zip')
+            ->sortByDesc(fn($file) => $file->getMTime())
+            ->values();
+
+        $zips->skip(1)->each(fn($file) => File::delete($file->getPathname()));
+    }
+
+    /**
      * Satu tombol, dua langkah: (1) backup database — TETAP LOKAL saja,
      * TIDAK PERNAH ikut ke GitHub (storage/app/private/.gitignore = "*"
      * mengabaikan seluruh isi folder itu, termasuk file .sql/.zip backup);
@@ -59,6 +88,7 @@ class BackupController extends Controller
         // supaya tidak ada snapshot kode tanpa cadangan data yg sepadan.
         try {
             Artisan::call('backup:run', ['--only-db' => true]);
+            $this->keepOnlyLatestBackup();
         } catch (\Throwable $e) {
             return redirect()->back()->with('error', 'Backup database gagal, push dibatalkan: ' . $e->getMessage());
         }
@@ -91,6 +121,7 @@ class BackupController extends Controller
     public function run()
     {
         Artisan::call('backup:run', ['--only-db' => true]);
+        $this->keepOnlyLatestBackup();
         return redirect()->back()->with('success', 'Backup berhasil dibuat.');
     }
 
@@ -101,7 +132,7 @@ class BackupController extends Controller
             abort(404, 'File tidak ditemukan.');
         }
 
-        $path = storage_path('app/' . $this->backupPath . '/' . $file);
+        $path = storage_path('app/' . $this->backupPath() . '/' . $file);
 
         if (!file_exists($path)) {
             abort(404, 'File tidak ditemukan.');
@@ -117,7 +148,7 @@ class BackupController extends Controller
             return redirect()->back()->with('error', 'File tidak ditemukan.');
         }
 
-        $path = storage_path('app/' . $this->backupPath . '/' . $file);
+        $path = storage_path('app/' . $this->backupPath() . '/' . $file);
 
         if (!file_exists($path)) {
             return redirect()->back()->with('error', 'File tidak ditemukan.');
