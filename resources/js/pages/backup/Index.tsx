@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Github } from 'lucide-react';
+import { Github, FileSpreadsheet } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
 import {
@@ -80,7 +80,15 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
               <CardTitle className="text-2xl font-bold">Database Backups</CardTitle>
               <p className="text-muted-foreground text-sm">Manage system backup files</p>
             </div>
-            <Button onClick={handleBackup}>Create Backup</Button>
+            <div className="flex gap-2">
+              <a href="/backup/excel">
+                <Button variant="outline">
+                  <FileSpreadsheet className="mr-2 h-4 w-4" />
+                  Ekspor/Impor Excel
+                </Button>
+              </a>
+              <Button onClick={handleBackup}>Create Backup</Button>
+            </div>
           </CardHeader>
 
           <Separator />

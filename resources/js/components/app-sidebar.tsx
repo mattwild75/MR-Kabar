@@ -69,16 +69,16 @@ function containsActiveRoute(menu: MenuItem, currentUrl: string): boolean {
 // kolom warna baru di DB. Dipakai pada ikon grup (selalu, agar sidebar
 // mudah dipindai) & aksen border/teks saat grup itu aktif.
 const GROUP_COLORS = [
-  { icon: 'text-sky-500', activeBg: 'bg-sky-500/15', activeRing: 'ring-sky-500/30' },
-  { icon: 'text-emerald-500', activeBg: 'bg-emerald-500/15', activeRing: 'ring-emerald-500/30' },
-  { icon: 'text-amber-500', activeBg: 'bg-amber-500/15', activeRing: 'ring-amber-500/30' },
-  { icon: 'text-violet-500', activeBg: 'bg-violet-500/15', activeRing: 'ring-violet-500/30' },
-  { icon: 'text-rose-500', activeBg: 'bg-rose-500/15', activeRing: 'ring-rose-500/30' },
-  { icon: 'text-cyan-500', activeBg: 'bg-cyan-500/15', activeRing: 'ring-cyan-500/30' },
-  { icon: 'text-orange-500', activeBg: 'bg-orange-500/15', activeRing: 'ring-orange-500/30' },
-  { icon: 'text-fuchsia-500', activeBg: 'bg-fuchsia-500/15', activeRing: 'ring-fuchsia-500/30' },
-  { icon: 'text-lime-600', activeBg: 'bg-lime-500/15', activeRing: 'ring-lime-500/30' },
-  { icon: 'text-indigo-500', activeBg: 'bg-indigo-500/15', activeRing: 'ring-indigo-500/30' },
+  { icon: 'text-sky-500', activeBg: 'bg-sky-500/15', activeRing: 'ring-sky-500/30', border: 'border-sky-500/60' },
+  { icon: 'text-emerald-500', activeBg: 'bg-emerald-500/15', activeRing: 'ring-emerald-500/30', border: 'border-emerald-500/60' },
+  { icon: 'text-amber-500', activeBg: 'bg-amber-500/15', activeRing: 'ring-amber-500/30', border: 'border-amber-500/60' },
+  { icon: 'text-violet-500', activeBg: 'bg-violet-500/15', activeRing: 'ring-violet-500/30', border: 'border-violet-500/60' },
+  { icon: 'text-rose-500', activeBg: 'bg-rose-500/15', activeRing: 'ring-rose-500/30', border: 'border-rose-500/60' },
+  { icon: 'text-cyan-500', activeBg: 'bg-cyan-500/15', activeRing: 'ring-cyan-500/30', border: 'border-cyan-500/60' },
+  { icon: 'text-orange-500', activeBg: 'bg-orange-500/15', activeRing: 'ring-orange-500/30', border: 'border-orange-500/60' },
+  { icon: 'text-fuchsia-500', activeBg: 'bg-fuchsia-500/15', activeRing: 'ring-fuchsia-500/30', border: 'border-fuchsia-500/60' },
+  { icon: 'text-lime-600', activeBg: 'bg-lime-500/15', activeRing: 'ring-lime-500/30', border: 'border-lime-500/60' },
+  { icon: 'text-indigo-500', activeBg: 'bg-indigo-500/15', activeRing: 'ring-indigo-500/30', border: 'border-indigo-500/60' },
 ];
 
 function groupColor(menuId: number) {
@@ -115,8 +115,15 @@ function RenderMenu({
         const Icon = iconMapper(menu.icon || 'Folder') as LucideIcon;
         const children = Array.isArray(menu.children) ? menu.children.filter(Boolean) : [];
         const hasChildren = children.length > 0;
-        const isActive = matchesUrl(menu.route, currentUrl);
-        const indentClass = level > 0 ? `pl-${4 + level * 3}` : '';
+        // Menu leaf (tanpa anak) hanya aktif kalau PATH-nya PERSIS sama
+        // (query string diabaikan) — bukan sub-path — supaya menu tetangga
+        // yang route-nya kebetulan jadi prefix (mis. "/backup" vs
+        // "/backup/excel") tidak ikut tersorot. Aturan sub-path
+        // (matchesUrl) tetap dipakai utk menu yang PUNYA anak (grup),
+        // karena grup memang harus tetap tersorot saat salah satu anaknya
+        // aktif.
+        const currentPath = currentUrl.split('?')[0];
+        const isActive = hasChildren ? matchesUrl(menu.route, currentUrl) : currentPath === menu.route;
 
         // Grup level-0 dapat warna barunya sendiri (deterministik per id);
         // submenu di bawahnya mewarisi warna induk supaya tetap terasa satu
@@ -126,6 +133,11 @@ function RenderMenu({
         const activeClass = isActive
           ? `${color.activeBg} text-foreground font-semibold shadow-sm ring-1 ${color.activeRing}`
           : 'text-foreground/80 hover:bg-accent hover:text-foreground';
+
+        // Aksen border kiri permanen per grup level-0 — pembeda visual
+        // cepat antar grup menu (Dashboard/Access/Settings/dst) tanpa perlu
+        // hover/klik, terlihat sekilas saat sidebar di-scan.
+        const accentBorderClass = level === 0 ? `border-l-2 ${color.border}` : '';
 
         if (!menu.route && !hasChildren) return null;
 
@@ -142,8 +154,9 @@ function RenderMenu({
                   <SidebarMenuButton
                     data-state={isOpen ? 'open' : 'closed'}
                     className={cn(
-                      `group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors ${indentClass}`,
+                      'group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors',
                       activeClass,
+                      accentBorderClass,
                       level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3'
                     )}
                   >
@@ -155,7 +168,7 @@ function RenderMenu({
                   </SidebarMenuButton>
                 </CollapsibleTrigger>
                 <CollapsibleContent>
-                  <SidebarMenu className="ml-3 border-l border-border/70 pl-3">
+                  <SidebarMenu className="ml-1.5 border-l border-border/70 pl-1.5">
                     <RenderMenu items={children} level={level + 1} groupColorOverride={color} />
                   </SidebarMenu>
                 </CollapsibleContent>
@@ -169,8 +182,9 @@ function RenderMenu({
             <SidebarMenuButton
               asChild
               className={cn(
-                `group !h-auto w-full min-w-0 !items-start overflow-visible rounded-md transition-colors ${indentClass}`,
+                'group !h-auto w-full min-w-0 !items-start overflow-visible rounded-md transition-colors',
                 activeClass,
+                accentBorderClass,
                 level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3'
               )}
             >
@@ -185,7 +199,7 @@ function RenderMenu({
                   <span className="whitespace-normal break-words text-left !truncate-none">{menu.title}</span>
                 </div>
                 {level > 0 && (
-                  <ChevronRight className="ml-auto size-4 mt-0.5 shrink-0 opacity-0 group-hover:opacity-50" />
+                  <ChevronRight className="ml-auto size-4 mt-0.5 shrink-0 opacity-40 group-hover:opacity-70" />
                 )}
               </Link>
             </SidebarMenuButton>
@@ -200,8 +214,14 @@ export function AppSidebar() {
   const { menus = [] } = usePage().props as { menus?: MenuItem[] };
   const contentRef = useRef<HTMLDivElement>(null);
 
-  // Pulihkan posisi scroll segera setelah render (sebelum browser paint),
-  // supaya reload menu di setiap navigasi tidak terlihat "geser ke atas".
+  // Pulihkan posisi scroll HANYA SEKALI saat mount (dependency array kosong)
+  // — sebelumnya effect ini tidak punya dependency array sama sekali,
+  // jadi berjalan ulang di SETIAP render (termasuk saat props `menus`
+  // berubah akibat navigasi Inertia biasa), memaksa scrollTop kembali ke
+  // posisi tersimpan setiap kali dan bisa "melawan" scroll manual
+  // pengguna yang sedang berlangsung. Listener scroll (menyimpan posisi
+  // terkini ke sessionStorage) tetap aktif selama komponen ter-mount,
+  // tidak perlu di-reset ulang tiap render.
   useEffect(() => {
     const el = contentRef.current;
     if (!el) return;
@@ -216,7 +236,7 @@ export function AppSidebar() {
     };
     el.addEventListener('scroll', handleScroll);
     return () => el.removeEventListener('scroll', handleScroll);
-  });
+  }, []);
 
   return (
     <Sidebar collapsible="icon" variant="inset" className="border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">

@@ -94,9 +94,9 @@ export default function AppSidebarLayout({
       >
         <AppShell variant="sidebar">
           <AppSidebar />
-          <AppContent variant="sidebar" className="flex flex-col">
+          <AppContent variant="sidebar" className="flex min-w-0 flex-col">
             <AppSidebarHeader breadcrumbs={breadcrumbs} />
-            <div className="flex-1">{children}</div>
+            <div className="min-w-0 flex-1">{children}</div>
             <AppFooter
               contactEmail={setting?.contact_email}
               contactEmailSecondary={setting?.contact_email_secondary}

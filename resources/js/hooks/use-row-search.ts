@@ -65,6 +65,15 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
     setCurrentMatchIndex(0);
   };
 
+  // Jalankan pencarian dgn kata kunci tertentu langsung (tanpa bergantung
+  // pada state searchInput yang mungkin belum ter-update di render yang
+  // sama) — dipakai tombol pilih cepat spt panel status pengisian OPD.
+  const searchFor = (term: string) => {
+    setSearchInput(term);
+    setActiveQuery(term.trim().toLowerCase());
+    setCurrentMatchIndex(0);
+  };
+
   const jumpToMatch = (index: number) => {
     if (matches.length === 0) return;
     const wrapped = ((index % matches.length) + matches.length) % matches.length;
@@ -109,6 +118,7 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
     currentMatchId,
     registerRowRef,
     runSearch,
+    searchFor,
     jumpToMatch,
     clearSearch,
     handleKeyDown,

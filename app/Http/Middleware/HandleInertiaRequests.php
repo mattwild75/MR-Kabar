@@ -41,8 +41,10 @@ class HandleInertiaRequests extends Middleware
                 'success' => session('success'),
                 'error' => session('error'),
                 'justLoggedIn' => session('just_logged_in'),
+                'importResult' => session('importResult'),
             ],
             'setting' => fn() => SettingApp::cached(),
+            'unreadNotificationsCount' => fn() => $request->user()?->unreadNotifications()->count() ?? 0,
         ]);
     }
 }

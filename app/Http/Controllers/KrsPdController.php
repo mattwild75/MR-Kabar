@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\KrsPd;
 use App\Models\Opd;
 use App\Models\KrsPemda;
@@ -14,6 +15,8 @@ use Inertia\Inertia;
 
 class KrsPdController extends Controller
 {
+    use HasOpdFillStatus;
+
     private const FIELDS = [
         'SASARAN RPJMD',
         'TUJUAN STRATEGIS PD',
@@ -459,6 +462,8 @@ class KrsPdController extends Controller
         return Inertia::render('krs_pd/Index', [
             'sasaranRpjmds' => $this->buildHierarchy($rows, $this->sasaranRpjmdKodes()),
             'opdOptions' => Opd::orderBy('nama')->pluck('nama'),
+            'opdList' => $isAdmin ? Opd::orderBy('nama')->get(['id', 'nama']) : [],
+            'opdFillStatus' => $isAdmin ? $this->opdFillStatusByColumn(KrsPd::class, 'OPD PENANGGUNG JAWAB KEGIATAN') : [],
             'fieldOptions' => $fieldOptions,
             'program1aMap' => $program1a,
             'currentUserId' => auth()->id(),

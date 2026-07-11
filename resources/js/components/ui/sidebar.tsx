@@ -281,7 +281,7 @@ const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<'main
         <main
             ref={ref}
             className={cn(
-                'relative flex min-h-svh flex-1 flex-col bg-background',
+                'relative flex min-h-svh min-w-0 flex-1 flex-col bg-background',
                 'peer-data-[variant=inset]:min-h-[calc(100svh-(--spacing(4)))] md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm',
                 className,
             )}
@@ -304,12 +304,12 @@ const SidebarInput = React.forwardRef<React.ElementRef<typeof Input>, React.Comp
 SidebarInput.displayName = 'SidebarInput';
 
 const SidebarHeader = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, ...props }, ref) => {
-    return <div ref={ref} data-sidebar="header" className={cn('flex flex-col gap-2 p-2', className)} {...props} />;
+    return <div ref={ref} data-sidebar="header" className={cn('flex shrink-0 flex-col gap-2 p-2', className)} {...props} />;
 });
 SidebarHeader.displayName = 'SidebarHeader';
 
 const SidebarFooter = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, ...props }, ref) => {
-    return <div ref={ref} data-sidebar="footer" className={cn('flex flex-col gap-2 p-2', className)} {...props} />;
+    return <div ref={ref} data-sidebar="footer" className={cn('flex shrink-0 flex-col gap-2 p-2', className)} {...props} />;
 });
 SidebarFooter.displayName = 'SidebarFooter';
 
@@ -325,7 +325,7 @@ const SidebarContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'di
         <div
             ref={ref}
             data-sidebar="content"
-            className={cn('flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden group-data-[collapsible=icon]:overflow-hidden', className)}
+            className={cn('flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto overflow-x-hidden pb-2 group-data-[collapsible=icon]:overflow-hidden', className)}
             {...props}
         />
     );

@@ -42,6 +42,47 @@ class CeeFormController extends Controller
     }
 
     /**
+     * Status pengisian CEE per OPD utk tahun terpilih — dipakai menandai
+     * dropdown "OPD / Urusan yang Dinilai" (badge sudah isi / belum) supaya
+     * pengguna (terutama Admin/Super Admin/CEE_Survey yg lintas OPD) tidak
+     * perlu klik satu-satu tiap OPD utk tahu mana yg sudah/belum mengisi.
+     * "Sudah isi" didefinisikan: sudah ada minimal 1 jawaban 1a ATAU minimal
+     * 1 simpulan 1c utk OPD+tahun itu (longgar — indikator progres, bukan
+     * validasi "lengkap"; kelengkapan 8/8 unsur ditandai terpisah lewat
+     * jumlah_simpulan/total_unsur).
+     */
+    private function opdStatus(int $tahun): array
+    {
+        $totalUnsur = CeeUnsur::count();
+
+        $jawabanCounts = CeeJawaban::where('tahun_penilaian', $tahun)
+            ->selectRaw('opd_id, count(distinct responden_nama) as jumlah_responden')
+            ->groupBy('opd_id')
+            ->pluck('jumlah_responden', 'opd_id');
+
+        $simpulanCounts = CeeSimpulan::where('tahun_penilaian', $tahun)
+            ->selectRaw('opd_id, count(*) as jumlah_simpulan')
+            ->groupBy('opd_id')
+            ->pluck('jumlah_simpulan', 'opd_id');
+
+        return Opd::orderBy('nama')
+            ->get(['id'])
+            ->mapWithKeys(function ($opd) use ($jawabanCounts, $simpulanCounts, $totalUnsur) {
+                $jumlahResponden = $jawabanCounts[$opd->id] ?? 0;
+                $jumlahSimpulan = $simpulanCounts[$opd->id] ?? 0;
+
+                return [$opd->id => [
+                    'jumlah_responden' => $jumlahResponden,
+                    'jumlah_simpulan' => $jumlahSimpulan,
+                    'total_unsur' => $totalUnsur,
+                    'lengkap' => $jumlahSimpulan >= $totalUnsur,
+                    'sudah_mulai' => $jumlahResponden > 0 || $jumlahSimpulan > 0,
+                ]];
+            })
+            ->all();
+    }
+
+    /**
      * PIC biasa (punya opd_id) hanya boleh akses CEE OPD miliknya sendiri —
      * baik lihat (GET) maupun simpan (POST/PUT/DELETE). Akun bersama
      * CEE_Survey & Admin/Super Admin tidak dibatasi (lintas OPD).
@@ -92,6 +133,7 @@ class CeeFormController extends Controller
 
         return Inertia::render('cee/form/Form1a', [
             'opdOptions' => $this->opdOptions($request),
+            'opdStatus' => $this->opdStatus($tahun),
             'opdId' => $opdId,
             'tahun' => $tahun,
             'unsurs' => $unsurs,
@@ -293,6 +335,7 @@ class CeeFormController extends Controller
 
         return Inertia::render('cee/form/Form1b', [
             'opdOptions' => $this->opdOptions($request),
+            'opdStatus' => $this->opdStatus($tahun),
             'opdId' => $opdId,
             'tahun' => $tahun,
             'unsurOptions' => CeeUnsur::orderBy('urutan')->get(['id', 'kode', 'nama']),
@@ -409,6 +452,7 @@ class CeeFormController extends Controller
 
         return Inertia::render('cee/form/Form1c', [
             'opdOptions' => $this->opdOptions($request),
+            'opdStatus' => $this->opdStatus($tahun),
             'opdId' => $opdId,
             'tahun' => $tahun,
             'unsurs' => $unsurs,

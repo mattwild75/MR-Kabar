@@ -39,6 +39,37 @@ class TrashController extends Controller
     private function types(): array
     {
         return [
+            // CEE (Control Environment Evaluation) ditampilkan LEBIH DULU —
+            // kepemilikan bukan lewat user_id (row per-orang), melainkan
+            // opd_id (row per-OPD, milik bersama PIC OPD tsb) — lihat
+            // 'opd_scoped' & trashedQuery().
+            'cee_1a' => [
+                'model' => CeeJawaban::class,
+                'label' => 'CEE 1a Kuesioner',
+                'title_field' => 'responden_nama',
+                'subtitle_fields' => ['responden_jabatan', 'tahun_penilaian'],
+                'owned' => false,
+                'opd_scoped' => true,
+                'sync' => null,
+            ],
+            'cee_1b' => [
+                'model' => CeeKelemahanDokumen::class,
+                'label' => 'CEE 1b Kelemahan Dokumen',
+                'title_field' => 'sumber_data',
+                'subtitle_fields' => ['uraian_kelemahan', 'pengisi_nama'],
+                'owned' => false,
+                'opd_scoped' => true,
+                'sync' => null,
+            ],
+            'cee_1c' => [
+                'model' => CeeSimpulan::class,
+                'label' => 'CEE 1c Simpulan',
+                'title_field' => 'penyusun_nama',
+                'subtitle_fields' => ['penyusun_jabatan', 'tahun_penilaian'],
+                'owned' => false,
+                'opd_scoped' => true,
+                'sync' => null,
+            ],
             'krs_pemda' => [
                 'model' => KrsPemda::class,
                 'label' => 'I_a Risiko Strategis Pemda',
@@ -86,36 +117,6 @@ class TrashController extends Controller
                 'subtitle_fields' => ['SASARAN RENSTRA', 'PEMILIK RISIKO'],
                 'owned' => true,
                 'sync' => KroIroPdSyncService::class,
-            ],
-            // CEE (Control Environment Evaluation): kepemilikan bukan lewat
-            // user_id (row per-orang), melainkan opd_id (row per-OPD, milik
-            // bersama PIC OPD tsb) — lihat 'opd_scoped' & trashedQuery().
-            'cee_1a' => [
-                'model' => CeeJawaban::class,
-                'label' => 'CEE 1a Kuesioner',
-                'title_field' => 'responden_nama',
-                'subtitle_fields' => ['responden_jabatan', 'tahun_penilaian'],
-                'owned' => false,
-                'opd_scoped' => true,
-                'sync' => null,
-            ],
-            'cee_1b' => [
-                'model' => CeeKelemahanDokumen::class,
-                'label' => 'CEE 1b Kelemahan Dokumen',
-                'title_field' => 'sumber_data',
-                'subtitle_fields' => ['uraian_kelemahan', 'pengisi_nama'],
-                'owned' => false,
-                'opd_scoped' => true,
-                'sync' => null,
-            ],
-            'cee_1c' => [
-                'model' => CeeSimpulan::class,
-                'label' => 'CEE 1c Simpulan',
-                'title_field' => 'penyusun_nama',
-                'subtitle_fields' => ['penyusun_jabatan', 'tahun_penilaian'],
-                'owned' => false,
-                'opd_scoped' => true,
-                'sync' => null,
             ],
         ];
     }

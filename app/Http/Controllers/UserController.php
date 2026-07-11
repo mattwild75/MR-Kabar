@@ -11,9 +11,19 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('roles')->orderBy('username')->paginate(25);
+        $query = User::with('roles')->orderBy('username');
+
+        // Admin biasa tidak melihat akun super-admin sama sekali di daftar —
+        // super-admin dianggap identitas sensitif (pemegang kendali akses
+        // tertinggi), konsisten dengan pembatasan edit/hapus/reset password
+        // yang sudah ada di bawah. Super-admin sendiri tetap melihat semua.
+        if (!$request->user()->hasRole('super-admin')) {
+            $query->whereDoesntHave('roles', fn ($q) => $q->where('name', 'super-admin'));
+        }
+
+        $users = $query->paginate(25);
 
         return Inertia::render('users/Index', [
             'users' => $users,
@@ -57,8 +67,12 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User berhasil dibuat.');
     }
 
-    public function edit(User $user)
+    public function edit(Request $request, User $user)
     {
+        if (!$request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
+            abort(403, 'Anda tidak dapat mengubah user super-admin.');
+        }
+
         $roles = Role::all();
 
         return Inertia::render('users/Form', [
@@ -122,9 +136,13 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 
-    public function resetPassword(User $user)
+    public function resetPassword(Request $request, User $user)
     {
         $this->authorize('manageUsers');
+
+        if (!$request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
+            abort(403, 'Anda tidak dapat mereset password super-admin.');
+        }
 
         $tempPassword = \Illuminate\Support\Str::random(12);
         $user->update([

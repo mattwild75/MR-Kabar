@@ -9,6 +9,7 @@ import AutocompleteMultiline from '@/components/ui/autocomplete-multiline';
 import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { Checkbox } from '@/components/ui/checkbox';
+import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import { KRS_PD_FIELD_INFO } from '@/lib/krs-pd-field-info';
 import {
   Dialog,
@@ -211,6 +212,8 @@ interface Program1aEntry {
 interface PageProps {
   sasaranRpjmds: TopLevelItem[];
   opdOptions: string[];
+  opdList: { id: number; nama: string }[];
+  opdFillStatus: Record<number, { jumlah_baris: number; sudah_mulai: boolean }>;
   fieldOptions: Record<string, string[]>;
   program1aMap: Record<string, Program1aEntry>;
   currentUserId: number | null;
@@ -1171,7 +1174,7 @@ function NonPrioritasCard({ program, cb }: { program: NonPrioritasProgramItem; c
   );
 }
 
-export default function KrsPdIndex({ sasaranRpjmds, opdOptions, fieldOptions, program1aMap, currentUserId, isAdmin }: PageProps) {
+export default function KrsPdIndex({ sasaranRpjmds, opdOptions, opdList, opdFillStatus, fieldOptions, program1aMap, currentUserId, isAdmin }: PageProps) {
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -1275,6 +1278,25 @@ export default function KrsPdIndex({ sasaranRpjmds, opdOptions, fieldOptions, pr
 
   const runSearch = () => {
     const q = searchInput.trim().toLowerCase();
+    setActiveQuery(q);
+    setCurrentMatchIndex(0);
+
+    if (!q) {
+      setExpanded(new Set());
+      return;
+    }
+
+    const { matches: found, ancestors: foundAncestors } = collectMatches(sasaranRpjmds, q);
+    const firstChain = found.length > 0 ? (foundAncestors.get(found[0]) ?? []) : [];
+    setExpanded(new Set(firstChain));
+  };
+
+  // Sama seperti runSearch tapi dgn kata kunci eksplisit (tidak bergantung
+  // pada state searchInput yang belum ter-update di render yang sama) —
+  // dipakai tombol pilih cepat di panel status pengisian OPD.
+  const searchFor = (term: string) => {
+    setSearchInput(term);
+    const q = term.trim().toLowerCase();
     setActiveQuery(q);
     setCurrentMatchIndex(0);
 
@@ -1426,6 +1448,15 @@ export default function KrsPdIndex({ sasaranRpjmds, opdOptions, fieldOptions, pr
             Tambah Data
           </Button>
         </div>
+
+        {isAdmin && (
+          <OpdFillStatusPanel
+            opdOptions={opdList}
+            opdStatus={opdFillStatus}
+            onSelect={searchFor}
+            selectedOpdNama={searchInput}
+          />
+        )}
 
         <div className="flex items-center gap-2">
           <div className="relative max-w-md flex-1">

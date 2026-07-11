@@ -9,14 +9,32 @@ use Illuminate\Http\Request;
 
 class SettingAppController extends Controller
 {
+    /**
+     * Lapis kedua di luar permission_name menu — sebelumnya tidak ada
+     * pengecekan role sama sekali di sini, murni bergantung pada
+     * middleware menu.permission ("app-settings-view"). Method ini juga
+     * menangani upload file (logo/favicon), jadi celahnya bukan cuma baca-
+     * tulis pengaturan tapi juga penulisan file ke storage publik.
+     */
+    private function ensureAdmin(): void
+    {
+        if (!auth()->user()?->hasAnyRole(['admin', 'super-admin'])) {
+            abort(403, 'Hanya Admin/Super Admin yang dapat mengelola App Settings.');
+        }
+    }
+
     public function edit()
     {
+        $this->ensureAdmin();
+
         $setting = SettingApp::first();
         return Inertia::render('settingapp/Form', ['setting' => $setting]);
     }
 
     public function update(Request $request)
     {
+        $this->ensureAdmin();
+
         $data = $request->validate([
             'nama_app'                => 'required|string|max:255',
             'deskripsi'               => 'nullable|string',

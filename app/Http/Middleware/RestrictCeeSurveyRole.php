@@ -27,6 +27,7 @@ class RestrictCeeSurveyRole
         '/cetak/cee',
         '/data-umum',
         '/dashboard',
+        '/panduan',
         '/logout',
         '/session-status',
         '/session-extend',

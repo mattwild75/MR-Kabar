@@ -66,8 +66,17 @@ interface OpdOption {
   nama: string;
 }
 
+interface OpdStatusEntry {
+  jumlah_responden: number;
+  jumlah_simpulan: number;
+  total_unsur: number;
+  lengkap: boolean;
+  sudah_mulai: boolean;
+}
+
 interface PageProps {
   opdOptions: OpdOption[];
+  opdStatus: Record<number, OpdStatusEntry>;
   opdId: number | null;
   tahun: number;
   unsurs: Unsur[];
@@ -95,7 +104,7 @@ const badgeFor = (s: 'Memadai' | 'Kurang Memadai' | null) =>
     <Badge variant="outline">Belum ada data</Badge>
   );
 
-export default function Form1c({ opdOptions, opdId, tahun, unsurs, ringkasan, simpulanTersimpan }: PageProps) {
+export default function Form1c({ opdOptions, opdStatus, opdId, tahun, unsurs, ringkasan, simpulanTersimpan }: PageProps) {
   const { auth } = usePage<SharedData>().props;
   const isCeeSurvey = auth.user?.roles?.some((r) => r.name === 'cee-survey') ?? false;
   const sudahAdaSimpulan = Object.keys(simpulanTersimpan ?? {}).length > 0;
@@ -161,7 +170,7 @@ export default function Form1c({ opdOptions, opdId, tahun, unsurs, ringkasan, si
           </p>
         </div>
 
-        <OpdTahunPicker routeName="/cee/1c" opdOptions={opdOptions} opdId={opdId} tahun={tahun} />
+        <OpdTahunPicker routeName="/cee/1c" opdOptions={opdOptions} opdStatus={opdStatus} opdId={opdId} tahun={tahun} />
 
         {!opdId || !ringkasan ? (
           <Card>

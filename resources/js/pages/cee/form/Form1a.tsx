@@ -62,8 +62,17 @@ interface RespondenListItem {
   terakhir_diisi: string | null;
 }
 
+interface OpdStatusEntry {
+  jumlah_responden: number;
+  jumlah_simpulan: number;
+  total_unsur: number;
+  lengkap: boolean;
+  sudah_mulai: boolean;
+}
+
 interface PageProps {
   opdOptions: OpdOption[];
+  opdStatus: Record<number, OpdStatusEntry>;
   opdId: number | null;
   tahun: number;
   unsurs: Unsur[];
@@ -88,7 +97,7 @@ type Form1aData = {
   [key: string]: number | string | null | Record<number, number>;
 };
 
-export default function Form1a({ opdOptions, opdId, tahun, unsurs, rekap, respondenList, canEditOrDelete1a }: PageProps) {
+export default function Form1a({ opdOptions, opdStatus, opdId, tahun, unsurs, rekap, respondenList, canEditOrDelete1a }: PageProps) {
   const { data, setData, post, processing, errors, reset } = useForm<Form1aData>({
     opd_id: opdId,
     tahun,
@@ -183,7 +192,7 @@ export default function Form1a({ opdOptions, opdId, tahun, unsurs, rekap, respon
           </p>
         </div>
 
-        <OpdTahunPicker routeName="/cee/1a" opdOptions={opdOptions} opdId={opdId} tahun={tahun} />
+        <OpdTahunPicker routeName="/cee/1a" opdOptions={opdOptions} opdStatus={opdStatus} opdId={opdId} tahun={tahun} />
 
         {!opdId ? (
           <Card>

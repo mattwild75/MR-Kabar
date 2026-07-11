@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\Opd;
@@ -14,6 +15,8 @@ use Inertia\Inertia;
 
 class KroPdController extends Controller
 {
+    use HasOpdFillStatus;
+
     private const FIELDS = [
         'SASARAN RENSTRA',
         'PROGRAM PD',
@@ -380,6 +383,8 @@ class KroPdController extends Controller
         return Inertia::render('kro_pd/Index', [
             'sasaranRenstras' => $this->buildHierarchy($rows, $this->sasaranRenstraKodes()),
             'opdOptions' => Opd::orderBy('nama')->pluck('nama'),
+            'opdList' => $isAdmin ? Opd::orderBy('nama')->get(['id', 'nama']) : [],
+            'opdFillStatus' => $isAdmin ? $this->opdFillStatusByColumn(KroPd::class, 'OPD PENANGGUNG JAWAB KEGIATAN') : [],
             'fieldOptions' => $fieldOptions,
             'program1aMap' => $program2a,
             'currentUserId' => auth()->id(),

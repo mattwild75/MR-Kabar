@@ -6,7 +6,27 @@
 
 export const SUMBER_SEBAB_RISIKO_KATEGORI = ['Internal', 'Eksternal', 'Internal dan Eksternal'];
 
+// 5M — kerangka klasifikasi penyebab risiko yang umum dipakai analisis
+// akar masalah (fishbone/Ishikawa diagram): Machine, Men, Material,
+// Method, Money. Boleh pilih lebih dari 1 kategori sekaligus jika risiko
+// disebabkan gabungan beberapa faktor.
+export const PENYEBAB_5M_KATEGORI = ['Machine', 'Men', 'Material', 'Method', 'Money'];
+
 export const C_UC_OPTIONS = ['C', 'UC'];
+
+// 5 jenis respon risiko (risk response) sesuai kerangka umum manajemen
+// risiko (COSO/ISO 31000, diadopsi Perdep PPKD) — dipakai mengklasifikasi
+// Rencana Tindak Pengendalian (RTP): Avoid (menghindari), Abate (mengurangi
+// kemungkinan), Mitigate (mengurangi dampak), Share/Transfer (membagi
+// beban dampak ke pihak lain), Accept (menerima apa adanya). Boleh pilih
+// lebih dari 1 kategori sekaligus (mis. RTP yang dirancang gabungan Abate +
+// Mitigate) karena satu RTP bisa menyasar frekuensi & dampak sekaligus
+// secara parsial (beda dari Avoid yang menghilangkan keduanya secara total).
+export const RESPON_RISIKO_KATEGORI = ['Avoid', 'Abate', 'Mitigate', 'Share/Transfer', 'Accept'];
+
+// Kategori penilaian efektivitas existing control, sesuai PP 60/2008 — E =
+// Efektif, KE = Kurang Efektif, TE = Tidak Efektif.
+export const KATEGORI_EXISTING_CONTROL_OPTIONS = ['E', 'KE', 'TE'];
 
 export const ENTITAS_PENILAI_OPTIONS = [
   'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',

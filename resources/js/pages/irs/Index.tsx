@@ -9,6 +9,9 @@ import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import ReferenceDialogTrigger from '@/components/ui/reference-dialog-trigger';
 import HighlightText from '@/components/ui/highlight-text';
+import RtpCategoryText from '@/components/ui/rtp-category-text';
+import SortableTh from '@/components/ui/sortable-th';
+import { useSortableRows } from '@/hooks/use-sortable-rows';
 import { useRowSearch } from '@/hooks/use-row-search';
 import {
   Dialog,
@@ -29,8 +32,13 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { IRS_FIELD_INFO } from '@/lib/irs-field-info';
-import { ENTITAS_PENILAI_OPTIONS, KRITERIA_DAMPAK, KRITERIA_KEMUNGKINAN, MATRIKS_RISIKO, SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS } from '@/lib/irs-reference-data';
+import { SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS, KATEGORI_EXISTING_CONTROL_OPTIONS, PENYEBAB_5M_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
+import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
+import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
+import RiskCascadeInfo from '@/components/ui/risk-cascade-info';
+import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
+import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import { canManageRow } from '@/lib/ownership';
 import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { Fragment, useState } from 'react';
@@ -51,9 +59,11 @@ const FIELDS = [
   'URAIAN DAMPAK RISIKO',
   'PIHAK YANG TERKENA DAMPAK RISIKO',
   'URAIAN PENGENDALIAN YANG SUDAH ADA',
+  'KATEGORI EXISTING CONTROL',
   'CELAH PENGENDALIAN',
   'RENCANA TINDAK PENGENDALIAN',
-  'PEMILIK / PENANGGUNGJAWAB',
+  'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN',
+  'PENANGGUNG JAWAB PENGENDALIAN',
   'TRIWULAN',
   'TAHUN TARGET PENYELESAIAN',
 ] as const;
@@ -65,16 +75,64 @@ interface IrsRow {
   [key: string]: string | number | null;
 }
 
+interface KriteriaDampakRow {
+  level: number;
+  label: string | null;
+  kerugian_negara: string | null;
+  penurunan_reputasi: string | null;
+  penurunan_kinerja: string | null;
+  gangguan_pelayanan: string | null;
+  tuntutan_hukum: string | null;
+}
+
+interface KriteriaKemungkinanRow {
+  level: number;
+  nama: string;
+  probabilitas: string | null;
+  frekuensi: string | null;
+  toleransi: string | null;
+}
+
+interface MatrixCell {
+  dampak: number;
+  kemungkinan: number;
+  skala_risiko: number | null;
+  warna_class: string;
+}
+
+interface RiskLevelRow {
+  label: string;
+  skala_min: number;
+  skala_max: number;
+  warna_class: string;
+}
+
+interface RiskReference {
+  kriteriaDampak: KriteriaDampakRow[];
+  kriteriaKemungkinan: KriteriaKemungkinanRow[];
+  matriksRisiko: {
+    dampakLabels: string[];
+    kemungkinanLabels: string[];
+    cells: MatrixCell[];
+  };
+  riskLevels: RiskLevelRow[];
+}
+
 interface PageProps {
   rows: IrsRow[];
   fieldOptions: Record<string, string[]>;
   opdOptions: string[];
+  opdList: { id: number; nama: string }[];
+  opdFillStatus: Record<number, { jumlah_baris: number; sudah_mulai: boolean }>;
   jenisRisikoOptions: string[];
+  entitasPenilaiOptions: string[];
+  riskReference: RiskReference;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
   sasaranRpjmdKodes: Record<string, string>;
   currentUserId: number | null;
   isAdmin: boolean;
+  currentUserOpdNama: string | null;
 }
 
 type FormData = Record<FieldName, string> & {
@@ -90,16 +148,16 @@ const emptyForm = (): FormData => {
   return obj;
 };
 
-function skalaBadgeClass(skala: number | null): string {
+// Warna badge Skala Risiko sekarang bersumber dari tabel risk_levels (bisa
+// diedit Admin/Super Admin lewat Settings > Keterangan Pendukung), bukan
+// lagi threshold hardcoded — lihat RiskReferenceDataService::warnaForSkala().
+function skalaBadgeClass(skala: number | null, riskLevels: RiskLevelRow[]): string {
   if (skala === null) return 'bg-muted text-muted-foreground';
-  if (skala >= 20) return 'bg-red-500 text-white hover:bg-red-500';
-  if (skala >= 16) return 'bg-orange-400 text-white hover:bg-orange-400';
-  if (skala >= 11) return 'bg-yellow-300 text-black hover:bg-yellow-300';
-  if (skala >= 6) return 'bg-green-400 text-black hover:bg-green-400';
-  return 'bg-sky-400 text-white hover:bg-sky-400';
+  const level = riskLevels.find((l) => skala >= l.skala_min && skala <= l.skala_max);
+  return level ? `${level.warna_class} hover:${level.warna_class.split(' ')[0]}` : 'bg-muted text-muted-foreground';
 }
 
-export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOptions, triwulanOptions, triwulanLabels, sasaranRpjmdKodes, currentUserId, isAdmin }: PageProps) {
+export default function IrsIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, triwulanOptions, triwulanLabels, sasaranRpjmdKodes, currentUserId, isAdmin, currentUserOpdNama }: PageProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<IrsRow | null>(null);
   const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
@@ -116,22 +174,29 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
     currentMatchId,
     registerRowRef,
     runSearch,
+    searchFor,
     jumpToMatch,
     clearSearch,
     handleKeyDown,
   } = useRowSearch(rows, [...FIELDS, 'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO', 'SKALA PRIORITAS', 'NOMOR URUT RISIKO']);
+
+  const { sortedRows, sortField, sortDirection, toggleSort } = useSortableRows(rows);
 
   // Kolom yang SUDAH tampil di tabel (dan sudah disorot HighlightText di
   // sel-nya sendiri) — field match selain ini perlu ditampilkan terpisah
   // di bawah baris, karena pengguna tidak akan melihat cuplikannya di
   // mana pun kalau tidak begitu (lihat catatan di PIHAK YANG TERKENA
   // DAMPAK RISIKO yang cuma ada di dialog Edit, bukan kolom tabel).
-  const VISIBLE_COLUMNS = new Set(['SASARAN RPJMD', 'URAIAN RISIKO', 'JENIS RISIKO', 'PEMILIK RISIKO']);
+  const VISIBLE_COLUMNS = new Set(['SASARAN RPJMD', 'URAIAN RISIKO', 'JENIS RISIKO', 'ENTITAS PD YANG MENILAI', 'PEMILIK RISIKO', 'RENCANA TINDAK PENGENDALIAN', 'PENANGGUNG JAWAB PENGENDALIAN', 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN']);
 
   const openCreate = () => {
     setEditing(null);
     reset();
-    setData(emptyForm());
+    const values = emptyForm();
+    if (currentUserOpdNama) {
+      values['ENTITAS PD YANG MENILAI'] = currentUserOpdNama;
+    }
+    setData(values);
     setDialogOpen(true);
   };
 
@@ -192,6 +257,18 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
           </Button>
         </div>
 
+        <RiskCascadeInfo />
+        <StrukturPengelolaanRisikoInfo />
+
+        {isAdmin && (
+          <OpdFillStatusPanel
+            opdOptions={opdList}
+            opdStatus={opdFillStatus}
+            onSelect={searchFor}
+            selectedOpdNama={searchInput}
+          />
+        )}
+
         <div className="flex items-center gap-2">
           <div className="relative max-w-md flex-1">
             <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -235,25 +312,31 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
           </p>
         )}
 
-        <div className="overflow-x-auto rounded-md border">
+        {/* Tabel dibungkus card dengan tinggi tetap (mirip jendela diagram
+            di halaman Visualisasi Hirarki) — scroll horizontal & vertikal
+            terkurung DI DALAM card ini, terpisah dari scroll halaman utama,
+            supaya sidebar/layout luar tidak pernah ikut melebar. */}
+        <div className="max-h-[70vh] overflow-auto rounded-md border">
           <table className="min-w-full text-sm">
-            <thead className="bg-muted/50">
+            <thead className="sticky top-0 z-10 bg-muted">
               <tr>
                 <th className="border px-3 py-2 text-center font-semibold whitespace-nowrap">No</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Sasaran RPJMD</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Uraian Risiko</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Jenis Risiko</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Pemilik Risiko</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Dampak</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Kemungkinan</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Skala Risiko</th>
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Prioritas</th>
+                <SortableTh field="SASARAN RPJMD" label="Sasaran RPJMD" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="URAIAN RISIKO" label="Uraian Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="JENIS RISIKO" label="Jenis Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="ENTITAS PD YANG MENILAI" label="Entitas PD yang Menilai" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
+                <SortableTh field="PEMILIK RISIKO" label="Pemilik Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="SKALA RISIKO" label="Skala Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="SKALA PRIORITAS" label="Prioritas" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="RENCANA TINDAK PENGENDALIAN" label="RTP" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="PENANGGUNG JAWAB PENGENDALIAN" label="Penanggung Jawab Pengendalian" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
+                <SortableTh field="UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN" label="Unit/OPD Penanggung Jawab" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
                 <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              {rows.length > 0 ? (
-                rows.map((row) => {
+              {sortedRows.length > 0 ? (
+                sortedRows.map((row) => {
                   const skalaRisiko = row['SKALA RISIKO'] != null ? Number(row['SKALA RISIKO']) : null;
                   const isCurrent = currentMatchId === row.id;
                   // Field yang cocok tapi TIDAK ada sebagai kolom tabel di atas —
@@ -268,7 +351,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                       className={`border-t hover:bg-muted/10 ${isCurrent ? 'ring-2 ring-inset ring-orange-500' : ''}`}
                     >
                       <td className="border px-3 py-2 align-top text-center">{row['NOMOR URUT RISIKO'] ?? '-'}</td>
-                      <td className="border px-3 py-2 align-top whitespace-pre-line max-w-xs">
+                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
                         {sasaranRpjmdKodes[String(row['SASARAN RPJMD'] ?? '')] && (
                           <p className="mb-0.5 text-xs font-medium text-muted-foreground">
                             Kode: {sasaranRpjmdKodes[String(row['SASARAN RPJMD'] ?? '')]}
@@ -276,21 +359,31 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                         )}
                         <HighlightText text={String(row['SASARAN RPJMD'] ?? '-')} query={activeQuery} />
                       </td>
-                      <td className="border px-3 py-2 align-top whitespace-pre-line max-w-xs">
+                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
                         <HighlightText text={String(row['URAIAN RISIKO'] ?? '-')} query={activeQuery} />
                       </td>
                       <td className="border px-3 py-2 align-top">
                         <HighlightText text={String(row['JENIS RISIKO'] ?? '-')} query={activeQuery} />
                       </td>
                       <td className="border px-3 py-2 align-top">
+                        <HighlightText text={String(row['ENTITAS PD YANG MENILAI'] ?? '-')} query={activeQuery} />
+                      </td>
+                      <td className="border px-3 py-2 align-top">
                         <HighlightText text={String(row['PEMILIK RISIKO'] ?? '-')} query={activeQuery} />
                       </td>
-                      <td className="border px-3 py-2 align-top text-center">{row['SKALA DAMPAK'] ?? '-'}</td>
-                      <td className="border px-3 py-2 align-top text-center">{row['SKALA KEMUNGKINAN'] ?? '-'}</td>
                       <td className="border px-3 py-2 align-top text-center">
-                        <Badge className={skalaBadgeClass(skalaRisiko)}>{skalaRisiko ?? '-'}</Badge>
+                        <Badge className={skalaBadgeClass(skalaRisiko, riskReference.riskLevels)}>{skalaRisiko ?? '-'}</Badge>
                       </td>
                       <td className="border px-3 py-2 align-top text-center">{row['SKALA PRIORITAS'] ?? '-'}</td>
+                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
+                        <RtpCategoryText text={String(row['RENCANA TINDAK PENGENDALIAN'] ?? '-')} query={activeQuery} />
+                      </td>
+                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
+                        <HighlightText text={String(row['PENANGGUNG JAWAB PENGENDALIAN'] ?? '-')} query={activeQuery} />
+                      </td>
+                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
+                        <HighlightText text={String(row['UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN'] ?? '-')} query={activeQuery} />
+                      </td>
                       <td className="border px-3 py-2 align-top">
                         {canManageRow(row.user_id as number | null, currentUserId, isAdmin) ? (
                           <div className="flex gap-1">
@@ -329,11 +422,11 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                     </tr>
                     {hiddenFieldMatches.length > 0 && (
                       <tr className={isCurrent ? 'ring-2 ring-inset ring-orange-500' : ''}>
-                        <td colSpan={10} className="border-x border-b bg-orange-50 px-3 py-2 text-xs dark:bg-orange-950/20">
+                        <td colSpan={12} className="border-x border-b bg-orange-50 px-3 py-2 text-xs dark:bg-orange-950/20">
                           {hiddenFieldMatches.map((m) => (
                             <div key={m.field} className="flex flex-wrap items-baseline gap-1">
                               <span className="font-semibold text-muted-foreground">Ditemukan di {m.field}:</span>
-                              <span className="whitespace-pre-line">
+                              <span className="whitespace-normal">
                                 <HighlightText text={m.snippet} query={activeQuery} />
                               </span>
                             </div>
@@ -346,7 +439,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                 })
               ) : (
                 <tr>
-                  <td colSpan={10} className="p-4 text-center text-sm text-muted-foreground">
+                  <td colSpan={12} className="p-4 text-center text-sm text-muted-foreground">
                     Tidak ada data.
                   </td>
                 </tr>
@@ -368,9 +461,11 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
               const info = IRS_FIELD_INFO[field];
               const value = data[field];
 
-              // Field OPD Penanggung Jawab (Pemilik/Penanggungjawab RTP) pakai
-              // combobox pilih-dari-daftar-OPD, sama seperti KRS_Pemda.
-              if (field === 'PEMILIK / PENANGGUNGJAWAB') {
+              // Unit/OPD Penanggung Jawab Pengendalian — institusi yg
+              // melaksanakan RTP (bisa berbeda dari Pemilik Risiko, lihat
+              // Perdep Bab II.B.4 & Form 6/7). Pakai combobox
+              // pilih-dari-daftar-OPD, sama seperti KRS_Pemda.
+              if (field === 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN') {
                 return (
                   <div key={field} className="space-y-1">
                     <div className="flex items-center gap-1.5">
@@ -378,6 +473,30 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                       {info && <FieldInfoPopover text={info} />}
                     </div>
                     <AutocompleteSelect value={value} onChange={(val) => setData(field, val)} options={opdOptions} placeholder="Pilih OPD" />
+                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                  </div>
+                );
+              }
+
+              // Penanggung Jawab Pengendalian — JABATAN/pejabat spesifik yg
+              // berkompeten & berwenang membangun kontrol tsb (Perdep Form
+              // 6/7), levelnya proporsional dgn level risiko: Strategis
+              // Pemda -> Kepala Daerah, Strategis OPD -> Kepala OPD,
+              // Operasional -> Kabid/Kasubbag. Teks bebas, BUKAN combobox OPD.
+              if (field === 'PENANGGUNG JAWAB PENGENDALIAN') {
+                return (
+                  <div key={field} className="space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <Label htmlFor={field}>{field}</Label>
+                      {info && <FieldInfoPopover text={info} />}
+                    </div>
+                    <AutocompleteTextarea
+                      id={field}
+                      value={value}
+                      onChange={(val) => setData(field, val)}
+                      options={fieldOptions[field] ?? []}
+                      rows={1}
+                    />
                     {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
                   </div>
                 );
@@ -416,7 +535,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                     <AutocompleteSelect
                       value={value}
                       onChange={(val) => setData(field, val)}
-                      options={ENTITAS_PENILAI_OPTIONS}
+                      options={entitasPenilaiOptions}
                       placeholder="Pilih Entitas"
                       dropdownClassName="w-[32rem] max-w-[90vw]"
                     />
@@ -425,27 +544,111 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                 );
               }
 
-              if (field === 'SUMBER SEBAB RISIKO') {
+              // Uraian Penyebab Risiko, Sumber Sebab Risiko, C/UC — layout
+              // kiri (label field) / kanan (kontrol pengisian), supaya
+              // ketiganya konsisten & hemat ruang vertikal dibanding label
+              // di atas kontrol seperti field lain.
+              if (field === 'URAIAN PENYEBAB RISIKO') {
                 return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
+                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                    <div className="flex items-start gap-1.5 pt-2">
                       <Label htmlFor={field}>{field}</Label>
                       {info && <FieldInfoPopover text={info} />}
                     </div>
-                    <CategorizedTextarea
-                      id={field}
-                      value={value}
-                      onChange={(val) => setData(field, val)}
-                      categories={SUMBER_SEBAB_RISIKO_KATEGORI}
-                      uraianPlaceholder="Uraian sumber sebab risiko..."
-                    />
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    <div>
+                      <MultiCategoryTextarea
+                        id={field}
+                        value={value}
+                        onChange={(val) => setData(field, val)}
+                        categories={PENYEBAB_5M_KATEGORI}
+                        uraianPlaceholder="Uraian penyebab..."
+                      />
+                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    </div>
+                  </div>
+                );
+              }
+
+              if (field === 'SUMBER SEBAB RISIKO') {
+                return (
+                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                    <div className="flex items-start gap-1.5 pt-2">
+                      <Label htmlFor={field}>{field}</Label>
+                      {info && <FieldInfoPopover text={info} />}
+                    </div>
+                    <div>
+                      <MultiCategoryTextarea
+                        id={field}
+                        value={value}
+                        onChange={(val) => setData(field, val)}
+                        categories={SUMBER_SEBAB_RISIKO_KATEGORI.filter((c) => c !== 'Internal dan Eksternal')}
+                        combinedLabel="Internal dan Eksternal"
+                        uraianPlaceholder="Uraian sumber sebab risiko..."
+                      />
+                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    </div>
                   </div>
                 );
               }
 
               if (field === 'C / UC') {
                 return (
+                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                    <div className="flex items-center gap-1.5 pt-2">
+                      <Label htmlFor={field}>{field}</Label>
+                      {info && <FieldInfoPopover text={info} />}
+                    </div>
+                    <div>
+                      <CategorizedTextarea
+                        id={field}
+                        value={value}
+                        onChange={(val) => setData(field, val)}
+                        categories={C_UC_OPTIONS}
+                        uraianPlaceholder="Uraian alasan C/UC..."
+                      />
+                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    </div>
+                  </div>
+                );
+              }
+
+              // Uraian Pengendalian yang Sudah Ada — sesuai PP 60/2008,
+              // kegiatan pengendalian (existing control) adalah kebijakan &
+              // prosedur yang membantu memastikan arahan manajemen risiko
+              // dilaksanakan. Bukti dukung (SS/JPG/PNG/PDF) opsional, tapi
+              // disarankan jika uraian ini diisi.
+              if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
+                const uraianTerisi = value.trim() !== '' && value.trim() !== 'Tidak Ada Data';
+                return (
+                  <div key={field} className="space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <Label htmlFor={field}>{field}</Label>
+                      {info && <FieldInfoPopover text={info} />}
+                    </div>
+                    <AutocompleteTextarea
+                      id={field}
+                      value={value}
+                      onChange={(val) => setData(field, val)}
+                      options={fieldOptions[field] ?? []}
+                      rows={2}
+                    />
+                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    <p className="text-xs text-muted-foreground">
+                      Sesuai PP 60/2008, uraian ini merupakan representasi unsur <em>Kegiatan Pengendalian</em> —
+                      kebijakan & prosedur yang membantu memastikan arahan manajemen risiko dilaksanakan.
+                    </p>
+                    {uraianTerisi && (
+                      <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+                        Disarankan unggah bukti dukung (SS/JPG/PNG/PDF) untuk pengendalian yang sudah diuraikan di atas.
+                      </p>
+                    )}
+                    <RiskEvidenceUploader type="irs_pemda" rowId={editing?.id ?? null} />
+                  </div>
+                );
+              }
+
+              if (field === 'KATEGORI EXISTING CONTROL') {
+                return (
                   <div key={field} className="space-y-1">
                     <div className="flex items-center gap-1.5">
                       <Label htmlFor={field}>{field}</Label>
@@ -455,10 +658,40 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                       id={field}
                       value={value}
                       onChange={(val) => setData(field, val)}
-                      categories={C_UC_OPTIONS}
-                      uraianPlaceholder="Uraian alasan C/UC..."
+                      categories={KATEGORI_EXISTING_CONTROL_OPTIONS}
+                      uraianPlaceholder="Uraian penilaian efektivitas (opsional)..."
                     />
+                    <p className="text-xs text-muted-foreground">
+                      E = Efektif, KE = Kurang Efektif, TE = Tidak Efektif — menilai seberapa baik pengendalian
+                      yang sudah ada menekan risiko awal (risiko inherent) menjadi risiko residual.
+                    </p>
                     {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                  </div>
+                );
+              }
+
+              // Rencana Tindak Pengendalian — diklasifikasikan ke 5 jenis
+              // respon risiko (Avoid/Abate/Mitigate/Share-Transfer/Accept),
+              // boleh pilih lebih dari 1 sekaligus (mis. kombinasi Abate +
+              // Mitigate) karena satu RTP bisa menyasar frekuensi & dampak
+              // sekaligus — lihat FieldInfoPopover utk penjelasan lengkap.
+              if (field === 'RENCANA TINDAK PENGENDALIAN') {
+                return (
+                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                    <div className="flex items-start gap-1.5 pt-2">
+                      <Label htmlFor={field}>{field}</Label>
+                      {info && <FieldInfoPopover text={info} />}
+                    </div>
+                    <div>
+                      <MultiCategoryTextarea
+                        id={field}
+                        value={value}
+                        onChange={(val) => setData(field, val)}
+                        categories={RESPON_RISIKO_KATEGORI}
+                        uraianPlaceholder="Uraian rencana tindak pengendalian..."
+                      />
+                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    </div>
                   </div>
                 );
               }
@@ -634,7 +867,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
             <DialogTitle>Entitas Penilai Risiko</DialogTitle>
           </DialogHeader>
           <div className="text-sm">
-            {ENTITAS_PENILAI_OPTIONS.map((opt, i) => (
+            {entitasPenilaiOptions.map((opt, i) => (
               <div key={opt} className="flex gap-3 border-b py-1.5">
                 <span className="w-6 shrink-0 text-muted-foreground">{i + 1}</span>
                 <span>{opt}</span>
@@ -655,20 +888,26 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
               <thead className="bg-muted/50">
                 <tr>
                   <th className="border px-3 py-2 text-left font-semibold">Area Dampak</th>
-                  <th className="border px-3 py-2 text-left font-semibold">1 - Tidak Signifikan</th>
-                  <th className="border px-3 py-2 text-left font-semibold">2 - Minor</th>
-                  <th className="border px-3 py-2 text-left font-semibold">3 - Moderat</th>
-                  <th className="border px-3 py-2 text-left font-semibold">4 - Signifikan</th>
-                  <th className="border px-3 py-2 text-left font-semibold">5 - Sangat Signifikan</th>
+                  {riskReference.kriteriaDampak.map((row) => (
+                    <th key={row.level} className="border px-3 py-2 text-left font-semibold">
+                      {row.level} - {row.label}
+                    </th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {KRITERIA_DAMPAK.map((row) => (
-                  <tr key={row.area}>
-                    <td className="border px-3 py-2 align-top font-medium">{row.area}</td>
-                    {row.levels.map((level, i) => (
-                      <td key={i} className="border px-3 py-2 align-top">
-                        {level}
+                {([
+                  ['Jumlah Kerugian Negara / Daerah', 'kerugian_negara'],
+                  ['Penurunan Reputasi', 'penurunan_reputasi'],
+                  ['Penurunan Kinerja', 'penurunan_kinerja'],
+                  ['Gangguan Terhadap Pelayanan', 'gangguan_pelayanan'],
+                  ['Jumlah Tuntutan Hukum', 'tuntutan_hukum'],
+                ] as const).map(([area, field]) => (
+                  <tr key={area}>
+                    <td className="border px-3 py-2 align-top font-medium">{area}</td>
+                    {riskReference.kriteriaDampak.map((row) => (
+                      <td key={row.level} className="border px-3 py-2 align-top">
+                        {row[field]}
                       </td>
                     ))}
                   </tr>
@@ -697,7 +936,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                 </tr>
               </thead>
               <tbody>
-                {KRITERIA_KEMUNGKINAN.map((row) => (
+                {riskReference.kriteriaKemungkinan.map((row) => (
                   <tr key={row.level}>
                     <td className="border px-3 py-2 align-top">{row.level}</td>
                     <td className="border px-3 py-2 align-top font-medium">{row.nama}</td>
@@ -730,7 +969,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                   </th>
                 </tr>
                 <tr>
-                  {MATRIKS_RISIKO.dampakLabels.map((label, i) => (
+                  {riskReference.matriksRisiko.dampakLabels.map((label, i) => (
                     <th key={label} className="border px-3 py-2 font-normal">
                       {i + 1}
                       <br />
@@ -740,23 +979,23 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, jenisRisikoOp
                 </tr>
               </thead>
               <tbody>
-                {[4, 3, 2, 1, 0].map((kIdx, rowPos) => (
-                  <tr key={kIdx}>
+                {[5, 4, 3, 2, 1].map((kemungkinan, rowPos) => (
+                  <tr key={kemungkinan}>
                     {rowPos === 0 && (
                       <th className="border px-3 py-2 font-semibold" rowSpan={5}>
                         Kemungkinan
                       </th>
                     )}
                     <th className="border px-3 py-2 font-normal whitespace-nowrap">
-                      {kIdx + 1}
+                      {kemungkinan}
                       <br />
-                      {MATRIKS_RISIKO.kemungkinanLabels[kIdx]}
+                      {riskReference.matriksRisiko.kemungkinanLabels[kemungkinan - 1]}
                     </th>
-                    {[0, 1, 2, 3, 4].map((dIdx) => {
-                      const skala = MATRIKS_RISIKO.matrix[dIdx][kIdx];
+                    {[1, 2, 3, 4, 5].map((dampak) => {
+                      const cell = riskReference.matriksRisiko.cells.find((c) => c.dampak === dampak && c.kemungkinan === kemungkinan);
                       return (
-                        <td key={dIdx} className={`border px-3 py-2 font-semibold ${MATRIKS_RISIKO.warnaForSkala(skala)}`}>
-                          {skala}
+                        <td key={dampak} className={`border px-3 py-2 font-semibold ${cell?.warna_class ?? 'bg-muted'}`}>
+                          {cell?.skala_risiko ?? '-'}
                         </td>
                       );
                     })}

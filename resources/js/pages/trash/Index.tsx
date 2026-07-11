@@ -113,13 +113,18 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin }: PageProp
                 key={tab.slug}
                 type="button"
                 onClick={() => switchTab(tab.slug)}
-                className={`flex items-center gap-2 rounded-md border px-3 py-1.5 text-sm transition-colors ${
-                  isActive ? 'border-primary bg-primary/10 font-medium text-primary' : 'hover:bg-muted/50'
+                className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-md border px-3 py-1.5 text-sm transition-colors ${
+                  isActive
+                    ? 'border-white bg-white font-medium text-black shadow-sm'
+                    : 'hover:bg-muted/50'
                 }`}
               >
                 {tab.label}
                 {tab.count > 0 && (
-                  <Badge variant={isActive ? 'default' : 'secondary'} className="ml-1">
+                  <Badge
+                    variant={isActive ? 'default' : 'secondary'}
+                    className={`ml-1 ${isActive ? 'bg-black text-white' : ''}`}
+                  >
                     {tab.count}
                   </Badge>
                 )}

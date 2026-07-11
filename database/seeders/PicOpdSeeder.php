@@ -11,7 +11,15 @@ use Spatie\Permission\Models\Role;
 /**
  * Membuat SATU akun PIC per OPD — role 'user' (row-level ownership via
  * user_id, pola yang sama dgn KrsPd/IrsPd/KroPd/IroPd/CEE dkk). Username:
- * PIC_<NamaOpdDisingkat>, password seragam '1234'.
+ * PIC_<NamaOpdDisingkat>, password acak (ditampilkan sekali di konsol saat
+ * seeding) — SEBELUMNYA seragam '1234' utk semua ~40+ akun PIC, yang berarti
+ * siapa pun yang tahu satu username PIC bisa login ke SEMUA akun PIC OPD
+ * lain (kredensial lemah + dipakai berulang = celah keamanan nyata, bukan
+ * cuma teoretis, karena sudah pernah benar-benar dijalankan). Akun PIC yang
+ * SUDAH ADA di database dgn password lama '1234' TIDAK otomatis diganti di
+ * sini (seeder ini idempotent, tidak menyentuh akun yg sudah ada) — kalau
+ * ada akun lama yang masih memakai '1234', reset manual lewat menu User
+ * Management atau minta developer jalankan reset massal terpisah.
  *
  * BEBERAPA OPD SUDAH PUNYA akun PIC lama (dibuat manual sebelumnya, role
  * 'admin-instansi' — cuma label penamaan, hak aksesnya SAMA dgn role 'user',
@@ -43,6 +51,7 @@ class PicOpdSeeder extends Seeder
         $role = Role::firstOrCreate(['name' => 'user']);
         $dibuat = 0;
         $dilewati = 0;
+        $createdCredentials = [];
 
         foreach (Opd::orderBy('nama')->get() as $opd) {
             if (array_key_exists($opd->nama, self::SUDAH_PUNYA_AKUN)) {
@@ -68,20 +77,31 @@ class PicOpdSeeder extends Seeder
                 continue;
             }
 
-            // User model men-cast 'password' => 'hashed', jadi nilai polos
-            // cukup (auto di-hash saat disimpan) — TIDAK perlu Hash::make().
+            // Password ACAK per akun (bukan lagi '1234' seragam) — User
+            // model men-cast 'password' => 'hashed', jadi nilai polos cukup
+            // (auto di-hash saat disimpan), TIDAK perlu Hash::make().
+            $tempPassword = Str::password(12);
+
             $user = User::create([
                 'username' => $username,
                 'name' => 'PIC ' . $opd->nama,
                 'email' => Str::slug($username, '.') . '@mrkabar.local',
-                'password' => '1234',
+                'password' => $tempPassword,
                 'opd_id' => $opd->id,
             ]);
             $user->assignRole($role);
+            $createdCredentials[] = "{$username}: {$tempPassword}";
             $dibuat++;
         }
 
-        $this->command?->info("Akun PIC: {$dibuat} dibuat baru, {$dilewati} dilewati (sudah ada). Password: 1234.");
+        if (!empty($createdCredentials)) {
+            $this->command?->warn('Password sementara akun PIC baru (catat sekarang, tidak ditampilkan lagi):');
+            foreach ($createdCredentials as $line) {
+                $this->command?->warn("  {$line}");
+            }
+        }
+
+        $this->command?->info("Akun PIC: {$dibuat} dibuat baru, {$dilewati} dilewati (sudah ada).");
     }
 
     /**

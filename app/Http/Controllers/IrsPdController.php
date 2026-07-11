@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IrsPd;
 use App\Models\KrsPd;
 use App\Models\Opd;
 use App\Services\KrsIrsPdSyncService;
+use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +16,12 @@ use Inertia\Inertia;
 
 class IrsPdController extends Controller
 {
+    use HasOpdFillStatus;
+
+    public function __construct(private readonly RiskReferenceDataService $riskRef)
+    {
+    }
+
     // "NOMOR URUT RISIKO" sengaja tidak ada di FIELDS — nilainya selalu
     // dihitung ulang otomatis oleh withNomorUrut() setiap render, sama
     // seperti IrsPemdaController. "TINGKAT RISIKO" juga tidak ada di
@@ -33,12 +41,17 @@ class IrsPdController extends Controller
         'URAIAN DAMPAK RISIKO',
         'PIHAK YANG TERKENA DAMPAK RISIKO',
         'URAIAN PENGENDALIAN YANG SUDAH ADA',
+        'KATEGORI EXISTING CONTROL',
         'CELAH PENGENDALIAN',
         'RENCANA TINDAK PENGENDALIAN',
-        'PEMILIK / PENANGGUNGJAWAB',
+        'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN',
+        'PENANGGUNG JAWAB PENGENDALIAN',
         'TRIWULAN',
         'TAHUN TARGET PENYELESAIAN',
     ];
+
+    /** Kategori penilaian efektivitas existing control, sesuai PP 60/2008. */
+    public const KATEGORI_EXISTING_CONTROL_OPTIONS = ['E', 'KE', 'TE'];
 
     /**
      * Nilai tetap TINGKAT RISIKO untuk halaman ini — II_b_IRS_PD selalu
@@ -60,65 +73,19 @@ class IrsPdController extends Controller
     ];
 
     /**
-     * Lookup Matriks Analisis Risiko (5x5) — identik dengan
-     * IrsPemdaController::SKALA_RISIKO_MATRIX (satu standar matriks untuk
-     * seluruh pemda, dipakai baik level Pemda maupun level PD).
+     * Menghitung Skala Risiko dan Skala Prioritas — sumber matriks & lookup
+     * dari RiskReferenceDataService (tabel risk_matrix_cells), bukan lagi
+     * array const di controller ini (dulu duplikat identik dgn
+     * IrsPemdaController).
      */
-    private const SKALA_RISIKO_MATRIX = [
-        1 => [1 => 1, 2 => 2, 3 => 4, 4 => 6, 5 => 9],
-        2 => [1 => 3, 2 => 7, 3 => 10, 4 => 12, 5 => 15],
-        3 => [1 => 5, 2 => 11, 3 => 14, 4 => 16, 5 => 18],
-        4 => [1 => 8, 2 => 13, 3 => 17, 4 => 19, 5 => 23],
-        5 => [1 => 20, 2 => 21, 3 => 22, 4 => 24, 5 => 25],
-    ];
-
-    private const SKALA_PRIORITAS_MAP = [
-        25 => 1, 24 => 2, 23 => 3, 22 => 4, 21 => 5, 20 => 6,
-        19 => 7, 18 => 8, 17 => 9, 16 => 10,
-        15 => 11, 14 => 12, 13 => 13, 12 => 14,
-        11 => 15, 10 => 16, 9 => 17, 8 => 18, 7 => 19, 6 => 20,
-        5 => 21, 4 => 22, 3 => 23, 2 => 24, 1 => 25,
-    ];
-
-    public const JENIS_RISIKO_OPTIONS = [
-        '1 - Pendidikan', '2 - Kesehatan', '3 - PU dan Tata Ruang',
-        '4 - Perumahan dan Kawasan Permukiman',
-        '5 - Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat',
-        '6 - Sosial', '7 - Tenaga Kerja',
-        '8 - Pemberdayaan Perempuan dan Pelindungan Anak', '9 - Pangan',
-        '10 - Pertanahan', '11 - Lingkungan Hidup',
-        '12 - Administrasi kependudukan dan pencatatan sipil',
-        '13 - Pemberdayaan masyarakat dan desa',
-        '14 - Pengendalian penduduk dan keluarga berencana',
-        '15 - Perhubungan', '16 - Komunikasi dan informatika',
-        '17 - Koperasi, Usaha Kecil dan Menengah', '18 - Penanaman Modal',
-        '19 - Kepemudaan dan olah raga', '20 - Statistik', '21 - Persandian',
-        '22 - Kebudayaan', '23 - Perpustakaan', '24 - Kearsipan',
-        '25 - Kelautan dan perikanan', '26 - Pariwisata', '27 - Pertanian',
-        '28 - Kehutanan/Perkebunan', '29 - Energi dan sumber daya mineral',
-        '30 - Perdagangan', '31 - Perindustrian', '32 - Transmigrasi',
-        '33 - Penyusunan Kebijakan dan Koordinasi Administratif',
-        '34 - Administrasi Kesekretariatan DPRD',
-        '35 - Pembinaan dan Pengawasan',
-        '36 - Perencanaan pembangunan, litbang',
-        '37 - Keuangan dan Pendapatan',
-        '38 - Kepegawaian dan Pengembangan SDM', '39 - Bencana', '40 - Politik',
-        '41 - Lainnya',
-    ];
-
     private function withCalculatedScales(array $data): array
     {
         $dampak = (int) ($data['SKALA DAMPAK'] ?? 0);
         $kemungkinan = (int) ($data['SKALA KEMUNGKINAN'] ?? 0);
 
-        if ($dampak >= 1 && $dampak <= 5 && $kemungkinan >= 1 && $kemungkinan <= 5) {
-            $skalaRisiko = self::SKALA_RISIKO_MATRIX[$dampak][$kemungkinan];
-            $data['SKALA RISIKO'] = $skalaRisiko;
-            $data['SKALA PRIORITAS'] = self::SKALA_PRIORITAS_MAP[$skalaRisiko];
-        } else {
-            $data['SKALA RISIKO'] = null;
-            $data['SKALA PRIORITAS'] = null;
-        }
+        $hasil = $this->riskRef->hitungSkala($dampak ?: null, $kemungkinan ?: null);
+        $data['SKALA RISIKO'] = $hasil['skala_risiko'];
+        $data['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
 
         return $data;
     }
@@ -201,11 +168,16 @@ class IrsPdController extends Controller
             'rows' => $rows,
             'fieldOptions' => $fieldOptions,
             'opdOptions' => Opd::orderBy('nama')->pluck('nama'),
-            'jenisRisikoOptions' => self::JENIS_RISIKO_OPTIONS,
+            'opdList' => $isAdmin ? Opd::orderBy('nama')->get(['id', 'nama']) : [],
+            'opdFillStatus' => $isAdmin ? $this->opdFillStatusByColumn(IrsPd::class, 'ENTITAS PD YANG MENILAI') : [],
+            'jenisRisikoOptions' => $this->riskRef->jenisRisikoOptions(),
+            'entitasPenilaiOptions' => $this->riskRef->entitasPenilaiOptions(),
+            'riskReference' => $this->riskRef->referenceDialogPayload(),
             'triwulanOptions' => self::TRIWULAN_OPTIONS,
             'triwulanLabels' => self::TRIWULAN_LABELS,
             'sasaranRenstraKodes' => $this->sasaranRenstraKodes(),
             'currentUserId' => auth()->id(),
+            'currentUserOpdNama' => $isAdmin ? null : auth()->user()?->opd?->nama,
             'isAdmin' => $isAdmin,
         ]);
     }

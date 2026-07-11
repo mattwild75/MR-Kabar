@@ -52,8 +52,17 @@ interface OpdOption {
   nama: string;
 }
 
+interface OpdStatusEntry {
+  jumlah_responden: number;
+  jumlah_simpulan: number;
+  total_unsur: number;
+  lengkap: boolean;
+  sudah_mulai: boolean;
+}
+
 interface PageProps {
   opdOptions: OpdOption[];
+  opdStatus: Record<number, OpdStatusEntry>;
   opdId: number | null;
   tahun: number;
   unsurOptions: UnsurOption[];
@@ -175,7 +184,7 @@ type Form1bData = {
   [key: string]: number | string | null;
 };
 
-export default function Form1b({ opdOptions, opdId, tahun, unsurOptions, entries }: PageProps) {
+export default function Form1b({ opdOptions, opdStatus, opdId, tahun, unsurOptions, entries }: PageProps) {
   const { auth } = usePage<SharedData>().props;
   const canEdit = !(auth.user?.roles?.some((r) => r.name === 'cee-survey') ?? false);
 
@@ -224,7 +233,7 @@ export default function Form1b({ opdOptions, opdId, tahun, unsurOptions, entries
           </p>
         </div>
 
-        <OpdTahunPicker routeName="/cee/1b" opdOptions={opdOptions} opdId={opdId} tahun={tahun} />
+        <OpdTahunPicker routeName="/cee/1b" opdOptions={opdOptions} opdStatus={opdStatus} opdId={opdId} tahun={tahun} />
 
         {!opdId ? (
           <Card>

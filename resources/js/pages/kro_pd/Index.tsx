@@ -9,6 +9,7 @@ import AutocompleteMultiline from '@/components/ui/autocomplete-multiline';
 import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { Checkbox } from '@/components/ui/checkbox';
+import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import { KRO_PD_FIELD_INFO } from '@/lib/kro-pd-field-info';
 import {
   Dialog,
@@ -153,6 +154,8 @@ interface Program1aEntry {
 interface PageProps {
   sasaranRenstras: TopLevelItem[];
   opdOptions: string[];
+  opdList: { id: number; nama: string }[];
+  opdFillStatus: Record<number, { jumlah_baris: number; sudah_mulai: boolean }>;
   fieldOptions: Record<string, string[]>;
   program1aMap: Record<string, Program1aEntry>;
   currentUserId: number | null;
@@ -919,7 +922,7 @@ function NonPrioritasCard({ program, cb }: { program: NonPrioritasProgramItem; c
   );
 }
 
-export default function KroPdIndex({ sasaranRenstras, opdOptions, fieldOptions, program1aMap, currentUserId, isAdmin }: PageProps) {
+export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFillStatus, fieldOptions, program1aMap, currentUserId, isAdmin }: PageProps) {
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -1012,6 +1015,24 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, fieldOptions, 
 
   const runSearch = () => {
     const q = searchInput.trim().toLowerCase();
+    setActiveQuery(q);
+    setCurrentMatchIndex(0);
+
+    if (!q) {
+      setExpanded(new Set());
+      return;
+    }
+
+    const { matches: found, ancestors: foundAncestors } = collectMatches(sasaranRenstras, q);
+    const firstChain = found.length > 0 ? (foundAncestors.get(found[0]) ?? []) : [];
+    setExpanded(new Set(firstChain));
+  };
+
+  // Sama seperti runSearch tapi dgn kata kunci eksplisit — dipakai tombol
+  // pilih cepat di panel status pengisian OPD.
+  const searchFor = (term: string) => {
+    setSearchInput(term);
+    const q = term.trim().toLowerCase();
     setActiveQuery(q);
     setCurrentMatchIndex(0);
 
@@ -1182,6 +1203,15 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, fieldOptions, 
             </Button>
           </div>
         </div>
+
+        {isAdmin && (
+          <OpdFillStatusPanel
+            opdOptions={opdList}
+            opdStatus={opdFillStatus}
+            onSelect={searchFor}
+            selectedOpdNama={searchInput}
+          />
+        )}
 
         <div className="flex items-center gap-2">
           <div className="relative max-w-md flex-1">

@@ -7,10 +7,13 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\RiskExcelController;
+use App\Http\Controllers\KrsPicExcelController;
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\UserFileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SettingAppController;
+use App\Http\Controllers\KeteranganPendukungController;
 use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\KaeresController;
 use App\Http\Controllers\KrsPemdaController;
@@ -21,6 +24,7 @@ use App\Http\Controllers\IrsPdController;
 use App\Http\Controllers\KaeresRoController;
 use App\Http\Controllers\KroPdController;
 use App\Http\Controllers\IroPdController;
+use App\Http\Controllers\RiskEvidenceController;
 use App\Http\Controllers\SessionStatusController;
 use App\Http\Controllers\TroubleshootReportController;
 use App\Http\Controllers\TrashController;
@@ -28,6 +32,7 @@ use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\CeeFormController;
 use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -41,6 +46,14 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    // Halaman panduan/dokumentasi statis (5W1H manajemen risiko Pemda +
+    // cara pakai MR Kabar) — tidak ada data dinamis dari DB, cukup render
+    // komponen React langsung. Fail-open (permission_name null di menu)
+    // krn ditujukan utk SEMUA pengguna termasuk akun CEE_Survey.
+    Route::get('panduan', function () {
+        return Inertia::render('panduan/Index');
+    })->name('panduan');
 
     // Dipoll oleh SessionTimeoutWarning (frontend) untuk auto-logout 8 jam
     // sejak login — lihat ForceLogoutAfterMaxDuration middleware.
@@ -58,6 +71,25 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::put('/users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
     Route::get('/settingsapp', [SettingAppController::class, 'edit'])->name('setting.edit');
     Route::post('/settingsapp', [SettingAppController::class, 'update'])->name('setting.update');
+
+    // Settings > Keterangan Pendukung — CRUD 7 kategori data referensi
+    // risiko (Kriteria Dampak/Kemungkinan, Matriks, Level Risiko, Jenis
+    // Risiko, Entitas Penilai, OPD) yang dulu hardcoded di kode.
+    Route::get('/keterangan-pendukung', [KeteranganPendukungController::class, 'index'])->name('keterangan-pendukung.index');
+    Route::put('/keterangan-pendukung/kriteria-dampak/{criteria}', [KeteranganPendukungController::class, 'updateImpactCriteria'])->name('keterangan-pendukung.kriteria-dampak.update');
+    Route::put('/keterangan-pendukung/kriteria-kemungkinan/{criteria}', [KeteranganPendukungController::class, 'updateLikelihoodCriteria'])->name('keterangan-pendukung.kriteria-kemungkinan.update');
+    Route::put('/keterangan-pendukung/matriks/{cell}', [KeteranganPendukungController::class, 'updateMatrixCell'])->name('keterangan-pendukung.matriks.update');
+    Route::put('/keterangan-pendukung/level-risiko/{level}', [KeteranganPendukungController::class, 'updateRiskLevel'])->name('keterangan-pendukung.level-risiko.update');
+    Route::post('/keterangan-pendukung/jenis-risiko', [KeteranganPendukungController::class, 'storeJenisRisiko'])->name('keterangan-pendukung.jenis-risiko.store');
+    Route::put('/keterangan-pendukung/jenis-risiko/{jenis}', [KeteranganPendukungController::class, 'updateJenisRisiko'])->name('keterangan-pendukung.jenis-risiko.update');
+    Route::delete('/keterangan-pendukung/jenis-risiko/{jenis}', [KeteranganPendukungController::class, 'destroyJenisRisiko'])->name('keterangan-pendukung.jenis-risiko.destroy');
+    Route::post('/keterangan-pendukung/entitas-penilai', [KeteranganPendukungController::class, 'storeEntitasPenilai'])->name('keterangan-pendukung.entitas-penilai.store');
+    Route::put('/keterangan-pendukung/entitas-penilai/{entitas}', [KeteranganPendukungController::class, 'updateEntitasPenilai'])->name('keterangan-pendukung.entitas-penilai.update');
+    Route::delete('/keterangan-pendukung/entitas-penilai/{entitas}', [KeteranganPendukungController::class, 'destroyEntitasPenilai'])->name('keterangan-pendukung.entitas-penilai.destroy');
+    Route::post('/keterangan-pendukung/opd', [KeteranganPendukungController::class, 'storeOpd'])->name('keterangan-pendukung.opd.store');
+    Route::put('/keterangan-pendukung/opd/{opd}', [KeteranganPendukungController::class, 'updateOpd'])->name('keterangan-pendukung.opd.update');
+    Route::delete('/keterangan-pendukung/opd/{opd}', [KeteranganPendukungController::class, 'destroyOpd'])->name('keterangan-pendukung.opd.destroy');
+
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 
     // Data Terhapus (soft delete) — daftar + pulihkan + hapus permanen.
@@ -84,6 +116,27 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/backup/download/{file}', [BackupController::class, 'download'])->name('backup.download');
     Route::delete('/backup/delete/{file}', [BackupController::class, 'delete'])->name('backup.delete');
     Route::post('/backup/git-push', [BackupController::class, 'gitPush'])->name('backup.git-push');
+    Route::get('/backup/excel', [RiskExcelController::class, 'index'])->name('backup.excel.index');
+    Route::get('/backup/excel/export', [RiskExcelController::class, 'export'])->name('backup.excel.export');
+    Route::get('/backup/excel/template', [RiskExcelController::class, 'template'])->name('backup.excel.template');
+    Route::post('/backup/excel/import', [RiskExcelController::class, 'import'])->name('backup.excel.import');
+    Route::post('/backup/excel/import-requests/{importRequest}/approve', [RiskExcelController::class, 'approve'])->name('backup.excel.import-requests.approve');
+    Route::post('/backup/excel/import-requests/{importRequest}/reject', [RiskExcelController::class, 'reject'])->name('backup.excel.import-requests.reject');
+
+    // Ekspor/Impor KRS Pemda + KRS PD + KRO PD (PIC OPD) — lihat
+    // KrsPicExcelController utk pembeda lengkap dgn /backup/excel di atas.
+    Route::get('/krs-excel', [KrsPicExcelController::class, 'index'])->name('krs-excel.index');
+    Route::get('/krs-excel/export', [KrsPicExcelController::class, 'export'])->name('krs-excel.export');
+    Route::get('/krs-excel/template', [KrsPicExcelController::class, 'template'])->name('krs-excel.template');
+    Route::post('/krs-excel/import', [KrsPicExcelController::class, 'import'])->name('krs-excel.import');
+    Route::post('/krs-excel/import-requests/{importRequest}/approve', [KrsPicExcelController::class, 'approve'])->name('krs-excel.import-requests.approve');
+    Route::post('/krs-excel/import-requests/{importRequest}/reject', [KrsPicExcelController::class, 'reject'])->name('krs-excel.import-requests.reject');
+
+    // Notifikasi in-app (lonceng kanan atas) — dipakai seluruh user, lihat
+    // NotificationController.
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
+    Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
     Route::get('/files', [UserFileController::class, 'index'])->name('files.index');
     Route::post('/files', [UserFileController::class, 'store'])->name('files.store');
     Route::delete('/files/{id}', [UserFileController::class, 'destroy'])->name('files.destroy');
@@ -175,6 +228,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('iro_pd', [IroPdController::class, 'store'])->name('iro_pd.store');
     Route::put('iro_pd/{iro_pd}', [IroPdController::class, 'update'])->name('iro_pd.update');
     Route::delete('iro_pd/{iro_pd}', [IroPdController::class, 'destroy'])->name('iro_pd.destroy');
+
+    // Bukti dukung existing control (IRS Pemda/IRS PD/IRO PD) — file
+    // tersimpan lewat media User yg sama dgn Utilities > File Manager.
+    Route::get('risk-evidence/{type}/{id}', [RiskEvidenceController::class, 'index'])->name('risk-evidence.index');
+    Route::post('risk-evidence/{type}/{id}', [RiskEvidenceController::class, 'store'])->name('risk-evidence.store');
+    Route::delete('risk-evidence/{type}/{id}/{mediaId}', [RiskEvidenceController::class, 'destroy'])->name('risk-evidence.destroy');
 });
 
 require __DIR__ . '/settings.php';

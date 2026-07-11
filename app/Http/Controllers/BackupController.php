@@ -11,6 +11,23 @@ use Inertia\Inertia;
 class BackupController extends Controller
 {
     /**
+     * Lapis kedua di luar permission_name menu — backup database (dump
+     * PENUH seluruh tabel termasuk hash password semua user) dan push kode
+     * ke GitHub dianggap aksi paling sensitif di aplikasi ini, jadi dikunci
+     * ke role super-admin secara eksplisit di kode, tidak hanya bergantung
+     * pada assignment permission "backup-view" yang bisa diubah kapan saja
+     * lewat UI Permission Management (admin biasa TIDAK dapat mengubah
+     * permission dirinya sendiri untuk lolos cek ini). Sama pola dengan
+     * AuditLogController.
+     */
+    private function ensureSuperAdmin(): void
+    {
+        if (!auth()->user()?->hasRole('super-admin')) {
+            abort(403, 'Backup database & push GitHub hanya dapat diakses oleh Super Admin.');
+        }
+    }
+
+    /**
      * Folder tujuan backup Spatie ikut config('backup.backup.name'), yang
      * defaultnya env('APP_NAME') — BUKAN selalu "Laravel". Sempat hardcode
      * 'private/Laravel' di sini, jadi setelah APP_NAME diubah ke "MR KABAR"
@@ -23,6 +40,8 @@ class BackupController extends Controller
 
     public function index()
     {
+        $this->ensureSuperAdmin();
+
         $realPath = storage_path('app/' . $this->backupPath());
 
         $files = File::exists($realPath) ? File::files($realPath) : [];
@@ -40,13 +59,8 @@ class BackupController extends Controller
 
         return Inertia::render('backup/Index', [
             'backups' => $backups,
-            'canPushGit' => $this->isAdmin(),
+            'canPushGit' => true,
         ]);
-    }
-
-    private function isAdmin(): bool
-    {
-        return auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
     }
 
     /**
@@ -80,9 +94,7 @@ class BackupController extends Controller
      */
     public function gitPush(Request $request)
     {
-        if (!$this->isAdmin()) {
-            abort(403, 'Hanya Admin/Super Admin yang dapat melakukan push ke GitHub.');
-        }
+        $this->ensureSuperAdmin();
 
         // Langkah 1: backup database dulu — kalau ini gagal, batalkan push
         // supaya tidak ada snapshot kode tanpa cadangan data yg sepadan.
@@ -120,6 +132,8 @@ class BackupController extends Controller
 
     public function run()
     {
+        $this->ensureSuperAdmin();
+
         Artisan::call('backup:run', ['--only-db' => true]);
         $this->keepOnlyLatestBackup();
         return redirect()->back()->with('success', 'Backup berhasil dibuat.');
@@ -127,6 +141,8 @@ class BackupController extends Controller
 
     public function download($file)
     {
+        $this->ensureSuperAdmin();
+
         $file = basename($file);
         if (!str_ends_with($file, '.zip')) {
             abort(404, 'File tidak ditemukan.');
@@ -143,6 +159,8 @@ class BackupController extends Controller
 
     public function delete($file)
     {
+        $this->ensureSuperAdmin();
+
         $file = basename($file);
         if (!str_ends_with($file, '.zip')) {
             return redirect()->back()->with('error', 'File tidak ditemukan.');

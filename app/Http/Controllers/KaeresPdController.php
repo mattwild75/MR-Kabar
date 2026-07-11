@@ -254,7 +254,12 @@ class KaeresPdController extends Controller
                             continue;
                         }
 
-                        $label = $col === 'C_UC' ? 'C/UC' : str_replace('_', ' ', $col);
+                        $label = match ($col) {
+                            'C_UC' => 'C/UC',
+                            'PEMILIK_PENANGGUNGJAWAB' => 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN',
+                            'PENANGGUNG_JAWAB_PENGENDALIAN_JABATAN' => 'PENANGGUNG JAWAB PENGENDALIAN',
+                            default => str_replace('_', ' ', $col),
+                        };
 
                         $detailValue = (string) $val;
                         $uraian = null;

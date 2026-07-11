@@ -22,13 +22,27 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // MENU: Panduan — halaman dokumentasi statis (5W1H manajemen risiko
+        // Pemda + cara pakai MR Kabar). Fail-open (permission_name null)
+        // supaya SEMUA pengguna termasuk akun CEE_Survey bisa akses (lihat
+        // whitelist di RestrictCeeSurveyRole middleware).
+        Menu::updateOrCreate(
+            ['title' => 'Apa itu Manajemen Risiko / MR Kabar', 'parent_id' => null],
+            [
+                'icon' => 'Book',
+                'route' => '/panduan',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
         // GROUP: Access
         $access = Menu::updateOrCreate(
             ['title' => 'Access', 'parent_id' => null],
             [
                 'icon' => 'Contact',
                 'route' => '#',
-                'order' => 2,
+                'order' => 3,
                 'permission_name' => 'access-view',
             ]
         );
@@ -69,7 +83,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Settings',
                 'route' => '#',
-                'order' => 3,
+                'order' => 4,
                 'permission_name' => 'settings-view',
             ]
         );
@@ -94,13 +108,58 @@ class MenuSeeder extends Seeder
             ]
         );
 
-        Menu::updateOrCreate(
+        // GROUP: Backup — dua turunan: "Backup DB dan GitHub" (halaman lama
+        // di /backup) dan "Ekspor/Impor Excel". Grup ini sendiri tidak
+        // punya halaman (route "#") DAN sengaja TANPA permission_name
+        // (fail-open) — visibilitasnya murni ditentukan oleh sub-menu di
+        // dalamnya (ShareMenus middleware otomatis sembunyikan grup kalau
+        // semua anaknya tersembunyi). Kalau grup ini dipasangi permission
+        // sendiri (mis. "backup-view"), admin yang TIDAK punya "backup-view"
+        // (dikunci ke super-admin) akan kehilangan akses ke SELURUH grup
+        // termasuk "Ekspor/Impor Excel" yang mestinya tetap boleh diakses
+        // admin lewat permission "backup-excel-view" terpisah — bug yang
+        // pernah terjadi, jangan diulangi.
+        $backup = Menu::updateOrCreate(
             ['title' => 'Backup', 'parent_id' => $settings->id],
             [
                 'icon' => 'Inbox',
-                'route' => '/backup',
+                'route' => '#',
                 'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['title' => 'Backup DB dan GitHub', 'parent_id' => $backup->id],
+            [
+                'icon' => 'DatabaseBackup',
+                'route' => '/backup',
+                'order' => 1,
                 'permission_name' => 'backup-view',
+            ]
+        );
+
+        // Sub-menu Backup > Ekspor/Impor Excel — dipisah dari permission
+        // backup-view (yang cuma baca daftar backup DB) karena fitur ini
+        // adalah kemampuan TULIS MASSAL (bulk write) ke seluruh data risiko
+        // lintas-OPD, jadi harus bisa diberikan/dicabut terpisah.
+        Menu::updateOrCreate(
+            ['title' => 'Ekspor/Impor Excel', 'parent_id' => $backup->id],
+            [
+                'icon' => 'FileSpreadsheet',
+                'route' => '/backup/excel',
+                'order' => 2,
+                'permission_name' => 'backup-excel-view',
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['title' => 'Keterangan Pendukung', 'parent_id' => $settings->id],
+            [
+                'icon' => 'Database',
+                'route' => '/keterangan-pendukung',
+                'order' => 4,
+                'permission_name' => 'keterangan-pendukung-view',
             ]
         );
 
@@ -110,7 +169,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'CreditCard',
                 'route' => '#',
-                'order' => 4,
+                'order' => 5,
                 'permission_name' => 'utilities-view',
             ]
         );
@@ -171,7 +230,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'FilePlus',
                 'route' => '#',
-                'order' => 5,
+                'order' => 6,
                 'permission_name' => null,
             ]
         );
@@ -182,7 +241,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Printer',
                 'route' => '#',
-                'order' => 6,
+                'order' => 7,
                 'permission_name' => null,
             ]
         );
@@ -319,6 +378,26 @@ class MenuSeeder extends Seeder
                 'icon' => 'Shield',
                 'route' => '#',
                 'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        // Ekspor/Impor KRS (Excel) — fitur PIC OPD, terpisah dari
+        // Ekspor/Impor Excel admin (Settings > Backup > Excel). Diletakkan
+        // sejajar dgn grup Risiko (bukan di dalam salah satu levelnya) krn
+        // mencakup KETIGA tingkat hierarki sekaligus (KRS Pemda -> KRS PD ->
+        // KRO PD) dalam satu file. permission_name null (fail-open, sama
+        // pola menu Form Input lain) — pembatasan submit ke role 'user' &
+        // approve ke admin/super-admin dilakukan di
+        // KrsPicExcelController::ensurePicOpd()/ensureAdminOrSuperAdmin(),
+        // bukan di layer permission menu.
+        Menu::updateOrCreate(
+            ['route' => '/krs-excel'],
+            [
+                'title' => 'Ekspor/Impor KRS (Excel)',
+                'parent_id' => $formInput->id,
+                'icon' => 'FileSpreadsheet',
+                'order' => 3,
                 'permission_name' => null,
             ]
         );

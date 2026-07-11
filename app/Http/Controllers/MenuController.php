@@ -10,8 +10,26 @@ use App\Models\User;
 
 class MenuController extends Controller
 {
+    /**
+     * Lapis kedua di luar permission_name menu — Menu Management bisa
+     * mengubah permission_name yang menggerbang route apa pun (termasuk
+     * melonggarkan gerbang menu lain), jadi dikunci ke role super-admin
+     * secara eksplisit di kode, tidak hanya bergantung pada assignment
+     * permission "menu-view" yang bisa diubah kapan saja lewat UI
+     * Permission Management. Sama pola dengan
+     * AuditLogController/BackupController/RoleController/PermissionController.
+     */
+    private function ensureSuperAdmin(): void
+    {
+        if (!auth()->user()?->hasRole('super-admin')) {
+            abort(403, 'Manajemen Menu hanya dapat diakses oleh Super Admin.');
+        }
+    }
+
     public function index(Request $request)
     {
+        $this->ensureSuperAdmin();
+
         /** @var User $user */
         $user = $request->user();
 
@@ -31,6 +49,8 @@ class MenuController extends Controller
 
     public function create()
     {
+        $this->ensureSuperAdmin();
+
         $menus = Menu::orderBy('title')->get();
         $permissions = Permission::orderBy('name')->pluck('name');
 
@@ -42,6 +62,8 @@ class MenuController extends Controller
 
     public function store(Request $request)
     {
+        $this->ensureSuperAdmin();
+
         $data = $request->validate([
             'title' => 'required|string',
             'icon' => 'nullable|string',
@@ -62,6 +84,8 @@ class MenuController extends Controller
 
     public function edit(Menu $menu)
     {
+        $this->ensureSuperAdmin();
+
         $menus = Menu::where('id', '!=', $menu->id)->orderBy('title')->get();
         $permissions = Permission::orderBy('name')->pluck('name');
 
@@ -74,6 +98,8 @@ class MenuController extends Controller
 
     public function update(Request $request, Menu $menu)
     {
+        $this->ensureSuperAdmin();
+
         $data = $request->validate([
             'title' => 'required|string',
             'icon' => 'nullable|string',
@@ -94,6 +120,8 @@ class MenuController extends Controller
 
     public function destroy(Menu $menu)
     {
+        $this->ensureSuperAdmin();
+
         $menu->children()->delete();
         $menu->delete();
 
@@ -102,6 +130,8 @@ class MenuController extends Controller
 
     public function reorder(Request $request)
     {
+        $this->ensureSuperAdmin();
+
         $menus = $request->input('menus');
 
         $updateOrder = function ($items, $parentId = null) use (&$updateOrder) {

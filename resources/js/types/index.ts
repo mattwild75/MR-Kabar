@@ -37,6 +37,7 @@ export interface Setting {
       quote: { message: string; author: string };
       auth: Auth;
       setting?: Setting;
+      unreadNotificationsCount?: number;
       [key: string]: unknown;
   }
 

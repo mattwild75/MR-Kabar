@@ -173,7 +173,19 @@
         @apply bg-background text-foreground antialiased;
     }
 
+    /* Warna khusus utk highlight blok teks (::selection) — SENGAJA
+       terpisah dari --primary, karena --primary bisa di-override jadi
+       warna gelap/nyaris-hitam oleh brand color kustom admin (setting_app
+       .warna, disuntik inline lewat app-sidebar-layout.tsx), yang bikin
+       ::selection nyaris tak terlihat di dark mode kalau ikut --primary. */
+    :root {
+        --selection-bg: hsl(217, 91%, 60%);
+        --selection-fg: hsl(0, 0%, 100%);
+    }
+
     ::selection {
-        @apply bg-primary/20 text-foreground;
+        background-color: var(--selection-bg);
+        color: var(--selection-fg);
+        -webkit-text-fill-color: var(--selection-fg);
     }
 }
