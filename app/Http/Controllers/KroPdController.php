@@ -99,7 +99,7 @@ class KroPdController extends Controller
     private function isPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RENSTRA'});
-        return $val !== '' && $val !== 'Tidak Ada Data';
+        return $val !== '' && $val !== '-' && $val !== 'Tidak Ada Data';
     }
 
     private function buildHierarchy($rows, array $sasaranRenstraKodes = []): array
@@ -362,7 +362,7 @@ class KroPdController extends Controller
         $sasaranRenstraOptions = $sasaranRenstraQuery
             ->pluck('SASARAN STRATEGIS PD')
             ->map(fn ($v) => $this->removeLabel((string) $v))
-            ->filter(fn ($v) => $v !== '' && $v !== 'Tidak Ada Data')
+            ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
             ->unique()
             ->values();
 
@@ -408,7 +408,7 @@ class KroPdController extends Controller
         foreach ($query->get() as $row) {
             $program = $this->removeLabel((string) $row->{'PROGRAM PD'});
             $key = $this->matchKey($program);
-            if ($program === '' || $program === 'Tidak Ada Data' || isset($map[$key])) {
+            if ($program === '' || $program === '-' || $program === 'Tidak Ada Data' || isset($map[$key])) {
                 continue;
             }
             $map[$key] = [
@@ -456,7 +456,7 @@ class KroPdController extends Controller
             $options[$field] = $rows
                 ->pluck($field)
                 ->map(fn ($v) => $this->removeLabel((string) $v))
-                ->filter(fn ($v) => $v !== '' && $v !== 'Tidak Ada Data')
+                ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
                 ->unique()
                 ->values()
                 ->all();
@@ -486,32 +486,11 @@ class KroPdController extends Controller
     }
 
     /**
-     * Sama seperti KrsPdController::fillBlanks() — mengisi kolom kosong
-     * dengan "Tidak Ada Data" (hanya di antara kolom pertama dan terakhir
-     * yang terisi).
+     * Kolom kosong dibiarkan kosong apa adanya — lihat
+     * KrsPemdaController::fillBlanks() utk alasan sentinel dihapus.
      */
     private function fillBlanks(array $data): array
     {
-        $firstFilled = null;
-        foreach (self::FIELDS as $index => $field) {
-            if (trim((string) ($data[$field] ?? '')) !== '') {
-                $firstFilled ??= $index;
-            }
-        }
-
-        if ($firstFilled === null) {
-            return $data;
-        }
-
-        foreach (self::FIELDS as $index => $field) {
-            if ($index < $firstFilled) {
-                continue;
-            }
-            if (trim((string) ($data[$field] ?? '')) === '') {
-                $data[$field] = 'Tidak Ada Data';
-            }
-        }
-
         return $data;
     }
 
@@ -573,7 +552,7 @@ class KroPdController extends Controller
     private function rowIsNonPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RENSTRA'});
-        return $val === '' || $val === 'Tidak Ada Data';
+        return $val === '' || $val === '-' || $val === 'Tidak Ada Data';
     }
 
     /** Mencari SEMUA baris pembentuk sebuah node (hormati kepemilikan + _np). */

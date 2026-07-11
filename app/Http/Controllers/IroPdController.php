@@ -160,7 +160,7 @@ class IroPdController extends Controller
         $kegiatanOptions = $kegiatanQuery
             ->pluck('KEGIATAN PD')
             ->map(fn ($v) => trim((string) $v))
-            ->filter(fn ($v) => $v !== '' && $v !== 'Tidak Ada Data')
+            ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
             ->map(function ($v) {
                 $pos = strrpos($v, ':');
                 return $pos !== false ? trim(substr($v, $pos + 1)) : $v;
@@ -241,23 +241,11 @@ class IroPdController extends Controller
     }
 
     /**
-     * Sama seperti IrsPdController::fillEmptyTextFields() — field teks
-     * yang dikosongkan disimpan sebagai "Tidak Ada Data", bukan null/string
-     * kosong. "URAIAN RISIKO" tidak disentuh karena sudah required.
-     * "TRIWULAN"/"TAHUN TARGET PENYELESAIAN" juga tidak disentuh — dropdown
-     * & kolom integer, biarkan null kalau kosong.
+     * Kolom kosong dibiarkan kosong apa adanya — lihat
+     * KrsPemdaController::fillBlanks() utk alasan sentinel dihapus.
      */
     private function fillEmptyTextFields(array $data): array
     {
-        foreach (self::FIELDS as $field) {
-            if (in_array($field, ['URAIAN RISIKO', 'TRIWULAN', 'TAHUN TARGET PENYELESAIAN'], true)) {
-                continue;
-            }
-            if (trim((string) ($data[$field] ?? '')) === '') {
-                $data[$field] = 'Tidak Ada Data';
-            }
-        }
-
         return $data;
     }
 

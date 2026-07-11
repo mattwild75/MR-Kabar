@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
+use ZipArchive;
 
 class BackupController extends Controller
 {
@@ -64,6 +69,32 @@ class BackupController extends Controller
     }
 
     /**
+     * Kunci bersama utk SEMUA aksi yang menulis ke folder backup dan/atau
+     * working directory git (run/gitPush/gitPull/importDatabase) — tanpa
+     * ini, dua super-admin yang mengklik aksi berbeda hampir bersamaan bisa
+     * saling menghapus snapshot penyelamat satu sama lain lewat
+     * keepOnlyLatestBackup() (dipanggil dari 3 method berbeda), atau
+     * menjalankan restore PDO paralel yang saling bentrok DROP/CREATE TABLE
+     * pada tabel yang sama. Timeout 10 menit cukup longgar utk backup+push
+     * database besar sambil tetap mencegah lock macet permanen kalau
+     * request sebelumnya crash tanpa sempat release.
+     */
+    private function withBackupLock(callable $callback)
+    {
+        $lock = Cache::lock('backup-operation-lock', 600);
+
+        if (!$lock->get()) {
+            abort(409, 'Sedang ada operasi backup/restore/git lain yang berjalan. Coba lagi sebentar.');
+        }
+
+        try {
+            return $callback();
+        } finally {
+            $lock->release();
+        }
+    }
+
+    /**
      * Hapus semua backup KECUALI yang paling baru — dipanggil setelah tiap
      * backup:run supaya daftar backup tidak menumpuk & membingungkan.
      * Selalu maksimal 1 file backup tersimpan setiap saat.
@@ -96,47 +127,51 @@ class BackupController extends Controller
     {
         $this->ensureSuperAdmin();
 
-        // Langkah 1: backup database dulu — kalau ini gagal, batalkan push
-        // supaya tidak ada snapshot kode tanpa cadangan data yg sepadan.
-        try {
-            Artisan::call('backup:run', ['--only-db' => true]);
-            $this->keepOnlyLatestBackup();
-        } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Backup database gagal, push dibatalkan: ' . $e->getMessage());
-        }
-
-        // Langkah 2: commit + push kode.
-        $message = trim((string) $request->input('message')) ?: 'Backup kode via aplikasi — ' . now()->toDateTimeString();
-
-        $base = base_path();
-        $steps = [
-            ['git', '-C', $base, 'add', '-A'],
-            ['git', '-C', $base, 'commit', '-m', $message, '--allow-empty-message'],
-            ['git', '-C', $base, 'push', 'origin', 'HEAD'],
-        ];
-
-        foreach ($steps as $cmd) {
-            $result = Process::timeout(120)->run($cmd);
-
-            // "nothing to commit" bukan kegagalan — lanjut ke push spt biasa.
-            if (!$result->successful() && !str_contains($result->errorOutput(), 'nothing to commit')) {
-                return redirect()->back()->with(
-                    'error',
-                    'Backup database berhasil, tapi git push gagal: ' . trim($result->errorOutput() ?: $result->output())
-                );
+        return $this->withBackupLock(function () use ($request) {
+            // Langkah 1: backup database dulu — kalau ini gagal, batalkan push
+            // supaya tidak ada snapshot kode tanpa cadangan data yg sepadan.
+            try {
+                Artisan::call('backup:run', ['--only-db' => true]);
+                $this->keepOnlyLatestBackup();
+            } catch (\Throwable $e) {
+                return redirect()->back()->with('error', 'Backup database gagal, push dibatalkan: ' . $e->getMessage());
             }
-        }
 
-        return redirect()->back()->with('success', 'Backup database (lokal) & push kode ke GitHub berhasil.');
+            // Langkah 2: commit + push kode.
+            $message = trim((string) $request->input('message')) ?: 'Backup kode via aplikasi — ' . now()->toDateTimeString();
+
+            $base = base_path();
+            $steps = [
+                ['git', '-C', $base, 'add', '-A'],
+                ['git', '-C', $base, 'commit', '-m', $message, '--allow-empty-message'],
+                ['git', '-C', $base, 'push', 'origin', 'HEAD'],
+            ];
+
+            foreach ($steps as $cmd) {
+                $result = Process::timeout(120)->run($cmd);
+
+                // "nothing to commit" bukan kegagalan — lanjut ke push spt biasa.
+                if (!$result->successful() && !str_contains($result->errorOutput(), 'nothing to commit')) {
+                    return redirect()->back()->with(
+                        'error',
+                        'Backup database berhasil, tapi git push gagal: ' . trim($result->errorOutput() ?: $result->output())
+                    );
+                }
+            }
+
+            return redirect()->back()->with('success', 'Backup database (lokal) & push kode ke GitHub berhasil.');
+        });
     }
 
     public function run()
     {
         $this->ensureSuperAdmin();
 
-        Artisan::call('backup:run', ['--only-db' => true]);
-        $this->keepOnlyLatestBackup();
-        return redirect()->back()->with('success', 'Backup berhasil dibuat.');
+        return $this->withBackupLock(function () {
+            Artisan::call('backup:run', ['--only-db' => true]);
+            $this->keepOnlyLatestBackup();
+            return redirect()->back()->with('success', 'Backup berhasil dibuat.');
+        });
     }
 
     public function download($file)
@@ -175,5 +210,287 @@ class BackupController extends Controller
         unlink($path);
 
         return redirect()->back()->with('success', 'Backup berhasil dihapus.');
+    }
+
+    /**
+     * Tarik commit terbaru dari GitHub ke working directory server ini
+     * (kebalikan dari gitPush) — TIDAK menyentuh database sama sekali.
+     * Bukan deploy: cuma menyamakan kode lokal dengan remote HEAD branch
+     * yang sedang aktif. Kalau ada perubahan lokal belum di-commit yang
+     * konflik dengan pull, git akan menolak & kita tampilkan error apa
+     * adanya — tidak ada --force/reset otomatis di sini.
+     */
+    public function gitPull(Request $request)
+    {
+        $this->ensureSuperAdmin();
+
+        return $this->withBackupLock(function () {
+            $base = base_path();
+            $result = Process::timeout(120)->run(['git', '-C', $base, 'pull', 'origin', 'HEAD']);
+
+            if (!$result->successful()) {
+                return redirect()->back()->with(
+                    'error',
+                    'Git pull gagal: ' . trim($result->errorOutput() ?: $result->output())
+                );
+            }
+
+            return redirect()->back()->with('success', 'Kode berhasil ditarik dari GitHub: ' . trim($result->output()));
+        });
+    }
+
+    /**
+     * Impor (restore) database dari file backup .zip yang diupload —
+     * TIMPA TOTAL: seluruh tabel database saat ini di-drop lalu diganti
+     * isi dump SQL dari dalam zip. Ini aksi paling destruktif di halaman
+     * ini, jadi: (1) hanya menerima zip hasil "Create Backup"/"Backup &
+     * Push" aplikasi ini sendiri (harus berisi tepat satu file .sql di
+     * root zip — format yang dihasilkan Spatie Backup --only-db), (2)
+     * SELALU backup database saat ini dulu sebelum menimpa apa pun, jadi
+     * kalau operator salah upload file, masih ada snapshot "sebelum
+     * import" utk dipulihkan lewat Download di daftar backup.
+     */
+    public function importDatabase(Request $request)
+    {
+        $this->ensureSuperAdmin();
+
+        $request->validate([
+            'backup_file' => ['required', 'file', 'mimes:zip', 'max:512000'], // 500MB
+        ]);
+
+        $uploaded = $request->file('backup_file');
+        $tmpZipPath = $uploaded->getRealPath();
+
+        $zip = new ZipArchive();
+        if ($zip->open($tmpZipPath) !== true) {
+            return redirect()->back()->with('error', 'File zip tidak valid atau rusak.');
+        }
+
+        // Cari SATU file .sql di root zip — sesuai format Spatie Backup
+        // --only-db (bukan backup penuh berisi kode project).
+        $sqlEntryName = null;
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $name = $zip->getNameIndex($i);
+            if (str_ends_with(strtolower($name), '.sql')) {
+                if ($sqlEntryName !== null) {
+                    $zip->close();
+
+                    return redirect()->back()->with('error', 'Zip berisi lebih dari satu file .sql — format tidak dikenali.');
+                }
+                $sqlEntryName = $name;
+            }
+        }
+
+        if ($sqlEntryName === null) {
+            $zip->close();
+
+            return redirect()->back()->with('error', 'Zip tidak berisi file .sql — pastikan ini file backup database yang benar.');
+        }
+
+        $sqlContent = $zip->getFromName($sqlEntryName);
+        $zip->close();
+
+        if ($sqlContent === false || trim($sqlContent) === '') {
+            return redirect()->back()->with('error', 'Gagal membaca isi dump SQL dari zip.');
+        }
+
+        return $this->withBackupLock(function () use ($uploaded, $sqlContent) {
+            // Safety net: backup kondisi SEKARANG dulu sebelum ditimpa — kalau
+            // gagal, batalkan import sepenuhnya (sama prinsipnya dengan urutan
+            // di gitPush()).
+            try {
+                Artisan::call('backup:run', ['--only-db' => true]);
+                $this->keepOnlyLatestBackup();
+            } catch (\Throwable $e) {
+                return redirect()->back()->with('error', 'Backup pengaman sebelum impor gagal, impor dibatalkan: ' . $e->getMessage());
+            }
+
+            $tmpSqlPath = storage_path('app/private/import-' . uniqid() . '.sql');
+            File::put($tmpSqlPath, $sqlContent);
+
+            try {
+                $failedStatements = $this->restoreFromSqlFile($tmpSqlPath);
+            } catch (\Throwable $e) {
+                return redirect()->back()->with(
+                    'error',
+                    'Impor database gagal total: ' . $e->getMessage() . ' — database mungkin dalam kondisi tidak konsisten. '
+                    . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum impor ini).'
+                );
+            } finally {
+                File::delete($tmpSqlPath);
+            }
+
+            // Smoke-test: pastikan tabel inti benar-benar terisi setelah
+            // restore, bukan cuma "tidak melempar exception". DDL MySQL
+            // auto-commit per statement dan tidak bisa di-rollback — kalau
+            // satu statement di tengah gagal (mis. data mengandung ";\n"
+            // yang salah displit jadi 2 statement), sisa tabel setelahnya
+            // tidak akan pernah dibuat ulang, tapi loop di
+            // restoreFromSqlFile() tetap lanjut sampai akhir tanpa
+            // melempar exception. Smoke-test ini yang mendeteksi hasil
+            // restore rusak sebelum terlanjur dilaporkan "berhasil".
+            $missingTables = [];
+            foreach (['users', 'menus'] as $table) {
+                if (!Schema::hasTable($table)) {
+                    $missingTables[] = $table;
+                }
+            }
+
+            if (!empty($missingTables) || DB::table('users')->count() === 0) {
+                return redirect()->back()->with(
+                    'error',
+                    'Impor selesai TAPI database hasil restore tampak tidak lengkap (tabel inti kosong/hilang: '
+                    . (empty($missingTables) ? 'users' : implode(', ', $missingTables))
+                    . '). Kemungkinan ada statement SQL yang gagal di tengah proses. '
+                    . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum impor ini) via menu Import lagi.'
+                );
+            }
+
+            $message = 'Database berhasil diimpor dari ' . $uploaded->getClientOriginalName() . '. Backup kondisi sebelumnya tersimpan di daftar backup.';
+            if ($failedStatements > 0) {
+                $message .= " Peringatan: {$failedStatements} statement SQL dilewati karena error (lihat log) — periksa data hasil impor.";
+            }
+
+            return redirect()->back()->with('success', $message);
+        });
+    }
+
+    /**
+     * Jalankan dump SQL langsung lewat PDO (koneksi Laravel yang sudah
+     * ada) — TIDAK memanggil binary `mysql` CLI eksternal. Environment
+     * dev/prod aplikasi ini (Laravel Herd di Windows) tidak selalu punya
+     * `mysql.exe` di PATH; percobaan sebelumnya via Process::run(['mysql',
+     * ...]) gagal SENYAP (proses drop-tabel manual sudah kadung jalan
+     * duluan, lalu restore-nya sendiri gagal karena binary tidak
+     * ditemukan) dan meninggalkan database KOSONG TOTAL tanpa rollback —
+     * insiden nyata, bukan risiko teoretis. Drop tabel manual terpisah
+     * SENGAJA DIHAPUS di sini: dump Spatie sudah menyertakan
+     * `DROP TABLE IF EXISTS` persis sebelum tiap `CREATE TABLE`, jadi drop
+     * & re-create terjadi tabel-per-tabel dalam satu urutan statement yang
+     * sama — tidak ada lagi jeda "semua tabel sudah didrop, belum ada yang
+     * dibuat ulang" seperti pola lama.
+     *
+     * Return: jumlah statement yang GAGAL dieksekusi (dicatat ke log,
+     * bukan diam) — dipakai pemanggil utk memberi peringatan eksplisit
+     * alih-alih melaporkan "berhasil" begitu saja meski ada baris yg gagal.
+     * DDL MySQL auto-commit per statement & tidak bisa di-rollback, jadi
+     * satu statement gagal tidak membatalkan statement lain yg sudah
+     * jalan — loop sengaja TETAP LANJUT ke statement berikutnya (drop satu
+     * tabel yang gagal dibuat ulang lebih baik daripada seluruh restore
+     * berhenti di tengah dgn separuh tabel hilang total).
+     */
+    private function restoreFromSqlFile(string $sqlPath): int
+    {
+        $sql = File::get($sqlPath);
+        $statements = $this->splitSqlStatements($sql);
+
+        $pdo = DB::connection()->getPdo();
+        $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
+
+        $failed = 0;
+        try {
+            foreach ($statements as $statement) {
+                try {
+                    $pdo->exec($statement);
+                } catch (\Throwable $e) {
+                    $failed++;
+                    Log::error('BackupController::restoreFromSqlFile — statement gagal', [
+                        'error' => $e->getMessage(),
+                        'statement_preview' => substr($statement, 0, 200),
+                    ]);
+                }
+            }
+        } finally {
+            $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
+        }
+
+        return $failed;
+    }
+
+    /**
+     * Pisahkan dump SQL jadi daftar statement individual, sadar-quote —
+     * BUKAN regex naif berbasis ";\n" seperti sebelumnya. mysqldump
+     * membungkus SEMUA nilai teks dalam kutip tunggal (dgn escaping `\'`
+     * dan `''`), tapi field-field risiko di aplikasi ini (URAIAN RISIKO,
+     * RENCANA TINDAK PENGENDALIAN, dst) adalah `text` panjang yang bisa
+     * memuat APA SAJA termasuk pola literal ";\n" di dalam nilainya —
+     * regex lama akan memotong statement INSERT di tengah string itu,
+     * menghasilkan 2 "statement" yang keduanya SQL tidak valid, dan
+     * proses restore gagal di titik yg sebenarnya datanya valid. Splitter
+     * ini melacak in-string/in-comment state karakter-per-karakter supaya
+     * titik-koma di DALAM string literal tidak dianggap pemisah statement.
+     */
+    private function splitSqlStatements(string $sql): array
+    {
+        $statements = [];
+        $current = '';
+        $length = strlen($sql);
+        $inString = null; // null | "'" | '"' — kutip yang sedang aktif
+        $inLineComment = false;
+
+        for ($i = 0; $i < $length; $i++) {
+            $char = $sql[$i];
+            $next = $i + 1 < $length ? $sql[$i + 1] : '';
+
+            if ($inLineComment) {
+                $current .= $char;
+                if ($char === "\n") {
+                    $inLineComment = false;
+                }
+                continue;
+            }
+
+            if ($inString !== null) {
+                $current .= $char;
+                if ($char === '\\' && $next !== '') {
+                    // Escape backslash — ikutkan karakter berikutnya apa
+                    // adanya supaya tidak salah dianggap penutup quote.
+                    $current .= $next;
+                    $i++;
+                    continue;
+                }
+                if ($char === $inString) {
+                    // Quote ganda ('' atau "") = escaped quote literal,
+                    // bukan penutup — cek karakter berikutnya.
+                    if ($next === $inString) {
+                        $current .= $next;
+                        $i++;
+                        continue;
+                    }
+                    $inString = null;
+                }
+                continue;
+            }
+
+            if ($char === "'" || $char === '"') {
+                $inString = $char;
+                $current .= $char;
+                continue;
+            }
+
+            if ($char === '-' && $next === '-') {
+                $inLineComment = true;
+                $current .= $char;
+                continue;
+            }
+
+            if ($char === ';') {
+                $trimmed = trim($current);
+                if ($trimmed !== '' && !str_starts_with($trimmed, '--')) {
+                    $statements[] = $trimmed;
+                }
+                $current = '';
+                continue;
+            }
+
+            $current .= $char;
+        }
+
+        $trimmed = trim($current);
+        if ($trimmed !== '' && !str_starts_with($trimmed, '--')) {
+            $statements[] = $trimmed;
+        }
+
+        return $statements;
     }
 }

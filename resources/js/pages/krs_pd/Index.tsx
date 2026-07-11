@@ -1347,7 +1347,7 @@ export default function KrsPdIndex({ sasaranRpjmds, opdOptions, opdList, opdFill
     setData(values);
     // Auto-detect: baris tanpa Sasaran RPJMD = non-prioritas.
     const sasaran = (sk.raw[SASARAN_RPJMD_FIELD] ?? '').trim();
-    setNonPrioritas(sasaran === '' || sasaran === 'Tidak Ada Data');
+    setNonPrioritas(sasaran === '' || sasaran === '-' || sasaran === 'Tidak Ada Data');
     setDialogOpen(true);
   };
 

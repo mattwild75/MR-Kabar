@@ -514,19 +514,16 @@ class RiskExcelImportService
     }
 
     /**
-     * Field teks kosong diisi sentinel "Tidak Ada Data" (meniru
-     * fillEmptyTextFields()/fillBlanks() di controller aslinya), KECUALI
-     * field yang memang bukan sentinel-eligible: TRIWULAN & TAHUN TARGET
-     * PENYELESAIAN (dropdown/integer, kosong = null), dan field apa pun
-     * yang ada di enum_fields modul ini.
+     * Field teks kosong disimpan sebagai null — TIDAK ada sentinel apa pun
+     * ("Tidak Ada Data", "-", dst). Kosong berarti kosong; tidak ada
+     * penanda buatan yang perlu dibedakan dari "gagal terbaca saat impor"
+     * di kemudian hari (itulah yang menyebabkan bug sebelumnya: sentinel
+     * "Tidak Ada Data" ditulis ulang setiap kali file di-export lalu
+     * di-import lagi, menimpa data yang sebenarnya ada di sumber RPJMD
+     * asli tapi gagal ter-mapping saat impor pertama).
      */
     private function buildAttributes(array $module, array $data): array
     {
-        $sentinelExempt = array_merge(
-            ['TRIWULAN', 'TAHUN TARGET PENYELESAIAN'],
-            array_keys($module['enum_fields']),
-        );
-
         $attributes = [];
 
         foreach ($module['fields'] as $field) {
@@ -537,12 +534,7 @@ class RiskExcelImportService
                 continue;
             }
 
-            if ($value === '' && in_array($field, $sentinelExempt, true)) {
-                $attributes[$field] = null;
-                continue;
-            }
-
-            $attributes[$field] = $value === '' ? 'Tidak Ada Data' : $value;
+            $attributes[$field] = $value === '' ? null : $value;
         }
 
         foreach ($module['input_only_fields'] as $field) {

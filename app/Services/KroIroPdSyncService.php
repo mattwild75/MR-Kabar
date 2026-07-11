@@ -148,7 +148,7 @@ class KroIroPdSyncService
             // Baris NON-PRIORITAS: tidak menurun dari Sasaran Renstra. Kode
             // Program/Kegiatan/SubKegiatan berawalan "NP.x", tanpa rantai
             // Visi/Misi/Tujuan/Sasaran — menggantung di diagram.
-            if ($sasaranRenstraVal === '' || $sasaranRenstraVal === 'Tidak Ada Data') {
+            if ($sasaranRenstraVal === '' || $sasaranRenstraVal === '-' || $sasaranRenstraVal === 'Tidak Ada Data') {
                 $result[] = $this->buildNonPrioritasItem(
                     $row, $programVal, $kegiatanVal, $subkegiatanVal,
                     $npProgramIndex, $npKegiatanIndex, $nextNpProgramNo,

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Github, FileSpreadsheet } from 'lucide-react';
+import { Github, FileSpreadsheet, Upload, GitPullRequestArrow, TriangleAlert } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
 import {
@@ -15,6 +15,7 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
@@ -39,6 +40,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function BackupIndex({ backups, canPushGit }: Props) {
   const [gitMessage, setGitMessage] = useState('');
   const [pushing, setPushing] = useState(false);
+  const [pulling, setPulling] = useState(false);
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [importing, setImporting] = useState(false);
+  const [confirmText, setConfirmText] = useState('');
 
   const handleBackup = () => {
     router.post('/backup/run', {}, {
@@ -61,12 +66,42 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
     });
   };
 
+  const handleGitPull = () => {
+    setPulling(true);
+    router.post('/backup/git-pull', {}, {
+      onSuccess: () => toast.success('Kode berhasil ditarik dari GitHub.'),
+      onError: () => toast.error('Git pull gagal — cek pesan error di halaman.'),
+      onFinish: () => setPulling(false),
+      preserveScroll: true,
+    });
+  };
+
   const handleDelete = (filename: string) => {
     router.delete(`/backup/delete/${filename}`, {
       onSuccess: () => toast.success('Backup deleted successfully'),
       onError: () => toast.error('Failed to delete backup'),
       preserveScroll: true,
     });
+  };
+
+  const handleImport = () => {
+    if (!importFile) return;
+    setImporting(true);
+    router.post(
+      '/backup/import',
+      { backup_file: importFile },
+      {
+        forceFormData: true,
+        onSuccess: () => {
+          toast.success('Database berhasil diimpor.');
+          setImportFile(null);
+          setConfirmText('');
+        },
+        onError: () => toast.error('Impor database gagal — cek pesan error di halaman.'),
+        onFinish: () => setImporting(false),
+        preserveScroll: true,
+      },
+    );
   };
 
   return (
@@ -174,6 +209,104 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
                 <Github className="mr-2 h-4 w-4" />
                 {pushing ? 'Membackup & push...' : 'Backup & Push ke GitHub'}
               </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {canPushGit && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl font-bold">
+                <GitPullRequestArrow className="h-5 w-5" />
+                Tarik Kode Terbaru dari GitHub
+              </CardTitle>
+              <p className="text-muted-foreground text-sm">
+                Kebalikan dari push di atas: menarik commit terbaru dari branch remote ke kode di server ini
+                (<code>git pull origin HEAD</code>). Tidak menyentuh database sama sekali, dan bukan deploy ke
+                server produksi manapun.
+              </p>
+            </CardHeader>
+            <Separator />
+            <CardContent className="pt-4">
+              <Button onClick={handleGitPull} disabled={pulling} variant="outline">
+                <GitPullRequestArrow className="mr-2 h-4 w-4" />
+                {pulling ? 'Menarik kode...' : 'Pull dari GitHub'}
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {canPushGit && (
+          <Card className="border-destructive/50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl font-bold text-destructive">
+                <Upload className="h-5 w-5" />
+                Impor (Restore) Database
+              </CardTitle>
+              <p className="text-muted-foreground text-sm">
+                Unggah file backup <code>.zip</code> (hasil "Create Backup" / "Backup & Push" — berisi satu file{' '}
+                <code>.sql</code>). <strong>Seluruh isi database saat ini akan ditimpa total</strong> dengan isi
+                file ini. Kondisi database sebelum impor otomatis di-backup dulu (muncul di daftar backup di
+                atas) sebagai jaring pengaman.
+              </p>
+            </CardHeader>
+            <Separator />
+            <CardContent className="pt-4 space-y-3">
+              <div className="space-y-1">
+                <Label htmlFor="backup_file">File backup (.zip)</Label>
+                <Input
+                  id="backup_file"
+                  type="file"
+                  accept=".zip"
+                  onChange={(e) => setImportFile(e.target.files?.[0] ?? null)}
+                />
+              </div>
+
+              <AlertDialog onOpenChange={(open) => !open && setConfirmText('')}>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" disabled={!importFile || importing}>
+                    <Upload className="mr-2 h-4 w-4" />
+                    {importing ? 'Mengimpor...' : 'Impor & Timpa Database'}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="flex items-center gap-2">
+                      <TriangleAlert className="h-5 w-5 text-destructive" />
+                      Timpa seluruh database sekarang?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription asChild>
+                      <div className="space-y-2">
+                        <p>
+                          Semua data saat ini (termasuk data yang baru diisi PIC OPD hari ini) akan{' '}
+                          <strong>diganti total</strong> dengan isi file <strong>{importFile?.name}</strong>. Aksi
+                          ini tidak dapat dibatalkan setelah berjalan — meski ada backup pengaman otomatis
+                          sebelumnya.
+                        </p>
+                        <p>
+                          Ketik <strong>TIMPA</strong> untuk melanjutkan.
+                        </p>
+                        <Input
+                          value={confirmText}
+                          onChange={(e) => setConfirmText(e.target.value)}
+                          placeholder="TIMPA"
+                          autoComplete="off"
+                        />
+                      </div>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Batal</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-destructive hover:bg-destructive/90"
+                      disabled={confirmText !== 'TIMPA'}
+                      onClick={handleImport}
+                    >
+                      Timpa Database
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </CardContent>
           </Card>
         )}

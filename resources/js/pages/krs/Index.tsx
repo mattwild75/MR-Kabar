@@ -1330,7 +1330,7 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
     values[OPD_FIELD] = program.raw[OPD_FIELD] ?? '';
     setData(values);
     const sasaran = (program.raw['SASARAN RPJMD'] ?? '').trim();
-    setNonPrioritas(sasaran === '' || sasaran === 'Tidak Ada Data');
+    setNonPrioritas(sasaran === '' || sasaran === '-' || sasaran === 'Tidak Ada Data');
     setDialogOpen(true);
   };
 

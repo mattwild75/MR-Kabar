@@ -134,7 +134,7 @@ class KrsIrsSyncService
             // Baris NON-PRIORITAS (tanpa Sasaran RPJMD): Visi/Misi/Tujuan/
             // Sasaran dikosongkan agar di diagram (KaeresController) program-nya
             // menggantung mulai level PROGRAM, sejajar program prioritas.
-            if ($sasaranVal === '' || $sasaranVal === 'Tidak Ada Data') {
+            if ($sasaranVal === '' || $sasaranVal === '-' || $sasaranVal === 'Tidak Ada Data') {
                 $result[] = [
                     'visi' => '',
                     'misi_label' => '',

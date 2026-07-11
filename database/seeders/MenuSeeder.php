@@ -292,6 +292,52 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Sub-grup: Form Cetak -> Risiko -> 2a/2b/2c Penetapan Konteks Risiko
+        // (Strategis Pemda / Strategis OPD / Operasional OPD), sesuai
+        // Form_I_a/I_b, Form_II_a/I_b, Form_III_a/I_b Perdep PPKD No.4/2019.
+        $formCetakRisiko = Menu::updateOrCreate(
+            ['title' => 'Risiko', 'parent_id' => $formCetak->id],
+            [
+                'icon' => 'ShieldAlert',
+                'route' => '#',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/2a'],
+            [
+                'title' => '2a_Konteks Risiko Strategis Pemda',
+                'parent_id' => $formCetakRisiko->id,
+                'icon' => 'Landmark',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/2b'],
+            [
+                'title' => '2b_Konteks Risiko Strategis OPD',
+                'parent_id' => $formCetakRisiko->id,
+                'icon' => 'Building2',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/2c'],
+            [
+                'title' => '2c_Konteks Risiko Operasional OPD',
+                'parent_id' => $formCetakRisiko->id,
+                'icon' => 'Workflow',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
         // Data Umum — item pertama di Form Input (sebelum Risiko Strategis
         // Pemda). Berisi header identitas + penanda tangan per-PIC untuk Form
         // Cetak. permission_name null (fail-open); isi dibatasi per-user di

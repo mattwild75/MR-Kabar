@@ -1082,7 +1082,7 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFi
     values[OPD_FIELD] = sk.raw[OPD_FIELD] ?? '';
     setData(values);
     const sasaran = (sk.raw[SASARAN_RENSTRA_FIELD] ?? '').trim();
-    setNonPrioritas(sasaran === '' || sasaran === 'Tidak Ada Data');
+    setNonPrioritas(sasaran === '' || sasaran === '-' || sasaran === 'Tidak Ada Data');
     setDialogOpen(true);
   };
 

@@ -635,7 +635,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
               }
 
               if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
-                const uraianTerisi = value.trim() !== '' && value.trim() !== 'Tidak Ada Data';
+                const uraianTerisi = value.trim() !== '' && value.trim() !== '-' && value.trim() !== 'Tidak Ada Data';
                 return (
                   <div key={field} className="space-y-1">
                     <div className="flex items-center gap-1.5">

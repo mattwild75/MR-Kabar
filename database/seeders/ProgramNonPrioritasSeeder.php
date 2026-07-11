@@ -531,7 +531,7 @@ class ProgramNonPrioritasSeeder extends Seeder
         // Idempoten: lewati bila baris non-prioritas ini sudah ada.
         $exists = KrsPemda::where('PROGRAM PRIORITAS', $program)
             ->where('OPD PENANGGUNGJAWAB PROGRAM', $opd)
-            ->whereIn('SASARAN RPJMD', ['', 'Tidak Ada Data'])
+            ->where(fn ($q) => $q->whereIn('SASARAN RPJMD', ['', '-', 'Tidak Ada Data'])->orWhereNull('SASARAN RPJMD'))
             ->exists();
         if ($exists) {
             return;
@@ -554,7 +554,7 @@ class ProgramNonPrioritasSeeder extends Seeder
     private function isPrioritasRow($r): bool
     {
         $s = trim((string) $r->{'SASARAN RPJMD'});
-        return $s !== '' && $s !== 'Tidak Ada Data';
+        return $s !== '' && $s !== '-' && $s !== 'Tidak Ada Data';
     }
 
     private function norm(string $v): string

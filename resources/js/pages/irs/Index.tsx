@@ -618,7 +618,7 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, opdList, opdF
               // dilaksanakan. Bukti dukung (SS/JPG/PNG/PDF) opsional, tapi
               // disarankan jika uraian ini diisi.
               if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
-                const uraianTerisi = value.trim() !== '' && value.trim() !== 'Tidak Ada Data';
+                const uraianTerisi = value.trim() !== '' && value.trim() !== '-' && value.trim() !== 'Tidak Ada Data';
                 return (
                   <div key={field} className="space-y-1">
                     <div className="flex items-center gap-1.5">

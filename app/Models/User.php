@@ -61,4 +61,10 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsTo(Opd::class);
     }
+
+    /** Data Umum (header identitas + penanda tangan) milik akun ini — dipakai Form Cetak. */
+    public function dataUmum()
+    {
+        return $this->hasOne(DataUmum::class);
+    }
 }

@@ -32,6 +32,7 @@ use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\CeeFormController;
 use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
+use App\Http\Controllers\CetakRisikoController;
 use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
@@ -116,6 +117,8 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/backup/download/{file}', [BackupController::class, 'download'])->name('backup.download');
     Route::delete('/backup/delete/{file}', [BackupController::class, 'delete'])->name('backup.delete');
     Route::post('/backup/git-push', [BackupController::class, 'gitPush'])->name('backup.git-push');
+    Route::post('/backup/git-pull', [BackupController::class, 'gitPull'])->name('backup.git-pull');
+    Route::post('/backup/import', [BackupController::class, 'importDatabase'])->name('backup.import');
     Route::get('/backup/excel', [RiskExcelController::class, 'index'])->name('backup.excel.index');
     Route::get('/backup/excel/export', [RiskExcelController::class, 'export'])->name('backup.excel.export');
     Route::get('/backup/excel/template', [RiskExcelController::class, 'template'])->name('backup.excel.template');
@@ -174,6 +177,16 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('cetak/cee/1a/pdf', [CetakCeeController::class, 'pdf1a'])->name('cetak.cee.1a.pdf');
     Route::get('cetak/cee/1b/pdf', [CetakCeeController::class, 'pdf1b'])->name('cetak.cee.1b.pdf');
     Route::get('cetak/cee/1c/pdf', [CetakCeeController::class, 'pdf1c'])->name('cetak.cee.1c.pdf');
+
+    // Form Cetak Risiko 2a/2b/2c — Penetapan Konteks Risiko (Strategis
+    // Pemda / Strategis OPD / Operasional OPD), sesuai Form_I_a/I_b,
+    // Form_II_a/I_b, Form_III_a/I_b Perdep PPKD No.4/2019 (A4, read-only).
+    Route::get('cetak/risiko/2a', [CetakRisikoController::class, 'cetak2a'])->name('cetak.risiko.2a');
+    Route::get('cetak/risiko/2b', [CetakRisikoController::class, 'cetak2b'])->name('cetak.risiko.2b');
+    Route::get('cetak/risiko/2c', [CetakRisikoController::class, 'cetak2c'])->name('cetak.risiko.2c');
+    Route::get('cetak/risiko/2a/pdf', [CetakRisikoController::class, 'pdf2a'])->name('cetak.risiko.2a.pdf');
+    Route::get('cetak/risiko/2b/pdf', [CetakRisikoController::class, 'pdf2b'])->name('cetak.risiko.2b.pdf');
+    Route::get('cetak/risiko/2c/pdf', [CetakRisikoController::class, 'pdf2c'])->name('cetak.risiko.2c.pdf');
 
     Route::get('krs_irs_pemda', [KaeresController::class, 'index'])->name('krs_irs_pemda.index');
     Route::get('krs_irs_pemda_visualisasi', [KaeresController::class, 'visualization'])->name('krs_irs_pemda.visualization');

@@ -76,14 +76,19 @@ class KrsPemdaController extends Controller
      */
     /**
      * PROGRAM PRIORITAS bila menurun dari Sasaran RPJMD (kolom "SASARAN RPJMD"
-     * terisi nyata, sesuai Tabel 3.5 RPJMD). Bila kosong/"Tidak Ada Data" →
+     * terisi nyata, sesuai Tabel 3.5 RPJMD). Bila kosong →
      * NON-PRIORITAS: program berdiri sendiri sebagai node top-level (sejajar
      * Visi), tanpa rantai Visi→Misi→Tujuan→Sasaran di atasnya.
+     *
+     * Cek "-"/"Tidak Ada Data" dipertahankan sbg fallback baca data LAMA —
+     * field kosong sekarang disimpan null/'' apa adanya (tanpa sentinel),
+     * tapi baris yg ditulis sebelum perubahan ini masih mengandung sentinel
+     * lama sampai dinormalisasi.
      */
     private function isPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RPJMD'});
-        return $val !== '' && $val !== 'Tidak Ada Data';
+        return $val !== '' && $val !== '-' && $val !== 'Tidak Ada Data';
     }
 
     private function buildHierarchy($rows): array
@@ -325,7 +330,7 @@ class KrsPemdaController extends Controller
             $options[$field] = $rows
                 ->pluck($field)
                 ->map(fn ($v) => $this->removeLabel((string) $v))
-                ->filter(fn ($v) => $v !== '' && $v !== 'Tidak Ada Data')
+                ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
                 ->unique()
                 ->values()
                 ->all();
@@ -352,35 +357,17 @@ class KrsPemdaController extends Controller
     }
 
     /**
-     * Mengisi kolom kosong dengan "Tidak Ada Data", meniru FillBlanks pada
-     * VBA: hanya kolom yang berada di antara kolom pertama dan kolom terakhir
-     * yang terisi (mengikuti urutan FIELDS, setara kolom B..T di Excel) yang
-     * diisi — kolom sebelum data pertama tetap dibiarkan kosong.
+     * Kolom kosong dibiarkan kosong apa adanya — TIDAK diisi sentinel
+     * apa pun ("Tidak Ada Data", "-", dst). Sebelumnya fungsi ini mengisi
+     * kolom kosong dengan sentinel meniru FillBlanks VBA, tapi itulah akar
+     * bug yang membuat data RPJMD asli (yg sempat gagal ter-mapping saat
+     * impor Excel) tertimpa permanen jadi "Tidak Ada Data" — sentinel tidak
+     * bisa dibedakan lagi dari "memang kosong by design" pada iterasi
+     * ekspor/impor berikutnya. Fungsi dipertahankan (bukan dihapus) supaya
+     * pemanggilnya tidak perlu diubah, tapi sekarang sekadar pass-through.
      */
     private function fillBlanks(array $data): array
     {
-        $firstFilled = null;
-        $lastFilled = null;
-        foreach (self::FIELDS as $index => $field) {
-            if (trim((string) ($data[$field] ?? '')) !== '') {
-                $firstFilled ??= $index;
-                $lastFilled = $index;
-            }
-        }
-
-        if ($firstFilled === null) {
-            return $data;
-        }
-
-        foreach (self::FIELDS as $index => $field) {
-            if ($index < $firstFilled) {
-                continue;
-            }
-            if (trim((string) ($data[$field] ?? '')) === '') {
-                $data[$field] = 'Tidak Ada Data';
-            }
-        }
-
         return $data;
     }
 

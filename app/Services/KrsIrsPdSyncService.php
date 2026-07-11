@@ -149,7 +149,7 @@ class KrsIrsPdSyncService
             // dangkal (Program→Kegiatan→SubKegiatan berkode "NP.x...") tanpa
             // VISI/MISI/TUJUAN/SASARAN, agar di diagram menggantung sejajar
             // dengan program prioritas.
-            if ($sasaranRpjmdVal === '' || $sasaranRpjmdVal === 'Tidak Ada Data') {
+            if ($sasaranRpjmdVal === '' || $sasaranRpjmdVal === '-' || $sasaranRpjmdVal === 'Tidak Ada Data') {
                 $result[] = $this->buildNonPrioritasItem(
                     $row, $programVal, $kegiatanVal, $subkegiatanVal,
                     $npProgramIndex, $npKegiatanIndex, $nextNpProgramNo,
