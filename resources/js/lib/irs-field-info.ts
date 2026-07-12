@@ -19,7 +19,7 @@ Jika ada lebih dari 1 uraian risiko, maka ditulis juga sel dibawahnya, dengan co
 Perlambatan ekonomi nasional yang menyebabkan bertambahnya pengangguran
 Rendahnya keterampilan tenaga kerja lokal sehingga sulit bersaing`,
 
-  'TAHUN DINILAI RISIKO': `Isi Dengan Tahun Identifikasi Risiko (cukup 2 digit tahun terakhir)`,
+  'TAHUN DINILAI RISIKO': `Tahun identifikasi/penilaian risiko ini dilakukan, format 4 digit (mis. 2026). Bagian dari Kode Risiko sesuai Perdep PPKD No.4/2019 (contoh: RSO.19.00.05.01, "19" = 2 digit terakhir tahun 2019) — default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain.`,
 
   'JENIS RISIKO': `Pilih Jenis Risiko dari daftar 41 kode urusan pemerintahan (lihat tombol daftar di samping field).`,
 

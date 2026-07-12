@@ -8,6 +8,7 @@ use App\Models\CeeSimpulan;
 use App\Models\CeeUnsur;
 use App\Models\DataUmum;
 use App\Models\Opd;
+use App\Models\PengaturanPemda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -120,7 +121,7 @@ class CeeFormController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
 
         $unsurs = CeeUnsur::with(['pertanyaan' => fn ($q) => $q->where('aktif', true)->orderBy('urutan')])
             ->orderBy('urutan')
@@ -331,7 +332,7 @@ class CeeFormController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
 
         return Inertia::render('cee/form/Form1b', [
             'opdOptions' => $this->opdOptions($request),
@@ -413,7 +414,7 @@ class CeeFormController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
 
         $unsurs = CeeUnsur::orderBy('urutan')->get();
 

@@ -1,5 +1,6 @@
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
+import { formatTanggalWaktu } from '@/lib/date';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -156,7 +157,7 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin }: PageProp
                           </div>
                         )}
                         {row.deleted_at && (
-                          <p className="mt-1 text-xs text-muted-foreground">Dihapus: {row.deleted_at}</p>
+                          <p className="mt-1 text-xs text-muted-foreground">Dihapus: {formatTanggalWaktu(row.deleted_at)}</p>
                         )}
                       </div>
 

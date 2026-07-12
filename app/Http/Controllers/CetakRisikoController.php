@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataUmum;
+use App\Models\IroPd;
+use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\KroPd;
 use App\Models\KrsPd;
@@ -10,7 +12,7 @@ use App\Models\KrsPemda;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Models\User;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -69,16 +71,86 @@ class CetakRisikoController extends Controller
      * $opdId null berarti level Pemda (Form 2a) — pakai Data Umum PERTAMA
      * yg sudah diisi siapa saja (mis. Sekda/Admin), krn identitasnya
      * Pemda-wide, bukan per-OPD.
+     *
+     * BUG lama: baris DataUmum "pertama" yg dipakai bisa jadi kepunyaan PIC
+     * OPD yg TIDAK mengisi nama_kepala_daerah/jabatan_kepala_daerah (field
+     * itu opsional di form-nya masing2 PIC) — padahal field Pemda-wide ini
+     * py sumber kebenaran terpusat di PengaturanPemda (lihat
+     * DataUmumController::store(), field Pemda-wide yg disimpan Admin
+     * ditulis ke PengaturanPemda, BUKAN cuma ke baris DataUmum Admin itu
+     * sendiri). Form 2a jadi salah menampilkan "BUPATI" polos tanpa nama,
+     * walau Data Umum "Kepala Daerah" sudah diisi lengkap oleh PIC lain.
+     * Fix: kalau field ini kosong pada baris DataUmum yg dipakai, isi
+     * (bukan timpa) dari PengaturanPemda::current() sblm dikembalikan.
      */
     private function dataUmumForOpd(?int $opdId): ?DataUmum
     {
         if (!$opdId) {
-            return DataUmum::whereNotNull('user_id')->first();
+            $dataUmum = DataUmum::whereNotNull('user_id')->first();
+
+            if ($dataUmum && (!$dataUmum->nama_kepala_daerah || !$dataUmum->jabatan_kepala_daerah)) {
+                $default = $this->pengaturan();
+                $dataUmum->nama_kepala_daerah ??= $default->nama_kepala_daerah;
+                $dataUmum->jabatan_kepala_daerah ??= $default->jabatan_kepala_daerah;
+            }
+
+            return $dataUmum;
         }
 
         $user = User::where('opd_id', $opdId)->whereHas('dataUmum')->first();
 
         return $user?->dataUmum;
+    }
+
+    /**
+     * Versi $dataUmum utk Inertia (React) — bukan objek Model mentah.
+     * Kolom 'tanggal_pembuatan' di-cast 'date' (Carbon) pada model, dan
+     * Carbon di-serialize Laravel sbg ISO 8601 penuh (mis.
+     * "2026-07-11T00:00:00.000000Z") saat lolos ke JSON props Inertia —
+     * itulah yg tampil apa adanya di blok TTD React krn di sana cuma
+     * ditulis {dataUmum?.tanggal_pembuatan} tanpa format ulang. Blade PDF
+     * TIDAK kena masalah ini krn di sana masih computed dari objek Carbon
+     * asli lewat optional($x)->format('d F Y'), jadi tetap dikirim $dataUmum
+     * Model asli ke Blade — HANYA versi Inertia yg diubah ke array dgn
+     * tanggal sudah diformat teks Indonesia ("11 Juli 2026").
+     */
+    private function dataUmumForInertia(?DataUmum $dataUmum): ?array
+    {
+        if (!$dataUmum) {
+            return null;
+        }
+
+        $array = $dataUmum->toArray();
+        // tanggal_pembuatan_raw (Y-m-d, utk <input type="date"> di form edit
+        // TTD) dipisah dari tanggal_pembuatan (teks Indonesia, utk DISPLAY di
+        // blok tanda tangan) — keduanya dibutuhkan sekaligus di halaman yg
+        // sama, tidak bisa dipakai bergantian.
+        $array['tanggal_pembuatan_raw'] = $dataUmum->tanggal_pembuatan?->format('Y-m-d');
+        $array['tanggal_pembuatan'] = $dataUmum->tanggal_pembuatan?->locale('id')->translatedFormat('d F Y');
+
+        return $array;
+    }
+
+    /**
+     * Buang label kode di awal teks (mis. "Sasaran 1.1 : ...", "Kegiatan
+     * 2.3.1 : ...") lalu normalisasi (rapikan spasi ganda, lowercase, trim)
+     * — dipakai utk mencocokkan teks Sasaran Strategis PD / Kegiatan PD
+     * antara KRS_PD/KRO_PD (konteks) dgn IRS_PD/IRO_PD (risiko teregister),
+     * SAMA PERSIS logikanya dgn KrsIrsPdSyncService::matchKey() /
+     * KroIroPdSyncService::matchKey() — supaya "bold = dipilih sbg
+     * Penetapan Konteks Risiko" di Form 2b/2c konsisten dgn cara tabel
+     * gabungan /krs_irs_pd & /kro_iro_pd menentukan kecocokan.
+     */
+    private function matchKey(string $value): string
+    {
+        $value = trim($value);
+        if ($value !== '' && preg_match('/^(?:[A-Za-z]+\s+){1,3}\d+(?:\.\d+)*\s*:\s*(.*)$/s', $value, $m)) {
+            $value = trim($m[1]);
+        }
+
+        $value = preg_replace('/\s+/u', ' ', $value);
+
+        return mb_strtolower(trim($value));
     }
 
     /**
@@ -117,7 +189,19 @@ class CetakRisikoController extends Controller
      * lalu di-zip by index: item ke-N di ik[] dipasangkan dgn item ke-N di
      * baseline[]/target[]/satuan[]/opd[] — sesuai urutan asli dalam cell.
      */
-    private function indikatorRows($rows, string $ikCol, ?string $baselineCol, string $targetCol, string $satuanCol, string $opdCol)
+    /**
+     * $fallbackOpdCol: dipakai kalau kolom $opdCol utama kosong utk baris
+     * ybs. Kasus nyata: "OPD IK PROGRAM" di tbl_krs_pemda SELALU NULL utk
+     * semua baris (kolom itu tidak pernah diisi lewat form/import manapun),
+     * padahal "OPD PENANGGUNGJAWAB PROGRAM" SELALU terisi dgn OPD yg benar
+     * — akibatnya sebelum fallback ini, kolom OPD di tabel indikator
+     * Program selalu tampil "-" walau OPD penanggung jawabnya sebenarnya
+     * diketahui. Fallback level BARIS (bukan level SEL/indikator individual,
+     * krn OPD PENANGGUNGJAWAB PROGRAM tidak mendukung multi-baris per
+     * indikator spt IK PROGRAM), jadi dipakai sbg nilai SAMA utk semua
+     * indikator dlm grup itu.
+     */
+    private function indikatorRows($rows, string $ikCol, ?string $baselineCol, string $targetCol, string $satuanCol, string $opdCol, ?string $fallbackOpdCol = null)
     {
         $first = $rows->first(fn ($r) => trim((string) ($r->{$ikCol} ?? '')) !== '');
         if (!$first) {
@@ -131,17 +215,18 @@ class CetakRisikoController extends Controller
         $targetList = $split($first->{$targetCol});
         $satuanList = $split($first->{$satuanCol});
         $opdList = $split($first->{$opdCol});
+        $fallbackOpd = $fallbackOpdCol ? trim((string) ($first->{$fallbackOpdCol} ?? '')) : '';
 
         return $ikList->filter(fn ($v) => $v !== '')->values()->map(fn ($ik, $i) => [
             'ik' => $ik,
             'baseline' => $baselineList[$i] ?? null,
             'target' => $targetList[$i] ?? null,
             'satuan' => $satuanList[$i] ?? null,
-            'opd' => $opdList[$i] ?? null,
+            'opd' => ($opdList[$i] ?? null) ?: ($fallbackOpd !== '' ? $fallbackOpd : null),
         ]);
     }
 
-    private function buildKonteksPemda()
+    private function buildKonteksPemda(int $tahun)
     {
         $rows = KrsPemda::orderBy('id')->get()->filter(function ($r) {
             $misi = trim((string) ($r->MISI ?? ''));
@@ -155,7 +240,14 @@ class CetakRisikoController extends Controller
 
         $first = $rows->first();
 
+        // "bold" (dipilih sbg Penetapan Konteks Risiko) HARUS mengikuti
+        // Tahun Penilaian yg dipilih di picker — sebelumnya query ini
+        // menghimpun SEMUA tahun sekaligus, sehingga ganti tahun di picker
+        // cuma mengubah label "Tahun Penilaian" tanpa memengaruhi Sasaran/
+        // Program mana yg ter-bold (bug: hasil cetak 2025 vs 2026 identik
+        // kecuali labelnya).
         $registeredSasaran = IrsPemda::whereNotNull('SASARAN RPJMD')
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
             ->pluck('SASARAN RPJMD')
             ->map(fn ($s) => trim($s))
             ->filter()
@@ -241,7 +333,7 @@ class CetakRisikoController extends Controller
 
                 return [
                     'program' => $program,
-                    'indikator_list' => $this->indikatorRows($group, 'IK PROGRAM', 'BASELINE IK PROGRAM', 'TARGET IK PROGRAM', 'SATUAN IK PROGRAM', 'OPD IK PROGRAM'),
+                    'indikator_list' => $this->indikatorRows($group, 'IK PROGRAM', 'BASELINE IK PROGRAM', 'TARGET IK PROGRAM', 'SATUAN IK PROGRAM', 'OPD IK PROGRAM', 'OPD PENANGGUNGJAWAB PROGRAM'),
                     'bold' => $bold,
                 ];
             })->values();
@@ -283,8 +375,8 @@ class CetakRisikoController extends Controller
 
     public function cetak2a(Request $request)
     {
-        $konteks = $this->buildKonteksPemda();
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $konteks = $this->buildKonteksPemda($tahun);
         $pengaturan = $this->pengaturan();
         $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
         // dataUmum: sumber tempat/tanggal/jabatan Kepala Daerah utk blok TTD
@@ -299,69 +391,106 @@ class CetakRisikoController extends Controller
             'konteks' => $konteks,
             'pemerintahKabkota' => $pemerintahKabkota,
             'sumberData' => $this->sumberDataPemda($pemerintahKabkota, $pengaturan->periode_penilaian),
-            'dataUmum' => $dataUmum,
+            'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
 
+    /**
+     * Cetak PDF via Browsershot (screenshot Chromium dari halaman React
+     * preview /cetak/risiko/2a yg sama persis) — BUKAN DomPDF lagi. Lihat
+     * PdfPrintService utk penjelasan lengkap kenapa: DomPDF adalah mesin
+     * render terpisah dgn banyak keterbatasan CSS yg bikin hasil cetak tak
+     * pernah 100% identik dgn tampilan web, meski sudah berkali-kali
+     * dipatch. Screenshot langsung dari halaman yg sama menjamin
+     * kesesuaian visual, krn memang browser yg sama yg dipakai user utk
+     * melihatnya sendiri.
+     */
     public function pdf2a(Request $request)
     {
-        $konteks = $this->buildKonteksPemda();
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
-        $pengaturan = $this->pengaturan();
-        $periode = $pengaturan->periode_penilaian;
-        $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
-        $sumberData = $this->sumberDataPemda($pemerintahKabkota, $periode);
-        $dataUmum = $this->dataUmumForOpd(null);
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $url = url("/cetak/risiko/2a?tahun={$tahun}");
 
-        $pdf = Pdf::loadView('risiko.pdf-2a', compact('konteks', 'tahun', 'periode', 'pemerintahKabkota', 'sumberData', 'dataUmum'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->download("Form-1a-Konteks-Strategis-Pemda-{$tahun}.pdf");
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-2a-Konteks-Strategis-Pemda-{$tahun}");
     }
 
     /**
      * Kelompokkan baris KrsPd flat (per OPD) jadi struktur konteks sesuai
-     * Form_II_a: Tujuan Strategis Renstra (unik) > per-Sasaran: IK+Target,
-     * Program (dgn IK+Target).
+     * Form_II_a, hierarki bernomor Tujuan > Sasaran (sama pola dgn
+     * buildKonteksPemda()) supaya tampilan 2b konsisten & rapi dgn 2a —
+     * nomor dihitung dari urutan kemunculan (posisi), bukan kolom
+     * tersimpan.
      */
-    private function buildKonteksPd(string $opdNama)
+    private function buildKonteksPd(string $opdNama, int $tahun)
     {
         $rows = KrsPd::whereRaw('LOWER(TRIM(`OPD PENANGGUNG JAWAB KEGIATAN`)) = ?', [Str::lower(trim($opdNama))])
             ->orderBy('id')
-            ->get();
+            ->get()
+            ->filter(fn ($r) => trim((string) ($r->{'TUJUAN STRATEGIS PD'} ?? '')) !== '')
+            ->values();
 
         if ($rows->isEmpty()) {
             return null;
         }
 
-        $tujuanList = $rows->pluck('TUJUAN STRATEGIS PD')
-            ->map(fn ($v) => trim((string) ($v ?? '')))
-            ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
+        // Sasaran Strategis PD dianggap "dipilih sbg Penetapan Konteks
+        // Risiko" (bold) kalau ada MINIMAL SATU risiko teregister (IrsPd)
+        // PADA TAHUN TERPILIH yg "SASARAN RENSTRA"-nya cocok teks — match
+        // key sama persis dgn KrsIrsPdSyncService::matchKey(), supaya
+        // konsisten dgn cara tabel gabungan /krs_irs_pd menentukan
+        // kecocokan. Difilter per tahun (lihat buildKonteksPemda()).
+        $registeredSasaranPd = IrsPd::whereNotNull('SASARAN RENSTRA')
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->pluck('SASARAN RENSTRA')
+            ->map(fn ($s) => $this->matchKey((string) $s))
+            ->filter()
             ->unique()
-            ->values();
+            ->flip();
 
-        $sasaranGroups = $rows->filter(fn ($r) => trim((string) ($r->{'SASARAN STRATEGIS PD'} ?? '')) !== '')
-            ->groupBy(fn ($r) => trim($r->{'SASARAN STRATEGIS PD'}))
-            ->map(function ($group) {
-                $g = $group->first();
+        $tujuanGroups = $rows->groupBy(fn ($r) => trim($r->{'TUJUAN STRATEGIS PD'}))->values();
+
+        $tujuanList = $tujuanGroups->map(function ($tujuanRows, $ti) use ($registeredSasaranPd) {
+            $tujuanNomor = (string) ($ti + 1);
+            $g = $tujuanRows->first();
+
+            $sasaranGroups = $tujuanRows->filter(fn ($r) => trim((string) ($r->{'SASARAN STRATEGIS PD'} ?? '')) !== '')
+                ->groupBy(fn ($r) => trim($r->{'SASARAN STRATEGIS PD'}))
+                ->values();
+
+            $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($tujuanNomor, $registeredSasaranPd) {
+                $sasaranNomor = "{$tujuanNomor}." . ($si + 1);
+                $sasaranTeks = trim($sasaranRows->first()->{'SASARAN STRATEGIS PD'});
 
                 return [
-                    'sasaran' => trim($g->{'SASARAN STRATEGIS PD'}),
-                    'tujuan' => trim((string) ($g->{'TUJUAN STRATEGIS PD'} ?? '')) ?: null,
-                    'ik' => $group->pluck('IK SASARAN STRATEGIS PD')->filter()->unique()->values(),
-                    'target' => $group->pluck('TARGET IK SASARAN STRATEGIS PD')->filter()->unique()->values(),
+                    'nomor' => $sasaranNomor,
+                    'sasaran' => $sasaranTeks,
+                    'indikator_list' => $this->indikatorRows($sasaranRows, 'IK SASARAN STRATEGIS PD', 'BASELINE IK SASARAN STRATEGIS PD', 'TARGET IK SASARAN STRATEGIS PD', 'SATUAN IK SASARAN STRATEGIS PD', 'OPD IK SASARAN STRATEGIS PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
+                    'bold' => $registeredSasaranPd->has($this->matchKey($sasaranTeks)),
                 ];
             })->values();
 
+            return [
+                'nomor' => $tujuanNomor,
+                'tujuan' => trim($g->{'TUJUAN STRATEGIS PD'}),
+                'indikator_list' => $this->indikatorRows($tujuanRows, 'IK TUJUAN STRATEGIS PD', 'BASELINE IK TUJUAN STRATEGIS PD', 'TARGET IK TUJUAN STRATEGIS PD', 'SATUAN IK TUJUAN STRATEGIS PD', 'OPD IK TUJUAN STRATEGIS PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
+                'sasaran_list' => $sasaranList,
+                // Tujuan ikut bold kalau punya minimal satu Sasaran anak yg bold.
+                'bold' => $sasaranList->contains('bold', true),
+            ];
+        })->values();
+
+        $sasaranFlat = $tujuanList->flatMap(fn ($t) => collect($t['sasaran_list'])->map(fn ($s) => array_merge($s, ['tujuan_nomor' => $t['nomor'], 'tujuan' => $t['tujuan']])))->values();
+
         $programGroups = $rows->filter(fn ($r) => trim((string) ($r->{'PROGRAM PD'} ?? '')) !== '')
             ->groupBy(fn ($r) => trim($r->{'PROGRAM PD'}))
-            ->map(fn ($group) => $group->first())
-            ->values();
+            ->map(fn ($group, $program) => [
+                'program' => $program,
+                'indikator_list' => $this->indikatorRows($group, 'IK PROGRAM PD', null, 'TARGET IK PROGRAM PD', 'SATUAN IK PROGRAM PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
+            ])->values();
 
         return [
             'tujuan_list' => $tujuanList,
-            'sasaran_groups' => $sasaranGroups,
-            'program_list' => $programGroups->pluck('PROGRAM PD')->values(),
+            'sasaran_flat' => $sasaranFlat,
+            'program_list' => $programGroups,
         ];
     }
 
@@ -375,11 +504,11 @@ class CetakRisikoController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::find($opdId) : null;
         $pengaturan = $this->pengaturan();
 
-        $konteks = $opd ? $this->buildKonteksPd($opd->nama) : null;
+        $konteks = $opd ? $this->buildKonteksPd($opd->nama, $tahun) : null;
         $dataUmum = $this->dataUmumForOpd($opdId);
 
         return Inertia::render('risiko/cetak/Cetak2b', [
@@ -391,7 +520,7 @@ class CetakRisikoController extends Controller
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
             'sumberData' => $opd ? $this->sumberDataRenstra($opd->nama, $pengaturan->periode_penilaian) : null,
             'urusanPemerintahan' => $dataUmum?->nama_urusan,
-            'dataUmum' => $dataUmum,
+            'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
 
@@ -399,66 +528,103 @@ class CetakRisikoController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
-        $pengaturan = $this->pengaturan();
 
-        $konteks = $this->buildKonteksPd($opd->nama);
-        $periode = $pengaturan->periode_penilaian;
-        $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
-        $sumberData = $this->sumberDataRenstra($opd->nama, $periode);
-        $dataUmum = $this->dataUmumForOpd($opdId);
-        $urusanPemerintahan = $dataUmum?->nama_urusan;
+        $url = url("/cetak/risiko/2b?opd_id={$opdId}&tahun={$tahun}");
 
-        $pdf = Pdf::loadView('risiko.pdf-2b', compact('opd', 'konteks', 'tahun', 'periode', 'pemerintahKabkota', 'sumberData', 'urusanPemerintahan', 'dataUmum'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->download("Form-2a-Konteks-Strategis-OPD-{$opd->nama}-{$tahun}.pdf");
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-2b-Konteks-Strategis-OPD-{$opd->nama}-{$tahun}");
     }
 
     /**
      * Kelompokkan baris KroPd flat (per OPD) jadi struktur konteks sesuai
-     * Form_III_a: Sasaran Renstra (root, dari KRS_PD) > Program+Kegiatan >
-     * per-Kegiatan: IK+Target.
+     * Form_III_a, hierarki bernomor Sasaran Renstra > Program > Kegiatan
+     * (sama pola dgn buildKonteksPemda()/buildKonteksPd()) supaya tampilan
+     * 2c konsisten & rapi dgn 2a/2b — nomor dihitung dari urutan
+     * kemunculan (posisi), bukan kolom tersimpan.
      */
-    private function buildKonteksRo(string $opdNama)
+    private function buildKonteksRo(string $opdNama, int $tahun)
     {
         $rows = KroPd::whereRaw('LOWER(TRIM(`OPD PENANGGUNG JAWAB KEGIATAN`)) = ?', [Str::lower(trim($opdNama))])
             ->orderBy('id')
-            ->get();
+            ->get()
+            ->filter(fn ($r) => trim((string) ($r->{'SASARAN RENSTRA'} ?? '')) !== '')
+            ->values();
 
         if ($rows->isEmpty()) {
             return null;
         }
 
-        $sasaranList = $rows->pluck('SASARAN RENSTRA')
-            ->map(fn ($v) => trim((string) ($v ?? '')))
-            ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
+        // Kegiatan PD dianggap "dipilih sbg Penetapan Konteks Risiko" (bold)
+        // kalau ada MINIMAL SATU risiko teregister (IroPd) PADA TAHUN
+        // TERPILIH yg "KEGIATAN PD"-nya cocok teks — match key sama persis
+        // dgn KroIroPdSyncService::matchKey(), supaya konsisten dgn cara
+        // tabel gabungan /kro_iro_pd menentukan kecocokan. Bold merambat
+        // naik ke Program & Sasaran induknya (sama pola dgn
+        // buildKonteksPemda()). Difilter per tahun (lihat
+        // buildKonteksPemda()).
+        $registeredKegiatan = IroPd::whereNotNull('KEGIATAN PD')
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->pluck('KEGIATAN PD')
+            ->map(fn ($k) => $this->matchKey((string) $k))
+            ->filter()
             ->unique()
-            ->values();
-        $programList = $rows->pluck('PROGRAM PD')
-            ->map(fn ($v) => trim((string) ($v ?? '')))
-            ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
-            ->unique()
-            ->values();
+            ->flip();
 
-        $kegiatanGroups = $rows->filter(fn ($r) => trim((string) ($r->{'KEGIATAN PD'} ?? '')) !== '')
-            ->groupBy(fn ($r) => trim($r->{'KEGIATAN PD'}))
-            ->map(function ($group) {
-                $g = $group->first();
+        $sasaranGroups = $rows->groupBy(fn ($r) => trim($r->{'SASARAN RENSTRA'}))->values();
+
+        $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($registeredKegiatan) {
+            $sasaranNomor = (string) ($si + 1);
+            $g = $sasaranRows->first();
+
+            $programGroups = $sasaranRows->filter(fn ($r) => trim((string) ($r->{'PROGRAM PD'} ?? '')) !== '')
+                ->groupBy(fn ($r) => trim($r->{'PROGRAM PD'}))
+                ->values();
+
+            $programList = $programGroups->map(function ($programRows, $pi) use ($sasaranNomor, $registeredKegiatan) {
+                $programNomor = "{$sasaranNomor}." . ($pi + 1);
+
+                $kegiatanGroups = $programRows->filter(fn ($r) => trim((string) ($r->{'KEGIATAN PD'} ?? '')) !== '')
+                    ->groupBy(fn ($r) => trim($r->{'KEGIATAN PD'}))
+                    ->values();
+
+                $kegiatanList = $kegiatanGroups->map(function ($kegiatanRows, $ki) use ($programNomor, $registeredKegiatan) {
+                    $kegiatanTeks = trim($kegiatanRows->first()->{'KEGIATAN PD'});
+
+                    return [
+                        'nomor' => "{$programNomor}." . ($ki + 1),
+                        'kegiatan' => $kegiatanTeks,
+                        'indikator_list' => $this->indikatorRows($kegiatanRows, 'IK KEGIATAN PD', 'BASELINE IK KEGIATAN PD', 'TARGET IK KEGIATAN PD', 'SATUAN IK KEGIATAN PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
+                        'bold' => $registeredKegiatan->has($this->matchKey($kegiatanTeks)),
+                    ];
+                })->values();
 
                 return [
-                    'kegiatan' => trim($g->{'KEGIATAN PD'}),
-                    'program' => trim((string) ($g->{'PROGRAM PD'} ?? '')) ?: null,
-                    'ik' => $group->pluck('IK KEGIATAN PD')->filter()->unique()->values(),
-                    'target' => $group->pluck('TARGET IK KEGIATAN PD')->filter()->unique()->values(),
+                    'nomor' => $programNomor,
+                    'program' => trim($programRows->first()->{'PROGRAM PD'}),
+                    'indikator_list' => $this->indikatorRows($programRows, 'IK PROGRAM PD', 'BASELINE IK PROGRAM PD', 'TARGET IK PROGRAM PD', 'SATUAN IK PROGRAM PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
+                    'kegiatan_list' => $kegiatanList,
+                    // Program ikut bold kalau punya minimal satu Kegiatan anak yg bold.
+                    'bold' => $kegiatanList->contains('bold', true),
                 ];
             })->values();
 
+            return [
+                'nomor' => $sasaranNomor,
+                'sasaran' => trim($g->{'SASARAN RENSTRA'}),
+                'program_list' => $programList,
+                // Sasaran ikut bold kalau punya minimal satu Program anak yg bold.
+                'bold' => $programList->contains('bold', true),
+            ];
+        })->values();
+
+        $programFlat = $sasaranList->flatMap(fn ($s) => collect($s['program_list'])->map(fn ($p) => array_merge($p, ['sasaran_nomor' => $s['nomor'], 'sasaran' => $s['sasaran']])))->values();
+        $kegiatanFlat = $programFlat->flatMap(fn ($p) => collect($p['kegiatan_list'])->map(fn ($k) => array_merge($k, ['program_nomor' => $p['nomor'], 'program' => $p['program']])))->values();
+
         return [
             'sasaran_list' => $sasaranList,
-            'program_list' => $programList,
-            'kegiatan_groups' => $kegiatanGroups,
+            'program_flat' => $programFlat,
+            'kegiatan_flat' => $kegiatanFlat,
         ];
     }
 
@@ -472,11 +638,11 @@ class CetakRisikoController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::find($opdId) : null;
         $pengaturan = $this->pengaturan();
 
-        $konteks = $opd ? $this->buildKonteksRo($opd->nama) : null;
+        $konteks = $opd ? $this->buildKonteksRo($opd->nama, $tahun) : null;
         $dataUmum = $this->dataUmumForOpd($opdId);
 
         return Inertia::render('risiko/cetak/Cetak2c', [
@@ -488,7 +654,7 @@ class CetakRisikoController extends Controller
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
             'sumberData' => $opd ? $this->sumberDataRenja($opd->nama, $tahun) : null,
             'urusanPemerintahan' => $dataUmum?->nama_urusan,
-            'dataUmum' => $dataUmum,
+            'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
 
@@ -496,20 +662,46 @@ class CetakRisikoController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
-        $pengaturan = $this->pengaturan();
 
-        $konteks = $this->buildKonteksRo($opd->nama);
-        $periode = $pengaturan->periode_penilaian;
-        $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
-        $sumberData = $this->sumberDataRenja($opd->nama, $tahun);
-        $dataUmum = $this->dataUmumForOpd($opdId);
-        $urusanPemerintahan = $dataUmum?->nama_urusan;
+        $url = url("/cetak/risiko/2c?opd_id={$opdId}&tahun={$tahun}");
 
-        $pdf = Pdf::loadView('risiko.pdf-2c', compact('opd', 'konteks', 'tahun', 'periode', 'pemerintahKabkota', 'sumberData', 'urusanPemerintahan', 'dataUmum'))
-            ->setPaper('a4', 'portrait');
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-2c-Konteks-Operasional-OPD-{$opd->nama}-{$tahun}");
+    }
 
-        return $pdf->download("Form-3a-Konteks-Operasional-OPD-{$opd->nama}-{$tahun}.pdf");
+    /**
+     * Edit manual tempat/tanggal/jabatan/nama penandatangan langsung dari
+     * halaman Form Cetak (2a/2b/2c) — disimpan PERMANEN ke Data Umum
+     * terkait (bukan cuma override sekali-pakai utk PDF ybs), sesuai
+     * keputusan: satu sumber data, supaya ikut terbawa ke pencetakan
+     * berikutnya & halaman Data Umum. Field yg bisa diedit dibedakan per
+     * level: Form 2a (Pemda) -> nama/jabatan Kepala Daerah; Form 2b/2c
+     * (OPD) -> nama/jabatan/NIP Kepala Dinas. Tempat & tanggal sama utk
+     * ketiganya.
+     */
+    public function updateTtd(Request $request, DataUmum $dataUmum)
+    {
+        $user = $request->user();
+        $isAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+        $sameOpd = $user->opd_id && $dataUmum->user?->opd_id === $user->opd_id;
+
+        if (!$isAdmin && $dataUmum->user_id !== $user->id && !$sameOpd) {
+            abort(403, 'Anda tidak memiliki akses untuk mengubah penanda tangan ini.');
+        }
+
+        $validated = $request->validate([
+            'tempat_pembuatan' => ['nullable', 'string', 'max:255'],
+            'tanggal_pembuatan' => ['nullable', 'date'],
+            'nama_kepala_daerah' => ['nullable', 'string', 'max:255'],
+            'jabatan_kepala_daerah' => ['nullable', 'string', 'max:255'],
+            'nama_kepala_dinas' => ['nullable', 'string', 'max:255'],
+            'jabatan_kepala_dinas' => ['nullable', 'string', 'max:255'],
+            'nip_kepala_dinas' => ['nullable', 'string', 'max:100'],
+        ]);
+
+        $dataUmum->update($validated);
+
+        return back()->with('success', 'Penanda tangan berhasil disimpan.');
     }
 }

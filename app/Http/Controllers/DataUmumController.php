@@ -21,7 +21,6 @@ class DataUmumController extends Controller
         'nama_sub_urusan',
         'nama_dinas_opd',
         'periode_penilaian',
-        'tahun_penilaian',
         'nama_kepala_daerah',
         'jabatan_kepala_daerah',
         'nama_kepala_dinas',
@@ -46,7 +45,6 @@ class DataUmumController extends Controller
     private const PEMDA_WIDE_FIELDS = [
         'pemerintah_kabkota',
         'periode_penilaian',
-        'tahun_penilaian',
         'nama_kepala_daerah',
         'jabatan_kepala_daerah',
         'dokumen_sumber_rsp',
@@ -62,6 +60,7 @@ class DataUmumController extends Controller
 
         return Inertia::render('datumum/Index', [
             'isAdmin' => $isAdmin,
+            'tahunAktif' => $default->tahun_penilaian,
             'data' => [
                 ...collect(self::FIELDS)->mapWithKeys(function ($f) use ($data, $default) {
                     if ($f === 'tanggal_pembuatan') {

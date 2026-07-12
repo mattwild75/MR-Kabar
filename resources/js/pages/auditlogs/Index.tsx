@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/select';
 import { type BreadcrumbItem } from '@/types';
 import { ChevronRight, Search, X, Plus, Pencil, Trash2 } from 'lucide-react';
+import { formatTanggalWaktu } from '@/lib/date';
 
 interface Activity {
   id: number;
@@ -152,7 +153,7 @@ function LogRow({ log }: { log: Activity }) {
           {log.causer?.name ?? 'Sistem'}
         </span>
         <span className="shrink-0 text-xs text-muted-foreground whitespace-nowrap">
-          {new Date(log.created_at).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' })}
+          {formatTanggalWaktu(log.created_at)}
         </span>
         {fieldCount > 0 && (
           <Badge variant="secondary" className="shrink-0">

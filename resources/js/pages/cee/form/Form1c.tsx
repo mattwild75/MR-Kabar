@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { CEE_FORM1C_FIELD_INFO } from '@/lib/cee-form1c-field-info';
+import { formatTanggalWaktu } from '@/lib/date';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -234,7 +235,7 @@ export default function Form1c({ opdOptions, opdStatus, opdId, tahun, unsurs, ri
                       {tersimpan?.submitted_by && (
                         <p className="text-xs text-muted-foreground">
                           Disimpan lewat akun: {tersimpan.submitted_by.name || tersimpan.submitted_by.username}
-                          {tersimpan.updated_at && ` — ${tersimpan.updated_at}`}
+                          {tersimpan.updated_at && ` — ${formatTanggalWaktu(tersimpan.updated_at)}`}
                         </p>
                       )}
                     </div>

@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Plus, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
+import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 
 // type alias (bukan interface) agar dapat implied index signature — syarat
 // FormDataConvertible pada useForm Inertia.
@@ -26,6 +27,7 @@ interface DataUmumData {
 interface PageProps {
   data: DataUmumData;
   isAdmin: boolean;
+  tahunAktif: string | number;
 }
 
 // Field yg nilainya Pemda-wide (sama utk semua OPD) — hanya Admin/Super
@@ -51,7 +53,6 @@ const SECTIONS: { title: string; fields: [string, string, 'text' | 'date'][] }[]
       ['nama_sub_urusan', 'Nama Sub-Urusan', 'text'],
       ['nama_dinas_opd', 'Nama Dinas SKPK / OPD', 'text'],
       ['periode_penilaian', 'Periode Penilaian', 'text'],
-      ['tahun_penilaian', 'Tahun Penilaian', 'text'],
     ],
   },
   {
@@ -98,7 +99,7 @@ const SECTIONS: { title: string; fields: [string, string, 'text' | 'date'][] }[]
 // biasa tanpa index signature ditolak useForm.
 type DataUmumForm = Record<string, string | Signatory[]>;
 
-export default function DataUmumIndex({ data, isAdmin }: PageProps) {
+export default function DataUmumIndex({ data, isAdmin, tahunAktif }: PageProps) {
   const { auth } = usePage<SharedData>().props;
   const isCeeSurvey = auth.user?.roles?.some((r) => r.name === 'cee-survey') ?? false;
 
@@ -147,6 +148,9 @@ export default function DataUmumIndex({ data, isAdmin }: PageProps) {
             <p className="text-sm text-muted-foreground">
               Identitas kertas kerja penilaian risiko & penanda tangan — dipakai pada Form Cetak.
             </p>
+            <div className="mt-2">
+              <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
+            </div>
           </div>
           {!isCeeSurvey && (
             <Button type="submit" disabled={processing}>

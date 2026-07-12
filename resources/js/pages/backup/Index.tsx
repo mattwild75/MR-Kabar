@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Github, FileSpreadsheet, Upload, GitPullRequestArrow, TriangleAlert } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
+import { formatTanggalWaktu } from '@/lib/date';
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -142,7 +143,7 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
                       <div className="font-medium">{backup.name}</div>
                       <div className="text-xs text-muted-foreground">
                         {formatSize(backup.size)} •{' '}
-                        {new Date(backup.last_modified * 1000).toLocaleString()}
+                        {formatTanggalWaktu(backup.last_modified * 1000)}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">

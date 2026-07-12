@@ -73,7 +73,14 @@ export function OpdTahunPicker({ routeName, opdOptions, opdId, tahun, opdStatus 
     );
   };
 
-  const selectedStatus = opdId ? opdStatus?.[opdId] : undefined;
+  // Badge status ("Belum isi"/"Proses"/"Lengkap") HANYA relevan utk
+  // halaman yg benar2 mengirim opdStatus (Form Input CEE 1a/1b/1c) —
+  // sebelumnya badge "Belum isi" tetap muncul default di halaman manapun
+  // yg memakai OpdTahunPicker TANPA mengirim opdStatus (Form Cetak CEE
+  // 1a/1b/1c, Form Cetak Risiko 2b/2c), krn statusBadge(undefined) selalu
+  // jatuh ke cabang "Belum isi" — padahal progres pengisian kuesioner CEE
+  // sama sekali tidak relevan bagi Form Cetak Risiko.
+  const selectedStatus = opdId && opdStatus ? opdStatus[opdId] : undefined;
 
   return (
     <div className="space-y-2">
@@ -111,7 +118,7 @@ export function OpdTahunPicker({ routeName, opdOptions, opdId, tahun, opdStatus 
             onChange={(e) => navigate(opdId, Number(e.target.value) || tahun)}
           />
         </div>
-        {opdId && <div className="pb-1.5">{statusBadge(selectedStatus)}</div>}
+        {opdId && opdStatus && <div className="pb-1.5">{statusBadge(selectedStatus)}</div>}
       </div>
 
       {opdStatus && Object.keys(opdStatus).length > 0 && (

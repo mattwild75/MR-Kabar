@@ -107,8 +107,8 @@
     --chart-4: hsl(43, 74%, 66%);
     --chart-5: hsl(27, 87%, 67%);
     --radius: 0.5rem;
-    --sidebar-background: hsl(210, 20%, 99%);
-    --sidebar-foreground: hsl(222, 47%, 16%);
+    --sidebar-background: hsl(210, 40%, 54%);
+    --sidebar-foreground: hsl(0, 0%, 0%);
     --sidebar-primary: hsl(4, 70%, 38%);
     --sidebar-primary-foreground: hsl(0, 0%, 100%);
     --sidebar-accent: hsl(210, 18%, 93%);
@@ -148,13 +148,13 @@
     --chart-3: hsl(30, 80%, 55%);
     --chart-4: hsl(280, 65%, 60%);
     --chart-5: hsl(340, 75%, 55%);
-    --sidebar-background: hsl(222, 47%, 10%);
+    --sidebar-background: hsl(222, 38%, 26%);
     --sidebar-foreground: hsl(210, 20%, 92%);
     --sidebar-primary: hsl(4, 70%, 56%);
     --sidebar-primary-foreground: hsl(0, 0%, 100%);
     --sidebar-accent: hsl(222, 20%, 18%);
     --sidebar-accent-foreground: hsl(210, 20%, 96%);
-    --sidebar-border: hsl(215, 25%, 24%);
+    --sidebar-border: hsl(215, 25%, 40%);
     --sidebar-ring: hsl(217.2, 91.2%, 59.8%);
 
     /* Aceh-inspired accent palette (dark mode) */

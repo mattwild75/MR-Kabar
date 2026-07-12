@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { FileDown } from 'lucide-react';
+import { TtdEditor } from '@/components/cee/ttd-editor';
 
 interface IndikatorRow {
   ik: string;
@@ -69,10 +70,12 @@ interface Konteks {
 }
 
 interface DataUmum {
+  id: number;
   nama_kepala_daerah?: string;
   jabatan_kepala_daerah?: string;
   tempat_pembuatan?: string;
   tanggal_pembuatan?: string;
+  tanggal_pembuatan_raw?: string;
 }
 
 interface PageProps {
@@ -121,26 +124,41 @@ function NumberedItem({ nomor, bold, width = 'w-10', children }: { nomor: string
 function IndikatorTable({ rows }: { rows: IndikatorRow[] }) {
   if (rows.length === 0) return <span className="text-muted-foreground">-</span>;
   return (
-    <table className="mt-1 w-full border-collapse text-[11px]">
+    // table-fixed + lebar kolom persentase tetap — supaya lebar kolom
+    // Indikator/Baseline/Target/OPD SAMA di semua tabel indikator (1.1,
+    // 1.2, 2.1, dst), bukan auto-size per tabel berdasarkan panjang teks
+    // isinya sendiri2 (itulah knp sebelumnya lebar kolom antar tabel bisa
+    // beda-beda meski sama2 4 kolom).
+    <table className="mt-1 w-full table-fixed border-collapse border border-black text-[11px]">
+      <colgroup>
+        <col className="w-[40%]" />
+        <col className="w-[18%]" />
+        <col className="w-[18%]" />
+        <col className="w-[24%]" />
+      </colgroup>
       <thead>
-        <tr className="border-b border-black/30 text-left">
-          <th className="py-0.5 pr-2 font-semibold">Indikator</th>
-          <th className="py-0.5 pr-2 font-semibold">Baseline</th>
-          <th className="py-0.5 pr-2 font-semibold">Target</th>
-          <th className="py-0.5 font-semibold">OPD</th>
+        <tr className="text-left">
+          <th className="border border-black py-1 px-2 font-semibold">Indikator</th>
+          <th className="border border-black py-1 px-2 font-semibold">Baseline</th>
+          <th className="border border-black py-1 px-2 font-semibold">Target</th>
+          <th className="border border-black py-1 px-2 font-semibold">OPD</th>
         </tr>
       </thead>
       <tbody>
         {rows.map((r, i) => (
-          <tr key={i} className="border-b border-black/10 last:border-b-0">
-            <td className="py-0.5 pr-2 align-top">{clean(r.ik)}</td>
-            <td className="py-0.5 pr-2 align-top">
+          // Antar baris indikator dipisah garis titik-titik (bukan solid) —
+          // solid dipakai utk pemisah struktural (header/kolom), dotted utk
+          // baris data supaya tidak terkesan setiap indikator adalah entitas
+          // terpisah yg sama beratnya dgn header, sesuai contoh referensi.
+          <tr key={i} className={i > 0 ? 'border-t border-dotted border-black/50' : ''}>
+            <td className="border-x border-black py-1 px-2 align-top">{clean(r.ik)}</td>
+            <td className="border-x border-black py-1 px-2 align-top">
               {clean(r.baseline)} {clean(r.satuan) !== '-' ? r.satuan : ''}
             </td>
-            <td className="py-0.5 pr-2 align-top">
+            <td className="border-x border-black py-1 px-2 align-top">
               {clean(r.target)} {clean(r.satuan) !== '-' ? r.satuan : ''}
             </td>
-            <td className="py-0.5 align-top">{clean(r.opd)}</td>
+            <td className="border-x border-black py-1 px-2 align-top">{clean(r.opd)}</td>
           </tr>
         ))}
       </tbody>
@@ -158,10 +176,10 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
 
   return (
     <AppLayout>
-      <Head title="Form 1a — Penetapan Konteks Risiko Strategis Pemerintah Daerah" />
+      <Head title="2a_Konteks Risiko Strategis Pemda" />
       <div className="space-y-4 p-4 print:hidden">
         <div>
-          <h1 className="text-2xl font-semibold">Form 1a — Penetapan Konteks Risiko Strategis Pemerintah Daerah</h1>
+          <h1 className="text-2xl font-semibold">2a_Konteks Risiko Strategis Pemda</h1>
           <p className="text-sm text-muted-foreground">Pratinjau cetak ukuran A4.</p>
         </div>
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -184,10 +202,10 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
         </div>
       ) : (
         <div className="cee-print-sheet mx-auto max-w-4xl bg-white p-8 text-black print:m-0 print:max-w-none print:p-0 print:shadow-none">
-          <p className="text-right text-xs italic">Form_I_a</p>
+          <p className="text-right text-xs italic">Form 2a</p>
           <h2 className="mt-2 text-center text-sm font-bold uppercase">Penetapan Konteks Risiko Strategis Pemerintah Daerah</h2>
 
-          {/* 1-4: Nama Pemda, Tahun Penilaian, Periode, Sumber Data (info polos) */}
+          {/* 1-3: Nama Pemda, Tahun Penilaian, Periode (info polos) */}
           <table className="mt-4 w-full border-collapse text-xs">
             <tbody>
               <tr>
@@ -202,10 +220,15 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
                 <td className="py-0.5">Periode yang Dinilai</td>
                 <td className="py-0.5">: {periode ?? '-'}</td>
               </tr>
-              <tr>
-                <td className="py-0.5">Sumber Data</td>
-                <td className="py-0.5">: {sumberData}</td>
-              </tr>
+            </tbody>
+          </table>
+
+          {/* Sumber Data — baris bertabel dgn highlight kuning, konsisten dgn Cetak2b/2c.tsx */}
+          <table className="mt-3 w-full border-collapse border border-black text-xs">
+            <tbody>
+              <Baris label="Sumber Data" highlight>
+                {sumberData}
+              </Baris>
             </tbody>
           </table>
 
@@ -248,7 +271,7 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
                       <NumberedItem key={t.nomor} nomor={t.nomor} bold={t.bold}>
                         {t.tujuan}
                         {t.indikator_list.length > 0 && (
-                          <div className="font-normal">
+                          <div className={t.bold ? '' : 'font-normal'}>
                             <IndikatorTable rows={t.indikator_list} />
                           </div>
                         )}
@@ -281,7 +304,7 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
                     </NumberedItem>
                   ))}
                   <p className="mt-1 text-[10px] italic text-muted-foreground">
-                    *Ket. yang dicetak Tebal : IKU Sasaran RPJMD yang dipilih sebagai Penetapan Konteks Risiko Strategis Pemda
+                    *Ket. yang dicetak Tebal : IK dipilih sebagai IKU dan Sasaran RPJMD yang dipilih sebagai Penetapan Konteks Risiko Strategis Pemda
                   </p>
                 </td>
               </tr>
@@ -296,12 +319,15 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
                   <div key={i} className={p.bold ? 'font-bold' : ''}>
                     {p.program}
                     {p.indikator_list.length > 0 && (
-                      <div className="pl-4 font-normal">
+                      <div className={p.bold ? 'pl-4' : 'pl-4 font-normal'}>
                         <IndikatorTable rows={p.indikator_list} />
                       </div>
                     )}
                   </div>
                 ))}
+                <p className="mt-1 text-[10px] italic text-muted-foreground">
+                  *Ket. yang dicetak Tebal : Program yang dipilih sebagai Penetapan Konteks Risiko Strategis Pemda
+                </p>
               </Baris>
             </tbody>
           </table>
@@ -414,6 +440,22 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
               </div>
             </div>
           </div>
+
+          {dataUmum && (
+            <div className="mt-4 flex justify-end">
+              <div className="w-80">
+                <TtdEditor
+                  dataUmumId={dataUmum.id}
+                  tempatPembuatan={dataUmum.tempat_pembuatan ?? ''}
+                  tanggalPembuatan={dataUmum.tanggal_pembuatan_raw ?? ''}
+                  jabatan={dataUmum.jabatan_kepala_daerah ?? ''}
+                  jabatanField="jabatan_kepala_daerah"
+                  nama={dataUmum.nama_kepala_daerah ?? ''}
+                  namaField="nama_kepala_daerah"
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 

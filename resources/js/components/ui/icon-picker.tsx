@@ -20,16 +20,33 @@ interface IconPickerProps {
   onChange: (value: string) => void;
 }
 
+// Library Lucide skrg berisi 3500+ icon (lihat @/lib/icon-list) — me-render
+// SEMUANYA sbg <CommandItem> sekaligus (meski yg tersembunyi cuma
+// di-CSS-hide oleh cmdk, bukan di-unmount) bikin popover berat/lag saat
+// pertama dibuka. Dibatasi ke MAX_RESULTS teratas dari hasil filter,
+// dihitung manual di React (bukan diserahkan ke filter bawaan cmdk yg
+// tetap me-render semua node).
+const MAX_RESULTS = 100;
+
 export default function IconPicker({ value, onChange }: IconPickerProps) {
   const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState('');
 
-  const customFilter = (input: string, value: string): number => {
-    const i = input.toLowerCase();
-    const v = value.toLowerCase();
-    if (v.startsWith(i)) return 2;
-    if (v.includes(i)) return 1;
-    return 0;
-  };
+  const filtered = React.useMemo(() => {
+    const s = search.trim().toLowerCase();
+    if (!s) return icons.slice(0, MAX_RESULTS);
+
+    return icons
+      .map((item) => {
+        const v = item.name.toLowerCase();
+        const score = v.startsWith(s) ? 2 : v.includes(s) ? 1 : 0;
+        return { item, score };
+      })
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name))
+      .slice(0, MAX_RESULTS)
+      .map((x) => x.item);
+  }, [search]);
 
   const selected = icons.find((i) => i.name === value);
   const SelectedIcon = selected?.icon;
@@ -49,12 +66,17 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
           </div>
         </PopoverTrigger>
         <PopoverContent className="p-0 w-[300px]">
-          <Command filter={customFilter}>
-            <CommandInput placeholder="Cari icon..." />
+          {/* shouldFilter=false: pemfilteran & pembatasan jumlah item
+              dilakukan manual lewat state `search` + `filtered` di atas
+              (bukan diserahkan ke filter bawaan cmdk), supaya HANYA item
+              hasil pencarian yg di-render sbg DOM node — bukan seluruh
+              3500+ icon disembunyikan via CSS. */}
+          <Command shouldFilter={false}>
+            <CommandInput placeholder="Cari icon..." value={search} onValueChange={setSearch} />
             <CommandList>
               <CommandEmpty>Icon tidak ditemukan</CommandEmpty>
               <CommandGroup>
-                {icons.map(({ name, icon: Icon }) => (
+                {filtered.map(({ name, icon: Icon }) => (
                   <CommandItem
                     key={name}
                     value={name}

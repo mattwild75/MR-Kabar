@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Download, FileSpreadsheet, Upload, Check, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
+import { formatTanggalWaktu } from '@/lib/date';
 import ImportResultPanel, {
   statusBadge,
   type ImportResult,
@@ -288,7 +289,7 @@ function PendingRequestCard({
           <div className="font-medium">{request.original_filename}</div>
           <div className="text-xs text-muted-foreground">
             Diajukan oleh {request.user?.name ?? '-'} (@{request.user?.username ?? '-'}) &middot;{' '}
-            {new Date(request.created_at).toLocaleString()}
+            {formatTanggalWaktu(request.created_at)}
           </div>
         </div>
         <div className="flex gap-2">
@@ -331,12 +332,12 @@ function MyRequestCard({ request }: { request: ImportRequestItem }) {
         <div>
           <div className="font-medium">{request.original_filename}</div>
           <div className="text-xs text-muted-foreground">
-            Diajukan {new Date(request.created_at).toLocaleString()}
+            Diajukan {formatTanggalWaktu(request.created_at)}
             {request.reviewed_at && (
               <>
                 {' '}
                 &middot; ditinjau oleh {request.reviewer?.name ?? '-'} pada{' '}
-                {new Date(request.reviewed_at).toLocaleString()}
+                {formatTanggalWaktu(request.reviewed_at)}
               </>
             )}
           </div>

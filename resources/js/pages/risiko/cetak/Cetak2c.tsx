@@ -3,27 +3,63 @@ import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
 import { FileDown } from 'lucide-react';
+import { TtdEditor } from '@/components/cee/ttd-editor';
 
-interface KegiatanGroup {
+interface IndikatorRow {
+  ik: string;
+  baseline: string | null;
+  target: string | null;
+  satuan: string | null;
+  opd: string | null;
+}
+
+interface KegiatanNode {
+  nomor: string;
   kegiatan: string;
-  program: string | null;
-  ik: string[];
-  target: string[];
+  indikator_list: IndikatorRow[];
+  bold: boolean;
+}
+
+interface ProgramNode {
+  nomor: string;
+  program: string;
+  indikator_list: IndikatorRow[];
+  kegiatan_list: KegiatanNode[];
+  bold: boolean;
+}
+
+interface SasaranNode {
+  nomor: string;
+  sasaran: string;
+  program_list: ProgramNode[];
+  bold: boolean;
+}
+
+interface ProgramFlat extends ProgramNode {
+  sasaran_nomor: string;
+  sasaran: string;
+}
+
+interface KegiatanFlat extends KegiatanNode {
+  program_nomor: string;
+  program: string;
 }
 
 interface Konteks {
-  sasaran_list: string[];
-  program_list: string[];
-  kegiatan_groups: KegiatanGroup[];
+  sasaran_list: SasaranNode[];
+  program_flat: ProgramFlat[];
+  kegiatan_flat: KegiatanFlat[];
 }
 
 interface DataUmum {
+  id: number;
   nama_kepala_dinas?: string;
   jabatan_kepala_dinas?: string;
   nip_kepala_dinas?: string;
   nama_pic?: string;
   tempat_pembuatan?: string;
   tanggal_pembuatan?: string;
+  tanggal_pembuatan_raw?: string;
 }
 
 interface OpdOption {
@@ -55,23 +91,57 @@ function Baris({ label, children, highlight }: { label: string; children: React.
   );
 }
 
-function List({ values }: { values: string[] }) {
-  if (values.length === 0) return <>-</>;
-  return (
-    <>
-      {values.map((v, i) => (
-        <div key={i}>{v}</div>
-      ))}
-    </>
-  );
-}
-
-// "Tidak Ada Data" adalah literal placeholder lama dari data mentah
-// krs_pd/kro_pd (kini digantikan null) — tampilkan sbg "-", konsisten
-// dgn Cetak2a.tsx.
 function clean(v?: string | null): string {
   if (!v || v === 'Tidak Ada Data') return '-';
   return v;
+}
+
+function NumberedItem({ nomor, bold, width = 'w-14', children }: { nomor: string | number; bold?: boolean; width?: string; children: React.ReactNode }) {
+  return (
+    <div className={`flex ${bold ? 'font-bold' : ''}`}>
+      <span className={`shrink-0 ${width}`}>{nomor}</span>
+      <span className="flex-1">{children}</span>
+    </div>
+  );
+}
+
+function IndikatorTable({ rows }: { rows: IndikatorRow[] }) {
+  if (rows.length === 0) return <span className="text-muted-foreground">-</span>;
+  return (
+    // table-fixed + lebar kolom persentase tetap — lebar kolom sama di
+    // semua tabel indikator, tidak auto-size per tabel (lihat Cetak2a.tsx
+    // utk penjelasan lengkap).
+    <table className="mt-1 w-full table-fixed border-collapse border border-black text-[11px]">
+      <colgroup>
+        <col className="w-[40%]" />
+        <col className="w-[18%]" />
+        <col className="w-[18%]" />
+        <col className="w-[24%]" />
+      </colgroup>
+      <thead>
+        <tr className="text-left">
+          <th className="border border-black py-1 px-2 font-semibold">Indikator</th>
+          <th className="border border-black py-1 px-2 font-semibold">Baseline</th>
+          <th className="border border-black py-1 px-2 font-semibold">Target</th>
+          <th className="border border-black py-1 px-2 font-semibold">OPD</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={i} className={i > 0 ? 'border-t border-dotted border-black/50' : ''}>
+            <td className="border-x border-black py-1 px-2 align-top">{clean(r.ik)}</td>
+            <td className="border-x border-black py-1 px-2 align-top">
+              {clean(r.baseline)} {clean(r.satuan) !== '-' ? r.satuan : ''}
+            </td>
+            <td className="border-x border-black py-1 px-2 align-top">
+              {clean(r.target)} {clean(r.satuan) !== '-' ? r.satuan : ''}
+            </td>
+            <td className="border-x border-black py-1 px-2 align-top">{clean(r.opd)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 export default function Cetak2c({
@@ -87,10 +157,10 @@ export default function Cetak2c({
 }: PageProps) {
   return (
     <AppLayout>
-      <Head title="Form 3a — Penetapan Konteks Risiko Operasional OPD" />
+      <Head title="2c_Konteks Risiko Operasional OPD" />
       <div className="space-y-4 p-4 print:hidden">
         <div>
-          <h1 className="text-2xl font-semibold">Form 3a — Penetapan Konteks Risiko Operasional OPD</h1>
+          <h1 className="text-2xl font-semibold">2c_Konteks Risiko Operasional OPD</h1>
           <p className="text-sm text-muted-foreground">Pratinjau cetak ukuran A4.</p>
         </div>
         <div className="flex flex-wrap items-end justify-between gap-3">
@@ -114,7 +184,7 @@ export default function Cetak2c({
 
       {opd && konteks && (
         <div className="cee-print-sheet mx-auto max-w-4xl bg-white p-8 text-black print:m-0 print:max-w-none print:p-0 print:shadow-none">
-          <p className="text-right text-xs italic">Form_III_a</p>
+          <p className="text-right text-xs italic">Form 2c</p>
           <h2 className="mt-2 text-center text-sm font-bold uppercase">Penetapan Konteks Risiko Operasional OPD</h2>
 
           <table className="mt-4 w-full border-collapse text-xs">
@@ -142,72 +212,92 @@ export default function Cetak2c({
             </tbody>
           </table>
 
+          {/* 1. Sumber Data */}
           <table className="mt-3 w-full border-collapse border border-black text-xs">
             <tbody>
               <Baris label="Sumber Data" highlight>
                 {clean(sumberData)}
               </Baris>
-              <Baris label="Tujuan Strategis">
-                <List values={[]} />
-              </Baris>
-              <Baris label="Sasaran Strategis">
-                <List values={konteks.sasaran_list} />
-              </Baris>
             </tbody>
           </table>
 
+          {/* 2. Sasaran Renstra (root) — bernomor */}
           <table className="mt-3 w-full border-collapse border border-black text-xs">
             <tbody>
-              <Baris label="Program dan Kegiatan Utama">
-                <List values={konteks.program_list} />
-              </Baris>
-              <Baris label="Kegiatan (Output/Keluaran) / Hasil Kegiatan">
-                <List values={konteks.kegiatan_groups.map((k) => k.kegiatan)} />
-              </Baris>
-            </tbody>
-          </table>
-
-          {konteks.kegiatan_groups.map((kg, i) => (
-            <table key={i} className="mt-3 w-full border-collapse border border-black text-xs">
-              <tbody>
-                <tr>
-                  <td className="w-56 border border-black p-1.5 align-top font-semibold">IK Kegiatan</td>
-                  <td className="w-4 border border-black p-1.5 text-center align-top">:</td>
-                  <td className="border border-black p-1.5 align-top">
-                    <div className="mb-1 font-medium">{kg.kegiatan}</div>
-                    <List values={kg.ik} />
-                  </td>
-                </tr>
-                <tr>
-                  <td className="border border-black p-1.5 align-top font-semibold">Target IK Kegiatan</td>
-                  <td className="border border-black p-1.5 text-center align-top">:</td>
-                  <td className="border border-black p-1.5 align-top">
-                    <List values={kg.target} />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          ))}
-
-          <table className="mt-3 w-full border-collapse border border-black text-xs">
-            <tbody>
-              <Baris label="Informasi Lain">-</Baris>
               <tr>
-                <td className="w-56 border border-black p-1.5 align-top font-semibold">
-                  Program, Kegiatan dan IKU yang akan dilakukan penilaian Risiko
-                </td>
+                <td className="w-56 border border-black p-1.5 align-top font-semibold">Sasaran Renstra</td>
                 <td className="w-4 border border-black p-1.5 text-center align-top">:</td>
                 <td className="border border-black p-1.5 align-top">
-                  <div className="font-semibold">
-                    <List values={konteks.program_list} />
-                  </div>
-                  {konteks.kegiatan_groups.map((kg, i) => (
-                    <div key={i} className="mt-1">
-                      <div className="font-semibold">Kegiatan {kg.kegiatan}</div>
-                      <div>IK :</div>
-                      <List values={kg.ik} />
-                    </div>
-                  ))}
+                  {konteks.sasaran_list.length === 0 ? (
+                    '-'
+                  ) : (
+                    konteks.sasaran_list.map((s) => (
+                      <NumberedItem key={s.nomor} nomor={s.nomor} bold={s.bold} width="w-8">
+                        {s.sasaran}
+                      </NumberedItem>
+                    ))
+                  )}
+                  <p className="mt-1 text-[10px] italic text-muted-foreground">
+                    *Ket. yang dicetak Tebal : Sasaran yang dipilih sebagai Penetapan Konteks Risiko Operasional OPD
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* 3. Program dan Kegiatan Utama — bernomor, nested IndikatorTable */}
+          <table className="mt-3 w-full border-collapse border border-black text-xs">
+            <tbody>
+              <tr>
+                <td className="w-56 border border-black p-1.5 align-top font-semibold">Program dan Kegiatan Utama</td>
+                <td className="w-4 border border-black p-1.5 text-center align-top">:</td>
+                <td className="border border-black p-1.5 align-top">
+                  {konteks.program_flat.length === 0 ? (
+                    '-'
+                  ) : (
+                    konteks.program_flat.map((p) => (
+                      <NumberedItem key={p.nomor} nomor={p.nomor} bold={p.bold} width="w-14">
+                        {p.program}
+                        {p.indikator_list.length > 0 && (
+                          <div className="font-normal">
+                            <IndikatorTable rows={p.indikator_list} />
+                          </div>
+                        )}
+                      </NumberedItem>
+                    ))
+                  )}
+                  <p className="mt-1 text-[10px] italic text-muted-foreground">
+                    *Ket. yang dicetak Tebal : Program yang dipilih sebagai Penetapan Konteks Risiko Operasional OPD
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          {/* 4. Kegiatan (Output/Keluaran) / Hasil Kegiatan — bernomor, nested IndikatorTable */}
+          <table className="mt-3 w-full border-collapse border border-black text-xs">
+            <tbody>
+              <tr>
+                <td className="w-56 border border-black p-1.5 align-top font-semibold">Kegiatan (Output/Keluaran) / Hasil Kegiatan</td>
+                <td className="w-4 border border-black p-1.5 text-center align-top">:</td>
+                <td className="border border-black p-1.5 align-top">
+                  {konteks.kegiatan_flat.length === 0 ? (
+                    '-'
+                  ) : (
+                    konteks.kegiatan_flat.map((k) => (
+                      <NumberedItem key={k.nomor} nomor={k.nomor} bold={k.bold} width="w-16">
+                        {k.kegiatan}
+                        {k.indikator_list.length > 0 && (
+                          <div className="font-normal">
+                            <IndikatorTable rows={k.indikator_list} />
+                          </div>
+                        )}
+                      </NumberedItem>
+                    ))
+                  )}
+                  <p className="mt-1 text-[10px] italic text-muted-foreground">
+                    *Ket. yang dicetak Tebal : Kegiatan yang dipilih sebagai Penetapan Konteks Risiko Operasional OPD
+                  </p>
                 </td>
               </tr>
             </tbody>
@@ -229,6 +319,23 @@ export default function Cetak2c({
               </div>
             </div>
           </div>
+
+          {dataUmum && (
+            <div className="mt-4 flex justify-end">
+              <div className="w-80">
+                <TtdEditor
+                  dataUmumId={dataUmum.id}
+                  tempatPembuatan={dataUmum.tempat_pembuatan ?? ''}
+                  tanggalPembuatan={dataUmum.tanggal_pembuatan_raw ?? ''}
+                  jabatan={dataUmum.jabatan_kepala_dinas ?? ''}
+                  jabatanField="jabatan_kepala_dinas"
+                  nama={dataUmum.nama_kepala_dinas ?? ''}
+                  namaField="nama_kepala_dinas"
+                  nip={dataUmum.nip_kepala_dinas ?? ''}
+                />
+              </div>
+            </div>
+          )}
         </div>
       )}
 

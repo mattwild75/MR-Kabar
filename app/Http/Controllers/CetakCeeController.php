@@ -8,7 +8,7 @@ use App\Models\CeeSimpulan;
 use App\Models\CeeUnsur;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -244,6 +244,18 @@ class CetakCeeController extends Controller
         ];
     }
 
+    /**
+     * Cetak PDF via Browsershot (screenshot Chromium dari halaman React
+     * preview /cetak/cee/1a/1b/1c yg sama persis) — BUKAN DomPDF lagi.
+     * Sama pola dgn CetakRisikoController::pdf2a/2b/2c — lihat
+     * PdfPrintService utk penjelasan lengkap. Ini PRESET BAKU utk seluruh
+     * fitur cetak di aplikasi ini ke depannya: setiap Form Cetak baru
+     * WAJIB pakai pola ini (screenshot URL preview React via
+     * PdfPrintService::downloadFromUrl), BUKAN Pdf::loadView() DomPDF —
+     * supaya hasil cetak 100% identik dgn tampilan web tanpa perlu
+     * maintain dua versi HTML/CSS terpisah (React utk layar, Blade utk
+     * DomPDF) yg gampang divergen spt yg terjadi berkali-kali sebelumnya.
+     */
     public function pdf1a(Request $request)
     {
         $opdId = $request->integer('opd_id') ?: null;
@@ -251,28 +263,9 @@ class CetakCeeController extends Controller
         $tahun = $request->integer('tahun') ?: (int) date('Y');
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
-        $unsurs = CeeUnsur::with(['pertanyaan' => fn ($q) => $q->where('aktif', true)->orderBy('urutan')])
-            ->orderBy('urutan')
-            ->get();
+        $url = url("/cetak/cee/1a?opd_id={$opdId}&tahun={$tahun}");
 
-        $hasil = $this->hitungRekap1a($opdId, $tahun);
-        $rekap = $hasil['per_pertanyaan'];
-        $jumlahResponden = $hasil['jumlah_responden'];
-
-        $simpulanUnsur = [];
-        foreach ($unsurs as $unsur) {
-            $simpulanList = $unsur->pertanyaan->map(fn ($p) => $rekap[$p->id]['simpulan'] ?? null)->filter();
-            $simpulanUnsur[$unsur->id] = $simpulanList->isEmpty()
-                ? null
-                : ($simpulanList->contains('Kurang Memadai') ? 'Kurang Memadai' : 'Memadai');
-        }
-
-        $pemerintahKabkota = $this->pemerintahKabkota();
-
-        $pdf = Pdf::loadView('cee.pdf-1a', compact('opd', 'tahun', 'unsurs', 'rekap', 'simpulanUnsur', 'jumlahResponden', 'pemerintahKabkota'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->download("CEE-1a-{$opd->nama}-{$tahun}.pdf");
+        return PdfPrintService::downloadFromUrl($request, $url, "CEE-1a-{$opd->nama}-{$tahun}");
     }
 
     public function pdf1b(Request $request)
@@ -282,18 +275,9 @@ class CetakCeeController extends Controller
         $tahun = $request->integer('tahun') ?: (int) date('Y');
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
-        $entries = CeeKelemahanDokumen::with('unsur')
-            ->where('opd_id', $opdId)
-            ->where('tahun_penilaian', $tahun)
-            ->orderBy('cee_unsur_id')
-            ->get();
+        $url = url("/cetak/cee/1b?opd_id={$opdId}&tahun={$tahun}");
 
-        $pemerintahKabkota = $this->pemerintahKabkota();
-
-        $pdf = Pdf::loadView('cee.pdf-1b', compact('opd', 'tahun', 'entries', 'pemerintahKabkota'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->download("CEE-1b-{$opd->nama}-{$tahun}.pdf");
+        return PdfPrintService::downloadFromUrl($request, $url, "CEE-1b-{$opd->nama}-{$tahun}");
     }
 
     public function pdf1c(Request $request)
@@ -303,22 +287,8 @@ class CetakCeeController extends Controller
         $tahun = $request->integer('tahun') ?: (int) date('Y');
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
-        $unsurs = CeeUnsur::with('pertanyaan')->orderBy('urutan')->get();
-        $rows = [];
+        $url = url("/cetak/cee/1c?opd_id={$opdId}&tahun={$tahun}");
 
-        $rekap1a = $this->hitungRekap1a($opdId, $tahun)['per_pertanyaan'];
-        $kelemahan1b = CeeKelemahanDokumen::where('opd_id', $opdId)->where('tahun_penilaian', $tahun)->get();
-        $simpulan = CeeSimpulan::where('opd_id', $opdId)->where('tahun_penilaian', $tahun)->get()->keyBy('cee_unsur_id');
-
-        foreach ($unsurs as $unsur) {
-            $rows[] = $this->buildRow1c($unsur, $rekap1a, $kelemahan1b, $simpulan);
-        }
-
-        $pemerintahKabkota = $this->pemerintahKabkota();
-
-        $pdf = Pdf::loadView('cee.pdf-1c', compact('opd', 'tahun', 'rows', 'pemerintahKabkota'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->download("CEE-1c-{$opd->nama}-{$tahun}.pdf");
+        return PdfPrintService::downloadFromUrl($request, $url, "CEE-1c-{$opd->nama}-{$tahun}");
     }
 }

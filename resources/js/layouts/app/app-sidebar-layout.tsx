@@ -92,16 +92,33 @@ export default function AppSidebarLayout({
           ['--color-primary-foreground' as any]: primaryForeground,
         }}
       >
+        {/* print:hidden pada Sidebar/Header/Footer + print:w-full pada
+            AppContent — TANPA ini, sidebar & navbar ikut ter-screenshot
+            Browsershot (PdfPrintService) krn keduanya bukan bagian dari
+            halaman Cetak2a/2b/2c.tsx sendiri (yg sudah py print:hidden utk
+            toolbar internalnya), melainkan wrapper AppLayout yg dipakai
+            SEMUA halaman. Sebelumnya "berhasil" scroll manual/Ctrl+P
+            krn browser biasa menampilkan print preview scrollable (user
+            bisa uncheck "print backgrounds"/atur margin manual), tapi
+            Browsershot screenshot APA ADANYA yg dirender saat emulateMedia
+            ('print') aktif — sidebar/navbar yg tidak diberi print:hidden
+            ikut tercetak persis spt terlihat di layar biasa. */}
         <AppShell variant="sidebar">
-          <AppSidebar />
-          <AppContent variant="sidebar" className="flex min-w-0 flex-col">
-            <AppSidebarHeader breadcrumbs={breadcrumbs} />
+          <div className="print:hidden">
+            <AppSidebar />
+          </div>
+          <AppContent variant="sidebar" className="flex min-w-0 flex-col print:w-full print:max-w-none">
+            <div className="print:hidden">
+              <AppSidebarHeader breadcrumbs={breadcrumbs} />
+            </div>
             <div className="min-w-0 flex-1">{children}</div>
-            <AppFooter
-              contactEmail={setting?.contact_email}
-              contactEmailSecondary={setting?.contact_email_secondary}
-              footerCredit={setting?.footer_credit}
-            />
+            <div className="print:hidden">
+              <AppFooter
+                contactEmail={setting?.contact_email}
+                contactEmailSecondary={setting?.contact_email_secondary}
+                footerCredit={setting?.footer_credit}
+              />
+            </div>
           </AppContent>
         </AppShell>
       </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IrsPemda;
 use App\Models\Opd;
 use App\Models\KrsPemda;
+use App\Models\PengaturanPemda;
 use App\Services\KrsIrsSyncService;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
@@ -190,6 +191,7 @@ class IrsPemdaController extends Controller
             'currentUserId' => auth()->id(),
             'isAdmin' => $isAdmin,
             'currentUserOpdNama' => $isAdmin ? null : auth()->user()?->opd?->nama,
+            'tahunAktif' => PengaturanPemda::current()->tahun_penilaian,
         ]);
     }
 
@@ -231,6 +233,8 @@ class IrsPemdaController extends Controller
         $rules['SKALA KEMUNGKINAN'] = ['required', 'integer', 'min:1', 'max:5'];
         $rules['TRIWULAN'] = ['nullable', Rule::in(self::TRIWULAN_OPTIONS)];
         $rules['TAHUN TARGET PENYELESAIAN'] = ['nullable', 'integer', 'digits:4'];
+        // PIC BEBAS memilih tahun baris ini — lihat IrsPdController::validated().
+        $rules['TAHUN DINILAI RISIKO'] = ['nullable', 'digits:4'];
 
         return $request->validate($rules, [], $attributes);
     }
@@ -248,6 +252,11 @@ class IrsPemdaController extends Controller
     {
         $data = $this->fillEmptyTextFields($this->withCalculatedScales($this->validated($request)));
         $data['TINGKAT RISIKO'] = self::TINGKAT_RISIKO_VALUE;
+        // Fallback ke Tahun Aktif Pemda HANYA kalau PIC tidak mengisi
+        // sendiri — lihat IrsPdController::store() untuk alasannya.
+        if (empty($data['TAHUN DINILAI RISIKO'])) {
+            $data['TAHUN DINILAI RISIKO'] = PengaturanPemda::current()->tahun_penilaian;
+        }
         $data['user_id'] = $request->user()->id;
         IrsPemda::create($data);
         $sync->sync();

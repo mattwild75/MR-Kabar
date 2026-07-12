@@ -48,7 +48,7 @@ class TroubleshootReportController extends Controller
                 'category' => $r->category,
                 'description' => $r->description,
                 'status' => $r->status,
-                'created_at' => $r->created_at->translatedFormat('d M Y H:i'),
+                'created_at' => $r->created_at->locale('id')->translatedFormat('d F Y H:i'),
                 'user' => $r->user ? ['id' => $r->user->id, 'name' => $r->user->name] : null,
             ];
         });

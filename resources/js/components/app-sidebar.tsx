@@ -16,7 +16,6 @@ import { iconMapper } from '@/lib/iconMapper';
 import type { LucideIcon } from 'lucide-react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 
 // Layout memicu router.reload({ only: ['menus'] }) di setiap navigasi
@@ -26,21 +25,31 @@ import { cn } from '@/lib/utils';
 // yang diklik user tetap terlihat, tidak "geser" ke atas.
 const SIDEBAR_SCROLL_KEY = 'sidebar-scroll-top';
 
-// State expand/collapse per grup menu disimpan di sessionStorage (bukan
-// React state biasa) supaya tidak ikut reset ketika router.reload({ only:
-// ['menus'] }) di atas memicu re-render AppSidebar setiap navigasi.
-const SIDEBAR_OPEN_GROUPS_KEY = 'sidebar-open-groups';
+// Accordion tunggal: hanya SATU menu per level sibling yang boleh terbuka
+// sekaligus (activeMenu = id menu itu, atau null kalau semua tertutup).
+// Disimpan di sessionStorage per LEVEL (bukan React state biasa) supaya
+// tidak ikut reset ketika router.reload({ only: ['menus'] }) di atas
+// memicu re-render AppSidebar setiap navigasi. Key sessionStorage dibubuhi
+// nomor level supaya submenu level-1 di bawah grup A tidak saling
+// menutup dgn submenu level-1 di bawah grup B (tiap RenderMenu instance
+// = satu level sibling = satu slot activeMenu sendiri, diidentifikasi
+// oleh gabungan level + id induk terdekat yg lagi dirender).
+// v2: dinaikkan dari 'sidebar-active-menu' krn skema lama pernah menyimpan
+// scopeKey submenu sbg "open" yg tidak pernah dibersihkan sebelum fix
+// unmount-saat-closed diterapkan — data lama itu bikin submenu (mis. CEE)
+// tampak otomatis terbuka lagi meski baru saja diklik pertama kali.
+const SIDEBAR_ACTIVE_MENU_KEY = 'sidebar-active-menu-v2';
 
-function readOpenGroups(): Record<number, boolean> {
+function readActiveMenus(): Record<string, number | null> {
   try {
-    return JSON.parse(sessionStorage.getItem(SIDEBAR_OPEN_GROUPS_KEY) ?? '{}');
+    return JSON.parse(sessionStorage.getItem(SIDEBAR_ACTIVE_MENU_KEY) ?? '{}');
   } catch {
     return {};
   }
 }
 
-function writeOpenGroups(groups: Record<number, boolean>) {
-  sessionStorage.setItem(SIDEBAR_OPEN_GROUPS_KEY, JSON.stringify(groups));
+function writeActiveMenus(map: Record<string, number | null>) {
+  sessionStorage.setItem(SIDEBAR_ACTIVE_MENU_KEY, JSON.stringify(map));
 }
 
 interface MenuItem {
@@ -89,21 +98,56 @@ function RenderMenu({
   items,
   level = 0,
   groupColorOverride,
+  scopeKey = 'root',
 }: {
   items: MenuItem[];
   level?: number;
   /** Warna grup level-0 yg diteruskan ke anak2nya (submenu ikut warna induk). */
   groupColorOverride?: ReturnType<typeof groupColor>;
+  /** Kunci unik utk slot accordion level ini — tiap grup induk membuka
+   * scope activeMenu-nya sendiri (satu terbuka per level SIBLING, bukan
+   * satu terbuka utk SELURUH sidebar) sesuai id induk terdekat + level. */
+  scopeKey?: string;
 }) {
   const { url: currentUrl } = usePage();
-  const [openGroups, setOpenGroups] = useState<Record<number, boolean>>(readOpenGroups);
+  const [activeMenus, setActiveMenus] = useState<Record<string, number | null>>(readActiveMenus);
+  const activeMenuId = activeMenus[scopeKey] ?? null;
 
   if (!Array.isArray(items)) return null;
 
-  const toggleGroup = (id: number, isOpen: boolean) => {
-    setOpenGroups((prev) => {
-      const next = { ...prev, [id]: isOpen };
-      writeOpenGroups(next);
+  // Klik menu yg belum aktif -> buka menu itu (otomatis menutup sibling
+  // lain krn cuma ada 1 slot activeMenu per scope). Klik menu yg sudah
+  // aktif -> tutup (toggle ke null). Setiap kali menu di-toggle, SEMUA
+  // scopeKey turunannya (submenu, sub-submenu, dst — level berapa pun di
+  // bawahnya) ikut dihapus dari state tersimpan. Tanpa ini, scopeKey anak
+  // yg pernah dibuka sebelumnya (mis. "Form Input:CEE" atau
+  // "Form Input:CEE:1a") tetap tersimpan "open" di sessionStorage dan akan
+  // langsung muncul terbuka lagi begitu induknya (Form Input) dibuka
+  // ulang — padahal seharusnya hanya SATU tingkat di bawah induk yg
+  // ditampilkan, sisanya tertutup sampai diklik manual satu per satu.
+  const toggleGroup = (id: number) => {
+    setActiveMenus((prev) => {
+      const currentlyOpen = (prev[scopeKey] ?? null) === id;
+      const next: Record<string, number | null> = { ...prev, [scopeKey]: currentlyOpen ? null : id };
+
+      // Hapus SEMUA scopeKey turunan menu ini — termasuk scopeKey milik
+      // menu itu SENDIRI sbg induk (mis. "root:FormInputId"), BUKAN cuma
+      // turunan-dari-turunannya. Sebelumnya hanya prefix
+      // "scopeKey:id:" yg dibersihkan (turunan level+2 ke bawah), padahal
+      // scopeKey level+1 milik menu ini sendiri ("scopeKey:id" TANPA titik
+      // dua akhir) tidak ikut kehapus — itulah kenapa submenu yg PERNAH
+      // dibuka sebelumnya (mis. CEE dgn scopeKey "root:FormInputId") tetap
+      // "ingat" statusnya & langsung tampak terbuka lagi begitu Form Input
+      // dibuka ulang, padahal seharusnya SEMUA level di bawah induk yg baru
+      // dibuka wajib mulai dari keadaan tertutup.
+      const descendantPrefix = `${scopeKey}:${id}`;
+      for (const key of Object.keys(next)) {
+        if (key === descendantPrefix || key.startsWith(`${descendantPrefix}:`)) {
+          delete next[key];
+        }
+      }
+
+      writeActiveMenus(next);
       return next;
     });
   };
@@ -143,36 +187,73 @@ function RenderMenu({
 
         if (hasChildren) {
           // Default terbuka kalau belum ada preferensi tersimpan DAN grup
-          // ini sedang berisi halaman aktif — supaya saat pertama kali
-          // buka aplikasi, menu yang relevan langsung kelihatan.
-          const isOpen = openGroups[menu.id] ?? containsActiveRoute(menu, currentUrl);
+          // ini sedang berisi halaman aktif — HANYA di level-0 (grup
+          // paling atas), supaya saat pertama kali buka aplikasi, grup
+          // yang relevan langsung kelihatan tanpa perlu diklik. Level di
+          // bawahnya (submenu) TIDAK ikut auto-open berantai — harus
+          // diklik manual, sesuai logika accordion murni (satu per satu).
+          const isOpen = activeMenuId != null ? activeMenuId === menu.id : level === 0 && containsActiveRoute(menu, currentUrl);
 
           return (
             <SidebarMenuItem key={menu.id}>
-              <Collapsible open={isOpen} onOpenChange={(open) => toggleGroup(menu.id, open)}>
-                <CollapsibleTrigger asChild>
-                  <SidebarMenuButton
-                    data-state={isOpen ? 'open' : 'closed'}
-                    className={cn(
-                      'group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors',
-                      activeClass,
-                      accentBorderClass,
-                      level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3'
+              <SidebarMenuButton
+                type="button"
+                onClick={() => toggleGroup(menu.id)}
+                data-state={isOpen ? 'open' : 'closed'}
+                className={cn(
+                  'group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors',
+                  activeClass,
+                  accentBorderClass,
+                  level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3'
+                )}
+              >
+                <div className="flex min-w-0 items-start">
+                  <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100', color.icon)} />
+                  <span className="whitespace-normal text-clip break-words text-left overflow-visible">{menu.title}</span>
+                </div>
+                <ChevronDown
+                  className={cn(
+                    'size-4 mt-0.5 shrink-0 opacity-50 group-hover:opacity-70 transition-transform duration-[250ms] ease-in-out',
+                    isOpen && 'rotate-180'
+                  )}
+                />
+              </SidebarMenuButton>
+              {/* Accordion smooth open/close via grid-template-rows 0fr<->1fr
+                  (bukan height:auto/max-height fixed) — transisi tetap mulus
+                  utk konten dgn tinggi bervariasi (jumlah submenu berbeda2
+                  per grup), tanpa perlu ukur tinggi manual pakai JS. */}
+              <div
+                className="grid overflow-hidden transition-[grid-template-rows] duration-[250ms] ease-in-out"
+                style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+              >
+                <div className="min-h-0">
+                  {/* Kartu pembungkus submenu — kontras thd background
+                      sidebar di KEDUA arah tema: light mode dibuat lebih
+                      GELAP (bg-black/5) krn --popover putih polos nyaris
+                      sama dgn --sidebar-background yg juga hampir putih
+                      (tidak kelihatan bedanya); dark mode dibuat lebih
+                      TERANG (dark:bg-white/10) drpd background sidebar yg
+                      gelap. Pakai overlay black/white tembus pandang
+                      (bukan warna solid custom) supaya otomatis ikut
+                      berbagai tema warna sidebar tanpa perlu var CSS baru. */}
+                  <div className="my-1 ml-1.5 rounded-md border border-border/70 bg-black/5 dark:bg-white/10 p-1.5 shadow-sm">
+                    {/* RenderMenu turunan HANYA di-mount saat isOpen — kalau
+                        selalu dimount (cuma disembunyikan via CSS), state
+                        activeMenus miliknya sendiri (React state terpisah
+                        per instance) akan tetap "ingat" submenu yg pernah
+                        dibuka sebelumnya, sehingga saat induknya dibuka
+                        ulang, anak-cucu ikut terbuka lagi tanpa diklik.
+                        Unmount+remount memaksa submenu selalu mulai dari
+                        keadaan tertutup (satu tingkat saja) tiap kali induk
+                        dibuka, sesuai logika accordion murni. */}
+                    {isOpen && (
+                      <SidebarMenu>
+                        <RenderMenu items={children} level={level + 1} groupColorOverride={color} scopeKey={`${scopeKey}:${menu.id}`} />
+                      </SidebarMenu>
                     )}
-                  >
-                    <div className="flex min-w-0 items-start">
-                      <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100', color.icon)} />
-                      <span className="whitespace-normal text-clip break-words text-left overflow-visible">{menu.title}</span>
-                    </div>
-                    <ChevronDown className="size-4 mt-0.5 shrink-0 opacity-50 group-hover:opacity-70 transition-transform group-data-[state=open]:rotate-180" />
-                  </SidebarMenuButton>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <SidebarMenu className="ml-1.5 border-l border-border/70 pl-1.5">
-                    <RenderMenu items={children} level={level + 1} groupColorOverride={color} />
-                  </SidebarMenu>
-                </CollapsibleContent>
-              </Collapsible>
+                  </div>
+                </div>
+              </div>
             </SidebarMenuItem>
           );
         }
@@ -239,8 +320,12 @@ export function AppSidebar() {
   }, []);
 
   return (
-    <Sidebar collapsible="icon" variant="inset" className="border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <SidebarHeader className="px-4 py-3 border-b">
+    <Sidebar collapsible="icon" variant="inset" className="border-r border-sidebar-border bg-sidebar/95 backdrop-blur supports-[backdrop-filter]:bg-sidebar/60">
+      {/* border-sidebar-border (bukan border-b polos yg jatuh ke token
+          --border global) — supaya garis pemisah header/menu ikut warna
+          sidebar sendiri & tetap kontras di dark mode, bukan warna netral
+          yg didesain utk konteks halaman biasa. */}
+      <SidebarHeader className="px-4 py-3 border-b border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">
@@ -257,7 +342,7 @@ export function AppSidebar() {
           <RenderMenu items={menus} />
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className="px-4 py-3 border-t">
+      <SidebarFooter className="px-4 py-3 border-t border-sidebar-border">
         <NavUser  />
       </SidebarFooter>
     </Sidebar>

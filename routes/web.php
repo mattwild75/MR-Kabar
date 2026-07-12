@@ -34,6 +34,7 @@ use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
 use App\Http\Controllers\CetakRisikoController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TahunAktifController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -149,6 +150,10 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('data-umum', [DataUmumController::class, 'index'])->name('data-umum.index');
     Route::post('data-umum', [DataUmumController::class, 'store'])->name('data-umum.store');
 
+    // Tahun Penilaian aktif Pemda (sumber tunggal) — diubah dari kontrol
+    // "Tahun Aktif" di halaman Data Umum/IRS_Pemda/IRS_PD/IRO_PD.
+    Route::post('tahun-aktif', [TahunAktifController::class, 'update'])->name('tahun-aktif.update');
+
     // CEE (Control Environment Evaluation) — Lampiran 5 Form 1a/1b/1c Perdep
     // PPKD No.4/2019. Form Input dipakai akun bersama CEE_Survey (role
     // 'cee-survey', dibatasi RestrictCeeSurveyRole) atau admin/super-admin.
@@ -187,6 +192,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('cetak/risiko/2a/pdf', [CetakRisikoController::class, 'pdf2a'])->name('cetak.risiko.2a.pdf');
     Route::get('cetak/risiko/2b/pdf', [CetakRisikoController::class, 'pdf2b'])->name('cetak.risiko.2b.pdf');
     Route::get('cetak/risiko/2c/pdf', [CetakRisikoController::class, 'pdf2c'])->name('cetak.risiko.2c.pdf');
+    // Edit manual isian TTD (tempat/tanggal/jabatan/nama) langsung dari
+    // halaman Form Cetak — menyimpan permanen ke Data Umum terkait.
+    Route::patch('cetak/risiko/ttd/{dataUmum}', [CetakRisikoController::class, 'updateTtd'])->name('cetak.risiko.ttd.update');
 
     Route::get('krs_irs_pemda', [KaeresController::class, 'index'])->name('krs_irs_pemda.index');
     Route::get('krs_irs_pemda_visualisasi', [KaeresController::class, 'visualization'])->name('krs_irs_pemda.visualization');

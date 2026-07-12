@@ -6,6 +6,7 @@ use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IrsPd;
 use App\Models\KrsPd;
 use App\Models\Opd;
+use App\Models\PengaturanPemda;
 use App\Services\KrsIrsPdSyncService;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
@@ -179,6 +180,7 @@ class IrsPdController extends Controller
             'currentUserId' => auth()->id(),
             'currentUserOpdNama' => $isAdmin ? null : auth()->user()?->opd?->nama,
             'isAdmin' => $isAdmin,
+            'tahunAktif' => PengaturanPemda::current()->tahun_penilaian,
         ]);
     }
 
@@ -218,6 +220,11 @@ class IrsPdController extends Controller
         $rules['SKALA KEMUNGKINAN'] = ['required', 'integer', 'min:1', 'max:5'];
         $rules['TRIWULAN'] = ['nullable', Rule::in(self::TRIWULAN_OPTIONS)];
         $rules['TAHUN TARGET PENYELESAIAN'] = ['nullable', 'integer', 'digits:4'];
+        // PIC BEBAS memilih tahun baris ini (default Tahun Aktif dari
+        // TahunAktifBadge, tapi boleh diganti) — supaya OPD bisa
+        // melengkapi data tahun lain (mis. 2025) kapan saja tanpa
+        // bergantung Admin mengubah Tahun Aktif global lebih dulu.
+        $rules['TAHUN DINILAI RISIKO'] = ['nullable', 'digits:4'];
 
         return $request->validate($rules, [], $attributes);
     }
@@ -235,6 +242,13 @@ class IrsPdController extends Controller
     {
         $data = $this->fillEmptyTextFields($this->withCalculatedScales($this->validated($request)));
         $data['TINGKAT RISIKO'] = self::TINGKAT_RISIKO_VALUE;
+        // Fallback ke Tahun Aktif Pemda HANYA kalau PIC tidak mengisi
+        // sendiri (mis. request lama/form belum ter-update) — PIC yg
+        // sengaja pilih tahun lain (mis. 2025) tetap dihormati, lihat
+        // validated().
+        if (empty($data['TAHUN DINILAI RISIKO'])) {
+            $data['TAHUN DINILAI RISIKO'] = PengaturanPemda::current()->tahun_penilaian;
+        }
         $data['user_id'] = $request->user()->id;
         IrsPd::create($data);
         $sync->sync();

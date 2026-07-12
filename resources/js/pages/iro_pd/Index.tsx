@@ -39,6 +39,7 @@ import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
 import RiskCascadeInfo from '@/components/ui/risk-cascade-info';
 import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
 import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
+import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 import { canManageRow } from '@/lib/ownership';
 import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { Fragment, useState } from 'react';
@@ -140,6 +141,7 @@ interface PageProps {
   currentUserId: number | null;
   isAdmin: boolean;
   currentUserOpdNama: string | null;
+  tahunAktif: string | number;
 }
 
 type FormData = Record<FieldName, string> & {
@@ -161,7 +163,7 @@ function skalaBadgeClass(skala: number | null, riskLevels: RiskLevelRow[]): stri
   return level ? `${level.warna_class} hover:${level.warna_class.split(' ')[0]}` : 'bg-muted text-muted-foreground';
 }
 
-export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, tahapOptions, triwulanOptions, triwulanLabels, kegiatanKodes, currentUserId, isAdmin, currentUserOpdNama }: PageProps) {
+export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, tahapOptions, triwulanOptions, triwulanLabels, kegiatanKodes, currentUserId, isAdmin, currentUserOpdNama, tahunAktif }: PageProps) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<IroRow | null>(null);
   const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
@@ -195,6 +197,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
     if (currentUserOpdNama) {
       values['ENTITAS PD YANG MENILAI'] = currentUserOpdNama;
     }
+    values['TAHUN DINILAI RISIKO'] = String(tahunAktif);
     setData(values);
     setDialogOpen(true);
   };
@@ -249,6 +252,9 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
             <p className="text-sm text-muted-foreground">
               Identifikasi Risiko Operasional Perangkat Daerah — analisis risiko pada pelaksanaan Kegiatan sesuai Renja/RKA Perangkat Daerah.
             </p>
+            <div className="mt-2">
+              <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
+            </div>
           </div>
           <Button onClick={openCreate}>
             <Plus className="mr-2 h-4 w-4" />
@@ -455,6 +461,32 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
             {FIELDS.map((field) => {
               const info = IRO_PD_FIELD_INFO[field];
               const value = data[field];
+
+              if (field === 'TAHUN DINILAI RISIKO') {
+                // Default-nya ikut Tahun Aktif Pemda (lihat TahunAktifBadge
+                // & openCreate()), tapi PIC BEBAS mengganti ke tahun lain
+                // saat input — supaya OPD bisa melengkapi data tahun
+                // sebelumnya (mis. 2025) tanpa perlu Admin mengubah Tahun
+                // Aktif global lebih dulu.
+                return (
+                  <div key={field} className="space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <Label htmlFor={field}>{field}</Label>
+                      {info && <FieldInfoPopover text={info} />}
+                    </div>
+                    <Input
+                      id={field}
+                      type="number"
+                      value={value}
+                      onChange={(e) => setData(field, e.target.value)}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain (mis. tahun sebelumnya).
+                    </p>
+                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                  </div>
+                );
+              }
 
               if (field === 'KEGIATAN PD') {
                 // Rujukan ke III_a_KRO_PD — value tetap teks bersih (tanpa
