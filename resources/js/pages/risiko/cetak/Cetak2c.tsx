@@ -221,11 +221,11 @@ export default function Cetak2c({
             </tbody>
           </table>
 
-          {/* 2. Sasaran Renstra (root) — bernomor */}
+          {/* 2. Sasaran Renja (root) — bernomor */}
           <table className="mt-3 w-full border-collapse border border-black text-xs">
             <tbody>
               <tr>
-                <td className="w-56 border border-black p-1.5 align-top font-semibold">Sasaran Renstra</td>
+                <td className="w-56 border border-black p-1.5 align-top font-semibold">Sasaran Renja</td>
                 <td className="w-4 border border-black p-1.5 text-center align-top">:</td>
                 <td className="border border-black p-1.5 align-top">
                   {konteks.sasaran_list.length === 0 ? (

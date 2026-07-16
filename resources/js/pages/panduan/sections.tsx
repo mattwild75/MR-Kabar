@@ -308,6 +308,7 @@ export const SECTIONS: Section[] = [
           Input&quot; dan &quot;Form Cetak&quot; beserta fungsinya:
         </p>
 
+        <p className="mt-2 font-medium text-foreground">Form Input (mengisi data)</p>
         <TreeDiagram
           root={{
             label: 'Form Input',
@@ -343,6 +344,44 @@ export const SECTIONS: Section[] = [
                   { label: '1a_Kuesioner CEE', desc: '37 pertanyaan, skala 1–4' },
                   { label: '1b_CEE Dokumen', desc: 'Temuan dari reviu dokumen' },
                   { label: '1c_Simpulan', desc: 'Simpulan akhir per unsur' },
+                ],
+              },
+            ],
+          }}
+        />
+
+        <p className="mt-4 font-medium text-foreground">Form Cetak (hasil akhir siap cetak/PDF)</p>
+        <TreeDiagram
+          root={{
+            label: 'Form Cetak',
+            children: [
+              {
+                label: 'Risiko',
+                children: [
+                  {
+                    label: 'Penetapan Konteks Risiko',
+                    desc: 'Form 2a/2b/2c',
+                    children: [
+                      { label: '2a', desc: 'Konteks Strategis Pemda (Pemda-wide)' },
+                      { label: '2b', desc: 'Konteks Strategis OPD (per-OPD)' },
+                      { label: '2c', desc: 'Konteks Operasional OPD (per-OPD)' },
+                    ],
+                  },
+                  {
+                    label: 'Identifikasi Risiko',
+                    desc: 'Form 3a/3b/3c — BARU',
+                    children: [
+                      { label: '3a', desc: 'Identifikasi Risiko Strategis Pemda' },
+                      { label: '3b', desc: 'Identifikasi Risiko Strategis OPD' },
+                      { label: '3c', desc: 'Identifikasi Risiko Operasional OPD' },
+                    ],
+                  },
+                ],
+              },
+              {
+                label: 'CEE',
+                children: [
+                  { label: '1a/1b/1c', desc: 'Versi cetak/PDF siap tanda tangan' },
                 ],
               },
             ],
@@ -417,7 +456,38 @@ export const SECTIONS: Section[] = [
           </li>
         </ul>
 
-        <p className="mt-2 font-medium text-foreground">Form Cetak</p>
+        <p className="mt-2 font-medium text-foreground">Form Cetak — Risiko: Penetapan Konteks (2a/2b/2c)</p>
+        <ul className="list-disc space-y-1 pl-5">
+          <li>
+            <code>2a</code> — Konteks Strategis Pemda: mencetak hierarki Visi → Misi → Tujuan → Sasaran RPJMD
+            beserta indikator kinerjanya, Pemda-wide (tidak perlu memilih OPD).
+          </li>
+          <li>
+            <code>2b</code> — Konteks Strategis OPD: hierarki Tujuan → Sasaran Strategis PD per-OPD terpilih,
+            beserta indikator kinerja Tujuan &amp; Sasarannya.
+          </li>
+          <li>
+            <code>2c</code> — Konteks Operasional OPD: hierarki Sasaran Renja → Program → Kegiatan per-OPD
+            terpilih, beserta indikator kinerja Program &amp; Kegiatannya.
+          </li>
+        </ul>
+        <p className="text-xs text-muted-foreground">
+          Baris/Program/Kegiatan yang tercetak <strong>tebal</strong> menandakan sudah dipilih sebagai Penetapan
+          Konteks Risiko (sudah punya minimal satu risiko teregister di IRS/IRO tahun yang sama).
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Form Cetak — Risiko: Identifikasi Risiko (3a/3b/3c)</p>
+        <p>
+          Form baru sesuai Lampiran 5 Perdep PPKD No.4/2019 — mencetak daftar risiko yang <strong>sudah teridentifikasi</strong>{' '}
+          (data dari IRS Pemda/IRS PD/IRO PD) dalam satu tabel lengkap kolom a–k, dikelompokkan mengikuti hierarki
+          konteks yang sama dengan Form 2a/2b/2c supaya penomorannya identik. Lihat penjelasan lengkap di bagian{' '}
+          <a href="#identifikasi-risiko" className="text-sky-500 underline underline-offset-2">
+            Form Cetak: Identifikasi Risiko (3a/3b/3c)
+          </a>{' '}
+          di bawah.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Form Cetak — CEE</p>
         <p>
           <code>Form Cetak → CEE → 1a/1b/1c</code> — versi cetak/PDF siap tanda tangan dari ketiga form CEE di atas,
           format A4, mengambil identitas &amp; blok tanda tangan dari Data Umum secara otomatis.
@@ -503,20 +573,140 @@ export const SECTIONS: Section[] = [
 
         <p className="mt-4 font-medium text-foreground">Struktur kode risiko</p>
         <p className="text-center font-mono text-sm">
-          <ColorBadge color="sky">JENIS</ColorBadge>.<ColorBadge color="amber">TAHUN</ColorBadge>.
-          <ColorBadge color="emerald">URUSAN</ColorBadge>.<ColorBadge color="red">OPD</ColorBadge>.NOMOR URUT
+          <ColorBadge color="red">PREFIX</ColorBadge>.<ColorBadge color="amber">TAHUN</ColorBadge>.
+          <ColorBadge color="sky">JENIS</ColorBadge>.<ColorBadge color="emerald">ENTITAS PENILAI</ColorBadge>.NOMOR
+          URUT
         </p>
         <SimpleTable
-          headers={['Contoh Kode', 'Jenis Risiko', 'Ditetapkan Otomatis Dari']}
+          headers={['Bagian', 'Contoh', 'Artinya', 'Sumber']}
           rows={[
-            ['RSP.19.01.01.02', 'Risiko Strategis Pemda', 'Selalu dari halaman IRS Pemda'],
-            ['RSO.19.01.05.03', 'Risiko Strategis OPD', 'Selalu dari halaman IRS PD'],
-            ['ROO.19.01.05.02', 'Risiko Operasional OPD', 'Selalu dari halaman IRO PD'],
+            [<ColorBadge color="red">PREFIX</ColorBadge>, 'RSP', 'Risiko Strategis Pemda (RSO = Strategis OPD, ROO = Operasional OPD)', 'Otomatis dari halaman tempat risiko dicatat (IRS Pemda/IRS PD/IRO PD)'],
+            [<ColorBadge color="amber">TAHUN</ColorBadge>, '25', 'Tahun dinilai risiko, 2 digit terakhir', 'Field Tahun Dinilai Risiko'],
+            [<ColorBadge color="sky">JENIS</ColorBadge>, '37', 'Kode 2-digit Jenis Risiko (37 = Keuangan dan Pendapatan)', 'Field Jenis Risiko (41 pilihan baku)'],
+            [<ColorBadge color="emerald">ENTITAS PENILAI</ColorBadge>, '30', 'Kode urutan 2-digit entitas yang menilai (30 = Inspektorat)', 'Field Entitas PD yang Menilai'],
+            ['NOMOR URUT', '01', 'Nomor urut risiko dalam satu Sasaran/Kegiatan, mulai dari 01', 'Dihitung otomatis, tidak disimpan di database'],
           ]}
         />
+        <p className="text-center font-mono text-sm text-foreground">RSP.25.37.30.01</p>
         <p className="text-xs text-muted-foreground">
-          Jenis kode ditentukan otomatis oleh sistem sesuai halaman tempat risiko dicatat — bukan pilihan bebas.
+          Kode ini dihitung ulang otomatis setiap kali dicetak (sama seperti Skala Risiko &amp; Prioritas) — bukan
+          disimpan sebagai kolom database sendiri, dan bukan pilihan bebas pengguna.
         </p>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
+    id: 'identifikasi-risiko',
+    title: 'Form Cetak: Identifikasi Risiko (3a/3b/3c)',
+    navLabel: '7. Identifikasi Risiko (3a/3b/3c)',
+    content: (
+      <>
+        <p>
+          Form 3a/3b/3c adalah tabel <strong>Identifikasi Risiko</strong> sesuai Lampiran 5 Perdep PPKD No.4/2019 —
+          mencetak seluruh risiko yang <strong>sudah teridentifikasi</strong> (data dari IRS Pemda / IRS PD / IRO
+          PD) dalam satu tabel lengkap, dikelompokkan mengikuti hierarki konteks yang sama persis dengan Form
+          2a/2b/2c (nomor Tujuan/Sasaran/Program/Kegiatan identik di kedua form, supaya keduanya bisa dibaca
+          berdampingan).
+        </p>
+
+        <FlowHorizontal
+          items={[
+            { label: '3a', desc: 'Identifikasi Risiko Strategis Pemda', tone: 'accent' },
+            { label: '3b', desc: 'Identifikasi Risiko Strategis OPD' },
+            { label: '3c', desc: 'Identifikasi Risiko Operasional OPD' },
+          ]}
+        />
+
+        <p className="mt-3 font-medium text-foreground">Hierarki pengelompokan tiap form</p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Kotak title="3a — Strategis Pemda">
+            Misi → Tujuan Strategis → Sasaran Strategis. Sumber data: <code>KRS Pemda</code> (konteks) +{' '}
+            <code>IRS Pemda</code> (risiko). Menampilkan juga baris Visi (tanpa nomor) di atas Nama Pemda.
+          </Kotak>
+          <Kotak title="3b — Strategis OPD">
+            Tujuan Strategis PD → Sasaran Strategis PD. Sumber data: <code>KRS PD</code> (konteks) +{' '}
+            <code>IRS PD</code> (risiko), per-OPD terpilih.
+          </Kotak>
+          <Kotak title="3c — Operasional OPD">
+            Sasaran Renja → Program → Kegiatan. Sumber data: <code>KRO PD</code> (konteks) + <code>IRO PD</code>{' '}
+            (risiko), per-OPD terpilih. Satu-satunya form yang punya kolom tambahan <strong>Tahapan Kegiatan</strong>{' '}
+            (bukan Indikator Kinerja) di kolom (c), karena basis risiko operasional adalah tahapan pelaksanaan
+            Kegiatan, bukan indikator kinerja.
+          </Kotak>
+        </div>
+
+        <p className="mt-4 font-medium text-foreground">Kolom tabel (a)–(k), sesuai Lampiran 5 Perdep</p>
+        <SimpleTable
+          headers={['Kolom', 'Nama', 'Isi']}
+          rows={[
+            ['(a)', 'No', 'Nomor urut baris risiko.'],
+            ['(b)', 'Tujuan/Sasaran Strategis (3a/3b) atau Program/Kegiatan (3c)', 'Label konteks tempat risiko berada, dengan nomor hierarkinya (mis. "Sasaran Strategis 1.1.2 : ...").'],
+            ['(c)', 'Indikator Kinerja (3a/3b) atau Tahapan Kegiatan (3c)', 'Indikator + Baseline + Target Sasaran/Kegiatan, atau tahapan tempat risiko muncul.'],
+            ['(d)', 'Uraian Risiko', 'Kondisi/kejadian yang mengancam sasaran/kegiatan tersebut.'],
+            ['(e)', 'Kode Risiko', 'Kode otomatis format PREFIX.TAHUN.JENIS.ENTITAS.URUT (lihat bagian "Bagaimana").'],
+            ['(f)', 'Pemilik Risiko', 'Jabatan/unit yang bertanggung jawab mengelola risiko.'],
+            ['(g)', 'Uraian Sebab', 'Penyebab risiko, dikategorikan 5M (Man/Money/Method/Machine/Material) — badge berwarna per kategori.'],
+            ['(h)', 'Sumber Sebab', 'Internal atau Eksternal — badge berwarna.'],
+            ['(i)', 'C / UC', 'Controllable (kendali penuh internal) atau Uncontrollable (bergantung faktor eksternal) — badge berwarna.'],
+            ['(j)', 'Uraian Dampak', 'Akibat yang ditimbulkan jika risiko benar-benar terjadi.'],
+            ['(k)', 'Pihak yang Terkena', 'Pihak/unit yang menderita dampak jika risiko terjadi.'],
+          ]}
+        />
+
+        <p className="mt-4 font-medium text-foreground">Contoh baris tercetak (disederhanakan)</p>
+        <div className="not-prose my-3 overflow-x-auto rounded-lg border">
+          <table className="w-full min-w-[720px] border-collapse text-xs">
+            <thead>
+              <tr className="bg-muted/50">
+                {['No', 'Sasaran Strategis', 'Uraian Risiko', 'Kode Risiko', 'Sebab', 'Sumber', 'C/UC'].map((h) => (
+                  <th key={h} className="border-b px-2 py-1.5 text-left font-semibold text-foreground">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border-b px-2 py-1.5 align-top text-muted-foreground">1.1.2</td>
+                <td className="border-b px-2 py-1.5 align-top text-muted-foreground">
+                  Sasaran Strategis 1.1.2 : Menurunnya Prevalensi Stunting
+                </td>
+                <td className="border-b px-2 py-1.5 align-top text-muted-foreground">
+                  Cakupan pemantauan gizi balita belum merata di seluruh desa
+                </td>
+                <td className="border-b px-2 py-1.5 align-top font-mono text-muted-foreground">RSP.25.37.30.01</td>
+                <td className="border-b px-2 py-1.5 align-top">
+                  <ColorBadge color="sky">Method</ColorBadge>
+                </td>
+                <td className="border-b px-2 py-1.5 align-top">
+                  <ColorBadge color="emerald">Internal</ColorBadge>
+                </td>
+                <td className="border-b px-2 py-1.5 align-top">
+                  <ColorBadge color="red">UC</ColorBadge>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Kategori 5M, Sumber (Internal/Eksternal), dan C/UC selalu tampil sebagai badge berwarna berbeda supaya
+          cepat dipindai secara visual — bukan sekadar teks polos.
+        </p>
+
+        <Kotak title="Sumber Data" tone="accent">
+          Baris &quot;Sumber Data&quot; di header tiap form (RPJMD untuk 3a, Renstra untuk 3b, Renja/RKA/DPA untuk
+          3c) mengikuti label yang dikonfigurasi di <code>Form Input → Data Umum</code> — bisa disesuaikan per-PIC,
+          dengan nilai baku Pemda-wide sebagai cadangan kalau PIC belum mengisinya sendiri.
+        </Kotak>
+
+        <Kotak title="Kapan sebuah baris muncul di Form 3a/3b/3c?">
+          Hanya Sasaran/Kegiatan yang <strong>sudah punya risiko teridentifikasi</strong> (baris di IRS/IRO dengan
+          Uraian Risiko terisi) yang ditampilkan — berbeda dari Form 2a/2b/2c yang menampilkan seluruh konteks
+          meski belum ada risikonya. Kalau sebuah Sasaran belum diisi risikonya sama sekali di IRS/IRO, baris itu
+          tidak akan muncul di Form 3a/3b/3c sampai ada minimal satu risiko tercatat.
+        </Kotak>
       </>
     ),
   },
@@ -525,7 +715,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'tata-cara',
     title: 'Tata Cara Pengisian MR Kabar, Langkah demi Langkah',
-    navLabel: '7. Tata Cara Pengisian',
+    navLabel: '8. Tata Cara Pengisian',
     content: (
       <>
         <p>
@@ -619,7 +809,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'before-after',
     title: 'Sebelum vs Sesudah Ada Manajemen Risiko / MR Kabar',
-    navLabel: '8. Before / After',
+    navLabel: '9. Before / After',
     content: (
       <>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -674,7 +864,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'faq',
     title: 'Pertanyaan yang Sering Muncul',
-    navLabel: '9. FAQ',
+    navLabel: '10. FAQ',
     content: (
       <>
         <Kotak title="Apa bedanya Pemilik Risiko dengan Penanggung Jawab Pengendalian?">
@@ -696,6 +886,13 @@ export const SECTIONS: Section[] = [
           Tidak — semua penghapusan data risiko bersifat soft delete. Buka <code>Utilities → Data Terhapus</code>{' '}
           untuk memulihkannya.
         </Kotak>
+        <Kotak title="Apa bedanya Form Cetak 2a/2b/2c dengan 3a/3b/3c?">
+          2a/2b/2c mencetak <strong>Penetapan Konteks Risiko</strong> — seluruh hierarki rencana strategis
+          (Visi/Misi/Tujuan/Sasaran/Program/Kegiatan) apa adanya, termasuk yang belum punya risiko sama sekali
+          (baris yang sudah punya risiko dicetak tebal). 3a/3b/3c mencetak <strong>Identifikasi Risiko</strong> —
+          hanya menampilkan Sasaran/Kegiatan yang sudah punya minimal satu risiko tercatat, lengkap dengan detail
+          kolom a–k (Uraian Risiko, Kode Risiko, Sebab, Sumber, C/UC, Dampak, dst).
+        </Kotak>
       </>
     ),
   },
@@ -703,7 +900,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'lapor-kejadian',
     title: 'Lapor Kejadian Risiko',
-    navLabel: '10. Lapor Kejadian Risiko',
+    navLabel: '11. Lapor Kejadian Risiko',
     content: (
       <>
         <p>

@@ -326,9 +326,13 @@ class MenuSeeder extends Seeder
             ]
         );
 
-        // Sub-grup: Form Cetak -> Risiko -> 2a/2b/2c Penetapan Konteks Risiko
-        // (Strategis Pemda / Strategis OPD / Operasional OPD), sesuai
-        // Form_I_a/I_b, Form_II_a/I_b, Form_III_a/I_b Perdep PPKD No.4/2019.
+        // Sub-grup: Form Cetak -> Risiko -> Penetapan Konteks Risiko ->
+        // 2a/2b/2c (Strategis Pemda / Strategis OPD / Operasional OPD),
+        // sesuai Form_I_a/I_b, Form_II_a/I_b, Form_III_a/I_b Perdep PPKD
+        // No.4/2019. "Risiko" adalah wadah level-1 supaya form cetak risiko
+        // LAIN (mis. Identifikasi Risiko/Form 3 dst di kemudian hari) bisa
+        // ditambahkan sejajar dengan "Penetapan Konteks Risiko", bukan
+        // bercampur langsung sebagai anak "Risiko".
         $formCetakRisiko = Menu::updateOrCreate(
             ['title' => 'Risiko', 'parent_id' => $formCetak->id],
             [
@@ -339,11 +343,21 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        $formCetakKonteksRisiko = Menu::updateOrCreate(
+            ['title' => 'Penetapan Konteks Risiko', 'parent_id' => $formCetakRisiko->id],
+            [
+                'icon' => 'Target',
+                'route' => '#',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
         Menu::updateOrCreate(
             ['route' => '/cetak/risiko/2a'],
             [
                 'title' => '2a_Konteks Risiko Strategis Pemda',
-                'parent_id' => $formCetakRisiko->id,
+                'parent_id' => $formCetakKonteksRisiko->id,
                 'icon' => 'Landmark',
                 'order' => 1,
                 'permission_name' => null,
@@ -354,7 +368,7 @@ class MenuSeeder extends Seeder
             ['route' => '/cetak/risiko/2b'],
             [
                 'title' => '2b_Konteks Risiko Strategis OPD',
-                'parent_id' => $formCetakRisiko->id,
+                'parent_id' => $formCetakKonteksRisiko->id,
                 'icon' => 'Building2',
                 'order' => 2,
                 'permission_name' => null,
@@ -365,7 +379,54 @@ class MenuSeeder extends Seeder
             ['route' => '/cetak/risiko/2c'],
             [
                 'title' => '2c_Konteks Risiko Operasional OPD',
-                'parent_id' => $formCetakRisiko->id,
+                'parent_id' => $formCetakKonteksRisiko->id,
+                'icon' => 'Workflow',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // Sub-grup: Form Cetak -> Risiko -> Identifikasi Risiko ->
+        // 3a/3b/3c (Strategis Pemda / Strategis OPD / Operasional OPD),
+        // sesuai Lampiran 5 Form 3a/3b/3c Perdep PPKD No.4/2019 — sejajar
+        // dgn "Penetapan Konteks Risiko" di bawah grup "Risiko" yg sama.
+        $formCetakIdentifikasiRisiko = Menu::updateOrCreate(
+            ['title' => 'Identifikasi Risiko', 'parent_id' => $formCetakRisiko->id],
+            [
+                'icon' => 'SearchCheck',
+                'route' => '#',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/3a'],
+            [
+                'title' => '3a_Identifikasi Risiko Strategis Pemda',
+                'parent_id' => $formCetakIdentifikasiRisiko->id,
+                'icon' => 'Landmark',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/3b'],
+            [
+                'title' => '3b_Identifikasi Risiko Strategis OPD',
+                'parent_id' => $formCetakIdentifikasiRisiko->id,
+                'icon' => 'Building2',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/3c'],
+            [
+                'title' => '3c_Identifikasi Risiko Operasional OPD',
+                'parent_id' => $formCetakIdentifikasiRisiko->id,
                 'icon' => 'Workflow',
                 'order' => 3,
                 'permission_name' => null,

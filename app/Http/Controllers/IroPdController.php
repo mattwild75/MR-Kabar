@@ -74,18 +74,28 @@ class IroPdController extends Controller
     ];
 
     /**
-     * Tahapan pelaksanaan Kegiatan tempat risiko bisa muncul — sesuai
-     * definisi VBA asli sheet III_b_IRO_PD: Perencanaan (mis. risiko data
-     * dasar salah), Pengadaan (mis. lelang gagal), Pelaksanaan (mis.
-     * hambatan teknis/cuaca), Monitoring, Pelaporan (mis. keterlambatan
-     * penyampaian laporan).
+     * Tahapan pelaksanaan Kegiatan tempat risiko bisa muncul — awalnya
+     * hanya 5 tahap dari VBA asli sheet III_b_IRO_PD (istilah generik ala
+     * proyek: Perencanaan, Pengadaan, Pelaksanaan, Monitoring, Pelaporan),
+     * DIPERLUAS jadi 8 tahap mengikuti siklus pengelolaan keuangan daerah
+     * yg lebih baku (PP 12/2019 & Permendagri 77/2020: Perencanaan ->
+     * Penganggaran -> Pelaksanaan -> Penatausahaan -> Pertanggungjawaban/
+     * Pelaporan), + Pengawasan (pemeriksaan/audit APIP, Line of Defense
+     * ke-3) sbg tahap terpisah dari Pemantauan dan Evaluasi (self-
+     * monitoring internal OPD) — bukan istilah baku eksplisit dari Perdep
+     * PPKD No.4/2019 (Perdep tidak menetapkan daftar tertutup Tahap
+     * Kegiatan), tapi selaras dgn semangatnya (identifikasi risiko per-
+     * tahapan pelaksanaan Kegiatan Renja OPD).
      */
     public const TAHAP_OPTIONS = [
         'Perencanaan',
+        'Penganggaran',
         'Pengadaan',
         'Pelaksanaan',
-        'Monitoring',
-        'Pelaporan',
+        'Penatausahaan',
+        'Pemantauan dan Evaluasi',
+        'Pengawasan',
+        'Pertanggungjawaban / Pelaporan',
     ];
 
     /**

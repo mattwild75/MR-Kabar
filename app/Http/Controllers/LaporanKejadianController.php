@@ -144,8 +144,24 @@ class LaporanKejadianController extends Controller
 
         $laporan = $query->paginate(15)->withQueryString();
 
-        $laporan->getCollection()->transform(function (LaporanKejadianRisiko $l) {
-            $risikoTerdaftar = $l->risikoTerdaftar();
+        // Batch-lookup risiko terdaftar per tipe (1 query per tipe yg
+        // muncul di halaman ini, BUKAN 1 query per baris via
+        // $l->risikoTerdaftar()) — halaman ini terpaginasi (maks 15
+        // baris), tapi tetap sia-sia melakukan sampai 15 query terpisah
+        // padahal cukup maks 3 (satu per tipe: irs_pemda/irs_pd/iro_pd).
+        $idsByTipe = $laporan->getCollection()
+            ->filter(fn (LaporanKejadianRisiko $l) => $l->risiko_terdaftar_tipe && $l->risiko_terdaftar_id)
+            ->groupBy('risiko_terdaftar_tipe')
+            ->map(fn ($rows) => $rows->pluck('risiko_terdaftar_id')->unique()->values());
+
+        $risikoByTipe = $idsByTipe->map(function ($ids, $tipe) {
+            $modelClass = self::RISIKO_MODELS[$tipe] ?? null;
+
+            return $modelClass ? $modelClass::whereIn('id', $ids)->get()->keyBy('id') : collect();
+        });
+
+        $laporan->getCollection()->transform(function (LaporanKejadianRisiko $l) use ($risikoByTipe) {
+            $risikoTerdaftar = $risikoByTipe->get($l->risiko_terdaftar_tipe)?->get($l->risiko_terdaftar_id);
 
             return [
                 'id' => $l->id,

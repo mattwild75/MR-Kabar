@@ -13,14 +13,17 @@ Fungsinya dalam Risiko Operasional PD: Menjadi objek yang dilindungi => karena r
 
 Cara mengisi: pilih dari daftar dropdown, bukan mengetik teks baru. Jika Kegiatan yang dibutuhkan belum ada di daftar, tambahkan dulu di halaman III_a_KRO_PD.`,
 
-  TAHAP: `Definisi: Tahapan pelaksanaan Kegiatan/Operasional di mana risiko bisa muncul (Perencanaan, Pengadaan, Pelaksanaan, Monitoring, Pelaporan).
+  TAHAP: `Definisi: Tahapan pelaksanaan Kegiatan/Operasional di mana risiko bisa muncul, mengikuti siklus pengelolaan keuangan daerah (Perencanaan, Penganggaran, Pengadaan, Pelaksanaan, Penatausahaan, Pemantauan dan Evaluasi, Pengawasan, Pertanggungjawaban / Pelaporan).
 
 Fungsi: Agar jelas risiko muncul di bagian mana dari alur kerja Kegiatan tersebut, sehingga Rencana Tindak Pengendalian bisa lebih tepat sasaran.
 
 Contoh:
 Tahap Perencanaan => risiko data dasar salah.
+Tahap Penganggaran => risiko alokasi anggaran tidak sesuai kebutuhan riil.
 Tahap Pengadaan => risiko lelang gagal.
 Tahap Pelaksanaan => risiko cuaca/hambatan teknis.
-Tahap Monitoring => risiko keterlambatan pemantauan.
-Tahap Pelaporan => risiko keterlambatan penyampaian laporan.`,
+Tahap Penatausahaan => risiko dokumen pertanggungjawaban keuangan tidak tertib.
+Tahap Pemantauan dan Evaluasi => risiko keterlambatan pemantauan capaian kegiatan.
+Tahap Pengawasan => risiko temuan pemeriksaan APIP tidak ditindaklanjuti.
+Tahap Pertanggungjawaban / Pelaporan => risiko keterlambatan penyampaian laporan.`,
 };

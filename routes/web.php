@@ -225,6 +225,17 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('cetak/risiko/2a/pdf', [CetakRisikoController::class, 'pdf2a'])->name('cetak.risiko.2a.pdf');
     Route::get('cetak/risiko/2b/pdf', [CetakRisikoController::class, 'pdf2b'])->name('cetak.risiko.2b.pdf');
     Route::get('cetak/risiko/2c/pdf', [CetakRisikoController::class, 'pdf2c'])->name('cetak.risiko.2c.pdf');
+
+    // Form Cetak Risiko 3a/3b/3c — Identifikasi Risiko (Strategis Pemda /
+    // Strategis OPD / Operasional OPD), sesuai Lampiran 5 Form 3a/3b/3c
+    // Perdep PPKD No.4/2019 (A4 landscape, read-only, TANPA blok TTD).
+    Route::get('cetak/risiko/3a', [CetakRisikoController::class, 'cetak3a'])->name('cetak.risiko.3a');
+    Route::get('cetak/risiko/3b', [CetakRisikoController::class, 'cetak3b'])->name('cetak.risiko.3b');
+    Route::get('cetak/risiko/3c', [CetakRisikoController::class, 'cetak3c'])->name('cetak.risiko.3c');
+    Route::get('cetak/risiko/3a/pdf', [CetakRisikoController::class, 'pdf3a'])->name('cetak.risiko.3a.pdf');
+    Route::get('cetak/risiko/3b/pdf', [CetakRisikoController::class, 'pdf3b'])->name('cetak.risiko.3b.pdf');
+    Route::get('cetak/risiko/3c/pdf', [CetakRisikoController::class, 'pdf3c'])->name('cetak.risiko.3c.pdf');
+
     // Edit manual isian TTD (tempat/tanggal/jabatan/nama) langsung dari
     // halaman Form Cetak — menyimpan permanen ke Data Umum terkait.
     Route::patch('cetak/risiko/ttd/{dataUmum}', [CetakRisikoController::class, 'updateTtd'])->name('cetak.risiko.ttd.update');

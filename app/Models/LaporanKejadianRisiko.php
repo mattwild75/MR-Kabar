@@ -53,7 +53,13 @@ class LaporanKejadianRisiko extends Model
         return $this->belongsTo(User::class, 'dilaporkan_oleh_user_id');
     }
 
-    /** Model risiko terdaftar terkait (IrsPemda/IrsPd/IroPd), lihat risiko_terdaftar_tipe. */
+    /**
+     * Model risiko terdaftar terkait (IrsPemda/IrsPd/IroPd), lihat
+     * risiko_terdaftar_tipe. Query 1x per pemanggilan — JANGAN dipanggil di
+     * dalam loop/map atas banyak baris (N+1), lihat batch-lookup via
+     * whereIn()->keyBy('id') per tipe di
+     * LaporanKejadianController::index() sbg pola yg benar utk daftar.
+     */
     public function risikoTerdaftar(): ?Model
     {
         if (!$this->risiko_terdaftar_tipe || !$this->risiko_terdaftar_id) {

@@ -11,6 +11,8 @@ use App\Models\KrsPd;
 use App\Models\KrsPemda;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
+use App\Models\RiskEntitasPenilai;
+use App\Models\RiskJenis;
 use App\Models\User;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
@@ -66,6 +68,18 @@ class CetakRisikoController extends Controller
     }
 
     /**
+     * Label dokumen sumber (RPJMD/Renstra/Renja-DPA) utk baris "Sumber
+     * Data" Form 2a-2c/3a-3c — override per-PIC (DataUmum) diutamakan,
+     * fallback ke default Pemda-wide (PengaturanPemda) kalau PIC belum
+     * mengisi field-nya, sama pola fallback dgn nama_kepala_daerah di
+     * dataUmumForOpd().
+     */
+    private function dokumenSumber(?DataUmum $dataUmum, string $kolom): ?string
+    {
+        return $dataUmum?->{$kolom} ?: $this->pengaturan()->{$kolom};
+    }
+
+    /**
      * Data Umum (header identitas + penanda tangan Bupati/Kepala Dinas)
      * milik PIC dari OPD terpilih — dicari dari User dgn opd_id yg sesuai.
      * $opdId null berarti level Pemda (Form 2a) — pakai Data Umum PERTAMA
@@ -82,11 +96,22 @@ class CetakRisikoController extends Controller
      * walau Data Umum "Kepala Daerah" sudah diisi lengkap oleh PIC lain.
      * Fix: kalau field ini kosong pada baris DataUmum yg dipakai, isi
      * (bukan timpa) dari PengaturanPemda::current() sblm dikembalikan.
+     *
+     * CATATAN: PengaturanPemda TIDAK py kolom tempat_pembuatan/
+     * tanggal_pembuatan/penandatangan (field itu murni milik DataUmum
+     * per-PIC, tidak ada versi Pemda-wide-nya) — shg utk field2 itu TIDAK
+     * ADA fallback yg bisa diterapkan spt nama_kepala_daerah di atas.
+     * `orderBy('id')` dipakai (bukan tanpa urutan sama sekali) supaya baris
+     * "pertama" yg dipilih MINIMAL deterministik/konsisten antar request
+     * (row mana yg terpilih tidak berubah-ubah tanpa alasan), meski baris
+     * itu tetap bisa saja milik PIC OPD lain yg kosong field2 tsb — kalau
+     * ini jadi masalah nyata, solusi sebenarnya adalah PIC ybs (biasanya
+     * Sekda/Admin) melengkapi Data Umum-nya, bukan perbaikan kode.
      */
     private function dataUmumForOpd(?int $opdId): ?DataUmum
     {
         if (!$opdId) {
-            $dataUmum = DataUmum::whereNotNull('user_id')->first();
+            $dataUmum = DataUmum::whereNotNull('user_id')->orderBy('id')->first();
 
             if ($dataUmum && (!$dataUmum->nama_kepala_daerah || !$dataUmum->jabatan_kepala_daerah)) {
                 $default = $this->pengaturan();
@@ -151,6 +176,50 @@ class CetakRisikoController extends Controller
         $value = preg_replace('/\s+/u', ' ', $value);
 
         return mb_strtolower(trim($value));
+    }
+
+    /**
+     * Bangun Kode Risiko sesuai format Perdep PPKD:
+     * [JENIS].[TAHUN 2-digit].[KODE JENIS RISIKO].[URUTAN ENTITAS PENILAI].[NOMOR URUT],
+     * mis. "RSP.25.37.30.01" (RSP=Risiko Strategis Pemda, tahun 2025, jenis
+     * risiko 37=Keuangan dan Pendapatan, entitas penilai urutan ke-30=
+     * Inspektorat, urut ke-01). Semua komponen SUDAH ADA sbg kolom
+     * tersimpan (TAHUN DINILAI RISIKO, JENIS RISIKO "kode - nama", ENTITAS
+     * PD YANG MENILAI dicocokkan ke RiskEntitasPenilai.urutan, NOMOR URUT
+     * RISIKO dihitung withNomorUrut() di controller data masing2) — TIDAK
+     * ada kolom kode_risiko baru yg perlu ditambah ke database, kode ini
+     * murni tampilan yg dihitung ulang saat cetak, sama pola dgn Skala
+     * Risiko/Prioritas yg juga dihitung dari kolom lain, bukan disimpan.
+     *
+     * $prefix: 'RSP' (IrsPemda), 'RSO' (IrsPd), atau 'ROO' (IroPd) — sesuai
+     * TINGKAT_RISIKO_VALUE masing2 controller data.
+     */
+    private function generateKodeRisiko(string $prefix, ?string $tahunDinilai, ?string $jenisRisiko, ?string $entitasPenilai, ?string $nomorUrut): ?string
+    {
+        if (!$tahunDinilai || !$jenisRisiko || !$entitasPenilai || !$nomorUrut) {
+            return null;
+        }
+
+        $tahun2Digit = substr($tahunDinilai, -2);
+
+        // "JENIS RISIKO" tersimpan format "37 - Keuangan dan Pendapatan"
+        // (lihat RiskReferenceDataService::jenisRisikoOptions()) — ambil
+        // angka kode di depan tanda "-".
+        if (!preg_match('/^(\d+)\s*-/', trim($jenisRisiko), $m)) {
+            return null;
+        }
+        $kodeJenis = str_pad($m[1], 2, '0', STR_PAD_LEFT);
+
+        // "ENTITAS PD YANG MENILAI" tersimpan nama OPD polos — cocokkan ke
+        // urutan RiskEntitasPenilai (itulah "kode entitas" 2-digit di
+        // contoh RSP.25.37.30.01, 30=urutan INSPEKTORAT).
+        $entitas = RiskEntitasPenilai::whereRaw('LOWER(TRIM(nama)) = ?', [Str::lower(trim($entitasPenilai))])->first();
+        if (!$entitas) {
+            return null;
+        }
+        $kodeEntitas = str_pad((string) $entitas->urutan, 2, '0', STR_PAD_LEFT);
+
+        return "{$prefix}.{$tahun2Digit}.{$kodeJenis}.{$kodeEntitas}.{$nomorUrut}";
     }
 
     /**
@@ -246,10 +315,15 @@ class CetakRisikoController extends Controller
         // cuma mengubah label "Tahun Penilaian" tanpa memengaruhi Sasaran/
         // Program mana yg ter-bold (bug: hasil cetak 2025 vs 2026 identik
         // kecuali labelnya).
+        // matchKey() (BUKAN trim() polos) — sama alasan dgn buildKonteksRo():
+        // teks Sasaran RPJMD bisa py kapitalisasi beda antara baris KrsPemda
+        // (konteks) dgn baris IrsPemda (risiko teregister) utk maksud yg
+        // SAMA PERSIS, kalau dibandingkan case-sensitive akan gagal match
+        // shg "bold" tidak menyala walau risikonya sudah terdaftar.
         $registeredSasaran = IrsPemda::whereNotNull('SASARAN RPJMD')
             ->where('TAHUN DINILAI RISIKO', (string) $tahun)
             ->pluck('SASARAN RPJMD')
-            ->map(fn ($s) => trim($s))
+            ->map(fn ($s) => $this->matchKey((string) $s))
             ->filter()
             ->unique()
             ->flip();
@@ -262,15 +336,18 @@ class CetakRisikoController extends Controller
         ])->filter()->unique()->sort()->values();
 
         // Misi > Tujuan > Sasaran, nomor dari urutan kemunculan (posisi),
-        // bukan kolom tersimpan.
-        $misiGroups = $rows->groupBy(fn ($r) => trim($r->MISI))->values();
+        // bukan kolom tersimpan. groupBy pakai matchKey() (case-insensitive)
+        // — BUKAN trim() polos — supaya baris dgn kapitalisasi beda utk
+        // teks Misi/Tujuan/Sasaran yg SAMA tidak pecah jadi grup "beda"
+        // (bug yg sama pernah ditemukan & diperbaiki di buildKonteksRo()).
+        $misiGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim($r->MISI)))->values();
 
         $misiList = $misiGroups->map(function ($misiRows, $mi) use ($registeredSasaran) {
             $misiNomor = $mi + 1;
             $misiTeks = trim((string) ($misiRows->first()->MISI ?? ''));
 
             $tujuanGroups = $misiRows->filter(fn ($r) => trim((string) ($r->{'TUJUAN RPJMD'} ?? '')) !== '')
-                ->groupBy(fn ($r) => trim($r->{'TUJUAN RPJMD'}))
+                ->groupBy(fn ($r) => $this->matchKey(trim($r->{'TUJUAN RPJMD'})))
                 ->values();
 
             $tujuanList = $tujuanGroups->map(function ($tujuanRows, $ti) use ($misiNomor, $registeredSasaran) {
@@ -278,13 +355,13 @@ class CetakRisikoController extends Controller
                 $g = $tujuanRows->first();
 
                 $sasaranGroups = $tujuanRows->filter(fn ($r) => trim((string) ($r->{'SASARAN RPJMD'} ?? '')) !== '')
-                    ->groupBy(fn ($r) => trim($r->{'SASARAN RPJMD'}))
+                    ->groupBy(fn ($r) => $this->matchKey(trim($r->{'SASARAN RPJMD'})))
                     ->values();
 
                 $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($tujuanNomor, $registeredSasaran) {
                     $sasaranNomor = "{$tujuanNomor}." . ($si + 1);
                     $sasaranTeks = trim($sasaranRows->first()->{'SASARAN RPJMD'});
-                    $isRegistered = $registeredSasaran->has($sasaranTeks);
+                    $isRegistered = $registeredSasaran->has($this->matchKey($sasaranTeks));
 
                     return [
                         'nomor' => $sasaranNomor,
@@ -327,12 +404,16 @@ class CetakRisikoController extends Controller
 
             return $program !== '' && $program !== '-' && $program !== 'Tidak Ada Data';
         })
-            ->groupBy(fn ($r) => trim($r->{'PROGRAM PRIORITAS'}))
-            ->map(function ($group, $program) use ($registeredSasaran) {
-                $bold = $group->contains(fn ($r) => $registeredSasaran->has(trim((string) ($r->{'SASARAN RPJMD'} ?? ''))));
+            ->groupBy(fn ($r) => $this->matchKey(trim($r->{'PROGRAM PRIORITAS'})))
+            ->map(function ($group) use ($registeredSasaran) {
+                $bold = $group->contains(fn ($r) => $registeredSasaran->has($this->matchKey(trim((string) ($r->{'SASARAN RPJMD'} ?? '')))));
 
                 return [
-                    'program' => $program,
+                    // Label tampil TETAP teks asli baris pertama (bukan
+                    // hasil matchKey() dari groupBy di atas, yg sudah
+                    // di-lowercase & prefix-nya dibuang — groupBy key HANYA
+                    // dipakai utk pengelompokan, bukan utk ditampilkan).
+                    'program' => trim($group->first()->{'PROGRAM PRIORITAS'}),
                     'indikator_list' => $this->indikatorRows($group, 'IK PROGRAM', 'BASELINE IK PROGRAM', 'TARGET IK PROGRAM', 'SATUAN IK PROGRAM', 'OPD IK PROGRAM', 'OPD PENANGGUNGJAWAB PROGRAM'),
                     'bold' => $bold,
                 ];
@@ -367,10 +448,18 @@ class CetakRisikoController extends Controller
         ];
     }
 
-    /** "Sumber Data" Form_I_a: label tetap "RPJMD PEMDA PERIODE" (huruf besar), sesuai contoh cetak Excel asli. */
-    private function sumberDataPemda(string $pemerintahKabkota, ?string $periode): string
+    /**
+     * "Sumber Data" Form 2a/3a: label dokumen sumber (mis. "RPJMD") diambil
+     * dari isian menu Data Umum (DataUmum::dokumen_sumber_rsp milik PIC,
+     * fallback ke PengaturanPemda::dokumen_sumber_rsp kalau PIC belum
+     * mengisi) — BUKAN hardcode "RPJMD", supaya konsisten dgn label yg
+     * dikonfigurasi Admin/PIC di /data-umum.
+     */
+    private function sumberDataPemda(string $pemerintahKabkota, ?string $periode, ?string $dokumenSumber): string
     {
-        return mb_strtoupper(trim("RPJMD {$pemerintahKabkota} " . ($periode ?? '')));
+        $label = $dokumenSumber ?: 'RPJMD';
+
+        return mb_strtoupper(trim("{$label} {$pemerintahKabkota} " . ($periode ?? '')));
     }
 
     public function cetak2a(Request $request)
@@ -390,7 +479,7 @@ class CetakRisikoController extends Controller
             'periode' => $pengaturan->periode_penilaian,
             'konteks' => $konteks,
             'pemerintahKabkota' => $pemerintahKabkota,
-            'sumberData' => $this->sumberDataPemda($pemerintahKabkota, $pengaturan->periode_penilaian),
+            'sumberData' => $this->sumberDataPemda($pemerintahKabkota, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rsp')),
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
@@ -446,14 +535,17 @@ class CetakRisikoController extends Controller
             ->unique()
             ->flip();
 
-        $tujuanGroups = $rows->groupBy(fn ($r) => trim($r->{'TUJUAN STRATEGIS PD'}))->values();
+        // groupBy pakai matchKey() (case-insensitive) — sama alasan dgn
+        // buildKonteksPemda()/buildKonteksRo(): kapitalisasi Tujuan/Sasaran
+        // bisa beda antar baris KrsPd utk teks yg maksudnya sama.
+        $tujuanGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim($r->{'TUJUAN STRATEGIS PD'})))->values();
 
         $tujuanList = $tujuanGroups->map(function ($tujuanRows, $ti) use ($registeredSasaranPd) {
             $tujuanNomor = (string) ($ti + 1);
             $g = $tujuanRows->first();
 
             $sasaranGroups = $tujuanRows->filter(fn ($r) => trim((string) ($r->{'SASARAN STRATEGIS PD'} ?? '')) !== '')
-                ->groupBy(fn ($r) => trim($r->{'SASARAN STRATEGIS PD'}))
+                ->groupBy(fn ($r) => $this->matchKey(trim($r->{'SASARAN STRATEGIS PD'})))
                 ->values();
 
             $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($tujuanNomor, $registeredSasaranPd) {
@@ -481,9 +573,10 @@ class CetakRisikoController extends Controller
         $sasaranFlat = $tujuanList->flatMap(fn ($t) => collect($t['sasaran_list'])->map(fn ($s) => array_merge($s, ['tujuan_nomor' => $t['nomor'], 'tujuan' => $t['tujuan']])))->values();
 
         $programGroups = $rows->filter(fn ($r) => trim((string) ($r->{'PROGRAM PD'} ?? '')) !== '')
-            ->groupBy(fn ($r) => trim($r->{'PROGRAM PD'}))
-            ->map(fn ($group, $program) => [
-                'program' => $program,
+            ->groupBy(fn ($r) => $this->matchKey(trim($r->{'PROGRAM PD'})))
+            ->map(fn ($group) => [
+                // Label tampil teks asli, bukan hasil matchKey() groupBy.
+                'program' => trim($group->first()->{'PROGRAM PD'}),
                 'indikator_list' => $this->indikatorRows($group, 'IK PROGRAM PD', null, 'TARGET IK PROGRAM PD', 'SATUAN IK PROGRAM PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
             ])->values();
 
@@ -494,10 +587,12 @@ class CetakRisikoController extends Controller
         ];
     }
 
-    /** "Sumber Data" Form_II_a: label tetap "RENSTRA OPD PERIODE" (huruf besar), sesuai contoh cetak Excel asli. */
-    private function sumberDataRenstra(string $opdNama, ?string $periode): string
+    /** "Sumber Data" Form 2b/3b — label dokumen sumber (mis. "Renstra") diambil dari isian menu Data Umum, sama pola dgn sumberDataPemda(). */
+    private function sumberDataRenstra(string $opdNama, ?string $periode, ?string $dokumenSumber): string
     {
-        return mb_strtoupper(trim("RENSTRA {$opdNama} " . ($periode ?? '')));
+        $label = $dokumenSumber ?: 'Renstra';
+
+        return mb_strtoupper(trim("{$label} {$opdNama} " . ($periode ?? '')));
     }
 
     public function cetak2b(Request $request)
@@ -518,7 +613,7 @@ class CetakRisikoController extends Controller
             'periode' => $pengaturan->periode_penilaian,
             'konteks' => $konteks,
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
-            'sumberData' => $opd ? $this->sumberDataRenstra($opd->nama, $pengaturan->periode_penilaian) : null,
+            'sumberData' => $opd ? $this->sumberDataRenstra($opd->nama, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rso')) : null,
             'urusanPemerintahan' => $dataUmum?->nama_urusan,
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
@@ -526,7 +621,11 @@ class CetakRisikoController extends Controller
 
     public function pdf2b(Request $request)
     {
-        $opdId = $request->integer('opd_id') ?: null;
+        // Fallback ke opd_id milik user (BUKAN null) kalau tidak dikirim di
+        // query string — konsisten dgn cetak2b(), supaya PIC yg mengakses
+        // URL unduh PDF ini langsung (tanpa lewat tombol di halaman
+        // preview, yg SELALU menyertakan opd_id eksplisit) tidak 404.
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
@@ -571,21 +670,28 @@ class CetakRisikoController extends Controller
             ->unique()
             ->flip();
 
-        $sasaranGroups = $rows->groupBy(fn ($r) => trim($r->{'SASARAN RENSTRA'}))->values();
+        // groupBy case-insensitive (matchKey(), BUKAN trim() polos) — data
+        // KroPd bisa py kapitalisasi beda utk teks Sasaran yg sama persis
+        // (mis. "...dan Penyakit..." vs "...Dan Penyakit..."), yg kalau
+        // di-groupBy trim() biasa akan pecah jadi 2 Sasaran "beda" padahal
+        // seharusnya 1 (bug yg sama pernah ditemukan & diperbaiki di
+        // buildKonteksPemda()/buildKonteksPd(), sekarang diterapkan jg di
+        // sini krn dipakai bersama Form 2c & 3c).
+        $sasaranGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim($r->{'SASARAN RENSTRA'})))->values();
 
         $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($registeredKegiatan) {
             $sasaranNomor = (string) ($si + 1);
             $g = $sasaranRows->first();
 
             $programGroups = $sasaranRows->filter(fn ($r) => trim((string) ($r->{'PROGRAM PD'} ?? '')) !== '')
-                ->groupBy(fn ($r) => trim($r->{'PROGRAM PD'}))
+                ->groupBy(fn ($r) => $this->matchKey(trim($r->{'PROGRAM PD'})))
                 ->values();
 
             $programList = $programGroups->map(function ($programRows, $pi) use ($sasaranNomor, $registeredKegiatan) {
                 $programNomor = "{$sasaranNomor}." . ($pi + 1);
 
                 $kegiatanGroups = $programRows->filter(fn ($r) => trim((string) ($r->{'KEGIATAN PD'} ?? '')) !== '')
-                    ->groupBy(fn ($r) => trim($r->{'KEGIATAN PD'}))
+                    ->groupBy(fn ($r) => $this->matchKey(trim($r->{'KEGIATAN PD'})))
                     ->values();
 
                 $kegiatanList = $kegiatanGroups->map(function ($kegiatanRows, $ki) use ($programNomor, $registeredKegiatan) {
@@ -628,10 +734,12 @@ class CetakRisikoController extends Controller
         ];
     }
 
-    /** "Sumber Data" Form_III_a: label tetap "RENJA / DPA OPD TAHUN" (huruf besar), sesuai contoh cetak Excel asli. */
-    private function sumberDataRenja(string $opdNama, int $tahun): string
+    /** "Sumber Data" Form 2c/3c — label dokumen sumber (mis. "Renja / DPA") diambil dari isian menu Data Umum, sama pola dgn sumberDataPemda(). */
+    private function sumberDataRenja(string $opdNama, int $tahun, ?string $dokumenSumber): string
     {
-        return mb_strtoupper(trim("RENJA / DPA {$opdNama} {$tahun}"));
+        $label = $dokumenSumber ?: 'Renja / DPA';
+
+        return mb_strtoupper(trim("{$label} {$opdNama} {$tahun}"));
     }
 
     public function cetak2c(Request $request)
@@ -652,7 +760,7 @@ class CetakRisikoController extends Controller
             'periode' => $pengaturan->periode_penilaian,
             'konteks' => $konteks,
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
-            'sumberData' => $opd ? $this->sumberDataRenja($opd->nama, $tahun) : null,
+            'sumberData' => $opd ? $this->sumberDataRenja($opd->nama, $tahun, $this->dokumenSumber($dataUmum, 'dokumen_sumber_roo')) : null,
             'urusanPemerintahan' => $dataUmum?->nama_urusan,
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
@@ -660,7 +768,9 @@ class CetakRisikoController extends Controller
 
     public function pdf2c(Request $request)
     {
-        $opdId = $request->integer('opd_id') ?: null;
+        // Fallback ke opd_id milik user (BUKAN null) kalau tidak dikirim di
+        // query string — konsisten dgn cetak2c().
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
@@ -668,6 +778,431 @@ class CetakRisikoController extends Controller
         $url = url("/cetak/risiko/2c?opd_id={$opdId}&tahun={$tahun}");
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-2c-Konteks-Operasional-OPD-{$opd->nama}-{$tahun}");
+    }
+
+    /**
+     * Hitung ulang "Nomor Urut Risiko" per kelompok — REPLIKASI PERSIS
+     * withNomorUrut() di IrsPemdaController/IrsPdController/IroPdController
+     * (tidak bisa dipanggil langsung krn private method controller lain),
+     * supaya nomor yg tercetak di Form 3a/3b/3c SAMA PERSIS dgn yg tampil
+     * di tabel Form Input IRS/IRO — kalau beda logic, angkanya bisa beda
+     * dan membingungkan user (kode risiko cetak vs kode risiko yg terlihat
+     * sehari-hari saat isi data akan berbeda nomor urutnya).
+     */
+    private function nomorUrutFor($rows, string $groupCol): array
+    {
+        $prevGroup = null;
+        $counter = 0;
+        $result = [];
+
+        foreach ($rows as $row) {
+            // matchKey() (BUKAN trim() polos) — konsisten dgn groupBy() di
+            // buildKonteks*() supaya batas grup di sini SELALU sinkron dgn
+            // pengelompokan Sasaran/Kegiatan yg dipakai utk menampilkan
+            // baris, mencegah nomor urut risiko reset di tempat yg salah
+            // kalau kapitalisasi teks groupCol tidak konsisten.
+            $group = $this->matchKey(trim((string) ($row->{$groupCol} ?? '')));
+
+            if ($group !== $prevGroup) {
+                $counter = 0;
+                $prevGroup = $group;
+            }
+
+            if (trim((string) $row->{'URAIAN RISIKO'}) !== '') {
+                $counter++;
+                $result[$row->id] = str_pad((string) $counter, 2, '0', STR_PAD_LEFT);
+            } else {
+                $result[$row->id] = null;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * Satu baris tabel Identifikasi Risiko (Form 3a/3b/3c), field-nya sudah
+     * sesuai kolom a-l Lampiran 5 Perdep PPKD No.4/2019 (No, Sasaran/
+     * Kegiatan, Indikator, Uraian Risiko, Kode Risiko, Pemilik, Sebab,
+     * Sumber, C/UC, Dampak, Pihak Terkena) — TIDAK menambah field baru,
+     * murni proyeksi dari kolom yg sudah ada di IrsPemda/IrsPd/IroPd.
+     * Uraian Sebab/Sumber/C-UC ditampilkan APA ADANYA (sudah tersimpan
+     * berformat "(Kategori) Uraian..." dari form input, lihat
+     * MultiCategoryTextarea/CategorizedTextarea di irs/Index.tsx dkk).
+     */
+    private function identifikasiRow($row, string $prefix, ?string $konteksLabel, ?string $nomorUrut): array
+    {
+        return [
+            'konteks' => $konteksLabel,
+            'uraian_risiko' => $row->{'URAIAN RISIKO'},
+            'kode_risiko' => $this->generateKodeRisiko(
+                $prefix,
+                $row->{'TAHUN DINILAI RISIKO'},
+                $row->{'JENIS RISIKO'},
+                $row->{'ENTITAS PD YANG MENILAI'},
+                $nomorUrut,
+            ),
+            'pemilik_risiko' => $row->{'PEMILIK RISIKO'},
+            'sebab' => $row->{'URAIAN PENYEBAB RISIKO'},
+            'sumber' => $row->{'SUMBER SEBAB RISIKO'},
+            'c_uc' => $row->{'C / UC'},
+            'dampak' => $row->{'URAIAN DAMPAK RISIKO'},
+            'pihak_terkena' => $row->{'PIHAK YANG TERKENA DAMPAK RISIKO'},
+        ];
+    }
+
+    /**
+     * Ratakan struktur bertingkat Misi>Tujuan>Sasaran dari buildKonteksPemda()
+     * jadi baris tampil utk Form 3a — REUSE nomor "asli" yg SAMA PERSIS dgn
+     * yg tercetak di Form 2a (mis. Tujuan "1.1", Sasaran "1.1.2"), BUKAN
+     * menghitung ulang nomor sendiri, supaya kedua form selalu konsisten.
+     * Hanya baris Sasaran yg py risiko teridentifikasi (IrsPemda) yg
+     * disertakan — form ini murni identifikasi risiko yg SUDAH ada, beda
+     * dari Form 2a yg menampilkan seluruh konteks meski belum ada risikonya.
+     * Tujuan (dan Misi, kalau py >1 Tujuan bold) disertakan sbg baris
+     * header kalau minimal salah satu Sasaran anaknya tampil.
+     */
+    private function flattenKonteksUntukIdentifikasi(array $konteks, string $sasaranKeyName, callable $sasaranRisikoResolver): array
+    {
+        $result = [];
+
+        foreach ($konteks['misi_list'] ?? [$konteks] as $misi) {
+            $tujuanList = $misi['tujuan_list'] ?? [];
+            $misiPunyaSasaranTampil = false;
+
+            $tujuanBuffer = [];
+            foreach ($tujuanList as $tujuan) {
+                $sasaranBuffer = [];
+
+                foreach ($tujuan['sasaran_list'] as $sasaran) {
+                    $risikoList = $sasaranRisikoResolver($sasaran[$sasaranKeyName]);
+                    if (empty($risikoList)) {
+                        continue;
+                    }
+
+                    $sasaranBuffer[] = [
+                        'type' => 'sasaran',
+                        'nomor' => $sasaran['nomor'],
+                        'label' => $sasaran[$sasaranKeyName],
+                        // List UTUH {ik, baseline, target, satuan} dari
+                        // indikatorRows() (sumber sama dgn Form 2a) — BUKAN
+                        // digabung jadi satu string, supaya kolom Indikator
+                        // Kinerja di Form 3a/3b bisa dipecah 3 sub-kolom
+                        // (Indikator/Baseline/Target) spt IndikatorTable di
+                        // Cetak2a.tsx.
+                        'indikator_list' => collect($sasaran['indikator_list'] ?? [])->values()->all(),
+                        'risiko_list' => $risikoList,
+                    ];
+                }
+
+                if (empty($sasaranBuffer)) {
+                    continue;
+                }
+
+                $misiPunyaSasaranTampil = true;
+                $tujuanBuffer[] = [
+                    'type' => 'tujuan',
+                    'nomor' => $tujuan['nomor'],
+                    'label' => $tujuan['tujuan'],
+                    // IK Tujuan (beda dari IK Sasaran di baris Sasaran
+                    // anaknya) — ditampilkan di kolom IK terpisah, sama pola
+                    // dgn IK Program di flattenKonteksRoUntukIdentifikasi().
+                    'indikator_list' => collect($tujuan['indikator_list'] ?? [])->values()->all(),
+                ];
+                array_push($tujuanBuffer, ...$sasaranBuffer);
+            }
+
+            if ($misiPunyaSasaranTampil && isset($konteks['misi_list']) && count($konteks['misi_list']) > 1) {
+                $result[] = ['type' => 'misi', 'nomor' => (string) $misi['nomor'], 'label' => $misi['misi']];
+            }
+            array_push($result, ...$tujuanBuffer);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Ratakan struktur bertingkat Sasaran>Program>Kegiatan dari
+     * buildKonteksRo() jadi baris tampil utk Form 3c — REUSE nomor "asli"
+     * yg SAMA PERSIS dgn yg tercetak di Form 2c (mis. Program "1.1",
+     * Kegiatan "1.1.1"), pola identik dgn flattenKonteksUntukIdentifikasi()
+     * tapi berbasis Sasaran/Program/Kegiatan (bukan Misi/Tujuan/Sasaran)
+     * krn basis risiko operasional adalah Kegiatan pada Renja/DPA OPD.
+     * Hanya baris Kegiatan yg py risiko teridentifikasi (IroPd) yg
+     * disertakan; Program (dan Sasaran, kalau py >1 Program) disertakan
+     * sbg baris header kalau minimal satu Kegiatan anaknya tampil.
+     */
+    private function flattenKonteksRoUntukIdentifikasi(array $konteks, callable $kegiatanRisikoResolver): array
+    {
+        $result = [];
+
+        foreach ($konteks['sasaran_list'] as $sasaran) {
+            $programBuffer = [];
+            $sasaranPunyaProgramTampil = false;
+
+            foreach ($sasaran['program_list'] as $program) {
+                $kegiatanBuffer = [];
+
+                foreach ($program['kegiatan_list'] as $kegiatan) {
+                    $risikoList = $kegiatanRisikoResolver($kegiatan['kegiatan']);
+                    if (empty($risikoList)) {
+                        continue;
+                    }
+
+                    $kegiatanBuffer[] = [
+                        'type' => 'kegiatan',
+                        'nomor' => $kegiatan['nomor'],
+                        'label' => $kegiatan['kegiatan'],
+                        'indikator_list' => collect($kegiatan['indikator_list'] ?? [])->values()->all(),
+                        'risiko_list' => $risikoList,
+                    ];
+                }
+
+                if (empty($kegiatanBuffer)) {
+                    continue;
+                }
+
+                $sasaranPunyaProgramTampil = true;
+                $programBuffer[] = [
+                    'type' => 'program',
+                    'nomor' => $program['nomor'],
+                    'label' => $program['program'],
+                    // IK Program (beda dari IK Kegiatan di baris Kegiatan
+                    // anaknya) — ditampilkan di kolom IK terpisah, sesuai
+                    // permintaan: kolom IK Form 3c disisipkan antara kolom b
+                    // (Program/Kegiatan) & kolom Tahapan, BUKAN menimpa kolom
+                    // c resmi Perdep yg = Tahapan Kegiatan.
+                    'indikator_list' => collect($program['indikator_list'] ?? [])->values()->all(),
+                ];
+                array_push($programBuffer, ...$kegiatanBuffer);
+            }
+
+            if ($sasaranPunyaProgramTampil && count($konteks['sasaran_list']) > 1) {
+                $result[] = ['type' => 'sasaran_renstra', 'nomor' => $sasaran['nomor'], 'label' => $sasaran['sasaran']];
+            }
+            array_push($result, ...$programBuffer);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Form 3a — Identifikasi Risiko Strategis Pemda. Nomor Tujuan/Sasaran
+     * REUSE dari buildKonteksPemda() (sama fungsi yg dipakai Form 2a) agar
+     * label "1.1", "1.1.2" dst identik antar kedua form — lihat
+     * flattenKonteksUntukIdentifikasi().
+     */
+    private function buildIdentifikasiPemda(int $tahun)
+    {
+        $konteks = $this->buildKonteksPemda($tahun);
+        if (!$konteks) {
+            return [];
+        }
+
+        $rows = IrsPemda::where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->orderBy('id')
+            ->get()
+            ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
+
+        $nomorUrutMap = $this->nomorUrutFor($rows, 'SASARAN RPJMD');
+        $sasaranGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim((string) $r->{'SASARAN RPJMD'})));
+
+        $resolver = function (string $sasaranTeks) use ($sasaranGroups, $nomorUrutMap) {
+            $groupRows = $sasaranGroups->get($this->matchKey($sasaranTeks));
+            if (!$groupRows || $groupRows->isEmpty()) {
+                return [];
+            }
+
+            return $groupRows->map(fn ($r) => $this->identifikasiRow($r, 'RSP', $sasaranTeks, $nomorUrutMap[$r->id] ?? null))->values()->all();
+        };
+
+        return $this->flattenKonteksUntukIdentifikasi($konteks, 'sasaran', $resolver);
+    }
+
+    public function cetak3a(Request $request)
+    {
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $identifikasi = $this->buildIdentifikasiPemda($tahun);
+        $pengaturan = $this->pengaturan();
+        $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
+        $dataUmum = $this->dataUmumForOpd(null);
+
+        return Inertia::render('risiko/cetak/Cetak3a', [
+            'tahun' => $tahun,
+            'periode' => $pengaturan->periode_penilaian,
+            'identifikasi' => $identifikasi,
+            // Visi ditampilkan sbg baris info tersendiri di atas tabel
+            // (SAMA seperti Form 2a, lihat Cetak2a.tsx <Baris label="Visi">)
+            // — TIDAK bernomor, krn 1 Pemda hanya py 1 Visi.
+            'visi' => $this->buildKonteksPemda($tahun)['visi'] ?? null,
+            'pemerintahKabkota' => $pemerintahKabkota,
+            'sumberData' => $this->sumberDataPemda($pemerintahKabkota, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rsp')),
+            'dataUmum' => $this->dataUmumForInertia($dataUmum),
+        ]);
+    }
+
+    public function pdf3a(Request $request)
+    {
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $url = url("/cetak/risiko/3a?tahun={$tahun}");
+
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-3a-Identifikasi-Risiko-Strategis-Pemda-{$tahun}");
+    }
+
+    /**
+     * Form 3b — Identifikasi Risiko Strategis OPD. Nomor Tujuan/Sasaran
+     * REUSE dari buildKonteksPd() (sama fungsi yg dipakai Form 2b) agar
+     * label identik antar kedua form — lihat flattenKonteksUntukIdentifikasi().
+     * buildKonteksPd() tidak py level Misi (khusus OPD), jadi nomor Sasaran
+     * 2-level ("1.1", "1.2"), bukan 3-level spt versi Pemda.
+     */
+    private function buildIdentifikasiPd(int $opdId, string $opdNama, int $tahun)
+    {
+        $konteks = $this->buildKonteksPd($opdNama, $tahun);
+        if (!$konteks) {
+            return [];
+        }
+
+        // IrsPd tidak punya kolom OPD sendiri — kepemilikan ditentukan
+        // lewat user_id -> User.opd_id (sama pola dgn IrsPdController::
+        // index(), BUKAN via "ENTITAS PD YANG MENILAI" yg maknanya beda:
+        // itu nama entitas PENILAI risiko utk kode risiko, bukan
+        // kepemilikan/OPD pemilik baris risikonya).
+        $rows = IrsPd::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->orderBy('id')
+            ->get()
+            ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
+
+        $nomorUrutMap = $this->nomorUrutFor($rows, 'SASARAN RENSTRA');
+        $sasaranGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim((string) $r->{'SASARAN RENSTRA'})));
+
+        $resolver = function (string $sasaranTeks) use ($sasaranGroups, $nomorUrutMap) {
+            $groupRows = $sasaranGroups->get($this->matchKey($sasaranTeks));
+            if (!$groupRows || $groupRows->isEmpty()) {
+                return [];
+            }
+
+            return $groupRows->map(fn ($r) => $this->identifikasiRow($r, 'RSO', $sasaranTeks, $nomorUrutMap[$r->id] ?? null))->values()->all();
+        };
+
+        return $this->flattenKonteksUntukIdentifikasi($konteks, 'sasaran', $resolver);
+    }
+
+    public function cetak3b(Request $request)
+    {
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $this->ensureOpdAccess($request, $opdId);
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $opd = $opdId ? Opd::find($opdId) : null;
+        $pengaturan = $this->pengaturan();
+
+        $identifikasi = $opd ? $this->buildIdentifikasiPd($opd->id, $opd->nama, $tahun) : null;
+        $dataUmum = $this->dataUmumForOpd($opdId);
+
+        return Inertia::render('risiko/cetak/Cetak3b', [
+            'opdOptions' => $this->opdOptions($request),
+            'opd' => $opd,
+            'tahun' => $tahun,
+            'periode' => $pengaturan->periode_penilaian,
+            'identifikasi' => $identifikasi,
+            'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
+            'sumberData' => $opd ? $this->sumberDataRenstra($opd->nama, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rso')) : null,
+            'urusanPemerintahan' => $dataUmum?->nama_urusan,
+            'dataUmum' => $this->dataUmumForInertia($dataUmum),
+        ]);
+    }
+
+    public function pdf3b(Request $request)
+    {
+        // Fallback ke opd_id milik user (BUKAN null) kalau tidak dikirim di
+        // query string — konsisten dgn cetak3b().
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $this->ensureOpdAccess($request, $opdId);
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
+
+        $url = url("/cetak/risiko/3b?opd_id={$opdId}&tahun={$tahun}");
+
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-3b-Identifikasi-Risiko-Strategis-OPD-{$opd->nama}-{$tahun}");
+    }
+
+    /**
+     * Form 3c — Identifikasi Risiko Operasional OPD, hierarki bertingkat
+     * Sasaran Renstra > Program > Kegiatan (sesuai Lampiran 5 Perdep PPKD
+     * No.4/2019 — basis risiko operasional adalah Kegiatan pada Renja/DPA
+     * OPD). Nomor REUSE dari buildKonteksRo() (sama fungsi yg dipakai Form
+     * 2c) agar layout/penomoran konsisten dgn Form 3a/3b — lihat
+     * flattenKonteksRoUntukIdentifikasi().
+     */
+    private function buildIdentifikasiRo(int $opdId, string $opdNama, int $tahun)
+    {
+        $konteks = $this->buildKonteksRo($opdNama, $tahun);
+        if (!$konteks) {
+            return [];
+        }
+
+        // IroPd juga tidak punya kolom OPD sendiri — sama alasan dgn
+        // buildIdentifikasiPd() di atas.
+        $rows = IroPd::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->orderBy('id')
+            ->get()
+            ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
+
+        $nomorUrutMap = $this->nomorUrutFor($rows, 'KEGIATAN PD');
+        $kegiatanGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim((string) $r->{'KEGIATAN PD'})));
+
+        $resolver = function (string $kegiatanTeks) use ($kegiatanGroups, $nomorUrutMap) {
+            $groupRows = $kegiatanGroups->get($this->matchKey($kegiatanTeks));
+            if (!$groupRows || $groupRows->isEmpty()) {
+                return [];
+            }
+
+            return $groupRows->map(fn ($r) => array_merge(
+                $this->identifikasiRow($r, 'ROO', $kegiatanTeks, $nomorUrutMap[$r->id] ?? null),
+                ['tahap' => $r->TAHAP],
+            ))->values()->all();
+        };
+
+        return $this->flattenKonteksRoUntukIdentifikasi($konteks, $resolver);
+    }
+
+    public function cetak3c(Request $request)
+    {
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $this->ensureOpdAccess($request, $opdId);
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $opd = $opdId ? Opd::find($opdId) : null;
+        $pengaturan = $this->pengaturan();
+
+        $identifikasi = $opd ? $this->buildIdentifikasiRo($opd->id, $opd->nama, $tahun) : null;
+        $dataUmum = $this->dataUmumForOpd($opdId);
+
+        return Inertia::render('risiko/cetak/Cetak3c', [
+            'opdOptions' => $this->opdOptions($request),
+            'opd' => $opd,
+            'tahun' => $tahun,
+            'periode' => $pengaturan->periode_penilaian,
+            'identifikasi' => $identifikasi,
+            'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
+            'sumberData' => $opd ? $this->sumberDataRenja($opd->nama, $tahun, $this->dokumenSumber($dataUmum, 'dokumen_sumber_roo')) : null,
+            'urusanPemerintahan' => $dataUmum?->nama_urusan,
+            'dataUmum' => $this->dataUmumForInertia($dataUmum),
+        ]);
+    }
+
+    public function pdf3c(Request $request)
+    {
+        // Fallback ke opd_id milik user (BUKAN null) kalau tidak dikirim di
+        // query string — konsisten dgn cetak3c().
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $this->ensureOpdAccess($request, $opdId);
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
+
+        $url = url("/cetak/risiko/3c?opd_id={$opdId}&tahun={$tahun}");
+
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-3c-Identifikasi-Risiko-Operasional-OPD-{$opd->nama}-{$tahun}");
     }
 
     /**
