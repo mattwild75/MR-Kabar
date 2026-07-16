@@ -1,188 +1,106 @@
-<p align="center"><img src="https://raw.githubusercontent.com/yogijowo/laravel12-react-starterkit/refs/heads/main/screenshots/landing-welcome.png" alt="Laravel 12 + React Starter Kit"></p>
+# MR Kabar
 
-# 🚀 Laravel 12 + React Starter Kit
+**Digitalisasi Manajemen Risiko Sektor Publik** — aplikasi web untuk mendukung pengelolaan risiko pemerintah daerah sesuai **Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah (PPKD) BPKP No. 4 Tahun 2019** tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah.
 
-A modern and flexible starter kit built with **Laravel 12**, **React (Inertia.js + TypeScript)**, **TailwindCSS**, and **ShadCN UI v4**. Designed to accelerate secure, responsive, and customizable dashboard application development.
-
----
-
-## ✨ Features
-
-- 🔐 Full authentication (login, register, reset password)
-- 👥 Role & Permission Management (Spatie Laravel Permission)
-- 📂 Dynamic Sidebar & Menus based on role & permission
-- 🧩 Drag & drop menu management (nested, reorder)
-- ⚙️ App settings (name, logo, theme color, SEO)
-- 🎨 ShadCN UI v4 + TailwindCSS modern design
-- 🌗 Dark/Light mode support
-- 🔒 Dynamic access protection via `CheckMenuPermission` middleware
-- ⚠️ Custom 403 Error Page (React-based)
-- 💾 Primary color configuration via DB `--primary`
-- 🪪 Audit Log to track user activity
-- 📦 Manual & automatic database backup system
-- 🗂️ File Manager with folder & file operations
+> *"Risiko TerKabar, Daerah Terjaga"*
 
 ---
 
-## 🧱 Tech Stack
+## Tentang MR Kabar
 
-| Area        | Technology                         |
-| ----------- | ---------------------------------- |
-| Backend     | Laravel 12                         |
-| Frontend    | React 19 + Inertia.js + TypeScript |
-| UI Library  | ShadCN UI v4                       |
-| CSS Utility | TailwindCSS                        |
-| Auth        | Laravel Fortify / Breeze-style     |
-| Access Ctrl | Spatie Laravel Permission v5       |
-| DBMS        | MySQL / MariaDB                    |
-| Layout      | Dynamic Sidebar + Header           |
+Sebelum MR Kabar, proses identifikasi risiko strategis maupun operasional di lingkungan Perangkat Daerah (OPD) biasanya dikerjakan lewat berkas Excel/Word terpisah per OPD — rawan hilang, sulit direkap lintas-OPD, dan tanpa jejak audit yang jelas siapa mengisi apa dan kapan.
+
+MR Kabar menggantikan proses manual tersebut dengan aplikasi web terpusat yang:
+
+- Menstandarkan struktur data sesuai Perdep PPKD No. 4/2019 (field wajib, kode risiko, alur 5 tahap proses pengelolaan risiko).
+- Menjaga keterkaitan hierarkis **Visi → Misi → Tujuan → Sasaran → Program/Kegiatan → Risiko** secara otomatis.
+- Merekam siapa mengisi/mengubah apa dan kapan (audit trail), termasuk histori hapus/pulihkan data (soft delete).
+- Menghasilkan visualisasi hierarki (diagram pohon) dan laporan cetak siap tanda tangan.
+- Membatasi akses data sesuai kepemilikan OPD — setiap PIC hanya melihat/mengelola data OPD-nya sendiri.
+
+Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strategis Pemda**, **Risiko Strategis Perangkat Daerah**, dan **Risiko Operasional Perangkat Daerah** — beserta penilaian **Lingkungan Pengendalian (CEE / Control Environment Evaluation)** yang menjadi fondasi sebelum penilaian risiko itu sendiri.
 
 ---
 
-## 🔧 Installation & Setup
+## Fitur Utama
+
+### Manajemen Risiko (sesuai Perdep PPKD No. 4/2019)
+- **KRS/IRS Pemda** — Kertas Rencana Strategis & Identifikasi Risiko tingkat Pemerintah Daerah.
+- **KRS/IRS Perangkat Daerah** — untuk risiko strategis tingkat OPD (Renstra).
+- **KRO/IRO Perangkat Daerah** — untuk risiko operasional tingkat Kegiatan (Renja/RKA), dengan opsi impor struktur langsung dari data KRS PD.
+- **Visualisasi Hierarki** — diagram pohon interaktif yang menggabungkan struktur rencana strategis dengan risiko yang tertaut di setiap levelnya.
+- **Perhitungan otomatis** Skala Risiko dan Prioritas dari matriks analisis risiko 5×5 (dampak × kemungkinan).
+- **Struktur kode risiko otomatis** mengikuti format `[JENIS].[TAHUN].[URUSAN].[OPD].[NOMOR URUT]`.
+
+### CEE (Control Environment Evaluation)
+- Kuesioner persepsi 8 unsur lingkungan pengendalian (37 pertanyaan baku, skala 1–4, multi-responden dengan perhitungan modus otomatis).
+- Pencatatan temuan kelemahan berdasarkan reviu dokumen (LHP, dsb).
+- Simpulan akhir per unsur, siap dicetak sebagai laporan PDF bertanda tangan.
+
+### Lapor Kejadian Risiko
+- Form pelaporan publik (dapat diakses via QR code) untuk melaporkan kejadian risiko yang sedang/telah terjadi di lapangan.
+- Dua mode: mengaitkan ke risiko yang sudah terdaftar, atau melaporkan kejadian baru.
+- Notifikasi otomatis ke PIC OPD terkait dan Admin/Super Admin, dengan alur tindak lanjut (Baru → Diverifikasi → Ditindaklanjuti → Selesai).
+
+### Manajemen Pengguna & Akses
+- Role & permission berjenjang (Spatie Laravel Permission) — Admin, Super Admin, PIC per-OPD, dan akun bersama untuk pengisian kolaboratif (CEE, Lapor Kejadian Risiko).
+- Menu dinamis berbasis role dengan drag-and-drop pengaturan urutan/nesting.
+- Kepemilikan data per-OPD — data risiko satu OPD tidak terlihat/dapat diubah OPD lain.
+
+### Utilitas Pendukung
+- **File Manager** — folder pribadi per pengguna + Folder Umum (berbagi lintas-OPD) dengan alur persetujuan unggahan.
+- **Data Terhapus (Trash)** — semua penghapusan data risiko bersifat *soft delete*, dapat dipulihkan kapan saja.
+- **Audit Log** — jejak aktivitas pengguna di seluruh aplikasi.
+- **Backup Database** — otomatis & manual, dengan pembersihan backup lama terjadwal.
+- **Form Cetak** — dokumen siap tanda tangan (PDF) untuk CEE maupun laporan risiko, dihasilkan lewat Browsershot (rendering Chromium dari komponen React yang sama dengan tampilan web).
+- **Panduan Aplikasi** — dokumentasi interaktif lengkap dengan diagram alur, tabel, dan visualisasi struktur di dalam aplikasi.
+
+---
+
+## Tech Stack
+
+| Area              | Teknologi                                  |
+| ----------------- | ------------------------------------------- |
+| Backend           | Laravel 12 (PHP 8.2+)                       |
+| Frontend          | React 19 + Inertia.js + TypeScript          |
+| UI Components     | ShadCN UI + TailwindCSS                     |
+| Kontrol Akses     | Spatie Laravel Permission                   |
+| Manajemen File     | Spatie Media Library                        |
+| PDF/Cetak         | Browsershot (Puppeteer/Chromium)            |
+| Database          | MySQL / MariaDB                             |
+
+---
+
+## Instalasi (Pengembangan Lokal)
 
 ```bash
-# Create project
-composer create-project yogijowo/laravel12-react-starterkit my-app
-cd my-app
+# Clone repository
+git clone https://github.com/mattwild75/MR-Kabar.git
+cd MR-Kabar
 
-# Backend setup
+# Backend
 composer install
+cp .env.example .env
+php artisan key:generate
 
-# Configure your database settings in .env
-php artisan migrate:fresh --seed
+# Sesuaikan kredensial database & variabel lain di .env, lalu:
+php artisan migrate --seed
 
-# Frontend setup
+# Frontend
 npm install
+npm run build   # atau `npm run dev` untuk mode pengembangan
 
-# Running dev
-composer run dev
+php artisan serve
 ```
 
-Login using:
-
-```
-Email: admin@admin.com
-Password: admin123
-```
+> **Catatan keamanan:** file `.env` tidak disertakan dalam repository (lihat `.gitignore`). Isi setiap variabel kredensial (database, mail, dsb.) sesuai lingkungan Anda sendiri — jangan pernah meng-commit `.env` yang berisi kredensial nyata.
 
 ---
 
-## 🚀 Deployment Guide
+## Lisensi
 
-1. **Build Frontend for Production**
-
-```bash
-npm install
-npm run build
-```
-
-2. **Run Laravel in Production Mode**
-
-```bash
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-```
-
-3. **Set File Permissions**
-
-```bash
-chmod -R 775 storage bootstrap/cache
-chown -R www-data:www-data .
-```
-
-4. **Serve with Web Server** (Nginx/Apache) pointing to `public/` folder.
+Proyek internal untuk mendukung pengelolaan risiko sektor publik. Hubungi pengelola repository untuk pertanyaan terkait penggunaan atau kontribusi.
 
 ---
 
-## 🖼️ Application Screenshots
-
-### 📌 Dashboard (light)
-
-![Dashboard](./screenshots/dashboard-light.png)
-
-### 📌 Dashboard (dark)
-
-![Dashboard](./screenshots/dashboard-dark.png)
-
-### 📌 User Management
-
-![Users](./screenshots/users.png)
-
-### 📌 Role Management
-
-![Roles](./screenshots/roles.png)
-
-### 📌 Permission Management
-
-![Permissions](./screenshots/permissions.png)
-
-### 📌 Menu Manager
-
-![Menus](./screenshots/menus.png)
-
-### 📌 App Settings
-
-![App Settings](./screenshots/app-settings.png)
-
-### 📌 Audit Logs
-
-![Audit Logs](./screenshots/audit-logs.png)
-
-### 📌 Database Backup
-
-![Backup](./screenshots/backup.png)
-
-### 📌 File Manager
-
-![File Manager](./screenshots/file-manager.png)
-
----
-
-## ✅ Manual Test Checklist
-
-| Feature                  | Status |
-| ------------------------ | ------ |
-| Authentication (Login)   | ✅     |
-| CRUD User                | ✅     |
-| CRUD Role & Permission   | ✅     |
-| Dynamic Menu + Sidebar   | ✅     |
-| Access Protection (403)  | ✅     |
-| Drag & Drop Menu Sorting | ✅     |
-| Theme Color via DB       | ✅     |
-| Dark Mode Support        | ✅     |
-| Audit Logs Functionality | ✅     |
-| Database Backup          | ✅     |
-| File Manager             | ✅     |
-
----
-
-## ☕ Support This Project
-
-If you find this starter kit helpful, consider supporting me:
-
-- 💖 [Donate via Ko-fi](https://ko-fi.com/yogijowo)
-- 🧧 [Donate via Saweria](https://saweria.co/yogijowo)
-- 🙌 Share this repo with others
-
-Your support helps me keep improving this open-source project. Thank you! 🙏
-
----
-
-## 📄 License
-
-Released under the [MIT License](https://opensource.org/licenses/MIT). Feel free to use it for personal or commercial projects.
-
----
-
-## 🇵🇸 Free Palestine
-
-> **"You don’t have to be Palestinian to stand for Palestine. You just have to be human."**
-
-We stand with the people of Palestine. We reject colonialism, injustice, and violence.
-**Freedom is a human right. FREE PALESTINE 🇵🇸**
-
----
-
-Created with ❤️ by [@yogijowo](https://github.com/yogijowo)
+Dikembangkan untuk mendukung implementasi manajemen risiko pemerintah daerah sesuai Perdep PPKD No. 4 Tahun 2019.

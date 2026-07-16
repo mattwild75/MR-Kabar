@@ -8,11 +8,11 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 /**
- * Seed role 'lapor-risiko' + akun bersama LAPOR (password
- * ***REMOVED-LEAKED-PASSWORD***) yang dipakai bergantian oleh siapa saja
- * (publik, lewat QR code di /panduan) untuk melaporkan kejadian risiko —
- * dibatasi HANYA ke /lapor-kejadian oleh middleware RestrictLaporRisikoRole,
- * sama pola dengan CeeSeeder/RestrictCeeSurveyRole.
+ * Seed role 'lapor-risiko' + akun bersama LAPOR (password dari env
+ * LAPOR_ACCOUNT_PASSWORD, lihat .env.example) yang dipakai bergantian oleh
+ * siapa saja (publik, lewat QR code di /panduan) untuk melaporkan kejadian
+ * risiko — dibatasi HANYA ke /lapor-kejadian oleh middleware
+ * RestrictLaporRisikoRole, sama pola dengan CeeSeeder/RestrictCeeSurveyRole.
  */
 class LaporanKejadianSeeder extends Seeder
 {
@@ -38,7 +38,7 @@ class LaporanKejadianSeeder extends Seeder
             [
                 'name' => 'Lapor Kejadian Risiko (Akun Bersama)',
                 'email' => 'lapor-risiko@mrkabar.local',
-                'password' => '***REMOVED-LEAKED-PASSWORD***',
+                'password' => env('LAPOR_ACCOUNT_PASSWORD', (string) str()->random(32)),
             ]
         );
 
