@@ -11,7 +11,7 @@ import {
 import { router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 
-// Sesi otomatis berakhir 8 jam sejak LOGIN (bukan sejak aktivitas terakhir
+// Sesi otomatis berakhir 4 jam sejak LOGIN (bukan sejak aktivitas terakhir
 // seperti session lifetime bawaan Laravel) — lihat
 // ForceLogoutAfterMaxDuration middleware & SessionStatusController.
 const POLL_INTERVAL_MS = 30_000;
@@ -101,9 +101,9 @@ export function SessionTimeoutWarning() {
     <AlertDialog open={showWarning} onOpenChange={(open) => !open && doLogout()}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Sesi Anda telah mencapai 8 jam</AlertDialogTitle>
+          <AlertDialogTitle>Sesi Anda telah mencapai 4 jam</AlertDialogTitle>
           <AlertDialogDescription>
-            Untuk keamanan, sesi login otomatis berakhir setelah 8 jam. Klik &ldquo;Lanjutkan&rdquo; untuk tetap masuk,
+            Untuk keamanan, sesi login otomatis berakhir setelah 4 jam. Klik &ldquo;Lanjutkan&rdquo; untuk tetap masuk,
             atau sesi akan otomatis logout dalam {graceSecondsLeft} detik.
           </AlertDialogDescription>
         </AlertDialogHeader>

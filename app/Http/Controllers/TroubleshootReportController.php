@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\TroubleshootReport;
+use App\Models\User;
+use App\Notifications\TroubleshootReportStatusChanged;
+use App\Notifications\TroubleshootReportSubmitted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -74,7 +78,7 @@ class TroubleshootReportController extends Controller
             'description' => ['required', 'string', 'max:5000'],
         ]);
 
-        TroubleshootReport::create([
+        $report = TroubleshootReport::create([
             'user_id'     => $request->user()->id,
             'subject'     => $validated['subject'],
             'category'    => $validated['category'],
@@ -82,11 +86,19 @@ class TroubleshootReportController extends Controller
             'status'      => 'baru',
         ]);
 
+        Notification::send(
+            User::role(['admin', 'super-admin'])->get(),
+            new TroubleshootReportSubmitted($report),
+        );
+
         return back()->with('success', 'Laporan troubleshoot berhasil dikirim. Terima kasih.');
     }
 
     /**
      * Ubah status laporan — admin/super-admin saja (dari halaman rekapan).
+     * Pelapor dinotifikasi balik saat statusnya berubah (mis. "diproses"
+     * atau "selesai") — TIDAK ada notifikasi serupa di destroy() karena
+     * laporan yg dihapus tidak perlu dikabarkan balik ke pelapor.
      */
     public function updateStatus(Request $request, TroubleshootReport $troubleshoot)
     {
@@ -97,6 +109,10 @@ class TroubleshootReportController extends Controller
         ]);
 
         $troubleshoot->update(['status' => $validated['status']]);
+
+        if ($troubleshoot->user) {
+            $troubleshoot->user->notify(new TroubleshootReportStatusChanged($troubleshoot));
+        }
 
         return back()->with('success', 'Status laporan diperbarui.');
     }

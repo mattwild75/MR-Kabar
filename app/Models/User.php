@@ -56,6 +56,28 @@ class User extends Authenticatable implements HasMedia
         return $this->hasMany(MediaFolder::class);
     }
 
+    /**
+     * Akun bersama (non-login, sama pola dgn 'CEE_Survey') yang jadi
+     * pemilik teknis file/folder "Folder Umum" — satu tempat penyimpanan
+     * bersama yang bisa dilihat/diisi/dihapus SEMUA user, bukan cuma
+     * super-admin seperti fitur file-per-user biasa (lihat
+     * UserFileController::index() scope=shared). Dibuat malas (lazy,
+     * firstOrCreate) supaya tidak perlu migrasi/seeder terpisah wajib
+     * dijalankan lebih dulu — baris pertama kali diakses otomatis membuat
+     * akunnya.
+     */
+    public static function sharedFolderOwner(): self
+    {
+        return static::firstOrCreate(
+            ['username' => 'FOLDER_UMUM'],
+            [
+                'name' => 'Folder Umum',
+                'email' => 'folder-umum@mrkabar.local',
+                'password' => (string) str()->random(32),
+            ]
+        );
+    }
+
     /** OPD milik akun PIC (nullable) — dipakai membatasi akses CEE per-OPD. */
     public function opd()
     {

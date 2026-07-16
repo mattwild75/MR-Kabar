@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class SessionStatusController extends Controller
 {
-    private const MAX_SESSION_SECONDS = 8 * 60 * 60;
+    private const MAX_SESSION_SECONDS = 4 * 60 * 60;
 
     /**
      * Dipoll berkala oleh frontend (SessionTimeoutWarning) untuk tahu kapan
      * harus menampilkan dialog peringatan sesi akan berakhir — mengembalikan
-     * berapa detik lagi sampai batas 8 jam sejak login tercapai.
+     * berapa detik lagi sampai batas 4 jam sejak login tercapai.
      */
     public function show(Request $request)
     {
@@ -26,7 +26,7 @@ class SessionStatusController extends Controller
 
     /**
      * Dipanggil saat user klik "Lanjutkan" pada dialog peringatan — reset
-     * login_at ke sekarang, memberi 8 jam penuh lagi sebelum peringatan
+     * login_at ke sekarang, memberi 4 jam penuh lagi sebelum peringatan
      * berikutnya, tanpa perlu login ulang dengan password.
      */
     public function extend(Request $request)

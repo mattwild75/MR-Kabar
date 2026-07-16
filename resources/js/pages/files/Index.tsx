@@ -37,6 +37,10 @@ import {
   Download,
   FolderRoot,
   Shield,
+  Users,
+  Check,
+  X,
+  Clock,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import {
@@ -61,6 +65,9 @@ interface FileNode {
   url: string;
   size: string;
   created_at: string;
+  approvalStatus: 'pending' | 'approved' | null;
+  uploaderName: string | null;
+  canDelete: boolean;
 }
 
 interface UserOption {
@@ -74,9 +81,12 @@ interface Props {
   currentFolder: FolderNode | null;
   files: FileNode[];
   isSuperAdmin: boolean;
+  isAdminOrSuperAdmin: boolean;
+  isShared: boolean;
   viewingUserId: number;
   viewingUserName: string;
   users: UserOption[];
+  sharedFolderId: number | null;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -140,9 +150,12 @@ export default function FileManager({
   currentFolder,
   files,
   isSuperAdmin,
+  isAdminOrSuperAdmin,
+  isShared,
   viewingUserId,
   viewingUserName,
   users,
+  sharedFolderId,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -151,11 +164,15 @@ export default function FileManager({
   const [previewFile, setPreviewFile] = useState<FileNode | null>(null);
   const [isCreatingFolder, setIsCreatingFolder] = useState(false);
 
-  // Super-admin melihat file/folder milik user lain lewat query param
-  // user_id; parameter ini disisipkan ke setiap navigasi/aksi supaya
-  // konteks "sedang melihat sebagai siapa" tidak hilang saat pindah folder.
+  // Mode "Folder Umum" (scope=shared) dibuka utk SEMUA user, bukan cuma
+  // admin/super-admin — parameter ini disisipkan ke setiap navigasi/aksi
+  // supaya konteks "sedang di Folder Umum" tidak hilang saat pindah folder.
+  // Admin & super-admin melihat file/folder milik user lain lewat query
+  // param user_id (tidak relevan lagi saat isShared, keduanya saling
+  // eksklusif); backend (ensureCanViewTargetUser) yang menegakkan admin
+  // tidak bisa mengakses folder milik super-admin.
   const withUserParam = (params: Record<string, string | number | null> = {}) =>
-    isSuperAdmin ? { ...params, user_id: viewingUserId } : params;
+    isShared ? { ...params, scope: 'shared' } : isAdminOrSuperAdmin ? { ...params, user_id: viewingUserId } : params;
 
   const visitFolder = (folderId: number | null) => {
     const params = withUserParam(folderId ? { folder_id: folderId } : {});
@@ -165,6 +182,18 @@ export default function FileManager({
 
   const handleUserChange = (userId: string) => {
     router.visit(`/files?user_id=${userId}`);
+  };
+
+  // Node "Folder Umum" digabung ke dalam File Manager — klik selalu masuk ke
+  // scope=shared pada root-nya sendiri (bukan folder_id manapun).
+  const visitShared = () => {
+    router.visit('/files?scope=shared');
+  };
+
+  // Node "Folder PIC" — klik selalu kembali ke folder pribadi (TANPA
+  // scope=shared), meski sedang di dalam Folder Umum saat ini.
+  const visitOwnRoot = () => {
+    router.visit('/files');
   };
 
   const confirmDeleteFolder = () => {
@@ -197,7 +226,11 @@ export default function FileManager({
       formData.append('files[]', files[i]);
     }
     if (currentFolderId) formData.append('folder_id', currentFolderId.toString());
-    if (isSuperAdmin) formData.append('user_id', String(viewingUserId));
+    if (isShared) {
+      formData.append('scope', 'shared');
+    } else if (isAdminOrSuperAdmin) {
+      formData.append('user_id', String(viewingUserId));
+    }
 
     setUploading(true);
     router.post('/files', formData, {
@@ -223,7 +256,7 @@ export default function FileManager({
     router.post('/media', {
       name: newFolderName,
       parent_id: currentFolderId,
-      ...(isSuperAdmin ? { user_id: viewingUserId } : {}),
+      ...(isShared ? { scope: 'shared' } : isAdminOrSuperAdmin ? { user_id: viewingUserId } : {}),
     }, {
       preserveScroll: true,
       onSuccess: () => {
@@ -300,9 +333,20 @@ export default function FileManager({
 
   return (
     <AppLayout breadcrumbs={breadcrumbs}>
-      <Head title="File Manager" />
+      <Head title={isShared ? 'Folder Umum' : 'File Manager'} />
       <div className="flex-1 space-y-4 p-4 md:p-6">
-        {isSuperAdmin && (
+        <div className="flex items-center gap-2 rounded-lg border border-border bg-card p-3">
+          <Shield className="h-4 w-4 shrink-0 text-primary" />
+          <span className="text-sm font-medium">
+            {isShared ? 'Sedang membuka: Folder Umum' : 'Sedang membuka: Folder PIC (folder pribadi Anda)'}
+          </span>
+          <span className="text-xs text-muted-foreground">
+            {isShared
+              ? 'Ruang penyimpanan bersama, terpisah dari folder pribadi Anda — semua pengguna dapat melihat dan mengunggah file di sini. Upload dari pengguna biasa menunggu persetujuan Admin/Super Admin sebelum terlihat oleh orang lain. Pilih "Folder PIC (Anda)" di panel kiri untuk kembali ke folder pribadi.'
+              : 'Folder ini hanya bisa diakses oleh Anda sendiri (dan Admin/Super Admin). Pilih "Folder Umum" di panel kiri untuk membuka ruang penyimpanan bersama.'}
+          </span>
+        </div>
+        {isAdminOrSuperAdmin && !isShared && (
           <div className="flex items-center gap-2 rounded-lg border border-border bg-card p-3">
             <Shield className="h-4 w-4 shrink-0 text-primary" />
             <span className="text-sm font-medium">Melihat file milik:</span>
@@ -319,7 +363,9 @@ export default function FileManager({
               </SelectContent>
             </Select>
             <span className="text-xs text-muted-foreground">
-              Sebagai super-admin, Anda dapat melihat dan mengelola file semua pengguna.
+              {isSuperAdmin
+                ? 'Sebagai super-admin, Anda dapat melihat dan mengelola file semua pengguna.'
+                : 'Sebagai admin, Anda dapat melihat dan mengelola file seluruh pengguna kecuali milik Super Admin.'}
             </span>
           </div>
         )}
@@ -341,14 +387,25 @@ export default function FileManager({
           </div>
 
           <div className="overflow-y-auto max-h-[calc(100vh-250px)]">
+            {sharedFolderId && (
+              <div
+                className={`mb-2 flex cursor-pointer items-center gap-2 rounded p-2 hover:bg-accent ${isShared ? 'bg-accent' : ''}`}
+                onClick={visitShared}
+              >
+                <Users className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium">Folder Umum (Semua bisa akses)</span>
+              </div>
+            )}
             <div
-              className={`mb-2 flex cursor-pointer items-center gap-2 rounded p-2 hover:bg-accent ${!currentFolderId ? 'bg-accent' : ''}`}
-              onClick={() => visitFolder(null)}
+              className={`mb-2 flex cursor-pointer items-center gap-2 rounded p-2 hover:bg-accent ${!isShared && !currentFolderId ? 'bg-accent' : ''}`}
+              onClick={isShared ? visitOwnRoot : () => visitFolder(null)}
             >
               <FolderRoot className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">{viewingUserName} (Root)</span>
+              <span className="text-sm font-medium">
+                {isShared ? 'Folder PIC (Anda)' : `Folder PIC — ${viewingUserName}`}
+              </span>
             </div>
-            {renderFolderTree(buildFolderTree(folders ?? []))}
+            {!isShared && renderFolderTree(buildFolderTree(folders ?? []))}
           </div>
         </div>
 
@@ -357,7 +414,11 @@ export default function FileManager({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="text-lg font-semibold">
-                {currentFolder ? currentFolder.name : `${viewingUserName} (Root)`}
+                {currentFolder
+                  ? currentFolder.name
+                  : isShared
+                    ? 'Folder Umum (Root)'
+                    : `Folder PIC — ${viewingUserName} (Root)`}
               </h2>
               {currentFolder && (
                 <span className="text-sm text-muted-foreground">
@@ -387,6 +448,54 @@ export default function FileManager({
 
           <Separator />
 
+          {(() => {
+            const subfolders = (folders ?? []).filter((f) => f.parent_id === currentFolderId);
+            return subfolders.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {subfolders.map((folder) => (
+                  <div
+                    key={`folder-${folder.id}`}
+                    className="group flex cursor-pointer items-center gap-3 rounded-lg border border-border p-4 transition-colors hover:border-primary"
+                    onClick={() => visitFolder(folder.id)}
+                  >
+                    <Folder className="w-5 h-5 text-yellow-500 shrink-0" />
+                    <span className="min-w-0 flex-1 truncate font-medium">{folder.name}</span>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <button
+                          className="p-1 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeleteFolderId(folder.id);
+                          }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete Folder?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Folder <strong>{folder.name}</strong> and all its contents will be permanently deleted.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={confirmDeleteFolder}
+                            className="bg-red-600 hover:bg-red-700"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+
           {files.length === 0 ? (
             <div className="flex h-64 flex-col items-center justify-center text-muted-foreground">
               <Folder className="w-12 h-12 mb-2" />
@@ -409,15 +518,23 @@ export default function FileManager({
                   onClick={() => isPreviewable(file.mime_type) ? setPreviewFile(file) : null}
                 >
                   <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-center gap-3">
+                    <div className="flex min-w-0 flex-1 items-center gap-3">
                       {getFileIcon(file.mime_type)}
-                      <div className="overflow-hidden">
+                      <div className="min-w-0 flex-1">
                         <p className="font-medium truncate">{file.name}</p>
                         <p className="text-xs text-muted-foreground">{file.size}</p>
                         <p className="text-xs text-muted-foreground">{file.created_at}</p>
+                        {file.approvalStatus === 'pending' && (
+                          <div className="mt-1 flex items-center gap-1 text-xs text-amber-600">
+                            <Clock className="w-3 h-3" />
+                            <span>
+                              Menunggu persetujuan{file.uploaderName ? ` — diunggah oleh ${file.uploaderName}` : ''}
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="flex shrink-0 gap-1">
                       <a
                         href={file.url}
                         download={file.name}
@@ -426,41 +543,84 @@ export default function FileManager({
                       >
                         <Download className="w-4 h-4" />
                       </a>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <button
-                            className="p-1 text-muted-foreground hover:text-destructive"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Delete File?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              File <strong>{file.name}</strong> will be permanently deleted.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => router.delete(`/files/${file.id}`, {
-                                preserveScroll: true,
-                                onSuccess: () => {
-                                  setPreviewFile(null);
-                                  router.reload({ only: ['files'] });
-                                },
-                              })}
-                              className="bg-red-600 hover:bg-red-700"
+                      {file.canDelete && (
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <button
+                              className="p-1 text-muted-foreground hover:text-destructive"
+                              onClick={(e) => e.stopPropagation()}
                             >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete File?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                File <strong>{file.name}</strong> will be permanently deleted.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => router.delete(`/files/${file.id}`, {
+                                  preserveScroll: true,
+                                  onSuccess: () => {
+                                    setPreviewFile(null);
+                                    router.reload({ only: ['files'] });
+                                  },
+                                })}
+                                className="bg-red-600 hover:bg-red-700"
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
                     </div>
                   </div>
+                  {isShared && isAdminOrSuperAdmin && file.approvalStatus === 'pending' && (
+                    <div className="mt-3 flex gap-2 border-t border-border pt-3">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 gap-1 text-green-600 hover:bg-green-600/10 hover:text-green-600"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.post(`/files/${file.id}/approve`, {}, {
+                            preserveScroll: true,
+                            onSuccess: () => {
+                              toast.success('File disetujui');
+                              router.reload({ only: ['files'] });
+                            },
+                          });
+                        }}
+                      >
+                        <Check className="w-4 h-4" />
+                        Setujui
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 gap-1 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.post(`/files/${file.id}/reject`, {}, {
+                            preserveScroll: true,
+                            onSuccess: () => {
+                              toast.success('File ditolak');
+                              setPreviewFile(null);
+                              router.reload({ only: ['files'] });
+                            },
+                          });
+                        }}
+                      >
+                        <X className="w-4 h-4" />
+                        Tolak
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

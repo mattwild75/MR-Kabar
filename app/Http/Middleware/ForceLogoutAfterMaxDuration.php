@@ -11,10 +11,12 @@ class ForceLogoutAfterMaxDuration
 {
     /**
      * Batas maksimum durasi sesi SEJAK LOGIN (bukan sejak aktivitas
-     * terakhir seperti session lifetime bawaan Laravel) — 8 jam, sesuai
-     * kebijakan keamanan sesi aplikasi ini.
+     * terakhir seperti session lifetime bawaan Laravel) — 4 jam, sesuai
+     * kebijakan keamanan sesi aplikasi ini. Nilai yg sama juga dipakai di
+     * SessionStatusController (poll status) dan session-timeout-warning.tsx
+     * (teks peringatan) — ketiganya harus konsisten.
      */
-    private const MAX_SESSION_SECONDS = 8 * 60 * 60;
+    private const MAX_SESSION_SECONDS = 4 * 60 * 60;
 
     public function handle(Request $request, Closure $next): Response
     {
@@ -31,7 +33,7 @@ class ForceLogoutAfterMaxDuration
                 $request->session()->regenerateToken();
 
                 return redirect()->route('login')
-                    ->with('status', 'Sesi Anda telah berakhir setelah 8 jam. Silakan login kembali.');
+                    ->with('status', 'Sesi Anda telah berakhir setelah 4 jam. Silakan login kembali.');
             }
         }
 

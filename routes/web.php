@@ -35,6 +35,8 @@ use App\Http\Controllers\CetakCeeController;
 use App\Http\Controllers\CetakRisikoController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TahunAktifController;
+use App\Http\Controllers\LaporanKejadianController;
+use App\Http\Controllers\Auth\LaporQrLoginController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -43,6 +45,10 @@ Route::get('/', function () {
 
     return redirect()->route('login');
 })->name('home');
+
+// Auto-login sekali klik ke akun bersama LAPOR — dipakai QR code di
+// /panduan, harus DI LUAR grup 'auth' karena diakses SEBELUM login.
+Route::get('/login/lapor-kejadian', LaporQrLoginController::class)->name('login.lapor-kejadian');
 
 Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', function () {
@@ -113,6 +119,30 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/troubleshoot-report', [TroubleshootReportController::class, 'store'])->name('troubleshoot.store');
     Route::put('/troubleshoot/{troubleshoot}/status', [TroubleshootReportController::class, 'updateStatus'])->name('troubleshoot.update-status');
     Route::delete('/troubleshoot/{troubleshoot}', [TroubleshootReportController::class, 'destroy'])->name('troubleshoot.destroy');
+
+    // Lapor Kejadian Risiko. Form (/lapor-kejadian) & rekap
+    // (/lapor-kejadian/rekap) sengaja path terpisah — sama alasan dgn
+    // troubleshoot di atas: CheckMenuPermission cocok per-prefix. Menu
+    // rekap fail-open di CheckMenuPermission (permission_name kosong,
+    // lihat MenuSeeder) — visibilitas SEBENARNYA (admin/super-admin lihat
+    // semua, PIC OPD hanya opd_id miliknya) ditegakkan di
+    // LaporanKejadianController::index()/ensureCanManage(), bukan lewat
+    // permission menu. Form tetap terbuka utk siapa saja yg login
+    // (termasuk akun bersama LAPOR).
+    Route::get('/lapor-kejadian', [LaporanKejadianController::class, 'create'])->name('lapor-kejadian.create');
+    // Throttle: endpoint pencarian ini bisa diakses akun bersama LAPOR
+    // (publik lewat QR code, bukan akun personal) — tanpa batas laju,
+    // siapa pun yang memegang kredensial publik itu bisa scraping seluruh
+    // isi kolom URAIAN RISIKO/PENYEBAB/OPD dari IRS/IRO secara berulang.
+    Route::get('/lapor-kejadian/cari-risiko', [LaporanKejadianController::class, 'searchRisiko'])
+        ->middleware('throttle:30,1')
+        ->name('lapor-kejadian.search-risiko');
+    Route::post('/lapor-kejadian', [LaporanKejadianController::class, 'store'])->name('lapor-kejadian.store');
+    Route::get('/lapor-kejadian/rekap', [LaporanKejadianController::class, 'index'])->name('lapor-kejadian.index');
+    Route::put('/lapor-kejadian/rekap/{laporanKejadian}/status', [LaporanKejadianController::class, 'updateStatus'])->name('lapor-kejadian.update-status');
+    Route::put('/lapor-kejadian/rekap/{laporanKejadian}/opd', [LaporanKejadianController::class, 'updateOpd'])->name('lapor-kejadian.update-opd');
+    Route::delete('/lapor-kejadian/rekap/{laporanKejadian}', [LaporanKejadianController::class, 'destroy'])->name('lapor-kejadian.destroy');
+
     Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
     Route::post('/backup/run', [BackupController::class, 'run'])->name('backup.run');
     Route::get('/backup/download/{file}', [BackupController::class, 'download'])->name('backup.download');
@@ -144,6 +174,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/files', [UserFileController::class, 'index'])->name('files.index');
     Route::post('/files', [UserFileController::class, 'store'])->name('files.store');
     Route::delete('/files/{id}', [UserFileController::class, 'destroy'])->name('files.destroy');
+    // Approval upload Folder Umum — admin/super-admin saja (ditegakkan di controller).
+    Route::post('/files/{id}/approve', [UserFileController::class, 'approve'])->name('files.approve');
+    Route::post('/files/{id}/reject', [UserFileController::class, 'reject'])->name('files.reject');
     // MediaFolderController hanya mengimplementasikan index/store/destroy.
     Route::resource('media', MediaFolderController::class)->only(['index', 'store', 'destroy']);
     // Data Umum per-PIC (header identitas + penanda tangan) untuk Form Cetak.

@@ -204,16 +204,22 @@ function RenderMenu({
                   'group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors',
                   activeClass,
                   accentBorderClass,
-                  level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3'
+                  level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3',
+                  // Sidebar collapsible="icon" (lihat AppSidebar di bawah):
+                  // saat collapsed, batalkan padding kiri/kanan & accent
+                  // border (yg dihitung utk lebar penuh) supaya ikon
+                  // benar2 center di kolom sempit ikon-only, bukan geser
+                  // krn sisa padding/border dari mode expanded.
+                  'group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!p-2 group-data-[collapsible=icon]:!border-l-0 group-data-[collapsible=icon]:!my-0.5'
                 )}
               >
-                <div className="flex min-w-0 items-start">
-                  <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100', color.icon)} />
-                  <span className="whitespace-normal text-clip break-words text-left overflow-visible">{menu.title}</span>
+                <div className="flex min-w-0 items-start group-data-[collapsible=icon]:min-w-0">
+                  <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100 group-data-[collapsible=icon]:mr-0 group-data-[collapsible=icon]:mt-0', color.icon)} />
+                  <span className="whitespace-normal text-clip break-words text-left overflow-visible group-data-[collapsible=icon]:hidden">{menu.title}</span>
                 </div>
                 <ChevronDown
                   className={cn(
-                    'size-4 mt-0.5 shrink-0 opacity-50 group-hover:opacity-70 transition-transform duration-[250ms] ease-in-out',
+                    'size-4 mt-0.5 shrink-0 opacity-50 group-hover:opacity-70 transition-transform duration-[250ms] ease-in-out group-data-[collapsible=icon]:hidden',
                     isOpen && 'rotate-180'
                   )}
                 />
@@ -266,7 +272,10 @@ function RenderMenu({
                 'group !h-auto w-full min-w-0 !items-start overflow-visible rounded-md transition-colors',
                 activeClass,
                 accentBorderClass,
-                level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3'
+                level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3',
+                // Sama seperti tombol grup di atas — center-kan ikon saat
+                // sidebar collapsed, jangan warisi padding/border mode expanded.
+                'group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!p-2 group-data-[collapsible=icon]:!border-l-0 group-data-[collapsible=icon]:!my-0.5'
               )}
             >
               <Link href={menu.route || '#'}>
@@ -275,12 +284,12 @@ function RenderMenu({
                     Tanpa pembungkus ini, ikon jadi anak langsung tombol dan
                     ikut kena gap-2 bawaan SidebarMenuButton di ATAS mr-3,
                     membuat jaraknya lebih lebar dari menu lain (mis. Dashboard). */}
-                <div className="flex min-w-0 items-start">
-                  <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100', color.icon)} />
-                  <span className="whitespace-normal break-words text-left !truncate-none">{menu.title}</span>
+                <div className="flex min-w-0 items-start group-data-[collapsible=icon]:min-w-0">
+                  <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100 group-data-[collapsible=icon]:mr-0 group-data-[collapsible=icon]:mt-0', color.icon)} />
+                  <span className="whitespace-normal break-words text-left !truncate-none group-data-[collapsible=icon]:hidden">{menu.title}</span>
                 </div>
                 {level > 0 && (
-                  <ChevronRight className="ml-auto size-4 mt-0.5 shrink-0 opacity-40 group-hover:opacity-70" />
+                  <ChevronRight className="ml-auto size-4 mt-0.5 shrink-0 opacity-40 group-hover:opacity-70 group-data-[collapsible=icon]:hidden" />
                 )}
               </Link>
             </SidebarMenuButton>
@@ -325,7 +334,12 @@ export function AppSidebar() {
           --border global) — supaya garis pemisah header/menu ikut warna
           sidebar sendiri & tetap kontras di dark mode, bukan warna netral
           yg didesain utk konteks halaman biasa. */}
-      <SidebarHeader className="px-4 py-3 border-b border-sidebar-border">
+      {/* group-data-[collapsible=icon]:px-2 — px-4 bawaan (16px kiri+kanan)
+          ditambah lebar logo 32px melebihi lebar sidebar collapsed (3rem/
+          48px), membuat logo terlihat terpotong/terdesak oleh overflow
+          container saat sidebar di-collapse ke mode ikon. */}
+      <SidebarHeader className="px-4 py-3 border-b border-sidebar-border group-data-[collapsible=icon]:px-2">
+
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">

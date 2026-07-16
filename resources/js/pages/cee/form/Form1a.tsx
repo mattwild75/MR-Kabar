@@ -20,7 +20,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Save, Pencil, Trash2 } from 'lucide-react';
+import { Save, Pencil, Trash2, Check } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Pertanyaan {
@@ -331,12 +331,13 @@ export default function Form1a({ opdOptions, opdStatus, opdId, tahun, unsurs, re
                               type="button"
                               title={s.label}
                               onClick={() => setJawaban(p.id, s.value)}
-                              className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
+                              className={`flex items-center gap-1 rounded-md border px-3 py-1.5 text-sm transition-colors ${
                                 data.jawaban[p.id] === s.value
-                                  ? 'border-primary bg-primary text-primary-foreground'
+                                  ? 'border-primary bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background'
                                   : 'hover:bg-muted'
                               }`}
                             >
+                              {data.jawaban[p.id] === s.value && <Check className="h-3.5 w-3.5" />}
                               {s.value}
                             </button>
                           ))}

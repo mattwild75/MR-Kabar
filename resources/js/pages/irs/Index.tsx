@@ -42,7 +42,7 @@ import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 import { canManageRow } from '@/lib/ownership';
 import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 // "NOMOR URUT RISIKO" tidak ada di FIELDS — dihitung otomatis oleh backend
@@ -202,6 +202,27 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, opdList, opdF
     setData(values);
     setDialogOpen(true);
   };
+
+  // Prefill dari tombol "Input ke Register Risiko" di Rekap Lapor Kejadian
+  // Risiko (lihat lapor-kejadian/Rekap.tsx) — dibaca sekali saat mount, lalu
+  // query string dibersihkan dari URL supaya tidak ter-prefill ulang kalau
+  // halaman di-refresh manual.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const uraian = params.get('prefill_uraian_risiko');
+    if (!uraian) return;
+
+    openCreate();
+    setData((prev) => ({
+      ...prev,
+      'URAIAN RISIKO': uraian,
+      'URAIAN PENYEBAB RISIKO': params.get('prefill_penyebab_risiko') ?? '',
+      'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN': params.get('prefill_opd') ?? '',
+    }));
+
+    window.history.replaceState({}, '', window.location.pathname);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const openEdit = (row: IrsRow) => {
     setEditing(row);

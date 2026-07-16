@@ -33,9 +33,16 @@ export function TtdEditor({ dataUmumId, tempatPembuatan, tanggalPembuatan, jabat
     ...(nip !== undefined ? { nip_kepala_dinas: nip } : {}),
   });
 
+  // Kertas cetak pembungkus (lihat Cetak2a/2b/2c) sengaja dipaksa bg-white
+  // text-black krn area itu representasi visual PDF — tapi TtdEditor murni
+  // kontrol layar (print:hidden, tidak pernah ikut tercetak), jadi HARUS
+  // dibungkus di sini dgn warna tema aplikasi sendiri (bg-background
+  // text-foreground) supaya tidak mewarisi text-black dari parent. Tanpa
+  // ini, Input bawaan (bg-background — gelap di dark mode) dipaksa
+  // berteks hitam oleh parent sehingga sama sekali tidak terbaca.
   if (!editing) {
     return (
-      <div className="print:hidden">
+      <div className="print:hidden bg-background text-foreground">
         <Button type="button" variant="outline" size="sm" onClick={() => setEditing(true)}>
           <Pencil className="mr-2 size-3.5" />
           Edit Penanda Tangan
@@ -45,7 +52,7 @@ export function TtdEditor({ dataUmumId, tempatPembuatan, tanggalPembuatan, jabat
   }
 
   return (
-    <div className="print:hidden mt-2 space-y-3 rounded-md border p-4">
+    <div className="print:hidden mt-2 space-y-3 rounded-md border bg-background p-4 text-foreground">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="space-y-1">
           <Label>Tempat</Label>

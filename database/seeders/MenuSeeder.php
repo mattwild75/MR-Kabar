@@ -194,6 +194,11 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Folder Umum tidak lagi jadi menu terpisah — sudah digabung sebagai
+        // node tree di dalam File Manager sendiri (lihat
+        // UserFileController::index() & files/Index.tsx), jadi semua user
+        // bisa masuk lewat satu menu "File Manager" saja.
+
         // Rekapan laporan troubleshoot — hanya admin/super-admin. Permission
         // 'troubleshoot-view' di-assign ke admin di RolePermissionSeeder;
         // super-admin lolos lewat Gate::before di AuthServiceProvider.
@@ -217,6 +222,35 @@ class MenuSeeder extends Seeder
                 'icon' => 'Trash2',
                 'route' => '/trash',
                 'order' => 5,
+                'permission_name' => '',
+            ]
+        );
+
+        // Form Lapor Kejadian Risiko — terbuka utk semua user login (termasuk
+        // akun bersama LAPOR, lihat RestrictLaporRisikoRole). Dipisah dari
+        // menu Rekap di atas (path beda) krn CheckMenuPermission cocok
+        // per-prefix, sama alasan Troubleshoot form vs Troubleshoot rekap.
+        Menu::updateOrCreate(
+            ['title' => 'Lapor Kejadian Risiko', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'Siren',
+                'route' => '/lapor-kejadian',
+                'order' => 6,
+                'permission_name' => null,
+            ]
+        );
+
+        // Rekap Lapor Kejadian Risiko. permission_name kosong (fail-open) —
+        // visibilitas SEBENARNYA (admin/super-admin lihat semua, PIC OPD
+        // hanya milik OPD-nya) ditegakkan di LaporanKejadianController::index()
+        // (query filter + AccessDeniedHttpException utk user tanpa opd_id
+        // yg bukan admin/super-admin), sama pola dgn Data Terhapus di atas.
+        Menu::updateOrCreate(
+            ['title' => 'Rekap Lapor Kejadian Risiko', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'AlertTriangle',
+                'route' => '/lapor-kejadian/rekap',
+                'order' => 7,
                 'permission_name' => '',
             ]
         );

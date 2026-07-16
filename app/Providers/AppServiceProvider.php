@@ -15,6 +15,7 @@ use App\Models\User;
 use App\Models\SettingApp;
 use Spatie\Permission\Models\Role;
 use App\Observers\GlobalActivityLogger;
+use App\Observers\OpdSyncObserver;
 use App\Observers\UserFolderObserver;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Permission;
@@ -48,5 +49,8 @@ class AppServiceProvider extends ServiceProvider
         Opd::observe(GlobalActivityLogger::class);
         MediaFolder::observe(GlobalActivityLogger::class);
         User::observe(UserFolderObserver::class);
+        KrsPemda::observe(OpdSyncObserver::class);
+        KrsPd::observe(OpdSyncObserver::class);
+        KroPd::observe(OpdSyncObserver::class);
     }
 }

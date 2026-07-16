@@ -1,4 +1,14 @@
 import type { ReactNode } from 'react';
+import LaporQrCode from '@/components/lapor-kejadian/lapor-qr-code';
+import {
+  FlowHorizontal,
+  FlowVertical,
+  TreeDiagram,
+  OrgChart,
+  Timeline,
+  SimpleTable,
+  ColorBadge,
+} from './visuals';
 
 /**
  * Konten halaman /panduan, dipisah dari Index.tsx supaya MUDAH DIPERBARUI
@@ -47,8 +57,16 @@ export const SECTIONS: Section[] = [
           fokus SPIP dan Perdep PPKD adalah ancaman terhadap tujuan, bukan peluang.
         </p>
         <p>
-          Di lingkup pemerintah daerah, manajemen risiko diterapkan pada tiga tingkatan objek risiko:
+          Di lingkup pemerintah daerah, manajemen risiko diterapkan pada tiga tingkatan objek risiko — semakin ke
+          kanan, cakupannya semakin sempit/spesifik dan semakin sering dinilai ulang:
         </p>
+        <FlowHorizontal
+          items={[
+            { label: 'Risiko Strategis Pemda', desc: 'Ancaman thd RPJMD, lintas-OPD', tone: 'accent' },
+            { label: 'Risiko Strategis OPD', desc: 'Ancaman thd Renstra, 1 OPD' },
+            { label: 'Risiko Operasional OPD', desc: 'Ancaman thd Renja/RKA, 1 Kegiatan' },
+          ]}
+        />
         <ul className="list-disc space-y-1 pl-5">
           <li>
             <strong>Risiko Strategis Pemda</strong> — mengancam pencapaian tujuan/sasaran RPJMD (Rencana Pembangunan
@@ -158,6 +176,27 @@ export const SECTIONS: Section[] = [
           Perdep PPKD No.4/2019 (Bab II &amp; Lampiran 2) menetapkan struktur pengelolaan risiko dengan peran-peran
           berikut — bagian ini sering tertukar, jadi dijelaskan tegas satu per satu:
         </p>
+
+        <p className="mt-2 font-medium text-foreground">Unit Pemilik Risiko (UPR) — berjenjang top-down</p>
+        <OrgChart
+          levels={[
+            { label: 'Tingkat Pemda', items: ['Ketua: Kepala Daerah', 'Koordinator: Kepala Bappeda', 'Anggota: Seluruh Kepala OPD + Sekda'], tone: 'accent' },
+            { label: 'Eselon 1 (khusus provinsi)', items: ['Ketua: Sekda Provinsi'] },
+            { label: 'Eselon 2', items: ['Ketua: Sekda Kab/Kota atau Kepala OPD lain'] },
+            { label: 'Eselon 3 / 4', items: ['Kepala Bidang', 'Kasubbag / Kasi'] },
+          ]}
+        />
+
+        <p className="mt-4 font-medium text-foreground">Three Lines of Defense (pengawasan berlapis)</p>
+        <FlowHorizontal
+          items={[
+            { label: 'Lini 1: UPR', desc: 'Kelola risiko sehari-hari' },
+            { label: 'Lini 2: Unit Kepatuhan', desc: 'Pantau pelaksanaan UPR' },
+            { label: 'Lini 3: Inspektorat', desc: 'Evaluasi independen', tone: 'accent' },
+          ]}
+        />
+
+        <p className="mt-4 font-medium text-foreground">Rincian peran lainnya</p>
         <div className="grid gap-3 sm:grid-cols-2">
           <Kotak title="Penanggung Jawab Pengelolaan Risiko">
             Tunggal, selalu <strong>Kepala Daerah</strong> (Gubernur/Bupati/Wali Kota). Berwenang menetapkan arah
@@ -222,6 +261,14 @@ export const SECTIONS: Section[] = [
           Penilaian risiko mengikuti siklus perencanaan &amp; penganggaran daerah, bukan dilakukan sekali lalu
           selesai — datanya perlu dimutakhirkan setiap tahun mengikuti perubahan RPJMD/Renstra/Renja:
         </p>
+        <Timeline
+          items={[
+            { period: '5 Tahunan', label: 'Risiko Strategis Pemda', desc: 'Mengikuti siklus RPJMD, disusun ulang tiap tahun berjalan' },
+            { period: 'Tahunan', label: 'Risiko Strategis OPD', desc: 'Mengikuti Renstra OPD, disinkronkan penyusunan/perubahan Renja' },
+            { period: 'Tahunan', label: 'Risiko Operasional OPD', desc: 'Mengikuti Renja/RKA, dari penyusunan RKA s.d. penetapan DPA' },
+            { period: 'Triwulanan', label: 'Laporan Berkala & Pemantauan', desc: 'Oleh UPR dan Unit Kepatuhan, berjenjang s.d. tahunan' },
+          ]}
+        />
         <ul className="list-disc space-y-1 pl-5">
           <li>
             <strong>Risiko Strategis Pemda</strong> — dinilai mengikuti siklus RPJMD (5 tahunan), dengan penyusunan
@@ -260,6 +307,47 @@ export const SECTIONS: Section[] = [
           Menu aplikasi mengikuti urutan alur kerja tiga tingkatan risiko. Berikut peta lengkap menu &quot;Form
           Input&quot; dan &quot;Form Cetak&quot; beserta fungsinya:
         </p>
+
+        <TreeDiagram
+          root={{
+            label: 'Form Input',
+            children: [
+              { label: 'Data Umum', desc: 'Identitas kertas kerja + tanda tangan' },
+              {
+                label: 'Risiko Strategis Pemda',
+                children: [
+                  { label: 'I_a_KRS_Pemda', desc: 'Visi → Misi → Tujuan → Sasaran → Program' },
+                  { label: 'I_b_IRS_Pemda', desc: 'Daftar risiko per Sasaran RPJMD' },
+                  { label: 'Visualisasi', desc: 'Diagram pohon KRS+IRS Pemda' },
+                ],
+              },
+              {
+                label: 'Risiko Strategis PD',
+                children: [
+                  { label: 'II_a_KRS_PD', desc: 'Tujuan → Sasaran → Program → Kegiatan → Subkeg.' },
+                  { label: 'II_b_IRS_PD', desc: 'Daftar risiko per Sasaran Renstra OPD' },
+                  { label: 'Visualisasi', desc: 'Diagram pohon KRS+IRS PD' },
+                ],
+              },
+              {
+                label: 'Risiko Operasional PD',
+                children: [
+                  { label: 'III_a_KRO_PD', desc: 'Program → Kegiatan → Subkegiatan (Renja/RKA)' },
+                  { label: 'III_b_IRO_PD', desc: 'Daftar risiko per Kegiatan PD' },
+                  { label: 'Visualisasi', desc: 'Diagram pohon KRO+IRO PD' },
+                ],
+              },
+              {
+                label: 'CEE',
+                children: [
+                  { label: '1a_Kuesioner CEE', desc: '37 pertanyaan, skala 1–4' },
+                  { label: '1b_CEE Dokumen', desc: 'Temuan dari reviu dokumen' },
+                  { label: '1c_Simpulan', desc: 'Simpulan akhir per unsur' },
+                ],
+              },
+            ],
+          }}
+        />
 
         <p className="mt-2 font-medium text-foreground">Data Umum</p>
         <p>
@@ -354,57 +442,81 @@ export const SECTIONS: Section[] = [
     content: (
       <>
         <p>Perdep PPKD No.4/2019 Bab III menetapkan 5 tahap proses pengelolaan risiko, berurutan:</p>
-        <ol className="list-decimal space-y-2 pl-5">
-          <li>
-            <strong>Identifikasi Kelemahan Lingkungan Pengendalian</strong> — menilai seberapa kondusif lingkungan
-            pengendalian internal OPD, memakai metode CEE/CSA (Control Self-Assessment) lewat kuesioner (Form 1a),
-            reviu dokumen (Form 1b), dan simpulan gabungan (Form 1c). Ini fondasi sebelum menilai risiko spesifik —
-            di MR Kabar dikerjakan lewat menu <strong>CEE</strong>.
-          </li>
-          <li>
-            <strong>Penilaian Risiko</strong> — tahap paling kompleks: (a) menetapkan konteks tiga tingkat (Pemda/
-            OPD/Kegiatan, lewat Form 2a/2b/2c — di MR Kabar ini menu <strong>KRS Pemda/KRS PD/KRO PD</strong>), (b)
-            mengidentifikasi risiko dengan atribut wajib (kode risiko, pemilik, penyebab, sumber, sifat
-            controllable/uncontrollable, dampak, pihak terkena dampak — di MR Kabar ini menu{' '}
-            <strong>IRS Pemda/IRS PD/IRO PD</strong>), (c) menganalisis risiko berdasarkan skor dampak × kemungkinan
-            untuk menghasilkan daftar risiko prioritas.
-          </li>
-          <li>
-            <strong>Kegiatan Pengendalian</strong> — membangun infrastruktur Rencana Tindak Pengendalian (RTP) dan
-            melaksanakan kebijakan/prosedur pengendalian yang sudah ditetapkan. Field <code>RENCANA TINDAK
-            PENGENDALIAN</code>, <code>PENANGGUNG JAWAB PENGENDALIAN</code>, dan <code>UNIT/OPD PENANGGUNG JAWAB
-            PENGENDALIAN</code> di form IRS/IRO merekam tahap ini.
-          </li>
-          <li>
-            <strong>Informasi &amp; Komunikasi</strong> — hasil penilaian risiko disosialisasikan lewat Surat Edaran
-            pimpinan, publikasi JDIH (Jaringan Dokumentasi dan Informasi Hukum), dan sosialisasi internal OPD.
-          </li>
-          <li>
-            <strong>Pemantauan</strong> — dilakukan berjenjang (Kepala Daerah → Unit Kepatuhan → Kepala OPD →
-            Kabag/Kabid → Kasi/Kasubbag), ditambah evaluasi terpisah oleh Inspektorat sebagai Lini Ketiga.
-          </li>
-        </ol>
+        <FlowVertical
+          items={[
+            {
+              title: 'Identifikasi Kelemahan Lingkungan Pengendalian',
+              desc: (
+                <>
+                  Menilai seberapa kondusif lingkungan pengendalian internal OPD, memakai metode CEE/CSA (Control
+                  Self-Assessment) lewat kuesioner (Form 1a), reviu dokumen (Form 1b), dan simpulan gabungan (Form
+                  1c). Ini fondasi sebelum menilai risiko spesifik — di MR Kabar dikerjakan lewat menu{' '}
+                  <strong>CEE</strong>.
+                </>
+              ),
+            },
+            {
+              title: 'Penilaian Risiko',
+              desc: (
+                <>
+                  Tahap paling kompleks: (a) menetapkan konteks tiga tingkat (Pemda/OPD/Kegiatan, lewat Form
+                  2a/2b/2c — di MR Kabar menu <strong>KRS Pemda/KRS PD/KRO PD</strong>), (b) mengidentifikasi risiko
+                  dengan atribut wajib (kode risiko, pemilik, penyebab, sumber, sifat controllable/uncontrollable,
+                  dampak, pihak terkena dampak — menu <strong>IRS Pemda/IRS PD/IRO PD</strong>), (c) menganalisis
+                  risiko berdasarkan skor dampak × kemungkinan untuk menghasilkan daftar risiko prioritas.
+                </>
+              ),
+            },
+            {
+              title: 'Kegiatan Pengendalian',
+              desc: (
+                <>
+                  Membangun infrastruktur Rencana Tindak Pengendalian (RTP) dan melaksanakan kebijakan/prosedur
+                  pengendalian yang sudah ditetapkan. Field <code>RENCANA TINDAK PENGENDALIAN</code>,{' '}
+                  <code>PENANGGUNG JAWAB PENGENDALIAN</code>, dan <code>UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN</code>{' '}
+                  di form IRS/IRO merekam tahap ini.
+                </>
+              ),
+            },
+            {
+              title: 'Informasi & Komunikasi',
+              desc: 'Hasil penilaian risiko disosialisasikan lewat Surat Edaran pimpinan, publikasi JDIH (Jaringan Dokumentasi dan Informasi Hukum), dan sosialisasi internal OPD.',
+            },
+            {
+              title: 'Pemantauan',
+              desc: 'Dilakukan berjenjang (Kepala Daerah → Unit Kepatuhan → Kepala OPD → Kabag/Kabid → Kasi/Kasubbag), ditambah evaluasi terpisah oleh Inspektorat sebagai Lini Ketiga.',
+            },
+          ]}
+        />
 
-        <Kotak title="5 respon risiko (dasar penyusunan RTP) — mnemonik A-A-M-S-A">
-          <ul className="list-disc space-y-1 pl-5">
-            <li><strong>Avoid</strong> (hindari) — tidak memulai/melanjutkan kegiatan berisiko.</li>
-            <li><strong>Abate</strong> (cegah kemungkinan) — mengurangi peluang risiko terjadi.</li>
-            <li><strong>Mitigate</strong> (kurangi dampak) — Abate + Mitigate sering disebut satu istilah &quot;Reduce&quot;.</li>
-            <li><strong>Share/Transfer</strong> (bagi) — asuransi, kemitraan, joint venture (catatan: bisa menimbulkan risiko baru).</li>
-            <li><strong>Accept/Retain</strong> (terima) — menerima sisa risiko, pilihan terakhir.</li>
-          </ul>
-        </Kotak>
+        <p className="mt-2 font-medium text-foreground">5 respon risiko (dasar penyusunan RTP) — mnemonik A-A-M-S-A</p>
+        <SimpleTable
+          headers={['Respon', 'Arti', 'Penjelasan']}
+          rows={[
+            [<ColorBadge color="red">Avoid</ColorBadge>, 'Hindari', 'Tidak memulai/melanjutkan kegiatan berisiko.'],
+            [<ColorBadge color="amber">Abate</ColorBadge>, 'Cegah kemungkinan', 'Mengurangi peluang risiko terjadi.'],
+            [<ColorBadge color="amber">Mitigate</ColorBadge>, 'Kurangi dampak', 'Abate + Mitigate sering disebut satu istilah "Reduce".'],
+            [<ColorBadge color="sky">Share/Transfer</ColorBadge>, 'Bagi', 'Asuransi, kemitraan, joint venture (bisa menimbulkan risiko baru).'],
+            [<ColorBadge color="emerald">Accept/Retain</ColorBadge>, 'Terima', 'Menerima sisa risiko, pilihan terakhir.'],
+          ]}
+        />
 
-        <Kotak title="Struktur kode risiko">
-          <p>
-            Format: <code>[JENIS]-[TAHUN]-[KODE URUSAN]-[KODE OPD]-[NOMOR URUT]</code>. Contoh: <code>RSP.19.01.01.02</code>{' '}
-            (Risiko Strategis Pemda), <code>RSO.19.01.05.03</code> (Risiko Strategis OPD), <code>ROO.19.01.05.02</code>{' '}
-            (Risiko Operasional OPD) — jenis kode ditentukan otomatis berdasarkan tingkatan tempat risiko itu
-            dicatat (IRS Pemda selalu &quot;Risiko Strategis Pemda&quot;, IRS PD selalu &quot;Risiko Strategis
-            OPD&quot;, IRO PD selalu &quot;Risiko Operasional OPD&quot; — nilai ini ditetapkan otomatis oleh sistem
-            sesuai halaman yang dipakai, bukan pilihan bebas).
-          </p>
-        </Kotak>
+        <p className="mt-4 font-medium text-foreground">Struktur kode risiko</p>
+        <p className="text-center font-mono text-sm">
+          <ColorBadge color="sky">JENIS</ColorBadge>.<ColorBadge color="amber">TAHUN</ColorBadge>.
+          <ColorBadge color="emerald">URUSAN</ColorBadge>.<ColorBadge color="red">OPD</ColorBadge>.NOMOR URUT
+        </p>
+        <SimpleTable
+          headers={['Contoh Kode', 'Jenis Risiko', 'Ditetapkan Otomatis Dari']}
+          rows={[
+            ['RSP.19.01.01.02', 'Risiko Strategis Pemda', 'Selalu dari halaman IRS Pemda'],
+            ['RSO.19.01.05.03', 'Risiko Strategis OPD', 'Selalu dari halaman IRS PD'],
+            ['ROO.19.01.05.02', 'Risiko Operasional OPD', 'Selalu dari halaman IRO PD'],
+          ]}
+        />
+        <p className="text-xs text-muted-foreground">
+          Jenis kode ditentukan otomatis oleh sistem sesuai halaman tempat risiko dicatat — bukan pilihan bebas.
+        </p>
       </>
     ),
   },
@@ -422,113 +534,77 @@ export const SECTIONS: Section[] = [
           berikut secara berurutan untuk pengisian pertama kali:
         </p>
 
-        <ol className="list-decimal space-y-3 pl-5">
-          <li>
-            <p className="font-medium text-foreground">Isi Data Umum terlebih dahulu.</p>
-            <p>
-              Buka <code>Form Input → Data Umum</code>. Lengkapi nama Pemda, urusan/OPD, periode &amp; tahun
-              penilaian, identitas Kepala Daerah, Kepala OPD, dan PIC pengisi, serta blok penanda tangan. Data ini
-              otomatis muncul di header dan blok tanda tangan seluruh Form Cetak CEE — kalau belum diisi, hasil
-              cetak akan kosong di bagian identitas.
-            </p>
-          </li>
-
-          <li>
-            <p className="font-medium text-foreground">Susun rencana strategis di KRS (level yang sesuai).</p>
-            <p>
-              Kalau OPD Anda punya risiko tingkat Pemda, mulai dari <code>I_a_KRS_Pemda</code> — pastikan Sasaran
-              RPJMD yang relevan sudah tercatat (biasanya sudah diisi Admin/Bappeda). Untuk risiko tingkat OPD, buka{' '}
-              <code>II_a_KRS_PD</code> dan lengkapi struktur Tujuan Strategis PD → Sasaran Strategis PD → Program PD
-              → Kegiatan PD → Subkegiatan PD sesuai Renstra OPD Anda. Untuk risiko operasional, buka{' '}
-              <code>III_a_KRO_PD</code> — bisa memakai tombol <strong>Import dari KRS PD</strong> supaya struktur
-              Program/Kegiatan/Subkegiatan tidak perlu diketik ulang.
-            </p>
-          </li>
-
-          <li>
-            <p className="font-medium text-foreground">Catat risiko di IRS/IRO sesuai level yang sama.</p>
-            <p>
-              Klik <strong>Tambah Data</strong> di halaman IRS Pemda / IRS PD / IRO PD sesuai level tadi. Field-field
-              kunci yang wajib dipahami maknanya:
-            </p>
-            <ul className="mt-1 list-disc space-y-1 pl-5">
-              <li>
-                <strong>Sasaran/Kegiatan</strong> — pilih dari daftar yang sudah ada di KRS/KRO level yang sama (jangan
-                ketik bebas, supaya keterkaitan hierarki tetap valid).
-              </li>
-              <li>
-                <strong>Uraian Risiko</strong> — kalimat yang menjelaskan kondisi/kejadian yang mengancam pencapaian
-                sasaran/kegiatan tsb, bukan penyebabnya.
-              </li>
-              <li>
-                <strong>Pemilik Risiko</strong> — jabatan Unit Pemilik Risiko (UPR) sesuai jenjangnya (lihat bagian
-                &quot;Siapa&quot; di atas) — BUKAN otomatis Kepala Daerah kecuali levelnya memang Risiko Strategis
-                Pemda.
-              </li>
-              <li>
-                <strong>C / UC</strong> — apakah risiko ini bisa dikendalikan penuh secara internal (Controllable)
-                atau sebagian bergantung faktor eksternal di luar kendali OPD (Uncontrollable), disertai alasannya.
-              </li>
-              <li>
-                <strong>Kategori Existing Control (E/KE/TE)</strong> — seberapa efektif kontrol yang SUDAH ADA saat
-                ini: Efektif, Kurang Efektif, atau Tidak Efektif — ini menentukan seberapa besar Celah Pengendalian
-                yang perlu ditutup RTP.
-              </li>
-              <li>
-                <strong>Rencana Tindak Pengendalian (RTP)</strong> — aksi konkret untuk menutup celah pengendalian,
-                sesuaikan dengan 5 respon risiko (Avoid/Abate/Mitigate/Share/Accept).
-              </li>
-              <li>
-                <strong>Penanggung Jawab Pengendalian</strong> — jabatan pejabat yang akan melaksanakan RTP tsb
-                (lihat aturan proporsionalitas kewenangan di bagian &quot;Siapa&quot;).
-              </li>
-              <li>
-                <strong>Skala Dampak &amp; Skala Kemungkinan</strong> — nilai 1–5, dihitung otomatis menjadi Skala
-                Risiko dan Prioritas sesuai matriks analisis risiko 5×5 Perdep — tidak perlu dihitung manual.
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            <p className="font-medium text-foreground">Cek hasilnya di Visualisasi Hirarki.</p>
-            <p>
-              Buka menu <code>Visualisasi</code> di level yang sesuai untuk memastikan risiko yang baru dicatat
-              benar-benar tertaut ke sasaran/kegiatan yang tepat dalam diagram pohon — cara cepat mendeteksi salah
-              pilih Sasaran/Kegiatan saat mengisi IRS/IRO.
-            </p>
-          </li>
-
-          <li>
-            <p className="font-medium text-foreground">Isi kuesioner CEE untuk OPD Anda.</p>
-            <p>
-              Buka <code>1a_Kuesioner CEE</code>, pilih OPD dan tahun penilaian, lalu isi 37 pertanyaan (dikelompokkan
-              dalam 8 unsur lingkungan pengendalian) dengan skala 1–4. Bisa diisi oleh beberapa responden berbeda —
-              sistem menghitung modus otomatis. Lanjut ke <code>1b_CEE Berdasarkan Dokumen</code> untuk mencatat
-              temuan kelemahan dari LHP/reviu dokumen (opsional, isi kalau memang ada temuan). Halaman &quot;Pilih
-              OPD&quot; pada ketiga form CEE kini menampilkan status pengisian tiap OPD (Belum isi / Proses /
-              Lengkap) supaya mudah memantau OPD mana yang sudah/belum mengisi tanpa perlu klik satu-satu.
-            </p>
-          </li>
-
-          <li>
-            <p className="font-medium text-foreground">Susun simpulan akhir di 1c.</p>
-            <p>
-              Buka <code>1c_Simpulan Survei Persepsi</code>, isi penjelasan untuk tiap unsur (sistem sudah
-              menampilkan ringkasan hasil 1a dan daftar kelemahan 1b per unsur sebagai bahan pertimbangan), lalu
-              simpan. Setelah kedelapan unsur A–H tersimpan, status OPD Anda otomatis berubah menjadi
-              &quot;Lengkap&quot;.
-            </p>
-          </li>
-
-          <li>
-            <p className="font-medium text-foreground">Cetak hasil akhir.</p>
-            <p>
-              Buka <code>Form Cetak → CEE → 1a/1b/1c</code> untuk melihat/mengunduh versi PDF siap tanda tangan.
-              Pastikan Data Umum (langkah 1) sudah lengkap sebelum mencetak, karena header dan blok tanda tangan
-              diambil otomatis dari sana.
-            </p>
-          </li>
-        </ol>
+        <FlowVertical
+          items={[
+            {
+              title: 'Isi Data Umum terlebih dahulu',
+              desc: (
+                <>
+                  Buka <code>Form Input → Data Umum</code>. Lengkapi nama Pemda, urusan/OPD, periode &amp; tahun
+                  penilaian, identitas Kepala Daerah, Kepala OPD, dan PIC pengisi, serta blok penanda tangan. Data
+                  ini otomatis muncul di header dan blok tanda tangan seluruh Form Cetak CEE.
+                </>
+              ),
+            },
+            {
+              title: 'Susun rencana strategis di KRS (level yang sesuai)',
+              desc: (
+                <>
+                  Tingkat Pemda: <code>I_a_KRS_Pemda</code>. Tingkat OPD: <code>II_a_KRS_PD</code> (Tujuan Strategis
+                  PD → Sasaran Strategis PD → Program PD → Kegiatan PD → Subkegiatan PD). Tingkat operasional:{' '}
+                  <code>III_a_KRO_PD</code> — bisa pakai tombol <strong>Import dari KRS PD</strong> supaya struktur
+                  tidak perlu diketik ulang.
+                </>
+              ),
+            },
+            {
+              title: 'Catat risiko di IRS/IRO sesuai level yang sama',
+              desc: (
+                <>
+                  <p>
+                    Klik <strong>Tambah Data</strong> di halaman IRS Pemda / IRS PD / IRO PD sesuai level tadi.
+                    Field-field kunci:
+                  </p>
+                  <SimpleTable
+                    headers={['Field', 'Makna']}
+                    rows={[
+                      ['Sasaran/Kegiatan', 'Pilih dari daftar KRS/KRO yang sama (jangan ketik bebas).'],
+                      ['Uraian Risiko', 'Kondisi/kejadian yang mengancam sasaran/kegiatan — bukan penyebabnya.'],
+                      ['Pemilik Risiko', 'Jabatan UPR sesuai jenjang (lihat bagian "Siapa") — bukan otomatis Kepala Daerah.'],
+                      ['C / UC', 'Controllable (kendali penuh internal) atau Uncontrollable (bergantung faktor eksternal).'],
+                      ['Kategori Existing Control', 'Efektif / Kurang Efektif / Tidak Efektif — menentukan besar Celah Pengendalian.'],
+                      ['RTP', 'Aksi konkret menutup celah, sesuaikan 5 respon risiko (Avoid/Abate/Mitigate/Share/Accept).'],
+                      ['Penanggung Jawab Pengendalian', 'Jabatan pelaksana RTP (lihat aturan proporsionalitas di bagian "Siapa").'],
+                      ['Skala Dampak & Kemungkinan', 'Nilai 1–5, Skala Risiko & Prioritas dihitung otomatis dari matriks 5×5.'],
+                    ]}
+                  />
+                </>
+              ),
+            },
+            {
+              title: 'Cek hasilnya di Visualisasi Hirarki',
+              desc: 'Buka menu Visualisasi di level yang sesuai untuk memastikan risiko baru tertaut ke sasaran/kegiatan yang tepat — cara cepat mendeteksi salah pilih Sasaran/Kegiatan.',
+            },
+            {
+              title: 'Isi kuesioner CEE untuk OPD Anda',
+              desc: (
+                <>
+                  Buka <code>1a_Kuesioner CEE</code>, pilih OPD &amp; tahun, isi 37 pertanyaan (8 unsur) skala 1–4.
+                  Lanjut <code>1b_CEE Berdasarkan Dokumen</code> untuk temuan LHP/reviu dokumen (opsional). Halaman
+                  &quot;Pilih OPD&quot; menampilkan status pengisian tiap OPD (Belum isi / Proses / Lengkap).
+                </>
+              ),
+            },
+            {
+              title: 'Susun simpulan akhir di 1c',
+              desc: 'Buka 1c_Simpulan Survei Persepsi, isi penjelasan tiap unsur (ringkasan 1a + 1b sudah ditampilkan sbg bahan pertimbangan). Setelah unsur A–H tersimpan, status OPD otomatis "Lengkap".',
+            },
+            {
+              title: 'Cetak hasil akhir',
+              desc: 'Buka Form Cetak → CEE → 1a/1b/1c untuk versi PDF siap tanda tangan. Pastikan Data Umum (langkah 1) sudah lengkap sebelum mencetak.',
+            },
+          ]}
+        />
 
         <Kotak title="Kalau salah input atau perlu menghapus data">
           Semua penghapusan bersifat <em>soft delete</em> — data tidak langsung hilang. Buka{' '}
@@ -619,6 +695,41 @@ export const SECTIONS: Section[] = [
         <Kotak title="Data yang saya hapus hilang permanen?">
           Tidak — semua penghapusan data risiko bersifat soft delete. Buka <code>Utilities → Data Terhapus</code>{' '}
           untuk memulihkannya.
+        </Kotak>
+      </>
+    ),
+  },
+  // ────────────────────────────────────────────────────────────────────
+  {
+    id: 'lapor-kejadian',
+    title: 'Lapor Kejadian Risiko',
+    navLabel: '10. Lapor Kejadian Risiko',
+    content: (
+      <>
+        <p>
+          Kejadian risiko yang sedang/telah terjadi di lapangan bisa dilaporkan kapan saja lewat Form Lapor Kejadian
+          Risiko — bisa memilih <strong>risiko yang sudah terdaftar</strong> (dari data IRS/IRO yang relevan) atau{' '}
+          <strong>melaporkan kejadian baru</strong> yang belum tercatat sebelumnya.
+        </p>
+
+        <FlowHorizontal
+          items={[
+            { label: '1. Scan QR / Buka Form', desc: 'Akun bersama LAPOR', tone: 'accent' },
+            { label: '2. Pilih Mode', desc: 'Risiko terdaftar / kejadian baru' },
+            { label: '3. Isi & Kirim', desc: 'Nama, kejadian, waktu, OPD' },
+            { label: '4. Notifikasi Otomatis', desc: 'Ke PIC OPD + Admin/Super Admin' },
+            { label: '5. Tindak Lanjut', desc: 'Baru → Diverifikasi → Selesai', tone: 'accent' },
+          ]}
+        />
+
+        <LaporQrCode />
+        <Kotak title="Apa yang terjadi setelah laporan dikirim?" tone="accent">
+          Laporan langsung terlihat oleh PIC OPD yang dipilih di form (jika ada) serta Admin/Super Admin, lengkap
+          dengan notifikasi otomatis ke keduanya. PIC OPD/Admin/Super Admin dapat menindaklanjuti lewat menu{' '}
+          <code>Utilities → Rekap Lapor Kejadian Risiko</code>, mengubah status (baru → diverifikasi →
+          ditindaklanjuti → selesai), dan menambahkan catatan tindak lanjut. Jika laporan dikaitkan ke risiko
+          terdaftar, PIC dapat menelusurinya kembali ke IRS/IRO terkait untuk memutuskan apakah perlu
+          pemutakhiran data risiko secara manual.
         </Kotak>
       </>
     ),

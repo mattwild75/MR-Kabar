@@ -24,24 +24,28 @@ export default function AppLogo() {
   );
 
   return (
-    <div className="flex items-center gap-2">
+    // shrink-0 pada wrapper ikon + hidden pada nama app saat sidebar
+    // collapsed (collapsible="icon", lihat AppSidebar) — tanpa ini, nama
+    // app tetap ikut memakan lebar di kolom sempit ikon-only (3rem) &
+    // membuat logo ikonnya sendiri terdesak/terpotong secara visual.
+    <div className="flex items-center gap-2 group-data-[collapsible=icon]:gap-0">
       {imageSource ? (
         setting?.logo_bg ? (
           <span
-            className="inline-flex items-center justify-center rounded-md p-1"
+            className="inline-flex shrink-0 items-center justify-center rounded-md p-1"
             style={{ backgroundColor: setting.logo_bg }}
           >
             {img}
           </span>
         ) : (
-          img
+          <span className="shrink-0">{img}</span>
         )
       ) : (
-        <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-md">
+        <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 shrink-0 items-center justify-center rounded-md">
           <AppLogoIcon className="size-[1.375rem] fill-current text-primary-foreground dark:text-foreground" />
         </div>
       )}
-      <div className="grid flex-1 text-left text-sm">
+      <div className="grid flex-1 text-left text-sm group-data-[collapsible=icon]:hidden">
         <span className="mb-0.5 truncate leading-none font-semibold">
           {appName}
         </span>

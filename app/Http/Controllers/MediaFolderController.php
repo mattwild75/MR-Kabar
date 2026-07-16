@@ -4,57 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\MediaFolder;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class MediaFolderController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(Request $request)
-    {
-        $user = $request->user();
-        $folderId = $request->input('folder_id');
-
-        // Ambil semua folder
-        $folders = $user->mediaFolders()->orderBy('name')->get();
-
-        // Pastikan folder valid
-        $currentFolder = null;
-        if ($folderId) {
-            $currentFolder = $user->mediaFolders()->find($folderId);
-            if (!$currentFolder) {
-                return redirect('/files');
-            }
-        }
-
-        // Ambil file sesuai folder
-        $files = $user->media()
-            ->where('collection_name', 'files')
-            ->when($folderId, function ($query) use ($folderId) {
-                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.folder_id')) = ?", [(string)$folderId]);
-            }, function ($query) {
-                $query->where(function ($q) {
-                    $q->whereNull('custom_properties->folder_id')
-                        ->orWhereRaw("JSON_EXTRACT(custom_properties, '$.folder_id') IS NULL");
-                });
-            })
-            ->get();
-
-        return Inertia::render('files/Index', [
-            'folders' => $folders,
-            'currentFolderId' => $folderId,
-            'currentFolder' => $currentFolder, // wajib!
-            'files' => $files->map(fn($media) => [
-                'id' => $media->id,
-                'name' => $media->name,
-                'size' => $media->humanReadableSize,
-                'mime_type' => $media->mime_type,
-                'url' => $media->getFullUrl(),
-                'created_at' => $media->created_at->diffForHumans(),
-            ]),
-        ]);
-    }
+    // index() lama (pra File Manager unified/Folder Umum) dihapus — sudah
+    // digantikan sepenuhnya oleh UserFileController::index(), yg juga
+    // menangani scope=shared & admin lintas-user. Tidak ada route yang
+    // memanggil method ini lagi (lihat routes/web.php), jadi ini murni
+    // dead code peninggalan sebelum refactor tsb.
 
     public function store(Request $request)
     {
@@ -66,12 +26,25 @@ class MediaFolderController extends Controller
 
         $requester = $request->user();
 
-        // Super-admin boleh membuat folder di akun user lain (mis. saat
-        // sedang melihat file management milik user tertentu); pengguna
-        // biasa selalu membuat folder di akunnya sendiri.
-        $targetUser = ($requester->hasRole('super-admin') && $request->filled('user_id'))
-            ? \App\Models\User::findOrFail($request->input('user_id'))
-            : $requester;
+        // scope=shared: SIAPA PUN yang login boleh membuat folder di
+        // "Folder Umum" (akun singleton sharedFolderOwner()) — lihat
+        // UserFileController::resolveTargetUser() utk penjelasan lengkap.
+        // Selain itu: admin/super-admin boleh membuat folder di akun user
+        // lain (mis. saat sedang melihat file management milik user
+        // tertentu) — TAPI admin (bukan super-admin) tidak boleh membuat
+        // folder di akun super-admin; pengguna biasa selalu membuat folder
+        // di akunnya sendiri.
+        if ($request->string('scope')->toString() === 'shared') {
+            $targetUser = \App\Models\User::sharedFolderOwner();
+        } elseif ($requester->hasAnyRole(['admin', 'super-admin']) && $request->filled('user_id')) {
+            $targetUser = \App\Models\User::findOrFail($request->input('user_id'));
+
+            if (!$requester->hasRole('super-admin') && $targetUser->hasRole('super-admin') && $targetUser->id !== $requester->id) {
+                abort(403, 'Admin tidak dapat membuat folder di akun Super Admin.');
+            }
+        } else {
+            $targetUser = $requester;
+        }
 
         $targetUser->mediaFolders()->create([
             'name' => $request->name,
@@ -85,10 +58,22 @@ class MediaFolderController extends Controller
     {
         $folder = $medium;
 
-        // Folder hanya boleh dihapus oleh pemiliknya, kecuali super-admin
-        // yang boleh mengelola folder siapa pun.
-        if ($folder->user_id !== $request->user()->id && !$request->user()->hasRole('super-admin')) {
+        // Folder Folder Umum (dimiliki akun sharedFolderOwner()) boleh
+        // dihapus SIAPA PUN yang login. Selain itu: folder hanya boleh
+        // dihapus oleh pemiliknya, kecuali admin/super-admin yang boleh
+        // mengelola folder siapa pun — TAPI admin (bukan super-admin)
+        // tidak boleh menghapus folder milik super-admin.
+        $requester = $request->user();
+        $isSharedFolder = $folder->user_id === \App\Models\User::sharedFolderOwner()->id;
+        $isOwner = $folder->user_id === $requester->id;
+        $isAdminOrSuperAdmin = $requester->hasAnyRole(['admin', 'super-admin']);
+
+        if (!$isSharedFolder && !$isOwner && !$isAdminOrSuperAdmin) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus folder ini.');
+        }
+
+        if (!$isSharedFolder && !$isOwner && !$requester->hasRole('super-admin') && $folder->user?->hasRole('super-admin')) {
+            abort(403, 'Admin tidak dapat menghapus folder milik Super Admin.');
         }
 
         $user = $folder->user;

@@ -184,7 +184,7 @@ export default function UserIndex({ users }: Props) {
                 preserveScroll
                 className={`rounded-md border px-3 py-1.5 text-sm transition ${
                   link.active
-                    ? 'border-primary bg-primary text-primary-foreground'
+                    ? 'border-white/40 bg-primary text-primary-foreground'
                     : link.url
                       ? 'hover:bg-muted'
                       : 'cursor-not-allowed text-muted-foreground opacity-50'

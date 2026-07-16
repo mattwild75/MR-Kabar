@@ -896,6 +896,8 @@ function OpdTab({ rows }: { rows: OpdRow[] }) {
         <p className="text-sm text-muted-foreground">
           Daftar OPD ini dipakai combobox "Unit/OPD Penanggung Jawab Pengendalian" di seluruh form IRS/IRO. Berhati-hatilah
           menghapus OPD yang sudah dipakai di data existing.
+          <br />
+          Total: <span className="font-semibold text-foreground">{rows.length} OPD</span>
         </p>
         <Button onClick={openCreate} className="shrink-0">
           <Plus className="mr-2 h-4 w-4" />
@@ -906,13 +908,15 @@ function OpdTab({ rows }: { rows: OpdRow[] }) {
         <table className="min-w-full text-sm">
           <thead className="bg-muted/50">
             <tr>
+              <th className="border px-3 py-2 text-left font-semibold w-12">No</th>
               <th className="border px-3 py-2 text-left font-semibold">Nama OPD</th>
               <th className="border px-3 py-2 text-left font-semibold">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {rows.map((row, index) => (
               <tr key={row.id}>
+                <td className="border px-3 py-2 align-top text-muted-foreground">{index + 1}</td>
                 <td className="border px-3 py-2 align-top">{row.nama}</td>
                 <td className="border px-3 py-2 align-top">
                   <div className="flex gap-1">
