@@ -8,6 +8,8 @@ import {
   Timeline,
   SimpleTable,
   ColorBadge,
+  RiskMatrix5x5,
+  SignatureBlockPreview,
 } from './visuals';
 
 /**
@@ -24,7 +26,10 @@ import {
  *   (definisi umum, kenapa Perdep mengadaptasi strukturnya), BUKAN kutipan
  *   pasal-per-pasal yg belum diverifikasi dari dokumen resminya masing2.
  * - Struktur menu & field aplikasi — diambil langsung dari kode aplikasi
- *   ini (MenuSeeder, controller FIELDS const) per Juli 2026.
+ *   ini (MenuSeeder, controller FIELDS const, CetakRtpController,
+ *   CetakHasilAnalisisController) — diperbarui menyeluruh 18 Juli 2026
+ *   sesudah Form Cetak Risiko lengkap s.d. Form 7 (RTP) & fitur
+ *   penandatangan majemuk selesai dibangun.
  */
 
 interface Section {
@@ -343,7 +348,8 @@ export const SECTIONS: Section[] = [
                 children: [
                   { label: '1a_Kuesioner CEE', desc: '37 pertanyaan, skala 1–4' },
                   { label: '1b_CEE Dokumen', desc: 'Temuan dari reviu dokumen' },
-                  { label: '1c_Simpulan', desc: 'Simpulan akhir per unsur' },
+                  { label: '1c_Simpulan', desc: 'Simpulan akhir per unsur + Penandatangan' },
+                  { label: '1d_RTP CEE', desc: 'Rencana Tindak utk unsur Kurang Memadai' },
                 ],
               },
             ],
@@ -369,11 +375,27 @@ export const SECTIONS: Section[] = [
                   },
                   {
                     label: 'Identifikasi Risiko',
-                    desc: 'Form 3a/3b/3c — BARU',
+                    desc: 'Form 3a/3b/3c',
                     children: [
                       { label: '3a', desc: 'Identifikasi Risiko Strategis Pemda' },
                       { label: '3b', desc: 'Identifikasi Risiko Strategis OPD' },
                       { label: '3c', desc: 'Identifikasi Risiko Operasional OPD' },
+                    ],
+                  },
+                  {
+                    label: 'Hasil Analisis Risiko',
+                    desc: 'Form 4/5',
+                    children: [
+                      { label: '4', desc: 'Hasil Analisis Risiko + Matriks 5×5' },
+                      { label: '5', desc: 'Daftar Risiko Prioritas (Tinggi/Sangat Tinggi)' },
+                    ],
+                  },
+                  {
+                    label: 'RTP (Rencana Tindak Pengendalian)',
+                    desc: 'Form 6/7',
+                    children: [
+                      { label: '6', desc: 'RTP atas CEE, per-OPD' },
+                      { label: '7', desc: 'RTP atas Hasil Identifikasi Risiko, lintas-OPD' },
                     ],
                   },
                 ],
@@ -391,9 +413,25 @@ export const SECTIONS: Section[] = [
         <p className="mt-2 font-medium text-foreground">Data Umum</p>
         <p>
           <code>Form Input → Data Umum</code> — identitas kertas kerja (nama Pemda, urusan, OPD, kepala daerah,
-          kepala OPD, PIC, dan blok penanda tangan) yang dipakai otomatis sebagai header &amp; blok tanda tangan di
-          seluruh Form Cetak CEE. Diisi sekali per akun PIC, sebaiknya di awal sebelum mencetak apa pun.
+          kepala OPD, PIC, dokumen sumber data, tempat/tanggal pembuatan) beserta <strong>daftar Penanda Tangan</strong>{' '}
+          dinamis (Sekretaris, Kepala Bidang, dst — bisa tambah/hapus baris) yang dipakai otomatis sebagai header
+          &amp; blok tanda tangan di seluruh Form Cetak CEE dan Form Cetak Risiko 6/7. Diisi sekali per akun PIC,
+          sebaiknya di awal sebelum mencetak apa pun.
         </p>
+        <Kotak title="Admin/Super Admin: bisa mengisi Data Umum OPD mana pun" tone="accent">
+          <p>
+            PIC biasa hanya melihat/mengubah Data Umum miliknya sendiri (1 OPD). Admin/Super Admin punya selector
+            tambahan <strong>&quot;OPD / Urusan yang Dinilai&quot; + &quot;Tahun Penilaian&quot;</strong> di halaman
+            ini — bisa memilih OPD mana pun untuk melengkapi/menimpa datanya, termasuk OPD yang belum pernah diisi
+            PIC-nya sekalipun (asal sudah punya akun PIC terhubung).
+          </p>
+          <p className="mt-1">
+            Sebagian field bertanda <span className="text-blue-600">*</span> bersifat{' '}
+            <strong>Pemda-wide</strong> (Nama Pemda, Periode Penilaian, Kepala Daerah, Dokumen Sumber Data RSP/RSO/ROO)
+            — kalau Admin mengubah &amp; menyimpannya, nilai itu jadi <em>default baru untuk seluruh OPD</em>, bukan
+            cuma OPD yang sedang dipilih. Field lain (Kepala OPD, PIC, Penanda Tangan) murni milik OPD tersebut saja.
+          </p>
+        </Kotak>
 
         <p className="mt-2 font-medium text-foreground">Risiko Strategis Pemda (Level I)</p>
         <ul className="list-disc space-y-1 pl-5">
@@ -443,8 +481,8 @@ export const SECTIONS: Section[] = [
         <p className="mt-2 font-medium text-foreground">CEE (Control Environment Evaluation)</p>
         <ul className="list-disc space-y-1 pl-5">
           <li>
-            <code>1a_Kuesioner CEE</code> — kuesioner persepsi 37 pertanyaan baku (8 unsur lingkungan pengendalian),
-            dijawab oleh beberapa responden per-OPD dengan skala 1–4.
+            <code>1a_Kuesioner CEE</code> — kuesioner persepsi 37 pertanyaan baku (8 unsur lingkungan pengendalian,
+            A–H), dijawab oleh beberapa responden per-OPD dengan skala 1–4.
           </li>
           <li>
             <code>1b_CEE Berdasarkan Dokumen</code> — pencatatan kelemahan lingkungan pengendalian berdasarkan hasil
@@ -452,9 +490,22 @@ export const SECTIONS: Section[] = [
           </li>
           <li>
             <code>1c_Simpulan Survei Persepsi</code> — simpulan akhir per unsur (menggabungkan hasil 1a + 1b),
-            disusun Sekretaris Dinas/Badan, memakai identitas Kepala OPD dari Data Umum.
+            memuat kolom keputusan final <strong>Memadai / Kurang Memadai</strong> per unsur, disusun Sekretaris
+            Dinas/Badan dan disahkan Kepala OPD.
+          </li>
+          <li>
+            <code>1d_RTP CEE</code> — Rencana Tindak Pengendalian khusus untuk unsur yang simpulannya{' '}
+            <strong>Kurang Memadai</strong> di 1c (unsur ber-simpulan Memadai tidak perlu RTP). Hasilnya dicetak lewat
+            Form Cetak 6.
           </li>
         </ul>
+        <Kotak title="Sinkronisasi dua arah: Penandatangan Form 1c ↔ Data Umum" tone="accent">
+          Kartu &quot;Penandatangan&quot; di Form 1c (Nama &amp; Jabatan Penyusun/Sekretaris, Nama &amp; Jabatan Kepala
+          OPD) otomatis terisi dari daftar Penanda Tangan di <code>Data Umum</code> OPD tersebut saat pertama kali
+          dibuka. Sebaliknya, kalau PIC mengubah nama/jabatan di Form 1c lalu menyimpan simpulan unsur mana pun,
+          perubahan itu langsung ditulis balik ke <code>Data Umum</code> — jadi PIC cukup mengisi satu tempat
+          (mana pun lebih dulu diakses) dan keduanya akan selalu konsisten.
+        </Kotak>
 
         <p className="mt-2 font-medium text-foreground">Form Cetak — Risiko: Penetapan Konteks (2a/2b/2c)</p>
         <ul className="list-disc space-y-1 pl-5">
@@ -478,11 +529,31 @@ export const SECTIONS: Section[] = [
 
         <p className="mt-3 font-medium text-foreground">Form Cetak — Risiko: Identifikasi Risiko (3a/3b/3c)</p>
         <p>
-          Form baru sesuai Lampiran 5 Perdep PPKD No.4/2019 — mencetak daftar risiko yang <strong>sudah teridentifikasi</strong>{' '}
-          (data dari IRS Pemda/IRS PD/IRO PD) dalam satu tabel lengkap kolom a–k, dikelompokkan mengikuti hierarki
-          konteks yang sama dengan Form 2a/2b/2c supaya penomorannya identik. Lihat penjelasan lengkap di bagian{' '}
+          Mencetak daftar risiko yang <strong>sudah teridentifikasi</strong> (data dari IRS Pemda/IRS PD/IRO PD)
+          dalam satu tabel lengkap kolom a–k, dikelompokkan mengikuti hierarki konteks yang sama dengan Form 2a/2b/2c
+          supaya penomorannya identik. Lihat penjelasan lengkap di bagian{' '}
           <a href="#identifikasi-risiko" className="text-sky-500 underline underline-offset-2">
             Form Cetak: Identifikasi Risiko (3a/3b/3c)
+          </a>{' '}
+          di bawah.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Form Cetak — Risiko: Hasil Analisis &amp; Prioritas (4/5)</p>
+        <p>
+          Kelanjutan dari 3a/3b/3c — sekarang risiko sudah dianalisis (Dampak × Kemungkinan → Skala Risiko lewat
+          Matriks 5×5), sehingga bisa disaring/diprioritaskan. Lihat penjelasan lengkap di bagian{' '}
+          <a href="#analisis-prioritas" className="text-sky-500 underline underline-offset-2">
+            Form Cetak: Hasil Analisis &amp; Daftar Prioritas (4/5)
+          </a>{' '}
+          di bawah.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Form Cetak — Risiko: RTP (6/7)</p>
+        <p>
+          Tahap akhir — rencana tindak pengendalian, baik untuk kelemahan lingkungan pengendalian (CEE) maupun untuk
+          risiko yang sudah teridentifikasi. Lihat penjelasan lengkap di bagian{' '}
+          <a href="#rtp" className="text-sky-500 underline underline-offset-2">
+            Form Cetak: RTP atas CEE &amp; Hasil Identifikasi Risiko (6/7)
           </a>{' '}
           di bawah.
         </p>
@@ -490,7 +561,9 @@ export const SECTIONS: Section[] = [
         <p className="mt-3 font-medium text-foreground">Form Cetak — CEE</p>
         <p>
           <code>Form Cetak → CEE → 1a/1b/1c</code> — versi cetak/PDF siap tanda tangan dari ketiga form CEE di atas,
-          format A4, mengambil identitas &amp; blok tanda tangan dari Data Umum secara otomatis.
+          format A4, mengambil identitas &amp; blok tanda tangan dari Data Umum secara otomatis. RTP CEE (hasil isian
+          <code>1d</code>) dicetak lewat <code>Form Cetak → Risiko → RTP → 6</code>, BUKAN di grup CEE — karena RTP
+          ini digabung dengan alur RTP risiko (Form 7) di Perdep Lampiran 5.
         </p>
 
         <Kotak title="Data Terhapus (Trash)">
@@ -500,6 +573,30 @@ export const SECTIONS: Section[] = [
           sekaligus (kalau yang dihapus adalah node non-leaf seperti satu Sasaran beserta seluruh baris di
           bawahnya).
         </Kotak>
+
+        <p className="mt-4 font-medium text-foreground">Menu pendukung lainnya</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <Kotak title="Ekspor/Impor KRS (Excel)">
+            <code>Form Input → Ekspor/Impor KRS (Excel)</code> — unduh template Excel, isi KRS Pemda/PD secara massal
+            di luar aplikasi, lalu impor kembali. Hasil impor PIC biasa masuk status <em>menunggu persetujuan</em>{' '}
+            (Admin/Super Admin meninjau &amp; menyetujui/menolak) sebelum benar-benar tersimpan — mencegah data
+            massal masuk tanpa verifikasi.
+          </Kotak>
+          <Kotak title="Ekspor/Impor Excel (Backup)">
+            <code>Settings → Backup → Ekspor/Impor Excel</code> — beda dari di atas: fitur ini untuk bulk
+            ekspor/impor SELURUH data risiko lintas-OPD sekaligus (dipakai Admin/Super Admin utk migrasi/backup
+            data), bukan alur kerja PIC sehari-hari.
+          </Kotak>
+          <Kotak title="Kelola Pertanyaan CEE">
+            <code>CEE → Kelola Pertanyaan</code> (Admin/Super Admin) — mengatur 37 pertanyaan baku kuesioner 1a per
+            unsur (A–H), termasuk urutan &amp; teks pertanyaannya. PIC/OPD biasa tidak melihat menu ini, hanya
+            menjawab pertanyaan yang sudah dikonfigurasi.
+          </Kotak>
+          <Kotak title="Backup Database & Git">
+            <code>Settings → Backup</code> (Admin/Super Admin) — backup/restore database, serta push/pull ke Git
+            (untuk sinkronisasi kode antar server), terpisah dari fitur Ekspor/Impor Excel di atas.
+          </Kotak>
+        </div>
       </>
     ),
   },
@@ -542,9 +639,21 @@ export const SECTIONS: Section[] = [
               desc: (
                 <>
                   Membangun infrastruktur Rencana Tindak Pengendalian (RTP) dan melaksanakan kebijakan/prosedur
-                  pengendalian yang sudah ditetapkan. Field <code>RENCANA TINDAK PENGENDALIAN</code>,{' '}
-                  <code>PENANGGUNG JAWAB PENGENDALIAN</code>, dan <code>UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN</code>{' '}
-                  di form IRS/IRO merekam tahap ini.
+                  pengendalian yang sudah ditetapkan — ada DUA jenis RTP di MR Kabar, sumbernya beda:
+                  <ul className="mt-1 list-disc space-y-1 pl-5">
+                    <li>
+                      <strong>RTP atas CEE</strong> (kelemahan lingkungan pengendalian) — diisi lewat{' '}
+                      <code>1d_RTP CEE</code> untuk unsur yang simpulan 1c-nya &quot;Kurang Memadai&quot;, dicetak
+                      lewat <strong>Form 6</strong>.
+                    </li>
+                    <li>
+                      <strong>RTP atas risiko</strong> — memakai field <code>RENCANA TINDAK PENGENDALIAN</code>,{' '}
+                      <code>KATEGORI EXISTING CONTROL</code> (Efektif/Kurang Efektif/Tidak Efektif),{' '}
+                      <code>PENANGGUNG JAWAB PENGENDALIAN</code>, dan{' '}
+                      <code>UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN</code> yang sudah ada di form IRS/IRO — tidak
+                      perlu form input terpisah, langsung dicetak lewat <strong>Form 7</strong>.
+                    </li>
+                  </ul>
                 </>
               ),
             },
@@ -713,9 +822,180 @@ export const SECTIONS: Section[] = [
 
   // ────────────────────────────────────────────────────────────────────
   {
+    id: 'analisis-prioritas',
+    title: 'Form Cetak: Hasil Analisis & Daftar Prioritas (4/5)',
+    navLabel: '8. Analisis & Prioritas (4/5)',
+    content: (
+      <>
+        <p>
+          Setelah risiko teridentifikasi (Form 3a/3b/3c), tahap berikutnya adalah <strong>menganalisis</strong>{' '}
+          seberapa besar Dampak &amp; Kemungkinan tiap risiko, lalu menyaringnya jadi daftar prioritas. Form 4 &amp;
+          5 menampilkan hasil tahap ini, digabung lintas 3 tingkat (Pemda/OPD/Kegiatan) dalam satu tabel — beda dari
+          3a/3b/3c yang terpisah per level.
+        </p>
+
+        <FlowHorizontal
+          items={[
+            { label: '3a/3b/3c', desc: 'Risiko teridentifikasi' },
+            { label: '4', desc: 'Dianalisis (Dampak × Kemungkinan)', tone: 'accent' },
+            { label: '5', desc: 'Disaring: Prioritas saja (Tinggi/Sangat Tinggi)', tone: 'accent' },
+          ]}
+        />
+
+        <p className="mt-3 font-medium text-foreground">Form 4 — Hasil Analisis Risiko</p>
+        <p>
+          Menampilkan <strong>seluruh</strong> risiko teridentifikasi (Section I/II/III, sama seperti Form 3a/3b/3c
+          digabung jadi satu tabel), lengkap dengan Skala Dampak, Skala Kemungkinan, dan Skala Risiko hasil
+          perkalian keduanya lewat Matriks 5×5 di bawah — badge warna Skala Risiko mengikuti level yang sama.
+        </p>
+        <RiskMatrix5x5 />
+        <Kotak title="5 level Skala Risiko (dapat disesuaikan Admin)">
+          <SimpleTable
+            headers={['Level', 'Rentang Skala', 'Warna']}
+            rows={[
+              ['Sangat Tinggi', '20 – 25', <ColorBadge color="red">■</ColorBadge>],
+              ['Tinggi', '16 – 19', <ColorBadge color="orange">■</ColorBadge>],
+              ['Sedang', '11 – 15', <ColorBadge color="yellow">■</ColorBadge>],
+              ['Rendah', '6 – 10', <ColorBadge color="emerald">■</ColorBadge>],
+              ['Sangat Rendah', '1 – 5', <ColorBadge color="sky">■</ColorBadge>],
+            ]}
+          />
+          <p className="mt-1 text-xs">
+            Rentang &amp; warna di atas bisa diubah Admin/Super Admin lewat{' '}
+            <code>Settings → Keterangan Pendukung</code> — kalau diubah, Skala Risiko yang tercetak di Form 4/5/7
+            otomatis ikut memakai rentang/warna terbaru (dihitung ulang tiap cetak, bukan disimpan sebagai nilai
+            tetap).
+          </p>
+        </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Form 5 — Daftar Risiko Prioritas</p>
+        <p>
+          Sama persis dengan Form 4, tapi <strong>hanya menampilkan risiko dengan Skala Risiko ≥ 16</strong>{' '}
+          (kategori Tinggi &amp; Sangat Tinggi) — inilah daftar risiko yang wajib disusun Rencana Tindak
+          Pengendaliannya lebih dulu (lanjut ke Form 7). Kolom Uraian Sebab tetap ditampilkan dengan badge kategori
+          5M seperti Form 3a/3b/3c.
+        </p>
+
+        <Kotak title="Kolom &quot;OPD&quot; menambah huruf, beda dari Perdep asli">
+          Kolom baku Perdep Lampiran 5 Form 4 sebenarnya (a)–(f) dan Form 5 (a)–(g) — TANPA kolom OPD, karena
+          contoh Perdep hanya mencakup 1 OPD sekaligus. MR Kabar menggabungkan seluruh OPD dalam satu tabel
+          (supaya Admin bisa melihat rekap lintas-Pemda), sehingga menambahkan kolom &quot;OPD&quot; sebagai kolom
+          (b) — akibatnya seluruh huruf kolom sesudahnya bergeser satu: Form 4 jadi (a)–(g), Form 5 jadi (a)–(h).
+          Kalau Anda membandingkan dengan lampiran PDF Perdep asli, isi kolomnya tetap sama persis, hanya
+          penomoran hurufnya bergeser karena tambahan kolom ini.
+        </Kotak>
+
+        <Kotak title="PIC pengisi ditampilkan di bawah tabel" tone="accent">
+          PIC biasa (1 OPD) melihat namanya sendiri di bawah Matriks Analisis Risiko. Admin/Super Admin (lintas-OPD)
+          melihat daftar SELURUH PIC yang mengisi IRS/IRO, dikelompokkan per OPD — memudahkan menelusuri siapa
+          bertanggung jawab atas baris risiko tertentu tanpa harus membuka Data Umum satu-satu.
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
+    id: 'rtp',
+    title: 'Form Cetak: RTP atas CEE & Hasil Identifikasi Risiko (6/7)',
+    navLabel: '9. RTP (6/7)',
+    content: (
+      <>
+        <p>
+          Tahap terakhir alur Perdep Lampiran 5 — menyusun &amp; mencetak <strong>Rencana Tindak Pengendalian
+          (RTP)</strong>. Ada dua RTP dengan sumber data &amp; cakupan yang berbeda, jangan tertukar:
+        </p>
+
+        <SimpleTable
+          headers={['', 'Form 6 — RTP atas CEE', 'Form 7 — RTP atas Hasil Identifikasi Risiko']}
+          rows={[
+            ['Mengatasi', 'Kelemahan lingkungan pengendalian (unsur CEE)', 'Risiko yang teridentifikasi (individual)'],
+            ['Sumber data', <code>1d_RTP CEE</code>, 'Field RTP di IRS Pemda/IRS PD/IRO PD langsung'],
+            ['Cakupan', '1 OPD per halaman (wajib pilih OPD)', 'Lintas-OPD (Admin) atau 1 OPD (PIC/Admin yang sudah pilih OPD)'],
+            ['Filter', 'Hanya unsur bersimpulan &quot;Kurang Memadai&quot; di 1c', 'Hanya risiko Skala Risiko ≥ 16 (Tinggi/Sangat Tinggi), sama seperti Form 5'],
+            ['Dikelompokkan per', '8 unsur lingkungan pengendalian (A–H)', '3 tingkat risiko (Strategis Pemda/OPD, Operasional OPD)'],
+          ]}
+        />
+
+        <p className="mt-3 font-medium text-foreground">Form 7 — badge warna kategori pengendalian</p>
+        <p>
+          Kolom &quot;Uraian Pengendalian yang Sudah Ada&quot; menampilkan badge warna sesuai{' '}
+          <code>KATEGORI EXISTING CONTROL</code> yang diisi di IRS/IRO:
+        </p>
+        <SimpleTable
+          headers={['Kode', 'Arti', 'Warna']}
+          rows={[
+            [<ColorBadge color="emerald">E</ColorBadge>, 'Efektif', 'Hijau'],
+            [<ColorBadge color="amber">KE</ColorBadge>, 'Kurang Efektif', 'Kuning'],
+            [<ColorBadge color="red">TE</ColorBadge>, 'Tidak Efektif', 'Merah'],
+          ]}
+        />
+        <p>
+          Kolom &quot;Rencana Tindak Pengendalian&quot; menampilkan badge warna sesuai jenis respon risiko (lihat 5
+          respon risiko di bagian &quot;Bagaimana&quot;) — Abate biru, Mitigate kuning, dst — supaya jenis
+          tindakan yang direncanakan langsung terbaca tanpa harus membaca teks lengkapnya.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Penandatangan majemuk (Form 6 &amp; 7)</p>
+        <p>
+          Berbeda dari Form 1–5 yang hanya punya satu blok tanda tangan (Kepala Daerah/Kepala OPD), Form 6 &amp; 7
+          mendukung <strong>beberapa penandatangan sekaligus</strong> berjajar — kolom paling kiri diisi dari daftar
+          Penanda Tangan di Data Umum (mis. Sekretaris, beberapa Kepala Bidang), kolom paling kanan{' '}
+          <strong>selalu</strong> Kepala OPD (atau Kepala Daerah untuk Form 7 lintas-OPD), lengkap dengan tempat
+          &amp; tanggal pembuatan kertas kerja di atasnya:
+        </p>
+        <SignatureBlockPreview
+          items={[
+            { jabatan: 'Sekretaris Dinas Sosial', nama: 'Rahmawati, S.Sos.', nip: '19780412 200604 2 001' },
+            { jabatan: 'Kepala Bidang Rehabilitasi Sosial', nama: 'Yusniar, S.ST.', nip: '19850220 201001 2 001' },
+            { jabatan: 'Kepala Dinas Sosial', nama: 'Drs. Adami, M.M.', nip: '19680312 199403 1 004' },
+          ]}
+        />
+        <Kotak title="Kepala Daerah tidak punya NIP">
+          Kalau kolom kanan diisi Kepala Daerah (Bupati/Wali Kota/Gubernur) — terjadi di Form 7 saat Admin belum
+          memilih 1 OPD tertentu — baris NIP tidak ditampilkan sama sekali, karena Kepala Daerah adalah pejabat
+          politik terpilih, bukan ASN yang punya NIP.
+        </Kotak>
+        <Kotak title="Edit langsung dari halaman cetak, dua arah dengan Data Umum" tone="accent">
+          Tombol <strong>&quot;Edit Penanda Tangan&quot;</strong> di bawah blok tanda tangan Form 6/7 membuka form
+          singkat untuk mengubah kolom Kepala (tempat, tanggal, jabatan, nama, NIP) maupun kolom tengah
+          (tambah/ubah/hapus baris Sekretaris/Kepala Bidang) — perubahan tersimpan permanen ke <code>Data Umum</code>{' '}
+          OPD tersebut, sehingga menu Data Umum, Form 1c, dan Form 6/7 selalu menampilkan data penandatangan yang
+          sama persis.
+        </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Form 7 — kapan Admin melihat penandatangan, kapan tidak</p>
+        <FlowVertical
+          items={[
+            {
+              title: 'Admin belum memilih OPD',
+              desc: 'Form 7 menampilkan risiko prioritas LINTAS seluruh Pemda — tidak ada satu Kepala OPD yang representatif, sehingga blok penandatangan disembunyikan total.',
+            },
+            {
+              title: 'Admin memilih 1 OPD (lewat selector OPD/Tahun)',
+              desc: 'Data otomatis terfilter ke OPD tersebut saja, dan blok penandatangan Kepala OPD + Penanda Tangan OPD itu muncul, sama seperti tampilan PIC biasa.',
+            },
+            {
+              title: 'PIC biasa (bukan Admin)',
+              desc: 'Selalu ter-scope ke OPD-nya sendiri secara otomatis — tidak ada pilihan OPD, dan blok penandatangan selalu muncul.',
+            },
+          ]}
+        />
+
+        <Kotak title="Kolom &quot;OPD&quot; menambah huruf, beda dari Perdep asli">
+          Sama seperti Form 5, kolom baku Perdep Lampiran 5 Form 6 sebenarnya (a)–(f) dan Form 7 (a)–(h) — MR Kabar
+          menambahkan kolom &quot;OPD&quot; (Form 7 saja, karena Form 6 memang per-OPD) sebagai kolom (b), sehingga
+          Form 7 jadi (a)–(i).
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
     id: 'tata-cara',
     title: 'Tata Cara Pengisian MR Kabar, Langkah demi Langkah',
-    navLabel: '8. Tata Cara Pengisian',
+    navLabel: '10. Tata Cara Pengisian',
     content: (
       <>
         <p>
@@ -787,10 +1067,36 @@ export const SECTIONS: Section[] = [
             },
             {
               title: 'Susun simpulan akhir di 1c',
-              desc: 'Buka 1c_Simpulan Survei Persepsi, isi penjelasan tiap unsur (ringkasan 1a + 1b sudah ditampilkan sbg bahan pertimbangan). Setelah unsur A–H tersimpan, status OPD otomatis "Lengkap".',
+              desc: (
+                <>
+                  Buka <code>1c_Simpulan Survei Persepsi</code>, isi penjelasan &amp; pilih keputusan akhir
+                  <strong> Memadai / Kurang Memadai</strong> tiap unsur (ringkasan 1a + 1b sudah ditampilkan sbg
+                  bahan pertimbangan). Setelah unsur A–H tersimpan, status OPD otomatis &quot;Lengkap&quot;.
+                </>
+              ),
             },
             {
-              title: 'Cetak hasil akhir',
+              title: 'Susun RTP untuk unsur Kurang Memadai',
+              desc: (
+                <>
+                  Kalau ada unsur bersimpulan &quot;Kurang Memadai&quot; di langkah sebelumnya, buka{' '}
+                  <code>1d_RTP CEE</code> untuk menyusun Rencana Tindak Pengendaliannya — dicetak lewat Form 6.
+                  Unsur bersimpulan &quot;Memadai&quot; tidak perlu RTP.
+                </>
+              ),
+            },
+            {
+              title: 'Cetak Hasil Analisis, Prioritas & RTP Risiko',
+              desc: (
+                <>
+                  Buka <code>Form Cetak → Risiko → Hasil Analisis Risiko (4/5)</code> untuk melihat Skala Risiko
+                  &amp; daftar prioritas, lalu <code>Form Cetak → Risiko → RTP (7)</code> untuk mencetak RTP atas
+                  risiko-risiko prioritas tersebut.
+                </>
+              ),
+            },
+            {
+              title: 'Cetak hasil akhir CEE',
               desc: 'Buka Form Cetak → CEE → 1a/1b/1c untuk versi PDF siap tanda tangan. Pastikan Data Umum (langkah 1) sudah lengkap sebelum mencetak.',
             },
           ]}
@@ -809,7 +1115,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'before-after',
     title: 'Sebelum vs Sesudah Ada Manajemen Risiko / MR Kabar',
-    navLabel: '9. Before / After',
+    navLabel: '11. Before / After',
     content: (
       <>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -864,7 +1170,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'faq',
     title: 'Pertanyaan yang Sering Muncul',
-    navLabel: '10. FAQ',
+    navLabel: '12. FAQ',
     content: (
       <>
         <Kotak title="Apa bedanya Pemilik Risiko dengan Penanggung Jawab Pengendalian?">
@@ -893,6 +1199,20 @@ export const SECTIONS: Section[] = [
           hanya menampilkan Sasaran/Kegiatan yang sudah punya minimal satu risiko tercatat, lengkap dengan detail
           kolom a–k (Uraian Risiko, Kode Risiko, Sebab, Sumber, C/UC, Dampak, dst).
         </Kotak>
+        <Kotak title="Apa bedanya Form 4/5 dengan Form 6/7?">
+          Form 4/5 adalah <strong>Hasil Analisis Risiko</strong> — menilai seberapa besar Dampak &amp; Kemungkinan
+          tiap risiko (Form 4 = semua risiko, Form 5 = disaring jadi Tinggi/Sangat Tinggi saja). Form 6/7 adalah{' '}
+          <strong>RTP (Rencana Tindak Pengendalian)</strong> — langkah nyata mengatasi kelemahan yang ditemukan
+          (Form 6 = kelemahan lingkungan pengendalian/CEE, Form 7 = risiko-risiko yang sudah dianalisis di Form
+          4/5). Urutan alurnya: 3 (identifikasi) → 4/5 (analisis &amp; prioritas) → 6/7 (RTP).
+        </Kotak>
+        <Kotak title="Kenapa Form 6 wajib pilih 1 OPD, tapi Form 7 kadang bisa lintas-OPD?">
+          Form 6 (RTP atas CEE) selalu per-OPD karena datanya (1d_RTP CEE) memang diisi per-OPD, sama seperti
+          seluruh Form CEE lainnya. Form 7 (RTP atas risiko) mengikuti pola Form 4/5 yang sejak awal dirancang
+          lintas-OPD (menggabungkan Risiko Strategis Pemda, Strategis OPD, dan Operasional OPD sekaligus) — hanya
+          Admin/Super Admin yang bisa melihat versi lintas-OPD ini; PIC biasa selalu otomatis ter-scope ke
+          OPD-nya sendiri.
+        </Kotak>
       </>
     ),
   },
@@ -900,7 +1220,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'lapor-kejadian',
     title: 'Lapor Kejadian Risiko',
-    navLabel: '11. Lapor Kejadian Risiko',
+    navLabel: '13. Lapor Kejadian Risiko',
     content: (
       <>
         <p>

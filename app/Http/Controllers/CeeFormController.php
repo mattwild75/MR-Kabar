@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CeeJawaban;
 use App\Models\CeeKelemahanDokumen;
+use App\Models\CeeRtp;
 use App\Models\CeeSimpulan;
 use App\Models\CeeUnsur;
 use App\Models\DataUmum;
@@ -11,6 +12,7 @@ use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 /**
@@ -21,12 +23,28 @@ use Inertia\Inertia;
  * 1b: kelemahan Lingkungan Pengendalian dari reviu dokumen.
  * 1c: simpulan akhir per unsur (gabungan 1a+1b), disusun Sekretaris Dinas/
  *     Badan, ditandatangani Kepala OPD (data diambil dari Data Umum pengisi).
+ * 1d: RTP atas Kelemahan Lingkungan Pengendalian (RTP atas CEE) — Lampiran 5
+ *     Form 6, diisi utk unsur2 yg simpulan 1c-nya "Kurang Memadai".
  *
  * Diakses lewat akun bersama CEE_Survey (role 'cee-survey', dibatasi
  * RestrictCeeSurveyRole middleware) ATAU admin/super-admin.
  */
 class CeeFormController extends Controller
 {
+    /**
+     * Sama seperti IrsPdController::TRIWULAN_OPTIONS — Target Waktu &
+     * Realisasi Penyelesaian Form 1d dipisah Triwulan+Tahun, bukan teks
+     * bebas, konsisten dgn pola RTP di IRS/IRO.
+     */
+    public const TRIWULAN_OPTIONS = ['I', 'II', 'III', 'IV'];
+
+    public const TRIWULAN_LABELS = [
+        'I' => 'Triwulan I (Januari/Februari/Maret)',
+        'II' => 'Triwulan II (April/Mei/Juni)',
+        'III' => 'Triwulan III (Juli/Agustus/September)',
+        'IV' => 'Triwulan IV (Oktober/November/Desember)',
+    ];
+
     /**
      * PIC biasa (role 'user', punya opd_id) hanya melihat OPD miliknya
      * sendiri di dropdown — akun bersama CEE_Survey & Admin/Super Admin
@@ -81,6 +99,57 @@ class CeeFormController extends Controller
                 ]];
             })
             ->all();
+    }
+
+    /**
+     * Data Umum milik OPD (PER TAHUN) — dicari dari User dgn opd_id yg
+     * sesuai, BUKAN dari akun yg sedang login. Dipakai simpulan 1c supaya
+     * snapshot Kepala OPD/sinkronisasi penandatangan SELALU mengacu ke
+     * identitas OPD yg sedang disimpulkan, bukan identitas submitter —
+     * penting krn Admin/Super Admin/akun CEE_Survey bisa mengisi 1c utk
+     * OPD manapun, beda dari PIC biasa yg login sbg akun OPD-nya sendiri
+     * (dulu snapshot ini keliru pakai Data Umum akun login, ditemukan saat
+     * menambahkan sinkronisasi penandatangan Data Umum <-> 1c).
+     */
+    private function dataUmumForOpd(int $opdId, int $tahun): ?DataUmum
+    {
+        return DataUmum::forOpdAndTahun($opdId, $tahun);
+    }
+
+    /**
+     * Sinkronisasi 2 ARAH DataUmum.penandatangan[] <-> Form 1c: dipanggil
+     * tiap kali Sekretaris/Kepala OPD Form 1c disimpan (store1c/update1c),
+     * meng-updateOrCreate entri di array penandatangan OPD ybs berdasarkan
+     * JABATAN (case-insensitive) — kalau jabatan sudah ada di array,
+     * timpa namanya (Form 1c jadi sumber kebenaran terbaru utk jabatan
+     * itu); kalau belum ada, tambahkan entri baru. NIP TIDAK disentuh
+     * kolom ini (Form 1c tidak py field NIP) — dibiarkan kosong utk entri
+     * baru, atau tetap nilai lama kalau entri sudah ada.
+     */
+    private function syncPenandatangan(DataUmum $dataUmum, string $jabatan, string $nama): void
+    {
+        // Array PHP biasa (BUKAN Collection) — Collection menolak modifikasi
+        // elemen array bersarang via index ($list[$idx]['nama'] = ...
+        // melempar "Indirect modification of overloaded element" krn offset
+        // access Collection mengembalikan copy, bukan reference).
+        $list = $dataUmum->penandatangan ?? [];
+        $jabatanKey = mb_strtolower(trim($jabatan));
+        $idx = null;
+
+        foreach ($list as $i => $p) {
+            if (mb_strtolower(trim($p['jabatan'] ?? '')) === $jabatanKey) {
+                $idx = $i;
+                break;
+            }
+        }
+
+        if ($idx !== null) {
+            $list[$idx]['nama'] = $nama;
+        } else {
+            $list[] = ['jabatan' => $jabatan, 'nama' => $nama, 'nip' => ''];
+        }
+
+        $dataUmum->update(['penandatangan' => array_values($list)]);
     }
 
     /**
@@ -410,6 +479,26 @@ class CeeFormController extends Controller
 
     // ── Form 1c: Simpulan Survei Persepsi ────────────────────────────────
 
+    /**
+     * Cari entri di DataUmum.penandatangan[] milik OPD ybs yg jabatannya
+     * MENGANDUNG kata kunci tertentu (case-insensitive) — dipakai
+     * form1c() mencari kandidat default "Sekretaris"/Kepala OPD dari
+     * penandatangan Data Umum saat simpulan 1c OPD ini belum pernah
+     * diisi sama sekali (baris cee_simpulan kosong), bagian dari
+     * sinkronisasi 2 arah DataUmum <-> Form 1c.
+     */
+    private function cariPenandatangan(?DataUmum $dataUmum, string $keyword): ?array
+    {
+        if (!$dataUmum) {
+            return null;
+        }
+
+        $match = collect($dataUmum->penandatangan ?? [])
+            ->first(fn ($p) => str_contains(mb_strtolower($p['jabatan'] ?? ''), mb_strtolower($keyword)));
+
+        return $match ? ['nama' => $match['nama'] ?? '', 'jabatan' => $match['jabatan'] ?? ''] : null;
+    }
+
     public function form1c(Request $request)
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
@@ -420,6 +509,8 @@ class CeeFormController extends Controller
 
         $ringkasan = null;
         $simpulanTersimpan = [];
+        $defaultPenyusun = null;
+        $defaultKepalaOpd = null;
         if ($opdId) {
             $rekap1a = $this->hitungRekap1a($opdId, $tahun)['per_pertanyaan'];
             $kelemahan1b = CeeKelemahanDokumen::where('opd_id', $opdId)->where('tahun_penilaian', $tahun)->get();
@@ -449,6 +540,20 @@ class CeeFormController extends Controller
                 ->where('tahun_penilaian', $tahun)
                 ->get()
                 ->keyBy('cee_unsur_id');
+
+            // Sinkronisasi 2 ARAH DataUmum <-> Form 1c: kalau OPD ini BELUM
+            // pernah py simpulan 1c sama sekali (blm ada baris cee_simpulan
+            // tersimpan), cari kandidat default Sekretaris/Kepala OPD dari
+            // DataUmum.penandatangan[] milik OPD ybs supaya PIC tidak perlu
+            // mengetik ulang nama yg sudah pernah diisi di menu Data Umum.
+            if ($simpulanTersimpan->isEmpty()) {
+                $dataUmumOpd = $this->dataUmumForOpd($opdId, $tahun);
+                $defaultPenyusun = $this->cariPenandatangan($dataUmumOpd, 'sekretaris');
+                $defaultKepalaOpd = [
+                    'nama' => $dataUmumOpd->nama_kepala_dinas ?? '',
+                    'jabatan' => $dataUmumOpd->jabatan_kepala_dinas ?? '',
+                ];
+            }
         }
 
         return Inertia::render('cee/form/Form1c', [
@@ -459,6 +564,8 @@ class CeeFormController extends Controller
             'unsurs' => $unsurs,
             'ringkasan' => $ringkasan,
             'simpulanTersimpan' => $simpulanTersimpan,
+            'defaultPenyusun' => $defaultPenyusun,
+            'defaultKepalaOpd' => $defaultKepalaOpd,
         ]);
     }
 
@@ -471,16 +578,35 @@ class CeeFormController extends Controller
             'penyusun_jabatan' => ['required', 'string', 'max:255'],
             'simpulan' => ['required', 'array'],
             'simpulan.*.cee_unsur_id' => ['required', 'exists:cee_unsur,id'],
+            // Kolom (g) Lampiran 5 Form 1c — keputusan FINAL Sekretaris
+            // Dinas/Badan (Memadai/Kurang Memadai), TERPISAH dari kolom (h)
+            // 'penjelasan' (uraian teks). WAJIB diisi — sebelumnya TIDAK ADA
+            // field ini sama sekali (cuma teks bebas), sehingga Form 1d (RTP
+            // CEE) terpaksa memakai hasil mentah kuesioner 1a sbg pengganti,
+            // bukan keputusan final manusia spt seharusnya sesuai Perdep.
+            'simpulan.*.simpulan' => ['required', Rule::in(['Memadai', 'Kurang Memadai'])],
             'simpulan.*.penjelasan' => ['nullable', 'string'],
+            // Kepala OPD (kolom kanan blok TTD) — biasanya ikut snapshot
+            // otomatis dari Data Umum OPD ybs, TAPI PIC boleh menimpanya
+            // manual di Form 1c (mis. Kepala OPD sedang Plt/berbeda dari
+            // Data Umum) — kalau diisi, akan DITULIS BALIK ke
+            // DataUmum.penandatangan[] OPD ybs (sinkronisasi 2 arah).
+            'kepala_opd_nama' => ['nullable', 'string', 'max:255'],
+            'kepala_opd_jabatan' => ['nullable', 'string', 'max:255'],
         ]);
 
         $this->ensureOpdAccess($request, (int) $data['opd_id']);
 
         // Kepala OPD (penandatangan/UPR) di-snapshot dari Data Umum milik
-        // AKUN YANG LOGIN saat submit (CEE_Survey akun bersama, sehingga
-        // Data Umum yg dipakai adalah Data Umum akun tsb — lihat catatan
-        // desain: nama_kepala_dinas/jabatan_kepala_dinas).
-        $dataUmum = DataUmum::where('user_id', $request->user()->id)->first();
+        // OPD YG SEDANG DISIMPULKAN ($data['opd_id']) — BUKAN akun yg login
+        // (bug lama: Admin/Super Admin/akun CEE_Survey bisa mengisi 1c utk
+        // OPD manapun, shg Data Umum akun login belum tentu = Data Umum OPD
+        // ybs). DataUmum per-tahun — WAJIB discope $data['tahun'] (tahun CEE
+        // yg sedang diisi), BUKAN baris "manapun" milik user, supaya
+        // snapshot Kepala OPD yg tersimpan permanen di CeeSimpulan sesuai
+        // tahun penilaian CEE ybs, bukan versi DataUmum terkini/tahun lain
+        // yg kebetulan ada.
+        $dataUmum = $this->dataUmumForOpd((int) $data['opd_id'], (int) $data['tahun']);
 
         // Akun bersama CEE_Survey hanya boleh mengisi simpulan yg BELUM ada
         // (opd+tahun+unsur ini pertama kali diisi) — tidak boleh menimpa
@@ -496,7 +622,13 @@ class CeeFormController extends Controller
             }
         }
 
-        DB::transaction(function () use ($data, $request, $dataUmum) {
+        // Kepala OPD: PIC boleh menimpa manual via field kepala_opd_nama/
+        // jabatan di request — kalau tidak diisi, fallback ke snapshot Data
+        // Umum OPD ybs (perilaku lama, tetap dipertahankan).
+        $kepalaOpdNama = $data['kepala_opd_nama'] ?? $dataUmum->nama_kepala_dinas ?? null;
+        $kepalaOpdJabatan = $data['kepala_opd_jabatan'] ?? $dataUmum->jabatan_kepala_dinas ?? null;
+
+        DB::transaction(function () use ($data, $request, $kepalaOpdNama, $kepalaOpdJabatan) {
             foreach ($data['simpulan'] as $row) {
                 CeeSimpulan::updateOrCreate(
                     [
@@ -505,20 +637,57 @@ class CeeFormController extends Controller
                         'cee_unsur_id' => $row['cee_unsur_id'],
                     ],
                     [
+                        'simpulan' => $row['simpulan'],
                         'penjelasan' => $row['penjelasan'] ?? null,
                         'penyusun_nama' => $data['penyusun_nama'],
                         'penyusun_jabatan' => $data['penyusun_jabatan'],
                         'submitted_by' => $request->user()->id,
-                        'kepala_opd_nama' => $dataUmum->nama_kepala_dinas ?? null,
-                        'kepala_opd_jabatan' => $dataUmum->jabatan_kepala_dinas ?? null,
+                        'kepala_opd_nama' => $kepalaOpdNama,
+                        'kepala_opd_jabatan' => $kepalaOpdJabatan,
                     ]
                 );
             }
         });
 
+        // Sinkronisasi 2 ARAH ke DataUmum.penandatangan[] milik OPD ybs —
+        // Sekretaris & Kepala OPD yg baru disimpan di 1c ini otomatis
+        // ter-update/tertambah jg di Data Umum, supaya Form 6/7 (yg baca
+        // penandatangan dari Data Umum) selalu konsisten dgn 1c tanpa PIC
+        // perlu mengisi dua tempat terpisah.
+        if ($dataUmum) {
+            $this->syncPenandatangan($dataUmum, $data['penyusun_jabatan'], $data['penyusun_nama']);
+            if ($kepalaOpdNama && $kepalaOpdJabatan) {
+                $this->syncPenandatangan($dataUmum->fresh(), $kepalaOpdJabatan, $kepalaOpdNama);
+            }
+        }
+
         return redirect()
             ->route('cee.form1c', ['opd_id' => $data['opd_id'], 'tahun' => $data['tahun']])
             ->with('success', 'Simpulan CEE berhasil disimpan.');
+    }
+
+    /**
+     * Edit simpulan SATU unsur (bukan seluruh unsur sekaligus spt
+     * store1c()) — dipakai mode "Edit" per-kartu di Form1c.tsx, sama pola
+     * dgn Form 1b (EntryRow toggle Edit/Simpan/Batal) supaya PIC tidak
+     * tidak sengaja mengubah unsur lain saat cuma mau revisi 1 unsur.
+     * TIDAK mengubah penyusun_nama/kepala_opd_* (field itu shared utk
+     * seluruh unsur OPD+tahun ybs, cuma diubah lewat store1c() batch) —
+     * edit di sini murni simpulan+penjelasan unsur ybs saja.
+     */
+    public function update1c(Request $request, CeeSimpulan $simpulan)
+    {
+        $this->ensureCanEditOrDelete($request);
+        $this->ensureOpdAccess($request, $simpulan->opd_id);
+
+        $data = $request->validate([
+            'simpulan' => ['required', Rule::in(['Memadai', 'Kurang Memadai'])],
+            'penjelasan' => ['nullable', 'string'],
+        ]);
+
+        $simpulan->update($data);
+
+        return back()->with('success', 'Simpulan berhasil diperbarui.');
     }
 
     public function destroy1c(Request $request, CeeSimpulan $simpulan)
@@ -531,5 +700,153 @@ class CeeFormController extends Controller
         $simpulan->delete();
 
         return back()->with('success', 'Simpulan berhasil dihapus.');
+    }
+
+    // ── Form 1d: RTP atas Kelemahan Lingkungan Pengendalian (RTP atas CEE) ──
+
+    /**
+     * Unsur2 dgn SIMPULAN FINAL 1c "Kurang Memadai" utk OPD+tahun ini —
+     * dibaca LANGSUNG dari kolom cee_simpulan.simpulan (kolom (g) Lampiran 5
+     * Form 1c, keputusan akhir Sekretaris Dinas/Badan), BUKAN lagi hasil
+     * mentah kuesioner 1a. Sebelumnya method ini salah memakai hitungRekap1a()
+     * krn cee_simpulan belum py kolom status eksplisit (ditemukan lewat
+     * pertanyaan user: kenapa label "Simpulan (1c)" di Form 1d padahal Form
+     * 1c sendiri tidak py toggle penilaian) — sudah diperbaiki dgn menambah
+     * kolom cee_simpulan.simpulan (migration 2026_07_17_120000).
+     *
+     * Unsur yg BELUM py baris cee_simpulan sama sekali (Sekretaris belum
+     * menyimpulkan 1c-nya) dianggap belum diketahui statusnya
+     * ('kurang_memadai' => false) — TIDAK memaksa unsur itu tampil merah di
+     * Form 1d hanya krn asumsi/tebakan.
+     */
+    private function unsurKurangMemadai(int $opdId, int $tahun): array
+    {
+        $unsurs = CeeUnsur::orderBy('urutan')->get();
+        $simpulanTersimpan = CeeSimpulan::where('opd_id', $opdId)
+            ->where('tahun_penilaian', $tahun)
+            ->get()
+            ->keyBy('cee_unsur_id');
+
+        return $unsurs->map(function ($unsur) use ($simpulanTersimpan) {
+            $simpulan = $simpulanTersimpan->get($unsur->id);
+
+            return [
+                'unsur_id' => $unsur->id,
+                'kode' => $unsur->kode,
+                'nama' => $unsur->nama,
+                'kurang_memadai' => $simpulan?->simpulan === 'Kurang Memadai',
+                // Penjelasan simpulan 1c milik unsur ybs — dipakai Form 1d
+                // utk auto-isi "Kondisi Lingkungan Pengendalian yang Kurang
+                // Memadai" saat unsur ini dipilih, supaya tidak perlu ditulis
+                // ulang manual (uraian sudah ada dari keputusan Sekretaris
+                // di 1c).
+                'penjelasan_1c' => $simpulan?->simpulan === 'Kurang Memadai' ? $simpulan->penjelasan : null,
+            ];
+        })->values()->all();
+    }
+
+    public function form1d(Request $request)
+    {
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $this->ensureOpdAccess($request, $opdId);
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+
+        $unsurKurangMemadai = $opdId ? $this->unsurKurangMemadai($opdId, $tahun) : [];
+
+        return Inertia::render('cee/form/Form1d', [
+            'opdOptions' => $this->opdOptions($request),
+            'opdStatus' => $this->opdStatus($tahun),
+            'opdId' => $opdId,
+            'tahun' => $tahun,
+            // Dropdown "Tambah RTP" HANYA boleh pilih unsur yg simpulan
+            // 1c-nya "Kurang Memadai" — RTP CEE memang cuma relevan utk
+            // kelemahan yg SUDAH diputuskan Sekretaris, bukan semua 8 unsur
+            // (unsur "Memadai" tidak perlu RTP sama sekali).
+            'unsurOptions' => collect($unsurKurangMemadai)
+                ->filter(fn ($u) => $u['kurang_memadai'])
+                ->map(fn ($u) => ['id' => $u['unsur_id'], 'kode' => $u['kode'], 'nama' => $u['nama'], 'penjelasan_1c' => $u['penjelasan_1c']])
+                ->values()
+                ->all(),
+            'unsurKurangMemadai' => $unsurKurangMemadai,
+            'triwulanOptions' => self::TRIWULAN_OPTIONS,
+            'triwulanLabels' => self::TRIWULAN_LABELS,
+            'entries' => $opdId
+                ? CeeRtp::with(['unsur', 'submittedBy:id,name,username'])
+                    ->where('opd_id', $opdId)
+                    ->where('tahun_penilaian', $tahun)
+                    ->orderBy('cee_unsur_id')
+                    ->orderBy('id')
+                    ->get()
+                : [],
+            'canEditOrDelete1d' => !$request->user()->hasRole('cee-survey'),
+        ]);
+    }
+
+    private function rtpValidationRules(): array
+    {
+        return [
+            'opd_id' => ['required', 'exists:opd,id'],
+            'tahun' => ['required', 'integer', 'min:2000', 'max:2100'],
+            'cee_unsur_id' => ['required', 'exists:cee_unsur,id'],
+            'kondisi_kurang_memadai' => ['required', 'string'],
+            'rencana_tindak_pengendalian' => ['nullable', 'string'],
+            'penanggung_jawab' => ['nullable', 'string', 'max:255'],
+            'triwulan_target' => ['nullable', Rule::in(self::TRIWULAN_OPTIONS)],
+            'tahun_target_penyelesaian' => ['nullable', 'integer', 'digits:4'],
+            'triwulan_realisasi' => ['nullable', Rule::in(self::TRIWULAN_OPTIONS)],
+            'tahun_realisasi_penyelesaian' => ['nullable', 'integer', 'digits:4'],
+        ];
+    }
+
+    public function store1d(Request $request)
+    {
+        $data = $request->validate($this->rtpValidationRules());
+
+        $this->ensureOpdAccess($request, (int) $data['opd_id']);
+
+        CeeRtp::create([
+            'opd_id' => $data['opd_id'],
+            'tahun_penilaian' => $data['tahun'],
+            'cee_unsur_id' => $data['cee_unsur_id'],
+            'kondisi_kurang_memadai' => $data['kondisi_kurang_memadai'],
+            'rencana_tindak_pengendalian' => $data['rencana_tindak_pengendalian'] ?? null,
+            'penanggung_jawab' => $data['penanggung_jawab'] ?? null,
+            'triwulan_target' => $data['triwulan_target'] ?? null,
+            'tahun_target_penyelesaian' => $data['tahun_target_penyelesaian'] ?? null,
+            'triwulan_realisasi' => $data['triwulan_realisasi'] ?? null,
+            'tahun_realisasi_penyelesaian' => $data['tahun_realisasi_penyelesaian'] ?? null,
+            'submitted_by' => $request->user()->id,
+        ]);
+
+        return redirect()
+            ->route('cee.form1d', ['opd_id' => $data['opd_id'], 'tahun' => $data['tahun']])
+            ->with('success', 'RTP CEE berhasil ditambahkan.');
+    }
+
+    public function update1d(Request $request, CeeRtp $rtp)
+    {
+        $this->ensureCanEditOrDelete($request);
+        $this->ensureOpdAccess($request, $rtp->opd_id);
+
+        $rules = $this->rtpValidationRules();
+        unset($rules['opd_id'], $rules['tahun']);
+
+        $data = $request->validate($rules);
+
+        $rtp->update($data);
+
+        return back()->with('success', 'RTP CEE berhasil diperbarui.');
+    }
+
+    public function destroy1d(Request $request, CeeRtp $rtp)
+    {
+        // PIC per-OPD & admin/super-admin boleh menghapus entri; akun
+        // bersama CEE_Survey TIDAK (lihat ensureCanEditOrDelete()).
+        $this->ensureCanEditOrDelete($request);
+        $this->ensureOpdAccess($request, $rtp->opd_id);
+
+        $rtp->delete();
+
+        return back()->with('success', 'RTP CEE berhasil dihapus.');
     }
 }

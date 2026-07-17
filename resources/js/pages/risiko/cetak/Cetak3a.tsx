@@ -84,6 +84,8 @@ interface PageProps {
   visi: string | null;
   pemerintahKabkota: string;
   sumberData: string | null;
+  /** true kalau PIC biasa (bukan Admin/Super Admin) — baris Risiko Strategis Pemda sudah difilter server-side hanya yg diisi OPD-nya sendiri. */
+  isScopedToOwnOpd: boolean;
 }
 
 export function clean(v?: string | null): string {
@@ -457,7 +459,7 @@ export function IdentifikasiRisikoTable({
   );
 }
 
-export default function Cetak3a({ tahun, periode, identifikasi, visi, pemerintahKabkota, sumberData }: PageProps) {
+export default function Cetak3a({ tahun, periode, identifikasi, visi, pemerintahKabkota, sumberData, isScopedToOwnOpd }: PageProps) {
   const navigate = (nextTahun: number) => {
     router.get('/cetak/risiko/3a', { tahun: nextTahun }, { preserveState: true, preserveScroll: true, replace: true });
   };
@@ -468,7 +470,14 @@ export default function Cetak3a({ tahun, periode, identifikasi, visi, pemerintah
       <div className="space-y-4 p-4 print:hidden">
         <div>
           <h1 className="text-2xl font-semibold">3a_Identifikasi Risiko Strategis Pemda</h1>
-          <p className="text-sm text-muted-foreground">Pratinjau cetak ukuran A4 landscape.</p>
+          <p className="text-sm text-muted-foreground">
+            {isScopedToOwnOpd
+              ? 'Pratinjau cetak ukuran A4 landscape — menampilkan Risiko Strategis Pemda yang diisi OPD Anda saja.'
+              : 'Pratinjau cetak ukuran A4 landscape — menggabungkan Risiko Strategis Pemda seluruh OPD.'}
+          </p>
+          {isScopedToOwnOpd && (
+            <p className="mt-1 text-xs text-muted-foreground">Data lintas-OPD hanya bisa dilihat Admin/Super Admin.</p>
+          )}
         </div>
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div className="w-32 space-y-1">

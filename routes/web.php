@@ -32,7 +32,9 @@ use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\CeeFormController;
 use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
+use App\Http\Controllers\CetakHasilAnalisisController;
 use App\Http\Controllers\CetakRisikoController;
+use App\Http\Controllers\CetakRtpController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TahunAktifController;
 use App\Http\Controllers\LaporanKejadianController;
@@ -200,7 +202,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::delete('cee/1b/{kelemahan}', [CeeFormController::class, 'destroy1b'])->name('cee.form1b.destroy');
     Route::get('cee/1c', [CeeFormController::class, 'form1c'])->name('cee.form1c');
     Route::post('cee/1c', [CeeFormController::class, 'store1c'])->name('cee.form1c.store');
+    Route::put('cee/1c/{simpulan}', [CeeFormController::class, 'update1c'])->name('cee.form1c.update');
     Route::delete('cee/1c/{simpulan}', [CeeFormController::class, 'destroy1c'])->name('cee.form1c.destroy');
+    Route::get('cee/1d', [CeeFormController::class, 'form1d'])->name('cee.form1d');
+    Route::post('cee/1d', [CeeFormController::class, 'store1d'])->name('cee.form1d.store');
+    Route::put('cee/1d/{rtp}', [CeeFormController::class, 'update1d'])->name('cee.form1d.update');
+    Route::delete('cee/1d/{rtp}', [CeeFormController::class, 'destroy1d'])->name('cee.form1d.destroy');
 
     // Kelola redaksi pertanyaan kuesioner CEE — admin/super-admin saja.
     Route::get('cee/pertanyaan', [CeePertanyaanController::class, 'index'])->name('cee.pertanyaan.index');
@@ -236,9 +243,31 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('cetak/risiko/3b/pdf', [CetakRisikoController::class, 'pdf3b'])->name('cetak.risiko.3b.pdf');
     Route::get('cetak/risiko/3c/pdf', [CetakRisikoController::class, 'pdf3c'])->name('cetak.risiko.3c.pdf');
 
+    // Form Cetak Risiko 4/5 — Hasil Analisis Risiko & Daftar Risiko
+    // Prioritas, sesuai Lampiran 5 Form 4 & Form 5 Perdep PPKD No.4/2019 —
+    // BEDA dari 2/3: menggabungkan SELURUH tingkat risiko (Strategis Pemda
+    // + semua OPD) dalam satu halaman, TIDAK dibatasi per-OPD (lihat
+    // CetakHasilAnalisisController).
+    Route::get('cetak/risiko/4', [CetakHasilAnalisisController::class, 'cetak4'])->name('cetak.risiko.4');
+    Route::get('cetak/risiko/4/pdf', [CetakHasilAnalisisController::class, 'pdf4'])->name('cetak.risiko.4.pdf');
+    Route::get('cetak/risiko/5', [CetakHasilAnalisisController::class, 'cetak5'])->name('cetak.risiko.5');
+    Route::get('cetak/risiko/5/pdf', [CetakHasilAnalisisController::class, 'pdf5'])->name('cetak.risiko.5.pdf');
+
+    // Form Cetak Risiko 6/7 — RTP, sesuai Lampiran 5 Form 6 & Form 7 Perdep
+    // PPKD No.4/2019. Form 6 (RTP atas CEE) PER-OPD spt Form 2/3 (wajib
+    // opd_id); Form 7 (RTP atas Hasil Identifikasi Risiko) lintas-OPD spt
+    // Form 4/5 (lihat CetakRtpController).
+    Route::get('cetak/risiko/6', [CetakRtpController::class, 'cetak6'])->name('cetak.risiko.6');
+    Route::get('cetak/risiko/6/pdf', [CetakRtpController::class, 'pdf6'])->name('cetak.risiko.6.pdf');
+    Route::get('cetak/risiko/7', [CetakRtpController::class, 'cetak7'])->name('cetak.risiko.7');
+    Route::get('cetak/risiko/7/pdf', [CetakRtpController::class, 'pdf7'])->name('cetak.risiko.7.pdf');
+
     // Edit manual isian TTD (tempat/tanggal/jabatan/nama) langsung dari
     // halaman Form Cetak — menyimpan permanen ke Data Umum terkait.
     Route::patch('cetak/risiko/ttd/{dataUmum}', [CetakRisikoController::class, 'updateTtd'])->name('cetak.risiko.ttd.update');
+    // Edit kolom penandatangan[] (Sekretaris/Kepala Bidang dkk) langsung dari
+    // Form Cetak 6/7 — dua arah dgn menu Data Umum (lihat DataUmumController).
+    Route::patch('data-umum/{dataUmum}/penandatangan', [DataUmumController::class, 'updatePenandatangan'])->name('data-umum.penandatangan.update');
 
     Route::get('krs_irs_pemda', [KaeresController::class, 'index'])->name('krs_irs_pemda.index');
     Route::get('krs_irs_pemda_visualisasi', [KaeresController::class, 'visualization'])->name('krs_irs_pemda.visualization');

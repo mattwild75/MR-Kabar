@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IrsPemda;
 use App\Models\Opd;
@@ -18,6 +19,7 @@ use Inertia\Inertia;
 class IrsPemdaController extends Controller
 {
     use HasOpdFillStatus;
+    use GeneratesKodeRisiko;
 
     public function __construct(private readonly RiskReferenceDataService $riskRef)
     {
@@ -103,34 +105,27 @@ class IrsPemdaController extends Controller
     }
 
     /**
-     * Menghitung ulang "Nomor Urut Risiko" per kelompok Sasaran RPJMD, meniru
-     * FillAllNumbers pada VBA: counter di-reset ke 0 setiap kelompok Sasaran
-     * berganti, lalu naik 1 untuk setiap baris berisi Uraian Risiko dalam
-     * kelompok yang sama. Dihitung ulang setiap kali data ditampilkan (bukan
-     * disimpan statis di DB) supaya selalu konsisten walau ada baris yang
-     * ditambah/diedit/dihapus — beda dari Excel yang butuh event listener
-     * manual per perubahan sel, di sini cukup satu passthrough sebelum
+     * Menghitung ulang "Nomor Urut Risiko" — komponen terakhir Kode Risiko
+     * [PREFIX].[TAHUN].[JENIS].[ENTITAS].[NOMOR_URUT]. AWALNYA meniru
+     * FillAllNumbers pada VBA (reset per kelompok Sasaran RPJMD), TAPI itu
+     * menyebabkan Kode Risiko bisa DUPLIKAT antar-Sasaran berbeda yg
+     * kebetulan sama Tahun+Jenis+Entitas-nya (ditemukan saat membangun
+     * Form 4/5 Cetak yg menampilkan lintas-Sasaran sekaligus). Sekarang
+     * di-reset per kombinasi (Tahun, Jenis, Entitas Penilai) — lihat
+     * GeneratesKodeRisiko::nomorUrutFor(), dipakai bersama Form Cetak
+     * 3/4/5 supaya kode risiko konsisten di semua tempat. Dihitung ulang
+     * setiap kali data ditampilkan (bukan disimpan statis di DB) supaya
+     * selalu konsisten walau ada baris yang ditambah/diedit/dihapus — beda
+     * dari Excel yang butuh event listener manual per perubahan sel, di
+     * sini cukup satu passthrough sebelum
      * render.
      */
     private function withNomorUrut($rows)
     {
-        $prevSasaran = null;
-        $counter = 0;
+        $nomorUrutMap = $this->nomorUrutFor($rows);
 
         foreach ($rows as $row) {
-            $sasaran = trim((string) $row->{'SASARAN RPJMD'});
-
-            if ($sasaran !== $prevSasaran) {
-                $counter = 0;
-                $prevSasaran = $sasaran;
-            }
-
-            if (trim((string) $row->{'URAIAN RISIKO'}) !== '') {
-                $counter++;
-                $row->{'NOMOR URUT RISIKO'} = str_pad((string) $counter, 2, '0', STR_PAD_LEFT);
-            } else {
-                $row->{'NOMOR URUT RISIKO'} = null;
-            }
+            $row->{'NOMOR URUT RISIKO'} = $nomorUrutMap[$row->id] ?? null;
         }
 
         return $rows;

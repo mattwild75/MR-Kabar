@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Models\DataUmum;
 use App\Models\IroPd;
 use App\Models\IrsPd;
@@ -11,9 +12,7 @@ use App\Models\KrsPd;
 use App\Models\KrsPemda;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
-use App\Models\RiskEntitasPenilai;
 use App\Models\RiskJenis;
-use App\Models\User;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,6 +30,8 @@ use Inertia\Inertia;
  */
 class CetakRisikoController extends Controller
 {
+    use GeneratesKodeRisiko;
+
     /**
      * PIC biasa (role 'user', punya opd_id) hanya melihat OPD miliknya
      * sendiri di dropdown — akun bersama & Admin/Super Admin (opd_id null /
@@ -81,50 +82,44 @@ class CetakRisikoController extends Controller
 
     /**
      * Data Umum (header identitas + penanda tangan Bupati/Kepala Dinas)
-     * milik PIC dari OPD terpilih — dicari dari User dgn opd_id yg sesuai.
-     * $opdId null berarti level Pemda (Form 2a) — pakai Data Umum PERTAMA
-     * yg sudah diisi siapa saja (mis. Sekda/Admin), krn identitasnya
-     * Pemda-wide, bukan per-OPD.
+     * milik PIC dari OPD terpilih, UTK TAHUN PENILAIAN TERTENTU (DataUmum
+     * PER-TAHUN sejak migration 2026_07_17_050000_make_data_umum_per_tahun
+     * — lihat DataUmum::forOpdAndTahun()). $opdId null berarti level Pemda
+     * (Form 2a) — pakai Data Umum PERTAMA pd tahun tsb yg sudah diisi siapa
+     * saja (mis. Sekda/Admin), krn identitasnya Pemda-wide, bukan per-OPD.
      *
-     * BUG lama: baris DataUmum "pertama" yg dipakai bisa jadi kepunyaan PIC
-     * OPD yg TIDAK mengisi nama_kepala_daerah/jabatan_kepala_daerah (field
-     * itu opsional di form-nya masing2 PIC) — padahal field Pemda-wide ini
-     * py sumber kebenaran terpusat di PengaturanPemda (lihat
-     * DataUmumController::store(), field Pemda-wide yg disimpan Admin
-     * ditulis ke PengaturanPemda, BUKAN cuma ke baris DataUmum Admin itu
-     * sendiri). Form 2a jadi salah menampilkan "BUPATI" polos tanpa nama,
-     * walau Data Umum "Kepala Daerah" sudah diisi lengkap oleh PIC lain.
-     * Fix: kalau field ini kosong pada baris DataUmum yg dipakai, isi
-     * (bukan timpa) dari PengaturanPemda::current() sblm dikembalikan.
+     * BUG lama (SEBELUM per-tahun): baris DataUmum "pertama" yg dipakai bisa
+     * jadi kepunyaan PIC OPD yg TIDAK mengisi nama_kepala_daerah/
+     * jabatan_kepala_daerah (field itu opsional di form-nya masing2 PIC) —
+     * padahal field Pemda-wide ini py sumber kebenaran terpusat di
+     * PengaturanPemda (lihat DataUmumController::store(), field Pemda-wide
+     * yg disimpan Admin ditulis ke PengaturanPemda, BUKAN cuma ke baris
+     * DataUmum Admin itu sendiri). Fix: kalau field ini kosong pada baris
+     * DataUmum yg dipakai, isi (bukan timpa) dari PengaturanPemda::current()
+     * sblm dikembalikan — fallback ini TIDAK per-tahun (PengaturanPemda
+     * tetap singleton Pemda-wide, ini sengaja & tidak berubah oleh migrasi
+     * per-tahun di atas).
      *
      * CATATAN: PengaturanPemda TIDAK py kolom tempat_pembuatan/
      * tanggal_pembuatan/penandatangan (field itu murni milik DataUmum
-     * per-PIC, tidak ada versi Pemda-wide-nya) — shg utk field2 itu TIDAK
-     * ADA fallback yg bisa diterapkan spt nama_kepala_daerah di atas.
-     * `orderBy('id')` dipakai (bukan tanpa urutan sama sekali) supaya baris
-     * "pertama" yg dipilih MINIMAL deterministik/konsisten antar request
-     * (row mana yg terpilih tidak berubah-ubah tanpa alasan), meski baris
-     * itu tetap bisa saja milik PIC OPD lain yg kosong field2 tsb — kalau
-     * ini jadi masalah nyata, solusi sebenarnya adalah PIC ybs (biasanya
-     * Sekda/Admin) melengkapi Data Umum-nya, bukan perbaikan kode.
+     * per-PIC-per-tahun, tidak ada versi Pemda-wide-nya) — shg utk field2
+     * itu TIDAK ADA fallback yg bisa diterapkan spt nama_kepala_daerah di
+     * atas. Kalau baris DataUmum utk ($opdId, $tahun) belum pernah diisi,
+     * method ini return null apa adanya (TIDAK fallback ke tahun lain) —
+     * solusinya PIC ybs melengkapi Data Umum utk tahun tsb, bukan perbaikan
+     * kode (lihat DataUmumController::index()'s `belumAdaData` banner).
      */
-    private function dataUmumForOpd(?int $opdId): ?DataUmum
+    private function dataUmumForOpd(?int $opdId, int $tahun): ?DataUmum
     {
-        if (!$opdId) {
-            $dataUmum = DataUmum::whereNotNull('user_id')->orderBy('id')->first();
+        $dataUmum = DataUmum::forOpdAndTahun($opdId, $tahun);
 
-            if ($dataUmum && (!$dataUmum->nama_kepala_daerah || !$dataUmum->jabatan_kepala_daerah)) {
-                $default = $this->pengaturan();
-                $dataUmum->nama_kepala_daerah ??= $default->nama_kepala_daerah;
-                $dataUmum->jabatan_kepala_daerah ??= $default->jabatan_kepala_daerah;
-            }
-
-            return $dataUmum;
+        if (!$opdId && $dataUmum && (!$dataUmum->nama_kepala_daerah || !$dataUmum->jabatan_kepala_daerah)) {
+            $default = $this->pengaturan();
+            $dataUmum->nama_kepala_daerah ??= $default->nama_kepala_daerah;
+            $dataUmum->jabatan_kepala_daerah ??= $default->jabatan_kepala_daerah;
         }
 
-        $user = User::where('opd_id', $opdId)->whereHas('dataUmum')->first();
-
-        return $user?->dataUmum;
+        return $dataUmum;
     }
 
     /**
@@ -154,72 +149,6 @@ class CetakRisikoController extends Controller
         $array['tanggal_pembuatan'] = $dataUmum->tanggal_pembuatan?->locale('id')->translatedFormat('d F Y');
 
         return $array;
-    }
-
-    /**
-     * Buang label kode di awal teks (mis. "Sasaran 1.1 : ...", "Kegiatan
-     * 2.3.1 : ...") lalu normalisasi (rapikan spasi ganda, lowercase, trim)
-     * — dipakai utk mencocokkan teks Sasaran Strategis PD / Kegiatan PD
-     * antara KRS_PD/KRO_PD (konteks) dgn IRS_PD/IRO_PD (risiko teregister),
-     * SAMA PERSIS logikanya dgn KrsIrsPdSyncService::matchKey() /
-     * KroIroPdSyncService::matchKey() — supaya "bold = dipilih sbg
-     * Penetapan Konteks Risiko" di Form 2b/2c konsisten dgn cara tabel
-     * gabungan /krs_irs_pd & /kro_iro_pd menentukan kecocokan.
-     */
-    private function matchKey(string $value): string
-    {
-        $value = trim($value);
-        if ($value !== '' && preg_match('/^(?:[A-Za-z]+\s+){1,3}\d+(?:\.\d+)*\s*:\s*(.*)$/s', $value, $m)) {
-            $value = trim($m[1]);
-        }
-
-        $value = preg_replace('/\s+/u', ' ', $value);
-
-        return mb_strtolower(trim($value));
-    }
-
-    /**
-     * Bangun Kode Risiko sesuai format Perdep PPKD:
-     * [JENIS].[TAHUN 2-digit].[KODE JENIS RISIKO].[URUTAN ENTITAS PENILAI].[NOMOR URUT],
-     * mis. "RSP.25.37.30.01" (RSP=Risiko Strategis Pemda, tahun 2025, jenis
-     * risiko 37=Keuangan dan Pendapatan, entitas penilai urutan ke-30=
-     * Inspektorat, urut ke-01). Semua komponen SUDAH ADA sbg kolom
-     * tersimpan (TAHUN DINILAI RISIKO, JENIS RISIKO "kode - nama", ENTITAS
-     * PD YANG MENILAI dicocokkan ke RiskEntitasPenilai.urutan, NOMOR URUT
-     * RISIKO dihitung withNomorUrut() di controller data masing2) — TIDAK
-     * ada kolom kode_risiko baru yg perlu ditambah ke database, kode ini
-     * murni tampilan yg dihitung ulang saat cetak, sama pola dgn Skala
-     * Risiko/Prioritas yg juga dihitung dari kolom lain, bukan disimpan.
-     *
-     * $prefix: 'RSP' (IrsPemda), 'RSO' (IrsPd), atau 'ROO' (IroPd) — sesuai
-     * TINGKAT_RISIKO_VALUE masing2 controller data.
-     */
-    private function generateKodeRisiko(string $prefix, ?string $tahunDinilai, ?string $jenisRisiko, ?string $entitasPenilai, ?string $nomorUrut): ?string
-    {
-        if (!$tahunDinilai || !$jenisRisiko || !$entitasPenilai || !$nomorUrut) {
-            return null;
-        }
-
-        $tahun2Digit = substr($tahunDinilai, -2);
-
-        // "JENIS RISIKO" tersimpan format "37 - Keuangan dan Pendapatan"
-        // (lihat RiskReferenceDataService::jenisRisikoOptions()) — ambil
-        // angka kode di depan tanda "-".
-        if (!preg_match('/^(\d+)\s*-/', trim($jenisRisiko), $m)) {
-            return null;
-        }
-        $kodeJenis = str_pad($m[1], 2, '0', STR_PAD_LEFT);
-
-        // "ENTITAS PD YANG MENILAI" tersimpan nama OPD polos — cocokkan ke
-        // urutan RiskEntitasPenilai (itulah "kode entitas" 2-digit di
-        // contoh RSP.25.37.30.01, 30=urutan INSPEKTORAT).
-        $entitas = RiskEntitasPenilai::whereRaw('LOWER(TRIM(nama)) = ?', [Str::lower(trim($entitasPenilai))])->first();
-        if (!$entitas) {
-            return null;
-        }
-        $kodeEntitas = str_pad((string) $entitas->urutan, 2, '0', STR_PAD_LEFT);
-
-        return "{$prefix}.{$tahun2Digit}.{$kodeJenis}.{$kodeEntitas}.{$nomorUrut}";
     }
 
     /**
@@ -424,8 +353,27 @@ class CetakRisikoController extends Controller
         // dicari dari user_id pemilik baris IrsPemda, BUKAN dari kolom OPD
         // di krs_pemda (yg mencampur banyak OPD per Tujuan/Sasaran, tidak
         // spesifik ke siapa yg benar2 punya risiko strategis teregister).
-        $picUserIds = IrsPemda::whereNotNull('user_id')->pluck('user_id')->unique()->values();
-        $dataUmumRegistrants = DataUmum::whereIn('user_id', $picUserIds)->whereNotNull('nama_pic')->get();
+        // DIFILTER per $tahun (BUKAN seluruh tahun sekaligus) — bug yg sama
+        // persis dgn $registeredSasaran di atas (lihat komentarnya): tanpa
+        // filter ini, ganti Tahun Penilaian di picker Form 2a TIDAK mengubah
+        // daftar PIC yg tampil sama sekali, walau PIC tahun 2026 & 2027 bisa
+        // beda org (mis. pergantian pejabat/staf antar tahun penilaian).
+        $picUserIds = IrsPemda::whereNotNull('user_id')
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->pluck('user_id')
+            ->unique()
+            ->values();
+        // DataUmum SEKARANG per-tahun (1 user bisa py banyak baris, 1 per
+        // tahun_penilaian) — WAJIB ikut difilter $tahun di sini, kalau tidak
+        // whereIn('user_id', ...) bisa match baris DataUmum TAHUN LAIN milik
+        // user yg sama (mis. PIC ganti nama_pic di tahun 2027, tanpa filter
+        // ini baris 2027 itu jg ikut kepakai saat mencetak Form 2a tahun
+        // 2026 — bug yg sama persis dgn yg sudah diperbaiki di picListAll()
+        // milik CetakHasilAnalisisController).
+        $dataUmumRegistrants = DataUmum::whereIn('user_id', $picUserIds)
+            ->where('tahun_penilaian', (string) $tahun)
+            ->whereNotNull('nama_pic')
+            ->get();
 
         return [
             'visi' => $first->VISI ?? null,
@@ -472,7 +420,7 @@ class CetakRisikoController extends Controller
         // utama (Bupati) — tetap 1 baris representatif Pemda-wide (bukan
         // per-OPD, beda dgn 'pic_list' di buildKonteksPemda() yg memang
         // sengaja multi-baris utk daftar PIC per-OPD di bawah TTD Bupati).
-        $dataUmum = $this->dataUmumForOpd(null);
+        $dataUmum = $this->dataUmumForOpd(null, $tahun);
 
         return Inertia::render('risiko/cetak/Cetak2a', [
             'tahun' => $tahun,
@@ -604,7 +552,7 @@ class CetakRisikoController extends Controller
         $pengaturan = $this->pengaturan();
 
         $konteks = $opd ? $this->buildKonteksPd($opd->nama, $tahun) : null;
-        $dataUmum = $this->dataUmumForOpd($opdId);
+        $dataUmum = $this->dataUmumForOpd($opdId, $tahun);
 
         return Inertia::render('risiko/cetak/Cetak2b', [
             'opdOptions' => $this->opdOptions($request),
@@ -751,7 +699,7 @@ class CetakRisikoController extends Controller
         $pengaturan = $this->pengaturan();
 
         $konteks = $opd ? $this->buildKonteksRo($opd->nama, $tahun) : null;
-        $dataUmum = $this->dataUmumForOpd($opdId);
+        $dataUmum = $this->dataUmumForOpd($opdId, $tahun);
 
         return Inertia::render('risiko/cetak/Cetak2c', [
             'opdOptions' => $this->opdOptions($request),
@@ -778,45 +726,6 @@ class CetakRisikoController extends Controller
         $url = url("/cetak/risiko/2c?opd_id={$opdId}&tahun={$tahun}");
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-2c-Konteks-Operasional-OPD-{$opd->nama}-{$tahun}");
-    }
-
-    /**
-     * Hitung ulang "Nomor Urut Risiko" per kelompok — REPLIKASI PERSIS
-     * withNomorUrut() di IrsPemdaController/IrsPdController/IroPdController
-     * (tidak bisa dipanggil langsung krn private method controller lain),
-     * supaya nomor yg tercetak di Form 3a/3b/3c SAMA PERSIS dgn yg tampil
-     * di tabel Form Input IRS/IRO — kalau beda logic, angkanya bisa beda
-     * dan membingungkan user (kode risiko cetak vs kode risiko yg terlihat
-     * sehari-hari saat isi data akan berbeda nomor urutnya).
-     */
-    private function nomorUrutFor($rows, string $groupCol): array
-    {
-        $prevGroup = null;
-        $counter = 0;
-        $result = [];
-
-        foreach ($rows as $row) {
-            // matchKey() (BUKAN trim() polos) — konsisten dgn groupBy() di
-            // buildKonteks*() supaya batas grup di sini SELALU sinkron dgn
-            // pengelompokan Sasaran/Kegiatan yg dipakai utk menampilkan
-            // baris, mencegah nomor urut risiko reset di tempat yg salah
-            // kalau kapitalisasi teks groupCol tidak konsisten.
-            $group = $this->matchKey(trim((string) ($row->{$groupCol} ?? '')));
-
-            if ($group !== $prevGroup) {
-                $counter = 0;
-                $prevGroup = $group;
-            }
-
-            if (trim((string) $row->{'URAIAN RISIKO'}) !== '') {
-                $counter++;
-                $result[$row->id] = str_pad((string) $counter, 2, '0', STR_PAD_LEFT);
-            } else {
-                $result[$row->id] = null;
-            }
-        }
-
-        return $result;
     }
 
     /**
@@ -989,21 +898,40 @@ class CetakRisikoController extends Controller
      * Form 3a — Identifikasi Risiko Strategis Pemda. Nomor Tujuan/Sasaran
      * REUSE dari buildKonteksPemda() (sama fungsi yg dipakai Form 2a) agar
      * label "1.1", "1.1.2" dst identik antar kedua form — lihat
-     * flattenKonteksUntukIdentifikasi().
+     * flattenKonteksUntukIdentifikasi(). Nomor urut/kode risiko dihitung dari
+     * SELURUH baris (SEBELUM difilter $opdId) — sama pola dgn
+     * CetakHasilAnalisisController::buildAnalisisRisiko(), supaya kode
+     * risiko yg tampil identik antara Admin (lihat semua OPD) dan PIC (lihat
+     * OPD-nya saja).
+     *
+     * $opdId: kalau diisi (PIC biasa), hanya baris IrsPemda yg DIISI PIC
+     * dari OPD tsb (user_id -> User.opd_id, sama pola kepemilikan dgn
+     * IrsPd/IroPd) yg disertakan — BUKAN disembunyikan total. IrsPemda
+     * ("Risiko Strategis Pemda") tetap py kepemilikan per-OPD krn tiap
+     * barisnya diisi oleh PIC OPD ybs (mis. Dinas Kesehatan mengisi risiko
+     * strategis terkait Sasaran RPJMD kesehatan), meski labelnya "Pemda"
+     * (yg dimaksud level Sasaran RPJMD-nya, bukan berarti lintas-OPD/milik
+     * bersama).
      */
-    private function buildIdentifikasiPemda(int $tahun)
+    private function buildIdentifikasiPemda(int $tahun, ?int $opdId = null)
     {
         $konteks = $this->buildKonteksPemda($tahun);
         if (!$konteks) {
             return [];
         }
 
-        $rows = IrsPemda::where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $rows = IrsPemda::whereHas('user')
+            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
             ->orderBy('id')
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
 
-        $nomorUrutMap = $this->nomorUrutFor($rows, 'SASARAN RPJMD');
+        $nomorUrutMap = $this->nomorUrutFor($rows);
+
+        if ($opdId) {
+            $rows = $rows->filter(fn ($r) => $r->user?->opd_id === $opdId)->values();
+        }
+
         $sasaranGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim((string) $r->{'SASARAN RPJMD'})));
 
         $resolver = function (string $sasaranTeks) use ($sasaranGroups, $nomorUrutMap) {
@@ -1018,13 +946,30 @@ class CetakRisikoController extends Controller
         return $this->flattenKonteksUntukIdentifikasi($konteks, 'sasaran', $resolver);
     }
 
+    /**
+     * PIC biasa (punya opd_id, bukan Admin/Super Admin) hanya melihat baris
+     * Risiko Strategis Pemda yg DIISI OLEH OPD-nya sendiri di Form 3a —
+     * Admin/Super Admin tetap melihat seluruh Pemda (semua OPD digabung),
+     * sama pola dgn CetakHasilAnalisisController::scopedOpdId().
+     */
+    private function scopedOpdIdPemda(Request $request): ?int
+    {
+        $user = $request->user();
+        if ($user->hasAnyRole(['admin', 'super-admin'])) {
+            return null;
+        }
+
+        return $user->opd_id;
+    }
+
     public function cetak3a(Request $request)
     {
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
-        $identifikasi = $this->buildIdentifikasiPemda($tahun);
+        $opdId = $this->scopedOpdIdPemda($request);
+        $identifikasi = $this->buildIdentifikasiPemda($tahun, $opdId);
         $pengaturan = $this->pengaturan();
         $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
-        $dataUmum = $this->dataUmumForOpd(null);
+        $dataUmum = $this->dataUmumForOpd(null, $tahun);
 
         return Inertia::render('risiko/cetak/Cetak3a', [
             'tahun' => $tahun,
@@ -1037,6 +982,7 @@ class CetakRisikoController extends Controller
             'pemerintahKabkota' => $pemerintahKabkota,
             'sumberData' => $this->sumberDataPemda($pemerintahKabkota, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rsp')),
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
+            'isScopedToOwnOpd' => $opdId !== null,
         ]);
     }
 
@@ -1073,7 +1019,7 @@ class CetakRisikoController extends Controller
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
 
-        $nomorUrutMap = $this->nomorUrutFor($rows, 'SASARAN RENSTRA');
+        $nomorUrutMap = $this->nomorUrutFor($rows);
         $sasaranGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim((string) $r->{'SASARAN RENSTRA'})));
 
         $resolver = function (string $sasaranTeks) use ($sasaranGroups, $nomorUrutMap) {
@@ -1097,7 +1043,7 @@ class CetakRisikoController extends Controller
         $pengaturan = $this->pengaturan();
 
         $identifikasi = $opd ? $this->buildIdentifikasiPd($opd->id, $opd->nama, $tahun) : null;
-        $dataUmum = $this->dataUmumForOpd($opdId);
+        $dataUmum = $this->dataUmumForOpd($opdId, $tahun);
 
         return Inertia::render('risiko/cetak/Cetak3b', [
             'opdOptions' => $this->opdOptions($request),
@@ -1149,7 +1095,7 @@ class CetakRisikoController extends Controller
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
 
-        $nomorUrutMap = $this->nomorUrutFor($rows, 'KEGIATAN PD');
+        $nomorUrutMap = $this->nomorUrutFor($rows);
         $kegiatanGroups = $rows->groupBy(fn ($r) => $this->matchKey(trim((string) $r->{'KEGIATAN PD'})));
 
         $resolver = function (string $kegiatanTeks) use ($kegiatanGroups, $nomorUrutMap) {
@@ -1176,7 +1122,7 @@ class CetakRisikoController extends Controller
         $pengaturan = $this->pengaturan();
 
         $identifikasi = $opd ? $this->buildIdentifikasiRo($opd->id, $opd->nama, $tahun) : null;
-        $dataUmum = $this->dataUmumForOpd($opdId);
+        $dataUmum = $this->dataUmumForOpd($opdId, $tahun);
 
         return Inertia::render('risiko/cetak/Cetak3c', [
             'opdOptions' => $this->opdOptions($request),
@@ -1214,6 +1160,15 @@ class CetakRisikoController extends Controller
      * level: Form 2a (Pemda) -> nama/jabatan Kepala Daerah; Form 2b/2c
      * (OPD) -> nama/jabatan/NIP Kepala Dinas. Tempat & tanggal sama utk
      * ketiganya.
+     */
+    /**
+     * Edit TTD (Bupati/Kepala Dinas) dari halaman Form Cetak — route-model-
+     * binding {dataUmum} sudah mengikat ke BARIS TAHUN YG BENAR (bukan sadar
+     * tahun via kode di sini), krn `dataUmum.id` yg dikirim frontend berasal
+     * dari `dataUmumForOpd($opdId, $tahun)` di request cetak yg sama (sudah
+     * tahun-scoped sejak DataUmum jadi per-tahun) — jadi update ini otomatis
+     * mengenai baris tahun yg sedang dicetak, tidak perlu param $tahun
+     * tambahan di sini.
      */
     public function updateTtd(Request $request, DataUmum $dataUmum)
     {

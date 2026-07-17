@@ -205,12 +205,116 @@ export function SimpleTable({ headers, rows }: SimpleTableProps) {
 }
 
 // ─── Badge kecil berwarna (mis. label kode RSP/RSO/ROO) ────────────────────
-export function ColorBadge({ children, color }: { children: ReactNode; color: 'red' | 'amber' | 'emerald' | 'sky' }) {
+export function ColorBadge({ children, color }: { children: ReactNode; color: 'red' | 'amber' | 'emerald' | 'sky' | 'orange' | 'yellow' }) {
   const map = {
     red: 'bg-red-500/15 text-red-600 dark:text-red-400',
     amber: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
     emerald: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
     sky: 'bg-sky-500/15 text-sky-600 dark:text-sky-400',
+    orange: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
+    yellow: 'bg-yellow-400/20 text-yellow-700 dark:text-yellow-400',
   };
   return <span className={`inline-block rounded px-1.5 py-0.5 text-xs font-semibold ${map[color]}`}>{children}</span>;
+}
+
+// ─── Matriks Analisis Risiko 5×5 (Dampak × Kemungkinan → Skala Risiko) ─────
+// Warna & rentang skala IDENTIK dgn RiskReferenceDataSeeder::seedRiskLevels()
+// (5 level: Sangat Rendah 1-5 s.d. Sangat Tinggi 20-25) & seedSkalaMatrix()
+// (nilai per sel dampak×kemungkinan) — kalau Admin mengubah tabel Skala
+// Risiko di Settings > Keterangan Pendukung, angka contoh di panduan ini
+// bisa saja beda dari kondisi live aplikasi, tapi POLA warnanya tetap sama.
+const RISK_MATRIX_SKALA: Record<number, Record<number, number>> = {
+  1: { 1: 1, 2: 2, 3: 4, 4: 6, 5: 9 },
+  2: { 1: 3, 2: 7, 3: 10, 4: 12, 5: 15 },
+  3: { 1: 5, 2: 11, 3: 14, 4: 16, 5: 18 },
+  4: { 1: 8, 2: 13, 3: 17, 4: 19, 5: 23 },
+  5: { 1: 20, 2: 21, 3: 22, 4: 24, 5: 25 },
+};
+
+function warnaSkala(skala: number): string {
+  if (skala >= 20) return 'bg-red-500 text-white';
+  if (skala >= 16) return 'bg-orange-400 text-white';
+  if (skala >= 11) return 'bg-yellow-300 text-black';
+  if (skala >= 6) return 'bg-green-400 text-black';
+  return 'bg-sky-400 text-white';
+}
+
+export function RiskMatrix5x5() {
+  const dampakLabels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+  const kemungkinanLabels = ['Sangat Jarang', 'Jarang', 'Kadang Terjadi', 'Sering Terjadi', 'Hampir Pasti Terjadi'];
+
+  return (
+    <div className="not-prose my-3 overflow-x-auto rounded-lg border">
+      <table className="w-full min-w-[560px] table-fixed border-collapse text-xs">
+        <thead>
+          <tr>
+            <th colSpan={7} className="border-b bg-muted/50 p-2 text-center text-sm font-bold text-foreground">
+              Matriks Analisis Risiko (Dampak × Kemungkinan)
+            </th>
+          </tr>
+          <tr className="bg-muted/40">
+            <th colSpan={2} className="border-b px-2 py-1.5 text-left font-semibold text-foreground">
+              Level Kemungkinan
+            </th>
+            <th colSpan={5} className="border-b px-2 py-1.5 text-center font-semibold text-foreground">
+              Dampak
+            </th>
+          </tr>
+          <tr className="bg-muted/40">
+            <th className="border-b px-2 py-1"></th>
+            <th className="border-b px-2 py-1"></th>
+            {dampakLabels.map((label, i) => (
+              <th key={label} className="border-b px-1 py-1 text-center font-semibold text-foreground">
+                {i + 1}
+                <div className="text-[10px] font-normal text-muted-foreground">{label}</div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {[5, 4, 3, 2, 1].map((kemungkinan) => (
+            <tr key={kemungkinan}>
+              <th className="border-b px-2 py-1.5 text-center font-semibold text-foreground">{kemungkinan}</th>
+              <th className="border-b px-2 py-1.5 text-left font-semibold whitespace-nowrap text-foreground">
+                {kemungkinanLabels[kemungkinan - 1]}
+              </th>
+              {[1, 2, 3, 4, 5].map((dampak) => {
+                const skala = RISK_MATRIX_SKALA[dampak][kemungkinan];
+                return (
+                  <td key={dampak} className={`border-b px-1 py-1.5 text-center font-semibold ${warnaSkala(skala)}`}>
+                    {skala}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── Preview blok penanda tangan majemuk (Form Cetak 6 & 7) ────────────────
+interface SignatureItem {
+  jabatan: string;
+  nama: string;
+  nip?: string;
+}
+
+export function SignatureBlockPreview({ items }: { items: SignatureItem[] }) {
+  return (
+    <div className="not-prose my-3 rounded-lg border bg-muted/10 p-4">
+      <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
+        {items.map((item, i) => (
+          <div key={i} className="text-center">
+            <p className="text-xs font-semibold text-foreground">{item.jabatan}</p>
+            <div className="mt-6">
+              <p className="text-xs font-semibold text-foreground underline underline-offset-2">{item.nama}</p>
+              {item.nip && <p className="text-[10px] text-muted-foreground">NIP. {item.nip}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

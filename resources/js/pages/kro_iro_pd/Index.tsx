@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Input } from '@/components/ui/input';
-import RiskSummaryCard, { type RiskSummaryGroup, type RiskSummaryItem } from '@/components/ui/risk-summary-card';
+import RiskSummaryCard, { type RiskLevelBand, type RiskSummaryGroup, type RiskSummaryItem } from '@/components/ui/risk-summary-card';
 import { ChevronDown, ChevronRight, ChevronUp, Search, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { LEVEL_COLORS } from '@/lib/hierarchy-level-colors';
@@ -16,6 +16,7 @@ interface Row {
 
 interface PageProps {
   rows: Row[];
+  riskLevels: RiskLevelBand[];
 }
 
 interface KegiatanGroup {
@@ -161,13 +162,14 @@ function groupHierarchy(rows: Row[]): SasaranRpjmdGroup[] {
   return Array.from(sasaranRpjmds.values());
 }
 
-const skalaRisikoColor = (skala: number | null): string => {
+// Sebelumnya hardcode threshold 20/16/11/6 — sekarang dari riskLevels (prop
+// dari controller, sumber tabel risk_levels) supaya konsisten dgn
+// skalaBadgeClass() di iro_pd/Index.tsx dan ikut berubah kalau Admin
+// mengedit Level Risiko di Settings > Keterangan Pendukung.
+const skalaRisikoColor = (skala: number | null, riskLevels: RiskLevelBand[]): string => {
   if (skala === null) return 'bg-muted text-muted-foreground';
-  if (skala >= 20) return 'bg-red-500 text-white hover:bg-red-500';
-  if (skala >= 16) return 'bg-orange-400 text-white hover:bg-orange-400';
-  if (skala >= 11) return 'bg-yellow-300 text-black hover:bg-yellow-300';
-  if (skala >= 6) return 'bg-green-400 text-black hover:bg-green-400';
-  return 'bg-sky-400 text-white hover:bg-sky-400';
+  const level = riskLevels.find((l) => skala >= l.skala_min && skala <= l.skala_max);
+  return level?.warna_class ?? 'bg-muted text-muted-foreground';
 };
 
 function Field({ label, value, query = '' }: { label: string; value: string | number | null; query?: string }) {
@@ -351,6 +353,7 @@ interface TreeCommonProps {
   expanded: Set<string>;
   onToggle: (key: string, open: boolean) => void;
   registerRef: (key: string, el: HTMLElement | null) => void;
+  riskLevels: RiskLevelBand[];
 }
 
 function KegiatanItem({
@@ -358,6 +361,7 @@ function KegiatanItem({
   query,
   currentMatchKey,
   registerRef,
+  riskLevels,
 }: { kegiatan: KegiatanGroup } & Omit<TreeCommonProps, 'activeAncestorKeys' | 'expanded' | 'onToggle'>) {
   const [open, setOpen] = useState(false);
   const row = kegiatan.row;
@@ -391,7 +395,7 @@ function KegiatanItem({
           {kegiatan.risikoRows.length === 1 &&
             (() => {
               const skalaRisiko = kegiatan.risikoRows[0].SKALA_RISIKO != null ? Number(kegiatan.risikoRows[0].SKALA_RISIKO) : null;
-              return skalaRisiko !== null ? <Badge className={`shrink-0 ${skalaRisikoColor(skalaRisiko)}`}>Skala {skalaRisiko}</Badge> : null;
+              return skalaRisiko !== null ? <Badge className={`shrink-0 ${skalaRisikoColor(skalaRisiko, riskLevels)}`}>Skala {skalaRisiko}</Badge> : null;
             })()}
         </CollapsibleTrigger>
       </div>
@@ -450,7 +454,7 @@ function KegiatanItem({
               <div className="flex flex-wrap gap-2 pt-1">
                 <Badge variant="outline">Skala Dampak: {risikoRow.SKALA_DAMPAK ?? '-'}</Badge>
                 <Badge variant="outline">Skala Kemungkinan: {risikoRow.SKALA_KEMUNGKINAN ?? '-'}</Badge>
-                <Badge className={skalaRisikoColor(skalaRisiko)}>Skala Risiko: {skalaRisiko ?? '-'}</Badge>
+                <Badge className={skalaRisikoColor(skalaRisiko, riskLevels)}>Skala Risiko: {skalaRisiko ?? '-'}</Badge>
                 <Badge variant="outline">Skala Prioritas: {risikoRow.SKALA_PRIORITAS ?? '-'}</Badge>
               </div>
             </section>
@@ -461,7 +465,7 @@ function KegiatanItem({
   );
 }
 
-function ProgramRow({ group, query, currentMatchKey, activeAncestorKeys, expanded, onToggle, registerRef }: { group: ProgramGroup } & TreeCommonProps) {
+function ProgramRow({ group, query, currentMatchKey, activeAncestorKeys, expanded, onToggle, registerRef, riskLevels }: { group: ProgramGroup } & TreeCommonProps) {
   const key = keyOf('program', group.id);
   const open = expanded.has(key) || activeAncestorKeys.has(key);
   const isCurrent = currentMatchKey === key;
@@ -490,7 +494,7 @@ function ProgramRow({ group, query, currentMatchKey, activeAncestorKeys, expande
         />
         <div className="mt-2 divide-y rounded-md border">
           {group.kegiatans.map((kegiatan) => (
-            <KegiatanItem key={kegiatan.id} kegiatan={kegiatan} query={query} currentMatchKey={currentMatchKey} registerRef={registerRef} />
+            <KegiatanItem key={kegiatan.id} kegiatan={kegiatan} query={query} currentMatchKey={currentMatchKey} registerRef={registerRef} riskLevels={riskLevels} />
           ))}
         </div>
       </CollapsibleContent>
@@ -506,6 +510,7 @@ function SasaranRenstraRow({
   expanded,
   onToggle,
   registerRef,
+  riskLevels,
 }: { group: SasaranRenstraGroup } & TreeCommonProps) {
   const key = keyOf('sasaranrenstra', group.id);
   const open = expanded.has(key) || activeAncestorKeys.has(key);
@@ -539,6 +544,7 @@ function SasaranRenstraRow({
               expanded={expanded}
               onToggle={onToggle}
               registerRef={registerRef}
+              riskLevels={riskLevels}
             />
           ))}
         </div>
@@ -555,6 +561,7 @@ function SasaranPdRow({
   expanded,
   onToggle,
   registerRef,
+  riskLevels,
 }: { group: SasaranStrategisPdGroup } & TreeCommonProps) {
   const key = keyOf('sasaranpd', group.id);
   const open = expanded.has(key) || activeAncestorKeys.has(key);
@@ -585,6 +592,7 @@ function SasaranPdRow({
               expanded={expanded}
               onToggle={onToggle}
               registerRef={registerRef}
+              riskLevels={riskLevels}
             />
           ))}
         </div>
@@ -593,7 +601,7 @@ function SasaranPdRow({
   );
 }
 
-function TujuanRow({ group, query, currentMatchKey, activeAncestorKeys, expanded, onToggle, registerRef }: { group: TujuanGroup } & TreeCommonProps) {
+function TujuanRow({ group, query, currentMatchKey, activeAncestorKeys, expanded, onToggle, registerRef, riskLevels }: { group: TujuanGroup } & TreeCommonProps) {
   const key = keyOf('tujuan', group.id);
   const open = expanded.has(key) || activeAncestorKeys.has(key);
   const isCurrent = currentMatchKey === key;
@@ -623,6 +631,7 @@ function TujuanRow({ group, query, currentMatchKey, activeAncestorKeys, expanded
               expanded={expanded}
               onToggle={onToggle}
               registerRef={registerRef}
+              riskLevels={riskLevels}
             />
           ))}
         </div>
@@ -631,7 +640,7 @@ function TujuanRow({ group, query, currentMatchKey, activeAncestorKeys, expanded
   );
 }
 
-function SasaranRpjmdCard({ group, query, currentMatchKey, activeAncestorKeys, expanded, onToggle, registerRef }: { group: SasaranRpjmdGroup } & TreeCommonProps) {
+function SasaranRpjmdCard({ group, query, currentMatchKey, activeAncestorKeys, expanded, onToggle, registerRef, riskLevels }: { group: SasaranRpjmdGroup } & TreeCommonProps) {
   const key = keyOf('sasaranrpjmd', group.id);
   const open = expanded.has(key) || activeAncestorKeys.has(key);
   const isCurrent = currentMatchKey === key;
@@ -666,6 +675,7 @@ function SasaranRpjmdCard({ group, query, currentMatchKey, activeAncestorKeys, e
                   expanded={expanded}
                   onToggle={onToggle}
                   registerRef={registerRef}
+                  riskLevels={riskLevels}
                 />
               ))}
             </div>
@@ -676,7 +686,7 @@ function SasaranRpjmdCard({ group, query, currentMatchKey, activeAncestorKeys, e
   );
 }
 
-export default function KroIroPdIndex({ rows }: PageProps) {
+export default function KroIroPdIndex({ rows, riskLevels }: PageProps) {
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -838,7 +848,7 @@ export default function KroIroPdIndex({ rows }: PageProps) {
           </p>
         </div>
 
-        <RiskSummaryCard groups={riskSummaryGroups} title="Rangkuman Risiko per Kegiatan" outcomeLabel="Tahap" />
+        <RiskSummaryCard groups={riskSummaryGroups} riskLevels={riskLevels} title="Rangkuman Risiko per Kegiatan" outcomeLabel="Tahap" />
 
         <div className="flex items-center gap-2">
           <div className="relative max-w-md flex-1">
@@ -898,6 +908,7 @@ export default function KroIroPdIndex({ rows }: PageProps) {
                 expanded={expanded}
                 onToggle={handleToggle}
                 registerRef={registerRef}
+                riskLevels={riskLevels}
               />
             ))
           ) : (

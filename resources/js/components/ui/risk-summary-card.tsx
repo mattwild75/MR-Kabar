@@ -4,24 +4,26 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
-// Sama persis dengan skalaBadgeClass() di irs/Index.tsx dan irs_pd/Index.tsx
-// — disalin (bukan diimpor) supaya kartu ringkasan ini tetap independen dari
-// halaman IRS/IRO, tapi kategorinya harus tetap identik agar konsisten.
-const SKALA_BANDS = [
-  { label: 'Sangat Tinggi', min: 20, className: 'bg-red-500 text-white hover:bg-red-500' },
-  { label: 'Tinggi', min: 16, className: 'bg-orange-400 text-white hover:bg-orange-400' },
-  { label: 'Sedang', min: 11, className: 'bg-yellow-300 text-black hover:bg-yellow-300' },
-  { label: 'Rendah', min: 6, className: 'bg-green-400 text-black hover:bg-green-400' },
-  { label: 'Sangat Rendah', min: -Infinity, className: 'bg-sky-400 text-white hover:bg-sky-400' },
-] as const;
-
-function bandForSkala(skala: number) {
-  return SKALA_BANDS.find((b) => skala >= b.min)!;
+export interface RiskLevelBand {
+  label: string;
+  skala_min: number;
+  skala_max: number;
+  warna_class: string;
 }
 
-function skalaBadgeClassName(skala: number | null): string {
+// SEBELUMNYA hardcode (SKALA_BANDS const, "disalin bukan diimpor" dari
+// irs/Index.tsx) — bug: kalau Admin mengubah rentang/warna Level Risiko di
+// Settings > Keterangan Pendukung, kartu ini diam-diam tidak ikut berubah.
+// Sekarang riskLevels WAJIB dikirim sbg prop dari halaman pemanggil (sama
+// data yg sudah dikirim controller ke krs_irs_pemda/krs_irs_pd/kro_iro_pd),
+// sumber kebenaran tunggal sama dgn skalaBadgeClass() di irs/Index.tsx.
+function bandForSkala(skala: number, riskLevels: RiskLevelBand[]): RiskLevelBand | undefined {
+  return riskLevels.find((b) => skala >= b.skala_min && skala <= b.skala_max);
+}
+
+function skalaBadgeClassName(skala: number | null, riskLevels: RiskLevelBand[]): string {
   if (skala == null) return 'bg-muted text-muted-foreground';
-  return bandForSkala(skala).className;
+  return bandForSkala(skala, riskLevels)?.warna_class ?? 'bg-muted text-muted-foreground';
 }
 
 function localeCmp(a: string, b: string): number {
@@ -97,10 +99,13 @@ function sortGroups(groups: RiskSummaryGroup[]): RiskSummaryGroup[] {
  */
 export default function RiskSummaryCard({
   groups,
+  riskLevels,
   title = 'Rangkuman Risiko per Sasaran',
   outcomeLabel = 'Outcome',
 }: {
   groups: RiskSummaryGroup[];
+  /** Level Risiko (label/rentang skala/warna) — dari controller (RiskLevel::orderBy('urutan')->get()), BUKAN hardcode, supaya kartu ini ikut berubah kalau Admin mengedit Level Risiko di Keterangan Pendukung. */
+  riskLevels: RiskLevelBand[];
   title?: string;
   /** Label untuk field `outcome` — "Outcome" (KRS_Pemda) atau "Kegiatan" (KRS_PD) tergantung skema data sumber. */
   outcomeLabel?: string;
@@ -151,10 +156,12 @@ export default function RiskSummaryCard({
               sortGroups(mergedByGroup.map(({ group }) => group)).map((group) => {
                 const merged = mergedByGroup.find((m) => m.group.id === group.id)!.merged;
                 const rowOpen = openRows.has(group.id);
-                const counts = SKALA_BANDS.map((band) => ({
-                  band,
-                  count: merged.filter((r) => r.skalaRisiko != null && bandForSkala(r.skalaRisiko).label === band.label).length,
-                })).filter((c) => c.count > 0);
+                const counts = riskLevels
+                  .map((band) => ({
+                    band,
+                    count: merged.filter((r) => r.skalaRisiko != null && bandForSkala(r.skalaRisiko, riskLevels)?.label === band.label).length,
+                  }))
+                  .filter((c) => c.count > 0);
 
                 return (
                   <Collapsible key={group.id} open={rowOpen} onOpenChange={() => toggleRow(group.id)}>
@@ -169,7 +176,7 @@ export default function RiskSummaryCard({
                       {counts.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                           {counts.map(({ band, count }) => (
-                            <Badge key={band.label} className={band.className}>
+                            <Badge key={band.label} className={band.warna_class}>
                               {band.label}: {count}
                             </Badge>
                           ))}
@@ -200,7 +207,7 @@ export default function RiskSummaryCard({
                                   </div>
                                 )}
                               </div>
-                              <Badge className={`shrink-0 ${skalaBadgeClassName(risiko.skalaRisiko)}`}>
+                              <Badge className={`shrink-0 ${skalaBadgeClassName(risiko.skalaRisiko, riskLevels)}`}>
                                 Skala Risiko: {risiko.skalaRisiko ?? '-'}
                               </Badge>
                             </li>

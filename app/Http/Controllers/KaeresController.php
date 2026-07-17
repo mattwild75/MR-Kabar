@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RiskLevel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -34,6 +35,7 @@ class KaeresController extends Controller
 
         return Inertia::render('krs_irs_pemda/Index', [
             'rows' => $rows,
+            'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
         ]);
     }
 

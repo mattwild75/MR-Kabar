@@ -84,9 +84,16 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(Opd::class);
     }
 
-    /** Data Umum (header identitas + penanda tangan) milik akun ini — dipakai Form Cetak. */
+    /**
+     * Data Umum (header identitas + penanda tangan) milik akun ini —
+     * dipakai Form Cetak. PER-TAHUN (hasMany, bukan hasOne lagi) — satu
+     * user bisa py banyak baris DataUmum, satu per Tahun Penilaian yg
+     * pernah dia isi (lihat migration 2026_07_17_050000_make_data_umum_per_tahun).
+     * Sebelumnya hasOne bikin nama PIC/TTD yg tercetak SELALU versi
+     * terkini walau tahun yg dicetak beda — tidak ada riwayat per tahun.
+     */
     public function dataUmum()
     {
-        return $this->hasOne(DataUmum::class);
+        return $this->hasMany(DataUmum::class);
     }
 }

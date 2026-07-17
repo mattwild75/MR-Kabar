@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RiskLevel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -27,6 +28,7 @@ class KaeresRoController extends Controller
 
         return Inertia::render('kro_iro_pd/Index', [
             'rows' => $rows,
+            'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
         ]);
     }
 

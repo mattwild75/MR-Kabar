@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IroPd;
 use App\Models\KroPd;
@@ -18,6 +19,7 @@ use Inertia\Inertia;
 class IroPdController extends Controller
 {
     use HasOpdFillStatus;
+    use GeneratesKodeRisiko;
 
     public function __construct(private readonly RiskReferenceDataService $riskRef)
     {
@@ -124,23 +126,10 @@ class IroPdController extends Controller
      */
     private function withNomorUrut($rows)
     {
-        $prevKegiatan = null;
-        $counter = 0;
+        $nomorUrutMap = $this->nomorUrutFor($rows);
 
         foreach ($rows as $row) {
-            $kegiatan = trim((string) $row->{'KEGIATAN PD'});
-
-            if ($kegiatan !== $prevKegiatan) {
-                $counter = 0;
-                $prevKegiatan = $kegiatan;
-            }
-
-            if (trim((string) $row->{'URAIAN RISIKO'}) !== '') {
-                $counter++;
-                $row->{'NOMOR URUT RISIKO'} = str_pad((string) $counter, 2, '0', STR_PAD_LEFT);
-            } else {
-                $row->{'NOMOR URUT RISIKO'} = null;
-            }
+            $row->{'NOMOR URUT RISIKO'} = $nomorUrutMap[$row->id] ?? null;
         }
 
         return $rows;

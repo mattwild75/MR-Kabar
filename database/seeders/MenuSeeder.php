@@ -433,6 +433,82 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Sub-grup: Form Cetak -> Risiko -> Hasil Analisis Risiko -> 4/5,
+        // sesuai Lampiran 5 Form 4 & Form 5 Perdep PPKD No.4/2019 — sejajar
+        // dgn "Penetapan Konteks Risiko" & "Identifikasi Risiko" di bawah
+        // grup "Risiko" yg sama. BEDA dari 2a/2b/2c & 3a/3b/3c: Form 4/5
+        // menggabungkan SELURUH tingkat risiko (Pemda + semua OPD) dalam
+        // satu form, jadi hanya 2 menu (bukan a/b/c per tingkat) — lihat
+        // CetakHasilAnalisisController.
+        $formCetakHasilAnalisis = Menu::updateOrCreate(
+            ['title' => 'Hasil Analisis Risiko', 'parent_id' => $formCetakRisiko->id],
+            [
+                'icon' => 'ChartNoAxesCombined',
+                'route' => '#',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/4'],
+            [
+                'title' => '4_Hasil Analisis Risiko',
+                'parent_id' => $formCetakHasilAnalisis->id,
+                'icon' => 'ChartColumn',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/5'],
+            [
+                'title' => '5_Daftar Risiko Prioritas',
+                'parent_id' => $formCetakHasilAnalisis->id,
+                'icon' => 'ListOrdered',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        // Sub-grup: Form Cetak -> Risiko -> RTP -> 6/7, sesuai Lampiran 5
+        // Form 6 & Form 7 Perdep PPKD No.4/2019 — sejajar dgn "Hasil Analisis
+        // Risiko". Form 6 (RTP atas CEE) PER-OPD (wajib opd_id, spt Form
+        // 2/3); Form 7 (RTP atas Hasil Identifikasi Risiko) lintas-OPD (spt
+        // Form 4/5) — lihat CetakRtpController.
+        $formCetakRtp = Menu::updateOrCreate(
+            ['title' => 'RTP', 'parent_id' => $formCetakRisiko->id],
+            [
+                'icon' => 'ShieldCheck',
+                'route' => '#',
+                'order' => 4,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/6'],
+            [
+                'title' => '6_RTP atas CEE',
+                'parent_id' => $formCetakRtp->id,
+                'icon' => 'ClipboardCheck',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/risiko/7'],
+            [
+                'title' => '7_RTP atas Hasil Identifikasi Risiko',
+                'parent_id' => $formCetakRtp->id,
+                'icon' => 'ClipboardList',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
         // Data Umum — item pertama di Form Input (sebelum Risiko Strategis
         // Pemda). Berisi header identitas + penanda tangan per-PIC untuk Form
         // Cetak. permission_name null (fail-open); isi dibatasi per-user di
@@ -492,6 +568,19 @@ class MenuSeeder extends Seeder
                 'parent_id' => $formInputCee->id,
                 'icon' => 'FileCheck',
                 'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // 1d_RTP CEE — Lampiran 5 Form 6 Perdep PPKD No.4/2019 (RTP atas
+        // Kelemahan Lingkungan Pengendalian), submenu terakhir grup CEE.
+        Menu::updateOrCreate(
+            ['route' => '/cee/1d'],
+            [
+                'title' => '1d_RTP CEE',
+                'parent_id' => $formInputCee->id,
+                'icon' => 'ClipboardEdit',
+                'order' => 4,
                 'permission_name' => null,
             ]
         );

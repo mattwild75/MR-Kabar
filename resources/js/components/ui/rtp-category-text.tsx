@@ -75,7 +75,7 @@ function parseSegments(text: string): Segment[] {
  * IRS Pemda, IRS PD, IRO PD. Teks yg belum diklasifikasi (data lama/bebas)
  * ditampilkan apa adanya tanpa badge.
  */
-export default function RtpCategoryText({ text, query }: { text: string; query: string }) {
+export default function RtpCategoryText({ text, query = '' }: { text: string; query?: string }) {
   if (!text || text === '-' || text === 'Tidak Ada Data') {
     return <HighlightText text={text} query={query} />;
   }
