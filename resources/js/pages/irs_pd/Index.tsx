@@ -165,6 +165,10 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<IrsRow | null>(null);
   const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
+  // true saat form dibuka dari tombol "Input ke Register Risiko" di Rekap
+  // Lapor Kejadian — Sumber Sebab & C/UC TIDAK ikut ter-prefill (butuh
+  // penilaian manual petugas), banner mengingatkan supaya tidak terlewat.
+  const [prefillFromLaporan, setPrefillFromLaporan] = useState(false);
 
   const { data, setData, post, put, processing, reset, errors } = useForm<FormData>(emptyForm());
 
@@ -208,6 +212,7 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
 
   const openCreate = () => {
     setEditing(null);
+    setPrefillFromLaporan(false);
     reset();
     const values = emptyForm();
     if (currentUserOpdNama) {
@@ -234,12 +239,14 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
       'URAIAN PENYEBAB RISIKO': params.get('prefill_penyebab_risiko') ?? '',
       'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN': params.get('prefill_opd') ?? '',
     }));
+    setPrefillFromLaporan(true);
 
     window.history.replaceState({}, '', window.location.pathname);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openEdit = (row: IrsRow) => {
+    setPrefillFromLaporan(false);
     setEditing(row);
     const values = emptyForm();
     FIELDS.forEach((f) => (values[f] = (row[f] as string) ?? ''));
@@ -493,6 +500,13 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="space-y-3">
+            {prefillFromLaporan && (
+              <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+                Data ini diambil dari laporan warga — Uraian Risiko, Penyebab (5M), dan OPD sudah terisi otomatis.
+                Lengkapi juga <strong>Sumber Sebab Risiko</strong> (Internal/Eksternal) dan <strong>C / UC</strong> di bawah
+                sebelum menyimpan — keduanya tidak dapat ditebak dari laporan warga dan butuh penilaian Anda.
+              </p>
+            )}
             {FIELDS.map((field) => {
               const info = IRS_PD_FIELD_INFO[field];
               const value = data[field];
