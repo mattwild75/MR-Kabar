@@ -119,7 +119,7 @@ function parseValue(value: string, categories: string[], combinedLabel?: string)
         if (idx === -1) continue;
         const closeIdx = findMatchingParen(trimmed, idx);
         if (closeIdx === -1) continue;
-        result[c] = trimmed.slice(idx + marker.length, closeIdx).trim();
+        result[c] = trimmed.slice(idx + marker.length, closeIdx);
         matchedAny = true;
       }
       if (matchedAny) return result;
@@ -227,14 +227,21 @@ function buildValue(parsed: ParsedMap, categories: string[], combinedLabel?: str
   if (combinedLabel && selected.length === categories.length) {
     const anyUraian = categories.some((c) => (parsed[c] ?? '').trim() !== '');
     if (!anyUraian) return combinedLabel;
-    return `${combinedLabel} ${categories.map((c) => `(${c}: ${(parsed[c] ?? '').trim()})`).join(' ')}`;
+    // TIDAK di-trim() di sini — nilai APA ADANYA yg diketik user (termasuk
+    // spasi di akhir yg sedang diketik) harus tersimpan mentah, supaya
+    // saat string ini di-parseValue() ulang (re-render terkontrol lewat
+    // parent onChange), textarea tidak "menelan balik" spasi yg baru saja
+    // ditekan — trim() di sini dulu jadi bug: tiap kali user tekan spasi,
+    // buildValue membuangnya sebelum sempat tampil, terasa seperti tombol
+    // spasi tidak berfungsi sama sekali.
+    return `${combinedLabel} ${categories.map((c) => `(${c}: ${parsed[c] ?? ''})`).join(' ')}`;
   }
 
   // Sebagian kategori terisi → gabung tiap "Kategori (uraian)" dgn "; ".
   return selected
     .map((c) => {
-      const u = (parsed[c] ?? '').trim();
-      return u ? `${c} (${u})` : c;
+      const u = parsed[c] ?? '';
+      return u !== '' ? `${c} (${u})` : c;
     })
     .join('; ');
 }

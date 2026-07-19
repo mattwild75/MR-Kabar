@@ -84,11 +84,15 @@ function parseValue(value: string, categories: string[]): { category: string; ur
 }
 
 function buildValue(category: string, uraian: string): string {
-  const trimmedUraian = uraian.trim();
-
+  // TIDAK di-trim() — nilai apa adanya yg diketik user (termasuk spasi di
+  // akhir yg sedang diketik) harus tersimpan mentah, supaya saat string
+  // ini di-parseValue() ulang lewat parent onChange, textarea tidak
+  // "menelan balik" spasi yg baru saja ditekan (trim() di sini dulu bikin
+  // tombol spasi terasa tidak berfungsi — tiap tekan spasi langsung
+  // terhapus sebelum sempat tampil).
   if (!category) {
-    return trimmedUraian;
+    return uraian;
   }
 
-  return trimmedUraian ? `${category} (${trimmedUraian})` : category;
+  return uraian !== '' ? `${category} (${uraian})` : category;
 }
