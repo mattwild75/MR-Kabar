@@ -20,6 +20,8 @@ import { Search, Siren, X } from 'lucide-react';
 import { toast } from 'sonner';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { LAPOR_KEJADIAN_FIELD_INFO } from '@/lib/lapor-kejadian-field-info';
+import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
+import { PENYEBAB_5M_KATEGORI } from '@/lib/irs-reference-data';
 
 interface Opd {
   id: number;
@@ -328,11 +330,12 @@ export default function LaporKejadianForm({ opdList }: Props) {
                   <Label>Pemicu (opsional)</Label>
                   <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.pemicu} />
                 </div>
-                <Textarea
-                  rows={3}
+                <MultiCategoryTextarea
                   value={data.pemicu}
-                  onChange={(e) => setData('pemicu', e.target.value)}
-                  placeholder="Apa yang memicu kejadian ini? (auto-terisi jika memilih risiko terdaftar, tetap bisa diedit)"
+                  onChange={(val) => setData('pemicu', val)}
+                  categories={PENYEBAB_5M_KATEGORI}
+                  uraianPlaceholder="Apa yang memicu kejadian ini?"
+                  rows={2}
                 />
                 {errors.pemicu && <p className="text-sm text-destructive">{errors.pemicu}</p>}
               </div>

@@ -20,7 +20,16 @@ Contoh: "Antrean pasien di Puskesmas X menumpuk lebih dari 2 jam pada pagi hari 
 
   tempat: `Lokasi/tempat kejadian ini berlangsung (opsional) — mis. nama kantor, puskesmas, jalan, atau kelurahan. Membantu PIC OPD memverifikasi laporan lebih cepat.`,
 
-  pemicu: `Apa yang menurut Anda menyebabkan/memicu kejadian ini terjadi (opsional) — akan otomatis terisi bila Anda memilih risiko yang sudah terdaftar di atas, tapi tetap boleh diedit sesuai pengamatan Anda sendiri.`,
+  pemicu: `Apa yang menurut Anda menyebabkan/memicu kejadian ini terjadi (opsional) — akan otomatis terisi bila Anda memilih risiko yang sudah terdaftar di atas, tapi tetap boleh diedit sesuai pengamatan Anda sendiri.
+
+Pilih satu atau lebih kategori yang paling sesuai, lalu jelaskan di kotak sebelahnya:
+• Men — soal orang/petugas (kurang terlatih, kurang teliti, dsb)
+• Machine — soal alat/sistem/teknologi yang dipakai
+• Method — soal cara kerja/prosedur/aturan yang ada
+• Material — soal bahan/dokumen/data yang dipakai
+• Money — soal anggaran/biaya
+
+Tidak yakin kategorinya apa? Pilih yang paling mendekati saja — PIC OPD akan meninjau ulang laporan Anda.`,
 
   cari_risiko_terdaftar: `Ketik kata kunci untuk mencari apakah kejadian yang ingin Anda laporkan sudah pernah tercatat sebagai risiko di sistem — kalau ketemu, laporan Anda akan otomatis dikaitkan ke risiko tsb, membantu PIC OPD menelusuri riwayatnya. Kalau tidak ketemu, pilih "Lapor Kejadian Baru" di atas dan isi form seperti biasa.`,
 };
