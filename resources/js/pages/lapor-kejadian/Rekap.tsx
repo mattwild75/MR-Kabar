@@ -369,7 +369,7 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
       </div>
 
       <Dialog open={!!detail} onOpenChange={(open) => !open && setDetail(null)}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Detail Laporan Kejadian Risiko</DialogTitle>
             <DialogDescription>Tinjau kejadian dan perbarui status tindak lanjut.</DialogDescription>
