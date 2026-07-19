@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
+use App\Http\Controllers\Concerns\SharesCetakContext;
 use App\Models\DataUmum;
 use App\Models\IroPd;
 use App\Models\IrsPd;
@@ -32,14 +33,10 @@ use Inertia\Inertia;
 class CetakHasilAnalisisController extends Controller
 {
     use GeneratesKodeRisiko;
+    use SharesCetakContext;
 
     public function __construct(private readonly RiskReferenceDataService $riskRef)
     {
-    }
-
-    private function pengaturan(): PengaturanPemda
-    {
-        return PengaturanPemda::current();
     }
 
     /**
@@ -82,18 +79,7 @@ class CetakHasilAnalisisController extends Controller
         return DataUmum::forOpdAndTahun($opdId, $tahun)?->nama_pic;
     }
 
-    private function dataUmumForInertia(?DataUmum $dataUmum): ?array
-    {
-        if (!$dataUmum) {
-            return null;
-        }
-
-        $array = $dataUmum->toArray();
-        $array['tanggal_pembuatan_raw'] = $dataUmum->tanggal_pembuatan?->format('Y-m-d');
-        $array['tanggal_pembuatan'] = $dataUmum->tanggal_pembuatan?->locale('id')->translatedFormat('d F Y');
-
-        return $array;
-    }
+    // pengaturan() & dataUmumForInertia() dipindah ke trait SharesCetakContext.
 
     /**
      * Satu baris Form 4/5 — field yg sama utk ketiga tingkat risiko
@@ -163,9 +149,21 @@ class CetakHasilAnalisisController extends Controller
         // hanya LABEL yg ditampilkan yg beda.
         $namaPemda = $this->pengaturan()->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
 
+        // select() dibatasi ke kolom yg dibaca analisisRow()/nomorUrutFor()
+        // di bawah — nomor urut & kode risiko tetap dihitung dari SELURUH
+        // baris (semua OPD) sebelum difilter per-OPD, TIDAK mengubah data
+        // yg dikembalikan ke frontend, murni mengurangi kolom teks lebar
+        // yg tidak dipakai supaya transfer lebih ringan.
+        $analisisColumns = [
+            'id', 'user_id', 'URAIAN RISIKO', 'TAHUN DINILAI RISIKO', 'JENIS RISIKO',
+            'ENTITAS PD YANG MENILAI', 'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO',
+            'PEMILIK RISIKO', 'URAIAN PENYEBAB RISIKO', 'URAIAN DAMPAK RISIKO',
+        ];
+
         $strategisPemda = IrsPemda::whereHas('user')
             ->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->with('user.opd')
+            ->select($analisisColumns)
+            ->with(['user:id,opd_id', 'user.opd:id,nama'])
             ->orderBy('id')
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
@@ -179,7 +177,8 @@ class CetakHasilAnalisisController extends Controller
 
         $strategisOpd = IrsPd::whereHas('user')
             ->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->with('user.opd')
+            ->select($analisisColumns)
+            ->with(['user:id,opd_id', 'user.opd:id,nama'])
             ->orderBy('id')
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');
@@ -193,7 +192,8 @@ class CetakHasilAnalisisController extends Controller
 
         $operasionalOpd = IroPd::whereHas('user')
             ->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->with('user.opd')
+            ->select($analisisColumns)
+            ->with(['user:id,opd_id', 'user.opd:id,nama'])
             ->orderBy('id')
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');

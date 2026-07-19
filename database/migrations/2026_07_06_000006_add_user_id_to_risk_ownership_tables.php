@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Menambahkan user_id (nullable, tanpa FK constraint — konsisten dengan
-     * pola relasi lain di aplikasi ini yang tidak menegakkan foreign key)
-     * ke lima tabel yang dibatasi kepemilikannya per-PIC: IRS_Pemda (I_b),
+     * Menambahkan user_id (nullable, DENGAN FK constraint ke users,
+     * nullOnDelete supaya baris risiko tidak ikut terhapus saat user-nya
+     * dihapus) ke lima tabel yang dibatasi kepemilikannya per-PIC: IRS_Pemda (I_b),
      * KRS_PD/IRS_PD (II_a/II_b), KRO_PD/IRO_PD (III_a/III_b). KRS_Pemda
      * (I_a) SENGAJA tidak disentuh — levelnya lintas-OPD dan hanya
      * admin/super-admin yang boleh input, bukan row-level ownership.

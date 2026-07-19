@@ -47,6 +47,10 @@ class RiskReferenceDataService
     /** Skala Risiko (1-25) => Skala Prioritas (1-25, 1 = paling prioritas). */
     public function skalaPrioritas(int $skalaRisiko): int
     {
+        // Clamp ke rentang valid 1-25 dulu — nilai tersimpan yg korup/di luar
+        // rentang tidak boleh menghasilkan prioritas negatif atau > 25.
+        $skalaRisiko = max(1, min(25, $skalaRisiko));
+
         return 26 - $skalaRisiko;
     }
 

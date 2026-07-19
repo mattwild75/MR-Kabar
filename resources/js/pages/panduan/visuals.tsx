@@ -294,6 +294,83 @@ export function RiskMatrix5x5() {
   );
 }
 
+// ─── Grid kartu statistik mini (mis. 4 kartu Ringkasan Dashboard) ──────────
+interface StatCardItem {
+  label: string;
+  value: string;
+  desc?: string;
+  tone?: 'default' | 'accent' | 'muted';
+}
+
+export function StatCardGrid({ items }: { items: StatCardItem[] }) {
+  return (
+    <div className="not-prose my-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      {items.map((item, i) => (
+        <div key={i} className={`rounded-lg border p-3 ${toneClass(item.tone)}`}>
+          <p className="text-xs text-muted-foreground">{item.label}</p>
+          <p className="mt-0.5 text-xl font-bold text-foreground">{item.value}</p>
+          {item.desc && <p className="mt-0.5 text-[11px] text-muted-foreground">{item.desc}</p>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Grid ikon widget berlabel (mis. peta 15 widget Dashboard per seksi) ───
+interface WidgetItem {
+  title: string;
+  desc: string;
+}
+
+export function WidgetGrid({ items }: { items: WidgetItem[] }) {
+  return (
+    <div className="not-prose my-3 grid gap-2 sm:grid-cols-2">
+      {items.map((item, i) => (
+        <div key={i} className="rounded-md border bg-card p-2.5">
+          <p className="text-xs font-semibold text-foreground">{item.title}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Bar horizontal mini (mis. distribusi kategori risiko, kepatuhan OPD) ──
+interface BarItem {
+  label: string;
+  value: number;
+  max: number;
+  tone?: 'default' | 'accent' | 'muted';
+}
+
+export function MiniBarChart({ items }: { items: BarItem[] }) {
+  return (
+    <div className="not-prose my-3 space-y-2 rounded-lg border p-3">
+      {items.map((item, i) => (
+        <div key={i} className="flex items-center gap-2">
+          <span className="w-32 shrink-0 truncate text-xs text-muted-foreground">{item.label}</span>
+          <div className="h-3 flex-1 overflow-hidden rounded-full bg-muted">
+            <div
+              className={`h-full rounded-full ${item.tone === 'accent' ? 'bg-sky-500' : 'bg-primary'}`}
+              style={{ width: `${Math.max(4, (item.value / item.max) * 100)}%` }}
+            />
+          </div>
+          <span className="w-6 shrink-0 text-right text-xs font-semibold text-foreground">{item.value}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Penanda kecil "widget ini bisa diklik utk rincian" ────────────────────
+export function InteractiveTag() {
+  return (
+    <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-400">
+      🖱️ Bisa diklik
+    </span>
+  );
+}
+
 // ─── Preview blok penanda tangan majemuk (Form Cetak 6 & 7) ────────────────
 interface SignatureItem {
   jabatan: string;

@@ -115,6 +115,21 @@ class IroPdController extends Controller
         $data['SKALA RISIKO'] = $hasil['skala_risiko'];
         $data['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
 
+        // Skala Risiko INHEREN — sama pola dgn IrsPemdaController, lihat
+        // komentar di sana.
+        $dampakInheren = (int) ($data['SKALA DAMPAK INHEREN'] ?? 0);
+        $kemungkinanInheren = (int) ($data['SKALA KEMUNGKINAN INHEREN'] ?? 0);
+        $hasilInheren = $this->riskRef->hitungSkala($dampakInheren ?: null, $kemungkinanInheren ?: null);
+        $data['SKALA RISIKO INHEREN'] = $hasilInheren['skala_risiko'];
+
+        // Invariant wajib: risiko inheren tidak boleh lebih rendah dari
+        // residual — sama pola dgn IrsPemdaController, lihat komentar di sana.
+        if ($data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO INHEREN'] < $data['SKALA RISIKO']) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko (' . $data['SKALA RISIKO'] . ') — risiko sebelum pengendalian harus selalu lebih besar atau sama dengan risiko setelah pengendalian.',
+            ]);
+        }
+
         return $data;
     }
 
@@ -235,6 +250,8 @@ class IroPdController extends Controller
         $rules['URAIAN RISIKO'] = ['required', 'string'];
         $rules['SKALA DAMPAK'] = ['required', 'integer', 'min:1', 'max:5'];
         $rules['SKALA KEMUNGKINAN'] = ['required', 'integer', 'min:1', 'max:5'];
+        $rules['SKALA DAMPAK INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        $rules['SKALA KEMUNGKINAN INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['TRIWULAN'] = ['nullable', Rule::in(self::TRIWULAN_OPTIONS)];
         $rules['TAHUN TARGET PENYELESAIAN'] = ['nullable', 'integer', 'digits:4'];
         // PIC BEBAS memilih tahun baris ini — lihat IrsPdController::validated().

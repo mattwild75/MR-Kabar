@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MediaFolder;
 use App\Models\User;
 use App\Notifications\SharedFileApprovalDecided;
 use App\Notifications\SharedFileUploadSubmitted;
@@ -121,7 +120,10 @@ class UserFileController extends Controller
                 'name' => $media->name,
                 'size' => $media->humanReadableSize,
                 'mime_type' => $media->mime_type,
-                'url' => $media->getFullUrl(),
+                // BUKAN $media->getFullUrl() — file disimpan di disk privat
+                // (MEDIA_DISK=local), satu-satunya jalur baca adalah route
+                // gated ini (lihat MediaDownloadController).
+                'url' => route('media.download', $media),
                 'created_at' => $media->created_at->diffForHumans(),
                 'approvalStatus' => $isShared ? $media->getCustomProperty('approval_status', 'approved') : null,
                 'uploaderName' => $isShared ? $media->getCustomProperty('uploader_name') : null,

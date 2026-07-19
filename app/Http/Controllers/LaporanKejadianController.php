@@ -7,6 +7,7 @@ use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\LaporanKejadianRisiko;
 use App\Models\Opd;
+use App\Models\PencatatanKejadianRisiko;
 use App\Models\User;
 use App\Notifications\LaporanKejadianRisikoStatusChanged;
 use App\Notifications\LaporanKejadianRisikoSubmitted;
@@ -160,7 +161,15 @@ class LaporanKejadianController extends Controller
             return $modelClass ? $modelClass::whereIn('id', $ids)->get()->keyBy('id') : collect();
         });
 
-        $laporan->getCollection()->transform(function (LaporanKejadianRisiko $l) use ($risikoByTipe) {
+        // Batch-lookup jg utk "sudah dicatat ke Form 10?" — 1 query utk
+        // SELURUH laporan di halaman ini (bukan N+1 exists() per baris),
+        // dipakai frontend utk ganti label tombol "Catat ke Form 10" vs
+        // "Lihat di Form 10" (lihat jembatan Lapor Risiko <-> Form 10).
+        $laporanIdsSudahDicatat = PencatatanKejadianRisiko::whereIn('laporan_kejadian_id', $laporan->getCollection()->pluck('id'))
+            ->pluck('laporan_kejadian_id')
+            ->unique();
+
+        $laporan->getCollection()->transform(function (LaporanKejadianRisiko $l) use ($risikoByTipe, $laporanIdsSudahDicatat) {
             $risikoTerdaftar = $risikoByTipe->get($l->risiko_terdaftar_tipe)?->get($l->risiko_terdaftar_id);
 
             return [
@@ -171,6 +180,11 @@ class LaporanKejadianController extends Controller
                 'opd' => $l->opd ? ['id' => $l->opd->id, 'nama' => $l->opd->nama] : null,
                 'kejadian' => $l->kejadian,
                 'waktu_kejadian' => $l->waktu_kejadian->locale('id')->translatedFormat('d F Y H:i'),
+                // Format Y-m-d mentah (BUKAN format lokal yg sudah dipakai
+                // di atas) — dipakai query-param prefill tombol "Catat ke
+                // Form 10" ke field tanggal_terjadi (DatePicker Form10.tsx
+                // butuh Y-m-d, sama pola dgn tanggal_pembuatan_raw DataUmum).
+                'waktu_kejadian_raw' => $l->waktu_kejadian->format('Y-m-d'),
                 'tempat' => $l->tempat,
                 'pemicu' => $l->pemicu,
                 'risiko_terdaftar_tipe' => $l->risiko_terdaftar_tipe,
@@ -180,10 +194,18 @@ class LaporanKejadianController extends Controller
                 // (mis. soft-deleted) meski laporan tetap menyimpan
                 // referensinya, supaya frontend bisa fallback ke teks generik.
                 'risiko_terdaftar_uraian' => $risikoTerdaftar?->{'URAIAN RISIKO'},
+                // Tahun penilaian baris risiko terdaftar (BUKAN tahun
+                // laporan warga dibuat) — dipakai tombol "Catat ke Form 10"
+                // supaya buka Form10 di TAHUN yg sama dgn baris risikonya,
+                // bukan tahun aktif Pengaturan Pemda (constraint Form 10:
+                // 1 risiko cuma py 1 baris per tahun, jadi harus tahun yg
+                // sama persis dgn tempat risiko itu didaftarkan).
+                'risiko_terdaftar_tahun' => $risikoTerdaftar?->{'TAHUN DINILAI RISIKO'} ? (int) $risikoTerdaftar->{'TAHUN DINILAI RISIKO'} : null,
                 'status' => $l->status,
                 'catatan_tindak_lanjut' => $l->catatan_tindak_lanjut,
                 'ditindaklanjuti_oleh' => $l->ditindaklanjutiOleh?->name,
                 'created_at' => $l->created_at->locale('id')->translatedFormat('d F Y H:i'),
+                'sudah_dicatat_form10' => $laporanIdsSudahDicatat->contains($l->id),
             ];
         });
 
@@ -217,6 +239,32 @@ class LaporanKejadianController extends Controller
         }
 
         return back()->with('success', 'Status laporan diperbarui.');
+    }
+
+    /**
+     * Tautkan (atau lepas tautan) laporan ke risiko terdaftar — admin/super-
+     * admin saja. Dipakai skenario "risiko belum terdaftar saat pelapor
+     * mengisi form publik": admin daftarkan dulu risikonya via tombol
+     * "Input ke Register Risiko" (buka form IRS/IRO terpisah di tab baru),
+     * lalu balik ke sini utk menautkan baris yang baru dibuat itu — begitu
+     * tertaut, tombol "Catat ke Form 10" di Rekap.tsx otomatis muncul
+     * (constraint Form 10 SELALU butuh risiko yg sudah terdaftar, tidak
+     * bisa langsung dari laporan warga tanpa risiko_id yg valid).
+     */
+    public function updateRisikoTerdaftar(Request $request, LaporanKejadianRisiko $laporanKejadian)
+    {
+        if (!$request->user()->hasAnyRole(['admin', 'super-admin'])) {
+            throw new AccessDeniedHttpException('Hanya Admin/Super Admin yang dapat menautkan laporan ke risiko terdaftar.');
+        }
+
+        $validated = $request->validate([
+            'risiko_terdaftar_tipe' => ['nullable', Rule::in(array_keys(self::RISIKO_MODELS))],
+            'risiko_terdaftar_id' => ['nullable', 'integer'],
+        ]);
+
+        $laporanKejadian->update($validated);
+
+        return back()->with('success', 'Risiko terdaftar terkait laporan diperbarui.');
     }
 
     /**

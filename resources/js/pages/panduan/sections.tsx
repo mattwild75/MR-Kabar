@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import LaporQrCode from '@/components/lapor-kejadian/lapor-qr-code';
+import CeeSurveyQrCode from '@/components/cee/cee-survey-qr-code';
 import {
   FlowHorizontal,
   FlowVertical,
@@ -10,6 +11,9 @@ import {
   ColorBadge,
   RiskMatrix5x5,
   SignatureBlockPreview,
+  StatCardGrid,
+  WidgetGrid,
+  InteractiveTag,
 } from './visuals';
 
 /**
@@ -27,9 +31,16 @@ import {
  *   pasal-per-pasal yg belum diverifikasi dari dokumen resminya masing2.
  * - Struktur menu & field aplikasi — diambil langsung dari kode aplikasi
  *   ini (MenuSeeder, controller FIELDS const, CetakRtpController,
- *   CetakHasilAnalisisController) — diperbarui menyeluruh 18 Juli 2026
- *   sesudah Form Cetak Risiko lengkap s.d. Form 7 (RTP) & fitur
- *   penandatangan majemuk selesai dibangun.
+ *   CetakHasilAnalisisController, DashboardController,
+ *   CetakLaporanController, LaporanKejadianController,
+ *   RiskEvidenceController, AppSidebar) — diperbarui menyeluruh 19 Juli
+ *   2026 sesudah audit & penyempurnaan Dashboard menyeluruh (16 widget:
+ *   filter OPD utk Admin, klik-detail lintas-widget, Tren Efektivitas
+ *   Pengendalian baru, tahap "RTP Risiko Prioritas", status Kepatuhan
+ *   N/A, Ranking OPD 2 desimal), sidebar flyout cascading mode collapsed,
+ *   Form Cetak Laporan (11/12/13), jembatan Lapor Kejadian Risiko <->
+ *   Form 10, Skala Inheren, pewarnaan 5M/respon risiko, dan upload bukti
+ *   dukung Form 8/9 selesai dibangun.
  */
 
 interface Section {
@@ -309,11 +320,23 @@ export const SECTIONS: Section[] = [
     content: (
       <>
         <p>
-          Menu aplikasi mengikuti urutan alur kerja tiga tingkatan risiko. Berikut peta lengkap menu &quot;Form
-          Input&quot; dan &quot;Form Cetak&quot; beserta fungsinya:
+          Menu aplikasi mengikuti urutan alur kerja tiga tingkatan risiko. Berikut peta lengkap menu, mulai dari
+          ringkasan (Dashboard) sampai Form Input, Form Monitoring &amp; Evaluasi, dan Form Cetak beserta
+          fungsinya:
         </p>
 
-        <p className="mt-2 font-medium text-foreground">Form Input (mengisi data)</p>
+        <p className="mt-2 font-medium text-foreground">Dashboard — halaman pertama setelah login</p>
+        <p>
+          <code>Dashboard</code> adalah halaman ringkasan lintas-fitur — merangkum data dari Form Input, Form
+          Monitoring &amp; Evaluasi, dan Lapor Kejadian Risiko ke dalam 16 widget di 6 seksi, tanpa perlu membuka
+          satu-satu menu sumbernya. Lihat penjelasan lengkap tiap widget di bagian{' '}
+          <a href="#dashboard" className="text-sky-500 underline underline-offset-2">
+            Dashboard MR Kabar
+          </a>{' '}
+          di bawah.
+        </p>
+
+        <p className="mt-4 font-medium text-foreground">Form Input (mengisi data)</p>
         <TreeDiagram
           root={{
             label: 'Form Input',
@@ -352,6 +375,17 @@ export const SECTIONS: Section[] = [
                   { label: '1d_RTP CEE', desc: 'Rencana Tindak utk unsur Kurang Memadai' },
                 ],
               },
+            ],
+          }}
+        />
+
+        <p className="mt-4 font-medium text-foreground">Form Monitoring dan Evaluasi (menu baru, di antara Form Input & Form Cetak)</p>
+        <TreeDiagram
+          root={{
+            label: 'Form Monitoring dan Evaluasi',
+            children: [
+              { label: '8-9_Monitoring RTP', desc: 'Rencana & Realisasi Pengkomunikasian + Pemantauan atas RTP' },
+              { label: '10_Pencatatan Kejadian Risiko', desc: 'Kejadian nyata & realisasi RTP tahun berjalan' },
             ],
           }}
         />
@@ -396,6 +430,24 @@ export const SECTIONS: Section[] = [
                     children: [
                       { label: '6', desc: 'RTP atas CEE, per-OPD' },
                       { label: '7', desc: 'RTP atas Hasil Identifikasi Risiko, lintas-OPD' },
+                    ],
+                  },
+                  {
+                    label: 'Monitoring & Evaluasi',
+                    desc: 'Form 8/9/10',
+                    children: [
+                      { label: '8', desc: 'Rencana & Realisasi Pengkomunikasian, per-OPD' },
+                      { label: '9', desc: 'Rencana & Realisasi Pemantauan, per-OPD' },
+                      { label: '10', desc: 'Pencatatan Kejadian Risiko & Pelaksanaan RTP, per-OPD' },
+                    ],
+                  },
+                  {
+                    label: 'Laporan',
+                    desc: 'Form 11/12/13 — Bab IV Pelaporan',
+                    children: [
+                      { label: '11', desc: 'Laporan Pelaksanaan Penilaian Risiko, per-OPD/Pemda' },
+                      { label: '12', desc: 'Laporan Berkala Pengelolaan Risiko, per Triwulan' },
+                      { label: '13', desc: 'Laporan Pemantauan Unit Kepatuhan, per Triwulan, Pemda-wide' },
                     ],
                   },
                 ],
@@ -507,6 +559,15 @@ export const SECTIONS: Section[] = [
           (mana pun lebih dulu diakses) dan keduanya akan selalu konsisten.
         </Kotak>
 
+        <p className="mt-3 font-medium text-foreground">Akun bersama CEE_Survey — isi kuesioner tanpa login manual</p>
+        <p>
+          Responden CEE (siapa saja min. eselon IV lintas-OPD) tidak perlu akun pribadi untuk mengisi{' '}
+          <code>1a_Kuesioner CEE</code> — cukup pakai akun bersama <strong>CEE_Survey</strong>, yang otomatis hanya
+          bisa mengakses Dashboard, halaman Panduan ini, dan grup menu CEE (Data Umum + 1a/1b/1c/1d) — sama sekali
+          tidak bisa melihat/mengubah data Risiko OPD mana pun.
+        </p>
+        <CeeSurveyQrCode />
+
         <p className="mt-2 font-medium text-foreground">Form Cetak — Risiko: Penetapan Konteks (2a/2b/2c)</p>
         <ul className="list-disc space-y-1 pl-5">
           <li>
@@ -558,6 +619,27 @@ export const SECTIONS: Section[] = [
           di bawah.
         </p>
 
+        <p className="mt-3 font-medium text-foreground">Form Cetak — Risiko: Monitoring &amp; Evaluasi (8/9/10)</p>
+        <p>
+          Tindak lanjut atas RTP — pengkomunikasian, pemantauan, dan pencatatan kejadian nyata. Lihat penjelasan
+          lengkap di bagian{' '}
+          <a href="#monitoring-evaluasi" className="text-sky-500 underline underline-offset-2">
+            Form Monitoring dan Evaluasi: Form 8, 9 &amp; 10
+          </a>{' '}
+          di bawah.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Form Cetak — Risiko: Laporan (11/12/13)</p>
+        <p>
+          Dokumen laporan naratif berjenjang sesuai Bab IV Pelaporan Perdep — berbeda dari Form 1–10 yang berupa
+          kertas kerja/tabel, ketiga form ini berupa laporan narasi siap tanda tangan. Lihat penjelasan lengkap di
+          bagian{' '}
+          <a href="#laporan" className="text-sky-500 underline underline-offset-2">
+            Form Cetak: Laporan (11/12/13)
+          </a>{' '}
+          di bawah.
+        </p>
+
         <p className="mt-3 font-medium text-foreground">Form Cetak — CEE</p>
         <p>
           <code>Form Cetak → CEE → 1a/1b/1c</code> — versi cetak/PDF siap tanda tangan dari ketiga form CEE di atas,
@@ -603,9 +685,190 @@ export const SECTIONS: Section[] = [
 
   // ────────────────────────────────────────────────────────────────────
   {
+    id: 'dashboard',
+    title: 'Dashboard MR Kabar',
+    navLabel: '6. Dashboard (16 Widget)',
+    content: (
+      <>
+        <p>
+          Halaman pertama setelah login — merangkum data dari seluruh fitur (Form Input, Form Monitoring &amp;
+          Evaluasi, Lapor Kejadian Risiko) ke dalam <strong>16 widget di 6 seksi</strong>, disusun mengikuti
+          kebutuhan wajib Perdep PPKD No.4/2019 (Matriks Risiko Bab II.D, Daftar Prioritas Bab III Tahap 2, RTP
+          Tahap 3, Pemantauan berjenjang Tahap 5, Pelaporan Bab IV) — bukan sekadar dashboard umum, tapi representasi
+          visual dari kewajiban pelaporan yang sudah ditetapkan Perdep. Judul halamannya sendiri{' '}
+          <strong>&quot;Dashboard MR Kabar&quot;</strong>, dengan subjudul &quot;Manajemen Risiko Pemerintah
+          Kabupaten Aceh Barat&quot; di bawahnya.
+        </p>
+        <Kotak title="Data selalu ter-scope sesuai peran" tone="accent">
+          PIC OPD biasa hanya melihat data OPD-nya sendiri di seluruh widget (kecuali beberapa yang memang dirancang
+          lintas-OPD, ditandai di bawah). Admin/Super Admin melihat rekap lintas seluruh Pemda secara default, plus
+          widget tambahan yang tidak muncul untuk PIC biasa (Ranking Eksposur Risiko).
+        </Kotak>
+        <Kotak title="Filter Tahun & OPD (khusus Admin/Super Admin)" tone="accent">
+          Pojok kanan atas Dashboard selalu punya dropdown <strong>Tahun</strong> (menampilkan tahun-tahun yang
+          punya minimal 1 risiko tercatat). Khusus Admin/Super Admin, ada dropdown kedua{' '}
+          <strong>&quot;Semua OPD&quot;</strong> di sebelah kirinya — memilih satu OPD tertentu akan mempersempit
+          SELURUH widget ke data OPD itu saja (persis seperti sudut pandang PIC OPD tersebut), termasuk
+          menyembunyikan widget &quot;Ranking Eksposur Risiko per OPD&quot; (karena ranking lintas-OPD tidak
+          relevan lagi saat sudah difokuskan ke 1 OPD). PIC biasa tidak melihat dropdown OPD ini sama sekali —
+          selalu otomatis terkunci ke OPD miliknya sendiri.
+        </Kotak>
+        <Kotak title="Banyak widget kini bisa diklik untuk melihat rincian">
+          Widget berikut mendukung interaksi klik <InteractiveTag /> — klik sel matriks, bar chart, atau baris
+          daftar untuk membuka rincian risiko/tahapan yang bersangkutan dalam sebuah dialog, lengkap dengan tombol
+          yang langsung membuka halaman Form terkait (IRS Pemda/IRS PD/IRO PD/Form Input) dengan baris yang
+          dimaksud otomatis ter-sorot (ring oranye) dan di-scroll ke tengah layar — sama persis seperti hasil
+          pencarian teks di halaman itu, tanpa perlu mengetik apa pun.
+        </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Seksi 1 — Ringkasan (4 kartu angka)</p>
+        <StatCardGrid
+          items={[
+            { label: 'Total Risiko Teridentifikasi', value: '31', desc: 'Gabungan Strategis Pemda + OPD + Operasional', tone: 'accent' },
+            { label: 'Risiko Prioritas', value: '12', desc: 'Skala Risiko ≥ ambang Tinggi', tone: 'accent' },
+            { label: 'RTP Selesai Disusun', value: '12/12', desc: '% risiko prioritas yang sudah punya RTP' },
+            { label: 'Kepatuhan Pelaporan', value: '5/5', desc: '% OPD wajib dgn Form 8/9/10 lengkap' },
+          ]}
+        />
+        <p className="text-xs text-muted-foreground">
+          Basis data: Form 3a/3b/3c (identifikasi), Form 4/5 (analisis &amp; prioritas), Form 6/7 (RTP), dan
+          kelengkapan Form 8/9/10 sebagai proxy kepatuhan pelaporan (lihat catatan di Seksi 6 di bawah). Angka
+          contoh di atas hanya ilustrasi — akan berbeda sesuai data riil &amp; filter Tahun/OPD yang sedang aktif.
+        </p>
+        <Kotak title="Kepatuhan Pelaporan: penyebutnya BUKAN seluruh OPD Pemda" tone="accent">
+          Angka &quot;X dari Y&quot; di kartu ini <strong>tidak</strong> memakai jumlah seluruh OPD Pemda (mis. 49)
+          sebagai penyebut — hanya OPD yang <strong>sudah punya minimal satu risiko teridentifikasi</strong> di
+          tahun yang sedang difilter yang dihitung sebagai &quot;wajib lapor&quot;. OPD yang belum sama sekali
+          mengisi identifikasi risiko tahun itu ditandai <strong>N/A</strong> di widget 6.1 (bukan &quot;Belum
+          Lapor&quot;) — karena memang belum ada dasar untuk menilai kepatuhannya. Subteks kecil di bawah angka
+          menyebutkan total OPD terdaftar di sistem (mis. &quot;5 dari 49 OPD terdaftar sudah lengkap RTP &amp;
+          Monev&quot;) sebagai konteks skala sebenarnya.
+        </Kotak>
+
+        <p className="mt-4 font-medium text-foreground">Seksi 2 — Analisis &amp; Peta Risiko</p>
+        <WidgetGrid
+          items={[
+            {
+              title: '2.1 Peta Risiko (Matriks 5×5)',
+              desc: 'Grid Dampak × Kemungkinan berwarna sesuai Bab II.D, menampilkan jumlah risiko per sel — skala & warna tiap sel diambil LANGSUNG dari tabel referensi yang dikonfigurasi Admin di Settings > Keterangan Pendukung (bukan dihitung ulang dampak×kemungkinan), supaya selalu konsisten dengan Matriks Analisis Risiko di Form Cetak 4. Klik sel yang berisi risiko untuk melihat daftar uraian risikonya, lalu klik salah satu risiko untuk membuka rinciannya.',
+            },
+            {
+              title: '2.2 Progres Tahapan per UPR',
+              desc: 'Bar horizontal per OPD, menunjukkan X/7 tahapan selesai (CEE → Identifikasi → Analisis → RTP Risiko Prioritas → RTP CEE → Monitoring 8/9 → Pencatatan 10) — emas saat berjalan, hijau saat 100%. Arahkan kursor (hover) ke satu baris OPD untuk melihat daftar lengkap ke-7 tahapannya (centang hijau/silang kuning), lalu klik salah satu tahap yang belum selesai untuk membuka Form terkait secara langsung.',
+            },
+          ]}
+        />
+        <Kotak title="Tahap 'RTP Risiko Prioritas' — memastikan bukan sekadar 'ada identifikasi'">
+          Tahap ini BARU ditambahkan: sebelumnya OPD bisa tampil &quot;Selesai&quot; di widget 2.2 meski salah satu
+          risiko prioritasnya (skala Tinggi/Sangat Tinggi) belum punya Rencana Tindak Pengendalian sama sekali —
+          celah ini hanya terlihat lewat kartu Ringkasan &quot;RTP Selesai Disusun&quot; yang terpisah. Sekarang
+          tahap ke-4 dari 7 secara eksplisit memeriksa: <strong>apakah SELURUH risiko prioritas OPD ini sudah
+          punya RTP?</strong> — kalau ada satu saja yang kosong, OPD itu tidak dianggap &quot;Selesai&quot;.
+        </Kotak>
+
+        <p className="mt-4 font-medium text-foreground">Seksi 3 — Distribusi Risiko</p>
+        <WidgetGrid
+          items={[
+            { title: '3.1 Distribusi per Tingkatan', desc: 'Donut chart 3 kategori: Strategis Pemda, Strategis OPD, Operasional OPD (basis Form 2a/2b/2c).' },
+            {
+              title: '3.2 Distribusi per Kategori Risiko',
+              desc: 'Bar horizontal per Jenis Risiko (41 kategori baku, mis. Keuangan, SDM, TI) — bantu Inspektorat/Komite merencanakan audit tematik. Klik salah satu bar untuk melihat daftar risiko di kategori itu, lalu klik satu risiko untuk membuka rinciannya.',
+            },
+            {
+              title: '3.3 Risiko Inheren vs Sisa Risiko',
+              desc: 'Bar bertumpuk (stacked) per risiko: segmen biru = Sisa Risiko (residual), segmen merah di ujungnya = besar Gap (penurunan akibat pengendalian). Diurutkan DESC berdasarkan Gap terbesar — makin panjang segmen merah, makin efektif pengendalian yang sudah diterapkan. HANYA menampilkan risiko yang kolom Skala Dampak/Kemungkinan Inheren-nya sudah diisi (opsional). Arahkan kursor ke satu bar untuk melihat nama OPD, kode risiko, dan nilai Inheren/Sisa Risiko/Gap-nya; klik untuk membuka rincian.',
+            },
+          ]}
+        />
+        <Kotak title="Skala Risiko Inheren — kolom opsional, dengan validasi wajib" tone="accent">
+          Perdep Pasal 1 angka 10 mendefinisikan &quot;Sisa Risiko&quot; sebagai risiko SETELAH mempertimbangkan
+          pengendalian yang ada — secara implisit membedakannya dari <strong>risiko inheren</strong> (sebelum
+          pengendalian). Kolom Skala Dampak/Kemungkinan/Risiko yang SUDAH ADA di Form Input IRS/IRO SELALU berarti
+          nilai residual (setelah pengendalian). Untuk mengisi widget 3.3 di atas, PIC bisa (opsional) mengisi 2
+          kolom tambahan <strong>Skala Dampak Inheren</strong> &amp; <strong>Skala Kemungkinan Inheren</strong> di
+          form IRS Pemda/IRS PD/IRO PD — bayangkan seandainya pengendalian yang ada TIDAK PERNAH ada, seberapa besar
+          Dampak &amp; Kemungkinannya? Skala Risiko Inheren dihitung otomatis dari matriks yang sama.{' '}
+          <strong>Sistem menolak penyimpanan</strong> kalau Skala Risiko Inheren yang dihasilkan lebih rendah dari
+          Sisa Risiko — karena pengendalian secara logis hanya bisa MENGURANGI risiko, tidak pernah menambahnya.
+        </Kotak>
+
+        <p className="mt-4 font-medium text-foreground">Seksi 4 — Prioritas &amp; Tren</p>
+        <WidgetGrid
+          items={[
+            {
+              title: '4.1 Daftar Risiko Prioritas',
+              desc: 'Daftar SELURUH risiko dengan Skala Risiko ≥ ambang Tinggi (bukan dipotong ke sejumlah tertentu) — Uraian, OPD, badge Skala, dan status RTP (Tersusun/Belum RTP), dengan area scroll internal dan keterangan total di bawah. Klik satu risiko untuk membuka rinciannya.',
+            },
+            { title: '4.2 Tren Level Risiko (5 Tahun Terakhir)', desc: 'Area chart 5 tahun terakhir, 2 garis berlabel angka: Sangat Tinggi (merah) & Tinggi (oranye) — mendukung evaluasi Bab IV triwulanan/tahunan.' },
+          ]}
+        />
+        <Kotak title="Widget baru: Tren Efektivitas Pengendalian (5 Tahun Terakhir)" tone="accent">
+          Lebar-penuh, diletakkan tepat di bawah widget 4.2 — menjawab pertanyaan &quot;apakah pengendalian yang
+          sudah dijalankan Pemda benar-benar berhasil menurunkan risiko dari waktu ke waktu?&quot;, memakai data
+          Skala Inheren vs Sisa Risiko yang sama dengan widget 3.3. Dua garis saling melengkapi (perhatikan: dua
+          sumbu Y berbeda skala, kiri untuk Skala 0–25, kanan untuk Persen 0–100%):
+          <ul className="mt-1 list-disc space-y-1 pl-5">
+            <li>
+              <strong>Rata-rata Gap</strong> (hijau) — BESARAN keberhasilan: rata-rata penurunan skala risiko
+              (Inheren − Sisa Risiko) dari seluruh risiko yang dinilai tahun itu.
+            </li>
+            <li>
+              <strong>Cakupan Signifikan</strong> (biru) — CAKUPAN keberhasilan: persentase risiko dengan gap ≥ 5
+              poin (ambang tampilan Dashboard, bisa disesuaikan) — memastikan keberhasilan itu MERATA di banyak
+              risiko, bukan cuma didongkrak segelintir risiko besar yang kebetulan gap-nya ekstrem.
+            </li>
+          </ul>
+          Kombinasi keduanya penting: rata-rata gap bisa &quot;terlihat bagus&quot; padahal cuma disumbang sedikit
+          risiko — Cakupan Signifikan mengungkap kalau itu terjadi.
+        </Kotak>
+
+        <p className="mt-4 font-medium text-foreground">Seksi 5 — Kinerja Unit Pemilik Risiko</p>
+        <WidgetGrid
+          items={[
+            {
+              title: '5.1 Ranking Eksposur Risiko per OPD',
+              desc: 'HANYA Admin/Super Admin, dan hanya saat sedang melihat "Semua OPD" (bukan 1 OPD terfilter) — daftar 10 OPD dengan skor risiko rata-rata (dari seluruh risiko OPD itu) tertinggi, bar oranye berlabel persentase 2 desimal, bantu Kepala Daerah/Sekda cepat melihat OPD yang perlu perhatian. OPD dengan sampel risiko sedikit (< 5) ditandai badge "Sampel kecil" & ditaruh di urutan bawah, supaya tidak menyesatkan.',
+            },
+            {
+              title: '5.2 Log Kejadian Risiko Terealisasi',
+              desc: 'Daftar SELURUH kejadian nyata (bukan RTP rencana, bukan dibatasi 10 lagi), gabungan Form 10 (kertas kerja resmi) + Lapor Kejadian Risiko (laporan warga yang BELUM dicatat ke Form 10) — sekali kejadian "naik status" ke Form 10, hanya muncul SEKALI dgn label "Form 10 (dari Laporan Warga)", tidak dobel. Dilengkapi 3 filter (Semua/Laporan Warga/Pencatatan Internal), dropdown filter OPD & Bulan, dan pilihan urutan Terbaru/Terlama dulu.',
+            },
+          ]}
+        />
+
+        <p className="mt-4 font-medium text-foreground">Seksi 6 — Kepatuhan &amp; Aktivitas Sistem</p>
+        <WidgetGrid
+          items={[
+            {
+              title: '6.1 Kepatuhan Pelaporan Berkala',
+              desc: 'Grid status per OPD — Lengkap (hijau)/Sebagian (kuning)/Belum Lapor (merah)/N/A (abu-abu, OPD tanpa risiko teridentifikasi tahun itu) — PROXY dari kelengkapan Form 8/9/10 (bukan tanggal jatuh tempo formal, karena Perdep tidak mendefinisikan due_date eksplisit).',
+            },
+            {
+              title: '6.2 Aktivitas Terbaru',
+              desc: 'Feed hingga 200 aktivitas terakhir "siapa mengubah apa, kapan" dari audit trail (activity log) — dicakup: risiko, RTP, CEE, Monitoring, Pencatatan Kejadian, Laporan Kejadian warga. PIC biasa hanya melihat aktivitas OPD-nya sendiri, Admin melihat semua. Dilengkapi 4 dropdown filter (User, Jenis Aksi, Jenis Data, urutan Terbaru/Terlama).',
+            },
+          ]}
+        />
+
+        <Kotak title="Kenapa sebagian istilah widget berbeda dari rencana awal?">
+          Beberapa istilah disesuaikan dari rencana awal ke realita data yang tersedia di aplikasi — mis.
+          &quot;Kepatuhan Pelaporan TW&quot; jadi proxy kelengkapan Form 8/9/10 (bukan due_date formal, karena Perdep
+          tidak mendefinisikannya), dan widget 5.2 sekarang benar-benar tersambung dengan fitur Lapor Kejadian
+          Risiko lewat tombol &quot;Catat ke Form 10&quot; — lihat penjelasan lengkap di bagian{' '}
+          <a href="#lapor-kejadian" className="text-sky-500 underline underline-offset-2">
+            Lapor Kejadian Risiko
+          </a>
+          .
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
     id: 'bagaimana',
     title: 'Bagaimana — Alur Proses Manajemen Risiko (5 Tahap)',
-    navLabel: '6. Bagaimana Prosesnya?',
+    navLabel: '7. Bagaimana Prosesnya?',
     content: (
       <>
         <p>Perdep PPKD No.4/2019 Bab III menetapkan 5 tahap proses pengelolaan risiko, berurutan:</p>
@@ -709,7 +972,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'identifikasi-risiko',
     title: 'Form Cetak: Identifikasi Risiko (3a/3b/3c)',
-    navLabel: '7. Identifikasi Risiko (3a/3b/3c)',
+    navLabel: '8. Identifikasi Risiko (3a/3b/3c)',
     content: (
       <>
         <p>
@@ -824,7 +1087,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'analisis-prioritas',
     title: 'Form Cetak: Hasil Analisis & Daftar Prioritas (4/5)',
-    navLabel: '8. Analisis & Prioritas (4/5)',
+    navLabel: '9. Analisis & Prioritas (4/5)',
     content: (
       <>
         <p>
@@ -898,7 +1161,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'rtp',
     title: 'Form Cetak: RTP atas CEE & Hasil Identifikasi Risiko (6/7)',
-    navLabel: '9. RTP (6/7)',
+    navLabel: '10. RTP (6/7)',
     content: (
       <>
         <p>
@@ -993,9 +1256,176 @@ export const SECTIONS: Section[] = [
 
   // ────────────────────────────────────────────────────────────────────
   {
+    id: 'monitoring-evaluasi',
+    title: 'Form Monitoring dan Evaluasi: Form 8, 9 & 10',
+    navLabel: '11. Monitoring & Evaluasi (8/9/10)',
+    content: (
+      <>
+        <p>
+          Menu <strong>baru</strong> di antara Form Input dan Form Cetak — melengkapi Tahap 4 (Informasi &amp;
+          Komunikasi) dan Tahap 5 (Pemantauan) Perdep Bab III, sesuai Lampiran 5 Form 8, 9, dan 10. Berbeda dari
+          Form 1-7 yang berbasis <em>risiko/RTP itu sendiri</em>, ketiga form ini berbasis{' '}
+          <strong>tindak lanjut</strong> atas RTP yang sudah disusun sebelumnya — Form 8/9 melengkapi RTP dengan
+          info komunikasi &amp; pemantauannya, Form 10 mencatat kejadian nyata di lapangan.
+        </p>
+
+        <FlowHorizontal
+          items={[
+            { label: '1-7', desc: 'Risiko & RTP disusun' },
+            { label: '8', desc: 'RTP dikomunikasikan', tone: 'accent' },
+            { label: '9', desc: 'RTP dipantau', tone: 'accent' },
+            { label: '10', desc: 'Kejadian nyata dicatat', tone: 'accent' },
+          ]}
+        />
+
+        <p className="mt-3 font-medium text-foreground">Form 8 &amp; 9 — satu tempat, dua form sekaligus</p>
+        <p>
+          Buka <code>Form Monitoring dan Evaluasi → 8-9_Monitoring RTP</code>, pilih OPD &amp; Tahun. Halaman ini
+          otomatis menampilkan <strong>seluruh RTP</strong> yang sudah Anda isi sebelumnya — baik RTP atas risiko
+          (field <code>RENCANA TINDAK PENGENDALIAN</code> di IRS Pemda/IRS PD/IRO PD) maupun RTP atas CEE (Form
+          Input 1d) — tidak perlu menulis ulang uraian RTP-nya. Klik <strong>&quot;Isi&quot;</strong> pada baris
+          RTP yang ingin dilengkapi, lalu isi kolom Form 8 (kiri) dan Form 9 (kanan) dalam satu form yang sama.
+        </p>
+
+        <Kotak title="Kenapa Form 8 & 9 digabung satu form input?" tone="accent">
+          Kedua form sama-sama berbasis &quot;Kegiatan Pengendalian yang Dibutuhkan&quot; (RTP) yang SAMA persis —
+          hanya beda kolom tambahan (Form 8: media/penyedia/penerima informasi; Form 9: metode/penanggung jawab
+          pemantauan). Menggabungkannya dalam satu form input mencegah Anda menulis ulang uraian RTP dua kali dan
+          memastikan kedua form selalu merujuk RTP yang identik.
+        </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Badge warna respon risiko di kolom RTP</p>
+        <p>
+          Kolom &quot;Kegiatan Pengendalian yang Dibutuhkan&quot; di Form Cetak 8 &amp; 9 menampilkan badge warna
+          yang SAMA dengan Form Cetak 7 (lihat 5 respon risiko di bagian &quot;Bagaimana&quot;) — Abate biru,
+          Mitigate kuning, dst — supaya jenis tindakan RTP langsung terbaca tanpa membuka detail.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Unggah bukti dukung (opsional)</p>
+        <p>
+          Setelah mengisi &quot;Media/Bentuk Sarana Pengkomunikasian&quot; (Form 8) atau &quot;Bentuk/Metode
+          Pemantauan&quot; (Form 9), kartu unggah bukti dukung otomatis muncul di bawah masing-masing field — bisa
+          mengunggah <strong>SS/JPG/PNG/PDF (maks 10MB)</strong> sebagai lampiran pendukung (notulen rapat, screenshot
+          konfirmasi, dsb). File Form 8 dan Form 9 disimpan TERPISAH meski keduanya berasal dari satu baris RTP yang
+          sama — tidak akan tercampur. File yang diunggah otomatis muncul juga di <code>Utilities → File
+          Manager</code> milik akun Anda, dan bisa dihapus permanen kapan saja lewat tombol hapus di kartu unggah.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Form 10 — mencatat kejadian risiko nyata</p>
+        <p>
+          Buka <code>Form Monitoring dan Evaluasi → 10_Pencatatan Kejadian Risiko</code>, pilih OPD &amp; Tahun.
+          Halaman ini menampilkan <strong>seluruh risiko</strong> yang sudah teridentifikasi (dari IRS Pemda/IRS
+          PD/IRO PD). Kalau salah satu risiko itu <strong>benar-benar terjadi</strong> pada tahun berjalan, klik
+          &quot;Catat&quot; dan isi tanggal, sebab &amp; dampak AKTUAL (bukan perkiraan saat identifikasi risiko),
+          beserta rencana &amp; realisasi pelaksanaan RTP-nya. Risiko yang belum pernah terjadi cukup dibiarkan
+          kosong — akan tercetak &quot;Tidak Terjadi&quot; di Form Cetak 10.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Kolom Sebab dikategorikan 5M</p>
+        <p>
+          Field &quot;Sebab (saat kejadian)&quot; memakai kotak isian ganda 5M (Machine/Men/Material/Method/Money —
+          sama pola dengan Uraian Sebab Risiko di IRS/IRO) — centang kategori yang relevan (boleh lebih dari satu)
+          lalu isi uraiannya. Di Form Cetak 10, tiap kategori tercetak sebagai badge warna berbeda:
+        </p>
+        <SimpleTable
+          headers={['Kategori', 'Warna', 'Contoh']}
+          rows={[
+            [<ColorBadge color="sky">Machine</ColorBadge>, 'Cyan', 'Alat/sistem/mesin yang jadi penyebab.'],
+            [<ColorBadge color="orange">Men</ColorBadge>, 'Oranye', 'Faktor sumber daya manusia/personel.'],
+            [<ColorBadge color="emerald">Material</ColorBadge>, 'Lime', 'Bahan/material/data yang jadi penyebab.'],
+            [<ColorBadge color="sky">Method</ColorBadge>, 'Indigo', 'Prosedur/metode kerja yang jadi penyebab.'],
+            [<ColorBadge color="red">Money</ColorBadge>, 'Rose', 'Faktor anggaran/pembiayaan.'],
+          ]}
+        />
+
+        <Kotak title="Form 10 &amp; Lapor Kejadian Risiko kini TERSAMBUNG" tone="accent">
+          Menu <code>Utilities → Lapor Kejadian Risiko</code> adalah kanal pelaporan awal yang terbuka untuk siapa
+          saja (termasuk masyarakat umum lewat QR code). Sebelumnya laporan itu &amp; Form 10 adalah dua tabel data
+          yang sepenuhnya terpisah — sekarang keduanya <strong>tersambung lewat tombol &quot;Catat ke Form
+          10&quot;</strong> di halaman Rekap Lapor Kejadian Risiko, yang membuka Form 10 dengan risiko, tanggal,
+          sebab, dan dampak sudah terisi otomatis dari laporan warga (petugas tetap meninjau &amp; melengkapi
+          sebelum menyimpan). Lihat detail lengkap alurnya di bagian{' '}
+          <a href="#lapor-kejadian" className="text-sky-500 underline underline-offset-2">
+            Lapor Kejadian Risiko
+          </a>
+          .
+        </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Form Cetak 8, 9 &amp; 10</p>
+        <p>
+          <code>Form Cetak → Risiko → Monitoring &amp; Evaluasi → 8/9/10</code> — sama seperti Form 6, ketiganya
+          <strong> per-OPD</strong> (wajib pilih OPD), mendukung penandatangan majemuk &amp; tombol &quot;Edit
+          Penanda Tangan&quot; yang sama dengan Form 6/7.
+        </p>
+
+        <Kotak title="Baris yang belum dilengkapi tidak ikut tercetak">
+          Form 8/9 hanya menampilkan RTP yang SUDAH dilengkapi kolom monitoringnya (minimal satu kolom terisi) —
+          RTP yang belum disentuh sama sekali di Form Input 8-9 tidak ikut muncul di Form Cetak, supaya laporan
+          tidak dipenuhi baris kosong. Form 10 sebaliknya: SELURUH risiko teridentifikasi selalu tercetak (baik
+          yang sudah terjadi maupun belum), karena Perdep memang mensyaratkan pencatatan lengkap termasuk yang
+          &quot;Tidak Terjadi&quot;.
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
+    id: 'laporan',
+    title: 'Form Cetak: Laporan (11/12/13)',
+    navLabel: '12. Laporan (11/12/13)',
+    content: (
+      <>
+        <p>
+          Bab IV Pelaporan Perdep PPKD No.4/2019 mewajibkan <strong>3 jenis laporan naratif berjenjang</strong> —
+          berbeda dari Form 1–10 yang berupa kertas kerja/tabel data, ketiga form ini berupa dokumen laporan
+          formal siap tanda tangan, dengan bagian narasi bebas (Latar Belakang, Dasar Hukum, Hambatan, dst) yang
+          <strong> otomatis terisi template default</strong> saat pertama dibuka, lalu bisa diedit sesuai kondisi
+          nyata.
+        </p>
+
+        <SimpleTable
+          headers={['', 'Form 11', 'Form 12', 'Form 13']}
+          rows={[
+            ['Nama', 'Laporan Pelaksanaan Penilaian Risiko', 'Laporan Berkala Pengelolaan Risiko', 'Laporan Pemantauan Unit Kepatuhan'],
+            ['Disusun oleh', 'Unit Pemilik Risiko (UPR)', 'Unit Pemilik Risiko (UPR)', 'Unit Kepatuhan Internal'],
+            ['Periode', 'Sekali per siklus penilaian (bukan per-triwulan)', 'Per Triwulan I/II/III/IV', 'Per Triwulan I/II/III/IV'],
+            ['Cakupan', 'Per-OPD atau kompilasi Pemda', 'Per-OPD atau kompilasi Pemda', 'SELALU Pemda-wide (rekap seluruh OPD)'],
+            ['Siapa boleh edit', 'PIC OPD / Admin', 'PIC OPD / Admin', 'HANYA Admin/Super Admin'],
+          ]}
+        />
+
+        <Kotak title="Laporan 13 — semua bisa lihat, hanya Admin yang bisa edit" tone="accent">
+          Laporan Pemantauan Unit Kepatuhan bersifat transparan lintas-OPD (mencerminkan tugas Unit Kepatuhan
+          memantau SELURUH UPR) — PIC OPD biasa tetap bisa membuka &amp; mengunduh PDF-nya, tapi tombol &quot;Edit
+          Narasi&quot; hanya muncul untuk Admin/Super Admin, karena secara Perdep laporan ini disusun Unit
+          Kepatuhan (Asisten Sekda), bukan UPR per-OPD.
+        </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Bagian isi tiap laporan</p>
+        <WidgetGrid
+          items={[
+            { title: 'Form 11 — Pendahuluan s.d. Penutup', desc: 'Latar Belakang, Dasar Hukum, Maksud/Tujuan, Ruang Lingkup, Kondisi Lingkungan Pengendalian, Ringkasan Hasil Identifikasi & Analisis Risiko (tabel jumlah per tingkat), Rancangan Informasi/Komunikasi & Pemantauan, Penutup.' },
+            { title: 'Form 12 — Rencana/Realisasi Triwulanan', desc: 'Sama pola Pendahuluan, ditambah Rencana & Realisasi Kegiatan (tabel dari Form 8/9), Hambatan Pelaksanaan, Monitoring Risiko & RTP (tabel kejadian dari Form 10), Penutup.' },
+            { title: 'Form 13 — Rekap Kepatuhan Lintas-OPD', desc: 'Sama pola Pendahuluan, ditambah tabel Rekapitulasi Status Pelaporan SELURUH OPD (Lengkap/Sebagian/Belum Lapor, sama basis data dgn widget Dashboard 6.1), Rekomendasi/Feedback bagi UPR, Penutup.' },
+          ]}
+        />
+
+        <Kotak title="Data terstruktur selalu diproyeksi langsung, tidak disalin">
+          Sama prinsip dengan Form 6/7/8/9/10 — tabel-tabel di dalam laporan (ringkasan risiko, rencana/realisasi,
+          rekap kepatuhan) SELALU diambil langsung dari data IRS/IRO, Form 8/9, dan Form 10 yang terbaru saat
+          laporan dibuka/dicetak, bukan salinan statis. Kalau data sumbernya berubah, laporan ikut berubah begitu
+          dibuka ulang.
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
     id: 'tata-cara',
     title: 'Tata Cara Pengisian MR Kabar, Langkah demi Langkah',
-    navLabel: '10. Tata Cara Pengisian',
+    navLabel: '13. Tata Cara Pengisian',
     content: (
       <>
         <p>
@@ -1099,6 +1529,33 @@ export const SECTIONS: Section[] = [
               title: 'Cetak hasil akhir CEE',
               desc: 'Buka Form Cetak → CEE → 1a/1b/1c untuk versi PDF siap tanda tangan. Pastikan Data Umum (langkah 1) sudah lengkap sebelum mencetak.',
             },
+            {
+              title: 'Lengkapi Monitoring RTP & catat kejadian nyata',
+              desc: (
+                <>
+                  Buka <code>Form Monitoring dan Evaluasi → 8-9_Monitoring RTP</code> untuk melengkapi kolom
+                  pengkomunikasian &amp; pemantauan tiap RTP yang sudah disusun. Kalau ada risiko yang benar-benar
+                  terjadi, catat lewat <code>10_Pencatatan Kejadian Risiko</code> — atau kalau kejadian itu awalnya
+                  masuk lewat &quot;Lapor Kejadian Risiko&quot;, pakai tombol &quot;Catat ke Form 10&quot; di halaman
+                  Rekap supaya datanya ter-prefill otomatis.
+                </>
+              ),
+            },
+            {
+              title: 'Susun Laporan Bab IV (11/12/13)',
+              desc: (
+                <>
+                  Buka <code>Form Cetak → Risiko → Laporan</code> untuk menyusun Laporan Pelaksanaan Penilaian
+                  Risiko (11), Laporan Berkala Pengelolaan Risiko per triwulan (12), dan (khusus Admin/Super Admin)
+                  Laporan Pemantauan Unit Kepatuhan (13) — bagian narasi sudah terisi template default, tinggal
+                  disesuaikan dengan kondisi nyata lalu disimpan.
+                </>
+              ),
+            },
+            {
+              title: 'Pantau semuanya lewat Dashboard',
+              desc: 'Buka menu Dashboard kapan saja untuk melihat ringkasan lintas-fitur — Peta Risiko, Progres Tahapan, Distribusi, Risiko Prioritas, Tren, Kepatuhan Pelaporan, dan Aktivitas Terbaru — tanpa perlu membuka satu-satu menu sumbernya.',
+            },
           ]}
         />
 
@@ -1113,9 +1570,51 @@ export const SECTIONS: Section[] = [
 
   // ────────────────────────────────────────────────────────────────────
   {
+    id: 'navigasi',
+    title: 'Navigasi & Sidebar Aplikasi',
+    navLabel: 'Navigasi & Sidebar',
+    content: (
+      <>
+        <p>
+          Menu sebelah kiri (sidebar) bisa <strong>dilebarkan (expanded)</strong> atau{' '}
+          <strong>dikecilkan jadi kolom ikon saja (collapsed)</strong> lewat tombol panah kembar (
+          <code>«»</code>) di pojok kanan atas sidebar, atau pintasan keyboard <code>Ctrl/Cmd + B</code>.
+          Preferensi ini tersimpan otomatis — sidebar akan tetap dalam mode yang sama saat Anda membuka kembali
+          aplikasi.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Mode Expanded (lebar penuh)</p>
+        <p>
+          Menampilkan ikon + nama menu lengkap. Klik grup menu (mis. <code>Form Cetak</code>) untuk membuka/menutup
+          submenunya secara <strong>accordion</strong> — hanya satu grup per tingkatan yang boleh terbuka sekaligus,
+          submenu yang lain otomatis tertutup. Grup yang sedang berisi halaman aktif otomatis terbuka saat pertama
+          kali membuka aplikasi.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Mode Collapsed (kolom ikon saja)</p>
+        <p>
+          Hanya menampilkan ikon menu, menghemat ruang layar untuk konten utama. Klik salah satu grup menu (mis.{' '}
+          <code>Form Input</code>) dan sebuah <strong>menu melayang (flyout)</strong> akan muncul di sebelah kanan
+          ikon — berisi nama grup di bagian atas dan daftar submenunya, persis seperti menu <em>Start</em> pada
+          Windows versi lama (klik kategori → submenu muncul di samping → klik item untuk langsung membuka
+          halamannya). Menu flyout otomatis tertutup saat Anda memilih salah satu item, menekan tombol{' '}
+          <code>Esc</code>, atau mengklik area mana pun di luar menu tersebut.
+        </p>
+        <Kotak title="Ikon berwarna beda per grup menu">
+          Setiap grup menu tingkat atas (Dashboard, Access, Settings, Utilities, Form Input, Form Monitoring dan
+          Evaluasi, Form Cetak) punya warna ikon &amp; aksen garis kiri yang berbeda-beda secara konsisten — baik
+          dalam mode expanded maupun collapsed — memudahkan memindai sidebar secara sekilas tanpa harus membaca
+          teksnya satu per satu.
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
     id: 'before-after',
     title: 'Sebelum vs Sesudah Ada Manajemen Risiko / MR Kabar',
-    navLabel: '11. Before / After',
+    navLabel: '14. Before / After',
     content: (
       <>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -1170,7 +1669,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'faq',
     title: 'Pertanyaan yang Sering Muncul',
-    navLabel: '12. FAQ',
+    navLabel: '15. FAQ',
     content: (
       <>
         <Kotak title="Apa bedanya Pemilik Risiko dengan Penanggung Jawab Pengendalian?">
@@ -1213,6 +1712,40 @@ export const SECTIONS: Section[] = [
           Admin/Super Admin yang bisa melihat versi lintas-OPD ini; PIC biasa selalu otomatis ter-scope ke
           OPD-nya sendiri.
         </Kotak>
+        <Kotak title="Kenapa Form 8/9 tidak punya form input sendiri seperti Form 1d?">
+          Form 8 &amp; 9 tidak butuh Anda menulis ulang uraian RTP — kolom &quot;Kegiatan Pengendalian yang
+          Dibutuhkan&quot; otomatis diambil dari RTP yang SUDAH Anda isi di Form Input Risiko (IRS/IRO) atau RTP
+          CEE (1d). Halaman <code>8-9_Monitoring RTP</code> hanya meminta Anda melengkapi kolom tambahan (media
+          komunikasi, penyedia/penerima info, metode &amp; penanggung jawab pemantauan) di baris RTP yang sudah
+          ada — mencegah duplikasi data antara Form 6/7 dengan Form 8/9.
+        </Kotak>
+        <Kotak title="Apa bedanya Dashboard dengan Form Cetak? Kenapa datanya bisa beda?">
+          Dashboard adalah ringkasan REAL-TIME (dihitung ulang setiap dibuka) dari data yang sama dengan Form
+          Cetak — kalau ada perbedaan angka, penyebabnya hampir selalu filter Tahun (atau filter OPD, khusus
+          Admin/Super Admin) yang berbeda antara Dashboard dan Form Cetak yang sedang dibuka, bukan sumber data
+          yang berbeda. Dua pengecualian: widget &quot;Tren Level Risiko&quot; (4.2) dan &quot;Tren Efektivitas
+          Pengendalian&quot; menampilkan <strong>5 tahun terakhir sekaligus</strong>, sedangkan kebanyakan Form
+          Cetak hanya menampilkan 1 tahun terpilih.
+        </Kotak>
+        <Kotak title="Kenapa saya (Admin/Super Admin) tidak melihat widget Ranking Eksposur Risiko per OPD?">
+          Widget itu hanya bermakna saat membandingkan BANYAK OPD sekaligus — kalau Anda sedang memfilter
+          Dashboard ke 1 OPD tertentu lewat dropdown &quot;Semua OPD&quot; di pojok kanan atas, widget itu otomatis
+          disembunyikan (karena ranking 1 OPD saja tidak informatif). Pilih kembali &quot;Semua OPD&quot; untuk
+          memunculkannya lagi.
+        </Kotak>
+        <Kotak title="Kenapa saya tidak melihat tombol &quot;Catat ke Form 10&quot; di sebuah laporan warga?">
+          Tombol itu hanya muncul kalau laporan sudah tertaut ke risiko terdaftar (kolom &quot;Risiko
+          Terdaftar&quot; terisi). Kalau laporan itu belum tertaut (pelapor memilih mode &quot;Lapor Kejadian
+          Baru&quot;), Anda perlu mendaftarkan dulu risikonya lewat tombol &quot;Input ke Register Risiko&quot;,
+          lalu menautkannya balik lewat kotak &quot;Tautkan ke Risiko Terdaftar&quot; yang muncul otomatis — lihat
+          alur lengkapnya di bagian &quot;Lapor Kejadian Risiko&quot;.
+        </Kotak>
+        <Kotak title="Apa bedanya Form 11/12/13 dengan Form 1-10?">
+          Form 1–10 adalah kertas kerja/tabel data teknis (identifikasi, analisis, RTP, monitoring). Form 11/12/13
+          adalah LAPORAN naratif berjenjang sesuai Bab IV Pelaporan Perdep — dokumen siap tanda tangan berisi
+          narasi (Latar Belakang, Hambatan, Rekomendasi, dst) yang MENGUTIP data dari Form 1–10 sebagai lampiran
+          tabelnya, bukan menyimpan data teknis baru. Isi Form 1–10 dulu, baru menyusun Form 11/12/13.
+        </Kotak>
       </>
     ),
   },
@@ -1220,12 +1753,13 @@ export const SECTIONS: Section[] = [
   {
     id: 'lapor-kejadian',
     title: 'Lapor Kejadian Risiko',
-    navLabel: '13. Lapor Kejadian Risiko',
+    navLabel: '16. Lapor Kejadian Risiko',
     content: (
       <>
         <p>
           Kejadian risiko yang sedang/telah terjadi di lapangan bisa dilaporkan kapan saja lewat Form Lapor Kejadian
-          Risiko — bisa memilih <strong>risiko yang sudah terdaftar</strong> (dari data IRS/IRO yang relevan) atau{' '}
+          Risiko — kanal terbuka untuk siapa saja termasuk masyarakat umum lewat QR code, tanpa perlu akun pribadi.
+          Pelapor bisa memilih <strong>risiko yang sudah terdaftar</strong> (dari data IRS/IRO yang relevan) atau{' '}
           <strong>melaporkan kejadian baru</strong> yang belum tercatat sebelumnya.
         </p>
 
@@ -1244,9 +1778,61 @@ export const SECTIONS: Section[] = [
           Laporan langsung terlihat oleh PIC OPD yang dipilih di form (jika ada) serta Admin/Super Admin, lengkap
           dengan notifikasi otomatis ke keduanya. PIC OPD/Admin/Super Admin dapat menindaklanjuti lewat menu{' '}
           <code>Utilities → Rekap Lapor Kejadian Risiko</code>, mengubah status (baru → diverifikasi →
-          ditindaklanjuti → selesai), dan menambahkan catatan tindak lanjut. Jika laporan dikaitkan ke risiko
-          terdaftar, PIC dapat menelusurinya kembali ke IRS/IRO terkait untuk memutuskan apakah perlu
-          pemutakhiran data risiko secara manual.
+          ditindaklanjuti → selesai), dan menambahkan catatan tindak lanjut.
+        </Kotak>
+
+        <p className="mt-4 font-medium text-foreground">
+          Dari laporan warga ke kertas kerja resmi — tombol &quot;Catat ke Form 10&quot;
+        </p>
+        <p>
+          Setiap laporan yang sudah tertaut ke risiko terdaftar bisa &quot;dinaikkan&quot; jadi entri resmi{' '}
+          <strong>Form 10 (Pencatatan Kejadian Risiko)</strong> — cukup buka detail laporan di halaman Rekap, lalu
+          klik tombol <strong>&quot;Catat ke Form 10&quot;</strong>. Tab baru terbuka menuju Form 10 dengan kartu
+          risiko yang bersangkutan otomatis ter-expand, dan field Tanggal Terjadi, Sebab, serta Dampak sudah terisi
+          dari data laporan — petugas UPR tetap meninjau &amp; melengkapi sebelum menyimpan (tidak ada yang tersimpan
+          otomatis tanpa review manual).
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Dua skenario tergantung status risikonya</p>
+        <FlowVertical
+          items={[
+            {
+              title: 'Skenario 1 — Risiko sudah terdaftar',
+              desc: (
+                <>
+                  Pelapor memilih risiko dari daftar IRS/IRO saat mengirim laporan (mode &quot;Cek Risiko yang Sudah
+                  Terjadi&quot;). Tombol <strong>&quot;Catat ke Form 10&quot;</strong> langsung muncul di halaman
+                  Rekap — klik sekali untuk membuka Form 10 dengan data ter-prefill.
+                </>
+              ),
+            },
+            {
+              title: 'Skenario 2 — Risiko BELUM terdaftar',
+              desc: (
+                <>
+                  Kejadian nyata, tapi risikonya belum pernah dicatat siapa pun di IRS/IRO. Form 10 SELALU butuh
+                  risiko yang sudah terdaftar (tidak bisa langsung dari laporan warga), jadi alurnya 2 langkah: (a)
+                  Admin memakai tombol <strong>&quot;Input ke Register Risiko&quot;</strong> yang sudah ada di
+                  halaman detail — membuka form IRS/IRO baru di tab lain dengan Uraian Risiko/OPD/Pemicu sudah
+                  terisi otomatis, lengkapi sisa penilaian lalu simpan; (b) kembali ke Rekap, pakai kotak pencarian{' '}
+                  <strong>&quot;Tautkan ke Risiko Terdaftar&quot;</strong> yang muncul otomatis untuk laporan yang
+                  belum tertaut — cari &amp; pilih risiko yang baru saja dibuat. Begitu tertaut, laporan otomatis
+                  masuk skenario 1, dan tombol &quot;Catat ke Form 10&quot; pun muncul.
+                </>
+              ),
+            },
+          ]}
+        />
+
+        <Kotak title="Tidak lagi dua tabel data yang terpisah">
+          Sebelumnya laporan warga dan Form 10 adalah dua tabel yang sama sekali tidak saling terkait — mengubah
+          status laporan jadi &quot;Selesai&quot; tidak berpengaruh apa pun ke Form 10, dan sebaliknya. Sekarang
+          setiap baris Form 10 yang berasal dari laporan warga menyimpan tautan baliknya, ditandai badge{' '}
+          <strong>&quot;Dari Laporan Warga #ID&quot;</strong> di kartu Form 10 — supaya petugas yang membuka Form 10
+          langsung (tanpa lewat tombol) tetap tahu asal-usul baris itu. Dashboard (widget 5.2 Log Kejadian Risiko)
+          juga otomatis mendeteksi tautan ini — kejadian yang sudah &quot;naik status&quot; ke Form 10 hanya
+          ditampilkan SEKALI (label &quot;Form 10 (dari Laporan Warga)&quot;), tidak dobel dengan entri Lapor
+          Kejadian Risiko aslinya.
         </Kotak>
       </>
     ),

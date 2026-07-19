@@ -266,9 +266,38 @@ class TrashController extends Controller
         }
 
         [$typeDef, $row] = $this->findTrashed($type, $id);
+        $rowId = (int) $row->getKey();
         $row->forceDelete();
+        $this->cleanupOrphanMonitoring($type, $rowId);
         $this->runSync($typeDef['sync']);
 
         return back()->with('success', 'Data dihapus permanen.');
+    }
+
+    /**
+     * Setelah baris risiko DIHAPUS PERMANEN, bersihkan baris Monitoring &
+     * Evaluasi (Form 8/9/10) yg menautkannya scr polimorfik — jika tidak,
+     * MonitoringRtp/PencatatanKejadianRisiko jadi yatim (menunjuk id risiko
+     * yg sudah tidak ada). Slug tipe di TrashController (irs_pemda/irs_pd/
+     * iro_pd) sama persis dgn rtp_sumber_tipe/risiko_tipe yg disimpan
+     * MonitoringEvaluasiController.
+     */
+    private function cleanupOrphanMonitoring(string $slug, int $rowId): void
+    {
+        if (!in_array($slug, ['irs_pemda', 'irs_pd', 'iro_pd'], true)) {
+            return;
+        }
+
+        // Parent sudah hilang permanen → orphan jg dihapus permanen
+        // (withTrashed + forceDelete), termasuk yg mungkin sudah soft-deleted.
+        \App\Models\MonitoringRtp::withTrashed()
+            ->where('rtp_sumber_tipe', $slug)
+            ->where('rtp_sumber_id', $rowId)
+            ->forceDelete();
+
+        \App\Models\PencatatanKejadianRisiko::withTrashed()
+            ->where('risiko_tipe', $slug)
+            ->where('risiko_id', $rowId)
+            ->forceDelete();
     }
 }

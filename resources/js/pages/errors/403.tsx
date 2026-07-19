@@ -1,6 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
-import { usePage } from '@inertiajs/react';
 
 export default function Error403() {
   return (

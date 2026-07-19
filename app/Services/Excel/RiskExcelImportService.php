@@ -552,6 +552,30 @@ class RiskExcelImportService
             $hasil = $this->riskRef->hitungSkala($dampak, $kemungkinan);
             $attributes['SKALA RISIKO'] = $hasil['skala_risiko'];
             $attributes['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
+
+            // Invariant SAMA dgn withCalculatedScales() di
+            // IrsPemda/IrsPd/IroPdController: risiko INHEREN (sebelum
+            // pengendalian) tidak pernah boleh lebih rendah dari risiko
+            // RESIDUAL/Sisa Risiko. Impor Excel sebelumnya melewati guard
+            // ini sepenuhnya. Kalau kolom skala inheren HADIR di baris (saat
+            // ini registry belum memetakannya, jadi guard ini defensif utk
+            // ke depan), hitung skala inherennya & tolak baris yg mustahil
+            // scr logika — konsisten dgn entri manual.
+            if (isset($attributes['SKALA DAMPAK INHEREN']) || isset($attributes['SKALA KEMUNGKINAN INHEREN'])) {
+                $hasilInheren = $this->riskRef->hitungSkala(
+                    $attributes['SKALA DAMPAK INHEREN'] ?? null,
+                    $attributes['SKALA KEMUNGKINAN INHEREN'] ?? null,
+                );
+                $attributes['SKALA RISIKO INHEREN'] = $hasilInheren['skala_risiko'];
+
+                if ($attributes['SKALA RISIKO INHEREN'] !== null
+                    && $attributes['SKALA RISIKO'] !== null
+                    && $attributes['SKALA RISIKO INHEREN'] < $attributes['SKALA RISIKO']) {
+                    throw \Illuminate\Validation\ValidationException::withMessages([
+                        'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren (' . $attributes['SKALA RISIKO INHEREN'] . ') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko (' . $attributes['SKALA RISIKO'] . ').',
+                    ]);
+                }
+            }
         }
 
         return $attributes;

@@ -270,7 +270,6 @@ export function IdentifikasiRisikoTable({
    */
   showIkColumn?: boolean;
 }) {
-  let nomorRisiko = 0;
   const totalKolom = showIkColumn ? 12 : 11;
   const bodyColSpan = totalKolom - 1;
 
@@ -415,7 +414,6 @@ export function IdentifikasiRisikoTable({
           const labelPrefix = entry.type === 'kegiatan' ? 'Kegiatan' : 'Sasaran Strategis';
 
           return entry.risiko_list.map((r, i) => {
-            nomorRisiko++;
             return (
               <tr key={`${entry.type}-${entryIdx}-${i}`}>
                 <td className="border border-black p-1 align-top">{i === 0 ? entry.nomor : ''}</td>

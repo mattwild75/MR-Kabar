@@ -6,16 +6,27 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 
 import { usePage, Link } from '@inertiajs/react';
 import AppLogo from './app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavUser } from '@/components/nav-user';
-import { iconMapper } from '@/lib/iconMapper';
+import { iconMapper, preloadIconMap, onIconMapReady } from '@/lib/iconMapper';
+
+// Mulai fetch chunk icon-list.ts (3500+ icon Lucide) begitu app-sidebar.tsx
+// diimpor — DILUAR komponen supaya panggilan sekali per load halaman, bukan
+// per-mount. Sebelumnya icon-list.ts di-import statis di sini sehingga ikut
+// terbundel ke chunk app-layout yg dimuat SEMUA halaman (~1MB); dipindah
+// jadi import() dinamis via iconMapper.ts supaya app-layout lebih kecil,
+// TANPA mengubah ikon yg akhirnya ditampilkan — preload dimulai sedini
+// mungkin (module scope) supaya biasanya sudah siap sebelum render pertama
+// sidebar selesai.
+preloadIconMap();
 import type { LucideIcon } from 'lucide-react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 
 // Layout memicu router.reload({ only: ['menus'] }) di setiap navigasi
@@ -94,6 +105,96 @@ function groupColor(menuId: number) {
   return GROUP_COLORS[menuId % GROUP_COLORS.length];
 }
 
+/**
+ * Flyout cascading murni React (TANPA Radix Popover) — dipakai grup menu
+ * level-0 saat sidebar collapsed. Radix Popover (dicoba sebelumnya)
+ * menampilkan konten dgn benar tapi klik di dalamnya tidak terdaftar
+ * (kemungkinan konflik focus-trap/dismissable-layer internal yg sulit
+ * didiagnosis tanpa akses browser langsung) — jadi diganti implementasi
+ * manual yg predictable: posisi dihitung dari getBoundingClientRect()
+ * trigger, di-render via createPortal ke document.body (fixed positioned,
+ * lolos dari overflow/stacking-context sidebar), ditutup otomatis saat
+ * pointerdown di luar (listener document, sama pola dgn menu Start
+ * Windows lama: klik menu -> submenu muncul di samping -> klik item ->
+ * langsung navigasi & menu tertutup).
+ */
+function SidebarFlyout({
+  getAnchor,
+  open,
+  onClose,
+  children,
+}: {
+  getAnchor: () => HTMLElement | null;
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  const flyoutRef = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
+
+  useEffect(() => {
+    if (!open) {
+      setPos(null);
+      return;
+    }
+    let rafId = 0;
+    const updatePos = () => {
+      const rect = getAnchor()?.getBoundingClientRect();
+      if (rect) {
+        setPos({ top: rect.top, left: rect.right + 8 });
+      } else {
+        // Anchor belum ter-mount saat effect pertama jalan (race antara
+        // ref-callback & effect ordering) — coba sekali lagi di frame
+        // berikutnya sebelum menyerah, supaya flyout tetap muncul di posisi
+        // yang benar dan bukan hilang diam-diam.
+        rafId = requestAnimationFrame(updatePos);
+      }
+    };
+    updatePos();
+    window.addEventListener('scroll', updatePos, true);
+    window.addEventListener('resize', updatePos);
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', updatePos, true);
+      window.removeEventListener('resize', updatePos);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handlePointerDown = (e: PointerEvent) => {
+      const target = e.target as Node;
+      if (flyoutRef.current?.contains(target)) return;
+      if (getAnchor()?.contains(target)) return;
+      onClose();
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, onClose]);
+
+  if (!open || !pos) return null;
+
+  return createPortal(
+    <div
+      ref={flyoutRef}
+      style={{ position: 'fixed', top: pos.top, left: pos.left, zIndex: 50 }}
+      className="w-64 rounded-md border bg-popover text-popover-foreground shadow-md"
+    >
+      {children}
+    </div>,
+    document.body,
+  );
+}
+
 function RenderMenu({
   items,
   level = 0,
@@ -110,8 +211,31 @@ function RenderMenu({
   scopeKey?: string;
 }) {
   const { url: currentUrl } = usePage();
+  const { state: sidebarState } = useSidebar();
   const [activeMenus, setActiveMenus] = useState<Record<string, number | null>>(readActiveMenus);
   const activeMenuId = activeMenus[scopeKey] ?? null;
+  // Flyout cascading (bukan accordion inline) HANYA utk grup menu level-0
+  // saat sidebar collapsed (mode ikon) — accordion inline yg mendorong
+  // lebar konten ke samping tidak masuk akal di kolom sempit ikon-only
+  // (lihat pola sidebar myut.ut.ac.id / menu Start Windows lama: klik grup
+  // saat collapsed -> submenu muncul melayang di samping, bukan mendorong
+  // layout). Level > 0 (submenu di dalam flyout) tetap accordion inline
+  // biasa krn ruang flyout-nya sendiri sudah cukup lebar.
+  const usesFlyout = level === 0 && sidebarState === 'collapsed';
+  // ID menu yg flyout-nya SEDANG terbuka — satu instance RenderMenu
+  // me-render BANYAK item sibling via .map(), jadi state ini WAJIB
+  // menyimpan id (bukan boolean tunggal), kalau tidak semua item level-0
+  // akan berbagi 1 status buka/tutup yg sama (bug: klik grup A ikut
+  // membuka/menutup grup B krn keduanya baca boolean yg sama).
+  const [openFlyoutId, setOpenFlyoutId] = useState<number | null>(null);
+  const anchorRefs = useRef<Map<number, HTMLElement>>(new Map());
+
+  // Layout memicu router.reload({ only: ['menus'] }) tiap navigasi, mengganti
+  // referensi array `items` — reset flyout yang sedang terbuka supaya tidak
+  // tersisa menunjuk anchor lama yang sudah ter-unmount (dead anchor).
+  useEffect(() => {
+    setOpenFlyoutId(null);
+  }, [items]);
 
   if (!Array.isArray(items)) return null;
 
@@ -194,36 +318,65 @@ function RenderMenu({
           // diklik manual, sesuai logika accordion murni (satu per satu).
           const isOpen = activeMenuId != null ? activeMenuId === menu.id : level === 0 && containsActiveRoute(menu, currentUrl);
 
+          const isFlyoutOpen = openFlyoutId === menu.id;
+
+          const triggerButton = (
+            <SidebarMenuButton
+              ref={usesFlyout ? (el) => { if (el) anchorRefs.current.set(menu.id, el); else anchorRefs.current.delete(menu.id); } : undefined}
+              type="button"
+              onClick={usesFlyout ? () => setOpenFlyoutId((v) => (v === menu.id ? null : menu.id)) : () => toggleGroup(menu.id)}
+              data-state={isOpen ? 'open' : 'closed'}
+              className={cn(
+                'group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors',
+                activeClass,
+                accentBorderClass,
+                level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3',
+                // Sidebar collapsible="icon" (lihat AppSidebar di bawah):
+                // saat collapsed, batalkan padding kiri/kanan & accent
+                // border (yg dihitung utk lebar penuh) supaya ikon
+                // benar2 center di kolom sempit ikon-only, bukan geser
+                // krn sisa padding/border dari mode expanded.
+                'group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!p-2 group-data-[collapsible=icon]:!border-l-0 group-data-[collapsible=icon]:!my-0.5'
+              )}
+            >
+              <div className="flex min-w-0 items-start group-data-[collapsible=icon]:min-w-0">
+                <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100 group-data-[collapsible=icon]:mr-0 group-data-[collapsible=icon]:mt-0', color.icon)} />
+                <span className="whitespace-normal text-clip break-words text-left overflow-visible group-data-[collapsible=icon]:hidden">{menu.title}</span>
+              </div>
+              <ChevronDown
+                className={cn(
+                  'size-4 mt-0.5 shrink-0 opacity-50 group-hover:opacity-70 transition-transform duration-[250ms] ease-in-out group-data-[collapsible=icon]:hidden',
+                  isOpen && 'rotate-180'
+                )}
+              />
+            </SidebarMenuButton>
+          );
+
+          // Sidebar collapsed: klik grup -> flyout cascading muncul di
+          // samping sidebar (pola myut.ut.ac.id / menu Start Windows lama),
+          // BUKAN accordion inline yg mendorong lebar kolom ikon-only.
+          // Klik item di dalamnya langsung navigasi (Link biasa) & flyout
+          // tertutup otomatis krn Inertia me-navigate ke halaman baru;
+          // klik di luar flyout jg menutup (lihat SidebarFlyout).
+          if (usesFlyout) {
+            return (
+              <SidebarMenuItem key={menu.id}>
+                {triggerButton}
+                <SidebarFlyout getAnchor={() => anchorRefs.current.get(menu.id) ?? null} open={isFlyoutOpen} onClose={() => setOpenFlyoutId(null)}>
+                  <div className={cn('border-b px-3 py-2 text-xs font-semibold tracking-wide uppercase', color.icon)}>{menu.title}</div>
+                  <div className="max-h-[70vh] overflow-y-auto p-1.5">
+                    <SidebarMenu>
+                      <RenderMenu items={children} level={level + 1} groupColorOverride={color} scopeKey={`${scopeKey}:${menu.id}`} />
+                    </SidebarMenu>
+                  </div>
+                </SidebarFlyout>
+              </SidebarMenuItem>
+            );
+          }
+
           return (
             <SidebarMenuItem key={menu.id}>
-              <SidebarMenuButton
-                type="button"
-                onClick={() => toggleGroup(menu.id)}
-                data-state={isOpen ? 'open' : 'closed'}
-                className={cn(
-                  'group !h-auto w-full min-w-0 !items-start justify-between gap-2 overflow-visible rounded-md transition-colors',
-                  activeClass,
-                  accentBorderClass,
-                  level === 0 ? 'py-3 px-4 my-1' : 'py-2 px-3',
-                  // Sidebar collapsible="icon" (lihat AppSidebar di bawah):
-                  // saat collapsed, batalkan padding kiri/kanan & accent
-                  // border (yg dihitung utk lebar penuh) supaya ikon
-                  // benar2 center di kolom sempit ikon-only, bukan geser
-                  // krn sisa padding/border dari mode expanded.
-                  'group-data-[collapsible=icon]:!justify-center group-data-[collapsible=icon]:!p-2 group-data-[collapsible=icon]:!border-l-0 group-data-[collapsible=icon]:!my-0.5'
-                )}
-              >
-                <div className="flex min-w-0 items-start group-data-[collapsible=icon]:min-w-0">
-                  <Icon className={cn('size-4 mr-3 mt-0.5 shrink-0 opacity-90 group-hover:opacity-100 group-data-[collapsible=icon]:mr-0 group-data-[collapsible=icon]:mt-0', color.icon)} />
-                  <span className="whitespace-normal text-clip break-words text-left overflow-visible group-data-[collapsible=icon]:hidden">{menu.title}</span>
-                </div>
-                <ChevronDown
-                  className={cn(
-                    'size-4 mt-0.5 shrink-0 opacity-50 group-hover:opacity-70 transition-transform duration-[250ms] ease-in-out group-data-[collapsible=icon]:hidden',
-                    isOpen && 'rotate-180'
-                  )}
-                />
-              </SidebarMenuButton>
+              {triggerButton}
               {/* Accordion smooth open/close via grid-template-rows 0fr<->1fr
                   (bukan height:auto/max-height fixed) — transisi tetap mulus
                   utk konten dgn tinggi bervariasi (jumlah submenu berbeda2
@@ -303,6 +456,12 @@ function RenderMenu({
 export function AppSidebar() {
   const { menus = [] } = usePage().props as { menus?: MenuItem[] };
   const contentRef = useRef<HTMLDivElement>(null);
+  // Paksa satu re-render setelah peta ikon (dimuat async, lihat
+  // preloadIconMap() di atas) siap, supaya ikon menu yg sempat fallback ke
+  // LayoutGrid pada render pertama langsung terganti ikon aslinya — hanya
+  // relevan pada kunjungan pertama sebelum chunk ke-cache browser.
+  const [, forceRerenderAfterIconsReady] = useState(0);
+  useEffect(() => onIconMapReady(() => forceRerenderAfterIconsReady((n) => n + 1)), []);
 
   // Pulihkan posisi scroll HANYA SEKALI saat mount (dependency array kosong)
   // — sebelumnya effect ini tidak punya dependency array sama sekali,

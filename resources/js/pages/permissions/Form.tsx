@@ -28,7 +28,7 @@ interface PermissionFormProps {
 export default function PermissionForm({ permission, groups = [] }: PermissionFormProps) {
   const isEdit = !!permission;
 
-  const { data, setData, processing, errors, reset } = useForm({
+  const { data, setData, processing, errors } = useForm({
     name: permission?.name || '',
     group: permission?.group || '',
     newGroup: '',

@@ -179,7 +179,7 @@ class RegisterRisiko2025Seeder extends Seeder
                     'SKALA DAMPAK' => 2,
                     'SKALA KEMUNGKINAN' => 4,
                     'SKALA RISIKO' => 12,
-                    'SKALA PRIORITAS' => 6,
+                    'SKALA PRIORITAS' => 14,
                 ],
             ],
 
@@ -206,7 +206,7 @@ class RegisterRisiko2025Seeder extends Seeder
                     'SKALA DAMPAK' => 4,
                     'SKALA KEMUNGKINAN' => 3,
                     'SKALA RISIKO' => 17,
-                    'SKALA PRIORITAS' => 3,
+                    'SKALA PRIORITAS' => 9,
                 ],
                 'irs_pd' => [
                     'SASARAN RENSTRA' => 'Meningkatnya Kapabilitas Aparat Pengawasan Intern Pemerintah (APIP)',
@@ -228,8 +228,8 @@ class RegisterRisiko2025Seeder extends Seeder
                     'TAHUN TARGET PENYELESAIAN' => 2025,
                     'SKALA DAMPAK' => 3,
                     'SKALA KEMUNGKINAN' => 4,
-                    'SKALA RISIKO' => 17,
-                    'SKALA PRIORITAS' => 3,
+                    'SKALA RISIKO' => 16,
+                    'SKALA PRIORITAS' => 10,
                 ],
                 'iro_pd' => [
                     'KEGIATAN PD' => 'Pelaksanaan Pengawasan Internal secara Berkala',
@@ -253,7 +253,7 @@ class RegisterRisiko2025Seeder extends Seeder
                     'SKALA DAMPAK' => 2,
                     'SKALA KEMUNGKINAN' => 4,
                     'SKALA RISIKO' => 12,
-                    'SKALA PRIORITAS' => 6,
+                    'SKALA PRIORITAS' => 14,
                 ],
             ],
 
@@ -280,7 +280,7 @@ class RegisterRisiko2025Seeder extends Seeder
                     'SKALA DAMPAK' => 4,
                     'SKALA KEMUNGKINAN' => 3,
                     'SKALA RISIKO' => 17,
-                    'SKALA PRIORITAS' => 3,
+                    'SKALA PRIORITAS' => 9,
                 ],
                 'irs_pd' => [
                     'SASARAN RENSTRA' => 'Meningkatnya Kualitas Pelayanan Gawat Darurat dan Rawat Inap',
@@ -302,8 +302,8 @@ class RegisterRisiko2025Seeder extends Seeder
                     'TAHUN TARGET PENYELESAIAN' => 2025,
                     'SKALA DAMPAK' => 3,
                     'SKALA KEMUNGKINAN' => 4,
-                    'SKALA RISIKO' => 17,
-                    'SKALA PRIORITAS' => 3,
+                    'SKALA RISIKO' => 16,
+                    'SKALA PRIORITAS' => 10,
                 ],
                 'iro_pd' => [
                     'KEGIATAN PD' => 'Penyediaan Layanan Kesehatan untuk UKM dan UKP Rujukan Tingkat Daerah Kabupaten/Kota',
@@ -354,7 +354,7 @@ class RegisterRisiko2025Seeder extends Seeder
                     'SKALA DAMPAK' => 4,
                     'SKALA KEMUNGKINAN' => 3,
                     'SKALA RISIKO' => 17,
-                    'SKALA PRIORITAS' => 3,
+                    'SKALA PRIORITAS' => 9,
                 ],
                 'irs_pd' => [
                     'SASARAN RENSTRA' => 'Meningkatnya Cakupan Imunisasi Dasar Lengkap pada Bayi',
@@ -376,8 +376,8 @@ class RegisterRisiko2025Seeder extends Seeder
                     'TAHUN TARGET PENYELESAIAN' => 2025,
                     'SKALA DAMPAK' => 4,
                     'SKALA KEMUNGKINAN' => 2,
-                    'SKALA RISIKO' => 14,
-                    'SKALA PRIORITAS' => 12,
+                    'SKALA RISIKO' => 13,
+                    'SKALA PRIORITAS' => 13,
                 ],
                 'iro_pd' => [
                     'KEGIATAN PD' => 'Pengelolaan Pelayanan Kesehatan Ibu Hamil, Bersalin, Bayi dan Balita',
@@ -427,8 +427,8 @@ class RegisterRisiko2025Seeder extends Seeder
                     'TAHUN TARGET PENYELESAIAN' => 2025,
                     'SKALA DAMPAK' => 3,
                     'SKALA KEMUNGKINAN' => 4,
-                    'SKALA RISIKO' => 17,
-                    'SKALA PRIORITAS' => 3,
+                    'SKALA RISIKO' => 16,
+                    'SKALA PRIORITAS' => 10,
                 ],
                 'irs_pd' => [
                     'SASARAN RENSTRA' => 'Meningkatnya Kualitas Perumusan Kebijakan dan Koordinasi Pemerintahan',
@@ -451,7 +451,7 @@ class RegisterRisiko2025Seeder extends Seeder
                     'SKALA DAMPAK' => 2,
                     'SKALA KEMUNGKINAN' => 4,
                     'SKALA RISIKO' => 12,
-                    'SKALA PRIORITAS' => 6,
+                    'SKALA PRIORITAS' => 14,
                 ],
                 'iro_pd' => [
                     'KEGIATAN PD' => 'Fasilitasi, Koordinasi, Monitoring dan Evaluasi Bidang Pemerintahan',

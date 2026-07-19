@@ -535,7 +535,6 @@
 
     // Handle window resize
     let resizeTimeout;
-    let scrollTimeout;
 
     // Ukuran chart mengikuti kontennya (width: max-content), tidak
     // terpengaruh ukuran viewport — cukup terapkan ulang zoom.

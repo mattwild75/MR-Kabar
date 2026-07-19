@@ -38,7 +38,11 @@ export default function RoleForm({ role, groupedPermissions }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    isEdit ? put(`/roles/${role?.id}`) : post('/roles');
+    if (isEdit) {
+      put(`/roles/${role?.id}`);
+    } else {
+      post('/roles');
+    }
   };
 
   const breadcrumbs: BreadcrumbItem[] = [

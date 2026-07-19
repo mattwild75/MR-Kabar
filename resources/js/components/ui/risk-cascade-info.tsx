@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Info, ChevronDown, ChevronUp } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 const STEPS = [
   { label: 'Risiko Inherent', desc: 'Risiko awal yang teridentifikasi, sebelum mempertimbangkan pengendalian apa pun.' },

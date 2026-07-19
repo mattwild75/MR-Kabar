@@ -43,7 +43,11 @@ export default function UserForm({ user, roles, currentRole }: Props) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    isEdit ? put(`/users/${user?.id}`) : post('/users');
+    if (isEdit) {
+      put(`/users/${user?.id}`);
+    } else {
+      post('/users');
+    }
   };
 
   const breadcrumbs: BreadcrumbItem[] = [

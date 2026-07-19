@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
+use App\Http\Controllers\Concerns\SharesCetakContext;
 use App\Models\DataUmum;
 use App\Models\IroPd;
 use App\Models\IrsPd;
@@ -12,7 +13,6 @@ use App\Models\KrsPd;
 use App\Models\KrsPemda;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
-use App\Models\RiskJenis;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,6 +31,7 @@ use Inertia\Inertia;
 class CetakRisikoController extends Controller
 {
     use GeneratesKodeRisiko;
+    use SharesCetakContext;
 
     /**
      * PIC biasa (role 'user', punya opd_id) hanya melihat OPD miliknya
@@ -53,19 +54,7 @@ class CetakRisikoController extends Controller
      */
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
-        $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->hasAnyRole(['admin', 'super-admin'])) {
-            return;
-        }
-
-        if ($opdId !== $user->opd_id) {
-            abort(403, 'Anda hanya dapat mengakses Risiko untuk OPD Anda sendiri.');
-        }
-    }
-
-    private function pengaturan(): PengaturanPemda
-    {
-        return PengaturanPemda::current();
+        $this->ensureOpdAccessWith($request, $opdId, 'Anda hanya dapat mengakses Risiko untuk OPD Anda sendiri.');
     }
 
     /**
@@ -122,34 +111,10 @@ class CetakRisikoController extends Controller
         return $dataUmum;
     }
 
-    /**
-     * Versi $dataUmum utk Inertia (React) — bukan objek Model mentah.
-     * Kolom 'tanggal_pembuatan' di-cast 'date' (Carbon) pada model, dan
-     * Carbon di-serialize Laravel sbg ISO 8601 penuh (mis.
-     * "2026-07-11T00:00:00.000000Z") saat lolos ke JSON props Inertia —
-     * itulah yg tampil apa adanya di blok TTD React krn di sana cuma
-     * ditulis {dataUmum?.tanggal_pembuatan} tanpa format ulang. Blade PDF
-     * TIDAK kena masalah ini krn di sana masih computed dari objek Carbon
-     * asli lewat optional($x)->format('d F Y'), jadi tetap dikirim $dataUmum
-     * Model asli ke Blade — HANYA versi Inertia yg diubah ke array dgn
-     * tanggal sudah diformat teks Indonesia ("11 Juli 2026").
-     */
-    private function dataUmumForInertia(?DataUmum $dataUmum): ?array
-    {
-        if (!$dataUmum) {
-            return null;
-        }
-
-        $array = $dataUmum->toArray();
-        // tanggal_pembuatan_raw (Y-m-d, utk <input type="date"> di form edit
-        // TTD) dipisah dari tanggal_pembuatan (teks Indonesia, utk DISPLAY di
-        // blok tanda tangan) — keduanya dibutuhkan sekaligus di halaman yg
-        // sama, tidak bisa dipakai bergantian.
-        $array['tanggal_pembuatan_raw'] = $dataUmum->tanggal_pembuatan?->format('Y-m-d');
-        $array['tanggal_pembuatan'] = $dataUmum->tanggal_pembuatan?->locale('id')->translatedFormat('d F Y');
-
-        return $array;
-    }
+    // dataUmumForInertia() & pengaturan() dipindah ke trait SharesCetakContext
+    // (dipakai bersama 5 Cetak controller) — versi $dataUmum utk Inertia
+    // memformat tanggal_pembuatan ke teks Indonesia + tanggal_pembuatan_raw
+    // (Y-m-d) utk <input type="date">.
 
     /**
      * Kelompokkan baris KrsPemda flat jadi struktur konteks sesuai Form_I_a,
@@ -920,8 +885,20 @@ class CetakRisikoController extends Controller
             return [];
         }
 
+        // select() dibatasi ke kolom yg benar2 dibaca identifikasiRow()/
+        // nomorUrutFor() di bawah — nomor urut & kode risiko tetap dihitung
+        // dari SELURUH baris Pemda (semua OPD) sebelum difilter per-OPD,
+        // TIDAK mengubah data yg dikembalikan ke frontend, murni mengurangi
+        // kolom teks lebar yg tidak dipakai supaya transfer lebih ringan.
         $rows = IrsPemda::whereHas('user')
             ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+            ->select([
+                'id', 'user_id', 'SASARAN RPJMD', 'URAIAN RISIKO', 'TAHUN DINILAI RISIKO',
+                'JENIS RISIKO', 'ENTITAS PD YANG MENILAI', 'PEMILIK RISIKO',
+                'URAIAN PENYEBAB RISIKO', 'SUMBER SEBAB RISIKO', 'C / UC',
+                'URAIAN DAMPAK RISIKO', 'PIHAK YANG TERKENA DAMPAK RISIKO',
+            ])
+            ->with('user:id,opd_id')
             ->orderBy('id')
             ->get()
             ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '');

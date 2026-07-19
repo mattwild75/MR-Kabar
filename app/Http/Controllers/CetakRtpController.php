@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
+use App\Http\Controllers\Concerns\SharesCetakContext;
 use App\Models\CeeRtp;
 use App\Models\CeeUnsur;
 use App\Models\DataUmum;
@@ -35,24 +36,9 @@ use Inertia\Inertia;
 class CetakRtpController extends Controller
 {
     use GeneratesKodeRisiko;
+    use SharesCetakContext;
 
-    private function pengaturan(): PengaturanPemda
-    {
-        return PengaturanPemda::current();
-    }
-
-    private function dataUmumForInertia(?DataUmum $dataUmum): ?array
-    {
-        if (!$dataUmum) {
-            return null;
-        }
-
-        $array = $dataUmum->toArray();
-        $array['tanggal_pembuatan_raw'] = $dataUmum->tanggal_pembuatan?->format('Y-m-d');
-        $array['tanggal_pembuatan'] = $dataUmum->tanggal_pembuatan?->locale('id')->translatedFormat('d F Y');
-
-        return $array;
-    }
+    // pengaturan() & dataUmumForInertia() dipindah ke trait SharesCetakContext.
 
     /**
      * PIC biasa (punya opd_id) hanya boleh cetak/unduh Form 6 utk OPD
@@ -62,14 +48,7 @@ class CetakRtpController extends Controller
      */
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
-        $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->hasAnyRole(['admin', 'super-admin'])) {
-            return;
-        }
-
-        if ($opdId !== $user->opd_id) {
-            abort(403, 'Anda hanya dapat mengakses RTP CEE untuk OPD Anda sendiri.');
-        }
+        $this->ensureOpdAccessWith($request, $opdId, 'Anda hanya dapat mengakses RTP CEE untuk OPD Anda sendiri.');
     }
 
     private function opdOptions(Request $request)

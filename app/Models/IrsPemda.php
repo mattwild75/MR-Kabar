@@ -39,6 +39,9 @@ class IrsPemda extends Model
         'SKALA KEMUNGKINAN',
         'SKALA RISIKO',
         'SKALA PRIORITAS',
+        'SKALA DAMPAK INHEREN',
+        'SKALA KEMUNGKINAN INHEREN',
+        'SKALA RISIKO INHEREN',
     ];
 
     public function user(): BelongsTo

@@ -39,7 +39,11 @@ export default function MenuForm({ menu, parentMenus, permissions }: MenuFormPro
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    isEdit ? put(`/menus/${menu?.id}`) : post('/menus', { onSuccess: () => reset() });
+    if (isEdit) {
+      put(`/menus/${menu?.id}`);
+    } else {
+      post('/menus', { onSuccess: () => reset() });
+    }
   };
 
   const breadcrumbs: BreadcrumbItem[] = [
