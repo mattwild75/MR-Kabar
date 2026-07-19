@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Github, FileSpreadsheet, Upload, GitPullRequestArrow, TriangleAlert } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
@@ -32,19 +33,36 @@ interface Backup {
 interface Props {
   backups: Backup[];
   canPushGit: boolean;
+  gitSyncEnabled: boolean;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Backup', href: '/backup' },
 ];
 
-export default function BackupIndex({ backups, canPushGit }: Props) {
+export default function BackupIndex({ backups, canPushGit, gitSyncEnabled }: Props) {
   const [gitMessage, setGitMessage] = useState('');
   const [pushing, setPushing] = useState(false);
   const [pulling, setPulling] = useState(false);
   const [importFile, setImportFile] = useState<File | null>(null);
   const [importing, setImporting] = useState(false);
   const [confirmText, setConfirmText] = useState('');
+  const [togglingGitSync, setTogglingGitSync] = useState(false);
+
+  const handleToggleGitSync = (checked: boolean) => {
+    setTogglingGitSync(true);
+    router.post(
+      '/backup/git-sync-toggle',
+      { enabled: checked },
+      {
+        onSuccess: () =>
+          toast.success(checked ? 'Fitur Git Push/Pull diaktifkan.' : 'Fitur Git Push/Pull dinonaktifkan.'),
+        onError: () => toast.error('Gagal mengubah pengaturan Git Sync.'),
+        onFinish: () => setTogglingGitSync(false),
+        preserveScroll: true,
+      },
+    );
+  };
 
   const handleBackup = () => {
     router.post('/backup/run', {}, {
@@ -187,17 +205,42 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl font-bold">
                 <Github className="h-5 w-5" />
+                Sinkronisasi Git (Push/Pull)
+              </CardTitle>
+              <p className="text-muted-foreground text-sm">
+                Nonaktif secara default di setiap instalasi baru aplikasi ini. Aktifkan HANYA jika Anda
+                sudah memastikan remote git di server ini sudah mengarah ke repository Anda sendiri —
+                bukan repository developer asal aplikasi ini.
+              </p>
+            </CardHeader>
+            <Separator />
+            <CardContent className="pt-4">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="git_sync_toggle"
+                  checked={gitSyncEnabled}
+                  disabled={togglingGitSync}
+                  onCheckedChange={(checked) => handleToggleGitSync(checked === true)}
+                />
+                <Label htmlFor="git_sync_toggle" className="cursor-pointer">
+                  Aktifkan fitur Git Push/Pull di server ini
+                </Label>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {canPushGit && gitSyncEnabled && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl font-bold">
+                <Github className="h-5 w-5" />
                 Backup Database & Push Kode ke GitHub
               </CardTitle>
               <p className="text-muted-foreground text-sm">
                 Satu tombol, dua langkah: (1) backup database baru (tersimpan lokal saja, sama seperti
                 "Create Backup" di atas — <strong>tidak pernah</strong> ikut terkirim ke GitHub), lalu
                 (2) push snapshot kode terbaru ke repository GitHub. Bukan deploy ke server produksi.
-              </p>
-              <p className="text-muted-foreground text-xs mt-2">
-                Membutuhkan <code>GIT_SYNC_ENABLE_KEY</code> terisi di file <code>.env</code> server ini —
-                nonaktif secara default di setiap instalasi baru. Isi sendiri di server Anda setelah
-                memastikan remote git server ini sudah mengarah ke repository Anda sendiri.
               </p>
             </CardHeader>
             <Separator />
@@ -219,7 +262,7 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
           </Card>
         )}
 
-        {canPushGit && (
+        {canPushGit && gitSyncEnabled && (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-xl font-bold">

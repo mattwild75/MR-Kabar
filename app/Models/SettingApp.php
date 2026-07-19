@@ -19,10 +19,12 @@ class SettingApp extends Model
         'contact_email',
         'contact_email_secondary',
         'footer_credit',
+        'git_sync_enabled',
     ];
 
     protected $casts = [
         'seo' => 'array',
+        'git_sync_enabled' => 'boolean',
     ];
 
     /** Cache per-request agar baris setting tidak diquery berulang kali. */
