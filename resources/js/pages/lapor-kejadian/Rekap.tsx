@@ -472,7 +472,7 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       className="pl-8"
-                      placeholder="Ketik uraian risiko yang relevan..."
+                      placeholder="Ketik uraian risiko, nama OPD, pemilik risiko, atau penanggung jawab..."
                       value={cariRisikoQuery}
                       onChange={(e) => cariRisikoTerdaftar(e.target.value)}
                       disabled={savingRisikoTerdaftar}

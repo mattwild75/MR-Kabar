@@ -48,8 +48,21 @@ class LaporanKejadianController extends Controller
 
         $results = [];
 
+        // Kata kunci dicocokkan ke Uraian Risiko, nama OPD (baik lewat
+        // relasi user->opd — OPD PIC yg mengisi baris, paling andal — MAUPUN
+        // kolom teks "UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN" yg bisa
+        // berbeda dari OPD pengisi, lihat catatan CetakHasilAnalisisController),
+        // Pemilik Risiko, dan Penanggung Jawab Pengendalian — supaya
+        // mengetik nama OPD/jabatan langsung memunculkan seluruh risiko yg
+        // relevan tanpa perlu tahu kata kunci uraian risikonya persis.
         foreach (self::RISIKO_MODELS as $tipe => $modelClass) {
-            $rows = $modelClass::where('URAIAN RISIKO', 'like', "%{$query}%")
+            $rows = $modelClass::where(function ($q) use ($query) {
+                $q->where('URAIAN RISIKO', 'like', "%{$query}%")
+                    ->orWhere('UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN', 'like', "%{$query}%")
+                    ->orWhere('PEMILIK RISIKO', 'like', "%{$query}%")
+                    ->orWhere('PENANGGUNG JAWAB PENGENDALIAN', 'like', "%{$query}%")
+                    ->orWhereHas('user.opd', fn ($uq) => $uq->where('nama', 'like', "%{$query}%"));
+            })
                 ->limit(10)
                 ->get();
 

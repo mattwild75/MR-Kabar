@@ -187,7 +187,7 @@ export default function LaporKejadianForm({ opdList }: Props) {
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       className="pl-8"
-                      placeholder="Ketik uraian risiko yang relevan..."
+                      placeholder="Ketik uraian risiko atau nama OPD terkait..."
                       value={query}
                       onChange={(e) => cariRisiko(e.target.value)}
                     />
