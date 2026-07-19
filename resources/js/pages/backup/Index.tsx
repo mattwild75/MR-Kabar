@@ -194,6 +194,11 @@ export default function BackupIndex({ backups, canPushGit }: Props) {
                 "Create Backup" di atas — <strong>tidak pernah</strong> ikut terkirim ke GitHub), lalu
                 (2) push snapshot kode terbaru ke repository GitHub. Bukan deploy ke server produksi.
               </p>
+              <p className="text-muted-foreground text-xs mt-2">
+                Membutuhkan <code>GIT_SYNC_ENABLE_KEY</code> terisi di file <code>.env</code> server ini —
+                nonaktif secara default di setiap instalasi baru. Isi sendiri di server Anda setelah
+                memastikan remote git server ini sudah mengarah ke repository Anda sendiri.
+              </p>
             </CardHeader>
             <Separator />
             <CardContent className="pt-4 space-y-3">

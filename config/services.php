@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'git_sync' => [
+        // Kunci aktivasi fitur "Git Push"/"Git Pull" di menu Backup (lihat
+        // BackupController::ensureGitSyncEnabled()) — nilai bebas, hanya
+        // perlu ADA isinya. Sengaja kosong secara default: setiap instalasi
+        // baru (termasuk hasil clone/fork oleh siapa pun) harus mengisi ini
+        // sendiri di .env server masing-masing sebelum fitur git push/pull
+        // aktif di lingkungan itu.
+        'enable_key' => env('GIT_SYNC_ENABLE_KEY'),
+    ],
+
 ];

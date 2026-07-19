@@ -33,6 +33,38 @@ class BackupController extends Controller
     }
 
     /**
+     * Git Push/Pull menjalankan perintah git SUNGGUHAN di server ini, memakai
+     * kredensial git/SSH yang TERPASANG DI SERVER ITU SENDIRI (bukan milik
+     * aplikasi) — jadi siapa pun instansi yang meng-clone/fork aplikasi ini
+     * dan menjalankannya di server mereka sendiri otomatis punya remote
+     * `origin` yang (sesaat setelah clone) masih menunjuk ke repository asal
+     * developer template. Tanpa pengaman ini, super-admin DI LINGKUNGAN
+     * MEREKA bisa memicu git push/pull yang — kalau server mereka kebetulan
+     * masih menyimpan kredensial git developer asal (skenario deploy yang
+     * ceroboh) — bisa menyentuh repository developer asal, bukan repo
+     * mereka sendiri.
+     *
+     * Perbaikannya BUKAN memblokir berdasarkan URL remote (repo pemilik asli
+     * & repo instansi lain sama-sama bisa punya origin URL apa saja,
+     * termasuk sama persis tepat setelah clone) — tapi mewajibkan kunci
+     * aktivasi di .env server itu sendiri (GIT_SYNC_ENABLE_KEY). File .env
+     * TIDAK IKUT ter-commit ke git (lihat .gitignore), jadi setiap instalasi
+     * baru — termasuk hasil clone/fork oleh siapa pun — SELALU mulai dengan
+     * kunci ini kosong, dan fitur Git Push/Pull otomatis nonaktif sampai
+     * pemilik server itu SENDIRI yang mengisi env-nya sendiri secara sadar.
+     * Developer pemilik server (siapa pun itu, termasuk instansi lain yang
+     * fork aplikasi ini) tetap mendapat fitur LENGKAP di lingkungan mereka
+     * sendiri — cukup isi env mereka sendiri, tanpa perlu melibatkan atau
+     * bergantung pada developer/akun GitHub manapun.
+     */
+    private function ensureGitSyncEnabled(): void
+    {
+        if (blank(config('services.git_sync.enable_key'))) {
+            abort(403, 'Fitur Git Push/Pull belum diaktifkan di server ini. Isi GIT_SYNC_ENABLE_KEY di file .env server ini (nilai bebas, hanya perlu ada isinya) untuk mengaktifkan fitur ini di lingkungan Anda sendiri.');
+        }
+    }
+
+    /**
      * Folder tujuan backup Spatie ikut config('backup.backup.name'), yang
      * defaultnya env('APP_NAME') — BUKAN selalu "Laravel". Sempat hardcode
      * 'private/Laravel' di sini, jadi setelah APP_NAME diubah ke "MR KABAR"
@@ -126,6 +158,7 @@ class BackupController extends Controller
     public function gitPush(Request $request)
     {
         $this->ensureSuperAdmin();
+        $this->ensureGitSyncEnabled();
 
         return $this->withBackupLock(function () use ($request) {
             // Langkah 1: backup database dulu — kalau ini gagal, batalkan push
@@ -223,6 +256,7 @@ class BackupController extends Controller
     public function gitPull(Request $request)
     {
         $this->ensureSuperAdmin();
+        $this->ensureGitSyncEnabled();
 
         return $this->withBackupLock(function () {
             $base = base_path();
