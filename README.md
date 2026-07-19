@@ -71,6 +71,10 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 
 ![Form Cetak](screenshots/form-cetak.png)
 
+**Lapor Kejadian Risiko** (form pelaporan publik via QR code, dengan klasifikasi penyebab 7M+1E)
+
+![Lapor Kejadian Risiko](screenshots/lapor-kejadian.png)
+
 ---
 
 ## Tech Stack
