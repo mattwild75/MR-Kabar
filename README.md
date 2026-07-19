@@ -57,6 +57,22 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 
 ---
 
+## Tampilan Aplikasi
+
+| Dashboard (Light) | Dashboard (Dark) |
+| --- | --- |
+| ![Dashboard Light](screenshots/dashboard-light.png) | ![Dashboard Dark](screenshots/dashboard-dark.png) |
+
+| Identifikasi Risiko (IRS Pemda) | Panduan Aplikasi |
+| --- | --- |
+| ![IRS Pemda](screenshots/irs-pemda.png) | ![Panduan](screenshots/panduan.png) |
+
+**Form Cetak** (dokumen siap tanda tangan, dihasilkan via Browsershot)
+
+![Form Cetak](screenshots/form-cetak.png)
+
+---
+
 ## Tech Stack
 
 | Area              | Teknologi                                  |
