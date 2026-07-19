@@ -14,14 +14,23 @@ class ShareMenus
     {
         $user = $request->user();
 
-        // Akun bersama CEE_Survey (role 'cee-survey') hanya mengisi CEE —
-        // grup menu risiko lain sudah diblok RestrictCeeSurveyRole di
-        // backend, tapi tetap disembunyikan di sini biar tidak membingungkan.
-        $hiddenTitlesForCeeSurvey = [
-            'Risiko Strategis Pemda',
-            'Risiko Strategis PD',
-            'Risiko Operasional PD',
-            'Kelola Pertanyaan CEE',
+        // Akun bersama CEE_Survey (role 'cee-survey') HANYA boleh mengisi
+        // CEE (1a/1b/1c/1d) — WHITELIST (bukan blacklist seperti versi
+        // lama), supaya menu BARU yang ditambahkan di masa depan (Risiko,
+        // Utilities, dsb) otomatis tersembunyi juga tanpa perlu diingat
+        // untuk didaftarkan ke daftar larangan setiap kali ada menu baru.
+        // Proteksi sesungguhnya tetap di RestrictCeeSurveyRole (backend),
+        // ini cuma menyembunyikan menu yang toh akan ditolak kalau diklik.
+        $allowedTitlesForCeeSurvey = [
+            'Dashboard',
+            'Apa itu Manajemen Risiko / MR Kabar',
+            'Form Input',
+            'Data Umum',
+            'CEE',
+            '1a_Kuesioner CEE',
+            '1b_CEE Berdasarkan Dokumen',
+            '1c_Simpulan Survei Persepsi',
+            '1d_RTP CEE',
         ];
 
         // Akun bersama LAPOR (role 'lapor-risiko') hanya perlu Dashboard,
@@ -38,7 +47,7 @@ class ShareMenus
             'Lapor Kejadian Risiko',
         ];
 
-        Inertia::share('menus', function () use ($user, $hiddenTitlesForCeeSurvey, $allowedTitlesForLaporRisiko) {
+        Inertia::share('menus', function () use ($user, $allowedTitlesForCeeSurvey, $allowedTitlesForLaporRisiko) {
             if (!$user) return [];
 
             $isCeeSurvey = $user->hasRole('cee-survey');
@@ -64,13 +73,13 @@ class ShareMenus
             $indexed = $allMenus->keyBy('id');
 
             // Recursive builder (filtered by permission)
-            $buildTree = function ($parentId = null) use (&$buildTree, $indexed, $user, $isCeeSurvey, $hiddenTitlesForCeeSurvey, $canManageCeeQuestions, $isLaporRisiko, $allowedTitlesForLaporRisiko) {
+            $buildTree = function ($parentId = null) use (&$buildTree, $indexed, $user, $isCeeSurvey, $allowedTitlesForCeeSurvey, $canManageCeeQuestions, $isLaporRisiko, $allowedTitlesForLaporRisiko) {
                 return $indexed
                     ->filter(
                         fn($menu) =>
                         $menu->parent_id === $parentId &&
                             (!$menu->permission_name || $user->can($menu->permission_name)) &&
-                            !($isCeeSurvey && in_array($menu->title, $hiddenTitlesForCeeSurvey, true)) &&
+                            (!$isCeeSurvey || in_array($menu->title, $allowedTitlesForCeeSurvey, true)) &&
                             !($menu->title === 'Kelola Pertanyaan CEE' && !$canManageCeeQuestions) &&
                             (!$isLaporRisiko || in_array($menu->title, $allowedTitlesForLaporRisiko, true))
                     )

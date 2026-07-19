@@ -13,6 +13,12 @@ use App\Models\KroPd;
 use App\Models\IroPd;
 use App\Models\User;
 use App\Models\SettingApp;
+use App\Models\CeeJawaban;
+use App\Models\CeeSimpulan;
+use App\Models\CeeRtp;
+use App\Models\MonitoringRtp;
+use App\Models\PencatatanKejadianRisiko;
+use App\Models\LaporanKejadianRisiko;
 use Spatie\Permission\Models\Role;
 use App\Observers\GlobalActivityLogger;
 use App\Observers\OpdSyncObserver;
@@ -48,6 +54,16 @@ class AppServiceProvider extends ServiceProvider
         IroPd::observe(GlobalActivityLogger::class);
         Opd::observe(GlobalActivityLogger::class);
         MediaFolder::observe(GlobalActivityLogger::class);
+        // Widget "Aktivitas Terbaru" Dashboard butuh CEE & Form 6-10 ikut
+        // tercatat — sebelumnya cuma model lama (KRS/IRS/IRO/User/dst) yang
+        // di-observe, sehingga perubahan RTP/CEE/kejadian risiko tidak
+        // pernah muncul di activity_log.
+        CeeJawaban::observe(GlobalActivityLogger::class);
+        CeeSimpulan::observe(GlobalActivityLogger::class);
+        CeeRtp::observe(GlobalActivityLogger::class);
+        MonitoringRtp::observe(GlobalActivityLogger::class);
+        PencatatanKejadianRisiko::observe(GlobalActivityLogger::class);
+        LaporanKejadianRisiko::observe(GlobalActivityLogger::class);
         User::observe(UserFolderObserver::class);
         KrsPemda::observe(OpdSyncObserver::class);
         KrsPd::observe(OpdSyncObserver::class);

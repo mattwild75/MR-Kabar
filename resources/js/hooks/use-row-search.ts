@@ -32,6 +32,11 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
   const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+  // ID baris yg disorot LANGSUNG (bukan hasil pencarian teks) — dipakai
+  // saat halaman dibuka dari luar dgn tujuan baris spesifik (mis. dialog
+  // rincian risiko di Dashboard, tombol "Buka Daftar"), scroll+ring yg
+  // sama dgn currentMatchId TANPA perlu mencocokkan teks apapun.
+  const [highlightRowId, setHighlightRowId] = useState<number | null>(null);
   const rowRefs = useRef<Map<number, HTMLElement>>(new Map());
 
   const registerRowRef = (id: number, el: HTMLElement | null) => {
@@ -58,9 +63,21 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
 
   const matches = useMemo(() => Array.from(matchedFieldsByRow.keys()), [matchedFieldsByRow]);
 
-  const currentMatchId = matches.length > 0 ? (matches[currentMatchIndex] ?? null) : null;
+  const currentMatchId = highlightRowId ?? (matches.length > 0 ? (matches[currentMatchIndex] ?? null) : null);
+
+  // Sorot & scroll ke baris tertentu langsung by ID — dipakai saat halaman
+  // dibuka dgn tujuan baris spesifik (lihat highlightRowId di atas).
+  // Membatalkan pencarian teks yg mungkin sedang aktif supaya tidak
+  // tumpang tindih 2 sumber highlight berbeda.
+  const highlightRow = (id: number) => {
+    setSearchInput('');
+    setActiveQuery('');
+    setCurrentMatchIndex(0);
+    setHighlightRowId(id);
+  };
 
   const runSearch = () => {
+    setHighlightRowId(null);
     setActiveQuery(searchInput.trim().toLowerCase());
     setCurrentMatchIndex(0);
   };
@@ -69,6 +86,7 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
   // pada state searchInput yang mungkin belum ter-update di render yang
   // sama) — dipakai tombol pilih cepat spt panel status pengisian OPD.
   const searchFor = (term: string) => {
+    setHighlightRowId(null);
     setSearchInput(term);
     setActiveQuery(term.trim().toLowerCase());
     setCurrentMatchIndex(0);
@@ -84,6 +102,7 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
     setSearchInput('');
     setActiveQuery('');
     setCurrentMatchIndex(0);
+    setHighlightRowId(null);
   };
 
   const handleKeyDown = (e: { key: string; shiftKey: boolean; preventDefault: () => void }) => {
@@ -119,6 +138,7 @@ export function useRowSearch<T extends Row>(rows: T[], searchFields: string[]) {
     registerRowRef,
     runSearch,
     searchFor,
+    highlightRow,
     jumpToMatch,
     clearSearch,
     handleKeyDown,

@@ -14,7 +14,8 @@ use Spatie\Permission\Models\Role;
  * ditranskripsi dari Lampiran 5 Perdep PPKD No.4/2019 ttg Pedoman Pengelolaan
  * Risiko Pada Pemerintah Daerah. Idempotent (updateOrCreate).
  *
- * Juga menyiapkan role 'cee-survey' + akun bersama CEE_Survey (password 1234)
+ * Juga menyiapkan role 'cee-survey' + akun bersama CEE_Survey (password dari
+ * env CEE_SURVEY_ACCOUNT_PASSWORD, lihat CeeSurveyQrLoginController)
  * yang dipakai bergantian oleh siapa saja minimal eselon IV lintas OPD untuk
  * mengisi Form Input CEE 1a/1b/1c — dibatasi HANYA ke menu CEE oleh middleware
  * RestrictCeeSurveyRole (bukan lewat permission_name menu, krn banyak menu
@@ -140,7 +141,7 @@ class CeeSeeder extends Seeder
             [
                 'name' => 'Survei CEE (Akun Bersama)',
                 'email' => 'cee-survey@mrkabar.local',
-                'password' => '1234',
+                'password' => env('CEE_SURVEY_ACCOUNT_PASSWORD', (string) str()->random(32)),
             ]
         );
         if (!$user->hasRole('cee-survey')) {

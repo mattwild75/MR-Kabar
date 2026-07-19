@@ -25,7 +25,9 @@ Kasubag Perencanaan`,
 
 Fungsi: Mengelompokkan temuan kelemahan ke unsur yang tepat, supaya bisa digabungkan dengan hasil Form 1a saat menyusun Simpulan Form 1c per unsur.
 
-Cara mengisi: pilih dari daftar dropdown sesuai isi Uraian Kelemahan — mis. temuan soal SOP/kebijakan pilih unsur "Struktur Organisasi", temuan soal audit internal pilih "Kepemimpinan yang Kondusif".`,
+Cara mengisi: pilih dari daftar dropdown sesuai isi Uraian Kelemahan — mis. temuan soal SOP/kebijakan pilih unsur "Struktur Organisasi", temuan soal audit internal pilih "Kepemimpinan yang Kondusif".
+
+Contoh: Temuan LHP tentang audit kinerja yang belum dilakukan Inspektorat → pilih unsur "Peran Aparat Pengawasan Intern Pemerintah yang Efektif"; temuan soal pakta integritas pegawai yang belum ditandatangani → pilih unsur "Penegakan Integritas dan Nilai Etika".`,
 
   SUMBER_DATA: `Definisi: Dokumen/referensi asal ditemukannya kelemahan Lingkungan Pengendalian — LHP BPK, SK Inspektur, hasil reviu SPIP Inspektorat, media massa, dsb.
 

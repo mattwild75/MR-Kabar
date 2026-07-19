@@ -18,6 +18,8 @@ import {
 import { type BreadcrumbItem } from '@/types';
 import { Search, Siren, X } from 'lucide-react';
 import { toast } from 'sonner';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
+import { LAPOR_KEJADIAN_FIELD_INFO } from '@/lib/lapor-kejadian-field-info';
 
 interface Opd {
   id: number;
@@ -174,7 +176,10 @@ export default function LaporKejadianForm({ opdList }: Props) {
 
             {mode === 'terdaftar' && (
               <div className="space-y-2">
-                <Label>Cari Risiko Terdaftar (IRS Pemda / IRS PD / IRO PD)</Label>
+                <div className="flex items-center gap-1.5">
+                  <Label>Cari Risiko Terdaftar (IRS Pemda / IRS PD / IRO PD)</Label>
+                  <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.cari_risiko_terdaftar} />
+                </div>
                 {!risikoTerpilih ? (
                   <div className="relative">
                     <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
@@ -229,22 +234,34 @@ export default function LaporKejadianForm({ opdList }: Props) {
             <CardContent className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <Label>Nama Lengkap</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>Nama Lengkap</Label>
+                    <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.nama_lengkap} />
+                  </div>
                   <Input value={data.nama_lengkap} onChange={(e) => setData('nama_lengkap', e.target.value)} required />
                   {errors.nama_lengkap && <p className="text-sm text-destructive">{errors.nama_lengkap}</p>}
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Email (opsional)</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>Email (opsional)</Label>
+                    <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.email} />
+                  </div>
                   <Input type="email" value={data.email} onChange={(e) => setData('email', e.target.value)} />
                   {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Nomor HP (opsional)</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>Nomor HP (opsional)</Label>
+                    <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.no_hp} />
+                  </div>
                   <Input value={data.no_hp} onChange={(e) => setData('no_hp', e.target.value)} />
                   {errors.no_hp && <p className="text-sm text-destructive">{errors.no_hp}</p>}
                 </div>
                 <div className="space-y-1.5">
-                  <Label>OPD Terkait (opsional)</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>OPD Terkait (opsional)</Label>
+                    <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.opd_id} />
+                  </div>
                   <Select
                     value={data.opd_id ? String(data.opd_id) : 'none'}
                     onValueChange={(v) => setData('opd_id', v === 'none' ? '' : v)}
@@ -266,7 +283,10 @@ export default function LaporKejadianForm({ opdList }: Props) {
               </div>
 
               <div className="space-y-1.5">
-                <Label>Kejadian</Label>
+                <div className="flex items-center gap-1.5">
+                  <Label>Kejadian</Label>
+                  <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.kejadian} />
+                </div>
                 <Textarea
                   rows={4}
                   value={data.kejadian}
@@ -279,7 +299,10 @@ export default function LaporKejadianForm({ opdList }: Props) {
 
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-1.5">
-                  <Label>Waktu Kejadian</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>Waktu Kejadian</Label>
+                    <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.waktu_kejadian} />
+                  </div>
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <DatePicker value={tanggalKejadian} onChange={setTanggalKejadian} placeholder="Pilih tanggal" />
@@ -291,14 +314,20 @@ export default function LaporKejadianForm({ opdList }: Props) {
                   {errors.waktu_kejadian && <p className="text-sm text-destructive">{errors.waktu_kejadian}</p>}
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Tempat (opsional)</Label>
+                  <div className="flex items-center gap-1.5">
+                    <Label>Tempat (opsional)</Label>
+                    <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.tempat} />
+                  </div>
                   <Input value={data.tempat} onChange={(e) => setData('tempat', e.target.value)} />
                   {errors.tempat && <p className="text-sm text-destructive">{errors.tempat}</p>}
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <Label>Pemicu (opsional)</Label>
+                <div className="flex items-center gap-1.5">
+                  <Label>Pemicu (opsional)</Label>
+                  <FieldInfoPopover text={LAPOR_KEJADIAN_FIELD_INFO.pemicu} />
+                </div>
                 <Textarea
                   rows={3}
                   value={data.pemicu}

@@ -7,6 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
+import RtpCategoryText from '@/components/ui/rtp-category-text';
+import { RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
@@ -23,6 +26,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Plus, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
+import { CEE_FORM1D_FIELD_INFO } from '@/lib/cee-form1d-field-info';
 
 interface UnsurOption {
   id: number;
@@ -84,6 +89,7 @@ interface PageProps {
 /** Dropdown Triwulan + Input Tahun, dipakai utk Target & Realisasi Penyelesaian — sama pola dgn TRIWULAN di irs_pd/Index.tsx. */
 function TriwulanTahunFields({
   label,
+  info,
   triwulan,
   tahun,
   onTriwulanChange,
@@ -92,6 +98,7 @@ function TriwulanTahunFields({
   triwulanLabels,
 }: {
   label: string;
+  info?: string;
   triwulan: string;
   tahun: string;
   onTriwulanChange: (v: string) => void;
@@ -102,7 +109,10 @@ function TriwulanTahunFields({
   return (
     <div className="grid grid-cols-2 gap-3">
       <div className="space-y-1">
-        <Label>{label} — Triwulan</Label>
+        <div className="flex items-center gap-1.5">
+          <Label>{label} — Triwulan</Label>
+          {info && <FieldInfoPopover text={info} />}
+        </div>
         <Select value={triwulan || undefined} onValueChange={onTriwulanChange}>
           <SelectTrigger>
             <SelectValue placeholder="Pilih Triwulan" />
@@ -208,7 +218,13 @@ function EntryRow({
           </SelectContent>
         </Select>
         <Textarea rows={2} value={kondisi} onChange={(e) => setKondisi(e.target.value)} placeholder="Kondisi Lingkungan Pengendalian yang Kurang Memadai" />
-        <Textarea rows={2} value={rtp} onChange={(e) => setRtp(e.target.value)} placeholder="Rencana Tindak Pengendalian Lingkungan Pengendalian" />
+        <MultiCategoryTextarea
+          value={rtp}
+          onChange={setRtp}
+          categories={RESPON_RISIKO_KATEGORI}
+          uraianPlaceholder="Uraian rencana tindak..."
+          rows={2}
+        />
         <Input value={penanggungJawab} onChange={(e) => setPenanggungJawab(e.target.value)} placeholder="Penanggung Jawab" />
         <TriwulanTahunFields
           label="Target Waktu Penyelesaian"
@@ -246,7 +262,10 @@ function EntryRow({
         <Badge variant="outline">{entry.unsur.kode}. {entry.unsur.nama}</Badge>
         <p className="text-sm font-medium">{entry.kondisi_kurang_memadai}</p>
         {entry.rencana_tindak_pengendalian && (
-          <p className="text-sm text-muted-foreground">RTP: {entry.rencana_tindak_pengendalian}</p>
+          <div className="text-sm text-muted-foreground">
+            <span className="font-medium">RTP: </span>
+            <RtpCategoryText text={entry.rencana_tindak_pengendalian} />
+          </div>
         )}
         <div className="flex flex-wrap gap-x-4 text-xs text-muted-foreground">
           {entry.penanggung_jawab && <span>Penanggung Jawab: {entry.penanggung_jawab}</span>}
@@ -408,7 +427,10 @@ export default function Form1d({
               <CardContent>
                 <form onSubmit={submit} className="space-y-4">
                   <div className="space-y-1">
-                    <Label>Unsur Lingkungan Pengendalian</Label>
+                    <div className="flex items-center gap-1.5">
+                      <Label>Unsur Lingkungan Pengendalian</Label>
+                      <FieldInfoPopover text={CEE_FORM1D_FIELD_INFO.UNSUR} />
+                    </div>
                     <Select
                       value={data.cee_unsur_id ? String(data.cee_unsur_id) : undefined}
                       onValueChange={(v) => {
@@ -441,7 +463,10 @@ export default function Form1d({
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="kondisi_kurang_memadai">Kondisi Lingkungan Pengendalian yang Kurang Memadai</Label>
+                    <div className="flex items-center gap-1.5">
+                      <Label htmlFor="kondisi_kurang_memadai">Kondisi Lingkungan Pengendalian yang Kurang Memadai</Label>
+                      <FieldInfoPopover text={CEE_FORM1D_FIELD_INFO.KONDISI_KURANG_MEMADAI} />
+                    </div>
                     <Textarea
                       id="kondisi_kurang_memadai"
                       rows={2}
@@ -453,12 +478,17 @@ export default function Form1d({
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="rencana_tindak_pengendalian">Rencana Tindak Pengendalian Lingkungan Pengendalian</Label>
-                    <Textarea
+                    <div className="flex items-center gap-1.5">
+                      <Label htmlFor="rencana_tindak_pengendalian">Rencana Tindak Pengendalian Lingkungan Pengendalian</Label>
+                      <FieldInfoPopover text={CEE_FORM1D_FIELD_INFO.RENCANA_TINDAK_PENGENDALIAN} />
+                    </div>
+                    <MultiCategoryTextarea
                       id="rencana_tindak_pengendalian"
-                      rows={2}
                       value={data.rencana_tindak_pengendalian}
-                      onChange={(e) => setData('rencana_tindak_pengendalian', e.target.value)}
+                      onChange={(val) => setData('rencana_tindak_pengendalian', val)}
+                      categories={RESPON_RISIKO_KATEGORI}
+                      uraianPlaceholder="Uraian rencana tindak..."
+                      rows={2}
                     />
                     {errors.rencana_tindak_pengendalian && (
                       <p className="text-sm text-destructive">{errors.rencana_tindak_pengendalian}</p>
@@ -466,7 +496,10 @@ export default function Form1d({
                   </div>
 
                   <div className="space-y-1">
-                    <Label htmlFor="penanggung_jawab">Penanggung Jawab</Label>
+                    <div className="flex items-center gap-1.5">
+                      <Label htmlFor="penanggung_jawab">Penanggung Jawab</Label>
+                      <FieldInfoPopover text={CEE_FORM1D_FIELD_INFO.PENANGGUNG_JAWAB} />
+                    </div>
                     <Input
                       id="penanggung_jawab"
                       value={data.penanggung_jawab}
@@ -478,6 +511,7 @@ export default function Form1d({
 
                   <TriwulanTahunFields
                     label="Target Waktu Penyelesaian"
+                    info={CEE_FORM1D_FIELD_INFO.TARGET_WAKTU_PENYELESAIAN}
                     triwulan={data.triwulan_target}
                     tahun={data.tahun_target_penyelesaian}
                     onTriwulanChange={(v) => setData('triwulan_target', v)}
@@ -487,6 +521,7 @@ export default function Form1d({
                   />
                   <TriwulanTahunFields
                     label="Realisasi Penyelesaian"
+                    info={CEE_FORM1D_FIELD_INFO.REALISASI_PENYELESAIAN}
                     triwulan={data.triwulan_realisasi}
                     tahun={data.tahun_realisasi_penyelesaian}
                     onTriwulanChange={(v) => setData('triwulan_realisasi', v)}

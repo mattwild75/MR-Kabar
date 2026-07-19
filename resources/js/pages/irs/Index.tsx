@@ -140,6 +140,8 @@ interface PageProps {
 type FormData = Record<FieldName, string> & {
   'SKALA DAMPAK': string;
   'SKALA KEMUNGKINAN': string;
+  'SKALA DAMPAK INHEREN': string;
+  'SKALA KEMUNGKINAN INHEREN': string;
 };
 
 const emptyForm = (): FormData => {
@@ -147,6 +149,8 @@ const emptyForm = (): FormData => {
   FIELDS.forEach((f) => (obj[f] = ''));
   obj['SKALA DAMPAK'] = '';
   obj['SKALA KEMUNGKINAN'] = '';
+  obj['SKALA DAMPAK INHEREN'] = '';
+  obj['SKALA KEMUNGKINAN INHEREN'] = '';
   return obj;
 };
 
@@ -177,10 +181,28 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, opdList, opdF
     registerRowRef,
     runSearch,
     searchFor,
+    highlightRow,
     jumpToMatch,
     clearSearch,
     handleKeyDown,
   } = useRowSearch(rows, [...FIELDS, 'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO', 'SKALA PRIORITAS', 'NOMOR URUT RISIKO']);
+
+  // Dibuka dari widget rincian risiko Dashboard (tombol "Buka Daftar",
+  // ?highlight_id={id}) — langsung scroll+sorot baris tujuan tanpa perlu
+  // mengetik apapun di kolom pencarian, sama pola dgn hasil pencarian teks.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const highlightId = params.get('highlight_id');
+    if (highlightId) {
+      highlightRow(Number(highlightId));
+      // Bersihkan highlight_id dari URL (sama pola dgn prefill_uraian_risiko
+      // di bawah) supaya refresh halaman tidak memicu sorot ulang.
+      params.delete('highlight_id');
+      const qs = params.toString();
+      window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : ''));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { sortedRows, sortField, sortDirection, toggleSort } = useSortableRows(rows);
 
@@ -230,6 +252,8 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, opdList, opdF
     FIELDS.forEach((f) => (values[f] = (row[f] as string) ?? ''));
     values['SKALA DAMPAK'] = row['SKALA DAMPAK'] != null ? String(row['SKALA DAMPAK']) : '';
     values['SKALA KEMUNGKINAN'] = row['SKALA KEMUNGKINAN'] != null ? String(row['SKALA KEMUNGKINAN']) : '';
+    values['SKALA DAMPAK INHEREN'] = row['SKALA DAMPAK INHEREN'] != null ? String(row['SKALA DAMPAK INHEREN']) : '';
+    values['SKALA KEMUNGKINAN INHEREN'] = row['SKALA KEMUNGKINAN INHEREN'] != null ? String(row['SKALA KEMUNGKINAN INHEREN']) : '';
     setData(values);
     setDialogOpen(true);
   };
@@ -855,6 +879,38 @@ export default function IrsIndex({ rows, fieldOptions, opdOptions, opdList, opdF
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <span>Skala Risiko dan Skala Prioritas dihitung otomatis dari Dampak x Kemungkinan.</span>
               <ReferenceDialogTrigger label="Lihat Matriks Analisis Risiko" onClick={() => setRefDialog('matriks')} />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 rounded-md border border-dashed p-3">
+              <div className="col-span-2 flex items-center gap-1.5">
+                <Label className="text-sm font-medium">Skala Risiko Inheren (opsional)</Label>
+                {IRS_FIELD_INFO['SKALA DAMPAK INHEREN'] && <FieldInfoPopover text={IRS_FIELD_INFO['SKALA DAMPAK INHEREN']} />}
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="SKALA DAMPAK INHEREN" className="text-xs text-muted-foreground">
+                  Skala Dampak Inheren
+                </Label>
+                <AutocompleteSelect
+                  value={data['SKALA DAMPAK INHEREN']}
+                  onChange={(val) => setData('SKALA DAMPAK INHEREN', val)}
+                  options={['1', '2', '3', '4', '5']}
+                  placeholder="Pilih 1-5"
+                />
+                {errors['SKALA DAMPAK INHEREN'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK INHEREN']}</p>}
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="SKALA KEMUNGKINAN INHEREN" className="text-xs text-muted-foreground">
+                  Skala Kemungkinan Inheren
+                </Label>
+                <AutocompleteSelect
+                  value={data['SKALA KEMUNGKINAN INHEREN']}
+                  onChange={(val) => setData('SKALA KEMUNGKINAN INHEREN', val)}
+                  options={['1', '2', '3', '4', '5']}
+                  placeholder="Pilih 1-5"
+                />
+                {errors['SKALA KEMUNGKINAN INHEREN'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN INHEREN']}</p>}
+              </div>
             </div>
 
             <DialogFooter>

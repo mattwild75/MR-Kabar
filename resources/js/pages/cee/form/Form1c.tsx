@@ -283,7 +283,7 @@ function UnsurCard({
                 <Label>
                   Simpulan <span className="text-destructive">*</span>
                 </Label>
-                <FieldInfoPopover text="Keputusan akhir Sekretaris Dinas/Badan atas unsur ini (kolom g Lampiran 5 Form 1c) — pertimbangkan Hasil Reviu Dokumen (1b) & Hasil Survei Persepsi (1a) di atas, lakukan professional judgement bila keduanya bertentangan." />
+                <FieldInfoPopover text={CEE_FORM1C_FIELD_INFO.SIMPULAN_UNSUR} />
               </div>
               <Select value={simpulan || undefined} onValueChange={(v) => setSimpulan(v as 'Memadai' | 'Kurang Memadai')}>
                 <SelectTrigger>
@@ -346,7 +346,6 @@ export default function Form1c({
   opdStatus,
   opdId,
   tahun,
-  unsurs,
   ringkasan,
   simpulanTersimpan,
   defaultPenyusun,

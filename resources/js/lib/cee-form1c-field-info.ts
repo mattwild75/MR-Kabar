@@ -29,4 +29,12 @@ Cara mengisi: jika hasil 1a & 1b sejalan, boleh dikosongkan atau ditulis singkat
 
 Contoh:
 Hasil reviu dokumen menunjukkan belum ada audit kinerja Inspektorat, namun persepsi pegawai tetap positif karena kepemimpinan sehari-hari sudah kondusif — Simpulan tetap "Kurang Memadai" krn kelemahan dokumen bersifat struktural & butuh tindak lanjut Inspektorat.`,
+
+  SIMPULAN_UNSUR: `Definisi: Keputusan akhir (kolom g Lampiran 5 Form 1c) — "Memadai" atau "Kurang Memadai" — atas kondisi Lingkungan Pengendalian pada satu sub unsur, ditetapkan Sekretaris Dinas/Badan dan disahkan Kepala OPD.
+
+Fungsi: Menjadi keputusan FINAL & satu-satunya nilai yang dipakai sebagai basis Form 1d (RTP CEE) — hanya unsur bersimpulan "Kurang Memadai" yang wajib disusun Rencana Tindak Pengendaliannya di Form 1d, unsur bersimpulan "Memadai" tidak perlu RTP.
+
+Cara mengisi: pertimbangkan Hasil Reviu Dokumen (1b) & Hasil Survei Persepsi (1a) yang ditampilkan di atas sebagai bahan pertimbangan — kalau keduanya sejalan (sama-sama "Memadai" atau sama-sama "Kurang Memadai"), pilih nilai yang sama. Kalau bertentangan, lakukan professional judgement (jelaskan alasannya di field Penjelasan Simpulan di bawah).
+
+Contoh: Hasil 1a (persepsi pegawai) = "Memadai", Hasil 1b (reviu dokumen) = "Kurang Memadai" (ditemukan LHP soal SOP belum berjalan) → Simpulan akhir tetap dipilih "Kurang Memadai" karena kelemahan dokumen bersifat objektif/tertelusur, sementara persepsi pegawai bisa bias subjektif.`,
 };

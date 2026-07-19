@@ -269,13 +269,51 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // GROUP: Form Monitoring dan Evaluasi — wadah menu BARU di antara
+        // Form Input & Form Cetak, Lampiran 5 Form 8/9/10 Perdep PPKD
+        // No.4/2019 (Tahap 4 & 5 Bab III: Informasi & Komunikasi, dan
+        // Pemantauan). permission_name null (fail-open) — akses dibatasi
+        // per-OPD via MonitoringEvaluasiController::ensureOpdAccess(), sama
+        // pola dgn Form Cetak Risiko.
+        $formMonev = Menu::updateOrCreate(
+            ['title' => 'Form Monitoring dan Evaluasi', 'parent_id' => null],
+            [
+                'icon' => 'Radar',
+                'route' => '#',
+                'order' => 7,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/monitoring-evaluasi/8-9'],
+            [
+                'title' => '8-9_Monitoring RTP',
+                'parent_id' => $formMonev->id,
+                'icon' => 'MessageSquare',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/monitoring-evaluasi/10'],
+            [
+                'title' => '10_Pencatatan Kejadian Risiko',
+                'parent_id' => $formMonev->id,
+                'icon' => 'CalendarClock',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
         // GROUP: Form Cetak — wadah untuk menu cetak/laporan.
         $formCetak = Menu::updateOrCreate(
             ['title' => 'Form Cetak', 'parent_id' => null],
             [
                 'icon' => 'Printer',
                 'route' => '#',
-                'order' => 7,
+                'order' => 8,
                 'permission_name' => null,
             ]
         );
@@ -505,6 +543,101 @@ class MenuSeeder extends Seeder
                 'parent_id' => $formCetakRtp->id,
                 'icon' => 'ClipboardList',
                 'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        // Sub-grup: Form Cetak -> Risiko -> Monitoring & Evaluasi -> 8/9/10,
+        // sejajar dgn "RTP" — Lampiran 5 Form 8/9/10 Perdep PPKD No.4/2019,
+        // PER-OPD (lihat CetakMonitoringEvaluasiController).
+        $formCetakMonev = Menu::updateOrCreate(
+            ['title' => 'Monitoring & Evaluasi', 'parent_id' => $formCetakRisiko->id],
+            [
+                'icon' => 'Radar',
+                'route' => '#',
+                'order' => 5,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/monitoring-evaluasi/8'],
+            [
+                'title' => '8_Rencana & Realisasi Pengkomunikasian',
+                'parent_id' => $formCetakMonev->id,
+                'icon' => 'MessageSquare',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/monitoring-evaluasi/9'],
+            [
+                'title' => '9_Rencana & Realisasi Pemantauan',
+                'parent_id' => $formCetakMonev->id,
+                'icon' => 'Eye',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/monitoring-evaluasi/10'],
+            [
+                'title' => '10_Pencatatan Kejadian Risiko',
+                'parent_id' => $formCetakMonev->id,
+                'icon' => 'CalendarClock',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
+        // Sub-grup: Form Cetak -> Risiko -> Laporan -> 11/12/13, sejajar dgn
+        // "Monitoring & Evaluasi" — Bab IV Pelaporan & Lampiran 7 Perdep PPKD
+        // No.4/2019 (lihat CetakLaporanController). Laporan 13 (Pemantauan
+        // Unit Kepatuhan) SELALU level Pemda, boleh dilihat semua user tapi
+        // hanya Admin/Super Admin yg boleh mengedit narasinya (dibatasi di
+        // controller, bukan lewat permission_name menu).
+        $formCetakLaporan = Menu::updateOrCreate(
+            ['title' => 'Laporan', 'parent_id' => $formCetakRisiko->id],
+            [
+                'icon' => 'FileBarChart',
+                'route' => '#',
+                'order' => 6,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/laporan/1'],
+            [
+                'title' => '11_Laporan Pelaksanaan Penilaian Risiko',
+                'parent_id' => $formCetakLaporan->id,
+                'icon' => 'ClipboardCheck',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/laporan/2'],
+            [
+                'title' => '12_Laporan Berkala Pengelolaan Risiko',
+                'parent_id' => $formCetakLaporan->id,
+                'icon' => 'CalendarRange',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/cetak/laporan/3'],
+            [
+                'title' => '13_Laporan Pemantauan Unit Kepatuhan',
+                'parent_id' => $formCetakLaporan->id,
+                'icon' => 'ShieldCheck',
+                'order' => 3,
                 'permission_name' => null,
             ]
         );

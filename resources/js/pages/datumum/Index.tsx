@@ -10,6 +10,8 @@ import { Plus, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
+import { DATUMUM_FIELD_INFO } from '@/lib/datumum-field-info';
 
 // type alias (bukan interface) agar dapat implied index signature — syarat
 // FormDataConvertible pada useForm Inertia.
@@ -278,10 +280,13 @@ function DataUmumForm({ data, isAdmin, opdOptions, opdId, tahunAktif, tahun, bel
                 <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {section.fields.map(([key, label, type]) => (
                     <div key={key} className="space-y-1">
-                      <Label htmlFor={key}>
-                        {label}
-                        {PEMDA_WIDE_FIELDS.has(key) && <span className="text-blue-600"> *</span>}
-                      </Label>
+                      <div className="flex items-center gap-1.5">
+                        <Label htmlFor={key}>
+                          {label}
+                          {PEMDA_WIDE_FIELDS.has(key) && <span className="text-blue-600"> *</span>}
+                        </Label>
+                        {DATUMUM_FIELD_INFO[key] && <FieldInfoPopover text={DATUMUM_FIELD_INFO[key]} />}
+                      </div>
                       {type === 'date' ? (
                         <DatePicker
                           id={key}
@@ -308,7 +313,10 @@ function DataUmumForm({ data, isAdmin, opdOptions, opdId, tahunAktif, tahun, bel
             {/* Penanda tangan dinamis — tambah/hapus baris (Jabatan, Nama, NIP). */}
             <Card>
               <CardHeader className="flex-row items-center justify-between space-y-0">
-                <CardTitle className="text-base">Penanda Tangan</CardTitle>
+                <div className="flex items-center gap-1.5">
+                  <CardTitle className="text-base">Penanda Tangan</CardTitle>
+                  <FieldInfoPopover text={DATUMUM_FIELD_INFO.penandatangan} />
+                </div>
                 {!isCeeSurvey && (
                   <Button type="button" variant="outline" size="sm" onClick={addSignatory}>
                     <Plus className="mr-1.5 h-4 w-4" />

@@ -3,6 +3,8 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MediaDownloadController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -30,6 +32,9 @@ use App\Http\Controllers\TroubleshootReportController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\CeeFormController;
+use App\Http\Controllers\MonitoringEvaluasiController;
+use App\Http\Controllers\CetakMonitoringEvaluasiController;
+use App\Http\Controllers\CetakLaporanController;
 use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
 use App\Http\Controllers\CetakHasilAnalisisController;
@@ -39,6 +44,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TahunAktifController;
 use App\Http\Controllers\LaporanKejadianController;
 use App\Http\Controllers\Auth\LaporQrLoginController;
+use App\Http\Controllers\Auth\CeeSurveyQrLoginController;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -50,12 +56,18 @@ Route::get('/', function () {
 
 // Auto-login sekali klik ke akun bersama LAPOR — dipakai QR code di
 // /panduan, harus DI LUAR grup 'auth' karena diakses SEBELUM login.
-Route::get('/login/lapor-kejadian', LaporQrLoginController::class)->name('login.lapor-kejadian');
+Route::get('/login/lapor-kejadian', LaporQrLoginController::class)
+    ->middleware('throttle:10,1')
+    ->name('login.lapor-kejadian');
+
+// Auto-login sekali klik ke akun bersama CEE_Survey — sama pola dgn LAPOR
+// di atas, dipakai QR code di /panduan.
+Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
+    ->middleware('throttle:10,1')
+    ->name('login.cee-survey');
 
 Route::middleware(['auth', 'menu.permission'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Halaman panduan/dokumentasi statis (5W1H manajemen risiko Pemda +
     // cara pakai MR Kabar) — tidak ada data dinamis dari DB, cukup render
@@ -65,8 +77,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
         return Inertia::render('panduan/Index');
     })->name('panduan');
 
-    // Dipoll oleh SessionTimeoutWarning (frontend) untuk auto-logout 8 jam
-    // sejak login — lihat ForceLogoutAfterMaxDuration middleware.
+    // Dipoll oleh SessionTimeoutWarning (frontend) untuk auto-logout 4 jam
+    // sejak login (lihat MAX_SESSION_SECONDS di ForceLogoutAfterMaxDuration
+    // middleware & SessionStatusController).
     Route::get('session-status', [SessionStatusController::class, 'show'])->name('session.status');
     Route::post('session-extend', [SessionStatusController::class, 'extend'])->name('session.extend');
 
@@ -139,10 +152,15 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/lapor-kejadian/cari-risiko', [LaporanKejadianController::class, 'searchRisiko'])
         ->middleware('throttle:30,1')
         ->name('lapor-kejadian.search-risiko');
-    Route::post('/lapor-kejadian', [LaporanKejadianController::class, 'store'])->name('lapor-kejadian.store');
+    // Throttle: endpoint submit publik yg sama (akun bersama LAPOR via QR),
+    // batasi laju submit spam/DoS tanpa mengubah alur/validasi pelaporan.
+    Route::post('/lapor-kejadian', [LaporanKejadianController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('lapor-kejadian.store');
     Route::get('/lapor-kejadian/rekap', [LaporanKejadianController::class, 'index'])->name('lapor-kejadian.index');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/status', [LaporanKejadianController::class, 'updateStatus'])->name('lapor-kejadian.update-status');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/opd', [LaporanKejadianController::class, 'updateOpd'])->name('lapor-kejadian.update-opd');
+    Route::put('/lapor-kejadian/rekap/{laporanKejadian}/risiko-terdaftar', [LaporanKejadianController::class, 'updateRisikoTerdaftar'])->name('lapor-kejadian.update-risiko-terdaftar');
     Route::delete('/lapor-kejadian/rekap/{laporanKejadian}', [LaporanKejadianController::class, 'destroy'])->name('lapor-kejadian.destroy');
 
     Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
@@ -215,6 +233,15 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::put('cee/pertanyaan/{pertanyaan}', [CeePertanyaanController::class, 'update'])->name('cee.pertanyaan.update');
     Route::delete('cee/pertanyaan/{pertanyaan}', [CeePertanyaanController::class, 'destroy'])->name('cee.pertanyaan.destroy');
 
+    // Form Monitoring dan Evaluasi — Lampiran 5 Form 8/9/10 Perdep PPKD
+    // No.4/2019, menu BARU di antara Form Input & Form Cetak. Form 8/9
+    // berbagi endpoint simpan yg sama (satu RTP sumber = satu baris
+    // MonitoringRtp, lihat MonitoringEvaluasiController::rtpGabungan()).
+    Route::get('monitoring-evaluasi/8-9', [MonitoringEvaluasiController::class, 'form89'])->name('monitoring-evaluasi.form89');
+    Route::post('monitoring-evaluasi/8-9', [MonitoringEvaluasiController::class, 'storeOrUpdate89'])->name('monitoring-evaluasi.form89.store');
+    Route::get('monitoring-evaluasi/10', [MonitoringEvaluasiController::class, 'form10'])->name('monitoring-evaluasi.form10');
+    Route::post('monitoring-evaluasi/10', [MonitoringEvaluasiController::class, 'storeOrUpdate10'])->name('monitoring-evaluasi.form10.store');
+
     // Form Cetak CEE 1a/1b/1c (A4, read-only).
     Route::get('cetak/cee/1a', [CetakCeeController::class, 'cetak1a'])->name('cetak.cee.1a');
     Route::get('cetak/cee/1b', [CetakCeeController::class, 'cetak1b'])->name('cetak.cee.1b');
@@ -261,6 +288,27 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('cetak/risiko/6/pdf', [CetakRtpController::class, 'pdf6'])->name('cetak.risiko.6.pdf');
     Route::get('cetak/risiko/7', [CetakRtpController::class, 'cetak7'])->name('cetak.risiko.7');
     Route::get('cetak/risiko/7/pdf', [CetakRtpController::class, 'pdf7'])->name('cetak.risiko.7.pdf');
+
+    // Form Cetak Monitoring & Evaluasi 8/9/10 — sesuai Lampiran 5 Perdep
+    // PPKD No.4/2019, PER-OPD spt Form 6 (lihat CetakMonitoringEvaluasiController).
+    Route::get('cetak/monitoring-evaluasi/8', [CetakMonitoringEvaluasiController::class, 'cetak8'])->name('cetak.monev.8');
+    Route::get('cetak/monitoring-evaluasi/8/pdf', [CetakMonitoringEvaluasiController::class, 'pdf8'])->name('cetak.monev.8.pdf');
+    Route::get('cetak/monitoring-evaluasi/9', [CetakMonitoringEvaluasiController::class, 'cetak9'])->name('cetak.monev.9');
+    Route::get('cetak/monitoring-evaluasi/9/pdf', [CetakMonitoringEvaluasiController::class, 'pdf9'])->name('cetak.monev.9.pdf');
+    Route::get('cetak/monitoring-evaluasi/10', [CetakMonitoringEvaluasiController::class, 'cetak10'])->name('cetak.monev.10');
+    Route::get('cetak/monitoring-evaluasi/10/pdf', [CetakMonitoringEvaluasiController::class, 'pdf10'])->name('cetak.monev.10.pdf');
+
+    // Form Cetak Laporan 11/12/13 — Bab IV Pelaporan & Lampiran 7 Perdep
+    // PPKD No.4/2019 (lihat CetakLaporanController).
+    Route::get('cetak/laporan/1', [CetakLaporanController::class, 'cetak1'])->name('cetak.laporan.1');
+    Route::get('cetak/laporan/1/pdf', [CetakLaporanController::class, 'pdf1'])->name('cetak.laporan.1.pdf');
+    Route::post('cetak/laporan/1/narasi', [CetakLaporanController::class, 'simpanNarasi1'])->name('cetak.laporan.1.narasi');
+    Route::get('cetak/laporan/2', [CetakLaporanController::class, 'cetak2'])->name('cetak.laporan.2');
+    Route::get('cetak/laporan/2/pdf', [CetakLaporanController::class, 'pdf2'])->name('cetak.laporan.2.pdf');
+    Route::post('cetak/laporan/2/narasi', [CetakLaporanController::class, 'simpanNarasi2'])->name('cetak.laporan.2.narasi');
+    Route::get('cetak/laporan/3', [CetakLaporanController::class, 'cetak3'])->name('cetak.laporan.3');
+    Route::get('cetak/laporan/3/pdf', [CetakLaporanController::class, 'pdf3'])->name('cetak.laporan.3.pdf');
+    Route::post('cetak/laporan/3/narasi', [CetakLaporanController::class, 'simpanNarasi3'])->name('cetak.laporan.3.narasi');
 
     // Edit manual isian TTD (tempat/tanggal/jabatan/nama) langsung dari
     // halaman Form Cetak — menyimpan permanen ke Data Umum terkait.
@@ -322,6 +370,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('iro_pd', [IroPdController::class, 'store'])->name('iro_pd.store');
     Route::put('iro_pd/{iro_pd}', [IroPdController::class, 'update'])->name('iro_pd.update');
     Route::delete('iro_pd/{iro_pd}', [IroPdController::class, 'destroy'])->name('iro_pd.destroy');
+
+    // Satu-satunya jalur mengunduh/melihat ISI file media (File Manager &
+    // Bukti Dukung Risiko) — disk MEDIA_DISK='local' (privat, tidak
+    // ter-mount ke /storage publik), lihat MediaDownloadController utk
+    // alasan keamanan lengkap.
+    Route::get('media/{media}/download', MediaDownloadController::class)->name('media.download');
 
     // Bukti dukung existing control (IRS Pemda/IRS PD/IRO PD) — file
     // tersimpan lewat media User yg sama dgn Utilities > File Manager.

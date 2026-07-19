@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -33,7 +33,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { type BreadcrumbItem } from '@/types';
-import { Search, X, Trash2, Eye } from 'lucide-react';
+import { Search, Trash2, Eye, FileCheck2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface Opd {
@@ -49,15 +49,27 @@ interface Laporan {
   opd: Opd | null;
   kejadian: string;
   waktu_kejadian: string;
+  waktu_kejadian_raw: string;
   tempat: string | null;
   pemicu: string | null;
   risiko_terdaftar_tipe: string | null;
   risiko_terdaftar_id: number | null;
   risiko_terdaftar_uraian: string | null;
+  risiko_terdaftar_tahun: number | null;
   status: string;
   catatan_tindak_lanjut: string | null;
   ditindaklanjuti_oleh: string | null;
   created_at: string;
+  sudah_dicatat_form10: boolean;
+}
+
+interface RisikoHasil {
+  tipe: 'irs_pemda' | 'irs_pd' | 'iro_pd';
+  id: number;
+  uraian_risiko: string;
+  konteks: string | null;
+  opd: string | null;
+  pemicu: string | null;
 }
 
 interface Paginator<T> {
@@ -107,6 +119,10 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
   const [tindakLanjut, setTindakLanjut] = useState<{ status: string; catatan: string }>({ status: '', catatan: '' });
   const [opdEdit, setOpdEdit] = useState<string>('');
   const [savingOpd, setSavingOpd] = useState(false);
+  const [cariRisikoQuery, setCariRisikoQuery] = useState('');
+  const [cariRisikoHasil, setCariRisikoHasil] = useState<RisikoHasil[]>([]);
+  const [cariRisikoSearching, setCariRisikoSearching] = useState(false);
+  const [savingRisikoTerdaftar, setSavingRisikoTerdaftar] = useState(false);
 
   const applyFilter = (params: Record<string, string | undefined>) => {
     router.get('/lapor-kejadian/rekap', { ...filters, ...params }, { preserveState: true, preserveScroll: true });
@@ -116,6 +132,59 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
     setDetail(l);
     setTindakLanjut({ status: l.status, catatan: l.catatan_tindak_lanjut ?? '' });
     setOpdEdit(l.opd ? String(l.opd.id) : '');
+    setCariRisikoQuery('');
+    setCariRisikoHasil([]);
+  };
+
+  const cariRisikoTerdaftar = async (q: string) => {
+    setCariRisikoQuery(q);
+    if (q.trim().length < 2) {
+      setCariRisikoHasil([]);
+      return;
+    }
+    setCariRisikoSearching(true);
+    try {
+      const res = await fetch(`/lapor-kejadian/cari-risiko?q=${encodeURIComponent(q)}`);
+      setCariRisikoHasil(await res.json());
+    } finally {
+      setCariRisikoSearching(false);
+    }
+  };
+
+  const tautkanRisikoTerdaftar = (r: RisikoHasil) => {
+    if (!detail) return;
+    setSavingRisikoTerdaftar(true);
+    router.put(`/lapor-kejadian/rekap/${detail.id}/risiko-terdaftar`, {
+      risiko_terdaftar_tipe: r.tipe,
+      risiko_terdaftar_id: r.id,
+    }, {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success('Laporan berhasil ditautkan ke risiko terdaftar.');
+        setDetail((prev) => (prev ? { ...prev, risiko_terdaftar_tipe: r.tipe, risiko_terdaftar_id: r.id, risiko_terdaftar_uraian: r.uraian_risiko } : prev));
+        setCariRisikoQuery('');
+        setCariRisikoHasil([]);
+      },
+      onError: () => toast.error('Gagal menautkan risiko.'),
+      onFinish: () => setSavingRisikoTerdaftar(false),
+    });
+  };
+
+  const bukaFormCatat10 = (l: Laporan) => {
+    const params = new URLSearchParams({
+      opd_id: l.opd?.id ? String(l.opd.id) : '',
+      // WAJIB tahun risiko terdaftar (BUKAN tahun aktif Pengaturan Pemda)
+      // — kalau kosong Form10 fallback ke tahun aktif & kartu risikonya
+      // tidak akan pernah cocok (risikonya terdaftar di tahun lain).
+      tahun: l.risiko_terdaftar_tahun ? String(l.risiko_terdaftar_tahun) : '',
+      prefill_risiko_tipe: l.risiko_terdaftar_tipe ?? '',
+      prefill_risiko_id: l.risiko_terdaftar_id ? String(l.risiko_terdaftar_id) : '',
+      prefill_tanggal_terjadi: l.waktu_kejadian_raw,
+      prefill_sebab: l.pemicu ?? '',
+      prefill_dampak: l.kejadian,
+      prefill_laporan_kejadian_id: String(l.id),
+    });
+    window.open(`/monitoring-evaluasi/10?${params.toString()}`, '_blank');
   };
 
   const simpanOpd = () => {
@@ -391,6 +460,58 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
                   </Button>
                 </div>
               </div>
+
+              {isAdminOrSuperAdmin && !detail.risiko_terdaftar_tipe && (
+                <div className="space-y-2 border-t pt-3">
+                  <Label>Tautkan ke Risiko Terdaftar</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Kalau risikonya baru saja didaftarkan lewat tombol "Input ke Register Risiko" di atas, cari &amp;
+                    tautkan di sini — laporan ini akan bisa dicatat ke Form 10 setelah tertaut.
+                  </p>
+                  <div className="relative">
+                    <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      className="pl-8"
+                      placeholder="Ketik uraian risiko yang relevan..."
+                      value={cariRisikoQuery}
+                      onChange={(e) => cariRisikoTerdaftar(e.target.value)}
+                      disabled={savingRisikoTerdaftar}
+                    />
+                    {cariRisikoSearching && <p className="mt-1 text-xs text-muted-foreground">Mencari...</p>}
+                    {cariRisikoHasil.length > 0 && (
+                      <div className="absolute z-50 mt-1 max-h-64 w-full overflow-y-auto rounded-md border bg-popover shadow-md">
+                        {cariRisikoHasil.map((r) => (
+                          <button
+                            key={`${r.tipe}-${r.id}`}
+                            type="button"
+                            onClick={() => tautkanRisikoTerdaftar(r)}
+                            className="block w-full px-3 py-2 text-left text-sm hover:bg-muted"
+                          >
+                            <p className="font-medium">{r.uraian_risiko}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {TIPE_LABEL[r.tipe]} {r.opd ? `· ${r.opd}` : ''}
+                            </p>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {detail.risiko_terdaftar_tipe && (
+                <div className="space-y-2 border-t pt-3">
+                  <Label>Catat ke Form 10 (Pencatatan Kejadian Risiko)</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Buka Form 10 di tab baru dengan risiko, tanggal, sebab, dan dampak sudah terisi otomatis dari
+                    laporan ini — petugas tetap meninjau &amp; melengkapi sebelum menyimpan.
+                  </p>
+                  <Button type="button" size="sm" onClick={() => bukaFormCatat10(detail)}>
+                    <FileCheck2 className="mr-1.5 h-3.5 w-3.5" />
+                    {detail.sudah_dicatat_form10 ? 'Lihat di Form 10' : 'Catat ke Form 10'}
+                  </Button>
+                </div>
+              )}
 
               <div className="space-y-2 border-t pt-3">
                 <Label>Status Tindak Lanjut</Label>

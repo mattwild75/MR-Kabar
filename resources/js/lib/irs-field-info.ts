@@ -19,13 +19,35 @@ Jika ada lebih dari 1 uraian risiko, maka ditulis juga sel dibawahnya, dengan co
 Perlambatan ekonomi nasional yang menyebabkan bertambahnya pengangguran
 Rendahnya keterampilan tenaga kerja lokal sehingga sulit bersaing`,
 
-  'TAHUN DINILAI RISIKO': `Tahun identifikasi/penilaian risiko ini dilakukan, format 4 digit (mis. 2026). Bagian dari Kode Risiko sesuai Perdep PPKD No.4/2019 (contoh: RSO.19.00.05.01, "19" = 2 digit terakhir tahun 2019) — default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain.`,
+  'TAHUN DINILAI RISIKO': `Definisi: Tahun identifikasi/penilaian risiko ini dilakukan, format 4 digit (mis. 2026) — BUKAN tahun risikonya diperkirakan terjadi, melainkan tahun proses penilaian/identifikasi risiko ini dikerjakan oleh UPR.
 
-  'JENIS RISIKO': `Pilih Jenis Risiko dari daftar 41 kode urusan pemerintahan (lihat tombol daftar di samping field).`,
+Fungsi: Menjadi komponen ke-2 pada struktur Kode Risiko sesuai Perdep PPKD No.4/2019 (Lampiran 6) — dipakai untuk membedakan penilaian tahun berjalan dari penilaian tahun-tahun sebelumnya, dan jadi dasar filter data per tahun di seluruh Form Cetak (2a-7).
 
-  'ENTITAS PD YANG MENILAI': `Pilih Entitas Perangkat Daerah yang menilai risiko dari daftar instansi (lihat tombol daftar di samping field).`,
+Cara mengisi: default otomatis mengikuti Tahun Aktif Pemda (bisa dilihat di badge "Tahun Aktif" pada menu terkait) — boleh diganti manual bila sedang mengisi data untuk tahun penilaian lain (mis. menyusun ulang data tahun lampau).
 
-  'NOMOR URUT RISIKO': `Isi Dengan Nomor Urut Penilaian Risiko (otomatis)`,
+Contoh: 2026 → 2 digit terakhir ("26") dipakai pada Kode Risiko, mis. RSO.26.00.05.01.`,
+
+  'JENIS RISIKO': `Definisi: Klasifikasi risiko berdasarkan bidang/urusan pemerintahan yang paling relevan dengan sumber/dampak risiko tersebut, mengikuti 41 kode urusan pemerintahan wajib & pilihan baku.
+
+Fungsi: Menjadi komponen ke-3 pada struktur Kode Risiko (2 digit, mis. "37" = Keuangan dan Pendapatan) — dipakai untuk mengelompokkan & merekap risiko lintas-OPD berdasarkan bidang urusan yang sama, bukan berdasarkan OPD penilainya.
+
+Cara mengisi: klik tombol daftar di samping field untuk memilih dari 41 kode urusan pemerintahan yang tersedia (format "kode - nama urusan").
+
+Contoh: "02 - Kesehatan" untuk risiko terkait pelayanan kesehatan masyarakat, "37 - Keuangan dan Pendapatan" untuk risiko terkait pengelolaan APBD.`,
+
+  'ENTITAS PD YANG MENILAI': `Definisi: Perangkat Daerah/entitas yang melakukan penilaian atas risiko ini — BUKAN selalu sama dengan Pemilik Risiko atau Penanggung Jawab Pengendalian, melainkan siapa yang secara administratif mencatat & menilai risiko tsb.
+
+Fungsi: Menjadi komponen ke-4 pada struktur Kode Risiko (2 digit urutan entitas, mis. "30" = Inspektorat) — memastikan kode risiko tetap unik meski dua OPD berbeda menilai risiko dengan Tahun+Jenis Risiko yang sama.
+
+Cara mengisi: klik tombol daftar di samping field untuk memilih dari daftar instansi/OPD yang tersedia.
+
+Contoh: Risiko strategis Pemda tentang stunting dinilai oleh Bappeda (fasilitator FGD) → Entitas PD yang Menilai = "Bappeda", walau Pemilik Risikonya tetap Bupati.`,
+
+  'NOMOR URUT RISIKO': `Definisi: Nomor urut risiko (2 digit, "01", "02", dst) sebagai komponen TERAKHIR pada Kode Risiko — dihitung ulang otomatis, di-reset per kombinasi unik Tahun + Jenis Risiko + Entitas PD yang Menilai.
+
+Fungsi: Memastikan setiap risiko dalam satu kombinasi Tahun+Jenis+Entitas punya kode yang unik dan berurutan, sesuai format Kode Risiko Perdep PPKD No.4/2019 (Lampiran 6).
+
+Cara mengisi: TIDAK PERLU diisi manual — dihitung & ditampilkan otomatis oleh sistem berdasarkan urutan baris yang sudah tersimpan, sama seperti Skala Risiko yang juga dihitung ulang, bukan disimpan sebagai pilihan bebas.`,
 
   'PEMILIK RISIKO': `Definisi: Unit Pemilik Risiko (UPR) — unit organisasi yang bertanggung jawab melakukan pengelolaan risiko di lingkup kerjanya (Perdep Bab II.B.4), BERBEDA dari "Penanggung Jawab" yang sifatnya tunggal/strategis (selalu Kepala Daerah).
 
@@ -191,7 +213,27 @@ Diisi bersama TAHUN TARGET PENYELESAIAN di samping — mis. Triwulan II 2026 ber
 
 Cara mengisi: ketik angka tahun (mis. 2026).`,
 
-  'SKALA DAMPAK': `Pilih level Dampak (1-5) sesuai tabel Kriteria Dampak (lihat tombol referensi di samping field).`,
+  'SKALA DAMPAK': `Definisi: Nilai (1-5) yang menggambarkan seberapa besar konsekuensi/kerugian jika risiko ini benar-benar terjadi — salah satu dari dua komponen penyusun Skala Risiko (bersama Skala Kemungkinan).
 
-  'SKALA KEMUNGKINAN': `Pilih level Kemungkinan (1-5) sesuai tabel Kriteria Kemungkinan (lihat tombol referensi di samping field).`,
+Fungsi: Dikalikan dengan Skala Kemungkinan lewat Matriks Analisis Risiko 5×5 untuk menghasilkan Skala Risiko (1-25), yang menentukan kategori Sangat Rendah s.d. Sangat Tinggi dan menjadi dasar Daftar Risiko Prioritas (Form 5).
+
+Cara mengisi: klik tombol referensi di samping field untuk melihat tabel Kriteria Dampak (deskripsi tiap level 1-5, bisa disesuaikan Admin/Super Admin lewat Settings > Keterangan Pendukung), lalu pilih level yang paling sesuai dengan Uraian Dampak Risiko yang sudah ditulis.
+
+Contoh: Risiko "target penurunan stunting tidak tercapai" berdampak pada indikator kesehatan daerah secara luas → dinilai Dampak level 4 (Tinggi), bukan level 1 (dampak sangat kecil/lokal).`,
+
+  'SKALA KEMUNGKINAN': `Definisi: Nilai (1-5) yang menggambarkan seberapa besar peluang/frekuensi risiko ini akan terjadi — komponen kedua penyusun Skala Risiko (bersama Skala Dampak).
+
+Fungsi: Dikalikan dengan Skala Dampak lewat Matriks Analisis Risiko 5×5 untuk menghasilkan Skala Risiko (1-25) — menentukan apakah risiko ini masuk kategori prioritas (Tinggi/Sangat Tinggi) yang wajib disusun RTP-nya di Form 7.
+
+Cara mengisi: klik tombol referensi di samping field untuk melihat tabel Kriteria Kemungkinan (deskripsi tiap level 1-5, bisa disesuaikan Admin/Super Admin lewat Settings > Keterangan Pendukung), lalu pilih level berdasarkan seberapa sering kondisi/kejadian serupa pernah terjadi atau diperkirakan akan terjadi.
+
+Contoh: Risiko "keterlambatan pencairan dana akibat perubahan regulasi pusat" jarang terjadi tapi pernah berulang beberapa tahun terakhir → dinilai Kemungkinan level 3 (Kadang Terjadi), bukan level 1 (Sangat Jarang).`,
+
+  'SKALA DAMPAK INHEREN': `Definisi: Skala Dampak & Kemungkinan SEBELUM mempertimbangkan pengendalian yang sudah ada (existing control) — berbeda dari Skala Dampak/Kemungkinan di atas yang SELALU dinilai SETELAH mempertimbangkan pengendalian (itulah Sisa Risiko/Skala Residual). Perdep PPKD No.4/2019 Pasal 1 angka 10 mendefinisikan "Sisa Risiko" sebagai risiko setelah pengendalian — secara implisit membedakannya dari risiko inheren.
+
+Fungsi: Kalau diisi, menjadi dasar widget Dashboard "Risiko Inheren vs Sisa Risiko" — membandingkan seberapa besar pengendalian yang ada berhasil menurunkan level risiko (Skala Risiko Inheren yang tinggi tapi Skala Risiko residual jadi rendah = pengendalian efektif).
+
+Cara mengisi: OPSIONAL — bayangkan seandainya "Uraian Pengendalian yang Sudah Ada" TIDAK PERNAH ada, seberapa besar Dampak & Kemungkinan risiko ini? Boleh dikosongkan kalau Anda tidak ingin mengisi perbandingan inheren-residual untuk baris ini (Skala Risiko yang wajib tetap dihitung dari Skala Dampak/Kemungkinan residual di atas).
+
+Contoh: Risiko "keterlambatan verifikasi data PMKS" — TANPA pengendalian sama sekali, Dampak dinilai 4 (Tinggi) & Kemungkinan 4 (Sering Terjadi) → Skala Risiko Inheren 19. SETELAH ada SOP verifikasi berkala (existing control), Skala Risiko residual (di atas) turun jadi Dampak 3/Kemungkinan 2 = 10 — menunjukkan pengendalian yang ada cukup efektif.`,
 };
