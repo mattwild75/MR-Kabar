@@ -502,7 +502,7 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
           <form onSubmit={handleSubmit} className="space-y-3">
             {prefillFromLaporan && (
               <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-                Data ini diambil dari laporan warga — Uraian Risiko, Penyebab (5M), dan OPD sudah terisi otomatis.
+                Data ini diambil dari laporan warga — Uraian Risiko, Penyebab (7M+1E), dan OPD sudah terisi otomatis.
                 Lengkapi juga <strong>Sumber Sebab Risiko</strong> (Internal/Eksternal) dan <strong>C / UC</strong> di bawah
                 sebelum menyimpan — keduanya tidak dapat ditebak dari laporan warga dan butuh penilaian Anda.
               </p>

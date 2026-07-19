@@ -1019,7 +1019,7 @@ export const SECTIONS: Section[] = [
             ['(d)', 'Uraian Risiko', 'Kondisi/kejadian yang mengancam sasaran/kegiatan tersebut.'],
             ['(e)', 'Kode Risiko', 'Kode otomatis format PREFIX.TAHUN.JENIS.ENTITAS.URUT (lihat bagian "Bagaimana").'],
             ['(f)', 'Pemilik Risiko', 'Jabatan/unit yang bertanggung jawab mengelola risiko.'],
-            ['(g)', 'Uraian Sebab', 'Penyebab risiko, dikategorikan 5M (Man/Money/Method/Machine/Material) — badge berwarna per kategori.'],
+            ['(g)', 'Uraian Sebab', 'Penyebab risiko, dikategorikan 7M+1E (Men/Machine/Method/Material/Money/Management/Measurement/Environment) — badge berwarna per kategori.'],
             ['(h)', 'Sumber Sebab', 'Internal atau Eksternal — badge berwarna.'],
             ['(i)', 'C / UC', 'Controllable (kendali penuh internal) atau Uncontrollable (bergantung faktor eksternal) — badge berwarna.'],
             ['(j)', 'Uraian Dampak', 'Akibat yang ditimbulkan jika risiko benar-benar terjadi.'],
@@ -1063,7 +1063,7 @@ export const SECTIONS: Section[] = [
           </table>
         </div>
         <p className="text-xs text-muted-foreground">
-          Kategori 5M, Sumber (Internal/Eksternal), dan C/UC selalu tampil sebagai badge berwarna berbeda supaya
+          Kategori 7M+1E, Sumber (Internal/Eksternal), dan C/UC selalu tampil sebagai badge berwarna berbeda supaya
           cepat dipindai secara visual — bukan sekadar teks polos.
         </p>
 
@@ -1136,7 +1136,7 @@ export const SECTIONS: Section[] = [
           Sama persis dengan Form 4, tapi <strong>hanya menampilkan risiko dengan Skala Risiko ≥ 16</strong>{' '}
           (kategori Tinggi &amp; Sangat Tinggi) — inilah daftar risiko yang wajib disusun Rencana Tindak
           Pengendaliannya lebih dulu (lanjut ke Form 7). Kolom Uraian Sebab tetap ditampilkan dengan badge kategori
-          5M seperti Form 3a/3b/3c.
+          7M+1E seperti Form 3a/3b/3c.
         </p>
 
         <Kotak title="Kolom &quot;OPD&quot; menambah huruf, beda dari Perdep asli">
@@ -1321,20 +1321,24 @@ export const SECTIONS: Section[] = [
           kosong — akan tercetak &quot;Tidak Terjadi&quot; di Form Cetak 10.
         </p>
 
-        <p className="mt-3 font-medium text-foreground">Kolom Sebab dikategorikan 5M</p>
+        <p className="mt-3 font-medium text-foreground">Kolom Sebab dikategorikan 7M+1E</p>
         <p>
-          Field &quot;Sebab (saat kejadian)&quot; memakai kotak isian ganda 5M (Machine/Men/Material/Method/Money —
-          sama pola dengan Uraian Sebab Risiko di IRS/IRO) — centang kategori yang relevan (boleh lebih dari satu)
-          lalu isi uraiannya. Di Form Cetak 10, tiap kategori tercetak sebagai badge warna berbeda:
+          Field &quot;Sebab (saat kejadian)&quot; memakai kotak isian ganda 7M+1E (Men/Machine/Method/Material/Money/
+          Management/Measurement/Environment — sama pola dengan Uraian Sebab Risiko di IRS/IRO) — centang kategori
+          yang relevan (boleh lebih dari satu) lalu isi uraiannya. Di Form Cetak 10, tiap kategori tercetak sebagai
+          badge warna berbeda:
         </p>
         <SimpleTable
           headers={['Kategori', 'Warna', 'Contoh']}
           rows={[
-            [<ColorBadge color="sky">Machine</ColorBadge>, 'Cyan', 'Alat/sistem/mesin yang jadi penyebab.'],
             [<ColorBadge color="orange">Men</ColorBadge>, 'Oranye', 'Faktor sumber daya manusia/personel.'],
-            [<ColorBadge color="emerald">Material</ColorBadge>, 'Lime', 'Bahan/material/data yang jadi penyebab.'],
+            [<ColorBadge color="sky">Machine</ColorBadge>, 'Cyan', 'Alat/sistem/mesin yang jadi penyebab.'],
             [<ColorBadge color="sky">Method</ColorBadge>, 'Indigo', 'Prosedur/metode kerja yang jadi penyebab.'],
+            [<ColorBadge color="emerald">Material</ColorBadge>, 'Lime', 'Bahan/material/data yang jadi penyebab.'],
             [<ColorBadge color="red">Money</ColorBadge>, 'Rose', 'Faktor anggaran/pembiayaan.'],
+            [<ColorBadge color="amber">Management</ColorBadge>, 'Teal', 'Kelemahan tata kelola/pengawasan/koordinasi.'],
+            [<ColorBadge color="yellow">Measurement</ColorBadge>, 'Fuchsia', 'Kesalahan/ketiadaan indikator pengukuran.'],
+            [<ColorBadge color="emerald">Environment</ColorBadge>, 'Emerald', 'Faktor lingkungan eksternal (cuaca, bencana alam, geografis) di luar kendali OPD.'],
           ]}
         />
 

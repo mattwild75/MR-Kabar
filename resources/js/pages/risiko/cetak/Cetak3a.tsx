@@ -102,6 +102,8 @@ export function clean(v?: string | null): string {
 // di hasil PDF walau tampil normal di pratinjau web (root cause pastinya
 // tidak jelas — kemungkinan urutan cascade saat Puppeteer mengambil
 // snapshot — tapi inline style terbukti konsisten tercetak di kedua mode).
+// 7M+1E — pengembangan dari 5M klasik, lihat PENYEBAB_5M_KATEGORI di
+// irs-reference-data.ts untuk daftar kategori aktif di form isian.
 export const KATEGORI_5M_WARNA: Record<string, { bg: string; text: string }> = {
   man: { bg: '#e0f2fe', text: '#075985' },
   men: { bg: '#e0f2fe', text: '#075985' },
@@ -109,6 +111,9 @@ export const KATEGORI_5M_WARNA: Record<string, { bg: string; text: string }> = {
   method: { bg: '#fef3c7', text: '#92400e' },
   machine: { bg: '#ede9fe', text: '#5b21b6' },
   material: { bg: '#ffe4e6', text: '#9f1239' },
+  management: { bg: '#ccfbf1', text: '#115e59' },
+  measurement: { bg: '#fae8ff', text: '#86198f' },
+  environment: { bg: '#d1fae5', text: '#065f46' },
 };
 
 export const KATEGORI_SUMBER_WARNA: Record<string, { bg: string; text: string }> = {
@@ -530,7 +535,7 @@ export default function Cetak3a({ tahun, periode, identifikasi, visi, pemerintah
           <p>Kolom d diisi dengan uraian peristiwa yang merupakan risiko.</p>
           <p>Kolom e diisi dengan Kode risiko.</p>
           <p>Kolom f diisi dengan Pemilik risiko, pihak/unit yang bertanggung jawab/berkepentingan untuk mengelola risiko.</p>
-          <p>Kolom g diisi dengan penyebab timbulnya risiko. Untuk mempermudah identifikasi sebab risiko, sebab risiko bisa dikategorikan ke dalam: Man, Money, Method, Machine, dan Material.</p>
+          <p>Kolom g diisi dengan penyebab timbulnya risiko. Untuk mempermudah identifikasi sebab risiko, sebab risiko bisa dikategorikan ke dalam: Men, Machine, Method, Material, Money, Management, Measurement, dan Environment (7M+1E).</p>
           <p>Kolom h diisi dengan sumber risiko (Eksternal/Internal).</p>
           <p>Kolom i diisi dengan C, jika unit kerja mampu untuk mengendalikan penyebab risiko, atau UC jika unit kerja tidak mampu mengendalikan risiko.</p>
           <p>Kolom j diisi dengan uraian akibat yang ditimbulkan jika risiko benar-benar terjadi. Untuk mempermudah identifikasi dampak risiko, dampak risiko bisa dikategorikan ke dalam: Keuangan, Kinerja, Reputasi dan Hukum.</p>

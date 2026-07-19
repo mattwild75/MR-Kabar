@@ -64,20 +64,28 @@ Fungsi: melaksanakan penilaian risiko, melaporkan peristiwa risiko, menyusun has
 Contoh (level Pemda): Risiko gagal mencapai target kemiskinan => Pemilik Risiko: Bupati (Ketua UPR Tingkat Pemda) — WAJIB Bupati krn TINGKAT RISIKO-nya Strategis Pemda, bukan Kepala Dinas Sosial meski risiko ini domain teknisnya di sana.
 Contoh (level OPD): Risiko keterlambatan proyek fisik => Pemilik Risiko: Kepala Dinas PUPR (UPR Tingkat Eselon 2).`,
 
-  'URAIAN PENYEBAB RISIKO': `Definisi: Faktor langsung atau kondisi yang memunculkan risiko, diklasifikasikan memakai kerangka 5M (analisis akar masalah/fishbone) — boleh pilih lebih dari 1 kategori sekaligus kalau risikonya disebabkan gabungan beberapa faktor.
+  'URAIAN PENYEBAB RISIKO': `Definisi: Faktor langsung atau kondisi yang memunculkan risiko, diklasifikasikan memakai kerangka 7M + 1E (pengembangan dari 5M/fishbone klasik) — boleh pilih lebih dari 1 kategori sekaligus kalau risikonya disebabkan gabungan beberapa faktor.
 
-Kategori 5M:
-- Machine (Mesin/Peralatan/Sistem): faktor penyebab dari sisi peralatan, mesin, atau sistem/aplikasi — mis. server sering down, alat kalibrasi rusak, aplikasi belum terintegrasi.
-- Men (Manusia/SDM): faktor penyebab dari sisi kompetensi, jumlah, atau perilaku SDM — mis. kurangnya jumlah petugas, SDM belum terlatih, pemahaman regulasi rendah.
-- Material (Bahan/Data/Dokumen): faktor penyebab dari sisi ketersediaan/kualitas bahan, data, atau dokumen — mis. data tidak akurat, dokumen sumber tidak lengkap.
-- Method (Metode/Prosedur/Kebijakan): faktor penyebab dari sisi prosedur, SOP, atau kebijakan yang belum ada/belum memadai — mis. belum ada SOP baku, mekanisme koordinasi belum terjadwal.
-- Money (Anggaran/Pembiayaan): faktor penyebab dari sisi ketersediaan/kecukupan anggaran — mis. anggaran terbatas, pencairan anggaran terlambat.
+Kategori 7M (faktor internal — dalam kendali/pengaruh OPD):
+- Men (Manusia/SDM): kompetensi, jumlah, atau perilaku SDM — mis. kurangnya jumlah petugas, SDM belum terlatih.
+- Machine (Mesin/Peralatan/Sistem): peralatan, mesin, atau sistem/aplikasi — mis. server sering down, aplikasi belum terintegrasi.
+- Method (Metode/Prosedur/Kebijakan): prosedur, SOP, atau kebijakan yang belum ada/belum memadai — mis. belum ada SOP baku.
+- Material (Bahan/Data/Dokumen): ketersediaan/kualitas bahan, data, atau dokumen — mis. data tidak akurat, dokumen sumber tidak lengkap.
+- Money (Anggaran/Pembiayaan): ketersediaan/kecukupan anggaran — mis. anggaran terbatas, pencairan anggaran terlambat.
+- Management (Tata Kelola/Pengawasan): kelemahan pengawasan, koordinasi lintas unit, atau kepemimpinan — mis. belum ada mekanisme monitoring berkala, pengawasan berjenjang lemah.
+- Measurement (Pengukuran/Indikator): kesalahan atau ketiadaan indikator/standar pengukuran kinerja — mis. indikator kinerja tidak terukur jelas, tidak ada baseline data.
 
-Cara mengisi: centang kategori 5M yang relevan (boleh lebih dari satu), lalu tulis uraian penyebabnya di kotak masing-masing kategori.
+Kategori 1E (faktor eksternal — di luar kendali OPD):
+- Environment (Lingkungan): kondisi alam, cuaca, geografis, atau lingkungan sekitar yang berada di luar kendali OPD — mis. curah hujan ekstrem, bencana alam, kondisi geografis terpencil.
+
+Catatan: kategori Environment di sini murni MENJELASKAN kondisi faktualnya (apa lingkungannya). Penilaian apakah faktor itu bisa dikendalikan OPD tetap diisi lengkap lewat field "Sumber Sebab Risiko" (Internal/Eksternal) dan "C / UC" (Controllable/Uncontrollable) di bawah — ketiganya saling melengkapi, bukan menggantikan satu sama lain.
+
+Cara mengisi: centang kategori yang relevan (boleh lebih dari satu), lalu tulis uraian penyebabnya di kotak masing-masing kategori.
 
 Contoh:
 Money (Anggaran penanggulangan kemiskinan terbatas)
-Material (Data kemiskinan tidak akurat)`,
+Material (Data kemiskinan tidak akurat)
+Environment (Curah hujan ekstrem di luar prediksi normal menyebabkan debit air melampaui kapasitas desain tanggul)`,
 
   'SUMBER SEBAB RISIKO': `Definisi: Asal penyebab risiko — Internal, Eksternal, atau keduanya sekaligus (kalau kedua kotak diisi, otomatis tergabung jadi "Internal dan Eksternal") — diikuti uraian singkat penyebabnya dalam tanda kurung.
 

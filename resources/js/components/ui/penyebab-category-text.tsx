@@ -1,16 +1,20 @@
 import HighlightText from '@/components/ui/highlight-text';
 
-// Warna badge per kategori 5M (fishbone/Ishikawa: Machine/Men/Material/
-// Method/Money) — konsisten dgn kategori di MultiCategoryTextarea (lihat
-// PENYEBAB_5M_KATEGORI di irs-reference-data.ts). Dipisah dari komponen
-// input krn dipakai murni utk tampilan baca di tabel, sama pola dgn
-// RtpCategoryText (badge respon risiko Avoid/Abate/Mitigate/dst).
+// Warna badge per kategori 7M+1E (Men/Machine/Method/Material/Money +
+// Management/Measurement/Environment) — konsisten dgn kategori di
+// MultiCategoryTextarea (lihat PENYEBAB_5M_KATEGORI di irs-reference-data.ts,
+// nama konstanta dipertahankan meski isinya sekarang 8 kategori). Dipisah
+// dari komponen input krn dipakai murni utk tampilan baca di tabel, sama
+// pola dgn RtpCategoryText (badge respon risiko Avoid/Abate/Mitigate/dst).
 const PENYEBAB_5M_BADGE_CLASS: Record<string, string> = {
   Machine: 'bg-cyan-600 text-white',
   Men: 'bg-orange-600 text-white',
   Material: 'bg-lime-600 text-white',
   Method: 'bg-indigo-600 text-white',
   Money: 'bg-rose-600 text-white',
+  Management: 'bg-teal-600 text-white',
+  Measurement: 'bg-fuchsia-600 text-white',
+  Environment: 'bg-emerald-600 text-white',
 };
 
 const PENYEBAB_5M_KATEGORI_SET = new Set(Object.keys(PENYEBAB_5M_BADGE_CLASS));

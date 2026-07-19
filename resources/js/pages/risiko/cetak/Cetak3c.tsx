@@ -150,7 +150,7 @@ export default function Cetak3c({ opdOptions, opd, tahun, periode, identifikasi,
             <p>Kolom e diisi dengan uraian peristiwa yang merupakan risiko.</p>
             <p>Kolom f diisi dengan Kode risiko.</p>
             <p>Kolom g diisi dengan Pemilik risiko, pihak/unit yang bertanggung jawab/berkepentingan untuk mengelola risiko.</p>
-            <p>Kolom h diisi dengan penyebab timbulnya risiko. Untuk mempermudah identifikasi sebab risiko, sebab risiko bisa dikategorikan ke dalam: Man, Money, Method, Machine, dan Material.</p>
+            <p>Kolom h diisi dengan penyebab timbulnya risiko. Untuk mempermudah identifikasi sebab risiko, sebab risiko bisa dikategorikan ke dalam: Men, Machine, Method, Material, Money, Management, Measurement, dan Environment (7M+1E).</p>
             <p>Kolom i diisi dengan sumber risiko (Eksternal/Internal).</p>
             <p>Kolom j diisi dengan C, jika unit kerja mampu untuk mengendalikan penyebab risiko, atau UC jika unit kerja tidak mampu mengendalikan penyebab risiko.</p>
             <p>Kolom k diisi dengan uraian akibat yang ditimbulkan jika risiko benar-benar terjadi. Untuk mempermudah identifikasi dampak risiko, dampak risiko bisa dikategorikan ke dalam: Keuangan, Kinerja, Reputasi dan Hukum.</p>

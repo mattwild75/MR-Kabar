@@ -18,11 +18,17 @@
 
 export const SUMBER_SEBAB_RISIKO_KATEGORI = ['Internal', 'Eksternal', 'Internal dan Eksternal'];
 
-// 5M — kerangka klasifikasi penyebab risiko yang umum dipakai analisis
-// akar masalah (fishbone/Ishikawa diagram): Machine, Men, Material,
-// Method, Money. Boleh pilih lebih dari 1 kategori sekaligus jika risiko
-// disebabkan gabungan beberapa faktor.
-export const PENYEBAB_5M_KATEGORI = ['Machine', 'Men', 'Material', 'Method', 'Money'];
+// 7M + 1E — kerangka klasifikasi penyebab risiko (pengembangan dari 5M
+// fishbone/Ishikawa klasik: Machine, Men, Material, Method, Money) dengan
+// tambahan Management (kelemahan tata kelola/pengawasan) dan Measurement
+// (kesalahan pengukuran/indikator), plus Environment (faktor lingkungan
+// eksternal — cuaca, bencana alam, kondisi geografis, dsb yang di luar 7M
+// internal). Boleh pilih lebih dari 1 kategori sekaligus jika risiko
+// disebabkan gabungan beberapa faktor. Nama konstanta dipertahankan
+// PENYEBAB_5M_KATEGORI (bukan 7M8) krn dipakai luas sbg identifier di
+// banyak file — lihat penggunaannya, bukan namanya, utk daftar kategori
+// aktual yg sekarang 8 item.
+export const PENYEBAB_5M_KATEGORI = ['Men', 'Machine', 'Method', 'Material', 'Money', 'Management', 'Measurement', 'Environment'];
 
 export const C_UC_OPTIONS = ['C', 'UC'];
 

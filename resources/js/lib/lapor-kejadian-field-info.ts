@@ -28,8 +28,11 @@ Pilih satu atau lebih kategori yang paling sesuai, lalu jelaskan di kotak sebela
 • Method — soal cara kerja/prosedur/aturan yang ada
 • Material — soal bahan/dokumen/data yang dipakai
 • Money — soal anggaran/biaya
+• Management — soal pengawasan/koordinasi yang kurang
+• Measurement — soal ukuran/target/standar yang tidak jelas
+• Environment — soal cuaca, bencana alam, atau kondisi lingkungan sekitar
 
-Tidak yakin kategorinya apa? Pilih yang paling mendekati saja — PIC OPD akan meninjau ulang laporan Anda.`,
+Tidak yakin kategorinya apa? Pilih yang paling mendekati saja, atau kosongkan — PIC OPD akan meninjau ulang laporan Anda.`,
 
   cari_risiko_terdaftar: `Ketik kata kunci untuk mencari apakah kejadian yang ingin Anda laporkan sudah pernah tercatat sebagai risiko di sistem — bisa cari lewat uraian risikonya, atau lewat nama OPD terkait supaya lebih mudah menemukan risiko-risiko milik OPD tersebut. Kalau ketemu, laporan Anda akan otomatis dikaitkan ke risiko tsb, membantu PIC OPD menelusuri riwayatnya. Kalau tidak ketemu, pilih "Lapor Kejadian Baru" di atas dan isi form seperti biasa.`,
 };

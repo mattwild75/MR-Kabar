@@ -207,7 +207,7 @@ export default function Cetak10({ opdOptions, opd, tahun, periode, rows, pemerin
             <p>Kolom a diisi dengan nomor urut.</p>
             <p>Kolom b diisi dengan risiko yang teridentifikasi (dari Form Input IRS/IRO).</p>
             <p>Kolom c diisi dengan tanggal terjadinya risiko pada tahun berjalan — &quot;Tidak Terjadi&quot; bila risiko belum terjadi.</p>
-            <p>Kolom d diisi dengan penyebab peristiwa risiko saat terjadi pada tahun berjalan, dikategorikan 5M (Machine/Men/Material/Method/Money).</p>
+            <p>Kolom d diisi dengan penyebab peristiwa risiko saat terjadi pada tahun berjalan, dikategorikan 7M+1E (Men/Machine/Method/Material/Money/Management/Measurement/Environment).</p>
             <p>Kolom e diisi dengan dampak peristiwa risiko saat terjadi pada tahun berjalan.</p>
             <p>Kolom f diisi dengan keterangan tambahan seputar kejadian risiko.</p>
             <p>Kolom g diisi dengan rencana waktu pelaksanaan RTP.</p>
