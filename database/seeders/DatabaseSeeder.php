@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $user = User::firstOrNew(['email' => 'admin@admin.com']);
         $user->fill([
             'name' => 'Admin',
+            'username' => $user->username ?: 'admin',
             'password' => Hash::make($tempPassword),
         ])->save();
 
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
             $user->assignRole('admin');
         }
 
-        $this->command?->warn("Akun admin awal dibuat: admin@admin.com / password sementara: {$tempPassword}");
+        $this->command?->warn("Akun admin awal dibuat: username 'admin' / password sementara: {$tempPassword}");
         $this->command?->warn('Segera catat password di atas dan/atau ganti setelah login pertama — tidak akan ditampilkan lagi.');
 
         $this->call([
