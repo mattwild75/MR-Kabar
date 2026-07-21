@@ -41,6 +41,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Paksa seluruh URL yang digenerate Laravel (route(), asset(), dll)
+        // memakai https di luar lingkungan local — tanpa ini, aplikasi di
+        // balik reverse proxy/SSL termination bisa menghasilkan link http
+        // campuran (mixed content) meski diakses lewat https.
+        if (config('app.env') !== 'local' || str_contains(config('app.url'), 'https://')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         User::observe(GlobalActivityLogger::class);
         Role::observe(GlobalActivityLogger::class);
         Permission::observe(GlobalActivityLogger::class);
