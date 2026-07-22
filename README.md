@@ -75,6 +75,10 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 
 ![Lapor Kejadian Risiko](screenshots/lapor-kejadian.png)
 
+**Visualisasi Hierarki** (diagram pohon interaktif Visi → Misi → Tujuan → Sasaran → Program → Risiko)
+
+![Visualisasi Hierarki](screenshots/visualisasi-hierarki.png)
+
 ---
 
 ## Tech Stack
