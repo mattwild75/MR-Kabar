@@ -32,6 +32,44 @@ export const PENYEBAB_5M_KATEGORI = ['Men', 'Machine', 'Method', 'Material', 'Mo
 
 export const C_UC_OPTIONS = ['C', 'UC'];
 
+// Kategori efektivitas kontrol 4-tingkat (urut dari terburuk ke terbaik):
+// TE = Tidak Efektif, KE = Kurang Efektif, CE = Cukup Efektif, E = Efektif.
+// Dipakai 3 field terpisah — KATEGORI EXISTING CONTROL (kontrol saat ini ->
+// dasar skala Residual), KATEGORI PROYEKSI RTP (proyeksi setelah RTP ->
+// skala Target), KATEGORI EXISTING CONTROL AKTUAL (hasil monitoring ->
+// skala Aktual).
+export const KATEGORI_EFEKTIVITAS_OPTIONS = ['TE', 'KE', 'CE', 'E'];
+
+// Faktor reduksi Skala Kemungkinan per kategori efektivitas — dikalikan ke
+// Skala Kemungkinan INHEREN (basis "tanpa kontrol"), dibulatkan
+// Math.round(), clamp 1-5. DUPLIKAT SADAR dgn FAKTOR_REDUKSI_KONTROL di
+// RiskReferenceDataService.php (backend = sumber kebenaran saat submit;
+// nilai di sini hanya utk preview real-time di form) — kalau backend
+// berubah, file ini WAJIB ikut diubah.
+export const FAKTOR_REDUKSI_KONTROL: Record<string, number> = {
+  TE: 1.0,
+  KE: 0.8,
+  CE: 0.6,
+  E: 0.4,
+};
+
+/** K terkendali = round(K_inheren x faktor kategori), clamp 1-5 — mirror hitungKemungkinanTerkendali() backend. */
+export function hitungKemungkinanTerkendali(kemungkinanInheren: number | null, kategori: string | null): number | null {
+  if (!kemungkinanInheren || kemungkinanInheren < 1 || kemungkinanInheren > 5) return null;
+  const faktor = (kategori && FAKTOR_REDUKSI_KONTROL[kategori]) || 1.0;
+  return Math.max(1, Math.min(5, Math.round(kemungkinanInheren * faktor)));
+}
+
+/** Ambil kode kategori (TE/KE/CE/E) dari nilai tersimpan CategorizedTextarea "KODE (uraian)" atau bare "KODE". */
+export function ekstrakKategoriKontrol(value: string | null | undefined): string | null {
+  const v = (value ?? '').trim();
+  if (!v) return null;
+  for (const kategori of KATEGORI_EFEKTIVITAS_OPTIONS) {
+    if (v === kategori || v.startsWith(`${kategori} (`)) return kategori;
+  }
+  return null;
+}
+
 // 5 jenis respon risiko (risk response) sesuai kerangka umum manajemen
 // risiko (COSO/ISO 31000, diadopsi Perdep PPKD) — dipakai mengklasifikasi
 // Rencana Tindak Pengendalian (RTP): Avoid (menghindari), Abate (mengurangi
@@ -42,9 +80,13 @@ export const C_UC_OPTIONS = ['C', 'UC'];
 // secara parsial (beda dari Avoid yang menghilangkan keduanya secara total).
 export const RESPON_RISIKO_KATEGORI = ['Avoid', 'Abate', 'Mitigate', 'Share/Transfer', 'Accept'];
 
-// Kategori penilaian efektivitas existing control, sesuai PP 60/2008 — E =
-// Efektif, KE = Kurang Efektif, TE = Tidak Efektif.
-export const KATEGORI_EXISTING_CONTROL_OPTIONS = ['E', 'KE', 'TE'];
+// Kategori penilaian efektivitas existing control — DIPERLUAS dari 3
+// (E/KE/TE) ke 4 tingkat (tambah CE=Cukup Efektif) mengikuti tabel faktor
+// reduksi di atas; alias ke KATEGORI_EFEKTIVITAS_OPTIONS supaya kedua nama
+// tetap valid di semua pemakai lama. Data lama berlabel "KE" TIDAK
+// dimigrasi otomatis (tetap KE = faktor 0.8) — petugas review manual bila
+// yang dimaksud sebenarnya CE (0.6).
+export const KATEGORI_EXISTING_CONTROL_OPTIONS = KATEGORI_EFEKTIVITAS_OPTIONS;
 
 // ENTITAS_PENILAI_OPTIONS, KRITERIA_DAMPAK, KRITERIA_KEMUNGKINAN, dan
 // MATRIKS_RISIKO (hardcode) SUDAH DIHAPUS dari file ini — sumber kebenaran

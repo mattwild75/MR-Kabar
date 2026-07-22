@@ -87,44 +87,14 @@ class IrsPemdaController extends Controller
     ];
 
     /**
-     * Menghitung Skala Risiko dan Skala Prioritas secara otomatis dari Skala
-     * Dampak x Skala Kemungkinan — sumber matriks & lookup sekarang dari
-     * RiskReferenceDataService (tabel risk_matrix_cells, bisa diedit
-     * Admin/Super Admin), bukan lagi array const di controller ini.
+     * Hitung semua skala turunan (Residual/Prioritas, Inheren, Target,
+     * Aktual) + invariant antar-skor — logika lengkap dipusatkan di
+     * RiskReferenceDataService::hitungSemuaSkala() (sebelumnya duplikat
+     * byte-identical 3x di IrsPemda/IrsPd/IroPdController).
      */
     private function withCalculatedScales(array $data): array
     {
-        $dampak = (int) ($data['SKALA DAMPAK'] ?? 0);
-        $kemungkinan = (int) ($data['SKALA KEMUNGKINAN'] ?? 0);
-
-        $hasil = $this->riskRef->hitungSkala($dampak ?: null, $kemungkinan ?: null);
-        $data['SKALA RISIKO'] = $hasil['skala_risiko'];
-        $data['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
-
-        // Skala Risiko INHEREN (widget Dashboard "Inheren vs Sisa Risiko")
-        // — OPSIONAL, dihitung dari matriks yg SAMA (RiskMatrixCell) kalau
-        // PIC mengisi Skala Dampak/Kemungkinan Inheren; kalau tidak diisi
-        // sama sekali, tetap null (bukan 0) supaya widget bisa membedakan
-        // "belum dinilai inherennya" dari "skala inheren = 1".
-        $dampakInheren = (int) ($data['SKALA DAMPAK INHEREN'] ?? 0);
-        $kemungkinanInheren = (int) ($data['SKALA KEMUNGKINAN INHEREN'] ?? 0);
-        $hasilInheren = $this->riskRef->hitungSkala($dampakInheren ?: null, $kemungkinanInheren ?: null);
-        $data['SKALA RISIKO INHEREN'] = $hasilInheren['skala_risiko'];
-
-        // Invariant wajib: risiko INHEREN (sebelum pengendalian) TIDAK
-        // PERNAH boleh lebih rendah dari risiko RESIDUAL/Sisa Risiko
-        // (setelah pengendalian, Perdep Pasal 1 angka 10) — pengendalian
-        // hanya bisa MENGURANGI risiko, tidak pernah menambahnya. Tanpa
-        // guard ini, PIC bisa menyimpan kombinasi yg mustahil scr logika
-        // (mis. inheren skala 5, residual skala 20), merusak widget
-        // Dashboard "Risiko Inheren vs Sisa Risiko".
-        if ($data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO INHEREN'] < $data['SKALA RISIKO']) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
-                'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko (' . $data['SKALA RISIKO'] . ') — risiko sebelum pengendalian harus selalu lebih besar atau sama dengan risiko setelah pengendalian.',
-            ]);
-        }
-
-        return $data;
+        return $this->riskRef->hitungSemuaSkala($data);
     }
 
     /**
@@ -249,10 +219,21 @@ class IrsPemdaController extends Controller
         $rules['URAIAN RISIKO'] = ['required', 'string'];
         $rules['SKALA DAMPAK'] = ['required', 'integer', 'min:1', 'max:5'];
         $rules['SKALA KEMUNGKINAN'] = ['required', 'integer', 'min:1', 'max:5'];
-        // Skala inheren OPSIONAL — beda dari Skala Dampak/Kemungkinan
-        // residual (wajib), lihat withCalculatedScales().
+        // Skala inheren OPSIONAL di level rules — WAJIB kondisional saat
+        // Kategori Existing Control dinilai, ditegakkan di
+        // RiskReferenceDataService::hitungSemuaSkala() (Skenario A/B).
         $rules['SKALA DAMPAK INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['SKALA KEMUNGKINAN INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        // Skor Target (proyeksi RTP) & Aktual (hasil monitoring) — semua
+        // opsional; kategori tersimpan format CategorizedTextarea
+        // "KODE (uraian)" jadi divalidasi sbg string bebas, kode-nya
+        // diekstrak & dihitung di hitungSemuaSkala().
+        $rules['KATEGORI PROYEKSI RTP'] = ['nullable', 'string'];
+        $rules['SKALA DAMPAK TARGET'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        $rules['SKALA KEMUNGKINAN TARGET'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        $rules['KATEGORI EXISTING CONTROL AKTUAL'] = ['nullable', 'string'];
+        $rules['SKALA DAMPAK AKTUAL'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        $rules['SKALA KEMUNGKINAN AKTUAL'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['TRIWULAN'] = ['nullable', Rule::in(self::TRIWULAN_OPTIONS)];
         $rules['TAHUN TARGET PENYELESAIAN'] = ['nullable', 'integer', 'digits:4'];
         // PIC BEBAS memilih tahun baris ini — lihat IrsPdController::validated().

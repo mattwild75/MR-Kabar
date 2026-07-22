@@ -42,6 +42,14 @@ class IrsPd extends Model
         'SKALA DAMPAK INHEREN',
         'SKALA KEMUNGKINAN INHEREN',
         'SKALA RISIKO INHEREN',
+        'KATEGORI PROYEKSI RTP',
+        'SKALA DAMPAK TARGET',
+        'SKALA KEMUNGKINAN TARGET',
+        'SKALA RISIKO TARGET',
+        'KATEGORI EXISTING CONTROL AKTUAL',
+        'SKALA DAMPAK AKTUAL',
+        'SKALA KEMUNGKINAN AKTUAL',
+        'SKALA RISIKO AKTUAL',
     ];
 
     public function user(): BelongsTo

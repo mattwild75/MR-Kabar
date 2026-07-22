@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { IRO_PD_FIELD_INFO } from '@/lib/iro-pd-field-info';
 import { SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS, KATEGORI_EXISTING_CONTROL_OPTIONS, PENYEBAB_5M_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
+import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
 import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
@@ -144,20 +145,25 @@ interface PageProps {
   tahunAktif: string | number;
 }
 
-type FormData = Record<FieldName, string> & {
-  'SKALA DAMPAK': string;
-  'SKALA KEMUNGKINAN': string;
-  'SKALA DAMPAK INHEREN': string;
-  'SKALA KEMUNGKINAN INHEREN': string;
-};
+const EXTRA_SCALE_FIELDS = [
+  'SKALA DAMPAK',
+  'SKALA KEMUNGKINAN',
+  'SKALA DAMPAK INHEREN',
+  'SKALA KEMUNGKINAN INHEREN',
+  'KATEGORI PROYEKSI RTP',
+  'SKALA DAMPAK TARGET',
+  'SKALA KEMUNGKINAN TARGET',
+  'KATEGORI EXISTING CONTROL AKTUAL',
+  'SKALA DAMPAK AKTUAL',
+  'SKALA KEMUNGKINAN AKTUAL',
+] as const;
+
+type FormData = Record<FieldName, string> & Record<(typeof EXTRA_SCALE_FIELDS)[number], string>;
 
 const emptyForm = (): FormData => {
   const obj = {} as FormData;
   FIELDS.forEach((f) => (obj[f] = ''));
-  obj['SKALA DAMPAK'] = '';
-  obj['SKALA KEMUNGKINAN'] = '';
-  obj['SKALA DAMPAK INHEREN'] = '';
-  obj['SKALA KEMUNGKINAN INHEREN'] = '';
+  EXTRA_SCALE_FIELDS.forEach((f) => (obj[f] = ''));
   return obj;
 };
 
@@ -256,10 +262,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
     setEditing(row);
     const values = emptyForm();
     FIELDS.forEach((f) => (values[f] = (row[f] as string) ?? ''));
-    values['SKALA DAMPAK'] = row['SKALA DAMPAK'] != null ? String(row['SKALA DAMPAK']) : '';
-    values['SKALA KEMUNGKINAN'] = row['SKALA KEMUNGKINAN'] != null ? String(row['SKALA KEMUNGKINAN']) : '';
-    values['SKALA DAMPAK INHEREN'] = row['SKALA DAMPAK INHEREN'] != null ? String(row['SKALA DAMPAK INHEREN']) : '';
-    values['SKALA KEMUNGKINAN INHEREN'] = row['SKALA KEMUNGKINAN INHEREN'] != null ? String(row['SKALA KEMUNGKINAN INHEREN']) : '';
+    EXTRA_SCALE_FIELDS.forEach((f) => (values[f] = row[f] != null ? String(row[f]) : ''));
     setData(values);
     setDialogOpen(true);
   };
@@ -927,6 +930,8 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
               <span>Skala Risiko dan Skala Prioritas dihitung otomatis dari Dampak x Kemungkinan.</span>
               <ReferenceDialogTrigger label="Lihat Matriks Analisis Risiko" onClick={() => setRefDialog('matriks')} />
             </div>
+
+            <SkorTargetAktualSection data={data} setData={setData} errors={errors} info={IRO_PD_FIELD_INFO} />
 
             <DialogFooter>
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>

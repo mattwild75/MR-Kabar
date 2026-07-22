@@ -24,6 +24,183 @@ use App\Models\RiskMatrixCell;
  */
 class RiskReferenceDataService
 {
+    /**
+     * Faktor reduksi Skala Kemungkinan per kategori efektivitas kontrol
+     * (TE=Tidak Efektif, KE=Kurang Efektif, CE=Cukup Efektif, E=Efektif) —
+     * dipakai menghitung K_residual/K_target/K_aktual dari basis
+     * K_INHEREN. Duplikat sadar dgn FAKTOR_REDUKSI_KONTROL di
+     * irs-reference-data.ts (frontend preview real-time) — kalau nilai di
+     * sini berubah, frontend WAJIB ikut diubah.
+     */
+    private const FAKTOR_REDUKSI_KONTROL = ['TE' => 1.0, 'KE' => 0.8, 'CE' => 0.6, 'E' => 0.4];
+
+    /**
+     * K yang diproyeksikan turun sesuai efektivitas kontrol, basis SELALU
+     * Skala Kemungkinan INHEREN (titik awal "tanpa kontrol") — Residual,
+     * Target, dan Aktual sama-sama dihitung dari basis yang sama, hanya
+     * kategori efektivitas yang dipakai berbeda (existing control saat
+     * ini / proyeksi RTP / aktual hasil monitoring). Dibulatkan round
+     * half-up standar, clamp 1-5. Null kalau K inheren belum diisi —
+     * skor turunan tidak bisa dihitung sampai baseline inherennya ada.
+     */
+    public function hitungKemungkinanTerkendali(?int $kemungkinanInheren, ?string $kategoriEfektivitas): ?int
+    {
+        if (!$kemungkinanInheren || $kemungkinanInheren < 1 || $kemungkinanInheren > 5) {
+            return null;
+        }
+
+        $faktor = self::FAKTOR_REDUKSI_KONTROL[$kategoriEfektivitas] ?? 1.0;
+
+        return max(1, min(5, (int) round($kemungkinanInheren * $faktor)));
+    }
+
+    /**
+     * Ambil kode kategori efektivitas (TE/KE/CE/E) dari nilai tersimpan
+     * format CategorizedTextarea: "E (uraian penjelasan)" atau bare "E".
+     * Urutan cek 2-huruf dulu (TE/KE/CE) sebelum "E" supaya "TE (...)"
+     * tidak salah tertangkap sbg "E". Null kalau tidak cocok pola apa pun
+     * (termasuk teks bebas data lama).
+     */
+    public function ekstrakKategoriKontrol(?string $value): ?string
+    {
+        $value = trim((string) $value);
+        if ($value === '') {
+            return null;
+        }
+
+        foreach (['TE', 'KE', 'CE', 'E'] as $kategori) {
+            if ($value === $kategori || str_starts_with($value, $kategori . ' (')) {
+                return $kategori;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Hitung SEMUA skala turunan satu baris risiko sekaligus (Residual,
+     * Inheren, Target, Aktual) + tegakkan invariant antar-skor — dipanggil
+     * dari withCalculatedScales() di IrsPemdaController/IrsPdController/
+     * IroPdController (sebelumnya logika ini diduplikasi 3x byte-identical
+     * di ketiganya; logika baru Target/Aktual jauh lebih panjang, jadi
+     * dipusatkan di sini supaya tidak triple-maintenance).
+     *
+     * Alur skenario (disepakati eksplisit dgn pemilik proses):
+     * - Skenario A (KATEGORI EXISTING CONTROL dinilai): baseline Inheren
+     *   WAJIB — skala residual tanpa pembanding "sebelum pengendalian"
+     *   tidak bermakna utk analisis efektivitas.
+     * - Skenario B (tanpa existing control = risiko baru murni): Inheren
+     *   otomatis DISALIN dari Residual (tanpa kontrol, keduanya identik) —
+     *   PIC cukup mengisi skala sekali, langsung lanjut menyusun RTP.
+     * - Target (proyeksi setelah RTP jalan) dihitung dari K_INHEREN x
+     *   faktor KATEGORI PROYEKSI RTP; Aktual (hasil monitoring) dari
+     *   K_INHEREN x faktor KATEGORI EXISTING CONTROL AKTUAL — dua penilaian
+     *   independen dari basis yg sama, gap keduanya = insight "RTP tidak
+     *   berjalan sesuai rencana". Nilai auto-hitung bisa di-override
+     *   manual; kolom Dampak Target/Aktual default menyalin Dampak Inheren
+     *   (utk RTP preventif) tapi bebas diubah (utk RTP mitigatif).
+     */
+    public function hitungSemuaSkala(array $data): array
+    {
+        $dampak = (int) ($data['SKALA DAMPAK'] ?? 0);
+        $kemungkinan = (int) ($data['SKALA KEMUNGKINAN'] ?? 0);
+
+        $hasil = $this->hitungSkala($dampak ?: null, $kemungkinan ?: null);
+        $data['SKALA RISIKO'] = $hasil['skala_risiko'];
+        $data['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
+
+        $kategoriExisting = $this->ekstrakKategoriKontrol($data['KATEGORI EXISTING CONTROL'] ?? null);
+        $dampakInheren = (int) ($data['SKALA DAMPAK INHEREN'] ?? 0);
+        $kemungkinanInheren = (int) ($data['SKALA KEMUNGKINAN INHEREN'] ?? 0);
+
+        // Skenario A — existing control dinilai: Inheren wajib.
+        if ($kategoriExisting !== null && (!$dampakInheren || !$kemungkinanInheren)) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'SKALA DAMPAK INHEREN' => 'Skala Dampak & Kemungkinan Inheren wajib diisi bila Kategori Existing Control dinilai — skala risiko yang Anda isi adalah skala RESIDUAL (setelah pengendalian), jadi baseline "sebelum pengendalian" (Inheren) harus ada sebagai pembanding.',
+            ]);
+        }
+
+        // Skenario B — risiko baru tanpa existing control: Inheren = Residual.
+        if ($kategoriExisting === null && !$dampakInheren && !$kemungkinanInheren && $dampak && $kemungkinan) {
+            $dampakInheren = $dampak;
+            $kemungkinanInheren = $kemungkinan;
+            $data['SKALA DAMPAK INHEREN'] = $dampakInheren;
+            $data['SKALA KEMUNGKINAN INHEREN'] = $kemungkinanInheren;
+        }
+
+        $hasilInheren = $this->hitungSkala($dampakInheren ?: null, $kemungkinanInheren ?: null);
+        $data['SKALA RISIKO INHEREN'] = $hasilInheren['skala_risiko'];
+
+        // Invariant: Inheren (sebelum pengendalian) >= Residual (sesudah) —
+        // pengendalian hanya bisa MENGURANGI risiko (Perdep Pasal 1 angka
+        // 10), tidak pernah menambahnya.
+        if ($data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO INHEREN'] < $data['SKALA RISIKO']) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko (' . $data['SKALA RISIKO'] . ') — risiko sebelum pengendalian harus selalu lebih besar atau sama dengan risiko setelah pengendalian.',
+            ]);
+        }
+
+        // ── Skala TARGET (proyeksi setelah RTP direncanakan berjalan) ──
+        $kategoriProyeksi = $this->ekstrakKategoriKontrol($data['KATEGORI PROYEKSI RTP'] ?? null);
+        $dampakTarget = (int) ($data['SKALA DAMPAK TARGET'] ?? 0);
+        $kemungkinanTarget = (int) ($data['SKALA KEMUNGKINAN TARGET'] ?? 0);
+
+        if ($kategoriProyeksi !== null || $dampakTarget || $kemungkinanTarget) {
+            // D Target default = D RESIDUAL/current (kondisi sekarang, titik
+            // acuan proyeksi RTP) — RTP preventif tidak mengubah dampak,
+            // hanya kemungkinan. Tetap override-able manual utk RTP mitigatif.
+            $dampakTarget = $dampakTarget ?: $dampak;
+            $kemungkinanTarget = $kemungkinanTarget
+                ?: ($kategoriProyeksi !== null ? ($this->hitungKemungkinanTerkendali($kemungkinanInheren ?: null, $kategoriProyeksi) ?? 0) : 0);
+
+            $hasilTarget = $this->hitungSkala($dampakTarget ?: null, $kemungkinanTarget ?: null);
+            $data['SKALA DAMPAK TARGET'] = $dampakTarget ?: null;
+            $data['SKALA KEMUNGKINAN TARGET'] = $kemungkinanTarget ?: null;
+            $data['SKALA RISIKO TARGET'] = $hasilTarget['skala_risiko'];
+
+            if ($data['SKALA RISIKO TARGET'] !== null && $data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO TARGET'] > $data['SKALA RISIKO INHEREN']) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'SKALA KEMUNGKINAN TARGET' => 'Skala Risiko Target (' . $data['SKALA RISIKO TARGET'] . ') tidak boleh lebih tinggi dari Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ') — proyeksi RTP dihitung dari kondisi tanpa kontrol, hasilnya harus selalu lebih baik atau sama dengan kondisi itu.',
+                ]);
+            }
+        } else {
+            $data['SKALA DAMPAK TARGET'] = null;
+            $data['SKALA KEMUNGKINAN TARGET'] = null;
+            $data['SKALA RISIKO TARGET'] = null;
+        }
+
+        // ── Skala AKTUAL/Treated (hasil re-assessment saat monitoring) ──
+        // TIDAK ada guard perbandingan ke Target: Aktual BOLEH lebih tinggi
+        // (itu justru insight utamanya — "target 6, realisasi 9").
+        $kategoriAktual = $this->ekstrakKategoriKontrol($data['KATEGORI EXISTING CONTROL AKTUAL'] ?? null);
+        $dampakAktual = (int) ($data['SKALA DAMPAK AKTUAL'] ?? 0);
+        $kemungkinanAktual = (int) ($data['SKALA KEMUNGKINAN AKTUAL'] ?? 0);
+
+        if ($kategoriAktual !== null || $dampakAktual || $kemungkinanAktual) {
+            // D Aktual default = D RESIDUAL/current juga (lihat komentar Target).
+            $dampakAktual = $dampakAktual ?: $dampak;
+            $kemungkinanAktual = $kemungkinanAktual
+                ?: ($kategoriAktual !== null ? ($this->hitungKemungkinanTerkendali($kemungkinanInheren ?: null, $kategoriAktual) ?? 0) : 0);
+
+            $hasilAktual = $this->hitungSkala($dampakAktual ?: null, $kemungkinanAktual ?: null);
+            $data['SKALA DAMPAK AKTUAL'] = $dampakAktual ?: null;
+            $data['SKALA KEMUNGKINAN AKTUAL'] = $kemungkinanAktual ?: null;
+            $data['SKALA RISIKO AKTUAL'] = $hasilAktual['skala_risiko'];
+
+            if ($data['SKALA RISIKO AKTUAL'] !== null && $data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO AKTUAL'] > $data['SKALA RISIKO INHEREN']) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'SKALA KEMUNGKINAN AKTUAL' => 'Skala Risiko Aktual (' . $data['SKALA RISIKO AKTUAL'] . ') tidak boleh lebih tinggi dari Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ').',
+                ]);
+            }
+        } else {
+            $data['SKALA DAMPAK AKTUAL'] = null;
+            $data['SKALA KEMUNGKINAN AKTUAL'] = null;
+            $data['SKALA RISIKO AKTUAL'] = null;
+        }
+
+        return $data;
+    }
+
     /** Format "kode - nama", identik dgn format lama JENIS_RISIKO_OPTIONS. */
     public function jenisRisikoOptions(): array
     {

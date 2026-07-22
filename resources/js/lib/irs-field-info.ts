@@ -134,14 +134,28 @@ Program bansos
 Pelatihan keterampilan kerja
 Pemberdayaan UMKM`,
 
-  'KATEGORI EXISTING CONTROL': `Definisi: Penilaian efektivitas pengendalian yang sudah ada (existing control) di atas — Efektif (E), Kurang Efektif (KE), atau Tidak Efektif (TE).
+  'KATEGORI EXISTING CONTROL': `Definisi: Penilaian efektivitas pengendalian yang SUDAH ADA (existing control) — kini 4 tingkat: Tidak Efektif (TE), Kurang Efektif (KE), Cukup Efektif (CE), Efektif (E).
 
-Fungsi: Menjadi dasar pertimbangan seberapa besar risiko residual (sisa risiko) dibanding risiko inherent (risiko awal):
-- Tidak Efektif (TE): risiko residual = risiko inherent (pengendalian dianggap tidak berfungsi sama sekali).
-- Kurang Efektif (KE): risiko residual turun sedikit, masih ada Celah Pengendalian yang signifikan — wajib disusun Rencana Tindak Pengendalian (RTP).
-- Efektif (E): risiko residual turun signifikan ke level rendah/dapat diterima.
+Fungsi: Menentukan seberapa besar Skala Kemungkinan RESIDUAL (sisa risiko) turun dari Skala Kemungkinan INHEREN (risiko awal tanpa kontrol), lewat faktor reduksi:
+- Tidak Efektif (TE) → faktor 1.0 (K residual = K inheren, kontrol dianggap tidak berfungsi).
+- Kurang Efektif (KE) → faktor 0.8 (K turun sedikit).
+- Cukup Efektif (CE) → faktor 0.6 (K turun sedang).
+- Efektif (E) → faktor 0.4 (K turun banyak).
+Skala Kemungkinan Residual = round(K inheren × faktor). Karena itu, bila kategori ini diisi, Skala Dampak & Kemungkinan INHEREN WAJIB diisi lebih dulu sebagai basis. Bila DIKOSONGKAN (risiko baru murni tanpa kontrol apa pun), Inheren otomatis disamakan dengan Residual dan Anda langsung menyusun RTP.
 
-Cara mengisi: pilih salah satu kategori, uraian penjelasan opsional.`,
+Cara mengisi: pilih kategori, uraian penjelasan opsional. Skala Kemungkinan Residual tetap bisa Anda ubah manual bila tidak setuju hasil hitung otomatis.`,
+
+  'KATEGORI PROYEKSI RTP': `Definisi: Proyeksi efektivitas gabungan (existing control + RTP yang direncanakan) SETELAH RTP benar-benar dijalankan — dipakai menghitung Skala TARGET (kondisi yang diharapkan tercapai).
+
+Faktor reduksi sama seperti Kategori Existing Control (TE 1.0 / KE 0.8 / CE 0.6 / E 0.4), tapi BASIS-nya tetap K Inheren. Skala Kemungkinan Target = round(K inheren × faktor kategori proyeksi). Skala Target inilah yang dicatat sebagai "sasaran" penurunan risiko, bukan hasil aktual.
+
+Cara mengisi: pilih tingkat efektivitas yang Anda YAKIN bisa dicapai kalau RTP dilaksanakan sesuai rencana. Bisa di-override manual.`,
+
+  'KATEGORI EXISTING CONTROL AKTUAL': `Definisi: Efektivitas RIIL yang teramati SAAT MONITORING setelah RTP berjalan — dipakai menghitung Skala AKTUAL/Treated.
+
+Diisi BELAKANGAN (saat pemantauan, bukan saat identifikasi risiko). Faktor reduksi & basis (K Inheren) sama seperti kategori lain. Gunanya: membandingkan Target vs Aktual — bila Aktual lebih tinggi dari Target, berarti RTP tidak berjalan seefektif rencana (butuh tindak lanjut). Nilai Aktual BOLEH lebih tinggi dari Target (justru itu insight utamanya).
+
+Cara mengisi: pilih efektivitas sebenarnya berdasarkan bukti pemantauan lapangan. Bisa di-override manual.`,
 
   'CELAH PENGENDALIAN': `Definisi: Kelemahan atau kekurangan dalam pengendalian yang ada saat ini.
 
