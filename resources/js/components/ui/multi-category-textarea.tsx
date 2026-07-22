@@ -12,6 +12,8 @@ interface MultiCategoryTextareaProps {
   combinedLabel?: string;
   uraianPlaceholder?: string;
   rows?: number;
+  /** Sembunyikan textarea uraian per kategori — dipakai utk field yg cukup pilih kategori saja (mis. Sumber Sebab Risiko Internal/Eksternal), tanpa uraian tertulis. */
+  hideUraian?: boolean;
 }
 
 /**
@@ -43,6 +45,7 @@ export default function MultiCategoryTextarea({
   combinedLabel,
   uraianPlaceholder = 'Tulis uraian...',
   rows = 2,
+  hideUraian = false,
 }: MultiCategoryTextareaProps) {
   const parsed = useMemo(() => parseValue(value, categories, combinedLabel), [value, categories, combinedLabel]);
 
@@ -82,14 +85,16 @@ export default function MultiCategoryTextarea({
                 {c}
               </Label>
             </div>
-            <Textarea
-              value={parsed[c] ?? ''}
-              rows={rows}
-              disabled={!isChecked}
-              placeholder={uraianPlaceholder}
-              onChange={(e) => setUraian(c, e.target.value)}
-              className="flex-1"
-            />
+            {!hideUraian && (
+              <Textarea
+                value={parsed[c] ?? ''}
+                rows={rows}
+                disabled={!isChecked}
+                placeholder={uraianPlaceholder}
+                onChange={(e) => setUraian(c, e.target.value)}
+                className="flex-1"
+              />
+            )}
           </div>
         );
       })}

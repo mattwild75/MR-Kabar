@@ -173,12 +173,26 @@ class DashboardController extends Controller
         // dgn yg dipakai CetakHasilAnalisisController (Form 4/5)/
         // CetakRisikoController (Form 3), supaya kode risiko yg tampil di
         // Dashboard identik dgn yg tercetak di Form Cetak.
-        $map = function ($rows, string $tingkat, string $prefixKode, ?string $opdLabelDefault = null) use ($opdId) {
+        // Skala Aktual (hasil monitoring) tersimpan PER-RTP di monitoring_rtp
+        // (satu risiko bisa py >1 RTP masing2 dinilai efektivitasnya
+        // sendiri), bukan kolom di tabel risiko — lihat migrasi
+        // 2026_07_22_010000. Diambil SEKALI di sini (bukan N+1 per baris),
+        // di-keyBy "rtp_sumber_tipe:rtp_sumber_id", grouped ambil skala
+        // risiko aktual TERTINGGI (worst-case/conservative — kalau salah
+        // satu RTP risiko itu gagal, itu yg merepresentasikan risiko
+        // keseluruhan, bukan disamarkan rata-rata dgn RTP lain yg berhasil).
+        $skalaAktualMax = MonitoringRtp::whereNotNull('skala_risiko_aktual')
+            ->get(['rtp_sumber_tipe', 'rtp_sumber_id', 'skala_risiko_aktual'])
+            ->groupBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
+            ->map(fn ($g) => $g->max('skala_risiko_aktual'));
+
+        $map = function ($rows, string $tingkat, string $prefixKode, ?string $opdLabelDefault = null) use ($opdId, $skalaAktualMax) {
             // Nomor urut kode risiko dihitung dari SELURUH baris tingkat ini
             // (lintas-OPD) supaya identik dgn yg tercetak di Form Cetak, BARU
             // difilter ke OPD terpilih — filter tidak boleh didorong ke SQL
             // di sini krn akan mengubah penomoran (lihat nomorUrutFor()).
             $nomorUrut = $this->nomorUrutFor($rows);
+            $rtpSumberTipe = self::RTP_SUMBER_TIPE_BY_TIPE[$tingkat] ?? null;
 
             return $rows
                 ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
@@ -205,6 +219,8 @@ class DashboardController extends Controller
                     'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'} ? (int) $r->{'SKALA DAMPAK INHEREN'} : null,
                     'skala_kemungkinan_inheren' => $r->{'SKALA KEMUNGKINAN INHEREN'} ? (int) $r->{'SKALA KEMUNGKINAN INHEREN'} : null,
                     'skala_risiko_inheren' => $r->{'SKALA RISIKO INHEREN'} ? (int) $r->{'SKALA RISIKO INHEREN'} : null,
+                    'skala_risiko_target' => $r->{'SKALA RISIKO TARGET'} ? (int) $r->{'SKALA RISIKO TARGET'} : null,
+                    'skala_risiko_aktual' => $rtpSumberTipe ? $skalaAktualMax->get("{$rtpSumberTipe}:{$r->id}") : null,
                     'jenis_risiko' => $r->{'JENIS RISIKO'},
                     'uraian_risiko' => $r->{'URAIAN RISIKO'},
                     'rencana_tindak_pengendalian' => $r->{'RENCANA TINDAK PENGENDALIAN'},
@@ -219,6 +235,7 @@ class DashboardController extends Controller
             'TAHUN DINILAI RISIKO', 'JENIS RISIKO', 'ENTITAS PD YANG MENILAI',
             'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO',
             'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN', 'SKALA RISIKO INHEREN',
+            'SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET', 'SKALA RISIKO TARGET',
             'URAIAN RISIKO', 'RENCANA TINDAK PENGENDALIAN',
         ];
 
@@ -507,6 +524,13 @@ class DashboardController extends Controller
         'Operasional OPD' => '/iro_pd',
     ];
 
+    /** Label 'tipe' (dipakai widget) -> rtp_sumber_tipe (dipakai MonitoringRtp) — lihat lookupSkalaAktual(). */
+    private const RTP_SUMBER_TIPE_BY_TIPE = [
+        'Strategis Pemda' => 'irs_pemda',
+        'Strategis OPD' => 'irs_pd',
+        'Operasional OPD' => 'iro_pd',
+    ];
+
     private function buildDistribusiKategori(Collection $rows): array
     {
         return $rows
@@ -542,6 +566,13 @@ class DashboardController extends Controller
      * pengendalian PALING efektif menurunkan risiko, jadi widget ini
      * langsung terbaca sbg "ranking efektivitas pengendalian", bukan
      * sekadar daftar risiko.
+     *
+     * skala_target/skala_aktual DISERTAKAN (bisa null, opsional) supaya
+     * widget menampilkan siklus PENUH 4-skor COSO ERM (inherent -> residual
+     * -> target/appetite -> monitoring reassessment), bukan cuma 2 titik
+     * pertama — Target = sasaran ditetapkan di Form Input Risiko, Aktual =
+     * hasil monitoring RTP (nilai TERTINGGI/worst-case antar RTP risiko
+     * ini, lihat lookupSkalaAktual di collectRiskRows()).
      */
     private function buildInherenResidual(Collection $rows): array
     {
@@ -555,6 +586,8 @@ class DashboardController extends Controller
                 'uraian_risiko' => \Illuminate\Support\Str::limit($r['uraian_risiko'], 60),
                 'skala_inheren' => $r['skala_risiko_inheren'],
                 'skala_residual' => $r['skala_risiko'],
+                'skala_target' => $r['skala_risiko_target'],
+                'skala_aktual' => $r['skala_risiko_aktual'],
                 'rtp_terisi' => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '',
                 'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id']),
             ])
@@ -633,6 +666,17 @@ class DashboardController extends Controller
      * cuma didongkrak segelintir risiko besar). HANYA risiko yg py kedua
      * skala terisi yg dihitung (sama basis dgn buildInherenResidual()) —
      * risiko yg blm py Skala Inheren tidak bisa dinilai efektivitasnya.
+     *
+     * 'rata_rata_deviasi_target' — metrik BARU pelengkap siklus 4-skor COSO
+     * ERM (Review Risk & Performance): seberapa jauh Aktual (hasil nyata
+     * monitoring) MELESET dari Target (sasaran RTP yg direncanakan) —
+     * Aktual - Target, RATA-RATA dari risiko yg SUDAH py keduanya terisi.
+     * Positif = RTP rata2 tidak seefektif rencana (insight utama); negatif/
+     * nol = RTP rata2 mencapai atau melampaui target. HANYA dihitung dari
+     * subset risiko yg py Target DAN Aktual sekaligus (biasanya subset
+     * lebih kecil dari total_dinilai, krn Aktual baru terisi belakangan
+     * saat monitoring Form 9 berjalan) — 'total_dinilai_target_aktual'
+     * dilaporkan terpisah supaya FE bisa menandai kalau sampelnya kecil.
      */
     private function buildTrenEfektivitasPengendalian(?int $opdId, int $tahunAktif): array
     {
@@ -645,6 +689,9 @@ class DashboardController extends Controller
             $totalDinilai = $rows->count();
             $gapSignifikanCount = $rows->filter(fn ($r) => ($r['skala_risiko_inheren'] - $r['skala_risiko']) >= self::GAP_SIGNIFIKAN_MINIMAL)->count();
 
+            $rowsTargetAktual = $rows->filter(fn ($r) => $r['skala_risiko_target'] !== null && $r['skala_risiko_aktual'] !== null);
+            $totalTargetAktual = $rowsTargetAktual->count();
+
             return [
                 'tahun' => $tahun,
                 'rata_rata_gap' => $totalDinilai > 0
@@ -652,6 +699,10 @@ class DashboardController extends Controller
                     : null,
                 'persen_gap_signifikan' => $totalDinilai > 0 ? round(($gapSignifikanCount / $totalDinilai) * 100, 2) : null,
                 'total_dinilai' => $totalDinilai,
+                'rata_rata_deviasi_target' => $totalTargetAktual > 0
+                    ? round($rowsTargetAktual->avg(fn ($r) => $r['skala_risiko_aktual'] - $r['skala_risiko_target']), 1)
+                    : null,
+                'total_dinilai_target_aktual' => $totalTargetAktual,
             ];
         })->values()->all();
     }

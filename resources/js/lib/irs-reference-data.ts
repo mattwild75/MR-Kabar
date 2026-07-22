@@ -34,10 +34,11 @@ export const C_UC_OPTIONS = ['C', 'UC'];
 
 // Kategori efektivitas kontrol 4-tingkat (urut dari terburuk ke terbaik):
 // TE = Tidak Efektif, KE = Kurang Efektif, CE = Cukup Efektif, E = Efektif.
-// Dipakai 3 field terpisah — KATEGORI EXISTING CONTROL (kontrol saat ini ->
-// dasar skala Residual), KATEGORI PROYEKSI RTP (proyeksi setelah RTP ->
-// skala Target), KATEGORI EXISTING CONTROL AKTUAL (hasil monitoring ->
-// skala Aktual).
+// Dipakai di 2 tempat berbeda — KATEGORI EXISTING CONTROL & KATEGORI
+// PROYEKSI RTP di tabel risiko (dasar skala Residual & Target), dan
+// kategori_existing_control_aktual di monitoring_rtp/Form 9 (hasil
+// monitoring -> skala Aktual, DIPINDAH dari tabel risiko krn levelnya
+// per-RTP, bukan per-risiko — lihat MonitoringEvaluasiController).
 export const KATEGORI_EFEKTIVITAS_OPTIONS = ['TE', 'KE', 'CE', 'E'];
 
 // Faktor reduksi Skala Kemungkinan per kategori efektivitas — dikalikan ke
@@ -55,9 +56,33 @@ export const FAKTOR_REDUKSI_KONTROL: Record<string, number> = {
 
 /** K terkendali = round(K_inheren x faktor kategori), clamp 1-5 — mirror hitungKemungkinanTerkendali() backend. */
 export function hitungKemungkinanTerkendali(kemungkinanInheren: number | null, kategori: string | null): number | null {
-  if (!kemungkinanInheren || kemungkinanInheren < 1 || kemungkinanInheren > 5) return null;
+  return terapkanFaktorReduksi(kemungkinanInheren, kategori);
+}
+
+/** D terkendali = round(D_inheren x faktor kategori), clamp 1-5 — mirror hitungDampakTerkendali() backend, dipakai RTP Mitigate/Share-Transfer. */
+export function hitungDampakTerkendali(dampakInheren: number | null, kategori: string | null): number | null {
+  return terapkanFaktorReduksi(dampakInheren, kategori);
+}
+
+function terapkanFaktorReduksi(nilaiInheren: number | null, kategori: string | null): number | null {
+  if (!nilaiInheren || nilaiInheren < 1 || nilaiInheren > 5) return null;
   const faktor = (kategori && FAKTOR_REDUKSI_KONTROL[kategori]) || 1.0;
-  return Math.max(1, Math.min(5, Math.round(kemungkinanInheren * faktor)));
+  return Math.max(1, Math.min(5, Math.round(nilaiInheren * faktor)));
+}
+
+/**
+ * Arah reduksi (K, D, atau keduanya) berdasarkan kategori RESPON RISIKO
+ * pada RENCANA TINDAK PENGENDALIAN — mirror arahReduksiRtp() backend.
+ * Preventif (Avoid/Abate) -> Kemungkinan; Mitigatif/pengalihan
+ * (Mitigate/Share-Transfer) -> Dampak, sesuai prinsip COSO ERM.
+ */
+export function arahReduksiRtp(rencanaTindakPengendalian: string | null | undefined): { kemungkinan: boolean; dampak: boolean } {
+  const nilai = (rencanaTindakPengendalian ?? '').trim();
+  const keK = nilai !== '' && (nilai.includes('Avoid') || nilai.includes('Abate'));
+  const keD = nilai !== '' && (nilai.includes('Mitigate') || nilai.includes('Share/Transfer'));
+
+  if (!keK && !keD) return { kemungkinan: true, dampak: false };
+  return { kemungkinan: keK, dampak: keD };
 }
 
 /** Ambil kode kategori (TE/KE/CE/E) dari nilai tersimpan CategorizedTextarea "KODE (uraian)" atau bare "KODE". */

@@ -217,11 +217,13 @@ class IrsPemdaController extends Controller
             $attributes[$field] = $field;
         }
         $rules['URAIAN RISIKO'] = ['required', 'string'];
-        $rules['SKALA DAMPAK'] = ['required', 'integer', 'min:1', 'max:5'];
-        $rules['SKALA KEMUNGKINAN'] = ['required', 'integer', 'min:1', 'max:5'];
-        // Skala inheren OPSIONAL di level rules — WAJIB kondisional saat
-        // Kategori Existing Control dinilai, ditegakkan di
+        // SKALA DAMPAK/KEMUNGKINAN (Residual) & Inheren SAMA-SAMA nullable
+        // di sini — form "Apakah sudah ada Existing Control?" -> "Tidak"
+        // hanya mengisi Inheren, bukan Residual. Kewajiban "minimal satu
+        // pasang wajib terisi" ditegakkan di
         // RiskReferenceDataService::hitungSemuaSkala() (Skenario A/B).
+        $rules['SKALA DAMPAK'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        $rules['SKALA KEMUNGKINAN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['SKALA DAMPAK INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['SKALA KEMUNGKINAN INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         // Skor Target (proyeksi RTP) & Aktual (hasil monitoring) — semua

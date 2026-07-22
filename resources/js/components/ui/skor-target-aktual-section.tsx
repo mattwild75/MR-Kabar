@@ -6,22 +6,31 @@ import FieldInfoPopover from '@/components/ui/field-info-popover';
 import {
   KATEGORI_EFEKTIVITAS_OPTIONS,
   hitungKemungkinanTerkendali,
+  hitungDampakTerkendali,
   ekstrakKategoriKontrol,
+  arahReduksiRtp,
 } from '@/lib/irs-reference-data';
 
 /**
- * Section form Skor TARGET (proyeksi setelah RTP jalan) & AKTUAL (hasil
- * monitoring) — dipakai identik di irs/Index.tsx, irs_pd/Index.tsx,
- * iro_pd/Index.tsx (dulu tiap halaman punya blok skala sendiri; blok baru
- * ini cukup panjang & berlogika, jadi dijadikan komponen bersama supaya
- * tidak triple-maintenance).
+ * Section form Skor TARGET (proyeksi setelah RTP jalan) — dipakai identik
+ * di irs/Index.tsx, irs_pd/Index.tsx, iro_pd/Index.tsx (dulu tiap halaman
+ * punya blok skala sendiri; blok baru ini cukup panjang & berlogika, jadi
+ * dijadikan komponen bersama supaya tidak triple-maintenance).
  *
- * Auto-hitung Skala Kemungkinan Target/Aktual dari K_INHEREN x faktor
- * reduksi kategori efektivitas, HANYA saat field kemungkinan itu masih
- * kosong (belum di-override manual petugas). Skala Risiko-nya sengaja
- * TIDAK dihitung di frontend (butuh matriks dari DB) — cukup ditandai
- * "dihitung otomatis saat disimpan". Backend (hitungSemuaSkala) tetap
- * sumber kebenaran final.
+ * Skor AKTUAL (hasil monitoring) TIDAK lagi di sini — dipindah ke Form 9
+ * Monitoring (monitoring-evaluasi/Form89.tsx + tabel monitoring_rtp),
+ * karena levelnya PER RTP (satu risiko bisa py >1 RTP, masing2 dipantau &
+ * dinilai efektivitasnya sendiri-sendiri), bukan per-risiko seperti Target.
+ *
+ * Arah reduksi (K, D, atau keduanya) ditentukan dari kategori RESPON
+ * RISIKO pada RENCANA TINDAK PENGENDALIAN — prinsip COSO ERM: kontrol
+ * preventif (Avoid/Abate) menekan Kemungkinan, kontrol mitigatif/
+ * pengalihan (Mitigate/Share-Transfer) menekan Dampak (lihat
+ * arahReduksiRtp()). Auto-hitung HANYA saat field yg relevan masih kosong
+ * (belum di-override manual petugas). Skala Risiko-nya sengaja TIDAK
+ * dihitung di frontend (butuh matriks dari DB) — cukup ditandai "dihitung
+ * otomatis saat disimpan". Backend (hitungSemuaSkala) tetap sumber
+ * kebenaran final.
  */
 
 export default function SkorTargetAktualSection({
@@ -36,41 +45,32 @@ export default function SkorTargetAktualSection({
   info: Record<string, string>;
 }) {
   const kemungkinanInheren = Number(data['SKALA KEMUNGKINAN INHEREN']) || null;
+  const dampakInheren = Number(data['SKALA DAMPAK INHEREN']) || null;
 
   const kategoriProyeksi = ekstrakKategoriKontrol(data['KATEGORI PROYEKSI RTP']);
-  const kategoriAktual = ekstrakKategoriKontrol(data['KATEGORI EXISTING CONTROL AKTUAL']);
+  const arah = arahReduksiRtp(data['RENCANA TINDAK PENGENDALIAN']);
 
-  // Auto-isi Skala Kemungkinan Target begitu kategori proyeksi dipilih &
-  // inheren tersedia — hanya jika field masih kosong (jangan timpa
-  // override manual petugas).
+  // Auto-isi Skala Target begitu kategori proyeksi dipilih & inheren
+  // tersedia — hanya jika field yg relevan masih kosong (jangan timpa
+  // override manual petugas). Sumbu yg TIDAK ditekan RTP tidak diisi
+  // otomatis di sini (biar user isi manual, default backend sudah
+  // menangani fallback-nya saat disimpan).
   useEffect(() => {
-    if (!kategoriProyeksi || !kemungkinanInheren) return;
-    if (data['SKALA KEMUNGKINAN TARGET']) return;
-    const k = hitungKemungkinanTerkendali(kemungkinanInheren, kategoriProyeksi);
-    if (k) {
-      setData('SKALA KEMUNGKINAN TARGET', String(k));
-      if (!data['SKALA DAMPAK TARGET']) {
-        setData('SKALA DAMPAK TARGET', String(Number(data['SKALA DAMPAK']) || ''));
-      }
+    if (!kategoriProyeksi) return;
+
+    if (arah.kemungkinan && kemungkinanInheren && !data['SKALA KEMUNGKINAN TARGET']) {
+      const k = hitungKemungkinanTerkendali(kemungkinanInheren, kategoriProyeksi);
+      if (k) setData('SKALA KEMUNGKINAN TARGET', String(k));
+    }
+    if (arah.dampak && dampakInheren && !data['SKALA DAMPAK TARGET']) {
+      const d = hitungDampakTerkendali(dampakInheren, kategoriProyeksi);
+      if (d) setData('SKALA DAMPAK TARGET', String(d));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kategoriProyeksi, kemungkinanInheren]);
+  }, [kategoriProyeksi, kemungkinanInheren, dampakInheren, arah.kemungkinan, arah.dampak]);
 
-  useEffect(() => {
-    if (!kategoriAktual || !kemungkinanInheren) return;
-    if (data['SKALA KEMUNGKINAN AKTUAL']) return;
-    const k = hitungKemungkinanTerkendali(kemungkinanInheren, kategoriAktual);
-    if (k) {
-      setData('SKALA KEMUNGKINAN AKTUAL', String(k));
-      if (!data['SKALA DAMPAK AKTUAL']) {
-        setData('SKALA DAMPAK AKTUAL', String(Number(data['SKALA DAMPAK']) || ''));
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kategoriAktual, kemungkinanInheren]);
-
-  const previewTarget = hitungKemungkinanTerkendali(kemungkinanInheren, kategoriProyeksi);
-  const previewAktual = hitungKemungkinanTerkendali(kemungkinanInheren, kategoriAktual);
+  const previewTarget = arah.kemungkinan ? hitungKemungkinanTerkendali(kemungkinanInheren, kategoriProyeksi) : null;
+  const previewDampakTarget = arah.dampak ? hitungDampakTerkendali(dampakInheren, kategoriProyeksi) : null;
   const inherenBelumDiisi = !kemungkinanInheren;
 
   return (
@@ -86,8 +86,8 @@ export default function SkorTargetAktualSection({
 
         {inherenBelumDiisi && (
           <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-            Isi Skala Kemungkinan Inheren di atas dulu — Skala Kemungkinan Target/Aktual dihitung otomatis dari
-            nilai inheren dikali faktor reduksi kategori efektivitas.
+            Isi Skala Kemungkinan Inheren di atas dulu — Skala Kemungkinan Target dihitung otomatis dari nilai
+            inheren dikali faktor reduksi kategori efektivitas.
           </p>
         )}
 
@@ -99,9 +99,25 @@ export default function SkorTargetAktualSection({
             categories={KATEGORI_EFEKTIVITAS_OPTIONS}
             uraianPlaceholder="Uraian proyeksi efektivitas RTP (opsional)..."
           />
-          {previewTarget && (
+          {(previewTarget || previewDampakTarget) && (
             <p className="text-xs text-sky-700 dark:text-sky-400">
-              Perkiraan Skala Kemungkinan Target: <strong>{previewTarget}</strong> (dari K inheren {kemungkinanInheren} × faktor kategori)
+              {previewTarget && (
+                <>
+                  Perkiraan Skala Kemungkinan Target: <strong>{previewTarget}</strong> (dari K inheren {kemungkinanInheren} × faktor kategori)
+                </>
+              )}
+              {previewTarget && previewDampakTarget && <br />}
+              {previewDampakTarget && (
+                <>
+                  Perkiraan Skala Dampak Target: <strong>{previewDampakTarget}</strong> (dari D inheren {dampakInheren} × faktor kategori — RTP menyasar Dampak/Mitigate)
+                </>
+              )}
+            </p>
+          )}
+          {kategoriProyeksi && !arah.kemungkinan && !arah.dampak && (
+            <p className="text-xs text-muted-foreground">
+              Rencana Tindak Pengendalian belum menyebut respon Avoid/Abate/Mitigate/Share-Transfer — Skala
+              Kemungkinan/Dampak Target perlu diisi manual.
             </p>
           )}
         </div>
@@ -133,67 +149,11 @@ export default function SkorTargetAktualSection({
           </div>
         </div>
         <p className="text-xs text-muted-foreground">
-          Skala Kemungkinan Target terisi otomatis dari kategori proyeksi (boleh diubah manual, mis. RTP mitigatif).
-          Skala Risiko Target dihitung otomatis saat disimpan.
+          Skala Kemungkinan/Dampak Target terisi otomatis sesuai respon risiko RTP (Avoid/Abate menekan Kemungkinan,
+          Mitigate/Share-Transfer menekan Dampak) — bisa diubah manual. Skala Risiko Target dihitung otomatis saat
+          disimpan.
         </p>
       </div>
-
-      {/* ── SKOR AKTUAL (hasil monitoring) ── */}
-      <details className="rounded-md border border-dashed border-emerald-400/60 p-3 dark:border-emerald-700/60">
-        <summary className="cursor-pointer text-sm font-medium text-emerald-700 dark:text-emerald-400">
-          Skala Aktual — Hasil monitoring setelah RTP berjalan (opsional, isi belakangan)
-        </summary>
-        <div className="mt-3 space-y-3">
-          <div className="flex items-center gap-1.5">
-            {info['KATEGORI EXISTING CONTROL AKTUAL'] && <FieldInfoPopover text={info['KATEGORI EXISTING CONTROL AKTUAL']} />}
-            <span className="text-xs text-muted-foreground">
-              Diisi saat pemantauan RTP — efektivitas riil bisa berbeda dari target.
-            </span>
-          </div>
-
-          <div className="space-y-1">
-            <Label className="text-xs text-muted-foreground">Kategori Efektivitas Aktual (hasil monitoring)</Label>
-            <CategorizedTextarea
-              value={data['KATEGORI EXISTING CONTROL AKTUAL']}
-              onChange={(val) => setData('KATEGORI EXISTING CONTROL AKTUAL', val)}
-              categories={KATEGORI_EFEKTIVITAS_OPTIONS}
-              uraianPlaceholder="Uraian hasil pemantauan efektivitas (opsional)..."
-            />
-            {previewAktual && (
-              <p className="text-xs text-emerald-700 dark:text-emerald-400">
-                Perkiraan Skala Kemungkinan Aktual: <strong>{previewAktual}</strong> (dari K inheren {kemungkinanInheren} × faktor kategori)
-              </p>
-            )}
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
-              <Label htmlFor="SKALA DAMPAK AKTUAL" className="text-xs text-muted-foreground">
-                Skala Dampak Aktual
-              </Label>
-              <AutocompleteSelect
-                value={data['SKALA DAMPAK AKTUAL']}
-                onChange={(val) => setData('SKALA DAMPAK AKTUAL', val)}
-                options={['1', '2', '3', '4', '5']}
-                placeholder="Pilih 1-5"
-              />
-              {errors['SKALA DAMPAK AKTUAL'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK AKTUAL']}</p>}
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="SKALA KEMUNGKINAN AKTUAL" className="text-xs text-muted-foreground">
-                Skala Kemungkinan Aktual
-              </Label>
-              <AutocompleteSelect
-                value={data['SKALA KEMUNGKINAN AKTUAL']}
-                onChange={(val) => setData('SKALA KEMUNGKINAN AKTUAL', val)}
-                options={['1', '2', '3', '4', '5']}
-                placeholder="Auto/pilih 1-5"
-              />
-              {errors['SKALA KEMUNGKINAN AKTUAL'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN AKTUAL']}</p>}
-            </div>
-          </div>
-        </div>
-      </details>
     </>
   );
 }

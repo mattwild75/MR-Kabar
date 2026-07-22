@@ -11,6 +11,7 @@ use App\Models\MonitoringRtp;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
+use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -41,6 +42,10 @@ class MonitoringEvaluasiController extends Controller
         'III' => 'Triwulan III (Juli/Agustus/September)',
         'IV' => 'Triwulan IV (Oktober/November/Desember)',
     ];
+
+    public function __construct(private RiskReferenceDataService $riskRef)
+    {
+    }
 
     private function opdOptions(Request $request)
     {
@@ -125,6 +130,12 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 'konteks' => 'Risiko Strategis Pemda: ' . $r->{'URAIAN RISIKO'},
+                'skala_dampak' => $r->{'SKALA DAMPAK'},
+                'skala_kemungkinan' => $r->{'SKALA KEMUNGKINAN'},
+                'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'},
+                'skala_kemungkinan_inheren' => $r->{'SKALA KEMUNGKINAN INHEREN'},
+                'skala_dampak_target' => $r->{'SKALA DAMPAK TARGET'},
+                'skala_kemungkinan_target' => $r->{'SKALA KEMUNGKINAN TARGET'},
             ];
         }
 
@@ -140,6 +151,12 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 'konteks' => 'Risiko Strategis OPD: ' . $r->{'URAIAN RISIKO'},
+                'skala_dampak' => $r->{'SKALA DAMPAK'},
+                'skala_kemungkinan' => $r->{'SKALA KEMUNGKINAN'},
+                'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'},
+                'skala_kemungkinan_inheren' => $r->{'SKALA KEMUNGKINAN INHEREN'},
+                'skala_dampak_target' => $r->{'SKALA DAMPAK TARGET'},
+                'skala_kemungkinan_target' => $r->{'SKALA KEMUNGKINAN TARGET'},
             ];
         }
 
@@ -155,6 +172,12 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 'konteks' => 'Risiko Operasional OPD: ' . $r->{'URAIAN RISIKO'},
+                'skala_dampak' => $r->{'SKALA DAMPAK'},
+                'skala_kemungkinan' => $r->{'SKALA KEMUNGKINAN'},
+                'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'},
+                'skala_kemungkinan_inheren' => $r->{'SKALA KEMUNGKINAN INHEREN'},
+                'skala_dampak_target' => $r->{'SKALA DAMPAK TARGET'},
+                'skala_kemungkinan_target' => $r->{'SKALA KEMUNGKINAN TARGET'},
             ];
         }
 
@@ -171,6 +194,14 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->rencana_tindak_pengendalian,
                 'konteks' => 'RTP atas CEE (' . ($r->unsur?->kode ?? '-') . '. ' . ($r->unsur?->nama ?? '-') . '): ' . $r->kondisi_kurang_memadai,
+                // CEE tidak punya skala risiko (bukan penilaian risiko) —
+                // Skala Aktual di Form 9 tidak relevan utk sumber ini.
+                'skala_dampak' => null,
+                'skala_kemungkinan' => null,
+                'skala_dampak_inheren' => null,
+                'skala_kemungkinan_inheren' => null,
+                'skala_dampak_target' => null,
+                'skala_kemungkinan_target' => null,
             ];
         }
 
@@ -213,6 +244,24 @@ class MonitoringEvaluasiController extends Controller
                 'tahun_rencana_pemantauan' => $monitoring?->tahun_rencana_pemantauan,
                 'realisasi_waktu_pemantauan' => $monitoring?->realisasi_waktu_pemantauan,
                 'keterangan_pemantauan' => $monitoring?->keterangan_pemantauan,
+                // Basis hitung Skala Aktual — arah reduksi (K/D) ditentukan
+                // dari kategori RESPON RISIKO pada `label` (RENCANA TINDAK
+                // PENGENDALIAN, sudah ada di atas). D default = Dampak
+                // Residual, K default = K Inheren, null utk sumber cee_rtp
+                // (tidak py skala risiko sama sekali). Inheren/Residual/
+                // Target diteruskan APA ADANYA (read-only) utk dipakai
+                // matriks "Isi Nilai Risiko Aktual" — hanya titik Aktual yg
+                // bisa diedit di sana, 3 lainnya sekadar tampil sbg konteks.
+                'skala_dampak' => $rtp['skala_dampak'],
+                'skala_kemungkinan' => $rtp['skala_kemungkinan'],
+                'skala_dampak_inheren' => $rtp['skala_dampak_inheren'],
+                'skala_kemungkinan_inheren' => $rtp['skala_kemungkinan_inheren'],
+                'skala_dampak_target' => $rtp['skala_dampak_target'],
+                'skala_kemungkinan_target' => $rtp['skala_kemungkinan_target'],
+                'kategori_existing_control_aktual' => $monitoring?->kategori_existing_control_aktual,
+                'skala_dampak_aktual' => $monitoring?->skala_dampak_aktual,
+                'skala_kemungkinan_aktual' => $monitoring?->skala_kemungkinan_aktual,
+                'skala_risiko_aktual' => $monitoring?->skala_risiko_aktual,
             ];
         })->values()->all();
 
@@ -223,6 +272,9 @@ class MonitoringEvaluasiController extends Controller
             'triwulanOptions' => self::TRIWULAN_OPTIONS,
             'triwulanLabels' => self::TRIWULAN_LABELS,
             'rows' => $rows,
+            // Dipakai dialog "Isi Nilai Risiko Aktual" (matriks 5x5) — sama
+            // data referensi dgn IRS/IRO, cukup ambil bagian matriksRisiko.
+            'riskReference' => ['matriksRisiko' => $this->riskRef->referenceDialogPayload()['matriksRisiko']],
         ]);
     }
 
@@ -246,6 +298,14 @@ class MonitoringEvaluasiController extends Controller
             'tahun_rencana_pemantauan' => ['nullable', 'integer', 'digits:4'],
             'realisasi_waktu_pemantauan' => ['nullable', 'string', 'max:255'],
             'keterangan_pemantauan' => ['nullable', 'string'],
+            // Skala Aktual (hasil re-assessment risiko saat monitoring) —
+            // dipindah dari form input IRS/IRO ke sini krn levelnya per-RTP,
+            // bukan per-risiko. Kategori tersimpan format CategorizedTextarea
+            // "KODE (uraian)", kode-nya diekstrak & skala dihitung di
+            // storeOrUpdate89() (sama pola dgn RiskReferenceDataService).
+            'kategori_existing_control_aktual' => ['nullable', 'string'],
+            'skala_dampak_aktual' => ['nullable', 'integer', 'min:1', 'max:5'],
+            'skala_kemungkinan_aktual' => ['nullable', 'integer', 'min:1', 'max:5'],
         ];
     }
 
@@ -254,12 +314,67 @@ class MonitoringEvaluasiController extends Controller
      * sumber cuma py SATU baris monitoring, disimpan/diedit lewat endpoint
      * yg sama (bukan create lalu edit terpisah spt Form 1d).
      */
+    /**
+     * Skala D/K Inheren + Dampak Residual dari RTP sumber (irs_pemda/
+     * irs_pd/iro_pd) — basis hitung Skala Aktual, sama pola persis dgn
+     * hitungKemungkinanTerkendali() di RiskReferenceDataService (K basis =
+     * Inheren, D basis = Residual/current). cee_rtp tidak py skala risiko
+     * sama sekali -> null (Skala Aktual tidak berlaku utk sumber ini).
+     */
+    private function skalaBasisDariSumber(string $tipe, int $id): array
+    {
+        $modelClass = self::RISK_MODELS[$tipe] ?? null;
+        if ($modelClass === null || $modelClass === CeeRtp::class) {
+            return ['dampak' => null, 'dampak_inheren' => null, 'kemungkinan_inheren' => null, 'rtp' => null];
+        }
+
+        $row = $modelClass::find($id);
+
+        return [
+            'dampak' => $row?->{'SKALA DAMPAK'},
+            'dampak_inheren' => $row?->{'SKALA DAMPAK INHEREN'},
+            'kemungkinan_inheren' => $row?->{'SKALA KEMUNGKINAN INHEREN'},
+            'rtp' => $row?->{'RENCANA TINDAK PENGENDALIAN'},
+        ];
+    }
+
     public function storeOrUpdate89(Request $request)
     {
         $data = $request->validate($this->monitoringValidationRules());
 
         $this->ensureOpdAccess($request, (int) $data['opd_id']);
         $this->ensureSumberBelongsToOpd($data['rtp_sumber_tipe'], (int) $data['rtp_sumber_id'], (int) $data['opd_id']);
+
+        // Hitung Skala Risiko Aktual dari kategori (jika diisi) — arah
+        // reduksi (K, D, atau keduanya) ditentukan dari RESPON RISIKO pada
+        // RTP sumber (Avoid/Abate -> K, Mitigate/Share-Transfer -> D),
+        // sesuai prinsip COSO ERM (kontrol preventif vs mitigatif/
+        // pengalihan) — sama logika dgn Skala Target di
+        // RiskReferenceDataService::hitungSemuaSkala(). Sumbu yg tidak
+        // ditekan: K fallback ke K Inheren, D fallback ke D Residual
+        // (bukan D Inheren, supaya Aktual tidak tampak lebih buruk dari
+        // kondisi sekarang kalau D Inheren jauh lebih tinggi).
+        $kategoriAktual = $this->riskRef->ekstrakKategoriKontrol($data['kategori_existing_control_aktual'] ?? null);
+        $skalaRisikoAktual = null;
+        $dampakAktual = $data['skala_dampak_aktual'] ?? null;
+        $kemungkinanAktual = $data['skala_kemungkinan_aktual'] ?? null;
+
+        if ($kategoriAktual !== null || $dampakAktual || $kemungkinanAktual) {
+            $basis = $this->skalaBasisDariSumber($data['rtp_sumber_tipe'], (int) $data['rtp_sumber_id']);
+            $arah = $this->riskRef->arahReduksiRtp($basis['rtp']);
+
+            $dampakAktual = $dampakAktual ?: (
+                $kategoriAktual !== null && $arah['dampak']
+                    ? ($this->riskRef->hitungDampakTerkendali($basis['dampak_inheren'], $kategoriAktual) ?? $basis['dampak'])
+                    : $basis['dampak']
+            );
+            $kemungkinanAktual = $kemungkinanAktual ?: (
+                $kategoriAktual !== null && $arah['kemungkinan']
+                    ? ($this->riskRef->hitungKemungkinanTerkendali($basis['kemungkinan_inheren'], $kategoriAktual) ?? $basis['kemungkinan_inheren'])
+                    : $basis['kemungkinan_inheren']
+            );
+            $skalaRisikoAktual = $this->riskRef->hitungSkala($dampakAktual ?: null, $kemungkinanAktual ?: null)['skala_risiko'];
+        }
 
         MonitoringRtp::updateOrCreate(
             [
@@ -282,6 +397,10 @@ class MonitoringEvaluasiController extends Controller
                 'tahun_rencana_pemantauan' => $data['tahun_rencana_pemantauan'] ?? null,
                 'realisasi_waktu_pemantauan' => $data['realisasi_waktu_pemantauan'] ?? null,
                 'keterangan_pemantauan' => $data['keterangan_pemantauan'] ?? null,
+                'kategori_existing_control_aktual' => $data['kategori_existing_control_aktual'] ?? null,
+                'skala_dampak_aktual' => $dampakAktual ?: null,
+                'skala_kemungkinan_aktual' => $kemungkinanAktual ?: null,
+                'skala_risiko_aktual' => $skalaRisikoAktual,
                 'submitted_by' => $request->user()->id,
             ]
         );

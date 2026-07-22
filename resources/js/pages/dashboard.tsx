@@ -25,12 +25,14 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
+  ComposedChart,
   Legend,
   Line,
   LineChart,
   Pie,
   PieChart,
   ResponsiveContainer,
+  Scatter,
   Tooltip,
   XAxis,
   YAxis,
@@ -101,6 +103,8 @@ interface InherenResidualItem {
   uraian_risiko: string;
   skala_inheren: number;
   skala_residual: number;
+  skala_target: number | null;
+  skala_aktual: number | null;
   rtp_terisi: boolean;
   url: string;
 }
@@ -128,6 +132,8 @@ interface TrenEfektivitasItem {
   rata_rata_gap: number | null;
   persen_gap_signifikan: number | null;
   total_dinilai: number;
+  rata_rata_deviasi_target: number | null;
+  total_dinilai_target_aktual: number;
 }
 
 interface RankingOpdItem {
@@ -240,12 +246,13 @@ function prioritasToMatriksDetailRisiko(r: RisikoPrioritasItem): MatriksDetailRi
   };
 }
 
-/** Tooltip custom widget "Risiko Inheren vs Sisa Risiko" — tampilkan OPD + kode risiko (mis. "BLUD RSUD CUT NYAK DHIEN - RSP.26.02.06.02"), bukan cuma nilai bar. */
+/** Tooltip custom widget "Siklus 4-Skor Risiko" — tampilkan OPD + kode risiko (mis. "BLUD RSUD CUT NYAK DHIEN - RSP.26.02.06.02"), plus keempat titik COSO ERM (Inheren/Residual/Target/Aktual) bila tersedia. */
 function InherenResidualTooltip({ active, payload }: { active?: boolean; payload?: { payload: InherenResidualItem }[] }) {
   if (!active || !payload || payload.length === 0) {
     return null;
   }
   const item = payload[0].payload;
+  const deviasiTarget = item.skala_target !== null && item.skala_aktual !== null ? item.skala_aktual - item.skala_target : null;
 
   return (
     <div className="rounded-md border bg-popover p-3 text-sm text-popover-foreground shadow-md">
@@ -254,9 +261,19 @@ function InherenResidualTooltip({ active, payload }: { active?: boolean; payload
         {item.kode_risiko ? ` - ${item.kode_risiko}` : ''}
       </p>
       <p className="mb-2 text-xs text-muted-foreground">{item.uraian_risiko}</p>
-      <p className="text-muted-foreground">Inheren : {item.skala_inheren}</p>
-      <p className="text-sky-500">Sisa Risiko : {item.skala_residual}</p>
-      <p className="text-red-500">Gap (efektivitas pengendalian) : {item.skala_inheren - item.skala_residual}</p>
+      <p className="text-rose-500">Inheren : {item.skala_inheren}</p>
+      <p className="text-sky-500">Residual/Current : {item.skala_residual}</p>
+      <p className="text-emerald-500">Target : {item.skala_target ?? '- (belum diisi)'}</p>
+      <p className="text-amber-500">Aktual : {item.skala_aktual ?? '- (belum ada monitoring)'}</p>
+      <div className="mt-1 border-t pt-1">
+        <p className="text-red-500">Gap Inheren→Residual : {item.skala_inheren - item.skala_residual}</p>
+        {deviasiTarget !== null && (
+          <p className={deviasiTarget > 0 ? 'text-red-500' : 'text-emerald-500'}>
+            Deviasi Aktual vs Target : {deviasiTarget > 0 ? '+' : ''}
+            {deviasiTarget} {deviasiTarget > 0 ? '(RTP meleset dari rencana)' : '(RTP sesuai/lebih baik dari rencana)'}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
@@ -669,7 +686,7 @@ export default function Dashboard({
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Risiko Inheren vs Sisa Risiko</CardTitle>
+            <CardTitle className="text-base">Siklus 4-Skor Risiko (Inheren → Residual → Target → Aktual)</CardTitle>
           </CardHeader>
           <CardContent>
             {inherenResidual.length === 0 ? (
@@ -678,18 +695,18 @@ export default function Dashboard({
               <>
                 <div className="max-h-[400px] overflow-x-hidden overflow-y-auto">
                   <ResponsiveContainer width="100%" height={Math.max(260, inherenResidual.length * 32)}>
-                    <BarChart
-                      data={inherenResidual.map((r) => ({ ...r, gap: r.skala_inheren - r.skala_residual }))}
+                    <ComposedChart
+                      data={inherenResidual.map((r, i) => ({ ...r, y: i, gap: r.skala_inheren - r.skala_residual }))}
                       layout="vertical"
                       margin={{ top: 5, right: 10, bottom: 5, left: 8 }}
                     >
-                      <XAxis type="number" allowDecimals={false} />
+                      <XAxis type="number" allowDecimals={false} domain={[0, 25]} />
                       <YAxis type="category" dataKey="uraian_risiko" width={0} tick={false} />
                       <Tooltip content={<InherenResidualTooltip />} />
                       <Legend />
                       <Bar
                         dataKey="skala_residual"
-                        name="Sisa Risiko"
+                        name="Residual/Current"
                         stackId="gapStack"
                         fill="#0ea5e9"
                         cursor="pointer"
@@ -697,7 +714,7 @@ export default function Dashboard({
                       />
                       <Bar
                         dataKey="gap"
-                        name="Gap (efektivitas pengendalian)"
+                        name="Gap Inheren→Residual"
                         stackId="gapStack"
                         fill="#dc2626"
                         radius={[0, 4, 4, 0]}
@@ -705,11 +722,29 @@ export default function Dashboard({
                         onClick={(data) => setRisikoDetail(toMatriksDetailRisiko(((data?.payload ?? data) as unknown) as InherenResidualItem))}
                         label={{ position: 'right', fontSize: 11, fill: '#dc2626' }}
                       />
-                    </BarChart>
+                      <Scatter
+                        dataKey="skala_target"
+                        name="Target"
+                        fill="#22c55e"
+                        shape="diamond"
+                        cursor="pointer"
+                        onClick={(data) => setRisikoDetail(toMatriksDetailRisiko(((data?.payload ?? data) as unknown) as InherenResidualItem))}
+                      />
+                      <Scatter
+                        dataKey="skala_aktual"
+                        name="Aktual"
+                        fill="#f59e0b"
+                        shape="triangle"
+                        cursor="pointer"
+                        onClick={(data) => setRisikoDetail(toMatriksDetailRisiko(((data?.payload ?? data) as unknown) as InherenResidualItem))}
+                      />
+                    </ComposedChart>
                   </ResponsiveContainer>
                 </div>
                 <p className="mt-2 text-center text-xs text-muted-foreground">
-                  Menampilkan seluruh {inherenResidual.length} risiko yang sudah memiliki Skala Inheren
+                  Menampilkan seluruh {inherenResidual.length} risiko yang sudah memiliki Skala Inheren — bar biru+merah
+                  = Residual & Gap ke Inheren, ◆ hijau = Target (sasaran RTP), ▲ oranye = Aktual (hasil monitoring, bila
+                  sudah diisi di Form 9)
                 </p>
               </>
             )}
@@ -806,7 +841,7 @@ export default function Dashboard({
                   <LineChart data={trenEfektivitasPengendalian}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                     <XAxis dataKey="tahun" />
-                    <YAxis yAxisId="gap" allowDecimals={false} domain={[0, 25]} label={{ value: 'Skala', angle: -90, position: 'insideLeft', style: { fontSize: 11 } }} />
+                    <YAxis yAxisId="gap" allowDecimals={false} domain={[-10, 25]} label={{ value: 'Skala', angle: -90, position: 'insideLeft', style: { fontSize: 11 } }} />
                     <YAxis
                       yAxisId="persen"
                       orientation="right"
@@ -836,11 +871,22 @@ export default function Dashboard({
                       connectNulls
                       label={{ position: 'top', fontSize: 11, fill: '#0ea5e9', formatter: (v: number) => `${v.toFixed(2)}%` }}
                     />
+                    <Line
+                      yAxisId="gap"
+                      type="monotone"
+                      dataKey="rata_rata_deviasi_target"
+                      name="Rata-rata Deviasi Target vs Aktual"
+                      stroke="#f59e0b"
+                      connectNulls
+                      strokeDasharray="5 3"
+                      label={{ position: 'bottom', fontSize: 11, fill: '#f59e0b' }}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
                 <p className="text-center text-xs text-muted-foreground">
-                  Rata-rata Gap = besaran penurunan skala risiko (Inheren − Sisa Risiko) · Cakupan Signifikan = % risiko dengan gap ≥{' '}
-                  {5}
+                  Rata-rata Gap = besaran penurunan skala risiko (Inheren − Residual) · Cakupan Signifikan = % risiko
+                  dengan gap ≥ {5} · Rata-rata Deviasi Target vs Aktual = Aktual − Target pada risiko yang sudah
+                  dimonitor di Form 9 (positif = RTP meleset dari rencana)
                 </p>
               </>
             )}

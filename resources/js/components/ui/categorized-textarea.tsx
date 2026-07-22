@@ -10,6 +10,8 @@ interface CategorizedTextareaProps {
   rows?: number;
   className?: string;
   uraianPlaceholder?: string;
+  /** Sembunyikan textarea uraian bebas — dipakai utk field yg cukup kategori saja (mis. C/UC), tanpa alasan tertulis. */
+  hideUraian?: boolean;
 }
 
 /**
@@ -25,6 +27,7 @@ export default function CategorizedTextarea({
   rows = 2,
   className,
   uraianPlaceholder = 'Tulis uraian...',
+  hideUraian = false,
 }: CategorizedTextareaProps) {
   const { category, uraian } = useMemo(() => parseValue(value, categories), [value, categories]);
 
@@ -55,14 +58,16 @@ export default function CategorizedTextarea({
           </button>
         ))}
       </div>
-      <Textarea
-        id={id}
-        value={uraian}
-        rows={rows}
-        className={className}
-        placeholder={uraianPlaceholder}
-        onChange={(e) => setUraian(e.target.value)}
-      />
+      {!hideUraian && (
+        <Textarea
+          id={id}
+          value={uraian}
+          rows={rows}
+          className={className}
+          placeholder={uraianPlaceholder}
+          onChange={(e) => setUraian(e.target.value)}
+        />
+      )}
     </div>
   );
 }

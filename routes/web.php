@@ -169,6 +169,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::delete('/backup/delete/{file}', [BackupController::class, 'delete'])->name('backup.delete');
     Route::post('/backup/git-push', [BackupController::class, 'gitPush'])->name('backup.git-push');
     Route::post('/backup/git-pull', [BackupController::class, 'gitPull'])->name('backup.git-pull');
+    Route::post('/backup/git-checkout-tag', [BackupController::class, 'checkoutTag'])->name('backup.git-checkout-tag');
     Route::post('/backup/git-sync-toggle', [BackupController::class, 'toggleGitSync'])->name('backup.git-sync-toggle');
     Route::post('/backup/import', [BackupController::class, 'importDatabase'])->name('backup.import');
     Route::get('/backup/excel', [RiskExcelController::class, 'index'])->name('backup.excel.index');

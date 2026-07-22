@@ -14,6 +14,8 @@ interface Row {
   rencana_pemantauan: string | null;
   realisasi_pemantauan: string | null;
   keterangan_pemantauan: string | null;
+  kategori_existing_control_aktual: string | null;
+  skala_risiko_aktual: number | null;
 }
 
 interface Signatory {
@@ -179,6 +181,42 @@ export default function Cetak9({ opdOptions, opd, tahun, periode, rows, pemerint
           </table>
 
           <Form9Table rows={rows} />
+
+          {rows.some((r) => r.skala_risiko_aktual !== null) && (
+            <div className="mt-2 text-[9px] leading-tight">
+              <p className="font-semibold">Hasil Re-assessment Risiko (Skala Aktual) — informasi tambahan, bukan bagian format baku Perdep:</p>
+              <table className="mt-1 w-full table-fixed border-collapse border border-black">
+                <colgroup>
+                  <col className="w-[3%]" />
+                  <col className="w-[57%]" />
+                  <col className="w-[20%]" />
+                  <col className="w-[20%]" />
+                </colgroup>
+                <thead>
+                  <tr className="bg-muted/40">
+                    <th className="border border-black p-1 font-semibold">No</th>
+                    <th className="border border-black p-1 font-semibold">Kegiatan Pengendalian</th>
+                    <th className="border border-black p-1 font-semibold">Kategori Efektivitas Aktual</th>
+                    <th className="border border-black p-1 font-semibold">Skala Risiko Aktual</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r, i) =>
+                    r.skala_risiko_aktual !== null ? (
+                      <tr key={i}>
+                        <td className="border border-black p-1 align-top">{i + 1}</td>
+                        <td className="border border-black p-1 align-top">
+                          <RtpCategoryText text={clean(r.kegiatan_pengendalian)} />
+                        </td>
+                        <td className="border border-black p-1 align-top">{clean(r.kategori_existing_control_aktual)}</td>
+                        <td className="border border-black p-1 text-center align-top">{r.skala_risiko_aktual}</td>
+                      </tr>
+                    ) : null,
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
 
           <div className="mt-2 text-[9px] leading-tight text-muted-foreground">
             <p>Keterangan:</p>

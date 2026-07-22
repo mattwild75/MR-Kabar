@@ -123,7 +123,30 @@ class BackupController extends Controller
             'backups' => $backups,
             'canPushGit' => true,
             'gitSyncEnabled' => (bool) SettingApp::cached()?->git_sync_enabled,
+            'gitTags' => $this->listGitTags(),
         ]);
+    }
+
+    /**
+     * Daftar tag git yang ada di repo lokal server ini (mis. v1.0.0,
+     * v1.0.1) — dipakai dropdown "Checkout ke Versi Tag" di halaman
+     * Backup. Diurutkan versi terbaru dulu (`--sort=-v:refname`, git native
+     * semver-aware sort, bukan sort string biasa supaya v1.0.10 tidak
+     * muncul sebelum v1.0.2). Tidak melempar error kalau git tidak
+     * tersedia/bukan repo — cukup kembalikan array kosong supaya halaman
+     * Backup tetap bisa dibuka.
+     */
+    private function listGitTags(): array
+    {
+        $result = Process::timeout(15)->run([
+            'git', '-C', base_path(), 'tag', '-l', '--sort=-v:refname',
+        ]);
+
+        if (!$result->successful()) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map('trim', explode("\n", $result->output()))));
     }
 
     /**
@@ -296,6 +319,66 @@ class BackupController extends Controller
             }
 
             return redirect()->back()->with('success', 'Kode berhasil ditarik dari GitHub: ' . trim($result->output()));
+        });
+    }
+
+    /**
+     * Checkout kode ke tag versi tertentu (mis. "v1.0.0") — jalur rollback
+     * resmi utk fitur yg gagal/tidak sesuai setelah dirilis (lihat
+     * dokumentasi versioning di README/plan: setiap fitur besar ditandai
+     * tag v-x.y.z sebelum & sesudah dikerjakan). BUKAN git pull biasa:
+     * `git pull origin HEAD` di gitPull() cuma menyamakan ke HEAD branch
+     * aktif, tidak bisa "mundur" ke versi lama begitu ada commit baru di
+     * atasnya — checkout ke tag inilah satu-satunya cara mundur dari UI.
+     *
+     * Destruktif: pakai `git reset --hard <tag>` (BUKAN `git checkout
+     * <tag>` yang meninggalkan repo dalam kondisi "detached HEAD" yang
+     * membingungkan operator awam) — SEMUA perubahan lokal yg belum
+     * di-commit di server ini AKAN HILANG, dan riwayat branch di server
+     * ini akan mundur/berbeda dari remote sampai di-push ulang. Karena itu:
+     * (1) wajib ketik ulang nama tag persis (frontend, dobel dgn backend),
+     * (2) backup database PENUH dulu sebelum checkout — kode versi lama
+     * kadang butuh skema kolom yg beda dari migrasi yg sudah jalan
+     * sekarang, jadi checkout kode SENDIRIAN tanpa cadangan data berisiko
+     * bikin aplikasi crash total kalau skema tidak cocok.
+     */
+    public function checkoutTag(Request $request)
+    {
+        $this->ensureSuperAdmin();
+        $this->ensureGitSyncEnabled();
+
+        $data = $request->validate([
+            'tag' => ['required', 'string', 'max:100'],
+        ]);
+
+        $availableTags = $this->listGitTags();
+        if (!in_array($data['tag'], $availableTags, true)) {
+            return redirect()->back()->with('error', 'Tag "' . $data['tag'] . '" tidak ditemukan di repository ini.');
+        }
+
+        return $this->withBackupLock(function () use ($data) {
+            try {
+                Artisan::call('backup:run', ['--only-db' => true]);
+                $this->keepOnlyLatestBackup();
+            } catch (\Throwable $e) {
+                return redirect()->back()->with('error', 'Backup database gagal, checkout tag dibatalkan: ' . $e->getMessage());
+            }
+
+            $base = base_path();
+            $result = Process::timeout(60)->run(['git', '-C', $base, 'reset', '--hard', $data['tag']]);
+
+            if (!$result->successful()) {
+                return redirect()->back()->with(
+                    'error',
+                    'Checkout ke tag "' . $data['tag'] . '" gagal: ' . trim($result->errorOutput() ?: $result->output())
+                );
+            }
+
+            return redirect()->back()->with(
+                'success',
+                'Kode server berhasil dikembalikan ke versi ' . $data['tag'] . '. Backup database sebelum checkout tersimpan di daftar backup. '
+                . 'Jalankan migrasi/rebuild jika perlu menyesuaikan skema database dengan versi kode ini.'
+            );
         });
     }
 

@@ -226,8 +226,11 @@ class IroPdController extends Controller
             $attributes[$field] = $field;
         }
         $rules['URAIAN RISIKO'] = ['required', 'string'];
-        $rules['SKALA DAMPAK'] = ['required', 'integer', 'min:1', 'max:5'];
-        $rules['SKALA KEMUNGKINAN'] = ['required', 'integer', 'min:1', 'max:5'];
+        // Lihat komentar IrsPemdaController::validated() — Residual &
+        // Inheren sama-sama nullable, minimal satu pasang ditegakkan di
+        // RiskReferenceDataService::hitungSemuaSkala().
+        $rules['SKALA DAMPAK'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        $rules['SKALA KEMUNGKINAN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['SKALA DAMPAK INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['SKALA KEMUNGKINAN INHEREN'] = ['nullable', 'integer', 'min:1', 'max:5'];
         // Skor Target & Aktual — sama pola dgn IrsPemdaController::validated().

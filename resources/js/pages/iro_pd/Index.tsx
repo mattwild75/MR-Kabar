@@ -34,6 +34,7 @@ import {
 import { IRO_PD_FIELD_INFO } from '@/lib/iro-pd-field-info';
 import { SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS, KATEGORI_EXISTING_CONTROL_OPTIONS, PENYEBAB_5M_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
 import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
+import ExistingControlToggleSection from '@/components/ui/existing-control-toggle-section';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
 import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
@@ -42,7 +43,8 @@ import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-
 import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 import { canManageRow } from '@/lib/ownership';
-import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown, Grid3x3 } from 'lucide-react';
+import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
 import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -153,9 +155,6 @@ const EXTRA_SCALE_FIELDS = [
   'KATEGORI PROYEKSI RTP',
   'SKALA DAMPAK TARGET',
   'SKALA KEMUNGKINAN TARGET',
-  'KATEGORI EXISTING CONTROL AKTUAL',
-  'SKALA DAMPAK AKTUAL',
-  'SKALA KEMUNGKINAN AKTUAL',
 ] as const;
 
 type FormData = Record<FieldName, string> & Record<(typeof EXTRA_SCALE_FIELDS)[number], string>;
@@ -177,6 +176,8 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<IroRow | null>(null);
   const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
+  const [matrixPickerOpen, setMatrixPickerOpen] = useState(false);
+  const [existingControlStatus, setExistingControlStatus] = useState<'ya' | 'tidak' | null>(null);
   // true saat form dibuka dari tombol "Input ke Register Risiko" di Rekap
   // Lapor Kejadian — Sumber Sebab & C/UC TIDAK ikut ter-prefill (butuh
   // penilaian manual petugas), banner mengingatkan supaya tidak terlewat.
@@ -506,8 +507,13 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
       </div>
 
       {/* Dialog Tambah/Edit Data */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+      <Dialog open={dialogOpen} onOpenChange={(open) => open && setDialogOpen(true)}>
+        <DialogContent
+          className="max-h-[90vh] max-w-2xl overflow-y-auto"
+          hideClose
+          onPointerDownOutside={(e) => e.preventDefault()}
+          onEscapeKeyDown={(e) => e.preventDefault()}
+        >
           <DialogHeader>
             <DialogTitle>{editing ? 'Edit Data Risiko' : 'Tambah Data Risiko'}</DialogTitle>
           </DialogHeader>
@@ -699,7 +705,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                         onChange={(val) => setData(field, val)}
                         categories={SUMBER_SEBAB_RISIKO_KATEGORI.filter((c) => c !== 'Internal dan Eksternal')}
                         combinedLabel="Internal dan Eksternal"
-                        uraianPlaceholder="Uraian sumber sebab risiko..."
+                        hideUraian
                       />
                       {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
                     </div>
@@ -720,7 +726,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                         value={value}
                         onChange={(val) => setData(field, val)}
                         categories={C_UC_OPTIONS}
-                        uraianPlaceholder="Uraian alasan C/UC..."
+                        hideUraian
                       />
                       {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
                     </div>
@@ -729,74 +735,61 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
               }
 
               if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
-                const uraianTerisi = value.trim() !== '' && value.trim() !== '-' && value.trim() !== 'Tidak Ada Data';
                 return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <AutocompleteTextarea
-                      id={field}
-                      value={value}
-                      onChange={(val) => setData(field, val)}
-                      options={fieldOptions[field] ?? []}
-                      rows={2}
-                    />
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                    <p className="text-xs text-muted-foreground">
-                      Sesuai PP 60/2008, uraian ini merupakan representasi unsur <em>Kegiatan Pengendalian</em> —
-                      kebijakan & prosedur yang membantu memastikan arahan manajemen risiko dilaksanakan.
-                    </p>
-                    {uraianTerisi && (
-                      <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-                        Disarankan unggah bukti dukung (SS/JPG/PNG/PDF) untuk pengendalian yang sudah diuraikan di atas.
-                      </p>
-                    )}
-                    <RiskEvidenceUploader type="iro_pd" rowId={editing?.id ?? null} />
-                  </div>
+                  <ExistingControlToggleSection
+                    key="existing-control-toggle"
+                    data={data}
+                    setData={setData}
+                    errors={errors}
+                    info={IRO_PD_FIELD_INFO}
+                    fieldOptions={fieldOptions}
+                    evidenceType="iro_pd"
+                    rowId={editing?.id ?? null}
+                    isNewRow={!editing}
+                    onToggleChange={setExistingControlStatus}
+                  />
                 );
               }
 
-              if (field === 'KATEGORI EXISTING CONTROL') {
-                return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <CategorizedTextarea
-                      id={field}
-                      value={value}
-                      onChange={(val) => setData(field, val)}
-                      categories={KATEGORI_EXISTING_CONTROL_OPTIONS}
-                      uraianPlaceholder="Uraian penilaian efektivitas (opsional)..."
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      E = Efektif, KE = Kurang Efektif, TE = Tidak Efektif — menilai seberapa baik pengendalian
-                      yang sudah ada menekan risiko awal (risiko inherent) menjadi risiko residual.
-                    </p>
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                  </div>
-                );
+              if (field === 'KATEGORI EXISTING CONTROL' || field === 'CELAH PENGENDALIAN') {
+                return null;
               }
 
               if (field === 'RENCANA TINDAK PENGENDALIAN') {
                 return (
-                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                    <div className="flex items-start gap-1.5 pt-2">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
+                  <div key={field} className="space-y-2">
+                    <div className="flex flex-col items-end gap-1">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={existingControlStatus === null}
+                        onClick={() => setMatrixPickerOpen(true)}
+                      >
+                        <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
+                        Isi Nilai Risiko
+                      </Button>
+                      {existingControlStatus === null && (
+                        <p className="text-xs text-muted-foreground">
+                          Pilih dulu "Apakah sudah ada Existing Control?" di atas.
+                        </p>
+                      )}
                     </div>
-                    <div>
-                      <MultiCategoryTextarea
-                        id={field}
-                        value={value}
-                        onChange={(val) => setData(field, val)}
-                        categories={RESPON_RISIKO_KATEGORI}
-                        uraianPlaceholder="Uraian rencana tindak pengendalian..."
-                      />
-                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                      <div className="flex items-start gap-1.5 pt-2">
+                        <Label htmlFor={field}>{field}</Label>
+                        {info && <FieldInfoPopover text={info} />}
+                      </div>
+                      <div>
+                        <MultiCategoryTextarea
+                          id={field}
+                          value={value}
+                          onChange={(val) => setData(field, val)}
+                          categories={RESPON_RISIKO_KATEGORI}
+                          uraianPlaceholder="Uraian rencana tindak pengendalian..."
+                        />
+                        {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                      </div>
                     </div>
                   </div>
                 );
@@ -861,75 +854,6 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                 </div>
               );
             })}
-
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <Label htmlFor="SKALA DAMPAK">SKALA DAMPAK</Label>
-                  {IRO_PD_FIELD_INFO['SKALA DAMPAK'] && <FieldInfoPopover text={IRO_PD_FIELD_INFO['SKALA DAMPAK']} />}
-                  <ReferenceDialogTrigger label="Lihat Kriteria Dampak" onClick={() => setRefDialog('dampak')} />
-                </div>
-                <AutocompleteSelect
-                  value={data['SKALA DAMPAK']}
-                  onChange={(val) => setData('SKALA DAMPAK', val)}
-                  options={['1', '2', '3', '4', '5']}
-                  placeholder="Pilih 1-5"
-                />
-                {errors['SKALA DAMPAK'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK']}</p>}
-              </div>
-
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5">
-                  <Label htmlFor="SKALA KEMUNGKINAN">SKALA KEMUNGKINAN</Label>
-                  {IRO_PD_FIELD_INFO['SKALA KEMUNGKINAN'] && <FieldInfoPopover text={IRO_PD_FIELD_INFO['SKALA KEMUNGKINAN']} />}
-                  <ReferenceDialogTrigger label="Lihat Kriteria Kemungkinan" onClick={() => setRefDialog('kemungkinan')} />
-                </div>
-                <AutocompleteSelect
-                  value={data['SKALA KEMUNGKINAN']}
-                  onChange={(val) => setData('SKALA KEMUNGKINAN', val)}
-                  options={['1', '2', '3', '4', '5']}
-                  placeholder="Pilih 1-5"
-                />
-                {errors['SKALA KEMUNGKINAN'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN']}</p>}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 rounded-md border border-dashed p-3">
-              <div className="col-span-2 flex items-center gap-1.5">
-                <Label className="text-sm font-medium">Skala Risiko Inheren (opsional)</Label>
-                {IRO_PD_FIELD_INFO['SKALA DAMPAK INHEREN'] && <FieldInfoPopover text={IRO_PD_FIELD_INFO['SKALA DAMPAK INHEREN']} />}
-              </div>
-              <div className="space-y-1">
-                <Label htmlFor="SKALA DAMPAK INHEREN" className="text-xs text-muted-foreground">
-                  Skala Dampak Inheren
-                </Label>
-                <AutocompleteSelect
-                  value={data['SKALA DAMPAK INHEREN']}
-                  onChange={(val) => setData('SKALA DAMPAK INHEREN', val)}
-                  options={['1', '2', '3', '4', '5']}
-                  placeholder="Pilih 1-5"
-                />
-                {errors['SKALA DAMPAK INHEREN'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK INHEREN']}</p>}
-              </div>
-
-              <div className="space-y-1">
-                <Label htmlFor="SKALA KEMUNGKINAN INHEREN" className="text-xs text-muted-foreground">
-                  Skala Kemungkinan Inheren
-                </Label>
-                <AutocompleteSelect
-                  value={data['SKALA KEMUNGKINAN INHEREN']}
-                  onChange={(val) => setData('SKALA KEMUNGKINAN INHEREN', val)}
-                  options={['1', '2', '3', '4', '5']}
-                  placeholder="Pilih 1-5"
-                />
-                {errors['SKALA KEMUNGKINAN INHEREN'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN INHEREN']}</p>}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-              <span>Skala Risiko dan Skala Prioritas dihitung otomatis dari Dampak x Kemungkinan.</span>
-              <ReferenceDialogTrigger label="Lihat Matriks Analisis Risiko" onClick={() => setRefDialog('matriks')} />
-            </div>
 
             <SkorTargetAktualSection data={data} setData={setData} errors={errors} info={IRO_PD_FIELD_INFO} />
 
@@ -1135,6 +1059,39 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
           </div>
         </DialogContent>
       </Dialog>
+
+      <RiskMatrixPickerDialog
+        open={matrixPickerOpen}
+        onOpenChange={setMatrixPickerOpen}
+        matriks={riskReference.matriksRisiko}
+        existingControlDiisi={existingControlStatus === 'ya'}
+        nilai={{
+          inheren: { dampak: Number(data['SKALA DAMPAK INHEREN']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN INHEREN']) || null },
+          residual: { dampak: Number(data['SKALA DAMPAK']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN']) || null },
+          target: { dampak: Number(data['SKALA DAMPAK TARGET']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN TARGET']) || null },
+        }}
+        onPilih={(titik, dampak, kemungkinan) => {
+          if (titik === 'inheren' && existingControlStatus === 'tidak') {
+            setData('SKALA DAMPAK INHEREN', String(dampak));
+            setData('SKALA KEMUNGKINAN INHEREN', String(kemungkinan));
+            setData('SKALA DAMPAK', String(dampak));
+            setData('SKALA KEMUNGKINAN', String(kemungkinan));
+            return;
+          }
+
+          const fieldMap = {
+            inheren: ['SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
+            residual: ['SKALA DAMPAK', 'SKALA KEMUNGKINAN'],
+            target: ['SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET'],
+            aktual: null,
+          } as const;
+          const fields = fieldMap[titik];
+          if (!fields) return;
+          const [fieldDampak, fieldKemungkinan] = fields;
+          setData(fieldDampak, String(dampak));
+          setData(fieldKemungkinan, String(kemungkinan));
+        }}
+      />
     </AppLayout>
   );
 }

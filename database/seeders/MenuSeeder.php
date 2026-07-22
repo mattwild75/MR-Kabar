@@ -800,17 +800,6 @@ class MenuSeeder extends Seeder
             ]
         );
 
-        Menu::updateOrCreate(
-            ['route' => '/krs_irs_pemda_visualisasi'],
-            [
-                'title' => 'KRS_IRS_Pemda Visualisasi',
-                'parent_id' => $risikoStrategisPemda->id,
-                'icon' => 'BarChart',
-                'order' => 3,
-                'permission_name' => null,
-            ]
-        );
-
         // GROUP: Risiko Strategis PD (Level II) — sub-grup di bawah Risiko.
         // Ikon Briefcase (institusi/organisasi Perangkat Daerah).
         $risikoStrategisPd = Menu::updateOrCreate(
@@ -842,17 +831,6 @@ class MenuSeeder extends Seeder
                 'parent_id' => $risikoStrategisPd->id,
                 'icon' => 'AlertTriangle',
                 'order' => 2,
-                'permission_name' => null,
-            ]
-        );
-
-        Menu::updateOrCreate(
-            ['route' => '/krs_irs_pd_visualisasi'],
-            [
-                'title' => 'KRS_IRS_PD Visualisasi',
-                'parent_id' => $risikoStrategisPd->id,
-                'icon' => 'BarChart',
-                'order' => 3,
                 'permission_name' => null,
             ]
         );
@@ -893,11 +871,58 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // GROUP: Visualisasi — menu top-level TERPISAH dari Form Cetak,
+        // wadah untuk halaman diagram/pohon hirarki risiko (dipindahkan
+        // dari masing-masing grup Risiko Strategis Pemda/PD/Operasional PD
+        // di Form Input — sifatnya laporan visual, bukan input data, jadi
+        // lebih pas berdiri sendiri daripada menumpuk di Form Input/Cetak).
+        $visualisasi = Menu::updateOrCreate(
+            ['title' => 'Visualisasi', 'parent_id' => null],
+            [
+                'icon' => 'Network',
+                'route' => '#',
+                'order' => 9,
+                'permission_name' => null,
+            ]
+        );
+
+        $visualisasiHirarki = Menu::updateOrCreate(
+            ['title' => 'Hirarki', 'parent_id' => $visualisasi->id],
+            [
+                'icon' => 'GitBranch',
+                'route' => '#',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/krs_irs_pemda_visualisasi'],
+            [
+                'title' => 'KRS_IRS_Pemda Visualisasi',
+                'parent_id' => $visualisasiHirarki->id,
+                'icon' => 'BarChart',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/krs_irs_pd_visualisasi'],
+            [
+                'title' => 'KRS_IRS_PD Visualisasi',
+                'parent_id' => $visualisasiHirarki->id,
+                'icon' => 'BarChart',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
         Menu::updateOrCreate(
             ['route' => '/kro_iro_pd_visualisasi'],
             [
                 'title' => 'KRO_IRO_PD Visualisasi',
-                'parent_id' => $risikoOperasionalPd->id,
+                'parent_id' => $visualisasiHirarki->id,
                 'icon' => 'BarChart',
                 'order' => 3,
                 'permission_name' => null,

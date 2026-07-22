@@ -87,22 +87,15 @@ Money (Anggaran penanggulangan kemiskinan terbatas)
 Material (Data kemiskinan tidak akurat)
 Environment (Curah hujan ekstrem di luar prediksi normal menyebabkan debit air melampaui kapasitas desain tanggul)`,
 
-  'SUMBER SEBAB RISIKO': `Definisi: Asal penyebab risiko — Internal, Eksternal, atau keduanya sekaligus (kalau kedua kotak diisi, otomatis tergabung jadi "Internal dan Eksternal") — diikuti uraian singkat penyebabnya dalam tanda kurung.
+  'SUMBER SEBAB RISIKO': `Definisi: Asal penyebab risiko — Internal, Eksternal, atau keduanya sekaligus (kalau kedua kotak dicentang, otomatis tergabung jadi "Internal dan Eksternal").
 
-Cara mengisi: centang Internal dan/atau Eksternal sesuai asal penyebabnya, lalu tulis uraian di kotak masing-masing.
+Cara mengisi: cukup centang Internal dan/atau Eksternal sesuai asal penyebabnya — tanpa uraian tambahan, cukup pilih kategorinya.
 
-Contoh:
-Eksternal (Kebijakan Pusat Berubah)
-Internal (SDM Kurang Memahami)
-Internal dan Eksternal (Lemahnya sistem keamanan server; Adanya serangan siber dari pihak luar)`,
+Contoh: Eksternal / Internal / Internal dan Eksternal`,
 
-  'C / UC': `Definisi: Klasifikasi apakah risiko dapat dikendalikan (Controllable/C) atau tidak dapat dikendalikan (Uncontrollable/UC) oleh Perangkat Daerah, diikuti uraian singkat alasannya dalam tanda kurung.
+  'C / UC': `Definisi: Klasifikasi apakah risiko dapat dikendalikan (Controllable/C) atau tidak dapat dikendalikan (Uncontrollable/UC) oleh Perangkat Daerah.
 
-Cara mengisi: pilih C atau UC lewat tombol, lalu tulis alasannya di kotak uraian.
-
-Contoh:
-C (Keterlambatan verifikasi data PMKS dapat diatasi dengan menambah petugas verifikator dan menetapkan SLA internal, sepenuhnya berada dalam kendali Dinas Sosial)
-UC (Krisis ekonomi global dan kenaikan harga bahan pokok berada di luar kendali Pemerintah Daerah, hanya bisa diantisipasi dampaknya melalui program bantuan sosial)`,
+Cara mengisi: cukup pilih C atau UC lewat tombol — tanpa uraian tambahan, cukup pilih kategorinya.`,
 
   'URAIAN DAMPAK RISIKO': `Definisi: Deskripsi konsekuensi/efek bila risiko terjadi.
 
@@ -147,15 +140,9 @@ Cara mengisi: pilih kategori, uraian penjelasan opsional. Skala Kemungkinan Resi
 
   'KATEGORI PROYEKSI RTP': `Definisi: Proyeksi efektivitas gabungan (existing control + RTP yang direncanakan) SETELAH RTP benar-benar dijalankan — dipakai menghitung Skala TARGET (kondisi yang diharapkan tercapai).
 
-Faktor reduksi sama seperti Kategori Existing Control (TE 1.0 / KE 0.8 / CE 0.6 / E 0.4), tapi BASIS-nya tetap K Inheren. Skala Kemungkinan Target = round(K inheren × faktor kategori proyeksi). Skala Target inilah yang dicatat sebagai "sasaran" penurunan risiko, bukan hasil aktual.
+Faktor reduksi sama seperti Kategori Existing Control (TE 1.0 / KE 0.8 / CE 0.6 / E 0.4). Faktor ini dikalikan ke Skala Kemungkinan Inheren jika Rencana Tindak Pengendalian bersifat Avoid/Abate (kontrol preventif — mencegah kejadian), atau ke Skala Dampak Inheren jika bersifat Mitigate/Share-Transfer (kontrol mitigatif/pengalihan — mengurangi konsekuensi), sesuai prinsip COSO ERM. Skala Target inilah yang dicatat sebagai "sasaran" penurunan risiko, bukan hasil aktual.
 
 Cara mengisi: pilih tingkat efektivitas yang Anda YAKIN bisa dicapai kalau RTP dilaksanakan sesuai rencana. Bisa di-override manual.`,
-
-  'KATEGORI EXISTING CONTROL AKTUAL': `Definisi: Efektivitas RIIL yang teramati SAAT MONITORING setelah RTP berjalan — dipakai menghitung Skala AKTUAL/Treated.
-
-Diisi BELAKANGAN (saat pemantauan, bukan saat identifikasi risiko). Faktor reduksi & basis (K Inheren) sama seperti kategori lain. Gunanya: membandingkan Target vs Aktual — bila Aktual lebih tinggi dari Target, berarti RTP tidak berjalan seefektif rencana (butuh tindak lanjut). Nilai Aktual BOLEH lebih tinggi dari Target (justru itu insight utamanya).
-
-Cara mengisi: pilih efektivitas sebenarnya berdasarkan bukti pemantauan lapangan. Bisa di-override manual.`,
 
   'CELAH PENGENDALIAN': `Definisi: Kelemahan atau kekurangan dalam pengendalian yang ada saat ini.
 

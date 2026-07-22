@@ -494,6 +494,17 @@ class RiskExcelImportService
                 if ($rowId !== '') {
                     $existing = $module['model']::query()->find((int) $rowId);
                     if ($existing) {
+                        // Gabung dgn Skala Inheren/Target YANG SUDAH TERSIMPAN
+                        // di baris existing sebelum hitung ulang — Excel tidak
+                        // pernah mengirim kolom2 ini (lihat computeScales()),
+                        // jadi tanpa penggabungan ini invariant Inheren>=Residual
+                        // tidak pernah tertegakkan utk UPDATE (bug yg diperbaiki
+                        // di sini: audit menemukan baris existing bisa ditimpa
+                        // Skala Residual baru yg lebih tinggi dari Inheren lama
+                        // tanpa ditolak, krn buildAttributes() lama hanya
+                        // memvalidasi terhadap kolom Inheren dari FILE Excel,
+                        // yg memang selalu kosong).
+                        $attributes = $this->computeScales($module, $attributes, $existing);
                         // Pertahankan user_id pemilik asli — tidak disentuh di sini.
                         $existing->fill($attributes);
                         $existing->save();
@@ -501,6 +512,8 @@ class RiskExcelImportService
                         continue;
                     }
                 }
+
+                $attributes = $this->computeScales($module, $attributes, null);
 
                 if ($module['scope'] === 'owned') {
                     $attributes['user_id'] = $importingUserId;
@@ -511,6 +524,61 @@ class RiskExcelImportService
         });
 
         return ['inserted' => $inserted, 'updated' => $updated];
+    }
+
+    /**
+     * Hitung Skala Risiko/Prioritas + tegakkan invariant Inheren>=Residual
+     * lewat RiskReferenceDataService::hitungSemuaSkala() — SATU SUMBER
+     * KEBENARAN yg sama dipakai form input manual (IrsPemdaController dkk),
+     * bukan duplikasi logika terpisah. Excel TIDAK PERNAH mengirim kolom
+     * Skala Inheren/Target/Aktual (tidak ada di RiskExcelRegistry::fields()
+     * modul manapun — desain sadar: field2 itu tetap harus diisi manual di
+     * Form Input/Form 9, bukan lewat impor massal), jadi utk baris UPDATE
+     * nilai Inheren/Target existing digabung dulu dari $existing supaya
+     * hitungSemuaSkala() tahu baseline yg benar & bisa menolak baris yg
+     * akan membuat Residual baru > Inheren lama.
+     */
+    private function computeScales(array $module, array $attributes, $existing): array
+    {
+        if (empty($module['computed_fields'])) {
+            return $attributes;
+        }
+
+        $skorFields = [
+            'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN', 'SKALA RISIKO INHEREN',
+            'KATEGORI EXISTING CONTROL', 'KATEGORI PROYEKSI RTP',
+            'SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET', 'SKALA RISIKO TARGET',
+            'RENCANA TINDAK PENGENDALIAN',
+        ];
+        $data = $attributes;
+        foreach ($skorFields as $field) {
+            if (!array_key_exists($field, $data) && $existing !== null) {
+                $data[$field] = $existing->{$field};
+            }
+        }
+
+        $hasil = $this->riskRef->hitungSemuaSkala($data);
+
+        // hitungSemuaSkala() mengembalikan SELURUH field yg diproses
+        // (termasuk yg cuma dibaca dari $existing utk konteks) — cukup
+        // ambil balik field2 yg memang dihasilkan/divalidasi ulang, supaya
+        // $attributes tidak menimpa kolom lain di luar cakupan modul Excel
+        // ini (mis. KATEGORI PROYEKSI RTP yg BUKAN bagian fields() modul,
+        // tidak boleh ikut ter-set balik ke $existing->fill() kalau memang
+        // tidak diubah). Skala Dampak/Kemungkinan INHEREN & TARGET juga
+        // diambil balik krn Skenario B (auto-copy Residual->Inheren) &
+        // proyeksi RTP bisa mengubah/mengisi nilainya di hitungSemuaSkala().
+        foreach ([
+            'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO', 'SKALA PRIORITAS',
+            'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN', 'SKALA RISIKO INHEREN',
+            'SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET', 'SKALA RISIKO TARGET',
+        ] as $field) {
+            if (array_key_exists($field, $hasil)) {
+                $attributes[$field] = $hasil[$field];
+            }
+        }
+
+        return $attributes;
     }
 
     /**
@@ -546,37 +614,9 @@ class RiskExcelImportService
             $attributes[$field] = $value;
         }
 
-        if (!empty($module['computed_fields'])) {
-            $dampak = $attributes['SKALA DAMPAK'] ?? null;
-            $kemungkinan = $attributes['SKALA KEMUNGKINAN'] ?? null;
-            $hasil = $this->riskRef->hitungSkala($dampak, $kemungkinan);
-            $attributes['SKALA RISIKO'] = $hasil['skala_risiko'];
-            $attributes['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
-
-            // Invariant SAMA dgn withCalculatedScales() di
-            // IrsPemda/IrsPd/IroPdController: risiko INHEREN (sebelum
-            // pengendalian) tidak pernah boleh lebih rendah dari risiko
-            // RESIDUAL/Sisa Risiko. Impor Excel sebelumnya melewati guard
-            // ini sepenuhnya. Kalau kolom skala inheren HADIR di baris (saat
-            // ini registry belum memetakannya, jadi guard ini defensif utk
-            // ke depan), hitung skala inherennya & tolak baris yg mustahil
-            // scr logika — konsisten dgn entri manual.
-            if (isset($attributes['SKALA DAMPAK INHEREN']) || isset($attributes['SKALA KEMUNGKINAN INHEREN'])) {
-                $hasilInheren = $this->riskRef->hitungSkala(
-                    $attributes['SKALA DAMPAK INHEREN'] ?? null,
-                    $attributes['SKALA KEMUNGKINAN INHEREN'] ?? null,
-                );
-                $attributes['SKALA RISIKO INHEREN'] = $hasilInheren['skala_risiko'];
-
-                if ($attributes['SKALA RISIKO INHEREN'] !== null
-                    && $attributes['SKALA RISIKO'] !== null
-                    && $attributes['SKALA RISIKO INHEREN'] < $attributes['SKALA RISIKO']) {
-                    throw \Illuminate\Validation\ValidationException::withMessages([
-                        'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren (' . $attributes['SKALA RISIKO INHEREN'] . ') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko (' . $attributes['SKALA RISIKO'] . ').',
-                    ]);
-                }
-            }
-        }
+        // Skala Risiko/Prioritas + invariant Inheren>=Residual dihitung di
+        // computeScales() (dipanggil dari writeModule() SETELAH tahu apakah
+        // baris ini insert/update), bukan di sini — lihat computeScales().
 
         return $attributes;
     }

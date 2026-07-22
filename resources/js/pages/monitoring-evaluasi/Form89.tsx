@@ -11,9 +11,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
+import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import { MONITORING_RTP_FIELD_INFO } from '@/lib/monitoring-rtp-field-info';
-import { Pencil } from 'lucide-react';
+import {
+  KATEGORI_EFEKTIVITAS_OPTIONS,
+  hitungKemungkinanTerkendali,
+  hitungDampakTerkendali,
+  ekstrakKategoriKontrol,
+  arahReduksiRtp,
+} from '@/lib/irs-reference-data';
+import { Pencil, Grid3x3 } from 'lucide-react';
 import { toast } from 'sonner';
+import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
 
 interface OpdOption {
   id: number;
@@ -39,6 +48,22 @@ interface RtpRow {
   tahun_rencana_pemantauan: number | null;
   realisasi_waktu_pemantauan: string | null;
   keterangan_pemantauan: string | null;
+  skala_dampak: number | null;
+  skala_kemungkinan: number | null;
+  skala_dampak_inheren: number | null;
+  skala_kemungkinan_inheren: number | null;
+  skala_dampak_target: number | null;
+  skala_kemungkinan_target: number | null;
+  kategori_existing_control_aktual: string | null;
+  skala_dampak_aktual: number | null;
+  skala_kemungkinan_aktual: number | null;
+  skala_risiko_aktual: number | null;
+}
+
+interface RiskMatrixData {
+  dampakLabels: string[];
+  kemungkinanLabels: string[];
+  cells: { dampak: number; kemungkinan: number; skala_risiko: number | null; warna_class: string }[];
 }
 
 interface PageProps {
@@ -48,6 +73,7 @@ interface PageProps {
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
   rows: RtpRow[];
+  riskReference: { matriksRisiko: RiskMatrixData };
 }
 
 const TIPE_LABEL: Record<RtpRow['rtp_sumber_tipe'], string> = {
@@ -63,16 +89,19 @@ function RtpRowCard({
   triwulanLabels,
   opdId,
   tahun,
+  riskReference,
 }: {
   row: RtpRow;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
   opdId: number;
   tahun: number;
+  riskReference: { matriksRisiko: RiskMatrixData };
 }) {
   const isFilled = row.monitoring_id !== null;
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [matrixPickerOpen, setMatrixPickerOpen] = useState(false);
   const [form, setForm] = useState({
     media_komunikasi: row.media_komunikasi ?? '',
     penyedia_informasi: row.penyedia_informasi ?? '',
@@ -87,6 +116,9 @@ function RtpRowCard({
     tahun_rencana_pemantauan: row.tahun_rencana_pemantauan ? String(row.tahun_rencana_pemantauan) : '',
     realisasi_waktu_pemantauan: row.realisasi_waktu_pemantauan ?? '',
     keterangan_pemantauan: row.keterangan_pemantauan ?? '',
+    kategori_existing_control_aktual: row.kategori_existing_control_aktual ?? '',
+    skala_dampak_aktual: row.skala_dampak_aktual != null ? String(row.skala_dampak_aktual) : '',
+    skala_kemungkinan_aktual: row.skala_kemungkinan_aktual != null ? String(row.skala_kemungkinan_aktual) : '',
   });
 
   const setField = (key: keyof typeof form, value: string) => setForm((prev) => ({ ...prev, [key]: value }));
@@ -263,6 +295,118 @@ function RtpRowCard({
               </div>
             </div>
 
+            {row.rtp_sumber_tipe !== 'cee_rtp' && (
+              <div className="space-y-3 rounded-md border border-dashed border-emerald-400/60 p-3 sm:col-span-2 dark:border-emerald-700/60">
+                <div className="flex items-center justify-between gap-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-xs font-semibold tracking-wide text-emerald-700 uppercase dark:text-emerald-400">
+                      Hasil Re-assessment Risiko (Skala Aktual)
+                    </p>
+                    <FieldInfoPopover text={MONITORING_RTP_FIELD_INFO.kategori_existing_control_aktual} />
+                  </div>
+                  {row.skala_kemungkinan_inheren && (
+                    <Button type="button" variant="outline" size="sm" onClick={() => setMatrixPickerOpen(true)}>
+                      <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
+                      Isi Nilai Risiko Aktual
+                    </Button>
+                  )}
+                </div>
+                {!row.skala_kemungkinan_inheren ? (
+                  <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+                    Skala Kemungkinan Inheren risiko ini belum diisi di Form Input — lengkapi dulu di sana supaya
+                    Skala Aktual bisa dihitung otomatis.
+                  </p>
+                ) : (
+                  <>
+                    <div className="space-y-1">
+                      <Label className="text-xs text-muted-foreground">Kategori Efektivitas Aktual (hasil monitoring)</Label>
+                      <CategorizedTextarea
+                        value={form.kategori_existing_control_aktual}
+                        onChange={(val) => setField('kategori_existing_control_aktual', val)}
+                        categories={KATEGORI_EFEKTIVITAS_OPTIONS}
+                        uraianPlaceholder="Uraian hasil pemantauan efektivitas (opsional)..."
+                      />
+                      {(() => {
+                        const kat = ekstrakKategoriKontrol(form.kategori_existing_control_aktual);
+                        const arah = arahReduksiRtp(row.label);
+                        const previewK = arah.kemungkinan ? hitungKemungkinanTerkendali(row.skala_kemungkinan_inheren, kat) : null;
+                        const previewD = arah.dampak ? hitungDampakTerkendali(row.skala_dampak_inheren, kat) : null;
+                        if (!previewK && !previewD) return null;
+                        return (
+                          <p className="text-xs text-emerald-700 dark:text-emerald-400">
+                            {previewK && (
+                              <>
+                                Perkiraan Skala Kemungkinan Aktual: <strong>{previewK}</strong> (dari K inheren{' '}
+                                {row.skala_kemungkinan_inheren} × faktor kategori)
+                              </>
+                            )}
+                            {previewK && previewD && <br />}
+                            {previewD && (
+                              <>
+                                Perkiraan Skala Dampak Aktual: <strong>{previewD}</strong> (dari D inheren{' '}
+                                {row.skala_dampak_inheren} × faktor kategori — RTP menyasar Dampak/Mitigate)
+                              </>
+                            )}
+                          </p>
+                        );
+                      })()}
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1">
+                        <Label className="text-xs text-muted-foreground">Skala Dampak Aktual</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          max={5}
+                          value={form.skala_dampak_aktual}
+                          onChange={(e) => setField('skala_dampak_aktual', e.target.value)}
+                          placeholder={row.skala_dampak != null ? `Default ${row.skala_dampak}` : 'Pilih 1-5'}
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-xs text-muted-foreground">Skala Kemungkinan Aktual</Label>
+                        <Input
+                          type="number"
+                          min={1}
+                          max={5}
+                          value={form.skala_kemungkinan_aktual}
+                          onChange={(e) => setField('skala_kemungkinan_aktual', e.target.value)}
+                          placeholder="Auto/pilih 1-5"
+                        />
+                      </div>
+                    </div>
+                    {row.skala_risiko_aktual !== null && (
+                      <p className="text-xs text-muted-foreground">
+                        Skala Risiko Aktual tersimpan: <strong>{row.skala_risiko_aktual}</strong> (dihitung ulang otomatis
+                        saat disimpan)
+                      </p>
+                    )}
+
+                    <RiskMatrixPickerDialog
+                      open={matrixPickerOpen}
+                      onOpenChange={setMatrixPickerOpen}
+                      matriks={riskReference.matriksRisiko}
+                      titikDitampilkan={['inheren', 'residual', 'target', 'aktual']}
+                      titikBisaDiubah={['aktual']}
+                      nilai={{
+                        inheren: { dampak: row.skala_dampak_inheren, kemungkinan: row.skala_kemungkinan_inheren },
+                        residual: { dampak: row.skala_dampak, kemungkinan: row.skala_kemungkinan },
+                        target: { dampak: row.skala_dampak_target, kemungkinan: row.skala_kemungkinan_target },
+                        aktual: {
+                          dampak: Number(form.skala_dampak_aktual) || null,
+                          kemungkinan: Number(form.skala_kemungkinan_aktual) || null,
+                        },
+                      }}
+                      onPilih={(_titik, dampak, kemungkinan) => {
+                        setField('skala_dampak_aktual', String(dampak));
+                        setField('skala_kemungkinan_aktual', String(kemungkinan));
+                      }}
+                    />
+                  </>
+                )}
+              </div>
+            )}
+
             <div className="flex justify-end gap-2 sm:col-span-2">
               <Button type="button" variant="outline" size="sm" onClick={() => setEditing(false)}>
                 Batal
@@ -278,7 +422,7 @@ function RtpRowCard({
   );
 }
 
-export default function Form89({ opdOptions, opdId, tahun, triwulanOptions, triwulanLabels, rows }: PageProps) {
+export default function Form89({ opdOptions, opdId, tahun, triwulanOptions, triwulanLabels, rows, riskReference }: PageProps) {
   return (
     <AppLayout>
       <Head title="8-9 Monitoring RTP" />
@@ -315,6 +459,7 @@ export default function Form89({ opdOptions, opdId, tahun, triwulanOptions, triw
                 triwulanLabels={triwulanLabels}
                 opdId={opdId}
                 tahun={tahun}
+                riskReference={riskReference}
               />
             ))}
           </div>

@@ -371,6 +371,161 @@ export function InteractiveTag() {
   );
 }
 
+// ─── Diagram siklus 4-Skor Risiko (Inheren → Residual → Target → Aktual) ───
+interface SkorTahap {
+  label: string;
+  skala: number;
+  keterangan: string;
+  warna: string;
+}
+
+export function SkorEmpatTahapDiagram({ items }: { items: SkorTahap[] }) {
+  const max = 25;
+  return (
+    <div className="not-prose my-3 rounded-lg border p-4">
+      <div className="flex items-end gap-4 overflow-x-auto pb-2">
+        {items.map((item, i) => (
+          <div key={i} className="flex flex-1 flex-col items-center gap-1">
+            <span className="text-sm font-bold text-foreground">{item.skala}</span>
+            <div className="flex h-32 w-full items-end justify-center rounded-md bg-muted/40">
+              <div
+                className={`w-8 rounded-t-sm ${item.warna}`}
+                style={{ height: `${Math.max(6, (item.skala / max) * 100)}%` }}
+              />
+            </div>
+            <p className="mt-1 text-center text-xs font-semibold text-foreground">{item.label}</p>
+            <p className="text-center text-[11px] text-muted-foreground">{item.keterangan}</p>
+            {i < items.length - 1 && (
+              <ArrowRight className="mt-1 hidden h-4 w-4 shrink-0 text-muted-foreground sm:block" />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Mockup matriks 5×5 interaktif (ilustrasi tombol "Isi Nilai Risiko") ───
+// BUKAN komponen fungsional (tidak bisa benar-benar diklik) — murni mockup
+// visual utk memperlihatkan tampilan risk-matrix-picker-dialog.tsx: sel yg
+// sudah ditandai badge titik (I/R/T/A), kursor pointer di sel lain.
+interface MatrixMarkedPoint {
+  dampak: number;
+  kemungkinan: number;
+  label: string;
+  warna: string;
+}
+
+export function RiskMatrixInteractivePreview({ points }: { points: MatrixMarkedPoint[] }) {
+  const dampakLabels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+  const kemungkinanLabels = ['Sangat Jarang', 'Jarang', 'Kadang Terjadi', 'Sering Terjadi', 'Hampir Pasti Terjadi'];
+
+  const pointsAt = (dampak: number, kemungkinan: number) =>
+    points.filter((p) => p.dampak === dampak && p.kemungkinan === kemungkinan);
+
+  return (
+    <div className="not-prose my-3 overflow-x-auto rounded-lg border">
+      <table className="w-full min-w-[560px] table-fixed border-collapse text-xs">
+        <thead>
+          <tr>
+            <th colSpan={7} className="border-b bg-muted/50 p-2 text-center text-sm font-bold text-foreground">
+              Isi Nilai Risiko — klik sel utk mengisi titik yang sedang aktif
+            </th>
+          </tr>
+          <tr className="bg-muted/40">
+            <th colSpan={2} className="border-b px-2 py-1.5 text-left font-semibold text-foreground">
+              Level Kemungkinan
+            </th>
+            <th colSpan={5} className="border-b px-2 py-1.5 text-center font-semibold text-foreground">
+              Dampak
+            </th>
+          </tr>
+          <tr className="bg-muted/40">
+            <th className="border-b px-2 py-1"></th>
+            <th className="border-b px-2 py-1"></th>
+            {dampakLabels.map((label, i) => (
+              <th key={label} className="border-b px-1 py-1 text-center font-semibold text-foreground">
+                {i + 1}
+                <div className="text-[10px] font-normal text-muted-foreground">{label}</div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {[5, 4, 3, 2, 1].map((kemungkinan) => (
+            <tr key={kemungkinan}>
+              <th className="border-b px-2 py-1.5 text-center font-semibold text-foreground">{kemungkinan}</th>
+              <th className="border-b px-2 py-1.5 text-left font-semibold whitespace-nowrap text-foreground">
+                {kemungkinanLabels[kemungkinan - 1]}
+              </th>
+              {[1, 2, 3, 4, 5].map((dampak) => {
+                const skala = RISK_MATRIX_SKALA[dampak][kemungkinan];
+                const marked = pointsAt(dampak, kemungkinan);
+                return (
+                  <td
+                    key={dampak}
+                    className={`relative cursor-pointer border-b px-1 py-1.5 text-center font-semibold ${warnaSkala(skala)}`}
+                  >
+                    {skala}
+                    {marked.length > 0 && (
+                      <div className="mt-0.5 flex flex-wrap justify-center gap-0.5">
+                        {marked.map((m, i) => (
+                          <span
+                            key={i}
+                            className={`inline-flex h-4 w-4 items-center justify-center rounded-full border text-[9px] font-bold text-white shadow ${m.warna}`}
+                            title={m.label}
+                          >
+                            {m.label[0]}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── Mockup dua-kolom "Ya vs Tidak" toggle Existing Control ────────────────
+interface ToggleCompareColumn {
+  label: string;
+  aktif: boolean;
+  fields: string[];
+}
+
+export function ToggleCompare({ columns }: { columns: ToggleCompareColumn[] }) {
+  return (
+    <div className="not-prose my-3 grid gap-3 sm:grid-cols-2">
+      {columns.map((col, i) => (
+        <div
+          key={i}
+          className={`rounded-lg border p-3 ${col.aktif ? 'border-sky-500/50 bg-sky-500/10' : 'border-border bg-muted/20'}`}
+        >
+          <div className="mb-2 flex items-center gap-2">
+            <span
+              className={`rounded-md px-2 py-0.5 text-xs font-bold ${
+                col.aktif ? 'bg-sky-500 text-white' : 'border border-border bg-transparent text-foreground'
+              }`}
+            >
+              {col.label}
+            </span>
+          </div>
+          <ul className="list-disc space-y-1 pl-5 text-xs text-muted-foreground">
+            {col.fields.map((f, j) => (
+              <li key={j}>{f}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── Preview blok penanda tangan majemuk (Form Cetak 6 & 7) ────────────────
 interface SignatureItem {
   jabatan: string;

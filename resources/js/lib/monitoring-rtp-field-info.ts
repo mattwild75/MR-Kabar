@@ -89,4 +89,10 @@ Fungsi: Memberi konteks hasil pemantauan yang tidak tertampung di kolom lain —
 Cara mengisi: opsional — tulis catatan singkat bila perlu.
 
 Contoh: "Monitoring telah dilaksanakan, didokumentasikan, dan didistribusikan."`,
+
+  kategori_existing_control_aktual: `Definisi: Efektivitas RIIL yang teramati SAAT PEMANTAUAN setelah RTP berjalan — dipakai menghitung Skala Risiko Aktual/Treated. Informasi tambahan di luar format baku Lampiran 5 Form 9 (tidak dicetak di kolom a-g resmi).
+
+Fungsi: Faktor kategori dikalikan ke Skala Kemungkinan Inheren (RTP Avoid/Abate) atau Skala Dampak Inheren (RTP Mitigate/Share-Transfer) risiko sumber, sesuai jenis respon risiko pada RTP-nya — sama logika dengan Skala Target di Form Input Risiko. Membandingkan Target vs Aktual: bila Aktual lebih tinggi dari Target, berarti RTP tidak berjalan seefektif rencana (butuh tindak lanjut). Nilai Aktual BOLEH lebih tinggi dari Target — itu justru insight utamanya.
+
+Cara mengisi: pilih efektivitas sebenarnya berdasarkan bukti pemantauan lapangan, sesudah RTP ini berjalan. Perlu Skala Kemungkinan Inheren risiko sumber sudah terisi (di Form Input Risiko) supaya bisa dihitung. Bisa di-override manual.`,
 };

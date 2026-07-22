@@ -7,7 +7,7 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Github, FileSpreadsheet, Upload, GitPullRequestArrow, TriangleAlert } from 'lucide-react';
+import { Github, FileSpreadsheet, Upload, GitPullRequestArrow, TriangleAlert, History } from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
 import { formatTanggalWaktu } from '@/lib/date';
@@ -34,13 +34,14 @@ interface Props {
   backups: Backup[];
   canPushGit: boolean;
   gitSyncEnabled: boolean;
+  gitTags: string[];
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Backup', href: '/backup' },
 ];
 
-export default function BackupIndex({ backups, canPushGit, gitSyncEnabled }: Props) {
+export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags }: Props) {
   const [gitMessage, setGitMessage] = useState('');
   const [pushing, setPushing] = useState(false);
   const [pulling, setPulling] = useState(false);
@@ -48,6 +49,9 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled }: Pro
   const [importing, setImporting] = useState(false);
   const [confirmText, setConfirmText] = useState('');
   const [togglingGitSync, setTogglingGitSync] = useState(false);
+  const [selectedTag, setSelectedTag] = useState('');
+  const [tagConfirmText, setTagConfirmText] = useState('');
+  const [checkingOutTag, setCheckingOutTag] = useState(false);
 
   const handleToggleGitSync = (checked: boolean) => {
     setTogglingGitSync(true);
@@ -93,6 +97,24 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled }: Pro
       onFinish: () => setPulling(false),
       preserveScroll: true,
     });
+  };
+
+  const handleCheckoutTag = () => {
+    if (!selectedTag) return;
+    setCheckingOutTag(true);
+    router.post(
+      '/backup/git-checkout-tag',
+      { tag: selectedTag },
+      {
+        onSuccess: () => {
+          toast.success(`Kode berhasil dikembalikan ke versi ${selectedTag}.`);
+          setTagConfirmText('');
+        },
+        onError: () => toast.error('Checkout ke tag gagal — cek pesan error di halaman.'),
+        onFinish: () => setCheckingOutTag(false),
+        preserveScroll: true,
+      },
+    );
   };
 
   const handleDelete = (filename: string) => {
@@ -281,6 +303,92 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled }: Pro
                 <GitPullRequestArrow className="mr-2 h-4 w-4" />
                 {pulling ? 'Menarik kode...' : 'Pull dari GitHub'}
               </Button>
+            </CardContent>
+          </Card>
+        )}
+
+        {canPushGit && gitSyncEnabled && gitTags.length > 0 && (
+          <Card className="border-destructive/50">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl font-bold text-destructive">
+                <History className="h-5 w-5" />
+                Checkout Kode ke Versi Tag (Rollback)
+              </CardTitle>
+              <p className="text-muted-foreground text-sm">
+                Kembalikan kode di server ini ke versi yang ditandai tag tertentu (mis. <code>v1.0.0</code>) —
+                jalur rollback resmi kalau versi terbaru bermasalah. <strong>Berbeda dari Pull di atas</strong>{' '}
+                (yang selalu maju ke commit terbaru): ini bisa mundur ke versi lama. Database di-backup otomatis
+                dulu sebelum checkout, lalu <strong>seluruh perubahan kode lokal yang belum tersimpan akan
+                hilang</strong> dan kode server disamakan persis dengan tag yang dipilih.
+              </p>
+            </CardHeader>
+            <Separator />
+            <CardContent className="pt-4 space-y-3">
+              <div className="space-y-1">
+                <Label htmlFor="git_tag_select">Pilih versi tag</Label>
+                <select
+                  id="git_tag_select"
+                  value={selectedTag}
+                  onChange={(e) => {
+                    setSelectedTag(e.target.value);
+                    setTagConfirmText('');
+                  }}
+                  className="border-input bg-background w-full rounded-md border px-3 py-2 text-sm"
+                >
+                  <option value="">— Pilih tag —</option>
+                  {gitTags.map((tag) => (
+                    <option key={tag} value={tag}>
+                      {tag}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <AlertDialog onOpenChange={(open) => !open && setTagConfirmText('')}>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" disabled={!selectedTag || checkingOutTag}>
+                    <History className="mr-2 h-4 w-4" />
+                    {checkingOutTag ? 'Checkout...' : `Checkout ke ${selectedTag || '...'}`}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="flex items-center gap-2">
+                      <TriangleAlert className="h-5 w-5 text-destructive" />
+                      Kembalikan kode ke versi {selectedTag}?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription asChild>
+                      <div className="space-y-2">
+                        <p>
+                          Database akan di-backup otomatis dulu sebagai jaring pengaman. Setelah itu, kode server
+                          ini akan disamakan persis dengan tag <strong>{selectedTag}</strong> — perubahan kode
+                          lokal yang belum di-commit akan hilang. Ini bukan aksi ringan; pastikan Anda memang
+                          ingin rollback.
+                        </p>
+                        <p>
+                          Ketik <strong>{selectedTag}</strong> untuk melanjutkan.
+                        </p>
+                        <Input
+                          value={tagConfirmText}
+                          onChange={(e) => setTagConfirmText(e.target.value)}
+                          placeholder={selectedTag}
+                          autoComplete="off"
+                        />
+                      </div>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Batal</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-destructive hover:bg-destructive/90"
+                      disabled={tagConfirmText !== selectedTag}
+                      onClick={handleCheckoutTag}
+                    >
+                      Checkout ke {selectedTag}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </CardContent>
           </Card>
         )}

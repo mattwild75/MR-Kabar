@@ -121,6 +121,8 @@ class CetakMonitoringEvaluasiController extends Controller
                 'rencana_pemantauan' => $this->formatTriwulanTahun($m->triwulan_rencana_pemantauan, $m->tahun_rencana_pemantauan),
                 'realisasi_pemantauan' => $m->realisasi_waktu_pemantauan,
                 'keterangan_pemantauan' => $m->keterangan_pemantauan,
+                'kategori_existing_control_aktual' => $m->kategori_existing_control_aktual,
+                'skala_risiko_aktual' => $m->skala_risiko_aktual,
             ];
         })->filter(fn ($r) => $r['kegiatan_pengendalian'] !== null)->values();
     }

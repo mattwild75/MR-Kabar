@@ -59,10 +59,58 @@
         wrapper.style.height = (chartArea.offsetHeight * zoomLevel) + 'px';
     }
 
-    // Fungsi zoom
+    // Fungsi zoom — mempertahankan TITIK TENGAH VIEWPORT yang sedang
+    // dilihat user (bukan pojok kiri-atas diagram) supaya Zoom In/Out
+    // tidak "melompat" ke bagian lain diagram. Caranya: hitung titik
+    // tengah viewport dalam koordinat UN-SCALED (bagi posisi scroll+layar
+    // saat ini dgn zoomLevel LAMA — offsetWidth/offsetHeight chartArea
+    // sendiri sudah bebas transform, tapi scrollLeft/scrollTop &
+    // clientWidth/clientHeight container adalah pixel HASIL scale, jadi
+    // perlu dibagi zoomLevel lama dulu utk dapat titik yg sama di
+    // "peta" aslinya), lalu setelah zoomLevel baru diterapkan, kalikan
+    // titik itu dgn zoomLevel BARU utk scroll balik ke titik yg sama
+    // persis — sama prinsip dgn centerOnVisi() yg sudah ada.
     window.zoomHierarchy = function(factor) {
+        const container = document.getElementById('tree-container');
+        const chartArea = document.getElementById('chart-area');
+        if (!container || !chartArea) {
+            zoomLevel = Math.max(0.2, Math.min(zoomLevel * factor, 5));
+            applyZoom();
+            return;
+        }
+
+        const oldZoom = zoomLevel;
+        const viewportCenterX = container.scrollLeft + container.clientWidth / 2;
+        const viewportCenterY = container.scrollTop + container.clientHeight / 2;
+        const unscaledX = viewportCenterX / oldZoom;
+        const unscaledY = viewportCenterY / oldZoom;
+
         zoomLevel = Math.max(0.2, Math.min(zoomLevel * factor, 5));
+
+        // .chart-area punya `transition: transform 0.2s` (efek visual
+        // zoom halus) — TAPI transisi ini membuat scrollWidth/scrollHeight
+        // #tree-container ikut berubah BERTAHAP selama ~200ms. Kalau
+        // scrollLeft/scrollTop langsung di-set setelah applyZoom() (masih
+        // di tengah transisi), browser meng-clamp nilainya ke scrollWidth
+        // SEMENTARA yang belum final — hasilnya scroll melenceng dari titik
+        // yang seharusnya (bug: node yang tersorot "meloncat"). Matikan
+        // transisi sesaat SAAT zoom terprogram ini saja, supaya ukuran
+        // wrapper/scrollWidth langsung final saat scrollLeft/scrollTop
+        // diset, lalu transisi dinyalakan lagi di frame berikutnya (supaya
+        // interaksi visual pengguna lain, kalau ada, tetap mulus).
+        const originalTransition = chartArea.style.transition;
+        chartArea.style.transition = 'none';
         applyZoom();
+        // Paksa reflow supaya perubahan transform+ukuran wrapper benar2
+        // ter-commit browser sebelum scrollLeft/scrollTop dibaca ulang.
+        void container.offsetWidth;
+
+        container.scrollLeft = (unscaledX * zoomLevel) - container.clientWidth / 2;
+        container.scrollTop = (unscaledY * zoomLevel) - container.clientHeight / 2;
+
+        requestAnimationFrame(() => {
+            chartArea.style.transition = originalTransition;
+        });
     };
 
     // Create chart and all its components (graph version)

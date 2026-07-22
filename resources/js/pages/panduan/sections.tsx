@@ -14,6 +14,9 @@ import {
   StatCardGrid,
   WidgetGrid,
   InteractiveTag,
+  SkorEmpatTahapDiagram,
+  RiskMatrixInteractivePreview,
+  ToggleCompare,
 } from './visuals';
 
 /**
@@ -347,7 +350,6 @@ export const SECTIONS: Section[] = [
                 children: [
                   { label: 'I_a_KRS_Pemda', desc: 'Visi → Misi → Tujuan → Sasaran → Program' },
                   { label: 'I_b_IRS_Pemda', desc: 'Daftar risiko per Sasaran RPJMD' },
-                  { label: 'Visualisasi', desc: 'Diagram pohon KRS+IRS Pemda' },
                 ],
               },
               {
@@ -355,7 +357,6 @@ export const SECTIONS: Section[] = [
                 children: [
                   { label: 'II_a_KRS_PD', desc: 'Tujuan → Sasaran → Program → Kegiatan → Subkeg.' },
                   { label: 'II_b_IRS_PD', desc: 'Daftar risiko per Sasaran Renstra OPD' },
-                  { label: 'Visualisasi', desc: 'Diagram pohon KRS+IRS PD' },
                 ],
               },
               {
@@ -363,7 +364,6 @@ export const SECTIONS: Section[] = [
                 children: [
                   { label: 'III_a_KRO_PD', desc: 'Program → Kegiatan → Subkegiatan (Renja/RKA)' },
                   { label: 'III_b_IRO_PD', desc: 'Daftar risiko per Kegiatan PD' },
-                  { label: 'Visualisasi', desc: 'Diagram pohon KRO+IRO PD' },
                 ],
               },
               {
@@ -389,6 +389,29 @@ export const SECTIONS: Section[] = [
             ],
           }}
         />
+
+        <p className="mt-4 font-medium text-foreground">Visualisasi (menu top-level tersendiri, terpisah dari Form Input &amp; Form Cetak)</p>
+        <TreeDiagram
+          root={{
+            label: 'Visualisasi',
+            children: [
+              {
+                label: 'Hirarki',
+                children: [
+                  { label: 'KRS_IRS_Pemda Visualisasi', desc: 'Diagram pohon KRS + IRS Pemda (read-only)' },
+                  { label: 'KRS_IRS_PD Visualisasi', desc: 'Diagram pohon KRS + IRS tingkat OPD (read-only)' },
+                  { label: 'KRO_IRO_PD Visualisasi', desc: 'Diagram pohon KRO + IRO tingkat kegiatan (read-only)' },
+                ],
+              },
+            ],
+          }}
+        />
+        <p className="text-xs text-muted-foreground">
+          Ketiga diagram pohon ini <strong>dipindahkan</strong> dari masing-masing submenu Risiko Strategis
+          Pemda/PD/Operasional PD di Form Input ke sini — menu <code>Visualisasi</code> sekarang berdiri sendiri
+          di sidebar, sejajar dengan Form Input/Form Monitoring dan Evaluasi/Form Cetak, karena sifatnya laporan
+          visual (bukan input data).
+        </p>
 
         <p className="mt-4 font-medium text-foreground">Form Cetak (hasil akhir siap cetak/PDF)</p>
         <TreeDiagram
@@ -495,11 +518,12 @@ export const SECTIONS: Section[] = [
             <code>I_b_IRS_Pemda</code> — Identifikasi Risiko Strategis Pemda: daftar risiko yang mengancam pencapaian
             tiap Sasaran RPJMD di atas.
           </li>
-          <li>
-            <code>KRS_IRS_Pemda Visualisasi</code> — diagram pohon interaktif yang menggabungkan KRS + IRS Pemda
-            (read-only, untuk melihat keterkaitan Visi sampai Risiko dalam satu gambar).
-          </li>
         </ul>
+        <p className="text-xs text-muted-foreground">
+          Diagram pohon <code>KRS_IRS_Pemda Visualisasi</code> (menggabungkan KRS + IRS Pemda dalam satu gambar
+          interaktif read-only) ada di menu <strong>Visualisasi → Hirarki</strong>, bukan di sini — lihat peta
+          menu Visualisasi di atas.
+        </p>
 
         <p className="mt-2 font-medium text-foreground">Risiko Strategis PD (Level II)</p>
         <ul className="list-disc space-y-1 pl-5">
@@ -510,10 +534,10 @@ export const SECTIONS: Section[] = [
           <li>
             <code>II_b_IRS_PD</code> — daftar risiko yang mengancam pencapaian Sasaran Renstra OPD.
           </li>
-          <li>
-            <code>KRS_IRS_PD Visualisasi</code> — diagram pohon KRS + IRS tingkat OPD.
-          </li>
         </ul>
+        <p className="text-xs text-muted-foreground">
+          Diagram pohon <code>KRS_IRS_PD Visualisasi</code> ada di menu <strong>Visualisasi → Hirarki</strong>.
+        </p>
 
         <p className="mt-2 font-medium text-foreground">Risiko Operasional PD (Level III)</p>
         <ul className="list-disc space-y-1 pl-5">
@@ -525,10 +549,10 @@ export const SECTIONS: Section[] = [
             <code>III_b_IRO_PD</code> — daftar risiko yang mengancam pelaksanaan satu Kegiatan PD tertentu (paling
             granular, level operasional harian).
           </li>
-          <li>
-            <code>KRO_IRO_PD Visualisasi</code> — diagram pohon KRO + IRO tingkat kegiatan.
-          </li>
         </ul>
+        <p className="text-xs text-muted-foreground">
+          Diagram pohon <code>KRO_IRO_PD Visualisasi</code> ada di menu <strong>Visualisasi → Hirarki</strong>.
+        </p>
 
         <p className="mt-2 font-medium text-foreground">CEE (Control Environment Evaluation)</p>
         <ul className="list-disc space-y-1 pl-5">
@@ -676,7 +700,12 @@ export const SECTIONS: Section[] = [
           </Kotak>
           <Kotak title="Backup Database & Git">
             <code>Settings → Backup</code> (Admin/Super Admin) — backup/restore database, serta push/pull ke Git
-            (untuk sinkronisasi kode antar server), terpisah dari fitur Ekspor/Impor Excel di atas.
+            (untuk sinkronisasi kode antar server), terpisah dari fitur Ekspor/Impor Excel di atas. Tersedia juga{' '}
+            <strong>Checkout Kode ke Versi Tag (Rollback)</strong> — mengembalikan kode server ke versi tertentu
+            yang sudah ditandai tag (mis. <code>v1.0.0</code>), untuk membatalkan fitur baru yang bermasalah.
+            Aksi ini <strong>destruktif</strong> (menghapus perubahan kode lokal yang belum tersimpan) dan wajib
+            mengetik ulang nama tag persis sebelum dijalankan — database di-backup otomatis dulu sebagai jaring
+            pengaman, tapi tetap harus dipakai hati-hati.
           </Kotak>
         </div>
       </>
@@ -775,21 +804,66 @@ export const SECTIONS: Section[] = [
               desc: 'Bar horizontal per Jenis Risiko (41 kategori baku, mis. Keuangan, SDM, TI) — bantu Inspektorat/Komite merencanakan audit tematik. Klik salah satu bar untuk melihat daftar risiko di kategori itu, lalu klik satu risiko untuk membuka rinciannya.',
             },
             {
-              title: '3.3 Risiko Inheren vs Sisa Risiko',
-              desc: 'Bar bertumpuk (stacked) per risiko: segmen biru = Sisa Risiko (residual), segmen merah di ujungnya = besar Gap (penurunan akibat pengendalian). Diurutkan DESC berdasarkan Gap terbesar — makin panjang segmen merah, makin efektif pengendalian yang sudah diterapkan. HANYA menampilkan risiko yang kolom Skala Dampak/Kemungkinan Inheren-nya sudah diisi (opsional). Arahkan kursor ke satu bar untuk melihat nama OPD, kode risiko, dan nilai Inheren/Sisa Risiko/Gap-nya; klik untuk membuka rincian.',
+              title: '3.3 Siklus 4-Skor Risiko (Inheren → Residual → Target → Aktual)',
+              desc: 'Bar bertumpuk per risiko (biru = Residual/Current, merah di ujungnya = Gap ke Inheren), DITAMBAH dua marker: ◆ hijau = Target (sasaran RTP, dari Form Input Risiko) dan ▲ oranye = Aktual (hasil monitoring, dari Form 9 — muncul kalau sudah dimonitor). Diurutkan DESC berdasarkan Gap Inheren→Residual terbesar. HANYA menampilkan risiko yang Skala Inheren-nya sudah diisi (opsional). Arahkan kursor ke satu bar untuk melihat keempat skor sekaligus (Inheren/Residual/Target/Aktual) plus deviasi Aktual-vs-Target; klik untuk membuka rincian.',
             },
           ]}
         />
-        <Kotak title="Skala Risiko Inheren — kolom opsional, dengan validasi wajib" tone="accent">
-          Perdep Pasal 1 angka 10 mendefinisikan &quot;Sisa Risiko&quot; sebagai risiko SETELAH mempertimbangkan
-          pengendalian yang ada — secara implisit membedakannya dari <strong>risiko inheren</strong> (sebelum
-          pengendalian). Kolom Skala Dampak/Kemungkinan/Risiko yang SUDAH ADA di Form Input IRS/IRO SELALU berarti
-          nilai residual (setelah pengendalian). Untuk mengisi widget 3.3 di atas, PIC bisa (opsional) mengisi 2
-          kolom tambahan <strong>Skala Dampak Inheren</strong> &amp; <strong>Skala Kemungkinan Inheren</strong> di
-          form IRS Pemda/IRS PD/IRO PD — bayangkan seandainya pengendalian yang ada TIDAK PERNAH ada, seberapa besar
-          Dampak &amp; Kemungkinannya? Skala Risiko Inheren dihitung otomatis dari matriks yang sama.{' '}
-          <strong>Sistem menolak penyimpanan</strong> kalau Skala Risiko Inheren yang dihasilkan lebih rendah dari
-          Sisa Risiko — karena pengendalian secara logis hanya bisa MENGURANGI risiko, tidak pernah menambahnya.
+        <Kotak title="Siklus 4-Skor Risiko sesuai COSO ERM — Inheren, Residual, Target, Aktual" tone="accent">
+          <p>
+            Perdep Pasal 1 angka 10 mendefinisikan &quot;Sisa Risiko&quot; sebagai risiko SETELAH
+            mempertimbangkan pengendalian yang ada — secara implisit membedakannya dari <strong>risiko
+            inheren</strong> (sebelum pengendalian). Mengikuti siklus penuh COSO ERM 2017 (<em>Assess Severity</em>{' '}
+            → <em>Review Risk and Performance</em>), MR Kabar sekarang mencatat <strong>4 titik skor</strong>{' '}
+            per risiko, bukan cuma 2:
+          </p>
+          <ul className="mt-1 list-disc space-y-1 pl-5">
+            <li>
+              <strong>Inheren</strong> — risiko sebelum ada pengendalian sama sekali. Diisi di Form Input Risiko
+              (opsional, tapi WAJIB kalau Kategori Existing Control dinilai — lihat toggle &quot;Apakah sudah ada
+              Existing Control?&quot; di bagian{' '}
+              <a href="#tata-cara" className="text-sky-500 underline underline-offset-2">
+                Tata Cara Pengisian
+              </a>
+              ).
+            </li>
+            <li>
+              <strong>Residual/Current</strong> — risiko SEKARANG, setelah pengendalian yang sudah ada
+              diperhitungkan. Kolom Skala Dampak/Kemungkinan/Risiko yang lama di Form Input SELALU berarti nilai
+              ini.
+            </li>
+            <li>
+              <strong>Target</strong> — sasaran/proyeksi setelah Rencana Tindak Pengendalian (RTP) yang
+              direncanakan benar-benar dijalankan. Diisi di Form Input Risiko (field &quot;Kategori Proyeksi RTP&quot;
+              + Skala Dampak/Kemungkinan Target), SEBELUM RTP jalan.
+            </li>
+            <li>
+              <strong>Aktual</strong> — hasil re-assessment NYATA setelah RTP benar-benar berjalan, dicek saat
+              monitoring. Diisi BELAKANGAN di <strong>Form 9</strong> (bukan lagi di Form Input Risiko), karena
+              satu risiko bisa punya lebih dari satu RTP yang masing-masing dimonitor terpisah.
+            </li>
+          </ul>
+          <p className="mt-1">
+            <strong>Sistem menolak penyimpanan</strong> kalau Skala Risiko Inheren lebih rendah dari Residual,
+            atau Target lebih tinggi dari Inheren — karena pengendalian secara logis hanya bisa MENGURANGI risiko.
+            Tidak ada guard antara Target dan Aktual — Aktual BOLEH lebih tinggi dari Target, itu justru insight
+            utamanya: RTP tidak berjalan seefektif rencana.
+          </p>
+          <p className="mt-2 text-xs font-medium text-foreground">
+            Contoh nyata — risiko &quot;OPD terlambat menyerahkan laporan realisasi belanja modal&quot;:
+          </p>
+          <SkorEmpatTahapDiagram
+            items={[
+              { label: 'Inheren', skala: 24, keterangan: 'D5×K5 — tanpa kontrol sama sekali', warna: 'bg-rose-600' },
+              { label: 'Residual', skala: 12, keterangan: 'D4×K3 — dgn existing control (CE)', warna: 'bg-sky-600' },
+              { label: 'Target', skala: 6, keterangan: 'D4×K2 — proyeksi RTP baru (E)', warna: 'bg-emerald-600' },
+              { label: 'Aktual', skala: 9, keterangan: 'D4×K3 — hasil monitoring (CE, RTP meleset)', warna: 'bg-amber-500' },
+            ]}
+          />
+          <p className="text-xs text-muted-foreground">
+            Aktual (9) lebih tinggi dari Target (6) — sinyal bahwa RTP yang direncanakan (diproyeksikan
+            &quot;Efektif&quot;) ternyata di lapangan cuma tercapai &quot;Cukup Efektif&quot;, butuh tindak lanjut.
+          </p>
         </Kotak>
 
         <p className="mt-4 font-medium text-foreground">Seksi 4 — Prioritas &amp; Tren</p>
@@ -802,24 +876,33 @@ export const SECTIONS: Section[] = [
             { title: '4.2 Tren Level Risiko (5 Tahun Terakhir)', desc: 'Area chart 5 tahun terakhir, 2 garis berlabel angka: Sangat Tinggi (merah) & Tinggi (oranye) — mendukung evaluasi Bab IV triwulanan/tahunan.' },
           ]}
         />
-        <Kotak title="Widget baru: Tren Efektivitas Pengendalian (5 Tahun Terakhir)" tone="accent">
+        <Kotak title="Widget: Tren Efektivitas Pengendalian (5 Tahun Terakhir)" tone="accent">
           Lebar-penuh, diletakkan tepat di bawah widget 4.2 — menjawab pertanyaan &quot;apakah pengendalian yang
-          sudah dijalankan Pemda benar-benar berhasil menurunkan risiko dari waktu ke waktu?&quot;, memakai data
-          Skala Inheren vs Sisa Risiko yang sama dengan widget 3.3. Dua garis saling melengkapi (perhatikan: dua
-          sumbu Y berbeda skala, kiri untuk Skala 0–25, kanan untuk Persen 0–100%):
+          sudah dijalankan Pemda benar-benar berhasil menurunkan risiko dari waktu ke waktu, DAN apakah RTP yang
+          dijalankan sesuai rencana?&quot;, memakai data 4-skor yang sama dengan widget 3.3. Tiga garis saling
+          melengkapi (perhatikan: dua sumbu Y berbeda skala, kiri untuk Skala -10–25, kanan untuk Persen 0–100%):
           <ul className="mt-1 list-disc space-y-1 pl-5">
             <li>
-              <strong>Rata-rata Gap</strong> (hijau) — BESARAN keberhasilan: rata-rata penurunan skala risiko
-              (Inheren − Sisa Risiko) dari seluruh risiko yang dinilai tahun itu.
+              <strong>Rata-rata Gap</strong> (hijau) — BESARAN keberhasilan pengendalian existing: rata-rata
+              penurunan skala risiko (Inheren − Residual/Current) dari seluruh risiko yang dinilai tahun itu.
             </li>
             <li>
               <strong>Cakupan Signifikan</strong> (biru) — CAKUPAN keberhasilan: persentase risiko dengan gap ≥ 5
               poin (ambang tampilan Dashboard, bisa disesuaikan) — memastikan keberhasilan itu MERATA di banyak
               risiko, bukan cuma didongkrak segelintir risiko besar yang kebetulan gap-nya ekstrem.
             </li>
+            <li>
+              <strong>Rata-rata Deviasi Target vs Aktual</strong> (oranye, garis putus-putus) — metrik BARU:
+              rata-rata (Aktual − Target) dari risiko yang SUDAH dimonitor di Form 9. Positif berarti RTP rata-rata
+              tidak seefektif rencana (butuh perhatian); negatif/nol berarti RTP rata-rata mencapai atau melampaui
+              target. HANYA dihitung dari risiko yang sudah punya Target <em>dan</em> Aktual sekaligus — biasanya
+              sampelnya lebih kecil dari total risiko dinilai, karena Aktual baru terisi setelah monitoring
+              berjalan.
+            </li>
           </ul>
-          Kombinasi keduanya penting: rata-rata gap bisa &quot;terlihat bagus&quot; padahal cuma disumbang sedikit
-          risiko — Cakupan Signifikan mengungkap kalau itu terjadi.
+          Kombinasi ketiganya penting: rata-rata gap bisa &quot;terlihat bagus&quot; padahal cuma disumbang
+          sedikit risiko (Cakupan Signifikan mengungkap itu), dan gap yang besar di atas kertas tidak menjamin RTP
+          benar-benar berjalan sesuai rencana (Deviasi Target vs Aktual mengungkap itu).
         </Kotak>
 
         <p className="mt-4 font-medium text-foreground">Seksi 5 — Kinerja Unit Pemilik Risiko</p>
@@ -911,10 +994,15 @@ export const SECTIONS: Section[] = [
                     </li>
                     <li>
                       <strong>RTP atas risiko</strong> — memakai field <code>RENCANA TINDAK PENGENDALIAN</code>,{' '}
-                      <code>KATEGORI EXISTING CONTROL</code> (Efektif/Kurang Efektif/Tidak Efektif),{' '}
-                      <code>PENANGGUNG JAWAB PENGENDALIAN</code>, dan{' '}
+                      <code>KATEGORI EXISTING CONTROL</code> (4 tingkat: Tidak Efektif/Kurang Efektif/Cukup
+                      Efektif/Efektif), <code>PENANGGUNG JAWAB PENGENDALIAN</code>, dan{' '}
                       <code>UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN</code> yang sudah ada di form IRS/IRO — tidak
-                      perlu form input terpisah, langsung dicetak lewat <strong>Form 7</strong>.
+                      perlu form input terpisah, langsung dicetak lewat <strong>Form 7</strong>. Lihat penjelasan
+                      lengkap toggle Existing Control &amp; Skor Risiko 4-Tahap di bagian{' '}
+                      <a href="#tata-cara" className="text-sky-500 underline underline-offset-2">
+                        Tata Cara Pengisian
+                      </a>{' '}
+                      di bawah.
                     </li>
                   </ul>
                 </>
@@ -1064,7 +1152,9 @@ export const SECTIONS: Section[] = [
         </div>
         <p className="text-xs text-muted-foreground">
           Kategori 7M+1E, Sumber (Internal/Eksternal), dan C/UC selalu tampil sebagai badge berwarna berbeda supaya
-          cepat dipindai secara visual — bukan sekadar teks polos.
+          cepat dipindai secara visual — bukan sekadar teks polos. Kolom (h) Sumber Sebab dan (i) C/UC diisi{' '}
+          <strong>cukup dengan klik kategori</strong> di Form Input (tidak ada kotak uraian tambahan untuk
+          keduanya) — beda dari kolom (g) Uraian Sebab yang tetap punya kotak uraian bebas per kategori 7M+1E.
         </p>
 
         <Kotak title="Sumber Data" tone="accent">
@@ -1180,19 +1270,31 @@ export const SECTIONS: Section[] = [
           ]}
         />
 
-        <p className="mt-3 font-medium text-foreground">Form 7 — badge warna kategori pengendalian</p>
+        <p className="mt-3 font-medium text-foreground">Form 7 — badge warna kategori pengendalian (4 tingkat)</p>
         <p>
           Kolom &quot;Uraian Pengendalian yang Sudah Ada&quot; menampilkan badge warna sesuai{' '}
-          <code>KATEGORI EXISTING CONTROL</code> yang diisi di IRS/IRO:
+          <code>KATEGORI EXISTING CONTROL</code> yang diisi di IRS/IRO — sekarang <strong>4 tingkat</strong>{' '}
+          (sebelumnya 3: E/KE/TE), ada tambahan <strong>Cukup Efektif (CE)</strong> di antara Kurang Efektif dan
+          Efektif:
         </p>
         <SimpleTable
-          headers={['Kode', 'Arti', 'Warna']}
+          headers={['Kode', 'Arti', 'Warna', 'Faktor reduksi']}
           rows={[
-            [<ColorBadge color="emerald">E</ColorBadge>, 'Efektif', 'Hijau'],
-            [<ColorBadge color="amber">KE</ColorBadge>, 'Kurang Efektif', 'Kuning'],
-            [<ColorBadge color="red">TE</ColorBadge>, 'Tidak Efektif', 'Merah'],
+            [<ColorBadge color="red">TE</ColorBadge>, 'Tidak Efektif', 'Merah', '1.0 (K/D tidak turun sama sekali)'],
+            [<ColorBadge color="amber">KE</ColorBadge>, 'Kurang Efektif', 'Kuning', '0.8 (turun sedikit)'],
+            [<ColorBadge color="sky">CE</ColorBadge>, 'Cukup Efektif', 'Biru', '0.6 (turun sedang)'],
+            [<ColorBadge color="emerald">E</ColorBadge>, 'Efektif', 'Hijau', '0.4 (turun banyak)'],
           ]}
         />
+        <p className="text-xs text-muted-foreground">
+          Faktor reduksi ini dikalikan ke Skala Kemungkinan <strong>atau</strong> Skala Dampak Inheren, tergantung
+          jenis Rencana Tindak Pengendalian-nya (Avoid/Abate → Kemungkinan, Mitigate/Share-Transfer → Dampak) —
+          lihat penjelasan lengkap Skor Risiko 4-Tahap di bagian{' '}
+          <a href="#tata-cara" className="text-sky-500 underline underline-offset-2">
+            Tata Cara Pengisian
+          </a>
+          .
+        </p>
         <p>
           Kolom &quot;Rencana Tindak Pengendalian&quot; menampilkan badge warna sesuai jenis respon risiko (lihat 5
           respon risiko di bagian &quot;Bagaimana&quot;) — Abate biru, Mitigate kuning, dst — supaya jenis
@@ -1309,6 +1411,26 @@ export const SECTIONS: Section[] = [
           konfirmasi, dsb). File Form 8 dan Form 9 disimpan TERPISAH meski keduanya berasal dari satu baris RTP yang
           sama — tidak akan tercampur. File yang diunggah otomatis muncul juga di <code>Utilities → File
           Manager</code> milik akun Anda, dan bisa dihapus permanen kapan saja lewat tombol hapus di kartu unggah.
+        </p>
+
+        <p className="mt-3 font-medium text-foreground">Skala Aktual — hasil re-assessment risiko saat pemantauan</p>
+        <p>
+          Khusus RTP atas risiko (bukan CEE), di bawah kolom Form 9 ada bagian tambahan{' '}
+          <strong>&quot;Hasil Re-assessment Risiko (Skala Aktual)&quot;</strong> — pilih kategori efektivitas riil
+          yang teramati (TE/KE/CE/E), atau pakai tombol <strong>Isi Nilai Risiko Aktual</strong> untuk memilih
+          lewat matriks 5×5 (sama komponen dengan tombol &quot;Isi Nilai Risiko&quot; di Form Input Risiko —
+          lihat bagian{' '}
+          <a href="#tata-cara" className="text-sky-500 underline underline-offset-2">
+            Tata Cara Pengisian
+          </a>
+          ). Bedanya di sini: matriks menampilkan <strong>4 titik</strong> (Inheren/Residual/Target tampil
+          read-only sebagai konteks, HANYA titik Aktual yang bisa diklik/diubah). Kategori efektivitas dikalikan
+          ke Skala Kemungkinan (kalau RTP-nya Avoid/Abate) atau Skala Dampak (kalau RTP-nya Mitigate/
+          Share-Transfer) risiko sumber, sesuai jenis respon risiko yang dipilih di Rencana Tindak Pengendalian —
+          perlu Skala Inheren sudah diisi dulu di Form Input Risiko. Bandingkan dengan Skala Target yang sudah
+          diisi di Form Input Risiko — bila Aktual lebih tinggi dari Target, artinya RTP belum berjalan seefektif
+          rencana. Bagian ini informasi tambahan, tidak dicetak di kolom a-g resmi Form Cetak 9 (format baku
+          Perdep) — tampil sebagai tabel terpisah di bawahnya.
         </p>
 
         <p className="mt-3 font-medium text-foreground">Form 10 — mencatat kejadian risiko nyata</p>
@@ -1467,7 +1589,9 @@ export const SECTIONS: Section[] = [
                 <>
                   <p>
                     Klik <strong>Tambah Data</strong> di halaman IRS Pemda / IRS PD / IRO PD sesuai level tadi.
-                    Field-field kunci:
+                    Dialog form ini <strong>tidak bisa ditutup</strong> dengan klik area luar, tombol X, atau
+                    tombol Esc — hanya lewat tombol <strong>Batal</strong> atau <strong>Simpan</strong> di bawah,
+                    supaya isian panjang tidak hilang tidak sengaja. Field-field kunci:
                   </p>
                   <SimpleTable
                     headers={['Field', 'Makna']}
@@ -1475,13 +1599,84 @@ export const SECTIONS: Section[] = [
                       ['Sasaran/Kegiatan', 'Pilih dari daftar KRS/KRO yang sama (jangan ketik bebas).'],
                       ['Uraian Risiko', 'Kondisi/kejadian yang mengancam sasaran/kegiatan — bukan penyebabnya.'],
                       ['Pemilik Risiko', 'Jabatan UPR sesuai jenjang (lihat bagian "Siapa") — bukan otomatis Kepala Daerah.'],
-                      ['C / UC', 'Controllable (kendali penuh internal) atau Uncontrollable (bergantung faktor eksternal).'],
-                      ['Kategori Existing Control', 'Efektif / Kurang Efektif / Tidak Efektif — menentukan besar Celah Pengendalian.'],
+                      ['Sumber Sebab Risiko', 'Internal / Eksternal / Internal dan Eksternal — cukup klik badge kategori, TIDAK ADA lagi kotak uraian tambahan.'],
+                      ['C / UC', 'Controllable (kendali penuh internal) atau Uncontrollable (bergantung faktor eksternal) — cukup klik badge, tanpa uraian tambahan.'],
+                      ['Apakah sudah ada Existing Control?', 'Ya: tampil Uraian Pengendalian, Kategori Existing Control (TE/KE/CE/E), Celah Pengendalian, dan Skala Inheren + Residual/Current terpisah. Tidak: field-field itu disembunyikan (dikosongkan otomatis) — cukup isi satu Skala (berlabel Inheren), yang otomatis jadi Residual/Current juga.'],
                       ['RTP', 'Aksi konkret menutup celah, sesuaikan 5 respon risiko (Avoid/Abate/Mitigate/Share/Accept).'],
                       ['Penanggung Jawab Pengendalian', 'Jabatan pelaksana RTP (lihat aturan proporsionalitas di bagian "Siapa").'],
                       ['Skala Dampak & Kemungkinan', 'Nilai 1–5, Skala Risiko & Prioritas dihitung otomatis dari matriks 5×5.'],
+                      ['Skala Target', 'Proyeksi skala setelah RTP dijalankan (opsional, di bagian bawah form) — Kategori Proyeksi RTP dikalikan ke Kemungkinan (RTP Avoid/Abate) atau Dampak (RTP Mitigate/Share-Transfer), sesuai jenis respon risiko yang dipilih.'],
                     ]}
                   />
+                  <p className="mt-2 text-xs font-medium text-foreground">
+                    Field apa saja yang tampil berbeda tergantung jawaban toggle:
+                  </p>
+                  <ToggleCompare
+                    columns={[
+                      {
+                        label: 'Ya',
+                        aktif: true,
+                        fields: [
+                          'Uraian Pengendalian yang Sudah Ada',
+                          'Kategori Existing Control (TE/KE/CE/E)',
+                          'Celah Pengendalian',
+                          'Skala Dampak/Kemungkinan Inheren (WAJIB diisi)',
+                          'Skala Dampak/Kemungkinan Residual/Current (terpisah dari Inheren)',
+                        ],
+                      },
+                      {
+                        label: 'Tidak',
+                        aktif: false,
+                        fields: [
+                          'Ketiga field pengendalian di atas disembunyikan & dikosongkan otomatis',
+                          'Cukup satu Skala Dampak/Kemungkinan (berlabel Inheren)',
+                          'Nilai itu otomatis disalin jadi Skala Residual/Current juga',
+                          'Lanjutkan langsung ke Rencana Tindak Pengendalian (RTP) baru',
+                        ],
+                      },
+                    ]}
+                  />
+                  <Kotak title="Tombol “Isi Nilai Risiko” — pilih skala lewat klik matriks, bukan cuma ketik angka" tone="accent">
+                    <p>
+                      Di atas kolom Rencana Tindak Pengendalian ada tombol <strong>Isi Nilai Risiko</strong> yang
+                      membuka matriks 5×5 interaktif — cara visual mengisi Skala Dampak &amp; Kemungkinan, alternatif
+                      dari mengetik angka satu-satu di kolom sebelah.
+                    </p>
+                    <ol className="mt-1 list-decimal space-y-1 pl-5">
+                      <li>Pilih dulu titik yang sedang diisi: tombol berlabel Inheren / Residual-Current / Target.</li>
+                      <li>
+                        Klik satu sel matriks sesuai kombinasi Dampak × Kemungkinan yang sesuai — sel itu langsung
+                        jadi nilai untuk titik yang sedang dipilih, ditandai badge lingkaran kecil (I/R/T) di
+                        selnya.
+                      </li>
+                      <li>
+                        Ketiga titik tampil SEKALIGUS di matriks yang sama, jadi posisi Inheren-Residual-Target
+                        terlihat relatif satu sama lain dalam satu pandangan.
+                      </li>
+                      <li>
+                        Kalau toggle Existing Control di atas dipilih <strong>Tidak</strong>, toggle titik
+                        Residual disembunyikan (karena otomatis sama dengan Inheren) — klik sel saat titik
+                        Inheren aktif langsung mengisi KEDUA field (Inheren dan Residual) sekaligus.
+                      </li>
+                    </ol>
+                    <p className="mt-1">
+                      Isian lewat matriks dan isian manual (ketik angka langsung) saling terhubung dua arah — pilih
+                      sel di matriks otomatis mengisi kotak angka, dan sebaliknya kotak angka yang sudah terisi
+                      langsung tampil sebagai badge di matriks saat dibuka lagi. Boleh pakai salah satu cara,
+                      atau kombinasi keduanya (isi via matriks lalu koreksi manual).
+                    </p>
+                    <RiskMatrixInteractivePreview
+                      points={[
+                        { dampak: 5, kemungkinan: 5, label: 'I', warna: 'bg-rose-600' },
+                        { dampak: 4, kemungkinan: 3, label: 'R', warna: 'bg-sky-600' },
+                        { dampak: 4, kemungkinan: 2, label: 'T', warna: 'bg-emerald-600' },
+                      ]}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Ilustrasi: badge I = Inheren, R = Residual/Current, T = Target sudah terisi di sel
+                      masing-masing — sel lain tetap bisa diklik untuk mengisi/mengubah titik yang sedang aktif.
+                    </p>
+                  </Kotak>
                 </>
               ),
             },
@@ -1534,14 +1729,24 @@ export const SECTIONS: Section[] = [
               desc: 'Buka Form Cetak → CEE → 1a/1b/1c untuk versi PDF siap tanda tangan. Pastikan Data Umum (langkah 1) sudah lengkap sebelum mencetak.',
             },
             {
-              title: 'Lengkapi Monitoring RTP & catat kejadian nyata',
+              title: 'Lengkapi Monitoring RTP, isi Skala Aktual & catat kejadian nyata',
               desc: (
                 <>
-                  Buka <code>Form Monitoring dan Evaluasi → 8-9_Monitoring RTP</code> untuk melengkapi kolom
-                  pengkomunikasian &amp; pemantauan tiap RTP yang sudah disusun. Kalau ada risiko yang benar-benar
-                  terjadi, catat lewat <code>10_Pencatatan Kejadian Risiko</code> — atau kalau kejadian itu awalnya
-                  masuk lewat &quot;Lapor Kejadian Risiko&quot;, pakai tombol &quot;Catat ke Form 10&quot; di halaman
-                  Rekap supaya datanya ter-prefill otomatis.
+                  <p>
+                    Buka <code>Form Monitoring dan Evaluasi → 8-9_Monitoring RTP</code> untuk melengkapi kolom
+                    pengkomunikasian &amp; pemantauan tiap RTP yang sudah disusun. Untuk RTP atas risiko (bukan
+                    CEE), lengkapi juga bagian <strong>Hasil Re-assessment Risiko (Skala Aktual)</strong> — pilih
+                    kategori efektivitas riil yang teramati (TE/KE/CE/E), atau pakai tombol{' '}
+                    <strong>Isi Nilai Risiko Aktual</strong> untuk memilih lewat matriks 5×5 yang sama seperti di
+                    Form Input Risiko. Bedanya di sini: matriks menampilkan 4 titik (Inheren/Residual/Target
+                    tampil read-only sebagai konteks, HANYA titik Aktual yang bisa diklik/diubah).
+                  </p>
+                  <p className="mt-1">
+                    Kalau ada risiko yang benar-benar terjadi, catat lewat{' '}
+                    <code>10_Pencatatan Kejadian Risiko</code> — atau kalau kejadian itu awalnya masuk lewat
+                    &quot;Lapor Kejadian Risiko&quot;, pakai tombol &quot;Catat ke Form 10&quot; di halaman Rekap
+                    supaya datanya ter-prefill otomatis.
+                  </p>
                 </>
               ),
             },

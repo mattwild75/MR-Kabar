@@ -45,13 +45,61 @@ class RiskReferenceDataService
      */
     public function hitungKemungkinanTerkendali(?int $kemungkinanInheren, ?string $kategoriEfektivitas): ?int
     {
-        if (!$kemungkinanInheren || $kemungkinanInheren < 1 || $kemungkinanInheren > 5) {
+        return $this->terapkanFaktorReduksi($kemungkinanInheren, $kategoriEfektivitas);
+    }
+
+    /**
+     * Sama persis dengan hitungKemungkinanTerkendali(), dipakai utk sumbu
+     * Dampak — RTP yg sifatnya Mitigate/Share-Transfer (lihat
+     * arahReduksiRtp()) menekan DAMPAK, bukan Kemungkinan, sesuai prinsip
+     * COSO ERM: preventive control -> likelihood, mitigative/corrective
+     * control -> impact/consequence.
+     */
+    public function hitungDampakTerkendali(?int $dampakInheren, ?string $kategoriEfektivitas): ?int
+    {
+        return $this->terapkanFaktorReduksi($dampakInheren, $kategoriEfektivitas);
+    }
+
+    private function terapkanFaktorReduksi(?int $nilaiInheren, ?string $kategoriEfektivitas): ?int
+    {
+        if (!$nilaiInheren || $nilaiInheren < 1 || $nilaiInheren > 5) {
             return null;
         }
 
         $faktor = self::FAKTOR_REDUKSI_KONTROL[$kategoriEfektivitas] ?? 1.0;
 
-        return max(1, min(5, (int) round($kemungkinanInheren * $faktor)));
+        return max(1, min(5, (int) round($nilaiInheren * $faktor)));
+    }
+
+    /**
+     * Tentukan sumbu mana yang ditekan faktor reduksi kategori efektivitas,
+     * berdasarkan kategori RESPON RISIKO (RENCANA TINDAK PENGENDALIAN) yang
+     * SUDAH diisi di RTP terkait — bukan field baru, cukup dibaca ulang.
+     * Prinsip COSO ERM: kontrol preventif (Avoid/Abate) menekan
+     * KEMUNGKINAN kejadian; kontrol mitigatif/pengalihan (Mitigate/Share-
+     * Transfer) menekan besaran DAMPAK saat risiko terjadi. RTP campuran
+     * (mis. "Abate; Mitigate" dicentang keduanya) menekan KEDUA sumbu
+     * sekaligus dengan faktor yang sama (asumsi "efektivitas keseluruhan
+     * X%" berlaku ke sumbu manapun yang relevan). Accept (atau RTP kosong)
+     * = tidak menekan sumbu manapun (dianggap tidak ada tindakan aktif).
+     *
+     * Return ['kemungkinan' => bool, 'dampak' => bool] — kalau keduanya
+     * false (RTP kosong/Accept-only/tidak dikenali), fallback ke K supaya
+     * PERILAKU LAMA (sebelum penyesuaian ini) tetap jalan utk data lama yg
+     * RTP-nya belum eksplisit menyebut respon risiko.
+     */
+    public function arahReduksiRtp(?string $rencanaTindakPengendalian): array
+    {
+        $nilai = mb_strtolower(trim((string) $rencanaTindakPengendalian));
+
+        $keK = $nilai !== '' && (str_contains($nilai, 'avoid') || str_contains($nilai, 'abate'));
+        $keD = $nilai !== '' && (str_contains($nilai, 'mitigate') || str_contains($nilai, 'share/transfer'));
+
+        if (!$keK && !$keD) {
+            return ['kemungkinan' => true, 'dampak' => false];
+        }
+
+        return ['kemungkinan' => $keK, 'dampak' => $keD];
     }
 
     /**
@@ -105,10 +153,6 @@ class RiskReferenceDataService
         $dampak = (int) ($data['SKALA DAMPAK'] ?? 0);
         $kemungkinan = (int) ($data['SKALA KEMUNGKINAN'] ?? 0);
 
-        $hasil = $this->hitungSkala($dampak ?: null, $kemungkinan ?: null);
-        $data['SKALA RISIKO'] = $hasil['skala_risiko'];
-        $data['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
-
         $kategoriExisting = $this->ekstrakKategoriKontrol($data['KATEGORI EXISTING CONTROL'] ?? null);
         $dampakInheren = (int) ($data['SKALA DAMPAK INHEREN'] ?? 0);
         $kemungkinanInheren = (int) ($data['SKALA KEMUNGKINAN INHEREN'] ?? 0);
@@ -120,13 +164,40 @@ class RiskReferenceDataService
             ]);
         }
 
-        // Skenario B — risiko baru tanpa existing control: Inheren = Residual.
+        // Skenario B — risiko baru tanpa existing control: Inheren dan
+        // Residual/Current SALING mengisi (form "Apakah sudah ada Existing
+        // Control?" -> "Tidak" hanya menampilkan SATU pasang field,
+        // berlabel Inheren — PIC tidak lagi mengisi SKALA DAMPAK/KEMUNGKINAN
+        // residual sama sekali, jadi arah copy-nya Inheren->Residual, BUKAN
+        // sebaliknya seperti sebelumnya). Arah lama (Residual->Inheren)
+        // tetap dipertahankan utk kompatibilitas data/alur lama yg mengisi
+        // Residual duluan tanpa Inheren.
         if ($kategoriExisting === null && !$dampakInheren && !$kemungkinanInheren && $dampak && $kemungkinan) {
             $dampakInheren = $dampak;
             $kemungkinanInheren = $kemungkinan;
             $data['SKALA DAMPAK INHEREN'] = $dampakInheren;
             $data['SKALA KEMUNGKINAN INHEREN'] = $kemungkinanInheren;
+        } elseif ($kategoriExisting === null && !$dampak && !$kemungkinan && $dampakInheren && $kemungkinanInheren) {
+            $dampak = $dampakInheren;
+            $kemungkinan = $kemungkinanInheren;
+            $data['SKALA DAMPAK'] = $dampak;
+            $data['SKALA KEMUNGKINAN'] = $kemungkinan;
         }
+
+        // Salah satu dari Residual/Current ATAU Inheren wajib terisi —
+        // rule 'required' di controller sengaja dilonggarkan jadi
+        // 'nullable' krn form "Tidak ada Existing Control" hanya mengisi
+        // Inheren (lihat blok di atas), tapi minimal SATU pasang tetap
+        // wajib supaya baris risiko tidak tersimpan tanpa skala sama sekali.
+        if (!$dampak && !$kemungkinan && !$dampakInheren && !$kemungkinanInheren) {
+            throw \Illuminate\Validation\ValidationException::withMessages([
+                'SKALA DAMPAK INHEREN' => 'Skala Dampak & Kemungkinan wajib diisi — pilih dulu "Apakah risiko ini sudah memiliki Pengendalian yang Sudah Ada?" lalu isi skala yang muncul.',
+            ]);
+        }
+
+        $hasil = $this->hitungSkala($dampak ?: null, $kemungkinan ?: null);
+        $data['SKALA RISIKO'] = $hasil['skala_risiko'];
+        $data['SKALA PRIORITAS'] = $hasil['skala_prioritas'];
 
         $hasilInheren = $this->hitungSkala($dampakInheren ?: null, $kemungkinanInheren ?: null);
         $data['SKALA RISIKO INHEREN'] = $hasilInheren['skala_risiko'];
@@ -141,17 +212,40 @@ class RiskReferenceDataService
         }
 
         // ── Skala TARGET (proyeksi setelah RTP direncanakan berjalan) ──
+        // Arah reduksi (K, D, atau keduanya) ditentukan dari kategori
+        // RESPON RISIKO yg sudah dipilih di RENCANA TINDAK PENGENDALIAN —
+        // sesuai prinsip COSO ERM: kontrol preventif (Avoid/Abate) menekan
+        // Kemungkinan, kontrol mitigatif/pengalihan (Mitigate/Share-
+        // Transfer) menekan Dampak. Sebelumnya faktor SELALU dikalikan ke
+        // K saja, tidak mencerminkan RTP yg sifatnya menurunkan konsekuensi
+        // (Mitigate) — lihat arahReduksiRtp().
         $kategoriProyeksi = $this->ekstrakKategoriKontrol($data['KATEGORI PROYEKSI RTP'] ?? null);
         $dampakTarget = (int) ($data['SKALA DAMPAK TARGET'] ?? 0);
         $kemungkinanTarget = (int) ($data['SKALA KEMUNGKINAN TARGET'] ?? 0);
 
         if ($kategoriProyeksi !== null || $dampakTarget || $kemungkinanTarget) {
-            // D Target default = D RESIDUAL/current (kondisi sekarang, titik
-            // acuan proyeksi RTP) — RTP preventif tidak mengubah dampak,
-            // hanya kemungkinan. Tetap override-able manual utk RTP mitigatif.
-            $dampakTarget = $dampakTarget ?: $dampak;
-            $kemungkinanTarget = $kemungkinanTarget
-                ?: ($kategoriProyeksi !== null ? ($this->hitungKemungkinanTerkendali($kemungkinanInheren ?: null, $kategoriProyeksi) ?? 0) : 0);
+            $arah = $this->arahReduksiRtp($data['RENCANA TINDAK PENGENDALIAN'] ?? null);
+
+            // Sumbu Dampak: HANYA dihitung (basis D Inheren x faktor) kalau
+            // RTP menyasar Dampak (Mitigate/Share-Transfer). Kalau tidak
+            // ditekan, default = D RESIDUAL/current (BUKAN D Inheren) —
+            // dipertahankan sesuai koreksi sebelumnya: D Inheren yg jauh
+            // lebih tinggi dari D Residual bikin Target tampak lebih buruk
+            // dari kondisi sekarang, membingungkan narasinya.
+            $dampakTarget = $dampakTarget ?: (
+                $kategoriProyeksi !== null && $arah['dampak']
+                    ? ($this->hitungDampakTerkendali($dampakInheren ?: null, $kategoriProyeksi) ?? $dampak)
+                    : $dampak
+            );
+            // Sumbu Kemungkinan: basis SELALU K Inheren (baseline "tanpa
+            // kontrol") — baik saat dihitung (RTP menyasar K) maupun saat
+            // fallback (RTP tidak menyasar K sama sekali, mis. murni
+            // Mitigate) — konsisten dgn desain awal fitur ini.
+            $kemungkinanTarget = $kemungkinanTarget ?: (
+                $kategoriProyeksi !== null && $arah['kemungkinan']
+                    ? ($this->hitungKemungkinanTerkendali($kemungkinanInheren ?: null, $kategoriProyeksi) ?? $kemungkinanInheren)
+                    : $kemungkinanInheren
+            );
 
             $hasilTarget = $this->hitungSkala($dampakTarget ?: null, $kemungkinanTarget ?: null);
             $data['SKALA DAMPAK TARGET'] = $dampakTarget ?: null;
@@ -169,34 +263,13 @@ class RiskReferenceDataService
             $data['SKALA RISIKO TARGET'] = null;
         }
 
-        // ── Skala AKTUAL/Treated (hasil re-assessment saat monitoring) ──
-        // TIDAK ada guard perbandingan ke Target: Aktual BOLEH lebih tinggi
-        // (itu justru insight utamanya — "target 6, realisasi 9").
-        $kategoriAktual = $this->ekstrakKategoriKontrol($data['KATEGORI EXISTING CONTROL AKTUAL'] ?? null);
-        $dampakAktual = (int) ($data['SKALA DAMPAK AKTUAL'] ?? 0);
-        $kemungkinanAktual = (int) ($data['SKALA KEMUNGKINAN AKTUAL'] ?? 0);
-
-        if ($kategoriAktual !== null || $dampakAktual || $kemungkinanAktual) {
-            // D Aktual default = D RESIDUAL/current juga (lihat komentar Target).
-            $dampakAktual = $dampakAktual ?: $dampak;
-            $kemungkinanAktual = $kemungkinanAktual
-                ?: ($kategoriAktual !== null ? ($this->hitungKemungkinanTerkendali($kemungkinanInheren ?: null, $kategoriAktual) ?? 0) : 0);
-
-            $hasilAktual = $this->hitungSkala($dampakAktual ?: null, $kemungkinanAktual ?: null);
-            $data['SKALA DAMPAK AKTUAL'] = $dampakAktual ?: null;
-            $data['SKALA KEMUNGKINAN AKTUAL'] = $kemungkinanAktual ?: null;
-            $data['SKALA RISIKO AKTUAL'] = $hasilAktual['skala_risiko'];
-
-            if ($data['SKALA RISIKO AKTUAL'] !== null && $data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO AKTUAL'] > $data['SKALA RISIKO INHEREN']) {
-                throw \Illuminate\Validation\ValidationException::withMessages([
-                    'SKALA KEMUNGKINAN AKTUAL' => 'Skala Risiko Aktual (' . $data['SKALA RISIKO AKTUAL'] . ') tidak boleh lebih tinggi dari Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ').',
-                ]);
-            }
-        } else {
-            $data['SKALA DAMPAK AKTUAL'] = null;
-            $data['SKALA KEMUNGKINAN AKTUAL'] = null;
-            $data['SKALA RISIKO AKTUAL'] = null;
-        }
+        // Skala AKTUAL/Treated (hasil re-assessment saat monitoring) TIDAK
+        // lagi dihitung di sini — dipindah ke Form 9 Monitoring
+        // (MonitoringEvaluasiController::storeOrUpdate89(), tabel
+        // monitoring_rtp), krn levelnya PER RTP (satu risiko bisa py >1 RTP
+        // yg masing2 dinilai efektivitasnya sendiri), bukan per-risiko.
+        // Kolom SKALA ... AKTUAL di tabel risiko ini TETAP ada (legacy,
+        // nullable) tapi tidak lagi diproses/divalidasi di sini.
 
         return $data;
     }

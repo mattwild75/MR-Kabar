@@ -36,6 +36,10 @@ class MonitoringRtp extends Model
         'tahun_rencana_pemantauan',
         'realisasi_waktu_pemantauan',
         'keterangan_pemantauan',
+        'kategori_existing_control_aktual',
+        'skala_dampak_aktual',
+        'skala_kemungkinan_aktual',
+        'skala_risiko_aktual',
         'submitted_by',
     ];
 
