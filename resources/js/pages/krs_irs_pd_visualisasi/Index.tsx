@@ -1,20 +1,15 @@
-import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import YearFilterVisualization from '@/components/year-filter-visualization';
 
-export default function KrsIrsPdVisualisasi() {
+interface Props {
+    tahunOptions: string[];
+}
+
+export default function KrsIrsPdVisualisasi({ tahunOptions }: Props) {
     return (
-        <AppLayout>
-            <Head title="Diagram Hierarki KRS IRS PD" />
-            <iframe
-                src={route('krs_irs_pd.visualization.embed')}
-                title="Diagram Hierarki KRS IRS PD"
-                style={{
-                    width: '100%',
-                    height: 'calc(100vh - 4rem)',
-                    border: 'none',
-                    display: 'block',
-                }}
-            />
-        </AppLayout>
+        <YearFilterVisualization
+            title="Diagram Hierarki KRS IRS PD"
+            tahunOptions={tahunOptions}
+            embedRouteName="krs_irs_pd.visualization.embed"
+        />
     );
 }

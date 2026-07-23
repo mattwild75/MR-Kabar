@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\IrsPemda;
 use App\Models\KrsPemda;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -23,7 +24,26 @@ class KrsIrsSyncService
 {
     private const TARGET_TABLE = 'tbl_krs_irs_pemda';
 
+    /**
+     * Key lock SAMA dipakai oleh KrsIrsSyncService/KrsIrsPdSyncService/
+     * KroIroPdSyncService — ketiganya membentuk rantai dependensi tulis-baca
+     * (KrsIrsPd & KroIroPd membaca tbl_krs_irs_pemda yang ditulis service
+     * ini), jadi harus saling eksklusif satu sama lain juga, bukan cuma
+     * terhadap dirinya sendiri. Tanpa ini, dua request submit form yang
+     * hampir bersamaan bisa saling menyelingi TRUNCATE (DDL, auto-commit)
+     * dengan INSERT proses lain, membuat tabel diagram kosong/duplikat
+     * sesaat.
+     */
+    private const LOCK_KEY = 'sync-hierarchy-diagram';
+
     public function sync(): void
+    {
+        Cache::lock(self::LOCK_KEY, 30)->block(10, function () {
+            $this->syncUnlocked();
+        });
+    }
+
+    private function syncUnlocked(): void
     {
         if (!Schema::hasTable(self::TARGET_TABLE) || !Schema::hasTable('tbl_krs_pemda')) {
             return;

@@ -53,9 +53,6 @@ class IrsPdController extends Controller
         'TAHUN TARGET PENYELESAIAN',
     ];
 
-    /** Kategori penilaian efektivitas existing control, sesuai PP 60/2008. */
-    public const KATEGORI_EXISTING_CONTROL_OPTIONS = ['E', 'KE', 'TE'];
-
     /**
      * Nilai tetap TINGKAT RISIKO untuk halaman ini — II_b_IRS_PD selalu
      * "Risiko Strategis OPD", tidak pernah nilai lain.
@@ -218,23 +215,14 @@ class IrsPdController extends Controller
         // TahunAktifBadge, tapi boleh diganti) — supaya OPD bisa
         // melengkapi data tahun lain (mis. 2025) kapan saja tanpa
         // bergantung Admin mengubah Tahun Aktif global lebih dulu.
-        $rules['TAHUN DINILAI RISIKO'] = ['nullable', 'digits:4'];
+        $rules['TAHUN DINILAI RISIKO'] = ['nullable', 'digits:4', 'integer', 'min:2000', 'max:2100'];
 
         return $request->validate($rules, [], $attributes);
     }
 
-    /**
-     * Kolom kosong dibiarkan kosong apa adanya — lihat
-     * KrsPemdaController::fillBlanks() utk alasan sentinel dihapus.
-     */
-    private function fillEmptyTextFields(array $data): array
-    {
-        return $data;
-    }
-
     public function store(Request $request, KrsIrsPdSyncService $sync)
     {
-        $data = $this->fillEmptyTextFields($this->withCalculatedScales($this->validated($request)));
+        $data = $this->withCalculatedScales($this->validated($request));
         $data['TINGKAT RISIKO'] = self::TINGKAT_RISIKO_VALUE;
         // Fallback ke Tahun Aktif Pemda HANYA kalau PIC tidak mengisi
         // sendiri (mis. request lama/form belum ter-update) — PIC yg
@@ -254,7 +242,7 @@ class IrsPdController extends Controller
     {
         $this->authorize('update', $irs_pd);
 
-        $data = $this->fillEmptyTextFields($this->withCalculatedScales($this->validated($request)));
+        $data = $this->withCalculatedScales($this->validated($request));
         $data['TINGKAT RISIKO'] = self::TINGKAT_RISIKO_VALUE;
         $irs_pd->update($data);
         $sync->sync();

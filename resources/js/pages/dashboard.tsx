@@ -661,24 +661,26 @@ export default function Dashboard({
             <CardHeader>
               <CardTitle className="text-base">Distribusi per Kategori Risiko</CardTitle>
             </CardHeader>
-            <CardContent className="h-[280px]">
+            <CardContent className={distribusiKategori.length === 0 ? 'h-[280px]' : undefined}>
               {distribusiKategori.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Belum ada data.</p>
               ) : (
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={distribusiKategori} layout="vertical" margin={{ left: 24 }}>
-                    <XAxis type="number" allowDecimals={false} />
-                    <YAxis type="category" dataKey="kategori" width={140} tick={{ fontSize: 11 }} />
-                    <Tooltip />
-                    <Bar
-                      dataKey="jumlah"
-                      fill="#0ea5e9"
-                      radius={[0, 4, 4, 0]}
-                      cursor="pointer"
-                      onClick={(data) => setKategoriOpen(((data?.payload ?? data) as unknown) as DistribusiKategoriItem)}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+                <div className="max-h-[280px] overflow-y-auto overflow-x-hidden">
+                  <ResponsiveContainer width="100%" height={Math.max(280, distribusiKategori.length * 32)}>
+                    <BarChart data={distribusiKategori} layout="vertical" margin={{ left: 24, right: 16 }}>
+                      <XAxis type="number" allowDecimals={false} />
+                      <YAxis type="category" dataKey="kategori" width={150} tick={{ fontSize: 11 }} interval={0} />
+                      <Tooltip />
+                      <Bar
+                        dataKey="jumlah"
+                        fill="#0ea5e9"
+                        radius={[0, 4, 4, 0]}
+                        cursor="pointer"
+                        onClick={(data) => setKategoriOpen(((data?.payload ?? data) as unknown) as DistribusiKategoriItem)}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
               )}
             </CardContent>
           </Card>

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\IroPd;
 use App\Models\KroPd;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -23,7 +24,17 @@ class KroIroPdSyncService
 {
     private const TARGET_TABLE = 'tbl_kro_iro_pd';
 
+    /** Lock bersama dgn KrsIrsSyncService/KrsIrsPdSyncService — lihat komentar di KrsIrsSyncService::LOCK_KEY. */
+    private const LOCK_KEY = 'sync-hierarchy-diagram';
+
     public function sync(): void
+    {
+        Cache::lock(self::LOCK_KEY, 30)->block(10, function () {
+            $this->syncUnlocked();
+        });
+    }
+
+    private function syncUnlocked(): void
     {
         if (!Schema::hasTable(self::TARGET_TABLE) || !Schema::hasTable('tbl_kro_pd')) {
             return;

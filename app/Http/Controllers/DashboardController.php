@@ -452,7 +452,10 @@ class DashboardController extends Controller
         // widget ini padahal masih py risiko prioritas tanpa RTP, hanya
         // ketahuan dari widget Ringkasan "RTP Selesai Disusun" yg terpisah).
         $ambangTinggiTahapan = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
-        $rowsSemuaOpd = $this->rowsForTahun($tahun, null);
+        // $opdId (bukan hardcode null) — supaya PIC non-admin memakai cache
+        // rowsForTahun yg sama dgn widget lain di index() (kunci "$tahun:
+        // $opdId"), bukan memaksa query all-OPD terpisah tiap render.
+        $rowsSemuaOpd = $this->rowsForTahun($tahun, $opdId);
         $rtpRisikoLengkapOpd = $rowsSemuaOpd
             ->filter(fn ($r) => $r['opd_id'] !== null)
             ->groupBy('opd_id')

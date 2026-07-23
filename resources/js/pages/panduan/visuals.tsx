@@ -526,6 +526,60 @@ export function ToggleCompare({ columns }: { columns: ToggleCompareColumn[] }) {
   );
 }
 
+// ─── Peta menu penuh (grid kartu grup + submenu, mis. seluruh 7 grup sidebar) ─
+interface MenuMapGroup {
+  title: string;
+  tone?: FlowBoxItem['tone'];
+  items: string[];
+}
+
+export function MenuMapGrid({ groups }: { groups: MenuMapGroup[] }) {
+  return (
+    <div className="not-prose my-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {groups.map((g, i) => (
+        <div key={i} className={`rounded-lg border p-3 ${toneClass(g.tone)}`}>
+          <p className="mb-1.5 text-sm font-bold text-foreground">{g.title}</p>
+          <ul className="space-y-1">
+            {g.items.map((item, j) => (
+              <li key={j} className="rounded border border-border/60 bg-background/60 px-2 py-1 text-xs text-muted-foreground">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Diagram alur data end-to-end (pipeline besar, banyak node berurutan) ──
+interface PipelineNode {
+  label: string;
+  desc?: string;
+  tone?: FlowBoxItem['tone'];
+}
+
+export function DataPipeline({ nodes }: { nodes: PipelineNode[] }) {
+  return (
+    <div className="not-prose my-3 flex flex-col items-stretch gap-1 overflow-x-auto rounded-lg border bg-muted/10 p-3 sm:flex-row sm:items-center sm:gap-0">
+      {nodes.map((n, i) => (
+        <div key={i} className="flex items-center gap-1 sm:gap-0">
+          <div className={`min-w-[8rem] rounded-lg border px-3 py-2 text-center ${toneClass(n.tone)}`}>
+            <p className="text-xs font-semibold text-foreground">{n.label}</p>
+            {n.desc && <p className="mt-0.5 text-[10px] text-muted-foreground">{n.desc}</p>}
+          </div>
+          {i < nodes.length - 1 && (
+            <>
+              <ArrowRight className="mx-1 hidden h-4 w-4 shrink-0 text-muted-foreground sm:block" />
+              <ArrowDown className="my-1 h-4 w-4 shrink-0 self-center text-muted-foreground sm:hidden" />
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── Preview blok penanda tangan majemuk (Form Cetak 6 & 7) ────────────────
 interface SignatureItem {
   jabatan: string;

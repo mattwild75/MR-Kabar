@@ -1,4 +1,3 @@
-import React from 'react';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';

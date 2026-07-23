@@ -72,16 +72,21 @@ function terapkanFaktorReduksi(nilaiInheren: number | null, kategori: string | n
 
 /**
  * Arah reduksi (K, D, atau keduanya) berdasarkan kategori RESPON RISIKO
- * pada RENCANA TINDAK PENGENDALIAN — mirror arahReduksiRtp() backend.
- * Preventif (Avoid/Abate) -> Kemungkinan; Mitigatif/pengalihan
- * (Mitigate/Share-Transfer) -> Dampak, sesuai prinsip COSO ERM.
+ * pada RENCANA TINDAK PENGENDALIAN — mirror arahReduksiRtp() backend
+ * (RiskReferenceDataService.php). 5 kategori COSO ERM (A-A-M-S-A): Avoid
+ * menekan KEDUA sumbu (kegiatan sumber risiko dihentikan — lihat
+ * irs-field-info.ts "Avoid ... hilang total" utk keduanya); Abate menekan
+ * Kemungkinan saja (preventif); Mitigate/Share-Transfer menekan Dampak saja
+ * (mitigatif/pengalihan); Accept/tidak dikenali TIDAK menekan sumbu manapun
+ * (risiko residual diterima apa adanya, bukan fallback ke penekanan
+ * Kemungkinan seperti versi sebelumnya).
  */
 export function arahReduksiRtp(rencanaTindakPengendalian: string | null | undefined): { kemungkinan: boolean; dampak: boolean } {
   const nilai = (rencanaTindakPengendalian ?? '').trim();
-  const keK = nilai !== '' && (nilai.includes('Avoid') || nilai.includes('Abate'));
-  const keD = nilai !== '' && (nilai.includes('Mitigate') || nilai.includes('Share/Transfer'));
+  const avoid = nilai !== '' && nilai.includes('Avoid');
+  const keK = avoid || (nilai !== '' && nilai.includes('Abate'));
+  const keD = avoid || (nilai !== '' && (nilai.includes('Mitigate') || nilai.includes('Share/Transfer')));
 
-  if (!keK && !keD) return { kemungkinan: true, dampak: false };
   return { kemungkinan: keK, dampak: keD };
 }
 

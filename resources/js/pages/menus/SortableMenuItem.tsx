@@ -1,7 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
-import React from 'react';
 
 interface Props {
   id: string;

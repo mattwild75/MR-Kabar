@@ -57,7 +57,7 @@ export default function RoleForm({ role, groupedPermissions }: Props) {
     );
   };
 
-  const toggleGroup = (group: string, perms: Permission[]) => {
+  const toggleGroup = (_group: string, perms: Permission[]) => {
     const allChecked = perms.every(perm => data.permissions.includes(perm.name));
     if (allChecked) {
       setData('permissions', data.permissions.filter(p => !perms.map(perm => perm.name).includes(p)));

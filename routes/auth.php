@@ -6,16 +6,16 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+// Registrasi mandiri SENGAJA tidak diaktifkan: onboarding user selalu lewat
+// Admin > Kelola User (assign opd_id + role eksplisit). Akun yang lolos
+// self-registration lama mendapat role 'user' penuh TANPA opd_id, yang jadi
+// celah IDOR lintas-OPD lewat Form Cetak (ensureOpdAccessWith menganggap
+// "tanpa opd_id" = admin). Route register sengaja dihapus, bukan cuma
+// disembunyikan di UI, supaya tidak bisa diakses langsung via HTTP.
 Route::middleware('guest')->group(function () {
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
-
-    Route::post('register', [RegisteredUserController::class, 'store']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\IrsPd;
 use App\Models\KrsPd;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -19,7 +20,17 @@ class KrsIrsPdSyncService
 {
     private const TARGET_TABLE = 'tbl_krs_irs_pd';
 
+    /** Lock bersama dgn KrsIrsSyncService/KroIroPdSyncService — lihat komentar di KrsIrsSyncService::LOCK_KEY. */
+    private const LOCK_KEY = 'sync-hierarchy-diagram';
+
     public function sync(): void
+    {
+        Cache::lock(self::LOCK_KEY, 30)->block(10, function () {
+            $this->syncUnlocked();
+        });
+    }
+
+    private function syncUnlocked(): void
     {
         if (!Schema::hasTable(self::TARGET_TABLE) || !Schema::hasTable('tbl_krs_pd')) {
             return;

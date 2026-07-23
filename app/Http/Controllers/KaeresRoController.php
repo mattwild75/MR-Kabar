@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RiskLevel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -34,7 +35,21 @@ class KaeresRoController extends Controller
 
     public function visualization()
     {
-        return Inertia::render('kro_iro_pd_visualisasi/Index');
+        return Inertia::render('kro_iro_pd_visualisasi/Index', [
+            'tahunOptions' => $this->tahunOptions(),
+        ]);
+    }
+
+    /** Sama seperti KaeresController::tahunOptions(). */
+    private function tahunOptions(): array
+    {
+        return DB::table('tbl_kro_iro_pd')
+            ->whereNotNull('TAHUN_DINILAI_RISIKO')
+            ->where('TAHUN_DINILAI_RISIKO', '!=', '')
+            ->distinct()
+            ->orderByDesc('TAHUN_DINILAI_RISIKO')
+            ->pluck('TAHUN_DINILAI_RISIKO')
+            ->all();
     }
 
     /**
@@ -45,10 +60,16 @@ class KaeresRoController extends Controller
      * di-attach di level KEGIATAN (bukan SubKegiatan) — sesuai basis risiko
      * operasional pada Perdep PPKD No.4/2019 BPKP (Renja OPD disusun per
      * Kegiatan).
+     *
+     * Filter `?tahun=` sama seperti KaeresController::visualizationEmbed().
      */
-    public function visualizationEmbed()
+    public function visualizationEmbed(Request $request)
     {
-        $data = DB::table('tbl_kro_iro_pd')->get();
+        $query = DB::table('tbl_kro_iro_pd');
+        if ($request->filled('tahun')) {
+            $query->where('TAHUN_DINILAI_RISIKO', $request->string('tahun'));
+        }
+        $data = $query->get();
 
         $columns = Schema::getColumnListing('tbl_kro_iro_pd');
         $uraianPos = array_search('URAIAN_RISIKO', $columns, true);

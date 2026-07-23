@@ -17,6 +17,8 @@ import {
   SkorEmpatTahapDiagram,
   RiskMatrixInteractivePreview,
   ToggleCompare,
+  MenuMapGrid,
+  DataPipeline,
 } from './visuals';
 
 /**
@@ -100,6 +102,16 @@ export const SECTIONS: Section[] = [
             Tahunan) satu Perangkat Daerah.
           </li>
         </ul>
+        <p className="mt-4 font-medium text-foreground">Silsilah regulasi — dari undang-undang ke pedoman teknis</p>
+        <Timeline
+          items={[
+            { period: '2004', label: 'UU No. 1/2004', desc: 'Perbendaharaan Negara — dasar tata kelola keuangan negara/daerah' },
+            { period: '2008', label: 'PP No. 60/2008', desc: 'SPIP — mewajibkan penilaian risiko sbg salah satu unsur pengendalian intern' },
+            { period: '2014', label: 'UU No. 23/2014', desc: 'Pemerintahan Daerah — dasar kewenangan urusan wajib/pilihan per-OPD' },
+            { period: '2016–2018', label: 'Perka BPKP No. 4/2016 & No. 6/2018', desc: 'Pedoman teknis penyelenggaraan SPIP secara umum' },
+            { period: '2019', label: 'Perdep PPKD No. 4/2019', desc: 'Pedoman TEKNIS & DETAIL manajemen risiko Pemda — dasar seluruh struktur data MR Kabar', },
+          ]}
+        />
         <Kotak title="Dasar hukum & regulasi utama">
           <ul className="list-disc space-y-1 pl-5">
             <li>UU No. 1 Tahun 2004 tentang Perbendaharaan Negara</li>
@@ -214,6 +226,12 @@ export const SECTIONS: Section[] = [
             { label: 'Lini 3: Inspektorat', desc: 'Evaluasi independen', tone: 'accent' },
           ]}
         />
+        <p className="mt-2 text-sm text-muted-foreground">
+          Catatan: 3LoD adalah kerangka konsep organisasi (diadopsi dari praktik umum manajemen risiko/COSO, bukan
+          istilah baku yang disebut eksplisit di Perdep PPKD No.4/2019) untuk menjelaskan pemisahan peran
+          kelola-pantau-awasi di atas — aplikasi ini TIDAK menegakkan pemisahan tersebut secara teknis (mis. tidak ada
+          pembatasan akses sistem berbasis lini); pemisahan tetap bergantung pada penugasan jabatan riil di organisasi.
+        </p>
 
         <p className="mt-4 font-medium text-foreground">Rincian peran lainnya</p>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -708,6 +726,136 @@ export const SECTIONS: Section[] = [
             pengaman, tapi tetap harus dipakai hati-hati.
           </Kotak>
         </div>
+
+        <p className="mt-4 font-medium text-foreground">Access, Settings &amp; Utilities (khusus Admin/Super Admin)</p>
+        <p>
+          Tiga grup menu ini mengatur aplikasinya sendiri (bukan data risiko) — nyaris seluruhnya tersembunyi dari
+          PIC OPD biasa, kecuali beberapa item yang sengaja fail-open (Data Terhapus, File Manager, Lapor Kejadian
+          Risiko) supaya PIC tetap bisa memakainya untuk datanya sendiri:
+        </p>
+        <TreeDiagram
+          root={{
+            label: 'Access',
+            children: [
+              { label: 'Permissions', desc: 'Daftar izin granular (mis. dashboard-view, backup-excel-view)' },
+              { label: 'Users', desc: 'Kelola akun pengguna + OPD yang terhubung ke tiap akun' },
+              { label: 'Roles', desc: 'Kelola peran (Admin/Super Admin/PIC/CEE_Survey/LAPOR) + izin per-peran' },
+            ],
+          }}
+        />
+        <TreeDiagram
+          root={{
+            label: 'Settings',
+            children: [
+              { label: 'Menu Manager', desc: 'Atur struktur & urutan menu sidebar beserta izin aksesnya' },
+              { label: 'App Settings', desc: 'Nama aplikasi, logo, kontak, footer, & pengaturan global lain' },
+              { label: 'Backup', desc: '(lihat kartu di atas)' },
+              { label: 'Keterangan Pendukung', desc: 'Data referensi: Kriteria Dampak/Kemungkinan, Matriks 5×5, Jenis Risiko, Entitas Penilai — lihat bagian "Bagaimana"' },
+            ],
+          }}
+        />
+        <TreeDiagram
+          root={{
+            label: 'Utilities',
+            children: [
+              { label: 'Audit Logs', desc: 'Rekam jejak SELURUH aktivitas sistem (siapa mengubah apa, kapan) — versi lengkap dari widget Dashboard 6.2' },
+              { label: 'File Manager', desc: 'Kelola seluruh berkas milik akun Anda (bukti dukung Form 8/9, dokumen CEE, dll)' },
+              { label: 'Troubleshoot', desc: 'Rekap laporan gangguan teknis dari pengguna, khusus Admin/Super Admin' },
+              { label: 'Data Terhapus', desc: 'Pulihkan data yang sudah dihapus — lihat kartu Data Terhapus di atas' },
+              { label: 'Lapor Kejadian Risiko', desc: 'Lapor & Rekap kejadian nyata — lihat bagian "Lapor Kejadian Risiko"' },
+            ],
+          }}
+        />
+        <Kotak title="Permissions adalah kunci pembeda Admin vs Super Admin">
+          Peran <strong>Admin</strong> dan <strong>Super Admin</strong> sama-sama melihat data lintas-OPD, tapi
+          beberapa izin sensitif (mis. <code>troubleshoot-view</code>, checkout kode ke versi tag) hanya melekat ke{' '}
+          <strong>Super Admin</strong> — kalau sebuah menu/tombol tidak muncul meski akun Anda ber-peran Admin,
+          kemungkinan besar izinnya memang dikunci ke Super Admin saja lewat <code>Access → Permissions</code>/
+          <code>Roles</code>.
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
+    id: 'peta-sidebar',
+    title: 'Peta Sidebar Lengkap — Seluruh 7 Grup Menu dalam Satu Gambar',
+    navLabel: '6. Peta Sidebar Lengkap',
+    content: (
+      <>
+        <p>
+          Referensi cepat: seluruh menu sidebar aplikasi, dikelompokkan persis sesuai 7 grup tingkat atas yang
+          tampil di layar Anda (urutannya mengikuti urutan asli di sidebar). Warna aksen menandai grup yang paling
+          sering dipakai PIC OPD sehari-hari (Form Input, Form Monitoring dan Evaluasi, Form Cetak, Visualisasi);
+          grup lainnya (Access, Settings, Utilities) sebagian besar hanya terlihat penuh oleh Admin/Super Admin.
+        </p>
+        <MenuMapGrid
+          groups={[
+            {
+              title: '🏠 Dashboard & Panduan',
+              tone: 'accent',
+              items: ['Dashboard', 'Apa itu Manajemen Risiko / MR Kabar (halaman ini)'],
+            },
+            {
+              title: '📝 Form Input',
+              tone: 'accent',
+              items: [
+                'Data Umum',
+                'I_a_KRS_Pemda', 'I_b_IRS_Pemda',
+                'II_a_KRS_PD', 'II_b_IRS_PD',
+                'III_a_KRO_PD', 'III_b_IRO_PD',
+                'Ekspor/Impor KRS (Excel)',
+                '1a_Kuesioner CEE', '1b_CEE Berdasarkan Dokumen', '1c_Simpulan Survei Persepsi', '1d_RTP CEE',
+                'Kelola Pertanyaan CEE (Admin)',
+              ],
+            },
+            {
+              title: '📡 Form Monitoring dan Evaluasi',
+              tone: 'accent',
+              items: ['8-9_Monitoring RTP', '10_Pencatatan Kejadian Risiko'],
+            },
+            {
+              title: '🌳 Visualisasi',
+              tone: 'accent',
+              items: ['KRS_IRS_Pemda Visualisasi', 'KRS_IRS_PD Visualisasi', 'KRO_IRO_PD Visualisasi'],
+            },
+            {
+              title: '🖨️ Form Cetak',
+              tone: 'accent',
+              items: [
+                '2a/2b/2c — Penetapan Konteks', '3a/3b/3c — Identifikasi Risiko',
+                '4/5 — Hasil Analisis & Prioritas', '6/7 — RTP',
+                '8/9/10 — Monitoring & Evaluasi', '11/12/13 — Laporan',
+                'CEE 1a/1b/1c (cetak)',
+              ],
+            },
+            {
+              title: '🛠️ Utilities',
+              items: [
+                'Audit Logs (Admin)', 'File Manager', 'Troubleshoot (Admin)',
+                'Data Terhapus', 'Lapor Kejadian Risiko', 'Rekap Lapor Kejadian Risiko',
+              ],
+            },
+            {
+              title: '⚙️ Settings (Admin)',
+              items: ['Menu Manager', 'App Settings', 'Backup → Backup DB dan GitHub', 'Backup → Ekspor/Impor Excel', 'Keterangan Pendukung'],
+            },
+            {
+              title: '🔐 Access (Admin)',
+              items: ['Permissions', 'Users', 'Roles'],
+            },
+          ]}
+        />
+        <Kotak title="Kenapa beberapa item tidak terlihat di sidebar saya?">
+          Setiap item menu (dan bahkan setiap grup) dikontrol izin (<code>permission_name</code>) sendiri-sendiri
+          lewat <code>Access → Roles</code>/<code>Permissions</code> — kalau peran akun Anda tidak memiliki izin
+          tersebut, item itu otomatis disembunyikan dari sidebar Anda (bukan ditampilkan tapi ditolak saat diklik).
+          Ini prinsip &quot;fail-closed by default, fail-open untuk fitur yang memang harus terbuka lintas-peran&quot;
+          — beberapa item (Data Terhapus, File Manager, Lapor Kejadian Risiko) sengaja fail-open supaya PIC biasa
+          tetap bisa memakainya untuk data miliknya sendiri, dengan pembatasan kepemilikan ditegakkan di
+          controller-nya, bukan di menu.
+        </Kotak>
       </>
     ),
   },
@@ -716,7 +864,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'dashboard',
     title: 'Dashboard MR Kabar',
-    navLabel: '6. Dashboard (16 Widget)',
+    navLabel: '7. Dashboard (16 Widget)',
     content: (
       <>
         <p>
@@ -728,6 +876,17 @@ export const SECTIONS: Section[] = [
           <strong>&quot;Dashboard MR Kabar&quot;</strong>, dengan subjudul &quot;Manajemen Risiko Pemerintah
           Kabupaten Aceh Barat&quot; di bawahnya.
         </p>
+        <p className="mt-2 text-xs font-medium text-foreground">Peta 6 seksi sebelum masuk detail tiap widget</p>
+        <WidgetGrid
+          items={[
+            { title: 'Seksi 1 — Ringkasan (4 kartu)', desc: 'Total Risiko, Risiko Prioritas, RTP Selesai, Kepatuhan Pelaporan' },
+            { title: 'Seksi 2 — Analisis & Peta Risiko (2 widget)', desc: 'Matriks 5×5, Progres Tahapan per UPR' },
+            { title: 'Seksi 3 — Distribusi Risiko (3 widget)', desc: 'per Tingkatan, per Kategori, Siklus 4-Skor' },
+            { title: 'Seksi 4 — Prioritas & Tren (3 widget)', desc: 'Daftar Prioritas, Tren Level, Tren Efektivitas Pengendalian' },
+            { title: 'Seksi 5 — Kinerja UPR (2 widget)', desc: 'Ranking Eksposur OPD, Log Kejadian Risiko' },
+            { title: 'Seksi 6 — Kepatuhan & Aktivitas (2 widget)', desc: 'Kepatuhan Pelaporan Berkala, Aktivitas Terbaru' },
+          ]}
+        />
         <Kotak title="Data selalu ter-scope sesuai peran" tone="accent">
           PIC OPD biasa hanya melihat data OPD-nya sendiri di seluruh widget (kecuali beberapa yang memang dirancang
           lintas-OPD, ditandai di bawah). Admin/Super Admin melihat rekap lintas seluruh Pemda secara default, plus
@@ -951,10 +1110,21 @@ export const SECTIONS: Section[] = [
   {
     id: 'bagaimana',
     title: 'Bagaimana — Alur Proses Manajemen Risiko (5 Tahap)',
-    navLabel: '7. Bagaimana Prosesnya?',
+    navLabel: '8. Bagaimana Prosesnya?',
     content: (
       <>
         <p>Perdep PPKD No.4/2019 Bab III menetapkan 5 tahap proses pengelolaan risiko, berurutan:</p>
+        <p className="mt-2 text-xs font-medium text-foreground">Padanan 5 tahap SPIP dgn 8 komponen COSO ERM (latar belakang konseptual)</p>
+        <SimpleTable
+          headers={['5 Tahap SPIP/Perdep', 'Komponen COSO ERM yang melandasinya']}
+          rows={[
+            ['1. Identifikasi Kelemahan Lingkungan Pengendalian', 'Lingkungan Internal (Internal Environment)'],
+            ['2. Penilaian Risiko', 'Penentuan Tujuan, Identifikasi Kejadian, Penilaian Risiko, Respon Risiko'],
+            ['3. Kegiatan Pengendalian', 'Aktivitas Kontrol (Control Activities)'],
+            ['4. Informasi & Komunikasi', 'Informasi & Komunikasi (Information & Communication)'],
+            ['5. Pemantauan', 'Pemantauan (Monitoring)'],
+          ]}
+        />
         <FlowVertical
           items={[
             {
@@ -1058,9 +1228,74 @@ export const SECTIONS: Section[] = [
 
   // ────────────────────────────────────────────────────────────────────
   {
+    id: 'alur-data',
+    title: 'Alur Data End-to-End — Satu Baris Risiko dari Awal sampai Dashboard',
+    navLabel: '9. Alur Data End-to-End',
+    content: (
+      <>
+        <p>
+          Menyatukan seluruh bagian di atas dalam satu gambar: begini perjalanan <strong>satu baris risiko</strong>{' '}
+          sejak pertama dicatat sampai muncul di Dashboard dan laporan resmi — berguna untuk melihat &quot;kalau
+          saya ubah data di sini, ke mana efeknya menjalar&quot;.
+        </p>
+        <DataPipeline
+          nodes={[
+            { label: 'KRS/KRO', desc: 'Konteks (Sasaran/Kegiatan)', tone: 'muted' },
+            { label: 'IRS/IRO', desc: 'Risiko dicatat', tone: 'accent' },
+            { label: 'Skala D×K', desc: 'Dihitung via Matriks 5×5', tone: 'accent' },
+            { label: 'RTP', desc: 'Rencana pengendalian', tone: 'accent' },
+            { label: 'Monitoring 8/9', desc: 'Komunikasi & pemantauan' },
+            { label: 'Skala Aktual', desc: 'Re-assessment nyata' },
+            { label: 'Form 10', desc: 'Kejadian dicatat' },
+            { label: 'Laporan 11/12/13', desc: 'Disusun & dicetak', tone: 'muted' },
+            { label: 'Dashboard', desc: 'Semua terangkum', tone: 'accent' },
+          ]}
+        />
+        <p className="mt-3 font-medium text-foreground">Tiga jalur turunan otomatis dari satu baris IRS/IRO</p>
+        <p>
+          Setiap kali sebuah baris risiko disimpan (tambah/ubah/hapus), TIGA hal terjadi otomatis di belakang layar
+          tanpa Anda perlu memicu manual:
+        </p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Kotak title="1. Visualisasi Hirarki" tone="accent">
+            Tabel gabungan <code>tbl_krs_irs_*</code>/<code>tbl_kro_iro_*</code> disusun ulang penuh (bukan hanya
+            ditambah) — inilah yang ditampilkan diagram pohon di menu Visualisasi.
+          </Kotak>
+          <Kotak title="2. Skala Risiko & Kode Risiko" tone="accent">
+            Dihitung ULANG setiap kali dibaca (Form Cetak/Dashboard dibuka) — bukan disimpan sebagai nilai tetap,
+            supaya selalu konsisten walau tabel referensi (Matriks 5×5, Jenis Risiko) diubah Admin belakangan.
+          </Kotak>
+          <Kotak title="3. Widget Dashboard" tone="accent">
+            Seluruh 16 widget membaca ulang data IRS/IRO/RTP/Monitoring terbaru setiap dibuka — tidak ada proses
+            &quot;sinkronisasi manual&quot; atau jeda antara data disimpan dan Dashboard memperbaruinya.
+          </Kotak>
+        </div>
+        <Kotak title="Kalau salah satu titik di atas tidak sesuai harapan, cek di sini dulu">
+          <ul className="list-disc space-y-1 pl-5">
+            <li>
+              Diagram pohon Visualisasi tidak menampilkan risiko baru? Cek dulu apakah baris IRS/IRO-nya benar-benar
+              tersimpan (bukan draft yang batal disimpan), lalu refresh halaman Visualisasi.
+            </li>
+            <li>
+              Skala Risiko yang tercetak berubah tiba-tiba? Kemungkinan besar Admin baru saja mengubah tabel Matriks
+              5×5 atau rentang Level Risiko di <code>Settings → Keterangan Pendukung</code> — bukan bug, karena
+              nilai itu memang dihitung ulang tiap kali dicetak.
+            </li>
+            <li>
+              Dashboard menampilkan angka berbeda dari Form Cetak? Lihat FAQ &quot;Apa bedanya Dashboard dengan Form
+              Cetak?&quot; — hampir selalu soal filter Tahun/OPD yang berbeda.
+            </li>
+          </ul>
+        </Kotak>
+      </>
+    ),
+  },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
     id: 'identifikasi-risiko',
     title: 'Form Cetak: Identifikasi Risiko (3a/3b/3c)',
-    navLabel: '8. Identifikasi Risiko (3a/3b/3c)',
+    navLabel: '10. Identifikasi Risiko (3a/3b/3c)',
     content: (
       <>
         <p>
@@ -1177,7 +1412,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'analisis-prioritas',
     title: 'Form Cetak: Hasil Analisis & Daftar Prioritas (4/5)',
-    navLabel: '9. Analisis & Prioritas (4/5)',
+    navLabel: '11. Analisis & Prioritas (4/5)',
     content: (
       <>
         <p>
@@ -1251,7 +1486,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'rtp',
     title: 'Form Cetak: RTP atas CEE & Hasil Identifikasi Risiko (6/7)',
-    navLabel: '10. RTP (6/7)',
+    navLabel: '12. RTP (6/7)',
     content: (
       <>
         <p>
@@ -1360,7 +1595,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'monitoring-evaluasi',
     title: 'Form Monitoring dan Evaluasi: Form 8, 9 & 10',
-    navLabel: '11. Monitoring & Evaluasi (8/9/10)',
+    navLabel: '13. Monitoring & Evaluasi (8/9/10)',
     content: (
       <>
         <p>
@@ -1499,7 +1734,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'laporan',
     title: 'Form Cetak: Laporan (11/12/13)',
-    navLabel: '12. Laporan (11/12/13)',
+    navLabel: '14. Laporan (11/12/13)',
     content: (
       <>
         <p>
@@ -1551,7 +1786,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'tata-cara',
     title: 'Tata Cara Pengisian MR Kabar, Langkah demi Langkah',
-    navLabel: '13. Tata Cara Pengisian',
+    navLabel: '15. Tata Cara Pengisian',
     content: (
       <>
         <p>
@@ -1676,6 +1911,14 @@ export const SECTIONS: Section[] = [
                       Ilustrasi: badge I = Inheren, R = Residual/Current, T = Target sudah terisi di sel
                       masing-masing — sel lain tetap bisa diklik untuk mengisi/mengubah titik yang sedang aktif.
                     </p>
+                  </Kotak>
+                  <Kotak title="Unggah bukti dukung untuk Existing Control (opsional)">
+                    Setelah mengisi &quot;Uraian Pengendalian yang Sudah Ada&quot;, kartu unggah bukti dukung
+                    otomatis muncul di bawahnya — bisa unggah <strong>SS/JPG/PNG/PDF (maks 10MB)</strong> sebagai
+                    lampiran pembuktian (SK, screenshot sistem, foto dokumen, dsb). File tersimpan ke akun Anda dan
+                    otomatis muncul juga di <code>Utilities → File Manager</code>, bisa dilihat/diunduh/dihapus
+                    kapan saja lewat kartu unggah maupun File Manager. Fitur ini murni lampiran pendukung (hard
+                    delete, bukan data risiko inti) — tidak masuk Data Terhapus/Trash kalau dihapus.
                   </Kotak>
                 </>
               ),
@@ -1823,7 +2066,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'before-after',
     title: 'Sebelum vs Sesudah Ada Manajemen Risiko / MR Kabar',
-    navLabel: '14. Before / After',
+    navLabel: '16. Before / After',
     content: (
       <>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -1878,7 +2121,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'faq',
     title: 'Pertanyaan yang Sering Muncul',
-    navLabel: '15. FAQ',
+    navLabel: '17. FAQ',
     content: (
       <>
         <Kotak title="Apa bedanya Pemilik Risiko dengan Penanggung Jawab Pengendalian?">
@@ -1962,7 +2205,7 @@ export const SECTIONS: Section[] = [
   {
     id: 'lapor-kejadian',
     title: 'Lapor Kejadian Risiko',
-    navLabel: '16. Lapor Kejadian Risiko',
+    navLabel: '18. Lapor Kejadian Risiko',
     content: (
       <>
         <p>

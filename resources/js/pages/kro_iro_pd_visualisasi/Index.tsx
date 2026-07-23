@@ -1,20 +1,15 @@
-import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import YearFilterVisualization from '@/components/year-filter-visualization';
 
-export default function KroIroPdVisualisasi() {
+interface Props {
+    tahunOptions: string[];
+}
+
+export default function KroIroPdVisualisasi({ tahunOptions }: Props) {
     return (
-        <AppLayout>
-            <Head title="Diagram Hierarki KRO IRO PD" />
-            <iframe
-                src={route('kro_iro_pd.visualization.embed')}
-                title="Diagram Hierarki KRO IRO PD"
-                style={{
-                    width: '100%',
-                    height: 'calc(100vh - 4rem)',
-                    border: 'none',
-                    display: 'block',
-                }}
-            />
-        </AppLayout>
+        <YearFilterVisualization
+            title="Diagram Hierarki KRO IRO PD"
+            tahunOptions={tahunOptions}
+            embedRouteName="kro_iro_pd.visualization.embed"
+        />
     );
 }

@@ -129,7 +129,7 @@ Pemberdayaan UMKM`,
 
   'KATEGORI EXISTING CONTROL': `Definisi: Penilaian efektivitas pengendalian yang SUDAH ADA (existing control) — kini 4 tingkat: Tidak Efektif (TE), Kurang Efektif (KE), Cukup Efektif (CE), Efektif (E).
 
-Fungsi: Menentukan seberapa besar Skala Kemungkinan RESIDUAL (sisa risiko) turun dari Skala Kemungkinan INHEREN (risiko awal tanpa kontrol), lewat faktor reduksi:
+Fungsi: Menentukan seberapa besar Skala Kemungkinan RESIDUAL (sisa risiko) turun dari Skala Kemungkinan INHEREN (risiko awal tanpa kontrol), lewat faktor reduksi (konvensi internal aplikasi ini, bukan angka baku dari Perdep PPKD/COSO — regulasi tidak menetapkan besaran faktor kuantitatif per kategori efektivitas):
 - Tidak Efektif (TE) → faktor 1.0 (K residual = K inheren, kontrol dianggap tidak berfungsi).
 - Kurang Efektif (KE) → faktor 0.8 (K turun sedikit).
 - Cukup Efektif (CE) → faktor 0.6 (K turun sedang).
@@ -140,7 +140,7 @@ Cara mengisi: pilih kategori, uraian penjelasan opsional. Skala Kemungkinan Resi
 
   'KATEGORI PROYEKSI RTP': `Definisi: Proyeksi efektivitas gabungan (existing control + RTP yang direncanakan) SETELAH RTP benar-benar dijalankan — dipakai menghitung Skala TARGET (kondisi yang diharapkan tercapai).
 
-Faktor reduksi sama seperti Kategori Existing Control (TE 1.0 / KE 0.8 / CE 0.6 / E 0.4). Faktor ini dikalikan ke Skala Kemungkinan Inheren jika Rencana Tindak Pengendalian bersifat Avoid/Abate (kontrol preventif — mencegah kejadian), atau ke Skala Dampak Inheren jika bersifat Mitigate/Share-Transfer (kontrol mitigatif/pengalihan — mengurangi konsekuensi), sesuai prinsip COSO ERM. Skala Target inilah yang dicatat sebagai "sasaran" penurunan risiko, bukan hasil aktual.
+Faktor reduksi sama seperti Kategori Existing Control (TE 1.0 / KE 0.8 / CE 0.6 / E 0.4) — konvensi internal aplikasi, bukan angka baku regulasi. Faktor ini dikalikan ke KEDUA sumbu (Kemungkinan & Dampak) jika Rencana Tindak Pengendalian bersifat Avoid (kegiatan sumber risiko dihentikan), hanya ke Skala Kemungkinan Inheren jika bersifat Abate (kontrol preventif — mencegah kejadian), atau hanya ke Skala Dampak Inheren jika bersifat Mitigate/Share-Transfer (kontrol mitigatif/pengalihan — mengurangi konsekuensi). Kalau RTP bersifat Accept (atau tidak menyebut kategori respon risiko sama sekali), tidak ada sumbu yang ditekan — Skala Target = Skala Residual/Inheren tanpa reduksi. Pengelompokan ini terinspirasi kerangka COSO ERM (risk response categories), bukan kutipan langsung pasal Perdep. Skala Target inilah yang dicatat sebagai "sasaran" penurunan risiko, bukan hasil aktual.
 
 Cara mengisi: pilih tingkat efektivitas yang Anda YAKIN bisa dicapai kalau RTP dilaksanakan sesuai rencana. Bisa di-override manual.`,
 
@@ -158,8 +158,8 @@ Koordinasi antar-OPD masih lemah`,
 
 Setiap RTP diklasifikasikan ke salah satu atau kombinasi dari 5 jenis respon risiko berikut:
 
-1. Avoid (Menghindari) — Mengurangi kemungkinan: YA (hilang total) | Mengurangi dampak: YA (hilang total)
-Tidak memulai/melanjutkan kegiatan sumber risiko → kemungkinan dan dampak sama-sama dihilangkan sepenuhnya, bukan sekadar dikurangi.
+1. Avoid (Menghindari) — Mengurangi kemungkinan: YA | Mengurangi dampak: YA
+Tidak memulai/melanjutkan kegiatan sumber risiko → secara konsep kemungkinan dan dampak idealnya sama-sama hilang total (risiko tidak lagi relevan). Di aplikasi ini, kedua sumbu tetap dihitung lewat faktor reduksi Kategori Proyeksi RTP yang sama seperti kategori lain (maksimal turun ke faktor Efektif = 0.4×, TIDAK otomatis menjadi nol) — pilih kategori efektivitas "Efektif (E)" jika RTP Avoid Anda benar-benar menghentikan sumber risiko secara tuntas.
 
 2. Abate (Mengubah/Mengurangi Kemungkinan) — Mengurangi kemungkinan: YA | Mengurangi dampak: TIDAK
 Fokus murni ke frekuensi/kemungkinan terjadinya risiko — istilah lain: pencegahan (prevention).

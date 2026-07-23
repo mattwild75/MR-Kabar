@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react';
+import { JSX, useState } from 'react';
 import { Head, router, Link } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
