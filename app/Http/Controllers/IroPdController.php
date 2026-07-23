@@ -53,9 +53,6 @@ class IroPdController extends Controller
         'TAHUN TARGET PENYELESAIAN',
     ];
 
-    /** Kategori penilaian efektivitas existing control, sesuai PP 60/2008. */
-    public const KATEGORI_EXISTING_CONTROL_OPTIONS = ['E', 'KE', 'TE'];
-
     /**
      * Nilai tetap TINGKAT RISIKO untuk halaman ini — III_b_IRO_PD selalu
      * "Risiko Operasional OPD", tidak pernah nilai lain.
@@ -243,23 +240,14 @@ class IroPdController extends Controller
         $rules['TRIWULAN'] = ['nullable', Rule::in(self::TRIWULAN_OPTIONS)];
         $rules['TAHUN TARGET PENYELESAIAN'] = ['nullable', 'integer', 'digits:4'];
         // PIC BEBAS memilih tahun baris ini — lihat IrsPdController::validated().
-        $rules['TAHUN DINILAI RISIKO'] = ['nullable', 'digits:4'];
+        $rules['TAHUN DINILAI RISIKO'] = ['nullable', 'digits:4', 'integer', 'min:2000', 'max:2100'];
 
         return $request->validate($rules, [], $attributes);
     }
 
-    /**
-     * Kolom kosong dibiarkan kosong apa adanya — lihat
-     * KrsPemdaController::fillBlanks() utk alasan sentinel dihapus.
-     */
-    private function fillEmptyTextFields(array $data): array
-    {
-        return $data;
-    }
-
     public function store(Request $request, KroIroPdSyncService $sync)
     {
-        $data = $this->fillEmptyTextFields($this->withCalculatedScales($this->validated($request)));
+        $data = $this->withCalculatedScales($this->validated($request));
         $data['TINGKAT RISIKO'] = self::TINGKAT_RISIKO_VALUE;
         // Fallback ke Tahun Aktif Pemda HANYA kalau PIC tidak mengisi
         // sendiri — lihat IrsPdController::store() untuk alasannya.
@@ -277,7 +265,7 @@ class IroPdController extends Controller
     {
         $this->authorize('update', $iro_pd);
 
-        $data = $this->fillEmptyTextFields($this->withCalculatedScales($this->validated($request)));
+        $data = $this->withCalculatedScales($this->validated($request));
         $data['TINGKAT RISIKO'] = self::TINGKAT_RISIKO_VALUE;
         $iro_pd->update($data);
         $sync->sync();

@@ -75,29 +75,29 @@ class RiskReferenceDataService
      * Tentukan sumbu mana yang ditekan faktor reduksi kategori efektivitas,
      * berdasarkan kategori RESPON RISIKO (RENCANA TINDAK PENGENDALIAN) yang
      * SUDAH diisi di RTP terkait — bukan field baru, cukup dibaca ulang.
-     * Prinsip COSO ERM: kontrol preventif (Avoid/Abate) menekan
-     * KEMUNGKINAN kejadian; kontrol mitigatif/pengalihan (Mitigate/Share-
-     * Transfer) menekan besaran DAMPAK saat risiko terjadi. RTP campuran
-     * (mis. "Abate; Mitigate" dicentang keduanya) menekan KEDUA sumbu
-     * sekaligus dengan faktor yang sama (asumsi "efektivitas keseluruhan
-     * X%" berlaku ke sumbu manapun yang relevan). Accept (atau RTP kosong)
-     * = tidak menekan sumbu manapun (dianggap tidak ada tindakan aktif).
+     * Prinsip COSO ERM 5 kategori respon (A-A-M-S-A):
+     *   - Avoid (menghindari): menekan KEDUA sumbu — kegiatan sumber risiko
+     *     dihentikan/tidak dimulai, jadi kemungkinan MAUPUN dampak sama-sama
+     *     ditekan (lihat irs-field-info.ts: "Avoid ... hilang total" utk
+     *     keduanya, beda dari Abate/Mitigate yg cuma menyasar satu sumbu).
+     *   - Abate (mencegah): kontrol preventif -> menekan KEMUNGKINAN saja.
+     *   - Mitigate/Share-Transfer (mitigatif/pengalihan): menekan DAMPAK saja.
+     *   - Accept (atau RTP kosong/tidak dikenali): TIDAK menekan sumbu
+     *     manapun — risiko residual diterima apa adanya, bukan fallback ke
+     *     penekanan Kemungkinan (fallback lama keliru menganggap "tidak ada
+     *     kategori dikenali" = "menekan Kemungkinan", padahal utk RTP yg
+     *     eksplisit Accept itu salah: tidak ada tindakan berarti tidak ada
+     *     penurunan skala sama sekali).
      *
-     * Return ['kemungkinan' => bool, 'dampak' => bool] — kalau keduanya
-     * false (RTP kosong/Accept-only/tidak dikenali), fallback ke K supaya
-     * PERILAKU LAMA (sebelum penyesuaian ini) tetap jalan utk data lama yg
-     * RTP-nya belum eksplisit menyebut respon risiko.
+     * Return ['kemungkinan' => bool, 'dampak' => bool].
      */
     public function arahReduksiRtp(?string $rencanaTindakPengendalian): array
     {
         $nilai = mb_strtolower(trim((string) $rencanaTindakPengendalian));
 
-        $keK = $nilai !== '' && (str_contains($nilai, 'avoid') || str_contains($nilai, 'abate'));
-        $keD = $nilai !== '' && (str_contains($nilai, 'mitigate') || str_contains($nilai, 'share/transfer'));
-
-        if (!$keK && !$keD) {
-            return ['kemungkinan' => true, 'dampak' => false];
-        }
+        $avoid = $nilai !== '' && str_contains($nilai, 'avoid');
+        $keK = $avoid || ($nilai !== '' && str_contains($nilai, 'abate'));
+        $keD = $avoid || ($nilai !== '' && (str_contains($nilai, 'mitigate') || str_contains($nilai, 'share/transfer')));
 
         return ['kemungkinan' => $keK, 'dampak' => $keD];
     }
@@ -213,12 +213,11 @@ class RiskReferenceDataService
 
         // ── Skala TARGET (proyeksi setelah RTP direncanakan berjalan) ──
         // Arah reduksi (K, D, atau keduanya) ditentukan dari kategori
-        // RESPON RISIKO yg sudah dipilih di RENCANA TINDAK PENGENDALIAN —
-        // sesuai prinsip COSO ERM: kontrol preventif (Avoid/Abate) menekan
-        // Kemungkinan, kontrol mitigatif/pengalihan (Mitigate/Share-
-        // Transfer) menekan Dampak. Sebelumnya faktor SELALU dikalikan ke
-        // K saja, tidak mencerminkan RTP yg sifatnya menurunkan konsekuensi
-        // (Mitigate) — lihat arahReduksiRtp().
+        // RESPON RISIKO yg sudah dipilih di RENCANA TINDAK PENGENDALIAN,
+        // sesuai 5 kategori COSO ERM (A-A-M-S-A) — lihat arahReduksiRtp():
+        // Avoid menekan KEDUA sumbu, Abate menekan Kemungkinan, Mitigate/
+        // Share-Transfer menekan Dampak, Accept/tidak dikenali tidak
+        // menekan sumbu manapun (Target = Residual/Inheren tanpa reduksi).
         $kategoriProyeksi = $this->ekstrakKategoriKontrol($data['KATEGORI PROYEKSI RTP'] ?? null);
         $dampakTarget = (int) ($data['SKALA DAMPAK TARGET'] ?? 0);
         $kemungkinanTarget = (int) ($data['SKALA KEMUNGKINAN TARGET'] ?? 0);

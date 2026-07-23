@@ -53,11 +53,18 @@ trait SharesCetakContext
         array $peranEkstra = [],
     ): void {
         $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->hasAnyRole(array_merge(['admin', 'super-admin'], $peranEkstra))) {
+
+        // Admin/super-admin (& peran ekstra eksplisit yg diizinkan controller
+        // pemanggil) selalu boleh lintas-OPD — satu-satunya jalur "lolos" yg
+        // sah. TIDAK boleh menyamakan "user tanpa opd_id" dgn "boleh lintas-
+        // OPD": PIC non-admin yg belum sempat di-assign opd_id (mis. akun
+        // baru dari self-registration publik) HARUS ditolak, bukan diloloskan
+        // — sebelumnya baris ini jadi celah IDOR lintas-OPD.
+        if ($user->hasAnyRole(array_merge(['admin', 'super-admin'], $peranEkstra))) {
             return;
         }
 
-        if ($opdId !== $user->opd_id) {
+        if (!$opdId || !$user->opd_id || $opdId !== $user->opd_id) {
             abort(403, $pesan);
         }
     }

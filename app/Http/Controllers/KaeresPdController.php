@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RiskLevel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -34,7 +35,21 @@ class KaeresPdController extends Controller
 
     public function visualization()
     {
-        return Inertia::render('krs_irs_pd_visualisasi/Index');
+        return Inertia::render('krs_irs_pd_visualisasi/Index', [
+            'tahunOptions' => $this->tahunOptions(),
+        ]);
+    }
+
+    /** Sama seperti KaeresController::tahunOptions(). */
+    private function tahunOptions(): array
+    {
+        return DB::table('tbl_krs_irs_pd')
+            ->whereNotNull('TAHUN_DINILAI_RISIKO')
+            ->where('TAHUN_DINILAI_RISIKO', '!=', '')
+            ->distinct()
+            ->orderByDesc('TAHUN_DINILAI_RISIKO')
+            ->pluck('TAHUN_DINILAI_RISIKO')
+            ->all();
     }
 
     /**
@@ -42,10 +57,16 @@ class KaeresPdController extends Controller
      * halaman visualisasi. Logika identik dengan KaeresController, dengan
      * dua level tambahan (KEGIATAN, SUBKEGIATAN) di antara PROGRAM dan OPD,
      * sesuai struktur hierarki Risiko Strategis PD.
+     *
+     * Filter `?tahun=` sama seperti KaeresController::visualizationEmbed().
      */
-    public function visualizationEmbed()
+    public function visualizationEmbed(Request $request)
     {
-        $data = DB::table('tbl_krs_irs_pd')->get();
+        $query = DB::table('tbl_krs_irs_pd');
+        if ($request->filled('tahun')) {
+            $query->where('TAHUN_DINILAI_RISIKO', $request->string('tahun'));
+        }
+        $data = $query->get();
 
         $columns = Schema::getColumnListing('tbl_krs_irs_pd');
         $uraianPos = array_search('URAIAN_RISIKO', $columns, true);

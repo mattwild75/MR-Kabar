@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\CascadeSoftDeletesToMonitoring;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class IrsPd extends Model
 {
     use SoftDeletes;
+    use CascadeSoftDeletesToMonitoring;
 
     protected $table = 'tbl_irs_pd';
 
@@ -55,5 +57,10 @@ class IrsPd extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function sumberTipe(): string
+    {
+        return 'irs_pd';
     }
 }

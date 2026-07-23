@@ -88,7 +88,7 @@ class RiskExcelExportService
     {
         foreach ($header as $col => $label) {
             $value = $this->valueFor($module, $label, $row);
-            $sheet->setCellValue([$col + 1, $rowIndex], $value);
+            $sheet->setCellValue([$col + 1, $rowIndex], $this->escapeFormulaInjection($value));
         }
 
         $lastCol = count($header);
@@ -110,5 +110,25 @@ class RiskExcelExportService
         $value = $row->{$label} ?? null;
 
         return $value === null ? '' : (string) $value;
+    }
+
+    /**
+     * Cegah CSV/formula injection saat file dibuka di Excel/LibreOffice —
+     * data risiko sering diketik bebas oleh PIC OPD (bisa saja diawali "="
+     * tanpa maksud jahat, mis. uraian "=Rp5jt"), tapi kalau tersimpan apa
+     * adanya lalu file diekspor-impor lagi, formula itu akan DIEKSEKUSI saat
+     * dibuka. Prefiks apostrof memaksa Excel memperlakukannya sbg teks.
+     */
+    private function escapeFormulaInjection($value)
+    {
+        if (!is_string($value) || $value === '') {
+            return $value;
+        }
+
+        if (in_array($value[0], ['=', '+', '-', '@'], true)) {
+            return "'" . $value;
+        }
+
+        return $value;
     }
 }

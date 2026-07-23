@@ -32,12 +32,11 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { IRO_PD_FIELD_INFO } from '@/lib/iro-pd-field-info';
-import { SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS, KATEGORI_EXISTING_CONTROL_OPTIONS, PENYEBAB_5M_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
+import { SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS, PENYEBAB_5M_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
 import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
 import ExistingControlToggleSection from '@/components/ui/existing-control-toggle-section';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
-import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
 import RiskCascadeInfo from '@/components/ui/risk-cascade-info';
 import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
 import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
@@ -380,6 +379,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                 <th className="border px-3 py-2 text-center font-semibold whitespace-nowrap">No</th>
                 <SortableTh field="KEGIATAN PD" label="Kegiatan PD" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
                 <SortableTh field="URAIAN RISIKO" label="Uraian Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                <SortableTh field="TAHUN DINILAI RISIKO" label="Tahun" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
                 <SortableTh field="JENIS RISIKO" label="Jenis Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
                 <SortableTh field="TAHAP" label="Tahap" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
                 <SortableTh field="ENTITAS PD YANG MENILAI" label="Entitas PD yang Menilai" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
@@ -416,6 +416,7 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                       <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
                         <HighlightText text={String(row['URAIAN RISIKO'] ?? '-')} query={activeQuery} />
                       </td>
+                      <td className="border px-3 py-2 align-top text-center whitespace-nowrap">{row['TAHUN DINILAI RISIKO'] ?? '-'}</td>
                       <td className="border px-3 py-2 align-top">
                         <HighlightText text={String(row['JENIS RISIKO'] ?? '-')} query={activeQuery} />
                       </td>

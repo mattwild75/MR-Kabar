@@ -376,34 +376,41 @@ class MonitoringEvaluasiController extends Controller
             $skalaRisikoAktual = $this->riskRef->hitungSkala($dampakAktual ?: null, $kemungkinanAktual ?: null)['skala_risiko'];
         }
 
-        MonitoringRtp::updateOrCreate(
-            [
-                'rtp_sumber_tipe' => $data['rtp_sumber_tipe'],
-                'rtp_sumber_id' => $data['rtp_sumber_id'],
-            ],
-            [
-                'opd_id' => $data['opd_id'],
-                'tahun_penilaian' => $data['tahun'],
-                'media_komunikasi' => $data['media_komunikasi'] ?? null,
-                'penyedia_informasi' => $data['penyedia_informasi'] ?? null,
-                'penerima_informasi' => $data['penerima_informasi'] ?? null,
-                'triwulan_rencana_komunikasi' => $data['triwulan_rencana_komunikasi'] ?? null,
-                'tahun_rencana_komunikasi' => $data['tahun_rencana_komunikasi'] ?? null,
-                'realisasi_waktu_komunikasi' => $data['realisasi_waktu_komunikasi'] ?? null,
-                'keterangan_komunikasi' => $data['keterangan_komunikasi'] ?? null,
-                'metode_pemantauan' => $data['metode_pemantauan'] ?? null,
-                'penanggung_jawab_pemantauan' => $data['penanggung_jawab_pemantauan'] ?? null,
-                'triwulan_rencana_pemantauan' => $data['triwulan_rencana_pemantauan'] ?? null,
-                'tahun_rencana_pemantauan' => $data['tahun_rencana_pemantauan'] ?? null,
-                'realisasi_waktu_pemantauan' => $data['realisasi_waktu_pemantauan'] ?? null,
-                'keterangan_pemantauan' => $data['keterangan_pemantauan'] ?? null,
-                'kategori_existing_control_aktual' => $data['kategori_existing_control_aktual'] ?? null,
-                'skala_dampak_aktual' => $dampakAktual ?: null,
-                'skala_kemungkinan_aktual' => $kemungkinanAktual ?: null,
-                'skala_risiko_aktual' => $skalaRisikoAktual,
-                'submitted_by' => $request->user()->id,
-            ]
-        );
+        // withTrashed()->firstOrNew() (bukan updateOrCreate biasa) — baris
+        // Monitoring bisa sudah soft-deleted mengikuti RTP sumbernya yang
+        // sempat dihapus lalu di-restore (lihat CascadeSoftDeletesToMonitoring).
+        // updateOrCreate() query default MENGECUALIKAN trashed, jadi akan
+        // membuat baris DUPLIKAT (rtp_sumber_tipe, rtp_sumber_id) yang sama
+        // alih-alih menemukan & memulihkan baris lama.
+        $monitoring = MonitoringRtp::withTrashed()->firstOrNew([
+            'rtp_sumber_tipe' => $data['rtp_sumber_tipe'],
+            'rtp_sumber_id' => $data['rtp_sumber_id'],
+        ]);
+        if ($monitoring->trashed()) {
+            $monitoring->restore();
+        }
+        $monitoring->fill([
+            'opd_id' => $data['opd_id'],
+            'tahun_penilaian' => $data['tahun'],
+            'media_komunikasi' => $data['media_komunikasi'] ?? null,
+            'penyedia_informasi' => $data['penyedia_informasi'] ?? null,
+            'penerima_informasi' => $data['penerima_informasi'] ?? null,
+            'triwulan_rencana_komunikasi' => $data['triwulan_rencana_komunikasi'] ?? null,
+            'tahun_rencana_komunikasi' => $data['tahun_rencana_komunikasi'] ?? null,
+            'realisasi_waktu_komunikasi' => $data['realisasi_waktu_komunikasi'] ?? null,
+            'keterangan_komunikasi' => $data['keterangan_komunikasi'] ?? null,
+            'metode_pemantauan' => $data['metode_pemantauan'] ?? null,
+            'penanggung_jawab_pemantauan' => $data['penanggung_jawab_pemantauan'] ?? null,
+            'triwulan_rencana_pemantauan' => $data['triwulan_rencana_pemantauan'] ?? null,
+            'tahun_rencana_pemantauan' => $data['tahun_rencana_pemantauan'] ?? null,
+            'realisasi_waktu_pemantauan' => $data['realisasi_waktu_pemantauan'] ?? null,
+            'keterangan_pemantauan' => $data['keterangan_pemantauan'] ?? null,
+            'kategori_existing_control_aktual' => $data['kategori_existing_control_aktual'] ?? null,
+            'skala_dampak_aktual' => $dampakAktual ?: null,
+            'skala_kemungkinan_aktual' => $kemungkinanAktual ?: null,
+            'skala_risiko_aktual' => $skalaRisikoAktual,
+            'submitted_by' => $request->user()->id,
+        ])->save();
 
         return back()->with('success', 'Monitoring RTP berhasil disimpan.');
     }
@@ -554,36 +561,43 @@ class MonitoringEvaluasiController extends Controller
             }
         }
 
-        $existing = PencatatanKejadianRisiko::where('risiko_tipe', $data['risiko_tipe'])
+        // withTrashed() — sama alasan seperti storeOrUpdate89(): baris ini
+        // bisa sudah soft-deleted mengikuti risiko sumbernya yang sempat
+        // dihapus lalu di-restore (CascadeSoftDeletesToMonitoring). Query
+        // updateOrCreate() default mengecualikan trashed, jadi bisa berakhir
+        // duplikat (risiko_tipe, risiko_id, tahun_penilaian) alih-alih
+        // menemukan & memulihkan baris lama.
+        $existing = PencatatanKejadianRisiko::withTrashed()
+            ->where('risiko_tipe', $data['risiko_tipe'])
             ->where('risiko_id', $data['risiko_id'])
             ->where('tahun_penilaian', $data['tahun'])
             ->first();
 
-        PencatatanKejadianRisiko::updateOrCreate(
-            [
-                'risiko_tipe' => $data['risiko_tipe'],
-                'risiko_id' => $data['risiko_id'],
-                'tahun_penilaian' => $data['tahun'],
-            ],
-            [
-                'opd_id' => $data['opd_id'],
-                // Jangan timpa laporan_kejadian_id yg sudah tertaut jadi null
-                // hanya krn request penyimpanan RUTIN (edit biasa) tidak
-                // mengirim field ini — field ini HANYA terisi via alur
-                // "Catat ke Form 10" (prefill_laporan_kejadian_id di URL),
-                // sekali tertaut harus tetap tertaut di edit2 berikutnya.
-                'laporan_kejadian_id' => $data['laporan_kejadian_id'] ?? $existing?->laporan_kejadian_id,
-                'tanggal_terjadi' => $data['tanggal_terjadi'] ?? null,
-                'sebab_saat_kejadian' => $data['sebab_saat_kejadian'] ?? null,
-                'dampak_saat_kejadian' => $data['dampak_saat_kejadian'] ?? null,
-                'keterangan_kejadian' => $data['keterangan_kejadian'] ?? null,
-                'triwulan_rencana_rtp' => $data['triwulan_rencana_rtp'] ?? null,
-                'tahun_rencana_rtp' => $data['tahun_rencana_rtp'] ?? null,
-                'realisasi_pelaksanaan_rtp' => $data['realisasi_pelaksanaan_rtp'] ?? null,
-                'keterangan_rtp' => $data['keterangan_rtp'] ?? null,
-                'submitted_by' => $request->user()->id,
-            ]
-        );
+        $pencatatan = $existing ?? new PencatatanKejadianRisiko();
+        if ($pencatatan->trashed()) {
+            $pencatatan->restore();
+        }
+        $pencatatan->fill([
+            'risiko_tipe' => $data['risiko_tipe'],
+            'risiko_id' => $data['risiko_id'],
+            'tahun_penilaian' => $data['tahun'],
+            'opd_id' => $data['opd_id'],
+            // Jangan timpa laporan_kejadian_id yg sudah tertaut jadi null
+            // hanya krn request penyimpanan RUTIN (edit biasa) tidak
+            // mengirim field ini — field ini HANYA terisi via alur
+            // "Catat ke Form 10" (prefill_laporan_kejadian_id di URL),
+            // sekali tertaut harus tetap tertaut di edit2 berikutnya.
+            'laporan_kejadian_id' => $data['laporan_kejadian_id'] ?? $existing?->laporan_kejadian_id,
+            'tanggal_terjadi' => $data['tanggal_terjadi'] ?? null,
+            'sebab_saat_kejadian' => $data['sebab_saat_kejadian'] ?? null,
+            'dampak_saat_kejadian' => $data['dampak_saat_kejadian'] ?? null,
+            'keterangan_kejadian' => $data['keterangan_kejadian'] ?? null,
+            'triwulan_rencana_rtp' => $data['triwulan_rencana_rtp'] ?? null,
+            'tahun_rencana_rtp' => $data['tahun_rencana_rtp'] ?? null,
+            'realisasi_pelaksanaan_rtp' => $data['realisasi_pelaksanaan_rtp'] ?? null,
+            'keterangan_rtp' => $data['keterangan_rtp'] ?? null,
+            'submitted_by' => $request->user()->id,
+        ])->save();
 
         return back()->with('success', 'Pencatatan Kejadian Risiko berhasil disimpan.');
     }

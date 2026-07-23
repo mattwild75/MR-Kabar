@@ -178,7 +178,7 @@ class KeteranganPendukungController extends Controller
 
         $data = $request->validate([
             'nama' => ['required', 'string', 'max:255', Rule::unique('risk_entitas_penilai', 'nama')],
-            'urutan' => ['nullable', 'integer'],
+            'urutan' => ['nullable', 'integer', Rule::unique('risk_entitas_penilai', 'urutan')],
         ]);
 
         RiskEntitasPenilai::create($data);
@@ -192,7 +192,7 @@ class KeteranganPendukungController extends Controller
 
         $data = $request->validate([
             'nama' => ['required', 'string', 'max:255', Rule::unique('risk_entitas_penilai', 'nama')->ignore($entitas->id)],
-            'urutan' => ['nullable', 'integer'],
+            'urutan' => ['nullable', 'integer', Rule::unique('risk_entitas_penilai', 'urutan')->ignore($entitas->id)],
         ]);
 
         $entitas->update($data);

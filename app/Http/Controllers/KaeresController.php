@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RiskLevel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
@@ -41,16 +42,44 @@ class KaeresController extends Controller
 
     public function visualization()
     {
-        return Inertia::render('krs_irs_pemda_visualisasi/Index');
+        return Inertia::render('krs_irs_pemda_visualisasi/Index', [
+            'tahunOptions' => $this->tahunOptions(),
+        ]);
+    }
+
+    /**
+     * Daftar TAHUN DINILAI RISIKO yang benar-benar ada di data, urut
+     * terbaru dulu — dipakai dropdown filter tahun di halaman
+     * visualisasi. Baris tanpa tahun (data lama/kosong) tidak masuk opsi
+     * karena tidak bisa dicocokkan filter tahun manapun.
+     */
+    private function tahunOptions(): array
+    {
+        return DB::table('tbl_krs_irs_pemda')
+            ->whereNotNull('TAHUN_DINILAI_RISIKO')
+            ->where('TAHUN_DINILAI_RISIKO', '!=', '')
+            ->distinct()
+            ->orderByDesc('TAHUN_DINILAI_RISIKO')
+            ->pluck('TAHUN_DINILAI_RISIKO')
+            ->all();
     }
 
     /**
      * Halaman diagram standalone (Blade) — dimuat di dalam iframe
      * pada halaman visualisasi. Logika identik dengan analogi1.
+     *
+     * Filter `?tahun=` (opsional) membatasi diagram ke baris
+     * TAHUN_DINILAI_RISIKO tertentu — tanpa filter, seluruh tahun
+     * ditampilkan sekaligus (perilaku lama, dipertahankan sebagai
+     * default supaya tidak ada breaking change untuk pemanggil lama).
      */
-    public function visualizationEmbed()
+    public function visualizationEmbed(Request $request)
     {
-        $data = DB::table('tbl_krs_irs_pemda')->get();
+        $query = DB::table('tbl_krs_irs_pemda');
+        if ($request->filled('tahun')) {
+            $query->where('TAHUN_DINILAI_RISIKO', $request->string('tahun'));
+        }
+        $data = $query->get();
 
         // Rantai atribut risiko dibangun dinamis dari skema tabel: semua
         // kolom setelah URAIAN_RISIKO, mengikuti urutan kolom di database
