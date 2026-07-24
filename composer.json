@@ -1,8 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "yogijowo/laravel12-react-starterkit",
+    "name": "inspektorat-abar/mr-kabar",
     "type": "project",
-    "description": "Starter Kit Laravel 12 + React + Inertia + Tailwind + ShadCN UI + Spatie Permission",
+    "description": "MR Kabar — Digitalisasi Manajemen Risiko Sektor Publik, Pemerintah Kabupaten Aceh Barat",
+    "authors": [
+        {
+            "name": "Memet"
+        }
+    ],
     "keywords": [
         "laravel",
         "framework",
