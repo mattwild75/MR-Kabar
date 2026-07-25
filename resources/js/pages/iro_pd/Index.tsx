@@ -42,6 +42,7 @@ import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-
 import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 import { canManageRow } from '@/lib/ownership';
+import { riskLevelClassNameWithHover } from '@/lib/risk-level';
 import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown, Grid3x3 } from 'lucide-react';
 import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
 import { Fragment, useEffect, useState } from 'react';
@@ -165,11 +166,9 @@ const emptyForm = (): FormData => {
   return obj;
 };
 
-function skalaBadgeClass(skala: number | null, riskLevels: RiskLevelRow[]): string {
-  if (skala === null) return 'bg-muted text-muted-foreground';
-  const level = riskLevels.find((l) => skala >= l.skala_min && skala <= l.skala_max);
-  return level ? `${level.warna_class} hover:${level.warna_class.split(' ')[0]}` : 'bg-muted text-muted-foreground';
-}
+// Logika lookup band diekstrak ke @/lib/risk-level.ts (SEBELUMNYA
+// diduplikasi persis di ~10 file — irs/irs_pd/dashboard/dst).
+const skalaBadgeClass = riskLevelClassNameWithHover;
 
 export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, tahapOptions, triwulanOptions, triwulanLabels, kegiatanKodes, currentUserId, isAdmin, currentUserOpdNama, tahunAktif }: PageProps) {
   const [dialogOpen, setDialogOpen] = useState(false);

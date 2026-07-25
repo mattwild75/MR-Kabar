@@ -181,7 +181,13 @@ class DashboardController extends Controller
         // risiko aktual TERTINGGI (worst-case/conservative — kalau salah
         // satu RTP risiko itu gagal, itu yg merepresentasikan risiko
         // keseluruhan, bukan disamarkan rata-rata dgn RTP lain yg berhasil).
-        $skalaAktualMax = MonitoringRtp::whereNotNull('skala_risiko_aktual')
+        // Ter-scope tahun_penilaian — sebelumnya query ini menyapu SELURUH
+        // riwayat monitoring_rtp lintas-tahun tanpa filter, padahal baris
+        // risiko yg dipetakan (di bawah) juga sudah per-tahun; tanpa scope
+        // ini tabel akan di-full-scan setiap Dashboard dibuka dan makin berat
+        // seiring riwayat monitoring bertambah tahun ke tahun.
+        $skalaAktualMax = MonitoringRtp::where('tahun_penilaian', $tahun)
+            ->whereNotNull('skala_risiko_aktual')
             ->get(['rtp_sumber_tipe', 'rtp_sumber_id', 'skala_risiko_aktual'])
             ->groupBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
             ->map(fn ($g) => $g->max('skala_risiko_aktual'));

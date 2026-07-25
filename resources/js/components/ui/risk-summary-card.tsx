@@ -3,28 +3,16 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
+import { findRiskLevel, riskLevelClassName, type RiskLevelBand } from '@/lib/risk-level';
 
-export interface RiskLevelBand {
-  label: string;
-  skala_min: number;
-  skala_max: number;
-  warna_class: string;
-}
-
-// SEBELUMNYA hardcode (SKALA_BANDS const, "disalin bukan diimpor" dari
-// irs/Index.tsx) — bug: kalau Admin mengubah rentang/warna Level Risiko di
-// Settings > Keterangan Pendukung, kartu ini diam-diam tidak ikut berubah.
-// Sekarang riskLevels WAJIB dikirim sbg prop dari halaman pemanggil (sama
-// data yg sudah dikirim controller ke krs_irs_pemda/krs_irs_pd/kro_iro_pd),
-// sumber kebenaran tunggal sama dgn skalaBadgeClass() di irs/Index.tsx.
-function bandForSkala(skala: number, riskLevels: RiskLevelBand[]): RiskLevelBand | undefined {
-  return riskLevels.find((b) => skala >= b.skala_min && skala <= b.skala_max);
-}
-
-function skalaBadgeClassName(skala: number | null, riskLevels: RiskLevelBand[]): string {
-  if (skala == null) return 'bg-muted text-muted-foreground';
-  return bandForSkala(skala, riskLevels)?.warna_class ?? 'bg-muted text-muted-foreground';
-}
+// Re-export supaya file lain yang sudah mengimpor tipe ini dari sini
+// (dashboard.tsx, kro_iro_pd/Index.tsx, krs_irs_pd/Index.tsx,
+// krs_irs_pemda/Index.tsx) tidak perlu diubah — sumber tunggal sekarang
+// @/lib/risk-level.ts, lihat komentar di sana kenapa logika lookup band
+// diekstrak jadi satu tempat (sebelumnya diduplikasi ~10 file).
+export type { RiskLevelBand };
+const bandForSkala = findRiskLevel;
+const skalaBadgeClassName = riskLevelClassName;
 
 function localeCmp(a: string, b: string): number {
   return a.localeCompare(b, 'id', { sensitivity: 'base' });

@@ -19,6 +19,7 @@ import {
   ToggleCompare,
   MenuMapGrid,
   DataPipeline,
+  MiniBarChart,
 } from './visuals';
 
 /**
@@ -163,6 +164,14 @@ export const SECTIONS: Section[] = [
           Perdep PPKD No.4/2019 lahir dari 11 persoalan nyata yang ditemukan dalam praktik penilaian risiko pemerintah
           daerah sebelum pedoman ini ada:
         </p>
+        <StatCardGrid
+          items={[
+            { label: 'Persoalan Teridentifikasi', value: '11', desc: 'Ditemukan sebelum Perdep terbit', tone: 'accent' },
+            { label: 'Tahap Proses Baku', value: '5', desc: 'Solusi: alur baku Bab III' },
+            { label: 'Lini Pengawasan', value: '3', desc: 'Three Lines of Defense' },
+            { label: 'Tingkat Risiko', value: '3', desc: 'Pemda / OPD / Operasional' },
+          ]}
+        />
         <ol className="list-decimal space-y-1 pl-5">
           <li>Penilaian risiko baru sebatas himbauan, tanpa pedoman teknis yang jelas.</li>
           <li>Bersifat formalitas, belum jadi pertimbangan sungguhan dalam perencanaan pengawasan.</li>
@@ -780,15 +789,17 @@ export const SECTIONS: Section[] = [
   // ────────────────────────────────────────────────────────────────────
   {
     id: 'peta-sidebar',
-    title: 'Peta Sidebar Lengkap — Seluruh 7 Grup Menu dalam Satu Gambar',
+    title: 'Peta Sidebar Lengkap — Seluruh Menu dalam Satu Gambar',
     navLabel: '6. Peta Sidebar Lengkap',
     content: (
       <>
         <p>
-          Referensi cepat: seluruh menu sidebar aplikasi, dikelompokkan persis sesuai 7 grup tingkat atas yang
-          tampil di layar Anda (urutannya mengikuti urutan asli di sidebar). Warna aksen menandai grup yang paling
-          sering dipakai PIC OPD sehari-hari (Form Input, Form Monitoring dan Evaluasi, Form Cetak, Visualisasi);
-          grup lainnya (Access, Settings, Utilities) sebagian besar hanya terlihat penuh oleh Admin/Super Admin.
+          Referensi cepat: seluruh menu sidebar aplikasi dalam 8 kartu — 2 item top-level lepas (Dashboard,
+          Panduan) digabung satu kartu di atas untuk ringkas, ditambah <strong>7 grup</strong> sidebar sungguhan
+          (Form Input, Form Monitoring dan Evaluasi, Visualisasi, Form Cetak, Utilities, Settings, Access; urutannya
+          mengikuti urutan asli di sidebar). Warna aksen menandai grup yang paling sering dipakai PIC OPD
+          sehari-hari (Form Input, Form Monitoring dan Evaluasi, Form Cetak, Visualisasi); grup lainnya (Access,
+          Settings, Utilities) sebagian besar hanya terlihat penuh oleh Admin/Super Admin.
         </p>
         <MenuMapGrid
           groups={[
@@ -966,6 +977,16 @@ export const SECTIONS: Section[] = [
               title: '3.3 Siklus 4-Skor Risiko (Inheren → Residual → Target → Aktual)',
               desc: 'Bar bertumpuk per risiko (biru = Residual/Current, merah di ujungnya = Gap ke Inheren), DITAMBAH dua marker: ◆ hijau = Target (sasaran RTP, dari Form Input Risiko) dan ▲ oranye = Aktual (hasil monitoring, dari Form 9 — muncul kalau sudah dimonitor). Diurutkan DESC berdasarkan Gap Inheren→Residual terbesar. HANYA menampilkan risiko yang Skala Inheren-nya sudah diisi (opsional). Arahkan kursor ke satu bar untuk melihat keempat skor sekaligus (Inheren/Residual/Target/Aktual) plus deviasi Aktual-vs-Target; klik untuk membuka rincian.',
             },
+          ]}
+        />
+        <p className="mt-2 text-xs font-medium text-foreground">Ilustrasi widget 3.2 — 5 kategori dgn risiko terbanyak</p>
+        <MiniBarChart
+          items={[
+            { label: 'Keuangan dan Pendapatan', value: 42, max: 42, tone: 'accent' },
+            { label: 'Kepegawaian dan SDM', value: 31, max: 42 },
+            { label: 'Ketentraman & Ketertiban', value: 24, max: 42 },
+            { label: 'Kesehatan', value: 18, max: 42 },
+            { label: 'Pendidikan', value: 15, max: 42 },
           ]}
         />
         <Kotak title="Siklus 4-Skor Risiko sesuai COSO ERM — Inheren, Residual, Target, Aktual" tone="accent">
@@ -1222,6 +1243,16 @@ export const SECTIONS: Section[] = [
           Kode ini dihitung ulang otomatis setiap kali dicetak (sama seperti Skala Risiko &amp; Prioritas) — bukan
           disimpan sebagai kolom database sendiri, dan bukan pilihan bebas pengguna.
         </p>
+        <Kotak title="Struktur 5-bagian mengikuti pola Perdep, ISI daftar Jenis/Entitas milik aplikasi">
+          Perdep PPKD No.4/2019 Lampiran 6 memang mencontohkan format kode risiko 5-bagian yang sama
+          (Tingkat.Tahun.Jenis.Entitas.NomorUrut) — struktur itulah yang direplikasi di atas. Namun ISI daftar kode
+          &quot;Jenis Risiko&quot; (di Lampiran 6: 01–40 + 99=Lainnya) dan &quot;Entitas/OPD yang Menilai&quot; (di
+          Lampiran 6: daftar tetap 01=Pemda s.d. 33=RSUD + 99=Lainnya) di MR Kabar BUKAN salinan literal angka
+          Lampiran 6 tsb — melainkan data referensi tersendiri milik aplikasi (41 Jenis Risiko diberi kode 1–41
+          berurutan, Entitas Penilai diberi kode sesuai urutan alfabetis OPD), yang bisa diedit Admin/Super Admin
+          lewat <code>Settings → Keterangan Pendukung</code>. Kalau Pemda ingin angkanya identik Lampiran 6 persis,
+          itu berarti mengubah ISI kedua tabel referensi tersebut, bukan cara kode risiko dihitung.
+        </Kotak>
       </>
     ),
   },
@@ -1522,9 +1553,10 @@ export const SECTIONS: Section[] = [
           ]}
         />
         <p className="text-xs text-muted-foreground">
-          Faktor reduksi ini dikalikan ke Skala Kemungkinan <strong>atau</strong> Skala Dampak Inheren, tergantung
-          jenis Rencana Tindak Pengendalian-nya (Avoid/Abate → Kemungkinan, Mitigate/Share-Transfer → Dampak) —
-          lihat penjelasan lengkap Skor Risiko 4-Tahap di bagian{' '}
+          Faktor reduksi ini dikalikan ke Skala Kemungkinan dan/atau Skala Dampak Inheren, tergantung jenis Rencana
+          Tindak Pengendalian-nya — <strong>Avoid</strong> menekan KEDUA sumbu (kegiatan sumber risiko dihentikan),
+          <strong> Abate</strong> hanya Kemungkinan, <strong>Mitigate/Share-Transfer</strong> hanya Dampak — lihat
+          penjelasan lengkap Skor Risiko 4-Tahap di bagian{' '}
           <a href="#tata-cara" className="text-sky-500 underline underline-offset-2">
             Tata Cara Pengisian
           </a>
@@ -1659,10 +1691,11 @@ export const SECTIONS: Section[] = [
             Tata Cara Pengisian
           </a>
           ). Bedanya di sini: matriks menampilkan <strong>4 titik</strong> (Inheren/Residual/Target tampil
-          read-only sebagai konteks, HANYA titik Aktual yang bisa diklik/diubah). Kategori efektivitas dikalikan
-          ke Skala Kemungkinan (kalau RTP-nya Avoid/Abate) atau Skala Dampak (kalau RTP-nya Mitigate/
-          Share-Transfer) risiko sumber, sesuai jenis respon risiko yang dipilih di Rencana Tindak Pengendalian —
-          perlu Skala Inheren sudah diisi dulu di Form Input Risiko. Bandingkan dengan Skala Target yang sudah
+          read-only sebagai konteks, HANYA titik Aktual yang bisa diklik/diubah). Kategori efektivitas dikalikan ke
+          Skala Kemungkinan DAN Dampak sekaligus (kalau RTP-nya Avoid), Skala Kemungkinan saja (kalau Abate), atau
+          Skala Dampak saja (kalau Mitigate/Share-Transfer) risiko sumber, sesuai jenis respon risiko yang dipilih
+          di Rencana Tindak Pengendalian — perlu Skala Inheren sudah diisi dulu di Form Input Risiko. Bandingkan
+          dengan Skala Target yang sudah
           diisi di Form Input Risiko — bila Aktual lebih tinggi dari Target, artinya RTP belum berjalan seefektif
           rencana. Bagian ini informasi tambahan, tidak dicetak di kolom a-g resmi Form Cetak 9 (format baku
           Perdep) — tampil sebagai tabel terpisah di bawahnya.
@@ -1840,7 +1873,7 @@ export const SECTIONS: Section[] = [
                       ['RTP', 'Aksi konkret menutup celah, sesuaikan 5 respon risiko (Avoid/Abate/Mitigate/Share/Accept).'],
                       ['Penanggung Jawab Pengendalian', 'Jabatan pelaksana RTP (lihat aturan proporsionalitas di bagian "Siapa").'],
                       ['Skala Dampak & Kemungkinan', 'Nilai 1–5, Skala Risiko & Prioritas dihitung otomatis dari matriks 5×5.'],
-                      ['Skala Target', 'Proyeksi skala setelah RTP dijalankan (opsional, di bagian bawah form) — Kategori Proyeksi RTP dikalikan ke Kemungkinan (RTP Avoid/Abate) atau Dampak (RTP Mitigate/Share-Transfer), sesuai jenis respon risiko yang dipilih.'],
+                      ['Skala Target', 'Proyeksi skala setelah RTP dijalankan (opsional, di bagian bawah form) — Kategori Proyeksi RTP dikalikan ke Kemungkinan DAN Dampak (RTP Avoid), Kemungkinan saja (RTP Abate), atau Dampak saja (RTP Mitigate/Share-Transfer), sesuai jenis respon risiko yang dipilih.'],
                     ]}
                   />
                   <p className="mt-2 text-xs font-medium text-foreground">

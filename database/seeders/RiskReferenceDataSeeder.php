@@ -143,6 +143,16 @@ class RiskReferenceDataSeeder extends Seeder
         }
     }
 
+    /**
+     * Kode 1-40 di sini SAMA PERSIS urutan & nama "Jenis Risiko" Lampiran 6
+     * Perdep PPKD No.4/2019 — HANYA kode ke-41 "Lainnya" yang beda (Lampiran
+     * 6 memakai kode 99 untuk "Lainnya", menyisakan gap 41-98 utk potensi
+     * urusan baru di masa depan). Aplikasi ini sengaja memakai 41 berurutan
+     * (bukan 99) supaya daftar tetap sequential & mudah dikelola lewat
+     * Settings > Keterangan Pendukung — deviasi ini disengaja, bukan salah
+     * ketik, tapi perlu diketahui kalau kode risiko dibandingkan literal
+     * dgn Lampiran 6 (lihat juga GeneratesKodeRisiko::generateKodeRisiko()).
+     */
     private function seedJenisRisiko(): void
     {
         $names = [

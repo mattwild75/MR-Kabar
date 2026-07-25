@@ -61,16 +61,28 @@ trait GeneratesKodeRisiko
     }
 
     /**
-     * Bangun Kode Risiko sesuai format Perdep PPKD:
-     * [JENIS].[TAHUN 2-digit].[KODE JENIS RISIKO].[URUTAN ENTITAS PENILAI].[NOMOR URUT],
-     * mis. "RSP.25.37.30.01" (RSP=Risiko Strategis Pemda, tahun 2025, jenis
-     * risiko 37=Keuangan dan Pendapatan, entitas penilai urutan ke-30=
-     * Inspektorat, urut ke-01). Semua komponen SUDAH ADA sbg kolom
-     * tersimpan (TAHUN DINILAI RISIKO, JENIS RISIKO "kode - nama", ENTITAS
-     * PD YANG MENILAI dicocokkan ke RiskEntitasPenilai.urutan, NOMOR URUT
-     * RISIKO dihitung withNomorUrut() di controller data masing2) — TIDAK
-     * ada kolom kode_risiko baru yg perlu ditambah ke database, kode ini
-     * murni tampilan yg dihitung ulang saat cetak, sama pola dgn Skala
+     * Bangun Kode Risiko dengan STRUKTUR mengikuti pola Perdep PPKD Lampiran
+     * 6 (format [TINGKAT].[TAHUN 2-digit].[KODE JENIS].[KODE ENTITAS].[NOMOR
+     * URUT]), TAPI dua komponen tengahnya SENGAJA memakai penomoran internal
+     * aplikasi (tabel risk_jenis & risk_entitas_penilai yang bisa
+     * diedit/diadaptasi Admin sesuai kebutuhan Pemda), BUKAN replikasi
+     * literal daftar 01-40+99 "Jenis Risiko"/01-33+99 "Entitas yang menilai"
+     * di Lampiran 6 — keputusan desain ini disengaja (dikonfirmasi user)
+     * supaya daftar Jenis Risiko & Entitas Penilai tetap fleksibel dikelola
+     * lewat Settings > Keterangan Pendukung, bukan daftar tetap hardcode.
+     * Kalau suatu saat Pemda ingin kode risikonya identik Lampiran 6 persis,
+     * itu berarti mengubah ISI seeder risk_jenis/risk_entitas_penilai (data),
+     * bukan logika generateKodeRisiko() ini.
+     *
+     * Contoh: "RSP.25.37.30.01" (RSP=Risiko Strategis Pemda, tahun 2025,
+     * jenis risiko kode 37 di tabel risk_jenis, entitas penilai urutan
+     * ke-30 di tabel risk_entitas_penilai, urut ke-01). Semua komponen
+     * SUDAH ADA sbg kolom tersimpan (TAHUN DINILAI RISIKO, JENIS RISIKO
+     * "kode - nama", ENTITAS PD YANG MENILAI dicocokkan ke
+     * RiskEntitasPenilai.urutan, NOMOR URUT RISIKO dihitung
+     * withNomorUrut() di controller data masing2) — TIDAK ada kolom
+     * kode_risiko baru yg perlu ditambah ke database, kode ini murni
+     * tampilan yg dihitung ulang saat cetak, sama pola dgn Skala
      * Risiko/Prioritas yg juga dihitung dari kolom lain, bukan disimpan.
      *
      * $prefix: 'RSP' (IrsPemda), 'RSO' (IrsPd), atau 'ROO' (IroPd) — sesuai

@@ -82,10 +82,15 @@ function terapkanFaktorReduksi(nilaiInheren: number | null, kategori: string | n
  * Kemungkinan seperti versi sebelumnya).
  */
 export function arahReduksiRtp(rencanaTindakPengendalian: string | null | undefined): { kemungkinan: boolean; dampak: boolean } {
-  const nilai = (rencanaTindakPengendalian ?? '').trim();
-  const avoid = nilai !== '' && nilai.includes('Avoid');
-  const keK = avoid || (nilai !== '' && nilai.includes('Abate'));
-  const keD = avoid || (nilai !== '' && (nilai.includes('Mitigate') || nilai.includes('Share/Transfer')));
+  // Case-insensitive, sama seperti backend (mb_strtolower + str_contains) —
+  // sebelumnya pencocokan di sini case-sensitive (hanya "Avoid" persis huruf
+  // besar-kecilnya), sehingga preview real-time Skala Target di form bisa
+  // beda dari nilai yang benar-benar dihitung & tersimpan backend saat teks
+  // RTP ditulis dengan kapitalisasi berbeda (mis. "avoid" huruf kecil).
+  const nilai = (rencanaTindakPengendalian ?? '').trim().toLowerCase();
+  const avoid = nilai !== '' && nilai.includes('avoid');
+  const keK = avoid || (nilai !== '' && nilai.includes('abate'));
+  const keD = avoid || (nilai !== '' && (nilai.includes('mitigate') || nilai.includes('share/transfer')));
 
   return { kemungkinan: keK, dampak: keD };
 }
