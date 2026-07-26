@@ -89,16 +89,16 @@ function containsActiveRoute(menu: MenuItem, currentUrl: string): boolean {
 // kolom warna baru di DB. Dipakai pada ikon grup (selalu, agar sidebar
 // mudah dipindai) & aksen border/teks saat grup itu aktif.
 const GROUP_COLORS = [
-  { icon: 'text-sky-500', activeBg: 'bg-sky-500/15', activeRing: 'ring-sky-500/30', border: 'border-sky-500/60' },
-  { icon: 'text-emerald-500', activeBg: 'bg-emerald-500/15', activeRing: 'ring-emerald-500/30', border: 'border-emerald-500/60' },
-  { icon: 'text-amber-500', activeBg: 'bg-amber-500/15', activeRing: 'ring-amber-500/30', border: 'border-amber-500/60' },
-  { icon: 'text-violet-500', activeBg: 'bg-violet-500/15', activeRing: 'ring-violet-500/30', border: 'border-violet-500/60' },
-  { icon: 'text-rose-500', activeBg: 'bg-rose-500/15', activeRing: 'ring-rose-500/30', border: 'border-rose-500/60' },
-  { icon: 'text-cyan-500', activeBg: 'bg-cyan-500/15', activeRing: 'ring-cyan-500/30', border: 'border-cyan-500/60' },
-  { icon: 'text-orange-500', activeBg: 'bg-orange-500/15', activeRing: 'ring-orange-500/30', border: 'border-orange-500/60' },
-  { icon: 'text-fuchsia-500', activeBg: 'bg-fuchsia-500/15', activeRing: 'ring-fuchsia-500/30', border: 'border-fuchsia-500/60' },
-  { icon: 'text-lime-600', activeBg: 'bg-lime-500/15', activeRing: 'ring-lime-500/30', border: 'border-lime-500/60' },
-  { icon: 'text-indigo-500', activeBg: 'bg-indigo-500/15', activeRing: 'ring-indigo-500/30', border: 'border-indigo-500/60' },
+  { icon: 'text-sky-500', activeBg: 'bg-sky-500/15', activeRing: 'ring-sky-500/30', border: 'border-sky-500' },
+  { icon: 'text-emerald-500', activeBg: 'bg-emerald-500/15', activeRing: 'ring-emerald-500/30', border: 'border-emerald-500' },
+  { icon: 'text-amber-500', activeBg: 'bg-amber-500/15', activeRing: 'ring-amber-500/30', border: 'border-amber-500' },
+  { icon: 'text-violet-500', activeBg: 'bg-violet-500/15', activeRing: 'ring-violet-500/30', border: 'border-violet-500' },
+  { icon: 'text-rose-500', activeBg: 'bg-rose-500/15', activeRing: 'ring-rose-500/30', border: 'border-rose-500' },
+  { icon: 'text-cyan-500', activeBg: 'bg-cyan-500/15', activeRing: 'ring-cyan-500/30', border: 'border-cyan-500' },
+  { icon: 'text-orange-500', activeBg: 'bg-orange-500/15', activeRing: 'ring-orange-500/30', border: 'border-orange-500' },
+  { icon: 'text-fuchsia-500', activeBg: 'bg-fuchsia-500/15', activeRing: 'ring-fuchsia-500/30', border: 'border-fuchsia-500' },
+  { icon: 'text-lime-600', activeBg: 'bg-lime-500/15', activeRing: 'ring-lime-500/30', border: 'border-lime-500' },
+  { icon: 'text-indigo-500', activeBg: 'bg-indigo-500/15', activeRing: 'ring-indigo-500/30', border: 'border-indigo-500' },
 ];
 
 function groupColor(menuId: number) {
@@ -305,7 +305,7 @@ function RenderMenu({
         // Aksen border kiri permanen per grup level-0 — pembeda visual
         // cepat antar grup menu (Dashboard/Access/Settings/dst) tanpa perlu
         // hover/klik, terlihat sekilas saat sidebar di-scan.
-        const accentBorderClass = level === 0 ? `border-l-2 ${color.border}` : '';
+        const accentBorderClass = level === 0 ? `border-l-[5px] ${color.border}` : '';
 
         if (!menu.route && !hasChildren) return null;
 
@@ -497,8 +497,13 @@ export function AppSidebar() {
           ditambah lebar logo 32px melebihi lebar sidebar collapsed (3rem/
           48px), membuat logo terlihat terpotong/terdesak oleh overflow
           container saat sidebar di-collapse ke mode ikon. */}
-      <SidebarHeader className="px-4 py-3 border-b border-sidebar-border group-data-[collapsible=icon]:px-2">
-
+      {/* strip gradient tipis warna identitas Aceh di tepi atas
+          header — wrapper relative LOKAL di dalam SidebarHeader saja
+          (bukan pada elemen Sidebar terluar yg fixed), supaya tidak
+          mengganggu positioning fixed sidebar. */}
+      <SidebarHeader className="relative overflow-hidden px-4 py-3 border-b border-sidebar-border group-data-[collapsible=icon]:px-2">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-primary/70 to-primary/20" aria-hidden="true" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/[0.08] to-transparent" aria-hidden="true" />
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild className="hover:bg-transparent">
@@ -510,8 +515,37 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarContent ref={contentRef} className="px-2 py-4">
-        <SidebarMenu>
+      {/* motif kerawang khas pintu Aceh (belah ketupat + titik)
+          sbg tekstur latar area menu — wrapper relative LOKAL di dalam
+          SidebarContent (yg sudah scrollable overflow-y-auto bawaan,
+          BUKAN elemen fixed), aman dari masalah containing-block. */}
+      {/* motif kerawang dipasang LANGSUNG sbg background-image milik
+          SidebarContent sendiri (bukan elemen <div absolute inset-0> anak)
+          dgn backgroundAttachment 'local' — supaya background ikut SCROLL
+          bersama konten, bukan menempel statis relatif viewport container.
+          Percobaan sebelumnya (svg / div absolute anak) selalu terpotong
+          setinggi jendela scroll SidebarContent (yg fixed oleh flex-1
+          min-h-0), tidak ikut memanjang saat submenu expand membuat
+          scrollHeight konten jauh lebih tinggi dari jendela tsb. */}
+      <SidebarContent
+        ref={contentRef}
+        className="relative px-2 py-4"
+        style={{
+          // Opacity di-encode langsung ke stroke/fill svg (fill-opacity /
+          // stroke-opacity), BUKAN properti CSS `opacity` di style ini —
+          // `opacity` di sini akan menembus ke SELURUH konten SidebarContent
+          // (termasuk teks menu), bukan cuma background-image-nya.
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M14 2 L26 14 L14 26 L2 14 Z' fill='none' stroke='%23888' stroke-width='1.25' stroke-opacity='0.12'/%3E%3Ccircle cx='14' cy='14' r='2.25' fill='%23888' fill-opacity='0.12'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+          backgroundAttachment: 'local',
+        }}
+      >
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 w-20 opacity-[0.16] dark:opacity-[0.22]"
+          style={{ background: 'linear-gradient(90deg, transparent, var(--primary))' }}
+          aria-hidden="true"
+        />
+        <SidebarMenu className="relative">
           <RenderMenu items={menus} />
         </SidebarMenu>
       </SidebarContent>

@@ -114,6 +114,14 @@ export const KATEGORI_5M_WARNA: Record<string, { bg: string; text: string }> = {
   management: { bg: '#ccfbf1', text: '#115e59' },
   measurement: { bg: '#fae8ff', text: '#86198f' },
   environment: { bg: '#d1fae5', text: '#065f46' },
+  // PESTLE (Eksternal) — warna berbeda dari 7M+1E Internal di atas supaya
+  // tetap bisa dibedakan sekilas saat kedua kelompok tercetak berdampingan.
+  political: { bg: '#fee2e2', text: '#991b1b' },
+  economic: { bg: '#fef9c3', text: '#854d0e' },
+  social: { bg: '#dbeafe', text: '#1e40af' },
+  technological: { bg: '#e0e7ff', text: '#3730a3' },
+  legal: { bg: '#f3e8ff', text: '#6b21a8' },
+  environmental: { bg: '#dcfce7', text: '#166534' },
 };
 
 export const KATEGORI_SUMBER_WARNA: Record<string, { bg: string; text: string }> = {
@@ -186,7 +194,13 @@ export function KategoriText({ value, warnaMap }: { value?: string | null; warna
         }
 
         const [, kategori, sisa] = match;
-        const warna = warnaMap[kategori.trim().toLowerCase()] ?? { bg: '#f1f5f9', text: '#475569' };
+        // Kategori Uraian Penyebab Risiko tersimpan dgn suffix asal "Method
+        // - Int"/"Legal - Eks" (lihat penyebabKategoriSuffix di
+        // irs-reference-data.ts) — warnaMap dikunci ke nama kategori dasar
+        // saja, jadi suffix dibuang HANYA utk lookup warna, label yg
+        // ditampilkan tetap teks lengkap apa adanya.
+        const kategoriDasar = kategori.trim().replace(/\s*-\s*(Int|Eks)$/i, '');
+        const warna = warnaMap[kategoriDasar.toLowerCase()] ?? { bg: '#f1f5f9', text: '#475569' };
 
         return (
           <div key={i}>

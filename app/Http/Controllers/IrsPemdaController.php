@@ -230,6 +230,12 @@ class IrsPemdaController extends Controller
         $rules['KATEGORI EXISTING CONTROL AKTUAL'] = ['nullable', 'string'];
         $rules['SKALA DAMPAK AKTUAL'] = ['nullable', 'integer', 'min:1', 'max:5'];
         $rules['SKALA KEMUNGKINAN AKTUAL'] = ['nullable', 'integer', 'min:1', 'max:5'];
+        // Tersimpan bare "C"/"UC" (CategorizedTextarea dgn hideUraian, tanpa
+        // uraian tambahan) — sebelumnya cuma dibatasi UI, backend menerima
+        // string bebas apa pun. Ditemukan lewat audit kepatuhan Perdep
+        // 2026-07-26: field ini WAJIB salah satu dari 2 nilai baku
+        // (Controllable/Uncontrollable), bukan teks bebas.
+        $rules['C / UC'] = ['nullable', Rule::in(['C', 'UC'])];
         $rules['TRIWULAN'] = ['nullable', Rule::in(self::TRIWULAN_OPTIONS)];
         $rules['TAHUN TARGET PENYELESAIAN'] = ['nullable', 'integer', 'digits:4'];
         // PIC BEBAS memilih tahun baris ini — lihat IrsPdController::validated().

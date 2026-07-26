@@ -22,12 +22,39 @@ interface TtdEditorProps {
 // (bukan cuma override sekali pakai) — dipakai bersama oleh Cetak2a/2b/2c
 // print:hidden krn hanya relevan di layar, tidak ikut tercetak ke PDF (PDF
 // dirender terpisah lewat Blade dari data DB yg sudah tersimpan).
+// Bentuk form EKSPLISIT mencakup KEDUA kemungkinan nama field, SEMUA
+// required string (default '' bila tidak dipakai baris ini) — bukan
+// optional (?:), krn useForm<T>() Inertia mewajibkan T extends
+// Record<string, FormDataConvertible> dan optional property (`string |
+// undefined`) tidak memenuhi constraint itu (dicoba, malah memunculkan
+// error TS2344 baru). Sebelumnya useForm() menerima object literal dgn
+// computed property key ([jabatanField]: jabatan), yg membuat TypeScript
+// meng-infer bentuk SEMPIT (cuma field yg statis terlihat), sehingga akses
+// data[jabatanField] perlu `as string` paksa yg membungkam pengecekan
+// compiler (ditemukan lewat audit dead-code/bug 2026-07-26: bukan bug
+// runtime, tapi lubang di jaring pengaman kalau field ini direfactor/typo
+// di masa depan).
+interface TtdFormData {
+  tempat_pembuatan: string;
+  tanggal_pembuatan: string;
+  jabatan_kepala_daerah: string;
+  jabatan_kepala_dinas: string;
+  nama_kepala_daerah: string;
+  nama_kepala_dinas: string;
+  nip_kepala_dinas: string;
+}
+
 export function TtdEditor({ dataUmumId, tempatPembuatan, tanggalPembuatan, jabatan, jabatanField, nama, namaField, nip }: TtdEditorProps) {
   const [editing, setEditing] = useState(false);
 
-  const { data, setData, patch, processing } = useForm({
+  const { data, setData, patch, processing } = useForm<TtdFormData>({
     tempat_pembuatan: tempatPembuatan,
     tanggal_pembuatan: tanggalPembuatan,
+    jabatan_kepala_daerah: '',
+    jabatan_kepala_dinas: '',
+    nama_kepala_daerah: '',
+    nama_kepala_dinas: '',
+    nip_kepala_dinas: '',
     [jabatanField]: jabatan,
     [namaField]: nama,
     ...(nip !== undefined ? { nip_kepala_dinas: nip } : {}),
@@ -64,16 +91,16 @@ export function TtdEditor({ dataUmumId, tempatPembuatan, tanggalPembuatan, jabat
         </div>
         <div className="space-y-1">
           <Label>Jabatan</Label>
-          <Input value={data[jabatanField] as string} onChange={(e) => setData(jabatanField, e.target.value)} />
+          <Input value={data[jabatanField]} onChange={(e) => setData(jabatanField, e.target.value)} />
         </div>
         <div className="space-y-1">
           <Label>Nama</Label>
-          <Input value={data[namaField] as string} onChange={(e) => setData(namaField, e.target.value)} />
+          <Input value={data[namaField]} onChange={(e) => setData(namaField, e.target.value)} />
         </div>
         {nip !== undefined && (
           <div className="space-y-1">
             <Label>NIP</Label>
-            <Input value={data.nip_kepala_dinas as string} onChange={(e) => setData('nip_kepala_dinas', e.target.value)} />
+            <Input value={data.nip_kepala_dinas} onChange={(e) => setData('nip_kepala_dinas', e.target.value)} />
           </div>
         )}
       </div>

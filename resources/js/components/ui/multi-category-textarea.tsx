@@ -14,6 +14,21 @@ interface MultiCategoryTextareaProps {
   rows?: number;
   /** Sembunyikan textarea uraian per kategori — dipakai utk field yg cukup pilih kategori saja (mis. Sumber Sebab Risiko Internal/Eksternal), tanpa uraian tertulis. */
   hideUraian?: boolean;
+  /**
+   * Header pemisah visual SEBELUM kategori tertentu — murni tampilan,
+   * TIDAK mengubah format nilai tersimpan sama sekali (parseValue/
+   * buildValue tetap bekerja atas array `categories` flat spt biasa).
+   * Dipakai utk mengelompokkan mis. 7M+1E (Internal) vs PESTLE (Eksternal)
+   * pada "Uraian Penyebab Risiko" tanpa perlu bikin komponen/field baru.
+   * Key harus PERSIS salah satu elemen `categories`.
+   */
+  groupLabels?: Record<string, string>;
+  /**
+   * Suffix ditempel ke label kategori saat disimpan (mis. "Method - Int"),
+   * murni bagian dari nama kategori tersimpan — tidak mengubah struktur
+   * parse/build, hanya mengganti string kategori efektif yg dipakai.
+   */
+  categorySuffix?: (category: string) => string;
 }
 
 /**
@@ -46,35 +61,60 @@ export default function MultiCategoryTextarea({
   uraianPlaceholder = 'Tulis uraian...',
   rows = 2,
   hideUraian = false,
+  groupLabels,
+  categorySuffix,
 }: MultiCategoryTextareaProps) {
-  const parsed = useMemo(() => parseValue(value, categories, combinedLabel), [value, categories, combinedLabel]);
+  // Kategori "efektif" yg dipakai utk parse/build/simpan — sama dgn label
+  // tampilan (`categories`) kecuali categorySuffix diberikan, mis. "Method"
+  // (tampilan) -> "Method - Int" (tersimpan). Dua array selalu berpasangan
+  // index-per-index dgn `categories`.
+  const storageCategories = useMemo(
+    () => (categorySuffix ? categories.map((c) => `${c} ${categorySuffix(c)}`) : categories),
+    [categories, categorySuffix],
+  );
+  const displayToStorage = useMemo(() => {
+    const map = new Map<string, string>();
+    categories.forEach((c, i) => map.set(c, storageCategories[i]));
+    return map;
+  }, [categories, storageCategories]);
+
+  const parsed = useMemo(() => parseValue(value, storageCategories, combinedLabel), [value, storageCategories, combinedLabel]);
 
   const setUraian = (category: string, uraian: string) => {
-    const next = { ...parsed, [category]: uraian };
-    onChange(buildValue(next, categories, combinedLabel));
+    const storageKey = displayToStorage.get(category)!;
+    const next = { ...parsed, [storageKey]: uraian };
+    onChange(buildValue(next, storageCategories, combinedLabel));
   };
 
   const toggleCategory = (category: string, checked: boolean) => {
+    const storageKey = displayToStorage.get(category)!;
     const next = { ...parsed };
     if (checked) {
-      if (next[category] === undefined) next[category] = '';
+      if (next[storageKey] === undefined) next[storageKey] = '';
     } else {
-      delete next[category];
+      delete next[storageKey];
     }
-    onChange(buildValue(next, categories, combinedLabel));
+    onChange(buildValue(next, storageCategories, combinedLabel));
   };
 
   return (
     <div className="space-y-2 rounded-md border border-border/60 p-2">
       {categories.map((c, i) => {
-        const isChecked = parsed[c] !== undefined;
+        const storageKey = displayToStorage.get(c)!;
+        const isChecked = parsed[storageKey] !== undefined;
+        const groupLabel = groupLabels?.[c];
         return (
-          <div
-            key={c}
-            className={`grid grid-cols-1 gap-2 rounded-md p-2 sm:grid-cols-[12rem_1fr] ${
-              isChecked ? 'bg-muted/40' : ''
-            } ${i > 0 ? 'border-t border-border/60 pt-3' : ''}`}
-          >
+          <div key={c}>
+            {groupLabel && (
+              <p className={`px-2 pb-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase ${i > 0 ? 'pt-3' : ''}`}>
+                {groupLabel}
+              </p>
+            )}
+            <div
+              className={`grid grid-cols-1 gap-2 rounded-md p-2 sm:grid-cols-[12rem_1fr] ${
+                isChecked ? 'bg-muted/40' : ''
+              } ${i > 0 && !groupLabel ? 'border-t border-border/60 pt-3' : ''}`}
+            >
             <div className="flex items-start gap-2 sm:pt-2">
               <Checkbox
                 id={id ? `${id}-${c}` : undefined}
@@ -87,7 +127,7 @@ export default function MultiCategoryTextarea({
             </div>
             {!hideUraian && (
               <Textarea
-                value={parsed[c] ?? ''}
+                value={parsed[storageKey] ?? ''}
                 rows={rows}
                 disabled={!isChecked}
                 placeholder={uraianPlaceholder}
@@ -95,6 +135,7 @@ export default function MultiCategoryTextarea({
                 className="flex-1"
               />
             )}
+            </div>
           </div>
         );
       })}

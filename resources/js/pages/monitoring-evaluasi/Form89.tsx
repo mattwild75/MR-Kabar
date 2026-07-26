@@ -8,10 +8,11 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
+import HighlightText from '@/components/ui/highlight-text';
+import { useRowSearch } from '@/hooks/use-row-search';
 import { MONITORING_RTP_FIELD_INFO } from '@/lib/monitoring-rtp-field-info';
 import {
   KATEGORI_EFEKTIVITAS_OPTIONS,
@@ -20,7 +21,7 @@ import {
   ekstrakKategoriKontrol,
   arahReduksiRtp,
 } from '@/lib/irs-reference-data';
-import { Pencil, Grid3x3 } from 'lucide-react';
+import { Pencil, Grid3x3, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
 import { toast } from 'sonner';
 import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
 
@@ -34,6 +35,9 @@ interface RtpRow {
   rtp_sumber_id: number;
   label: string;
   konteks: string;
+  opd_id: number | null;
+  opd_nama: string | null;
+  tahun: number | null;
   monitoring_id: number | null;
   media_komunikasi: string | null;
   penyedia_informasi: string | null;
@@ -69,7 +73,8 @@ interface RiskMatrixData {
 interface PageProps {
   opdOptions: OpdOption[];
   opdId: number | null;
-  tahun: number;
+  tahun: number | null;
+  isAdmin: boolean;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
   rows: RtpRow[];
@@ -87,16 +92,25 @@ function RtpRowCard({
   row,
   triwulanOptions,
   triwulanLabels,
-  opdId,
-  tahun,
   riskReference,
+  activeQuery,
+  isCurrent,
+  registerRowRef,
+  rowId,
+  showOpdKolom,
 }: {
   row: RtpRow;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
-  opdId: number;
-  tahun: number;
   riskReference: { matriksRisiko: RiskMatrixData };
+  activeQuery: string;
+  isCurrent: boolean;
+  registerRowRef: (id: number, el: HTMLElement | null) => void;
+  rowId: number;
+  /** Tampilkan badge OPD/Tahun asal baris — relevan saat tampilan sedang
+   *  lintas-OPD ("Semua OPD", admin) atau lintas-tahun ("Semua Tahun"),
+   *  supaya user tahu baris ini milik OPD/tahun mana. */
+  showOpdKolom: boolean;
 }) {
   const isFilled = row.monitoring_id !== null;
   const [editing, setEditing] = useState(false);
@@ -124,14 +138,22 @@ function RtpRowCard({
   const setField = (key: keyof typeof form, value: string) => setForm((prev) => ({ ...prev, [key]: value }));
 
   const save = () => {
+    if (row.opd_id === null || row.tahun === null) {
+      toast.error('Data OPD/tahun risiko sumber tidak lengkap, tidak bisa disimpan.');
+      return;
+    }
     setSaving(true);
     router.post(
       '/monitoring-evaluasi/8-9',
       {
         rtp_sumber_tipe: row.rtp_sumber_tipe,
         rtp_sumber_id: row.rtp_sumber_id,
-        opd_id: opdId,
-        tahun,
+        // opd_id/tahun diambil dari DATA BARIS itu sendiri (bukan filter
+        // tampilan global opdId/tahun di halaman, yg sekarang bisa null
+        // saat sedang menampilkan "Semua OPD"/"Semua Tahun") — supaya
+        // submit tetap benar terlepas filter tampilan sedang apa.
+        opd_id: row.opd_id,
+        tahun: row.tahun,
         ...form,
       },
       {
@@ -147,13 +169,21 @@ function RtpRowCard({
   };
 
   return (
-    <Card>
+    <Card ref={(el) => registerRowRef(rowId, el)} className={isCurrent ? 'ring-2 ring-inset ring-orange-500' : ''}>
       <CardContent className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1">
-            <Badge variant="outline">{TIPE_LABEL[row.rtp_sumber_tipe]}</Badge>
-            <p className="text-sm font-medium">{row.label}</p>
-            <p className="text-xs text-muted-foreground">{row.konteks}</p>
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Badge variant="outline">{TIPE_LABEL[row.rtp_sumber_tipe]}</Badge>
+              {showOpdKolom && row.opd_nama && <Badge variant="outline">{row.opd_nama}</Badge>}
+              {showOpdKolom && row.tahun && <Badge variant="outline">Tahun {row.tahun}</Badge>}
+            </div>
+            <p className="text-sm font-medium">
+              <HighlightText text={row.label} query={activeQuery} />
+            </p>
+            <p className="text-xs text-muted-foreground">
+              <HighlightText text={row.konteks} query={activeQuery} />
+            </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             {isFilled ? (
@@ -422,7 +452,43 @@ function RtpRowCard({
   );
 }
 
-export default function Form89({ opdOptions, opdId, tahun, triwulanOptions, triwulanLabels, rows, riskReference }: PageProps) {
+// useRowSearch butuh field `id: number` unik per baris — RtpRow tidak
+// punya id tunggal (kuncinya kombinasi rtp_sumber_tipe+rtp_sumber_id), jadi
+// diberi id sintetis dari index array saat masuk ke hook, TANPA mengubah
+// bentuk data asli row.* yang dipakai di tempat lain.
+type SearchableRtpRow = RtpRow & { id: number; [key: string]: unknown };
+
+export default function Form89({ opdOptions, opdId, tahun, isAdmin, triwulanOptions, triwulanLabels, rows, riskReference }: PageProps) {
+  const searchableRows: SearchableRtpRow[] = rows.map((row, index) => ({ ...row, id: index }));
+
+  // Badge OPD/Tahun per-card relevan HANYA saat sedang lintas-OPD ("Semua
+  // OPD", cuma bisa admin) atau lintas-tahun ("Semua Tahun") — kalau sudah
+  // dipersempit ke 1 OPD + 1 tahun spesifik, semua card pasti dari OPD/tahun
+  // yg sama, badge itu jadi berulang tanpa informasi baru.
+  const showOpdKolom = opdId === null || tahun === null;
+
+  const navigate = (nextOpdId: number | null, nextTahun: number | null) => {
+    router.get(
+      '/monitoring-evaluasi/8-9',
+      { opd_id: nextOpdId ?? undefined, tahun: nextTahun ?? undefined },
+      { preserveState: true, preserveScroll: true, replace: true },
+    );
+  };
+
+  const {
+    searchInput,
+    setSearchInput,
+    activeQuery,
+    matches,
+    currentMatchIndex,
+    currentMatchId,
+    registerRowRef,
+    runSearch,
+    jumpToMatch,
+    clearSearch,
+    handleKeyDown,
+  } = useRowSearch(searchableRows, ['label', 'konteks']);
+
   return (
     <AppLayout>
       <Head title="8-9 Monitoring RTP" />
@@ -436,33 +502,117 @@ export default function Form89({ opdOptions, opdId, tahun, triwulanOptions, triw
           </p>
         </div>
 
-        <OpdTahunPicker routeName="/monitoring-evaluasi/8-9" opdOptions={opdOptions} opdId={opdId} tahun={tahun} />
+        {/* Picker khusus halaman ini (bukan OpdTahunPicker shared CEE) —
+            mendukung opsi "Semua OPD" (admin/super-admin saja) & "Semua
+            Tahun", karena monitoring RTP memang wajar dilihat lintas-tahun
+            (target pelaksanaan RTP bisa tahun depan/lebih) dan admin perlu
+            pandangan lintas-OPD, beda dari CEE yg selalu wajib 1 OPD+1 tahun. */}
+        <div className="flex flex-wrap items-end gap-3">
+          {isAdmin && (
+            <div className="min-w-64 space-y-1">
+              <Label>OPD</Label>
+              <Select value={opdId ? String(opdId) : 'all'} onValueChange={(v) => navigate(v === 'all' ? null : Number(v), tahun)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Semua OPD" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua OPD</SelectItem>
+                  {opdOptions.map((opd) => (
+                    <SelectItem key={opd.id} value={String(opd.id)}>
+                      {opd.nama}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          <div className="w-40 space-y-1">
+            <Label>Tahun Dinilai Risiko</Label>
+            <Select value={tahun ? String(tahun) : 'all'} onValueChange={(v) => navigate(opdId, v === 'all' ? null : Number(v))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Semua Tahun" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Tahun</SelectItem>
+                {Array.from({ length: 7 }, (_, i) => new Date().getFullYear() + 2 - i).map((y) => (
+                  <SelectItem key={y} value={String(y)}>
+                    {y}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-        {!opdId ? (
-          <Card>
-            <CardContent className="p-8 text-center text-sm text-muted-foreground">Pilih OPD terlebih dahulu.</CardContent>
-          </Card>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center text-sm text-muted-foreground">
-              Belum ada RTP untuk OPD &amp; tahun ini — isi dulu Rencana Tindak Pengendalian di Form Input IRS/IRO
-              atau RTP CEE (1d).
+              Belum ada RTP{opdId || tahun ? ' untuk filter ini' : ''} — isi dulu Rencana Tindak Pengendalian di
+              Form Input IRS/IRO atau RTP CEE (1d).
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-3">
-            {rows.map((row) => (
-              <RtpRowCard
-                key={`${row.rtp_sumber_tipe}-${row.rtp_sumber_id}`}
-                row={row}
-                triwulanOptions={triwulanOptions}
-                triwulanLabels={triwulanLabels}
-                opdId={opdId}
-                tahun={tahun}
-                riskReference={riskReference}
-              />
-            ))}
-          </div>
+          <>
+            <div className="flex items-center gap-2">
+              <div className="relative max-w-md flex-1">
+                <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Cari uraian RTP/konteks risiko... (Enter untuk cari/lanjut)"
+                  className="pr-9 pl-9"
+                />
+                {searchInput && (
+                  <button
+                    type="button"
+                    onClick={clearSearch}
+                    className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              <Button type="button" onClick={runSearch}>
+                Cari
+              </Button>
+              {activeQuery && matches.length > 0 && (
+                <div className="flex items-center gap-1">
+                  <span className="mr-1 text-sm text-muted-foreground whitespace-nowrap">
+                    {currentMatchIndex + 1} / {matches.length}
+                  </span>
+                  <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex - 1)}>
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
+                  <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex + 1)}>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+            {activeQuery && (
+              <p className="text-sm text-muted-foreground">
+                {matches.length > 0 ? `Ditemukan ${matches.length} hasil untuk "${activeQuery}".` : `Tidak ada hasil untuk "${activeQuery}".`}
+              </p>
+            )}
+
+            <div className="space-y-3">
+              {searchableRows.map((row) => (
+                <RtpRowCard
+                  key={`${row.rtp_sumber_tipe}-${row.rtp_sumber_id}`}
+                  row={row}
+                  triwulanOptions={triwulanOptions}
+                  triwulanLabels={triwulanLabels}
+                  showOpdKolom={showOpdKolom}
+                  riskReference={riskReference}
+                  activeQuery={activeQuery}
+                  isCurrent={currentMatchId === row.id}
+                  registerRowRef={registerRowRef}
+                  rowId={row.id}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </AppLayout>

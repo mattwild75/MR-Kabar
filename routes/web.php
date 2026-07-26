@@ -26,6 +26,7 @@ use App\Http\Controllers\IrsPdController;
 use App\Http\Controllers\KaeresRoController;
 use App\Http\Controllers\KroPdController;
 use App\Http\Controllers\IroPdController;
+use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\RiskEvidenceController;
 use App\Http\Controllers\SessionStatusController;
 use App\Http\Controllers\TroubleshootReportController;
@@ -65,6 +66,26 @@ Route::get('/login/lapor-kejadian', LaporQrLoginController::class)
 Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
     ->middleware('throttle:10,1')
     ->name('login.cee-survey');
+
+// Versi PUBLIK halaman Panduan — TANPA login, diakses siapa saja (link
+// "Apa itu MR Kabar / Manajemen Risiko?" di form login). SENGAJA di luar
+// middleware 'auth' & 'menu.permission', dan SENGAJA TIDAK memakai
+// controller/query DB apa pun — cukup render komponen React statis
+// (Panduan/Public.tsx), berbagi konten SECTIONS yang sama persis dengan
+// /panduan versi login (Panduan/Index.tsx), supaya update konten di satu
+// tempat otomatis tercermin di kedua halaman.
+//
+// CATATAN KEAMANAN: route ini TIDAK membocorkan data internal apa pun —
+// tidak ada query DB, tidak ada Inertia shared props berbasis user/menu
+// (halaman ini TIDAK dibungkus AppLayout yg butuh data login), dan 2 QR
+// code di dalamnya (LaporQrCode/CeeSurveyQrCode) sudah didesain dari awal
+// utk dipindai publik tanpa kredensial (lihat komentar masing2 komponen).
+// SELURUH fitur lain (Dashboard, Form Input/Cetak, Access/Settings/
+// Utilities, dst) TETAP terkunci di dalam grup middleware ['auth',
+// 'menu.permission'] di bawah — tidak ada perubahan apa pun ke situ.
+Route::get('/panduan-publik', function () {
+    return Inertia::render('panduan/Public');
+})->name('panduan.public');
 
 Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -200,7 +221,10 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/files/{id}/approve', [UserFileController::class, 'approve'])->name('files.approve');
     Route::post('/files/{id}/reject', [UserFileController::class, 'reject'])->name('files.reject');
     // MediaFolderController hanya mengimplementasikan index/store/destroy.
-    Route::resource('media', MediaFolderController::class)->only(['index', 'store', 'destroy']);
+    // 'index' sengaja TIDAK didaftarkan — method-nya sudah dihapus dari
+    // MediaFolderController (digantikan UserFileController::index()),
+    // mendaftarkannya akan melempar BadMethodCallException bila diakses.
+    Route::resource('media', MediaFolderController::class)->only(['store', 'destroy']);
     // Data Umum per-PIC (header identitas + penanda tangan) untuk Form Cetak.
     Route::get('data-umum', [DataUmumController::class, 'index'])->name('data-umum.index');
     Route::post('data-umum', [DataUmumController::class, 'store'])->name('data-umum.store');
@@ -372,6 +396,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('iro_pd', [IroPdController::class, 'store'])->name('iro_pd.store');
     Route::put('iro_pd/{iro_pd}', [IroPdController::class, 'update'])->name('iro_pd.update');
     Route::delete('iro_pd/{iro_pd}', [IroPdController::class, 'destroy'])->name('iro_pd.destroy');
+    Route::get('data-risiko-gabungan', [DataRisikoGabunganController::class, 'index'])->name('data_risiko_gabungan.index');
 
     // Satu-satunya jalur mengunduh/melihat ISI file media (File Manager &
     // Bukti Dukung Risiko) — disk MEDIA_DISK='local' (privat, tidak

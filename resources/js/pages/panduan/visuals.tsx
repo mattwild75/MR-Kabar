@@ -205,7 +205,13 @@ export function SimpleTable({ headers, rows }: SimpleTableProps) {
 }
 
 // ─── Badge kecil berwarna (mis. label kode RSP/RSO/ROO) ────────────────────
-export function ColorBadge({ children, color }: { children: ReactNode; color: 'red' | 'amber' | 'emerald' | 'sky' | 'orange' | 'yellow' }) {
+export function ColorBadge({
+  children,
+  color,
+}: {
+  children: ReactNode;
+  color: 'red' | 'amber' | 'emerald' | 'sky' | 'orange' | 'yellow' | 'cyan' | 'indigo' | 'lime' | 'rose' | 'teal' | 'fuchsia';
+}) {
   const map = {
     red: 'bg-red-500/15 text-red-600 dark:text-red-400',
     amber: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
@@ -213,6 +219,18 @@ export function ColorBadge({ children, color }: { children: ReactNode; color: 'r
     sky: 'bg-sky-500/15 text-sky-600 dark:text-sky-400',
     orange: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
     yellow: 'bg-yellow-400/20 text-yellow-700 dark:text-yellow-400',
+    // Empat warna berikut ditambahkan agar tabel "Kolom Sebab 7M+1E" di
+    // Panduan (sections.tsx) benar-benar merepresentasikan warna badge asli
+    // yang dipakai Form Cetak 10 (lihat PENYEBAB_5M_BADGE_CLASS di
+    // components/ui/penyebab-category-text.tsx) — sebelumnya ColorBadge
+    // hanya py 6 warna sehingga 8 kategori 7M+1E terpaksa dipetakan ke
+    // warna yang salah/berulang (mis. Machine & Method sama2 "sky").
+    cyan: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-400',
+    indigo: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400',
+    lime: 'bg-lime-500/15 text-lime-700 dark:text-lime-400',
+    rose: 'bg-rose-500/15 text-rose-600 dark:text-rose-400',
+    teal: 'bg-teal-500/15 text-teal-600 dark:text-teal-400',
+    fuchsia: 'bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400',
   };
   return <span className={`inline-block rounded px-1.5 py-0.5 text-xs font-semibold ${map[color]}`}>{children}</span>;
 }
@@ -576,6 +594,40 @@ export function DataPipeline({ nodes }: { nodes: PipelineNode[] }) {
           )}
         </div>
       ))}
+    </div>
+  );
+}
+
+// ─── Screenshot tampilan aplikasi (mis. Dashboard, IRS Pemda, dsb) ─────────
+// File gambar disimpan di public/images/panduan/ (BUKAN folder screenshots/
+// di root project — itu hanya dipakai README GitHub, tidak ter-serve web).
+// loading="lazy" krn beberapa section (mis. Dashboard) menampilkan gambar
+// cukup besar dan halaman /panduan ini single-page-scroll berisi 19 section
+// sekaligus — tanpa lazy, semua screenshot ikut di-load di awal walau belum
+// terlihat.
+export function Screenshot({ src, alt, caption }: { src: string; alt: string; caption?: string }) {
+  return (
+    <figure className="not-prose my-3">
+      <div className="overflow-hidden rounded-lg border bg-muted/10 shadow-sm">
+        <img src={src} alt={alt} loading="lazy" className="w-full" />
+      </div>
+      {caption && <figcaption className="mt-1.5 text-center text-xs text-muted-foreground">{caption}</figcaption>}
+    </figure>
+  );
+}
+
+// ─── Sepasang screenshot berdampingan (mis. Dashboard mode Light vs Dark) ──
+export function ScreenshotPair({
+  left,
+  right,
+}: {
+  left: { src: string; alt: string; caption?: string };
+  right: { src: string; alt: string; caption?: string };
+}) {
+  return (
+    <div className="not-prose my-3 grid gap-3 sm:grid-cols-2">
+      <Screenshot {...left} />
+      <Screenshot {...right} />
     </div>
   );
 }

@@ -109,19 +109,27 @@ class MonitoringEvaluasiController extends Controller
     }
 
     /**
-     * Kumpulkan seluruh RTP milik satu OPD+tahun dari 4 sumber sekaligus,
-     * digabung jadi satu daftar dgn label "Kegiatan Pengendalian yang
-     * Dibutuhkan" (kolom b Form 8/9) yg diproyeksi live dari tiap sumber —
-     * dipasangkan dgn baris MonitoringRtp yg sudah ada (kalau ada).
+     * Kumpulkan seluruh RTP dari 4 sumber sekaligus, digabung jadi satu
+     * daftar dgn label "Kegiatan Pengendalian yang Dibutuhkan" (kolom b
+     * Form 8/9) yg diproyeksi live dari tiap sumber. $opdId null berarti
+     * LINTAS-OPD (hanya boleh dipanggil utk admin/super-admin, lihat
+     * form89()); $tahun null berarti LINTAS-TAHUN — monitoring memang bisa
+     * dilakukan utk RTP yg target pelaksanaannya tahun depan/lebih, jadi
+     * "belum pilih tahun" seharusnya menampilkan RIWAYAT semua tahun, bukan
+     * dikosongkan. opd_nama & tahun disertakan per-baris supaya frontend
+     * bisa menampilkan asal baris saat tampilan lintas-OPD/lintas-tahun.
      */
-    private function rtpGabungan(int $opdId, int $tahun): array
+    private function rtpGabungan(?int $opdId, ?int $tahun): array
     {
         $daftar = [];
 
-        $irsPemda = IrsPemda::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
-            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $scopeOpd = fn ($q) => $opdId ? $q->where('opd_id', $opdId) : $q;
+
+        $irsPemda = IrsPemda::whereHas('user', fn ($q) => $scopeOpd($q))
+            ->when($tahun, fn ($q) => $q->where('TAHUN DINILAI RISIKO', (string) $tahun))
             ->whereNotNull('RENCANA TINDAK PENGENDALIAN')
             ->where('RENCANA TINDAK PENGENDALIAN', '!=', '')
+            ->with('user.opd')
             ->orderBy('id')
             ->get();
         foreach ($irsPemda as $r) {
@@ -130,6 +138,9 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 'konteks' => 'Risiko Strategis Pemda: ' . $r->{'URAIAN RISIKO'},
+                'opd_id' => $r->user?->opd_id,
+                'opd_nama' => $r->user?->opd?->nama,
+                'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
                 'skala_dampak' => $r->{'SKALA DAMPAK'},
                 'skala_kemungkinan' => $r->{'SKALA KEMUNGKINAN'},
                 'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'},
@@ -139,10 +150,11 @@ class MonitoringEvaluasiController extends Controller
             ];
         }
 
-        $irsPd = IrsPd::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
-            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $irsPd = IrsPd::whereHas('user', fn ($q) => $scopeOpd($q))
+            ->when($tahun, fn ($q) => $q->where('TAHUN DINILAI RISIKO', (string) $tahun))
             ->whereNotNull('RENCANA TINDAK PENGENDALIAN')
             ->where('RENCANA TINDAK PENGENDALIAN', '!=', '')
+            ->with('user.opd')
             ->orderBy('id')
             ->get();
         foreach ($irsPd as $r) {
@@ -151,6 +163,9 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 'konteks' => 'Risiko Strategis OPD: ' . $r->{'URAIAN RISIKO'},
+                'opd_id' => $r->user?->opd_id,
+                'opd_nama' => $r->user?->opd?->nama,
+                'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
                 'skala_dampak' => $r->{'SKALA DAMPAK'},
                 'skala_kemungkinan' => $r->{'SKALA KEMUNGKINAN'},
                 'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'},
@@ -160,10 +175,11 @@ class MonitoringEvaluasiController extends Controller
             ];
         }
 
-        $iroPd = IroPd::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
-            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $iroPd = IroPd::whereHas('user', fn ($q) => $scopeOpd($q))
+            ->when($tahun, fn ($q) => $q->where('TAHUN DINILAI RISIKO', (string) $tahun))
             ->whereNotNull('RENCANA TINDAK PENGENDALIAN')
             ->where('RENCANA TINDAK PENGENDALIAN', '!=', '')
+            ->with('user.opd')
             ->orderBy('id')
             ->get();
         foreach ($iroPd as $r) {
@@ -172,6 +188,9 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 'konteks' => 'Risiko Operasional OPD: ' . $r->{'URAIAN RISIKO'},
+                'opd_id' => $r->user?->opd_id,
+                'opd_nama' => $r->user?->opd?->nama,
+                'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
                 'skala_dampak' => $r->{'SKALA DAMPAK'},
                 'skala_kemungkinan' => $r->{'SKALA KEMUNGKINAN'},
                 'skala_dampak_inheren' => $r->{'SKALA DAMPAK INHEREN'},
@@ -181,9 +200,9 @@ class MonitoringEvaluasiController extends Controller
             ];
         }
 
-        $ceeRtp = CeeRtp::with('unsur')
-            ->where('opd_id', $opdId)
-            ->where('tahun_penilaian', $tahun)
+        $ceeRtp = CeeRtp::with(['unsur', 'opd'])
+            ->when($opdId, fn ($q) => $q->where('opd_id', $opdId))
+            ->when($tahun, fn ($q) => $q->where('tahun_penilaian', $tahun))
             ->whereNotNull('rencana_tindak_pengendalian')
             ->where('rencana_tindak_pengendalian', '!=', '')
             ->orderBy('id')
@@ -194,6 +213,9 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->rencana_tindak_pengendalian,
                 'konteks' => 'RTP atas CEE (' . ($r->unsur?->kode ?? '-') . '. ' . ($r->unsur?->nama ?? '-') . '): ' . $r->kondisi_kurang_memadai,
+                'opd_id' => $r->opd_id,
+                'opd_nama' => $r->opd?->nama,
+                'tahun' => $r->tahun_penilaian,
                 // CEE tidak punya skala risiko (bukan penilaian risiko) —
                 // Skala Aktual di Form 9 tidak relevan utk sumber ini.
                 'skala_dampak' => null,
@@ -205,20 +227,60 @@ class MonitoringEvaluasiController extends Controller
             ];
         }
 
+        // RTP terbaru dulu (Tahun Dinilai Risiko tertinggi) — monitoring bisa
+        // dilakukan atas RTP yg target pelaksanaannya tahun depan/lebih,
+        // jadi urutan ini relevan terutama saat tampilan lintas-tahun.
+        usort($daftar, fn ($a, $b) => ($b['tahun'] ?? 0) <=> ($a['tahun'] ?? 0));
+
         return $daftar;
+    }
+
+    /** Kolom TAHUN DINILAI RISIKO kadang berisi teks kosong/non-digit. */
+    private function toIntOrNull($value): ?int
+    {
+        $value = trim((string) $value);
+
+        return ctype_digit($value) ? (int) $value : null;
     }
 
     public function form89(Request $request)
     {
-        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $user = $request->user();
+        $isAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+
+        // Admin/super-admin: opd_id null = LINTAS-OPD (sesuai request query,
+        // termasuk sengaja dikosongkan). PIC biasa: SELALU terkunci ke
+        // OPD-nya sendiri, tidak pernah null — beda dari CEE/form lain yg
+        // mewajibkan pilih OPD dulu, monitoring RTP defaultnya langsung
+        // tampil (baik utk PIC maupun admin) krn tujuannya justru melihat
+        // riwayat tanpa perlu klik apa pun dulu.
+        $opdId = $isAdmin ? ($request->integer('opd_id') ?: null) : $user->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
 
-        $rtpGabungan = $opdId ? $this->rtpGabungan($opdId, $tahun) : [];
+        // tahun TIDAK di-fallback ke tahun_penilaian aktif — biarkan null
+        // ("Semua Tahun") kalau user belum memilih, supaya default landing
+        // langsung menampilkan riwayat RTP lintas-tahun (2 lines of defense:
+        // PIC tetap lingkup OPD sendiri, hanya admin yg juga lintas-OPD).
+        $tahun = $request->filled('tahun') ? $request->integer('tahun') : null;
 
-        $existing = $opdId
-            ? MonitoringRtp::where('opd_id', $opdId)->where('tahun_penilaian', $tahun)->get()
-                ->keyBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
+        $rtpGabungan = ($opdId || $isAdmin) ? $this->rtpGabungan($opdId, $tahun) : [];
+
+        // unique(rtp_sumber_tipe, rtp_sumber_id) TANPA tahun_penilaian —
+        // satu RTP sumber cuma py SATU baris monitoring sepanjang waktu
+        // (kolom tahun_penilaian di MonitoringRtp cuma mencatat tahun submit
+        // terakhir, bukan bagian dari identitas unik). Jadi key lookup tetap
+        // "tipe:id" sama seperti sebelumnya, TIDAK boleh disertai tahun —
+        // kalau opd_id di-scope (bukan lintas-OPD), filter tahun_penilaian
+        // di sini justru bisa menyembunyikan monitoring yg sudah pernah
+        // diisi tahun lalu utk RTP yg sama; dibiarkan tanpa filter tahun
+        // supaya monitoring_id/isFilled tetap akurat apa pun tahun yg
+        // sedang ditampilkan.
+        $existingQuery = MonitoringRtp::query();
+        if ($opdId) {
+            $existingQuery->where('opd_id', $opdId);
+        }
+        $existing = ($opdId || $isAdmin)
+            ? $existingQuery->get()->keyBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
             : collect();
 
         $rows = collect($rtpGabungan)->map(function ($rtp) use ($existing) {
@@ -230,6 +292,9 @@ class MonitoringEvaluasiController extends Controller
                 'rtp_sumber_id' => $rtp['id'],
                 'label' => $rtp['label'],
                 'konteks' => $rtp['konteks'],
+                'opd_id' => $rtp['opd_id'],
+                'opd_nama' => $rtp['opd_nama'],
+                'tahun' => $rtp['tahun'],
                 'monitoring_id' => $monitoring?->id,
                 'media_komunikasi' => $monitoring?->media_komunikasi,
                 'penyedia_informasi' => $monitoring?->penyedia_informasi,
@@ -269,6 +334,7 @@ class MonitoringEvaluasiController extends Controller
             'opdOptions' => $this->opdOptions($request),
             'opdId' => $opdId,
             'tahun' => $tahun,
+            'isAdmin' => $isAdmin,
             'triwulanOptions' => self::TRIWULAN_OPTIONS,
             'triwulanLabels' => self::TRIWULAN_LABELS,
             'rows' => $rows,
@@ -417,14 +483,23 @@ class MonitoringEvaluasiController extends Controller
 
     // ── Form 10: Pencatatan Kejadian Risiko & Pelaksanaan RTP ────────────
 
-    private function risikoGabungan(int $opdId, int $tahun): array
+    /**
+     * $opdId null = LINTAS-OPD (hanya boleh dipanggil utk admin/super-admin,
+     * lihat form10()); $tahun null = LINTAS-TAHUN. Sama pola dgn
+     * rtpGabungan() — opd_id/opd_nama/tahun disertakan per-baris supaya
+     * frontend bisa menampilkan asal baris saat tampilan lintas.
+     */
+    private function risikoGabungan(?int $opdId, ?int $tahun): array
     {
         $daftar = [];
 
-        $irsPemda = IrsPemda::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
-            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $scopeOpd = fn ($q) => $opdId ? $q->where('opd_id', $opdId) : $q;
+
+        $irsPemda = IrsPemda::whereHas('user', fn ($q) => $scopeOpd($q))
+            ->when($tahun, fn ($q) => $q->where('TAHUN DINILAI RISIKO', (string) $tahun))
             ->where('URAIAN RISIKO', '!=', '')
             ->whereNotNull('URAIAN RISIKO')
+            ->with('user.opd')
             ->orderBy('id')
             ->get();
         foreach ($irsPemda as $r) {
@@ -433,13 +508,17 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'URAIAN RISIKO'},
                 'konteks' => 'Risiko Strategis Pemda',
+                'opd_id' => $r->user?->opd_id,
+                'opd_nama' => $r->user?->opd?->nama,
+                'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
             ];
         }
 
-        $irsPd = IrsPd::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
-            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $irsPd = IrsPd::whereHas('user', fn ($q) => $scopeOpd($q))
+            ->when($tahun, fn ($q) => $q->where('TAHUN DINILAI RISIKO', (string) $tahun))
             ->where('URAIAN RISIKO', '!=', '')
             ->whereNotNull('URAIAN RISIKO')
+            ->with('user.opd')
             ->orderBy('id')
             ->get();
         foreach ($irsPd as $r) {
@@ -448,13 +527,17 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'URAIAN RISIKO'},
                 'konteks' => 'Risiko Strategis OPD',
+                'opd_id' => $r->user?->opd_id,
+                'opd_nama' => $r->user?->opd?->nama,
+                'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
             ];
         }
 
-        $iroPd = IroPd::whereHas('user', fn ($q) => $q->where('opd_id', $opdId))
-            ->where('TAHUN DINILAI RISIKO', (string) $tahun)
+        $iroPd = IroPd::whereHas('user', fn ($q) => $scopeOpd($q))
+            ->when($tahun, fn ($q) => $q->where('TAHUN DINILAI RISIKO', (string) $tahun))
             ->where('URAIAN RISIKO', '!=', '')
             ->whereNotNull('URAIAN RISIKO')
+            ->with('user.opd')
             ->orderBy('id')
             ->get();
         foreach ($iroPd as $r) {
@@ -463,22 +546,57 @@ class MonitoringEvaluasiController extends Controller
                 'id' => $r->id,
                 'label' => $r->{'URAIAN RISIKO'},
                 'konteks' => 'Risiko Operasional OPD',
+                'opd_id' => $r->user?->opd_id,
+                'opd_nama' => $r->user?->opd?->nama,
+                'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
             ];
         }
+
+        // Risiko terbaru dulu (Tahun Dinilai Risiko tertinggi) — sama
+        // alasannya dgn rtpGabungan(): monitoring/pencatatan kejadian bisa
+        // relevan lintas-tahun.
+        usort($daftar, fn ($a, $b) => ($b['tahun'] ?? 0) <=> ($a['tahun'] ?? 0));
 
         return $daftar;
     }
 
     public function form10(Request $request)
     {
-        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+        $user = $request->user();
+        $isAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+
+        // Sama pola dgn form89(): admin boleh lintas-OPD (opd_id null =
+        // "Semua OPD"), PIC biasa selalu terkunci ke OPD-nya sendiri.
+        $opdId = $isAdmin ? ($request->integer('opd_id') ?: null) : $user->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
 
-        $risikoGabungan = $opdId ? $this->risikoGabungan($opdId, $tahun) : [];
+        // tahun TIDAK di-fallback ke tahun_penilaian aktif — null ("Semua
+        // Tahun") berarti tampilkan riwayat lintas-tahun sbg default.
+        $tahun = $request->filled('tahun') ? $request->integer('tahun') : null;
 
-        $existing = $opdId
-            ? PencatatanKejadianRisiko::where('opd_id', $opdId)->where('tahun_penilaian', $tahun)->get()
+        $risikoGabungan = ($opdId || $isAdmin) ? $this->risikoGabungan($opdId, $tahun) : [];
+
+        // BEDA dari monitoring_rtp: unique constraint pencatatan_kejadian_risiko
+        // MENYERTAKAN tahun_penilaian (risiko yg sama bisa dicatat kejadian
+        // BEDA di tahun berbeda — satu risiko sumber bisa py BEBERAPA baris
+        // pencatatan). Saat tahun spesifik dipilih, filter ketat ke tahun itu
+        // (perilaku asli, 1 baris per risiko). Saat "Semua Tahun" ($tahun
+        // null), ambil pencatatan TERBARU per risiko (bukan sembarang) utk
+        // representasi status "sudah dicatat"/prefill form — konsisten dgn
+        // urutan "terbaru dulu" yg dipakai risikoGabungan().
+        $existingQuery = PencatatanKejadianRisiko::query();
+        if ($opdId) {
+            $existingQuery->where('opd_id', $opdId);
+        }
+        if ($tahun) {
+            $existingQuery->where('tahun_penilaian', $tahun);
+        }
+        // orderBy ASCENDING (bukan desc) — Collection::keyBy() menyimpan
+        // baris TERAKHIR yg diproses per key (menimpa, bukan mengabaikan
+        // duplikat pertama), jadi utk mendapatkan pencatatan tahun TERBESAR
+        // per risiko, baris itu justru harus diproses PALING AKHIR.
+        $existing = ($opdId || $isAdmin)
+            ? $existingQuery->orderBy('tahun_penilaian')->get()
                 ->keyBy(fn ($p) => $p->risiko_tipe . ':' . $p->risiko_id)
             : collect();
 
@@ -491,6 +609,9 @@ class MonitoringEvaluasiController extends Controller
                 'risiko_id' => $risiko['id'],
                 'label' => $risiko['label'],
                 'konteks' => $risiko['konteks'],
+                'opd_id' => $risiko['opd_id'],
+                'opd_nama' => $risiko['opd_nama'],
+                'tahun' => $risiko['tahun'],
                 'pencatatan_id' => $pencatatan?->id,
                 'laporan_kejadian_id' => $pencatatan?->laporan_kejadian_id,
                 'tanggal_terjadi' => $pencatatan?->tanggal_terjadi?->format('Y-m-d'),
@@ -508,6 +629,7 @@ class MonitoringEvaluasiController extends Controller
             'opdOptions' => $this->opdOptions($request),
             'opdId' => $opdId,
             'tahun' => $tahun,
+            'isAdmin' => $isAdmin,
             'triwulanOptions' => self::TRIWULAN_OPTIONS,
             'triwulanLabels' => self::TRIWULAN_LABELS,
             'rows' => $rows,

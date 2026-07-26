@@ -1,4 +1,4 @@
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { useEffect, useRef, useState } from 'react';
 import AppLayout from '@/layouts/app-layout';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,12 +9,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
-import { PENYEBAB_5M_KATEGORI } from '@/lib/irs-reference-data';
+import HighlightText from '@/components/ui/highlight-text';
+import { useRowSearch } from '@/hooks/use-row-search';
+import { PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS } from '@/lib/irs-reference-data';
 import { PENCATATAN_KEJADIAN_FIELD_INFO } from '@/lib/pencatatan-kejadian-field-info';
-import { Pencil } from 'lucide-react';
+import { Pencil, Search, X, ChevronUp, ChevronDown, ClipboardList } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface OpdOption {
@@ -27,6 +28,9 @@ interface RisikoRow {
   risiko_id: number;
   label: string;
   konteks: string;
+  opd_id: number | null;
+  opd_nama: string | null;
+  tahun: number | null;
   pencatatan_id: number | null;
   laporan_kejadian_id: number | null;
   tanggal_terjadi: string | null;
@@ -51,7 +55,8 @@ interface Prefill {
 interface PageProps {
   opdOptions: OpdOption[];
   opdId: number | null;
-  tahun: number;
+  tahun: number | null;
+  isAdmin: boolean;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
   rows: RisikoRow[];
@@ -68,18 +73,24 @@ function RisikoRowCard({
   row,
   triwulanOptions,
   triwulanLabels,
-  opdId,
-  tahun,
   prefillMatch,
   cardRef,
+  activeQuery,
+  isCurrent,
+  registerRowRef,
+  rowId,
+  showOpdKolom,
 }: {
   row: RisikoRow;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
-  opdId: number;
-  tahun: number;
   prefillMatch: Prefill | null;
   cardRef?: React.RefObject<HTMLDivElement | null>;
+  activeQuery: string;
+  isCurrent: boolean;
+  registerRowRef: (id: number, el: HTMLElement | null) => void;
+  rowId: number;
+  showOpdKolom: boolean;
 }) {
   const isFilled = row.pencatatan_id !== null;
   const [editing, setEditing] = useState(!!prefillMatch);
@@ -101,14 +112,23 @@ function RisikoRowCard({
   const setField = (key: keyof typeof form, value: string) => setForm((prev) => ({ ...prev, [key]: value }));
 
   const save = () => {
+    if (row.opd_id === null || row.tahun === null) {
+      toast.error('Data OPD/tahun risiko sumber tidak lengkap, tidak bisa disimpan.');
+      return;
+    }
     setSaving(true);
     router.post(
       '/monitoring-evaluasi/10',
       {
         risiko_tipe: row.risiko_tipe,
         risiko_id: row.risiko_id,
-        opd_id: opdId,
-        tahun,
+        // opd_id/tahun diambil dari DATA BARIS itu sendiri (bukan filter
+        // tampilan global yg sekarang bisa null saat "Semua OPD"/"Semua
+        // Tahun") — tahun di sini adalah TAHUN DINILAI RISIKO sumbernya,
+        // dipakai jg sbg tahun_penilaian pencatatan (perilaku asli: 1
+        // pencatatan per risiko per tahun risikonya dinilai).
+        opd_id: row.opd_id,
+        tahun: row.tahun,
         laporan_kejadian_id: prefillMatch?.laporan_kejadian_id ?? row.laporan_kejadian_id ?? null,
         ...form,
       },
@@ -125,19 +145,33 @@ function RisikoRowCard({
   };
 
   return (
-    <Card ref={cardRef} className={prefillMatch ? 'ring-2 ring-primary' : undefined}>
+    <Card
+      ref={(el) => {
+        // Dua kebutuhan ref pada elemen yang sama: cardRef (scroll ke baris
+        // prefill dari laporan warga, prioritas) & registerRowRef (dipakai
+        // hook pencarian) — Card cuma bisa menerima satu ref, jadi didaftar
+        // ke keduanya kalau prefillMatch sedang aktif untuk baris ini.
+        if (cardRef) (cardRef as React.MutableRefObject<HTMLDivElement | null>).current = el;
+        registerRowRef(rowId, el);
+      }}
+      className={prefillMatch ? 'ring-2 ring-primary' : isCurrent ? 'ring-2 ring-inset ring-orange-500' : undefined}
+    >
       <CardContent className="space-y-3 p-4">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1 space-y-1">
             <div className="flex flex-wrap items-center gap-1.5">
               <Badge variant="outline">{TIPE_LABEL[row.risiko_tipe]}</Badge>
+              {showOpdKolom && row.opd_nama && <Badge variant="outline">{row.opd_nama}</Badge>}
+              {showOpdKolom && row.tahun && <Badge variant="outline">Tahun {row.tahun}</Badge>}
               {row.laporan_kejadian_id && (
                 <Badge variant="outline" className="border-blue-300 text-blue-700">
                   Dari Laporan Warga #{row.laporan_kejadian_id}
                 </Badge>
               )}
             </div>
-            <p className="text-sm font-medium">{row.label}</p>
+            <p className="text-sm font-medium">
+              <HighlightText text={row.label} query={activeQuery} />
+            </p>
           </div>
           <div className="flex shrink-0 items-center gap-2">
             {isFilled ? (
@@ -174,6 +208,7 @@ function RisikoRowCard({
                   value={form.sebab_saat_kejadian}
                   onChange={(val) => setField('sebab_saat_kejadian', val)}
                   categories={PENYEBAB_5M_KATEGORI}
+                  groupLabels={PENYEBAB_GROUP_LABELS}
                   uraianPlaceholder="Uraian sebab..."
                   rows={2}
                 />
@@ -251,8 +286,40 @@ function RisikoRowCard({
   );
 }
 
-export default function Form10({ opdOptions, opdId, tahun, triwulanOptions, triwulanLabels, rows, prefill }: PageProps) {
+// useRowSearch butuh field `id: number` unik per baris — RisikoRow tidak
+// punya id tunggal (kuncinya kombinasi risiko_tipe+risiko_id), jadi diberi
+// id sintetis dari index array, TANPA mengubah bentuk data asli row.*.
+type SearchableRisikoRow = RisikoRow & { id: number; [key: string]: unknown };
+
+export default function Form10({ opdOptions, opdId, tahun, isAdmin, triwulanOptions, triwulanLabels, rows, prefill }: PageProps) {
   const prefillCardRef = useRef<HTMLDivElement>(null);
+  const searchableRows: SearchableRisikoRow[] = rows.map((row, index) => ({ ...row, id: index }));
+
+  const {
+    searchInput,
+    setSearchInput,
+    activeQuery,
+    matches,
+    currentMatchIndex,
+    currentMatchId,
+    registerRowRef,
+    runSearch,
+    jumpToMatch,
+    clearSearch,
+    handleKeyDown,
+  } = useRowSearch(searchableRows, ['label', 'konteks']);
+
+  // Badge OPD/Tahun per-card relevan HANYA saat sedang lintas-OPD ("Semua
+  // OPD", cuma bisa admin) atau lintas-tahun ("Semua Tahun").
+  const showOpdKolom = opdId === null || tahun === null;
+
+  const navigate = (nextOpdId: number | null, nextTahun: number | null) => {
+    router.get(
+      '/monitoring-evaluasi/10',
+      { opd_id: nextOpdId ?? undefined, tahun: nextTahun ?? undefined },
+      { preserveState: true, preserveScroll: true, replace: true },
+    );
+  };
 
   useEffect(() => {
     if (prefill && prefillCardRef.current) {
@@ -265,46 +332,141 @@ export default function Form10({ opdOptions, opdId, tahun, triwulanOptions, triw
     <AppLayout>
       <Head title="10 Pencatatan Kejadian Risiko" />
       <div className="space-y-4 p-4">
-        <div>
-          <h1 className="text-2xl font-semibold">10 — Pencatatan Kejadian Risiko &amp; Pelaksanaan RTP</h1>
-          <p className="text-sm text-muted-foreground">
-            Pencatatan Kejadian Risiko (Risk Event) dan Pelaksanaan RTP — sesuai Lampiran 5 Perdep PPKD No.4/2019.
-            Satu baris di bawah mewakili satu risiko yang sudah teridentifikasi di Form Input IRS/IRO — catat di
-            sini bila risiko tersebut benar-benar terjadi pada tahun berjalan, beserta realisasi RTP-nya.
-          </p>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-semibold">10 — Pencatatan Kejadian Risiko &amp; Pelaksanaan RTP</h1>
+            <p className="text-sm text-muted-foreground">
+              Pencatatan Kejadian Risiko (Risk Event) dan Pelaksanaan RTP — sesuai Lampiran 5 Perdep PPKD No.4/2019.
+              Satu baris di bawah mewakili satu risiko yang sudah teridentifikasi di Form Input IRS/IRO — catat di
+              sini bila risiko tersebut benar-benar terjadi pada tahun berjalan, beserta realisasi RTP-nya.
+            </p>
+          </div>
+          {/* Laporan warga (via QR /lapor-kejadian) yang belum diverifikasi/
+              ditautkan ke risiko tidak akan muncul sebagai baris di Form 10
+              ini (baris di sini murni proyeksi risiko IRS/IRO) — tombol ini
+              jalan pintas ke Rekap supaya PIC bisa cek & proses laporan yang
+              masih menunggu tindak lanjut sebelum mencatatnya di sini. */}
+          <Link href="/lapor-kejadian/rekap" className="shrink-0">
+            <Button type="button" variant="outline">
+              <ClipboardList className="mr-2 h-4 w-4" />
+              Rekap Lapor Kejadian
+            </Button>
+          </Link>
         </div>
 
-        <OpdTahunPicker routeName="/monitoring-evaluasi/10" opdOptions={opdOptions} opdId={opdId} tahun={tahun} />
+        {/* Picker khusus halaman ini (bukan OpdTahunPicker shared CEE) —
+            mendukung "Semua OPD" (admin/super-admin saja) & "Semua Tahun",
+            sama pola dgn Form89 (Form 8-9). */}
+        <div className="flex flex-wrap items-end gap-3">
+          {isAdmin && (
+            <div className="min-w-64 space-y-1">
+              <Label>OPD</Label>
+              <Select value={opdId ? String(opdId) : 'all'} onValueChange={(v) => navigate(v === 'all' ? null : Number(v), tahun)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Semua OPD" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Semua OPD</SelectItem>
+                  {opdOptions.map((opd) => (
+                    <SelectItem key={opd.id} value={String(opd.id)}>
+                      {opd.nama}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+          <div className="w-40 space-y-1">
+            <Label>Tahun Dinilai Risiko</Label>
+            <Select value={tahun ? String(tahun) : 'all'} onValueChange={(v) => navigate(opdId, v === 'all' ? null : Number(v))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Semua Tahun" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Semua Tahun</SelectItem>
+                {Array.from({ length: 7 }, (_, i) => new Date().getFullYear() + 2 - i).map((y) => (
+                  <SelectItem key={y} value={String(y)}>
+                    {y}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
-        {!opdId ? (
-          <Card>
-            <CardContent className="p-8 text-center text-sm text-muted-foreground">Pilih OPD terlebih dahulu.</CardContent>
-          </Card>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <Card>
             <CardContent className="p-8 text-center text-sm text-muted-foreground">
-              Belum ada risiko teridentifikasi untuk OPD &amp; tahun ini — isi dulu Uraian Risiko di Form Input
-              IRS/IRO.
+              Belum ada risiko teridentifikasi{opdId || tahun ? ' untuk filter ini' : ''} — isi dulu Uraian Risiko
+              di Form Input IRS/IRO.
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-3">
-            {rows.map((row) => {
-              const isPrefillMatch = !!prefill && prefill.risiko_tipe === row.risiko_tipe && prefill.risiko_id === row.risiko_id;
-              return (
-                <RisikoRowCard
-                  key={`${row.risiko_tipe}-${row.risiko_id}`}
-                  row={row}
-                  triwulanOptions={triwulanOptions}
-                  triwulanLabels={triwulanLabels}
-                  opdId={opdId}
-                  tahun={tahun}
-                  prefillMatch={isPrefillMatch ? prefill : null}
-                  cardRef={isPrefillMatch ? prefillCardRef : undefined}
+          <>
+            <div className="flex items-center gap-2">
+              <div className="relative max-w-md flex-1">
+                <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Cari uraian risiko/konteks... (Enter untuk cari/lanjut)"
+                  className="pr-9 pl-9"
                 />
-              );
-            })}
-          </div>
+                {searchInput && (
+                  <button
+                    type="button"
+                    onClick={clearSearch}
+                    className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+              <Button type="button" onClick={runSearch}>
+                Cari
+              </Button>
+              {activeQuery && matches.length > 0 && (
+                <div className="flex items-center gap-1">
+                  <span className="mr-1 text-sm text-muted-foreground whitespace-nowrap">
+                    {currentMatchIndex + 1} / {matches.length}
+                  </span>
+                  <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex - 1)}>
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
+                  <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex + 1)}>
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
+            </div>
+            {activeQuery && (
+              <p className="text-sm text-muted-foreground">
+                {matches.length > 0 ? `Ditemukan ${matches.length} hasil untuk "${activeQuery}".` : `Tidak ada hasil untuk "${activeQuery}".`}
+              </p>
+            )}
+
+            <div className="space-y-3">
+              {searchableRows.map((row) => {
+                const isPrefillMatch = !!prefill && prefill.risiko_tipe === row.risiko_tipe && prefill.risiko_id === row.risiko_id;
+                return (
+                  <RisikoRowCard
+                    key={`${row.risiko_tipe}-${row.risiko_id}`}
+                    row={row}
+                    triwulanOptions={triwulanOptions}
+                    triwulanLabels={triwulanLabels}
+                    prefillMatch={isPrefillMatch ? prefill : null}
+                    cardRef={isPrefillMatch ? prefillCardRef : undefined}
+                    activeQuery={activeQuery}
+                    isCurrent={currentMatchId === row.id}
+                    registerRowRef={registerRowRef}
+                    rowId={row.id}
+                    showOpdKolom={showOpdKolom}
+                  />
+                );
+              })}
+            </div>
+          </>
         )}
       </div>
     </AppLayout>

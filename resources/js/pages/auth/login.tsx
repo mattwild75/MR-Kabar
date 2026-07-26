@@ -110,6 +110,12 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             </form>
 
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+
+            <div className="text-right">
+                <TextLink href={route('panduan.public')} className="text-sm">
+                    Apa itu MR Kabar / Manajemen Risiko?
+                </TextLink>
+            </div>
         </AuthLayout>
     );
 }

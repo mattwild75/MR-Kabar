@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\BuildsHierarchyDiagram;
 use App\Models\RiskLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,8 @@ use Inertia\Inertia;
 
 class KaeresPdController extends Controller
 {
+    use BuildsHierarchyDiagram;
+
     /**
      * Sama seperti IrsPemdaController::TRIWULAN_LABELS.
      */
@@ -24,7 +27,9 @@ class KaeresPdController extends Controller
     {
         $rows = DB::table('tbl_krs_irs_pd')
             ->get()
+            ->filter(fn ($row) => $this->rowVisibleToCurrentUser($row))
             ->map(fn ($row) => (array) $row)
+            ->values()
             ->all();
 
         return Inertia::render('krs_irs_pd/Index', [
@@ -66,7 +71,7 @@ class KaeresPdController extends Controller
         if ($request->filled('tahun')) {
             $query->where('TAHUN_DINILAI_RISIKO', $request->string('tahun'));
         }
-        $data = $query->get();
+        $data = $query->get()->filter(fn ($row) => $this->rowVisibleToCurrentUser($row))->values();
 
         $columns = Schema::getColumnListing('tbl_krs_irs_pd');
         $uraianPos = array_search('URAIAN_RISIKO', $columns, true);
@@ -410,20 +415,6 @@ class KaeresPdController extends Controller
     }
 
     /**
-     * Kunci pencocokan teks node antar-tabel: buang label kode ("Sasaran
-     * 1.1.3 : ") dan rapikan spasi, supaya SASARAN_RPJMD dari tbl_krs_irs_pd
-     * cocok dengan yang di tbl_krs_irs_pemda meski format labelnya beda.
-     */
-    private function cleanKey(?string $value): string
-    {
-        $value = trim((string) $value);
-        if (preg_match('/^(?:[A-Za-z]+\s+){1,3}[\d.]+\s*:\s*(.*)$/s', $value, $m)) {
-            $value = trim($m[1]);
-        }
-        return mb_strtolower(preg_replace('/\s+/', ' ', $value));
-    }
-
-    /**
      * Peta IK/Baseline/Target/OPD untuk node warisan Pemda (Tujuan & Sasaran
      * RPJMD), diambil dari 1a (tbl_krs_irs_pemda). Dipakai 2a agar popup detail
      * node RPJMD selengkap diagram Risiko Strategis Pemda. Struktur:
@@ -460,80 +451,4 @@ class KaeresPdController extends Controller
         return $map;
     }
 
-    /**
-     * Format daftar OPD jadi "> OPD" per baris agar dikenali parseIkLines()
-     * di hierarchy.js & muncul di kolom OPD popup detail SubKegiatan.
-     */
-    private function formatOpdIk(array $opdNames): string
-    {
-        if (count($opdNames) === 0) {
-            return '';
-        }
-
-        return implode("\n", array_map(fn ($o) => '> ' . $o, $opdNames));
-    }
-
-    private function addEdge(array &$edges, array &$edgeIndex, string $from, string $to, int $rowIndex): void
-    {
-        $key = $from . '=>' . $to;
-        if (!isset($edgeIndex[$key])) {
-            $edgeIndex[$key] = \count($edges);
-            $edges[] = ['from' => $from, 'to' => $to, 'rows' => []];
-        }
-        $edges[$edgeIndex[$key]]['rows'][$rowIndex] = true;
-    }
-
-    /**
-     * Sama seperti KaeresController::splitSumberSebabRisiko() — SUMBER
-     * SEBAB RISIKO disimpan "Kategori (uraian)", dipecah supaya node
-     * diagram cuma 3 macam (Internal/Eksternal/Internal dan Eksternal),
-     * uraiannya dipindah ke properti tambahan node untuk popup detail.
-     */
-    private function splitSumberSebabRisiko(?string $value): array
-    {
-        $value = trim((string) $value);
-
-        // "Eksternal dan Internal" (urutan terbalik) dinormalisasi ke
-        // kategori kanonik "Internal dan Eksternal" — lihat komentar di
-        // KaeresController untuk alasannya.
-        $kategoriMap = [
-            'Internal dan Eksternal' => 'Internal dan Eksternal',
-            'Eksternal dan Internal' => 'Internal dan Eksternal',
-            'Internal' => 'Internal',
-            'Eksternal' => 'Eksternal',
-        ];
-
-        foreach ($kategoriMap as $mentah => $kanonik) {
-            if ($value === $mentah) {
-                return [$kanonik, null];
-            }
-            $prefix = "{$mentah} (";
-            if (str_starts_with($value, $prefix) && str_ends_with($value, ')')) {
-                return [$kanonik, substr($value, strlen($prefix), -1)];
-            }
-        }
-
-        return [$value, null];
-    }
-
-    /**
-     * Sama seperti KaeresController::splitCUc() — C / UC disimpan
-     * "Kategori (uraian)", dipecah supaya node diagram cuma 2 macam (C, UC).
-     */
-    private function splitCUc(?string $value): array
-    {
-        $value = trim((string) $value);
-
-        foreach (['C', 'UC'] as $kategori) {
-            if ($value === $kategori) {
-                return [$kategori, null];
-            }
-            $prefix = "{$kategori} (";
-            if (str_starts_with($value, $prefix) && str_ends_with($value, ')')) {
-                return [$kategori, substr($value, strlen($prefix), -1)];
-            }
-        }
-
-        return [$value, null];
-    }
 }

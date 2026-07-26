@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\RebuildHierarchyDiagramJob;
 use App\Models\IroPd;
 use App\Models\KroPd;
 use Illuminate\Support\Facades\Cache;
@@ -27,7 +28,14 @@ class KroIroPdSyncService
     /** Lock bersama dgn KrsIrsSyncService/KrsIrsPdSyncService — lihat komentar di KrsIrsSyncService::LOCK_KEY. */
     private const LOCK_KEY = 'sync-hierarchy-diagram';
 
+    /** Mengantre rebuild ke queue, TIDAK berjalan langsung — lihat komentar RebuildHierarchyDiagramJob & KrsIrsSyncService::sync(). */
     public function sync(): void
+    {
+        RebuildHierarchyDiagramJob::dispatch(self::class);
+    }
+
+    /** Rebuild sinkron sebenarnya — dipanggil worker via RebuildHierarchyDiagramJob. */
+    public function syncNow(): void
     {
         Cache::lock(self::LOCK_KEY, 30)->block(10, function () {
             $this->syncUnlocked();

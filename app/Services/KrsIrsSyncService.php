@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Jobs\RebuildHierarchyDiagramJob;
 use App\Models\IrsPemda;
 use App\Models\KrsPemda;
 use Illuminate\Support\Facades\Cache;
@@ -36,7 +37,25 @@ class KrsIrsSyncService
      */
     private const LOCK_KEY = 'sync-hierarchy-diagram';
 
+    /**
+     * Dipanggil dari controller Form Input (store/update/destroy) & Trash
+     * (restore/forceDelete) — HANYA mengantre pekerjaan rebuild ke queue,
+     * TIDAK menjalankannya langsung, supaya request user selesai cepat
+     * (lihat komentar RebuildHierarchyDiagramJob). Worker `queue:work`
+     * WAJIB berjalan di server, kalau tidak tabel turunan tidak akan
+     * pernah ter-update.
+     */
     public function sync(): void
+    {
+        RebuildHierarchyDiagramJob::dispatch(self::class);
+    }
+
+    /**
+     * Rebuild SINKRON sebenarnya — dipanggil oleh RebuildHierarchyDiagramJob
+     * di worker, BUKAN langsung dari controller. Tetap public (bukan
+     * private) supaya job bisa memanggilnya lintas-class.
+     */
+    public function syncNow(): void
     {
         Cache::lock(self::LOCK_KEY, 30)->block(10, function () {
             $this->syncUnlocked();

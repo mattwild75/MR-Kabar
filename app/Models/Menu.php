@@ -42,15 +42,4 @@ class Menu extends Model
     {
         return $query->whereNull('parent_id');
     }
-
-    /**
-     * Scope: menu yang dapat diakses oleh user (berdasarkan permission)
-     */
-    public function scopeForUser($query, $user)
-    {
-        return $query->where(function ($q) use ($user) {
-            $q->whereNull('permission_name')
-                ->orWhereIn('permission_name', $user->getAllPermissions()->pluck('name'));
-        });
-    }
 }

@@ -32,7 +32,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { IRO_PD_FIELD_INFO } from '@/lib/iro-pd-field-info';
-import { SUMBER_SEBAB_RISIKO_KATEGORI, C_UC_OPTIONS, PENYEBAB_5M_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
+import { C_UC_OPTIONS, PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS, RESPON_RISIKO_KATEGORI, penyebabKategoriSuffix, computeSumberSebabRisiko } from '@/lib/irs-reference-data';
 import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
 import ExistingControlToggleSection from '@/components/ui/existing-control-toggle-section';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
@@ -681,8 +681,13 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                       <MultiCategoryTextarea
                         id={field}
                         value={value}
-                        onChange={(val) => setData(field, val)}
+                        onChange={(val) => {
+                          setData(field, val);
+                          setData('SUMBER SEBAB RISIKO', computeSumberSebabRisiko(val));
+                        }}
                         categories={PENYEBAB_5M_KATEGORI}
+                        groupLabels={PENYEBAB_GROUP_LABELS}
+                        categorySuffix={penyebabKategoriSuffix}
                         uraianPlaceholder="Uraian penyebab..."
                       />
                       {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
@@ -691,26 +696,11 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
                 );
               }
 
+              // SUMBER SEBAB RISIKO tidak lagi diisi manual — dihitung
+              // otomatis dari kategori Internal(7M+1E)/Eksternal(PESTLE) yg
+              // dicentang di URAIAN PENYEBAB RISIKO (lihat computeSumberSebabRisiko).
               if (field === 'SUMBER SEBAB RISIKO') {
-                return (
-                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                    <div className="flex items-start gap-1.5 pt-2">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <div>
-                      <MultiCategoryTextarea
-                        id={field}
-                        value={value}
-                        onChange={(val) => setData(field, val)}
-                        categories={SUMBER_SEBAB_RISIKO_KATEGORI.filter((c) => c !== 'Internal dan Eksternal')}
-                        combinedLabel="Internal dan Eksternal"
-                        hideUraian
-                      />
-                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                    </div>
-                  </div>
-                );
+                return null;
               }
 
               if (field === 'C / UC') {

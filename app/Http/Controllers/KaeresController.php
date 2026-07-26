@@ -77,7 +77,11 @@ class KaeresController extends Controller
     {
         $query = DB::table('tbl_krs_irs_pemda');
         if ($request->filled('tahun')) {
-            $query->where('TAHUN_DINILAI_RISIKO', $request->string('tahun'));
+            // TAHUN_DINILAI_RISIKO bertipe int di tbl_krs_irs_pemda (BEDA dari
+            // tbl_krs_irs_pd/tbl_kro_iro_pd yg text, lihat docs/KONVENSI_PENAMAAN_KOLOM.md) — pakai
+            // ->integer() bukan ->string() supaya konsisten dgn tipe kolom
+            // asli, ditemukan lewat audit dead-code/bug 2026-07-26.
+            $query->where('TAHUN_DINILAI_RISIKO', $request->integer('tahun'));
         }
         $data = $query->get();
 

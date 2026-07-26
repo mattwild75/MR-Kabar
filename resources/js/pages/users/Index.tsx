@@ -129,18 +129,17 @@ export default function UserIndex({ users }: Props) {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Reset Password?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Password for <strong>{user.name}</strong> will be reset to:
-                          <br />
-                          <code className="bg-muted rounded px-2 py-1 text-sm">ResetPasswordNya</code>
+                          Password untuk <strong>{user.name}</strong> akan diganti dengan kata sandi acak baru.
+                          Kata sandi baru akan ditampilkan setelah proses reset berhasil — pastikan untuk mencatatnya.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>Batal</AlertDialogCancel>
                         <AlertDialogAction
                           onClick={() => handleResetPassword(user.id)}
                           disabled={processing}
                         >
-                          Yes, Reset
+                          Ya, Reset
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>

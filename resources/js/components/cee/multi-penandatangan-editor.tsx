@@ -24,6 +24,20 @@ interface MultiPenandatanganEditorProps {
   kepalaNip?: string;
 }
 
+// Bentuk form Kepala EKSPLISIT mencakup KEDUA kemungkinan nama field,
+// SEMUA required string (default '' bila tidak dipakai) — sama pola &
+// alasan dgn TtdFormData di ttd-editor.tsx (optional (?:) tidak memenuhi
+// constraint Record<string, FormDataConvertible> milik useForm<T>() Inertia).
+interface KepalaFormData {
+  tempat_pembuatan: string;
+  tanggal_pembuatan: string;
+  jabatan_kepala_daerah: string;
+  jabatan_kepala_dinas: string;
+  nama_kepala_daerah: string;
+  nama_kepala_dinas: string;
+  nip_kepala_dinas: string;
+}
+
 // Editor gabungan utk blok MultiPenandatangan (Form Cetak 6 & 7): kolom
 // "tengah" (penandatangan[] — Sekretaris/Kepala Bidang dkk, dinamis
 // tambah/hapus) DISIMPAN via endpoint khusus (PATCH data-umum/{id}/
@@ -48,9 +62,14 @@ export function MultiPenandatanganEditor({
 }: MultiPenandatanganEditorProps) {
   const [editing, setEditing] = useState(false);
 
-  const kepalaForm = useForm({
+  const kepalaForm = useForm<KepalaFormData>({
     tempat_pembuatan: tempatPembuatan,
     tanggal_pembuatan: tanggalPembuatan,
+    jabatan_kepala_daerah: '',
+    jabatan_kepala_dinas: '',
+    nama_kepala_daerah: '',
+    nama_kepala_dinas: '',
+    nip_kepala_dinas: '',
     [kepalaJabatanField]: kepalaJabatan,
     [kepalaNamaField]: kepalaNama,
     ...(kepalaNip !== undefined ? { nip_kepala_dinas: kepalaNip } : {}),
@@ -128,14 +147,14 @@ export function MultiPenandatanganEditor({
           <div className="space-y-1">
             <Label>Jabatan</Label>
             <Input
-              value={kepalaForm.data[kepalaJabatanField] as string}
+              value={kepalaForm.data[kepalaJabatanField]}
               onChange={(e) => kepalaForm.setData(kepalaJabatanField, e.target.value)}
             />
           </div>
           <div className="space-y-1">
             <Label>Nama</Label>
             <Input
-              value={kepalaForm.data[kepalaNamaField] as string}
+              value={kepalaForm.data[kepalaNamaField]}
               onChange={(e) => kepalaForm.setData(kepalaNamaField, e.target.value)}
             />
           </div>
@@ -143,7 +162,7 @@ export function MultiPenandatanganEditor({
             <div className="space-y-1">
               <Label>NIP</Label>
               <Input
-                value={kepalaForm.data.nip_kepala_dinas as string}
+                value={kepalaForm.data.nip_kepala_dinas}
                 onChange={(e) => kepalaForm.setData('nip_kepala_dinas', e.target.value)}
               />
             </div>

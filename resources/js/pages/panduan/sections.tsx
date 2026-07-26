@@ -20,6 +20,8 @@ import {
   MenuMapGrid,
   DataPipeline,
   MiniBarChart,
+  Screenshot,
+  ScreenshotPair,
 } from './visuals';
 
 /**
@@ -373,6 +375,12 @@ export const SECTIONS: Section[] = [
             children: [
               { label: 'Data Umum', desc: 'Identitas kertas kerja + tanda tangan' },
               {
+                label: 'Risiko',
+                children: [
+                  { label: 'Data Risiko (IRS dan IRO)', desc: 'View gabungan READ-ONLY ketiga tabel di bawah dalam satu halaman, dgn pencarian lintas-tabel + tombol "Lihat Data" ke Form aslinya' },
+                ],
+              },
+              {
                 label: 'Risiko Strategis Pemda',
                 children: [
                   { label: 'I_a_KRS_Pemda', desc: 'Visi → Misi → Tujuan → Sasaran → Program' },
@@ -405,6 +413,16 @@ export const SECTIONS: Section[] = [
             ],
           }}
         />
+
+        <Kotak title="Data Risiko (IRS dan IRO) — cara cepat melihat ketiganya sekaligus" tone="accent">
+          Menu baru di bawah grup <strong>Risiko</strong>, di atas ketiga submenu Risiko Strategis Pemda/PD/Operasional
+          PD — menampilkan <strong>I_b_IRS_Pemda, II_b_IRS_PD, dan III_b_IRO_PD dalam satu halaman</strong>, murni
+          untuk melihat &amp; mencari (read-only, tidak ada tombol tambah/edit/hapus di sini). Satu kotak pencarian
+          tunggal di paling atas mencari lintas ketiga tabel sekaligus (bukan tiga kotak terpisah), dan kolom Aksi
+          &quot;Lihat Data&quot; pada tiap baris langsung membuka halaman Form Input aslinya dengan baris itu
+          otomatis ter-sorot — cocok dipakai saat perlu menelusuri satu risiko tapi belum yakin risiko itu ada di
+          tingkat Pemda, OPD, atau Kegiatan yang mana.
+        </Kotak>
 
         <p className="mt-4 font-medium text-foreground">Form Monitoring dan Evaluasi (menu baru, di antara Form Input & Form Cetak)</p>
         <TreeDiagram
@@ -439,8 +457,18 @@ export const SECTIONS: Section[] = [
           di sidebar, sejajar dengan Form Input/Form Monitoring dan Evaluasi/Form Cetak, karena sifatnya laporan
           visual (bukan input data).
         </p>
+        <Screenshot
+          src="/images/panduan/visualisasi-hierarki.png"
+          alt="Tampilan diagram pohon Visualisasi Hirarki KRS + IRS"
+          caption="Diagram pohon Visualisasi Hirarki — Visi hingga Risiko dalam satu gambar interaktif"
+        />
 
         <p className="mt-4 font-medium text-foreground">Form Cetak (hasil akhir siap cetak/PDF)</p>
+        <Screenshot
+          src="/images/panduan/form-cetak.png"
+          alt="Contoh tampilan salah satu Form Cetak MR Kabar"
+          caption="Contoh tampilan Form Cetak — format A4 siap tanda tangan/PDF"
+        />
         <TreeDiagram
           root={{
             label: 'Form Cetak',
@@ -551,6 +579,11 @@ export const SECTIONS: Section[] = [
           interaktif read-only) ada di menu <strong>Visualisasi → Hirarki</strong>, bukan di sini — lihat peta
           menu Visualisasi di atas.
         </p>
+        <Screenshot
+          src="/images/panduan/irs-pemda.png"
+          alt="Tampilan halaman I_b_IRS_Pemda — daftar risiko strategis Pemda"
+          caption="Halaman I_b_IRS_Pemda — daftar risiko strategis Pemda dengan badge Skala Risiko berwarna"
+        />
 
         <p className="mt-2 font-medium text-foreground">Risiko Strategis PD (Level II)</p>
         <ul className="list-disc space-y-1 pl-5">
@@ -813,6 +846,7 @@ export const SECTIONS: Section[] = [
               tone: 'accent',
               items: [
                 'Data Umum',
+                'Data Risiko (IRS dan IRO) — gabungan read-only',
                 'I_a_KRS_Pemda', 'I_b_IRS_Pemda',
                 'II_a_KRS_PD', 'II_b_IRS_PD',
                 'III_a_KRO_PD', 'III_b_IRO_PD',
@@ -887,6 +921,10 @@ export const SECTIONS: Section[] = [
           <strong>&quot;Dashboard MR Kabar&quot;</strong>, dengan subjudul &quot;Manajemen Risiko Pemerintah
           Kabupaten Aceh Barat&quot; di bawahnya.
         </p>
+        <ScreenshotPair
+          left={{ src: '/images/panduan/dashboard-light.png', alt: 'Tampilan Dashboard MR Kabar — mode terang', caption: 'Dashboard — mode terang (light)' }}
+          right={{ src: '/images/panduan/dashboard-dark.png', alt: 'Tampilan Dashboard MR Kabar — mode gelap', caption: 'Dashboard — mode gelap (dark)' }}
+        />
         <p className="mt-2 text-xs font-medium text-foreground">Peta 6 seksi sebelum masuk detail tiap widget</p>
         <WidgetGrid
           items={[
@@ -989,13 +1027,15 @@ export const SECTIONS: Section[] = [
             { label: 'Pendidikan', value: 15, max: 42 },
           ]}
         />
-        <Kotak title="Siklus 4-Skor Risiko sesuai COSO ERM — Inheren, Residual, Target, Aktual" tone="accent">
+        <Kotak title="Siklus 4-Skor Risiko — Inheren, Residual, Target, Aktual" tone="accent">
           <p>
             Perdep Pasal 1 angka 10 mendefinisikan &quot;Sisa Risiko&quot; sebagai risiko SETELAH
             mempertimbangkan pengendalian yang ada — secara implisit membedakannya dari <strong>risiko
-            inheren</strong> (sebelum pengendalian). Mengikuti siklus penuh COSO ERM 2017 (<em>Assess Severity</em>{' '}
-            → <em>Review Risk and Performance</em>), MR Kabar sekarang mencatat <strong>4 titik skor</strong>{' '}
-            per risiko, bukan cuma 2:
+            inheren</strong> (sebelum pengendalian). Perdep sendiri merujuk <strong>COSO ERM 2004</strong> (8
+            komponen, lihat bagian &quot;Bagaimana&quot;), BUKAN COSO ERM 2017 — siklus 4-skor di bawah ini adalah
+            perluasan MR Kabar sendiri (bukan istilah yang diambil literal dari salah satu versi COSO), disusun
+            supaya proses Risk Assessment → Risk Response → evaluasi hasil nyatanya bisa ditelusuri utuh dalam satu
+            siklus. MR Kabar mencatat <strong>4 titik skor</strong> per risiko, bukan cuma 2:
           </p>
           <ul className="mt-1 list-disc space-y-1 pl-5">
             <li>
@@ -1135,9 +1175,9 @@ export const SECTIONS: Section[] = [
     content: (
       <>
         <p>Perdep PPKD No.4/2019 Bab III menetapkan 5 tahap proses pengelolaan risiko, berurutan:</p>
-        <p className="mt-2 text-xs font-medium text-foreground">Padanan 5 tahap SPIP dgn 8 komponen COSO ERM (latar belakang konseptual)</p>
+        <p className="mt-2 text-xs font-medium text-foreground">Padanan 5 tahap SPIP dgn 8 komponen COSO ERM 2004 (latar belakang konseptual — versi yang dirujuk Perdep, BUKAN COSO ERM 2017 yang 5-komponen)</p>
         <SimpleTable
-          headers={['5 Tahap SPIP/Perdep', 'Komponen COSO ERM yang melandasinya']}
+          headers={['5 Tahap SPIP/Perdep', 'Komponen COSO ERM 2004 yang melandasinya']}
           rows={[
             ['1. Identifikasi Kelemahan Lingkungan Pengendalian', 'Lingkungan Internal (Internal Environment)'],
             ['2. Penilaian Risiko', 'Penentuan Tujuan, Identifikasi Kejadian, Penilaian Risiko, Respon Risiko'],
@@ -1235,7 +1275,7 @@ export const SECTIONS: Section[] = [
             [<ColorBadge color="amber">TAHUN</ColorBadge>, '25', 'Tahun dinilai risiko, 2 digit terakhir', 'Field Tahun Dinilai Risiko'],
             [<ColorBadge color="sky">JENIS</ColorBadge>, '37', 'Kode 2-digit Jenis Risiko (37 = Keuangan dan Pendapatan)', 'Field Jenis Risiko (41 pilihan baku)'],
             [<ColorBadge color="emerald">ENTITAS PENILAI</ColorBadge>, '30', 'Kode urutan 2-digit entitas yang menilai (30 = Inspektorat)', 'Field Entitas PD yang Menilai'],
-            ['NOMOR URUT', '01', 'Nomor urut risiko dalam satu Sasaran/Kegiatan, mulai dari 01', 'Dihitung otomatis, tidak disimpan di database'],
+            ['NOMOR URUT', '01', 'Nomor urut risiko dalam satu kombinasi Tahun + Jenis Risiko + Entitas Penilai, mulai dari 01 — BUKAN per Sasaran/Kegiatan (direset per kombinasi ini supaya Kode Risiko tidak dobel antar-Sasaran/Kegiatan berbeda)', 'Dihitung otomatis, tidak disimpan di database'],
           ]}
         />
         <p className="text-center font-mono text-sm text-foreground">RSP.25.37.30.01</p>
@@ -1290,7 +1330,9 @@ export const SECTIONS: Section[] = [
         <div className="grid gap-3 sm:grid-cols-3">
           <Kotak title="1. Visualisasi Hirarki" tone="accent">
             Tabel gabungan <code>tbl_krs_irs_*</code>/<code>tbl_kro_iro_*</code> disusun ulang penuh (bukan hanya
-            ditambah) — inilah yang ditampilkan diagram pohon di menu Visualisasi.
+            ditambah) — inilah yang ditampilkan diagram pohon di menu Visualisasi. Proses ini berjalan otomatis di
+            belakang layar begitu Anda Simpan; lihat catatan &quot;Sinkron vs Antrian&quot; di bawah untuk detail
+            kapan ini instan vs butuh beberapa detik.
           </Kotak>
           <Kotak title="2. Skala Risiko & Kode Risiko" tone="accent">
             Dihitung ULANG setiap kali dibaca (Form Cetak/Dashboard dibuka) — bukan disimpan sebagai nilai tetap,
@@ -1298,14 +1340,24 @@ export const SECTIONS: Section[] = [
           </Kotak>
           <Kotak title="3. Widget Dashboard" tone="accent">
             Seluruh 16 widget membaca ulang data IRS/IRO/RTP/Monitoring terbaru setiap dibuka — tidak ada proses
-            &quot;sinkronisasi manual&quot; atau jeda antara data disimpan dan Dashboard memperbaruinya.
+            &quot;sinkronisasi manual&quot; yang perlu dipicu sendiri oleh pengguna untuk Dashboard.
           </Kotak>
         </div>
+        <Kotak title="Sinkron (langsung) vs Antrian (background) — kapan rebuild diagram terasa instan">
+          Rebuild tabel gabungan (poin 1 di atas) bisa berjalan dengan dua cara tergantung konfigurasi server:{' '}
+          <strong>mode sinkron</strong> (rebuild langsung selesai sebelum halaman kembali ke Anda — sedikit lebih
+          lambat per-simpan, tapi diagram PASTI langsung ter-update) atau <strong>mode antrian</strong> (tiket
+          rebuild masuk ke antrian, dikerjakan oleh proses <em>queue worker</em> terpisah di belakang layar — Simpan
+          jadi lebih cepat, tapi diagram baru ter-update beberapa saat kemudian, dan HANYA jika queue worker
+          benar-benar berjalan permanen di server). Kalau diagram terasa &quot;telat&quot; ter-update, kemungkinan
+          besar server sedang mode antrian dan queue worker-nya belum/berhenti berjalan — bukan bug di data Anda.
+        </Kotak>
         <Kotak title="Kalau salah satu titik di atas tidak sesuai harapan, cek di sini dulu">
           <ul className="list-disc space-y-1 pl-5">
             <li>
               Diagram pohon Visualisasi tidak menampilkan risiko baru? Cek dulu apakah baris IRS/IRO-nya benar-benar
-              tersimpan (bukan draft yang batal disimpan), lalu refresh halaman Visualisasi.
+              tersimpan (bukan draft yang batal disimpan), lalu refresh halaman Visualisasi — kalau server sedang
+              mode antrian (lihat catatan di atas), beri jeda beberapa detik dulu sebelum menyimpulkan ada masalah.
             </li>
             <li>
               Skala Risiko yang tercetak berubah tiba-tiba? Kemungkinan besar Admin baru saja mengubah tabel Matriks
@@ -1722,12 +1774,12 @@ export const SECTIONS: Section[] = [
           headers={['Kategori', 'Warna', 'Contoh']}
           rows={[
             [<ColorBadge color="orange">Men</ColorBadge>, 'Oranye', 'Faktor sumber daya manusia/personel.'],
-            [<ColorBadge color="sky">Machine</ColorBadge>, 'Cyan', 'Alat/sistem/mesin yang jadi penyebab.'],
-            [<ColorBadge color="sky">Method</ColorBadge>, 'Indigo', 'Prosedur/metode kerja yang jadi penyebab.'],
-            [<ColorBadge color="emerald">Material</ColorBadge>, 'Lime', 'Bahan/material/data yang jadi penyebab.'],
-            [<ColorBadge color="red">Money</ColorBadge>, 'Rose', 'Faktor anggaran/pembiayaan.'],
-            [<ColorBadge color="amber">Management</ColorBadge>, 'Teal', 'Kelemahan tata kelola/pengawasan/koordinasi.'],
-            [<ColorBadge color="yellow">Measurement</ColorBadge>, 'Fuchsia', 'Kesalahan/ketiadaan indikator pengukuran.'],
+            [<ColorBadge color="cyan">Machine</ColorBadge>, 'Cyan', 'Alat/sistem/mesin yang jadi penyebab.'],
+            [<ColorBadge color="indigo">Method</ColorBadge>, 'Indigo', 'Prosedur/metode kerja yang jadi penyebab.'],
+            [<ColorBadge color="lime">Material</ColorBadge>, 'Lime', 'Bahan/material/data yang jadi penyebab.'],
+            [<ColorBadge color="rose">Money</ColorBadge>, 'Rose', 'Faktor anggaran/pembiayaan.'],
+            [<ColorBadge color="teal">Management</ColorBadge>, 'Teal', 'Kelemahan tata kelola/pengawasan/koordinasi.'],
+            [<ColorBadge color="fuchsia">Measurement</ColorBadge>, 'Fuchsia', 'Kesalahan/ketiadaan indikator pengukuran.'],
             [<ColorBadge color="emerald">Environment</ColorBadge>, 'Emerald', 'Faktor lingkungan eksternal (cuaca, bencana alam, geografis) di luar kendali OPD.'],
           ]}
         />
@@ -2091,6 +2143,22 @@ export const SECTIONS: Section[] = [
           dalam mode expanded maupun collapsed — memudahkan memindai sidebar secara sekilas tanpa harus membaca
           teksnya satu per satu.
         </Kotak>
+
+        <p className="mt-3 font-medium text-foreground">Ringkasan perbandingan dua mode</p>
+        <SimpleTable
+          headers={['Aspek', 'Mode Expanded', 'Mode Collapsed']}
+          rows={[
+            ['Tampilan', 'Ikon + nama menu lengkap', 'Ikon saja'],
+            ['Buka submenu', 'Accordion (klik grup, submenu tampil di bawahnya)', 'Flyout melayang di sebelah kanan ikon'],
+            ['Ruang layar', 'Lebih lebar', 'Lebih hemat, konten utama lebih luas'],
+            ['Tutup pintasan', '—', <>Tekan <code>Esc</code> atau klik di luar area flyout</>],
+            ['Ganti mode', <code>Ctrl/Cmd + B</code>, <code>Ctrl/Cmd + B</code>],
+          ]}
+        />
+        <p className="text-xs text-muted-foreground">
+          Preferensi mode (expanded/collapsed) tersimpan otomatis per akun — tidak perlu diatur ulang setiap kali
+          membuka aplikasi.
+        </p>
       </>
     ),
   },
@@ -2102,6 +2170,15 @@ export const SECTIONS: Section[] = [
     navLabel: '16. Before / After',
     content: (
       <>
+        <p>Ringkasan cepat perbedaan paling terasa, sebelum dibahas lebih detail per kategori di bawah:</p>
+        <StatCardGrid
+          items={[
+            { label: 'Sumber data risiko', value: '1 sistem', desc: 'Sebelumnya: file Excel/Word tersebar per-OPD', tone: 'accent' },
+            { label: 'Perhitungan Skala Risiko', value: 'Otomatis', desc: 'Sebelumnya: dihitung manual per baris' },
+            { label: 'Jejak audit perubahan', value: 'Tercatat', desc: 'Sebelumnya: tidak ada jejak sama sekali' },
+            { label: 'Data terhapus', value: 'Bisa dipulihkan', desc: 'Sebelumnya: hilang permanen', tone: 'accent' },
+          ]}
+        />
         <div className="grid gap-3 sm:grid-cols-2">
           <Kotak title="Sebelum ada Manajemen Risiko terstruktur">
             <ul className="list-disc space-y-1 pl-5">
@@ -2157,6 +2234,18 @@ export const SECTIONS: Section[] = [
     navLabel: '17. FAQ',
     content: (
       <>
+        <p className="text-xs font-medium text-foreground">Ringkasan cepat — istilah/form yang paling sering tertukar</p>
+        <SimpleTable
+          headers={['Sering tertukar dengan', 'Beda utamanya']}
+          rows={[
+            ['Pemilik Risiko vs Penanggung Jawab Pengendalian', 'UPR berjenjang vs jabatan spesifik pelaksana 1 RTP'],
+            ['Form 2a/2b/2c vs 3a/3b/3c', 'Seluruh konteks (walau blm ada risiko) vs hanya yg sudah ada risiko'],
+            ['Form 4/5 vs Form 6/7', 'Analisis Dampak×Kemungkinan vs Rencana Tindak Pengendalian (RTP)'],
+            ['Form 1-10 vs Form 11/12/13', 'Kertas kerja/tabel data vs laporan naratif berjenjang'],
+            ['Dashboard vs Form Cetak', 'Ringkasan real-time terfilter vs dokumen 1 tahun siap cetak'],
+          ]}
+        />
+        <p className="mt-2 text-xs font-medium text-foreground">Detail lengkap per pertanyaan</p>
         <Kotak title="Apa bedanya Pemilik Risiko dengan Penanggung Jawab Pengendalian?">
           Pemilik Risiko (UPR) adalah unit/jabatan yang bertanggung jawab mengelola risiko itu secara keseluruhan
           sesuai jenjang strukturnya. Penanggung Jawab Pengendalian adalah jabatan spesifik yang melaksanakan SATU
@@ -2258,6 +2347,11 @@ export const SECTIONS: Section[] = [
           ]}
         />
 
+        <Screenshot
+          src="/images/panduan/lapor-kejadian.png"
+          alt="Tampilan Form Lapor Kejadian Risiko"
+          caption="Form Lapor Kejadian Risiko — kanal terbuka publik lewat QR code, tanpa perlu akun"
+        />
         <LaporQrCode />
         <Kotak title="Apa yang terjadi setelah laporan dikirim?" tone="accent">
           Laporan langsung terlihat oleh PIC OPD yang dipilih di form (jika ada) serta Admin/Super Admin, lengkap

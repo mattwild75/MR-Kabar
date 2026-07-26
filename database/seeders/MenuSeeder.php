@@ -765,6 +765,25 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Data Risiko (IRS dan IRO) — view gabungan READ-ONLY ketiga tabel
+        // Identifikasi Risiko (I_b_IRS_Pemda + II_b_IRS_PD + III_b_IRO_PD)
+        // sekaligus dalam satu halaman, dgn pencarian per-tabel & tombol
+        // "Lihat Data" yg pindah ke halaman Form Input aslinya (bukan
+        // pengganti ketiga sub-grup di bawah — cuma cara cepat menemukan
+        // baris lintas ketiga tingkat tanpa gonta-ganti menu). Sejajar dgn
+        // 3 sub-grup Risiko Strategis Pemda/PD/Operasional PD, BUKAN
+        // ditaruh di dalam salah satunya krn mencakup ketiganya sekaligus.
+        Menu::updateOrCreate(
+            ['route' => '/data-risiko-gabungan'],
+            [
+                'title' => 'Data Risiko (IRS dan IRO)',
+                'parent_id' => $risikoGroup->id,
+                'icon' => 'Table',
+                'order' => 0,
+                'permission_name' => null,
+            ]
+        );
+
         // GROUP: Risiko Strategis Pemda (Level I) — sub-grup di bawah Risiko.
         // Ikon Flag (penanda strategis tertinggi/seluruh Pemda).
         $risikoStrategisPemda = Menu::updateOrCreate(

@@ -32,6 +32,8 @@ class UserController extends Controller
 
     public function create()
     {
+        $this->authorize('manageUsers');
+
         $roles = Role::all();
 
         return Inertia::render('users/Form', [
@@ -69,6 +71,8 @@ class UserController extends Controller
 
     public function edit(Request $request, User $user)
     {
+        $this->authorize('manageUsers');
+
         if (!$request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
             abort(403, 'Anda tidak dapat mengubah user super-admin.');
         }

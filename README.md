@@ -28,9 +28,13 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 - **KRS/IRS Pemda** — Kertas Rencana Strategis & Identifikasi Risiko tingkat Pemerintah Daerah.
 - **KRS/IRS Perangkat Daerah** — untuk risiko strategis tingkat OPD (Renstra).
 - **KRO/IRO Perangkat Daerah** — untuk risiko operasional tingkat Kegiatan (Renja/RKA), dengan opsi impor struktur langsung dari data KRS PD.
+- **Data Risiko (IRS dan IRO) — Gabungan** — satu halaman read-only yang menampilkan ketiga tabel Identifikasi Risiko (Strategis Pemda/PD, Operasional PD) sekaligus, dengan pencarian lintas-tabel dan tombol "Lihat Data" langsung ke Form Input aslinya.
+- **Klasifikasi Sumber Penyebab Risiko** — kategori Internal (7M+1E: Man/Machine/Method/Material/Money/Management/Measurement/Environment) dan Eksternal (PESTLE: Political/Economic/Social/Technological/Legal/Environmental), dengan badge warna berbeda per kategori di form input maupun laporan cetak.
 - **Visualisasi Hierarki** — diagram pohon interaktif yang menggabungkan struktur rencana strategis dengan risiko yang tertaut di setiap levelnya.
-- **Perhitungan otomatis** Skala Risiko dan Prioritas dari matriks analisis risiko 5×5 (dampak × kemungkinan).
+- **Perhitungan otomatis** Skala Risiko dan Prioritas dari matriks analisis risiko 5×5 (dampak × kemungkinan), termasuk siklus 4-skor (Inheren → Residual → Target → Aktual).
 - **Struktur kode risiko otomatis** mengikuti format `[JENIS].[TAHUN].[URUSAN].[OPD].[NOMOR URUT]`.
+- **Form Monitoring & Evaluasi** — pencatatan rencana/realisasi pengkomunikasian dan pemantauan atas Rencana Tindak Pengendalian (Form 8/9), serta pencatatan kejadian risiko nyata di lapangan (Form 10).
+- **Form Cetak Laporan Berjenjang** — Laporan Pelaksanaan Penilaian Risiko, Laporan Berkala Pengelolaan Risiko per triwulan, dan Laporan Pemantauan Unit Kepatuhan (Form 11/12/13), sesuai Bab IV Pelaporan Perdep.
 
 ### CEE (Control Environment Evaluation)
 - Kuesioner persepsi 8 unsur lingkungan pengendalian (37 pertanyaan baku, skala 1–4, multi-responden dengan perhitungan modus otomatis).
@@ -53,7 +57,7 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 - **Audit Log** — jejak aktivitas pengguna di seluruh aplikasi.
 - **Backup Database** — otomatis & manual, dengan pembersihan backup lama terjadwal.
 - **Form Cetak** — dokumen siap tanda tangan (PDF) untuk CEE maupun laporan risiko, dihasilkan lewat Browsershot (rendering Chromium dari komponen React yang sama dengan tampilan web).
-- **Panduan Aplikasi** — dokumentasi interaktif lengkap dengan diagram alur, tabel, dan visualisasi struktur di dalam aplikasi.
+- **Panduan Aplikasi** — dokumentasi interaktif lengkap dengan diagram alur, tabel, dan visualisasi struktur, termasuk versi publik yang bisa diakses siapa saja tanpa login lewat halaman Masuk.
 
 ---
 

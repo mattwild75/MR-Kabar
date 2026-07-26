@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Dipakai ForceLogoutAfterMaxDuration untuk menghitung batas 8 jam
+        // Dipakai ForceLogoutAfterMaxDuration untuk menghitung batas 4 jam
         // sejak LOGIN, terpisah dari session lifetime bawaan Laravel yang
         // berbasis inaktivitas (bukan sejak login).
         $request->session()->put('login_at', now()->timestamp);

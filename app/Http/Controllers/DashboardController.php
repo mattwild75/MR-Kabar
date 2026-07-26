@@ -50,6 +50,9 @@ class DashboardController extends Controller
      */
     protected array $rowsCache = [];
 
+    /** Cache khusus skalaRowsForTren() — sama pola $rowsCache, key "tahun:opd". */
+    protected array $skalaRowsCache = [];
+
     public function __construct(private readonly RiskReferenceDataService $riskRef)
     {
     }
@@ -120,7 +123,7 @@ class DashboardController extends Controller
             'matriksDetail' => $this->buildMatriksDetail($riskRows),
             'matrixCells' => $this->buildMatrixCells(),
             'riskLevels' => $riskLevels,
-            'progresTahapan' => $this->buildProgresTahapan($tahun, $opdId),
+            'progresTahapan' => $this->buildProgresTahapan($tahun, $opdId, $ambangTinggi),
             'distribusiTingkat' => $this->buildDistribusiTingkat($riskRows),
             'distribusiKategori' => $this->buildDistribusiKategori($riskRows),
             'inherenResidual' => $this->buildInherenResidual($riskRows),
@@ -421,7 +424,7 @@ class DashboardController extends Controller
      * KRS/KRO tidak py status "lengkap/belum" yg jelas beda dari IRS/IRO
      * (keduanya diisi di form yg sama).
      */
-    private function buildProgresTahapan(int $tahun, ?int $opdId): array
+    private function buildProgresTahapan(int $tahun, ?int $opdId, int $ambangTinggi): array
     {
         $opds = $opdId ? Opd::where('id', $opdId)->get() : Opd::orderBy('nama')->get();
         $totalUnsurCee = CeeUnsur::count();
@@ -433,21 +436,23 @@ class DashboardController extends Controller
             ->where('simpulan', 'Kurang Memadai')->pluck('opd_id')->unique();
         $ceeRtpOpd = CeeRtp::where('tahun_penilaian', $tahun)->pluck('opd_id')->unique();
 
-        $irsPemdaOpd = IrsPemda::whereHas('user')->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->with('user')->get()->pluck('user.opd_id')->filter()->unique();
-        $irsPdOpd = IrsPd::whereHas('user')->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->with('user')->get()->pluck('user.opd_id')->filter()->unique();
-        $iroPdOpd = IroPd::whereHas('user')->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->with('user')->get()->pluck('user.opd_id')->filter()->unique();
-        $risikoTeridentifikasiOpd = $irsPemdaOpd->concat($irsPdOpd)->concat($iroPdOpd)->unique();
+        // $opdId (bukan hardcode null) — supaya PIC non-admin memakai cache
+        // rowsForTahun yg sama dgn widget lain di index() (kunci "$tahun:
+        // $opdId"), bukan memaksa query all-OPD terpisah tiap render.
+        $rowsSemuaOpd = $this->rowsForTahun($tahun, $opdId);
 
-        $skalaTerisiOpd = IrsPemda::whereHas('user')->where('TAHUN DINILAI RISIKO', (string) $tahun)
-            ->whereNotNull('SKALA DAMPAK')->with('user')->get()->pluck('user.opd_id')
-            ->concat(IrsPd::whereHas('user')->where('TAHUN DINILAI RISIKO', (string) $tahun)
-                ->whereNotNull('SKALA DAMPAK')->with('user')->get()->pluck('user.opd_id'))
-            ->concat(IroPd::whereHas('user')->where('TAHUN DINILAI RISIKO', (string) $tahun)
-                ->whereNotNull('SKALA DAMPAK')->with('user')->get()->pluck('user.opd_id'))
-            ->filter()->unique();
+        // risikoTeridentifikasiOpd/skalaTerisiOpd diturunkan dari
+        // $rowsSemuaOpd (cache yg sama dipakai widget Ringkasan/Matriks dkk)
+        // — SEBELUMNYA method ini menjalankan 6 query Eloquent terpisah
+        // (IrsPemda/IrsPd/IroPd x 2, sekali polos + sekali whereNotNull
+        // SKALA DAMPAK) ke 3 tabel yg PERSIS SAMA sudah di-fetch&map oleh
+        // collectRiskRows() di baris rowsForTahun() di atas. Query-query itu
+        // redundan: baris+opd_id+skala_dampak yg dibutuhkan di sini sudah
+        // tersedia di collection ini, tidak perlu ke DB lagi.
+        $risikoTeridentifikasiOpd = $rowsSemuaOpd->pluck('opd_id')->filter()->unique();
+        $skalaTerisiOpd = $rowsSemuaOpd
+            ->filter(fn ($r) => $r['skala_dampak'] !== null)
+            ->pluck('opd_id')->filter()->unique();
 
         $monitoringOpd = MonitoringRtp::where('tahun_penilaian', $tahun)->pluck('opd_id')->unique();
         $pencatatanOpd = PencatatanKejadianRisiko::where('tahun_penilaian', $tahun)->pluck('opd_id')->unique();
@@ -457,11 +462,10 @@ class DashboardController extends Controller
         // TIDAK ADA sama sekali (celah: OPD bisa tampil 6/6 "Selesai" di
         // widget ini padahal masih py risiko prioritas tanpa RTP, hanya
         // ketahuan dari widget Ringkasan "RTP Selesai Disusun" yg terpisah).
-        $ambangTinggiTahapan = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
-        // $opdId (bukan hardcode null) — supaya PIC non-admin memakai cache
-        // rowsForTahun yg sama dgn widget lain di index() (kunci "$tahun:
-        // $opdId"), bukan memaksa query all-OPD terpisah tiap render.
-        $rowsSemuaOpd = $this->rowsForTahun($tahun, $opdId);
+        // $ambangTinggi diterima sbg parameter (bukan query ulang RiskLevel
+        // di sini) — index() sudah menghitungnya sekali & meneruskannya,
+        // menghindari 1 query kecil redundan tiap render Dashboard.
+        $ambangTinggiTahapan = $ambangTinggi;
         $rtpRisikoLengkapOpd = $rowsSemuaOpd
             ->filter(fn ($r) => $r['opd_id'] !== null)
             ->groupBy('opd_id')
@@ -640,6 +644,66 @@ class DashboardController extends Controller
      * dipakai sbg sumbu tren "kapan risiko dinilai". TAHUN DINILAI RISIKO
      * adalah satu2nya dimensi waktu yg konsisten across 3 tabel utk tren ini.
      */
+    /**
+     * Angka skala mentah (BUKAN kode_risiko/nomor_urut) utk 1 tahun, dari
+     * ketiga tabel risiko — dipakai KHUSUS oleh 2 widget tren 5-tahun
+     * (buildTrenTahunan/buildTrenEfektivitasPengendalian), yg cuma butuh
+     * angka agregat, TIDAK butuh kode_risiko per baris (beda dari widget
+     * lain yg lewat rowsForTahun()/collectRiskRows(), yg WAJIB menghitung
+     * nomorUrutFor() lintas-OPD dulu spy kode_risiko konsisten dgn Form
+     * Cetak). Query SELECT kolom skala saja (tanpa eager-load user.opd,
+     * tanpa proyeksi kode_risiko) — jauh lebih ringan drpd rowsForTahun()
+     * utk kebutuhan tren yg cuma menghitung/rata-rata skala, ditemukan
+     * lewat audit performa 2026-07-26 (Dashboard mulai terasa lambat).
+     */
+    private function skalaRowsForTren(int $tahun, ?int $opdId): Collection
+    {
+        $key = $tahun . ':' . ($opdId ?? 'all');
+        if (isset($this->skalaRowsCache[$key])) {
+            return $this->skalaRowsCache[$key];
+        }
+
+        $kolom = ['id', 'user_id', 'URAIAN RISIKO', 'SKALA RISIKO', 'SKALA RISIKO INHEREN', 'SKALA RISIKO TARGET'];
+
+        $scopeOpd = fn ($q) => $opdId ? $q->whereHas('user', fn ($u) => $u->where('opd_id', $opdId)) : $q;
+
+        $ambil = fn (string $model, string $rtpSumberTipe) => $scopeOpd($model::where('TAHUN DINILAI RISIKO', (string) $tahun))
+            ->select($kolom)
+            ->get()
+            ->filter(fn ($r) => trim((string) $r->{'URAIAN RISIKO'}) !== '')
+            ->map(fn ($r) => [
+                'id' => $r->id,
+                'rtp_sumber_tipe' => $rtpSumberTipe,
+                'skala_risiko' => $r->{'SKALA RISIKO'} ? (int) $r->{'SKALA RISIKO'} : null,
+                'skala_risiko_inheren' => $r->{'SKALA RISIKO INHEREN'} ? (int) $r->{'SKALA RISIKO INHEREN'} : null,
+                'skala_risiko_target' => $r->{'SKALA RISIKO TARGET'} ? (int) $r->{'SKALA RISIKO TARGET'} : null,
+            ]);
+
+        $rows = $ambil(IrsPemda::class, 'irs_pemda')
+            ->concat($ambil(IrsPd::class, 'irs_pd'))
+            ->concat($ambil(IroPd::class, 'iro_pd'));
+
+        // Skala Aktual (monitoring_rtp) — sama pola worst-case/max dgn
+        // collectRiskRows(), tapi HANYA utk id yg relevan tahun ini
+        // (bukan seluruh tabel monitoring_rtp tahun tsb).
+        $ids = $rows->groupBy('rtp_sumber_tipe')->map(fn ($g) => $g->pluck('id'));
+        $skalaAktualMax = MonitoringRtp::where('tahun_penilaian', $tahun)
+            ->whereNotNull('skala_risiko_aktual')
+            ->where(function ($q) use ($ids) {
+                foreach ($ids as $tipe => $idList) {
+                    $q->orWhere(fn ($qq) => $qq->where('rtp_sumber_tipe', $tipe)->whereIn('rtp_sumber_id', $idList));
+                }
+            })
+            ->get(['rtp_sumber_tipe', 'rtp_sumber_id', 'skala_risiko_aktual'])
+            ->groupBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
+            ->map(fn ($g) => $g->max('skala_risiko_aktual'));
+
+        return $this->skalaRowsCache[$key] = $rows->map(fn ($r) => [
+            ...$r,
+            'skala_risiko_aktual' => $skalaAktualMax->get("{$r['rtp_sumber_tipe']}:{$r['id']}"),
+        ])->values();
+    }
+
     private function buildTrenTahunan(?int $opdId, int $tahunAktif): array
     {
         $tahunList = range($tahunAktif - 4, $tahunAktif);
@@ -647,7 +711,7 @@ class DashboardController extends Controller
         $ambangTinggi = RiskLevel::where('label', 'Tinggi')->value('skala_min') ?? 16;
 
         return collect($tahunList)->map(function ($tahun) use ($opdId, $ambangSangatTinggi, $ambangTinggi) {
-            $rows = $this->rowsForTahun($tahun, $opdId);
+            $rows = $this->skalaRowsForTren($tahun, $opdId);
 
             return [
                 'tahun' => $tahun,
@@ -692,7 +756,7 @@ class DashboardController extends Controller
         $tahunList = range($tahunAktif - 4, $tahunAktif);
 
         return collect($tahunList)->map(function ($tahun) use ($opdId) {
-            $rows = $this->rowsForTahun($tahun, $opdId)
+            $rows = $this->skalaRowsForTren($tahun, $opdId)
                 ->filter(fn ($r) => $r['skala_risiko_inheren'] !== null && $r['skala_risiko'] !== null);
 
             $totalDinilai = $rows->count();
@@ -724,10 +788,24 @@ class DashboardController extends Controller
      * menyesatkan (mis. 1 risiko skala 25 -> rata2 25, "terlihat" lebih
      * berisiko dari OPD dgn 30 risiko rata2 18 yg sebenarnya eksposur
      * total-nya jauh lebih besar). Frontend menampilkan badge peringatan,
-     * bukan menyembunyikan barisnya.
+     * bukan menyembunyikan barisnya. Sejak skor_total (Σ skala) jadi dasar
+     * urutan utama, flag ini kurang relevan utk sort (OPD sampel kecil
+     * otomatis py skor_total kecil), tapi tetap dipertahankan sbg info —
+     * skor_rata_rata rendah/tinggi dari sampel kecil tetap patut diberi
+     * catatan kehati-hatian saat dibaca manusia.
      */
     private const RANKING_SAMPEL_MINIMAL = 5;
 
+    /**
+     * Dasar urutan: skor_total = Σ skala_risiko seluruh baris risiko OPD
+     * (bukan rata-rata) — supaya OPD dgn BANYAK risiko sedang (eksposur
+     * total besar) tidak kalah prioritas dari OPD ber-1-2 risiko tinggi
+     * tapi eksposur totalnya kecil. Relevan sbg salah satu input penyusunan
+     * PKPT berbasis risiko: total eksposur mencerminkan seberapa besar
+     * "beban risiko" yg ditanggung OPD tsb secara keseluruhan, bukan cuma
+     * seberapa parah risiko terburuknya. skor_rata_rata & risiko_tinggi
+     * tetap disertakan sbg info pendamping (bukan dasar urutan lagi).
+     */
     private function buildRankingOpd(int $tahun): array
     {
         $rows = $this->rowsForTahun($tahun, null);
@@ -742,6 +820,11 @@ class DashboardController extends Controller
                     'opd_nama' => $g->first()['owner_opd_nama'],
                     'total_risiko' => $g->count(),
                     'risiko_tinggi' => $g->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi)->count(),
+                    // Σ skala_risiko — baris tanpa skala terisi (null,
+                    // belum dianalisis) dihitung 0, tidak menambah eksposur
+                    // (bukan dikecualikan dari grup, supaya total_risiko
+                    // tetap menghitung SEMUA baris teridentifikasi).
+                    'skor_total' => (int) $g->sum(fn ($r) => $r['skala_risiko'] ?? 0),
                     // avg() bisa null kalau SEMUA baris grup ini belum py
                     // skala_risiko terisi (baru sebatas identifikasi, belum
                     // dianalisis) — round(null) deprecated di PHP 8.4.
@@ -749,19 +832,17 @@ class DashboardController extends Controller
                     'sampel_kecil' => $g->count() < self::RANKING_SAMPEL_MINIMAL,
                 ];
             })
-            // OPD dgn sampel memadai diprioritaskan tampil di 10 besar drpd
-            // OPD sampel kecil yg kebetulan skor rata2-nya tinggi.
-            // PENTING: sortBy(array $callbacks) Laravel BUKAN "urutkan per
-            // beberapa kriteria independen" — tiap elemen array itu
-            // sebenarnya pasangan [callback, direction], jadi array 2
-            // closure polos (tanpa direction string) di-treat sbg 1
-            // kriteria + direction tidak valid & sort gagal diam-diam
-            // (urutan balik ke urutan asal, TIDAK error). Gabungkan jadi
-            // SATU closure yg mengembalikan tuple pembanding supaya benar2
-            // sort 2 tingkat (grup dulu, baru skor tertinggi dlm grup).
-            ->sortBy(fn ($r) => [$r['sampel_kecil'] ? 1 : 0, -($r['skor_rata_rata'] ?? 0)])
+            // Urutkan murni berdasar skor_total tertinggi — skor ini SUDAH
+            // otomatis merefleksikan jumlah & keparahan risiko sekaligus
+            // (OPD sampel kecil dgn 1 risiko skala 25 -> skor_total 25, kalah
+            // dari OPD 30 risiko rata2 18 -> skor_total 540), jadi tidak lagi
+            // butuh sort 2 tingkat (grup sampel_kecil dulu) spt sebelumnya.
+            // TIDAK dipotong ->take(10) — widget ini relevan sbg salah satu
+            // dasar penyusunan PKPT berbasis risiko, yg butuh SELURUH OPD
+            // terurut (bukan hanya 10 teratas) supaya bisa jadi basis
+            // prioritas objek audit tahunan yg lengkap.
+            ->sortByDesc('skor_total')
             ->values()
-            ->take(10)
             ->all();
     }
 

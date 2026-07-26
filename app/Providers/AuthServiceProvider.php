@@ -2,13 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\MediaFolder;
 use App\Models\IrsPemda;
 use App\Models\KrsPd;
 use App\Models\IrsPd;
 use App\Models\KroPd;
 use App\Models\IroPd;
-use App\Policies\MediaFolderPolicy;
 use App\Policies\IrsPemdaPolicy;
 use App\Policies\KrsPdPolicy;
 use App\Policies\IrsPdPolicy;
@@ -19,8 +17,13 @@ use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
+    // MediaFolder => MediaFolderPolicy SENGAJA TIDAK didaftarkan lagi —
+    // MediaFolderController mengimplementasikan otorisasinya sendiri secara
+    // inline (cek sharedFolderOwner()/role admin), TIDAK PERNAH memanggil
+    // authorize()/Gate::allows() untuk model ini, jadi Policy tsb dead code
+    // (aturan yg tertulis di dalamnya bahkan lebih ketat & tidak pernah
+    // benar2 berlaku). File app/Policies/MediaFolderPolicy.php ikut dihapus.
     protected $policies = [
-        MediaFolder::class => MediaFolderPolicy::class,
         IrsPemda::class => IrsPemdaPolicy::class,
         KrsPd::class => KrsPdPolicy::class,
         IrsPd::class => IrsPdPolicy::class,

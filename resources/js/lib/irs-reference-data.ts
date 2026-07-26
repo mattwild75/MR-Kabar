@@ -16,19 +16,74 @@
 // kebenaran utk keempatnya SEKARANG WAJIB lewat RiskReferenceDataService
 // (backend) — jangan tambahkan lagi versi hardcode di sini.
 
-export const SUMBER_SEBAB_RISIKO_KATEGORI = ['Internal', 'Eksternal', 'Internal dan Eksternal'];
+// 7M + 1E (INTERNAL) — kerangka klasifikasi penyebab risiko internal
+// (pengembangan dari 5M fishbone/Ishikawa klasik: Machine, Men, Material,
+// Method, Money) dengan tambahan Management (kelemahan tata kelola/
+// pengawasan) dan Measurement (kesalahan pengukuran/indikator), plus
+// Environment (faktor lingkungan INTERNAL — kondisi fisik kantor/fasilitas
+// kerja, BUKAN faktor lingkungan eksternal seperti bencana alam/cuaca yang
+// sekarang masuk kategori "Environmental" PESTLE di bawah).
+export const PENYEBAB_INTERNAL_KATEGORI = ['Men', 'Machine', 'Method', 'Material', 'Money', 'Management', 'Measurement', 'Environment'];
 
-// 7M + 1E — kerangka klasifikasi penyebab risiko (pengembangan dari 5M
-// fishbone/Ishikawa klasik: Machine, Men, Material, Method, Money) dengan
-// tambahan Management (kelemahan tata kelola/pengawasan) dan Measurement
-// (kesalahan pengukuran/indikator), plus Environment (faktor lingkungan
-// eksternal — cuaca, bencana alam, kondisi geografis, dsb yang di luar 7M
-// internal). Boleh pilih lebih dari 1 kategori sekaligus jika risiko
-// disebabkan gabungan beberapa faktor. Nama konstanta dipertahankan
-// PENYEBAB_5M_KATEGORI (bukan 7M8) krn dipakai luas sbg identifier di
-// banyak file — lihat penggunaannya, bukan namanya, utk daftar kategori
-// aktual yg sekarang 8 item.
-export const PENYEBAB_5M_KATEGORI = ['Men', 'Machine', 'Method', 'Material', 'Money', 'Management', 'Measurement', 'Environment'];
+// PESTLE (EKSTERNAL) — kerangka klasifikasi penyebab risiko eksternal
+// standar (Political, Economic, Social, Technological, Legal,
+// Environmental), melengkapi 7M+1E internal supaya "Uraian Penyebab
+// Risiko" bisa merepresentasikan sumber sebab dari luar organisasi secara
+// terstruktur, bukan sekadar teks bebas seperti sebelumnya.
+export const PENYEBAB_EKSTERNAL_KATEGORI = ['Political', 'Economic', 'Social', 'Technological', 'Legal', 'Environmental'];
+
+// Gabungan Internal+Eksternal — dipakai MultiCategoryTextarea di form
+// Uraian Penyebab Risiko (14 kategori total, ditampilkan berkelompok
+// lewat groupLabels, lihat multi-category-textarea.tsx). Nama konstanta
+// PENYEBAB_5M_KATEGORI DIPERTAHANKAN (bukan diganti/dihapus) krn dipakai
+// luas sbg identifier di banyak file (irs/irs_pd/iro_pd/lapor-kejadian/
+// Form10) — lihat penggunaannya, bukan namanya, utk daftar kategori aktual
+// yg sekarang 14 item (7M+1E internal + PESTLE eksternal).
+export const PENYEBAB_5M_KATEGORI = [...PENYEBAB_INTERNAL_KATEGORI, ...PENYEBAB_EKSTERNAL_KATEGORI];
+
+// Header pemisah grup "INTERNAL"/"EKSTERNAL" utk MultiCategoryTextarea
+// (prop groupLabels) — key = kategori PERTAMA di tiap grup (Men, Political),
+// dipakai sekali di sini supaya kelima form (irs/irs_pd/iro_pd/
+// lapor-kejadian/Form10) yg memakai PENYEBAB_5M_KATEGORI konsisten,
+// tidak perlu didefinisikan ulang di tiap file.
+export const PENYEBAB_GROUP_LABELS: Record<string, string> = {
+  [PENYEBAB_INTERNAL_KATEGORI[0]]: 'Internal',
+  [PENYEBAB_EKSTERNAL_KATEGORI[0]]: 'Eksternal',
+};
+
+// Alias ejaan lama utk data yg SUDAH tersimpan sebelum kategori ini resmi
+// dipakai di form (mis. banyak OPD menulis "Man" alih-alih "Men" — typo
+// yg terlanjur konsisten dipakai di puluhan baris data 2025). HANYA
+// dipakai utk membaca/mengenali data lama (badge tabel, Form Cetak,
+// migrasi) — form input BARU tetap cuma menampilkan kategori resmi di
+// PENYEBAB_INTERNAL_KATEGORI/PENYEBAB_EKSTERNAL_KATEGORI, bukan alias-nya.
+export const PENYEBAB_KATEGORI_ALIASES: Record<string, string> = {
+  Man: 'Men',
+};
+
+// Suffix "- Int"/"- Eks" yg ditempel ke label kategori saat disimpan (mis.
+// "Method - Int (uraian)", "Legal - Eks (uraian)") — supaya asal Internal/
+// Eksternal tiap penyebab eksplisit tertulis di data itu sendiri (bukan cuma
+// tersirat dari posisi grup di form), dan field "SUMBER SEBAB RISIKO" bisa
+// dihitung otomatis dari sini alih-alih diisi checkbox terpisah. Dipakai
+// MultiCategoryTextarea via prop `categorySuffix`.
+export function penyebabKategoriSuffix(kategori: string): string {
+  return PENYEBAB_INTERNAL_KATEGORI.includes(kategori) ? '- Int' : '- Eks';
+}
+
+// Hitung "SUMBER SEBAB RISIKO" (Internal / Eksternal / Internal dan
+// Eksternal) dari isi "URAIAN PENYEBAB RISIKO" — dipakai form irs/irs_pd/
+// iro_pd supaya field itu tidak lagi diisi manual, cukup tersirat dari
+// kategori 7M+1E/PESTLE apa saja yg dicentang.
+export function computeSumberSebabRisiko(uraianPenyebabRisiko: string): string {
+  const text = uraianPenyebabRisiko ?? '';
+  const hasInternal = PENYEBAB_INTERNAL_KATEGORI.some((k) => text.includes(`${k} - Int (`) || text.includes(`${k} - Int;`) || text.endsWith(`${k} - Int`));
+  const hasEksternal = PENYEBAB_EKSTERNAL_KATEGORI.some((k) => text.includes(`${k} - Eks (`) || text.includes(`${k} - Eks;`) || text.endsWith(`${k} - Eks`));
+  if (hasInternal && hasEksternal) return 'Internal dan Eksternal';
+  if (hasInternal) return 'Internal';
+  if (hasEksternal) return 'Eksternal';
+  return '';
+}
 
 export const C_UC_OPTIONS = ['C', 'UC'];
 

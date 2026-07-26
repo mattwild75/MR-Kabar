@@ -21,7 +21,7 @@ import { toast } from 'sonner';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { LAPOR_KEJADIAN_FIELD_INFO } from '@/lib/lapor-kejadian-field-info';
 import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
-import { PENYEBAB_5M_KATEGORI } from '@/lib/irs-reference-data';
+import { PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS } from '@/lib/irs-reference-data';
 
 interface Opd {
   id: number;
@@ -334,6 +334,7 @@ export default function LaporKejadianForm({ opdList }: Props) {
                   value={data.pemicu}
                   onChange={(val) => setData('pemicu', val)}
                   categories={PENYEBAB_5M_KATEGORI}
+                  groupLabels={PENYEBAB_GROUP_LABELS}
                   uraianPlaceholder="Apa yang memicu kejadian ini?"
                   rows={2}
                 />

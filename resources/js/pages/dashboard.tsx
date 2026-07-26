@@ -141,6 +141,8 @@ interface RankingOpdItem {
   opd_nama: string;
   total_risiko: number;
   risiko_tinggi: number;
+  /** Σ skala_risiko seluruh baris risiko OPD ini — dasar urutan ranking (total eksposur, bukan rata-rata). */
+  skor_total: number;
   skor_rata_rata: number | null;
   sampel_kecil: boolean;
 }
@@ -537,40 +539,52 @@ export default function Dashboard({
           </div>
         </div>
 
-        {/* Seksi 1: Ringkasan */}
+        {/* Seksi 1: Ringkasan — aksen warna per-kartu + hover lift + icon berwarna */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-          <Card>
+          <Card className="group relative overflow-hidden border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-sky-950/40">
+            <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-sky-500/20 transition-transform duration-300 group-hover:scale-125" />
             <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Total Risiko Teridentifikasi</CardTitle>
-              <ClipboardList className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-sky-500/20 p-1.5">
+                <ClipboardList className="h-4 w-4 text-sky-600 dark:text-sky-400" />
+              </div>
             </CardHeader>
-            <CardContent className="px-4 py-2 text-3xl font-bold">{ringkasan.total_risiko}</CardContent>
+            <CardContent className="relative px-4 py-2 text-3xl font-bold">{ringkasan.total_risiko}</CardContent>
           </Card>
-          <Card>
+          <Card className="group relative overflow-hidden border-l-4 border-l-orange-500 bg-gradient-to-br from-orange-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-orange-950/40">
+            <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-orange-500/20 transition-transform duration-300 group-hover:scale-125" />
             <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Risiko Prioritas</CardTitle>
-              <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-orange-500/20 p-1.5">
+                <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
+              </div>
             </CardHeader>
-            <CardContent className="px-4 py-2 text-3xl font-bold text-orange-600">{ringkasan.risiko_prioritas}</CardContent>
+            <CardContent className="relative px-4 py-2 text-3xl font-bold text-orange-600 dark:text-orange-400">{ringkasan.risiko_prioritas}</CardContent>
           </Card>
-          <Card>
+          <Card className="group relative overflow-hidden border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-emerald-950/40">
+            <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-emerald-500/20 transition-transform duration-300 group-hover:scale-125" />
             <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">RTP Selesai Disusun</CardTitle>
-              <ShieldCheck className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-emerald-500/20 p-1.5">
+                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+              </div>
             </CardHeader>
-            <CardContent className="px-4 py-2">
+            <CardContent className="relative px-4 py-2">
               <div className="text-3xl font-bold">
                 {ringkasan.rtp_tersusun}/{ringkasan.rtp_dibutuhkan}
               </div>
               <p className="text-xs text-muted-foreground">{rtpTrend}% risiko prioritas</p>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="group relative overflow-hidden border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-violet-950/40">
+            <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-violet-500/20 transition-transform duration-300 group-hover:scale-125" />
             <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Kepatuhan Pelaporan</CardTitle>
-              <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
+              <div className="rounded-lg bg-violet-500/20 p-1.5">
+                <CheckCircle2 className="h-4 w-4 text-violet-600 dark:text-violet-400" />
+              </div>
             </CardHeader>
-            <CardContent className="px-4 py-2">
+            <CardContent className="relative px-4 py-2">
               <div className="text-3xl font-bold">
                 {ringkasan.opd_patuh}/{ringkasan.total_opd_wajib}
               </div>
@@ -902,37 +916,52 @@ export default function Dashboard({
               <CardHeader>
                 <CardTitle className="text-base">Ranking Eksposur Risiko per OPD</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2.5">
+              {/* max-h + overflow-y-auto — SELURUH OPD ditampilkan (backend
+                  tidak lagi ->take(10)) supaya widget ini bisa jadi dasar
+                  penyusunan PKPT berbasis risiko yg butuh populasi lengkap,
+                  bukan cuma 10 teratas; scroll di dalam card mencegah
+                  daftar panjang (~49 OPD) mendorong layout dashboard. */}
+              <CardContent className="max-h-[28rem] space-y-2.5 overflow-y-auto">
                 {rankingOpd.length === 0 && <p className="text-sm text-muted-foreground">Belum ada data.</p>}
-                {rankingOpd.map((r, i) => {
-                  const skor = r.skor_rata_rata;
-                  const barColor = skor === null ? 'bg-muted-foreground/30' : skor >= 16 ? 'bg-red-500' : skor >= 8 ? 'bg-amber-500' : 'bg-green-500';
-                  const persenExact = skor === null ? 0 : Math.min(100, (skor / 25) * 100);
-                  const widthPct = Math.round(persenExact);
-                  return (
-                    <div key={r.opd_id} className="space-y-1">
-                      <div className="flex items-center justify-between text-sm">
-                        <span className="flex items-center gap-1.5 font-medium">
-                          #{i + 1} {r.opd_nama}
-                          {r.sampel_kecil && (
-                            <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground">
-                              Sampel kecil ({r.total_risiko} risiko)
-                            </Badge>
-                          )}
-                        </span>
-                        <span className="text-xs text-muted-foreground">
-                          {r.risiko_tinggi} tinggi dari {r.total_risiko} · skor {skor ?? '-'}
-                        </span>
+                {/* Bar merepresentasikan skor_total (Σ skala_risiko, total eksposur)
+                    RELATIF terhadap OPD skor_total tertinggi di seluruh daftar ini —
+                    beda dari sebelumnya yg basisnya skala tetap 1-25 (skor rata-rata
+                    per-risiko), karena skor_total sekarang tidak lagi terbatas 1-25. */}
+                {(() => {
+                  const skorMax = Math.max(1, ...rankingOpd.map((r) => r.skor_total));
+                  return rankingOpd.map((r, i) => {
+                    const rata = r.skor_rata_rata;
+                    const barColor = rata === null ? 'bg-muted-foreground/30' : rata >= 16 ? 'bg-red-500' : rata >= 8 ? 'bg-amber-500' : 'bg-green-500';
+                    const widthPct = Math.round((r.skor_total / skorMax) * 100);
+                    return (
+                      <div key={r.opd_id} className="space-y-1">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="flex items-center gap-1.5 font-medium">
+                            #{i + 1} {r.opd_nama}
+                            {r.sampel_kecil && (
+                              <Badge variant="outline" className="text-[10px] font-normal text-muted-foreground">
+                                Sampel kecil ({r.total_risiko} risiko)
+                              </Badge>
+                            )}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {r.risiko_tinggi} tinggi dari {r.total_risiko} · skor total {r.skor_total} · rata-rata {rata ?? '-'}
+                          </span>
+                        </div>
+                        <div className="relative h-4 w-full overflow-hidden rounded-full bg-muted">
+                          <div className={`h-full rounded-full ${barColor}`} style={{ width: `${widthPct}%` }} />
+                          <span className="absolute inset-0 flex items-center justify-end pr-2 text-[10px] font-medium text-foreground">
+                            {r.skor_total}
+                          </span>
+                        </div>
                       </div>
-                      <div className="relative h-4 w-full overflow-hidden rounded-full bg-muted">
-                        <div className={`h-full rounded-full ${barColor}`} style={{ width: `${widthPct}%` }} />
-                        <span className="absolute inset-0 flex items-center justify-end pr-2 text-[10px] font-medium text-foreground">
-                          {persenExact.toFixed(2)}%
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  });
+                })()}
+                <p className="pt-1 text-xs text-muted-foreground">
+                  Diurutkan berdasar skor total eksposur (Σ skala risiko seluruh risiko OPD) — bukan rata-rata,
+                  supaya OPD dengan banyak risiko sedang tidak kalah prioritas dari OPD ber-1-2 risiko tinggi saja.
+                </p>
               </CardContent>
             </Card>
           )}

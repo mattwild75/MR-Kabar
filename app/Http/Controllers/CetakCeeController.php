@@ -130,7 +130,7 @@ class CetakCeeController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::find($opdId) : null;
 
         $unsurs = CeeUnsur::with(['pertanyaan' => fn ($q) => $q->where('aktif', true)->orderBy('urutan')])
@@ -165,7 +165,7 @@ class CetakCeeController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::find($opdId) : null;
 
         return Inertia::render('cee/cetak/Cetak1b', [
@@ -187,7 +187,7 @@ class CetakCeeController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::find($opdId) : null;
 
         $unsurs = CeeUnsur::with('pertanyaan')->orderBy('urutan')->get();
@@ -260,7 +260,7 @@ class CetakCeeController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
         $url = url("/cetak/cee/1a?opd_id={$opdId}&tahun={$tahun}");
@@ -272,7 +272,7 @@ class CetakCeeController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
         $url = url("/cetak/cee/1b?opd_id={$opdId}&tahun={$tahun}");
@@ -284,7 +284,7 @@ class CetakCeeController extends Controller
     {
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
-        $tahun = $request->integer('tahun') ?: (int) date('Y');
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
         $url = url("/cetak/cee/1c?opd_id={$opdId}&tahun={$tahun}");
