@@ -1,19 +1,28 @@
-import { QRCodeSVG } from 'qrcode.react';
+import { useEffect, useState } from 'react';
+import { QrCodeWithLogo } from '@/components/ui/qr-code-with-logo';
 
 /**
  * QR code yang mengarah ke auto-login akun bersama LAPOR (role
  * 'lapor-risiko') lalu langsung redirect ke Form Lapor Kejadian Risiko —
  * lihat routes/web.php (login.lapor-kejadian) & LaporQrLoginController.
- * Dipakai di halaman /panduan supaya pelapor di lapangan cukup scan tanpa
- * mengetik kredensial manual.
+ * Dipakai di halaman /panduan DAN /panduan-publik (lewat sections.tsx yg
+ * dipakai bersama) — halaman publik di-SSR (lihat resources/js/ssr.jsx),
+ * jadi window.location.origin TIDAK BOLEH dipanggil langsung di body
+ * komponen (window undefined di Node, lihat fix identik di
+ * cee-survey-qr-code.tsx) — path relatif dipakai sbg fallback render
+ * pertama, useEffect melengkapi origin penuh setelah mount di browser.
  */
 export default function LaporQrCode() {
-  const url = `${window.location.origin}/login/lapor-kejadian`;
+  const [url, setUrl] = useState('/login/lapor-kejadian');
+
+  useEffect(() => {
+    setUrl(`${window.location.origin}/login/lapor-kejadian`);
+  }, []);
 
   return (
     <div className="flex flex-col items-center gap-3 rounded-md border bg-white p-4 sm:flex-row sm:items-start">
       <div className="shrink-0 rounded-md bg-white p-2">
-        <QRCodeSVG value={url} size={160} />
+        <QrCodeWithLogo value={url} size={160} />
       </div>
       <div className="space-y-1.5 text-sm text-neutral-700">
         <p className="font-semibold text-neutral-900">Scan untuk Lapor Kejadian Risiko</p>

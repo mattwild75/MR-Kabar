@@ -70,6 +70,30 @@ interface RiskMatrixData {
   cells: { dampak: number; kemungkinan: number; skala_risiko: number | null; warna_class: string }[];
 }
 
+interface KriteriaDampakRow {
+  level: number;
+  label: string | null;
+  kerugian_negara: string | null;
+  penurunan_reputasi: string | null;
+  penurunan_kinerja: string | null;
+  gangguan_pelayanan: string | null;
+  tuntutan_hukum: string | null;
+}
+
+interface KriteriaKemungkinanRow {
+  level: number;
+  nama: string;
+  probabilitas: string | null;
+  frekuensi: string | null;
+  toleransi: string | null;
+}
+
+interface RiskReference {
+  matriksRisiko: RiskMatrixData;
+  kriteriaDampak: KriteriaDampakRow[];
+  kriteriaKemungkinan: KriteriaKemungkinanRow[];
+}
+
 interface PageProps {
   opdOptions: OpdOption[];
   opdId: number | null;
@@ -78,7 +102,7 @@ interface PageProps {
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
   rows: RtpRow[];
-  riskReference: { matriksRisiko: RiskMatrixData };
+  riskReference: RiskReference;
 }
 
 const TIPE_LABEL: Record<RtpRow['rtp_sumber_tipe'], string> = {
@@ -87,6 +111,18 @@ const TIPE_LABEL: Record<RtpRow['rtp_sumber_tipe'], string> = {
   iro_pd: 'RTP Risiko (Operasional OPD)',
   cee_rtp: 'RTP CEE',
 };
+
+// "Sudah diisi" Form 8/Form 9 dicek TERPISAH per field utamanya masing-
+// masing (media_komunikasi utk Form 8, metode_pemantauan utk Form 9) —
+// BUKAN dari monitoring_id != null spt sebelumnya (itu cuma menandakan
+// "baris monitoring_rtp sudah pernah dibuat sama sekali", tidak bisa
+// membedakan kasus baru isi Form 8 tapi Form 9 masih kosong, atau
+// sebaliknya). Dipakai dua tempat: badge status per-kartu (RtpRowCard) dan
+// filter daftar di komponen induk (Form89) — HARUS logika yg sama persis
+// supaya badge & filter tidak pernah berbeda pendapat soal satu baris yg
+// sama sudah/belum diisi.
+const isForm8Filled = (row: RtpRow) => (row.media_komunikasi ?? '').trim() !== '';
+const isForm9Filled = (row: RtpRow) => (row.metode_pemantauan ?? '').trim() !== '';
 
 function RtpRowCard({
   row,
@@ -102,7 +138,7 @@ function RtpRowCard({
   row: RtpRow;
   triwulanOptions: string[];
   triwulanLabels: Record<string, string>;
-  riskReference: { matriksRisiko: RiskMatrixData };
+  riskReference: RiskReference;
   activeQuery: string;
   isCurrent: boolean;
   registerRowRef: (id: number, el: HTMLElement | null) => void;
@@ -113,6 +149,8 @@ function RtpRowCard({
   showOpdKolom: boolean;
 }) {
   const isFilled = row.monitoring_id !== null;
+  const form8Filled = isForm8Filled(row);
+  const form9Filled = isForm9Filled(row);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [matrixPickerOpen, setMatrixPickerOpen] = useState(false);
@@ -185,14 +223,13 @@ function RtpRowCard({
               <HighlightText text={row.konteks} query={activeQuery} />
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
-            {isFilled ? (
-              <Badge className="bg-green-600 hover:bg-green-600">Sudah diisi</Badge>
-            ) : (
-              <Badge variant="outline" className="text-muted-foreground">
-                Belum diisi
-              </Badge>
-            )}
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+            <Badge className={form8Filled ? 'bg-green-600 hover:bg-green-600' : 'bg-transparent text-muted-foreground'} variant={form8Filled ? 'default' : 'outline'}>
+              Form 8 {form8Filled ? 'terisi' : 'belum'}
+            </Badge>
+            <Badge className={form9Filled ? 'bg-green-600 hover:bg-green-600' : 'bg-transparent text-muted-foreground'} variant={form9Filled ? 'default' : 'outline'}>
+              Form 9 {form9Filled ? 'terisi' : 'belum'}
+            </Badge>
             <Button type="button" variant="outline" size="sm" onClick={() => setEditing((v) => !v)}>
               <Pencil className="mr-1.5 h-3.5 w-3.5" />
               {editing ? 'Tutup' : isFilled ? 'Edit' : 'Isi'}
@@ -416,6 +453,8 @@ function RtpRowCard({
                       open={matrixPickerOpen}
                       onOpenChange={setMatrixPickerOpen}
                       matriks={riskReference.matriksRisiko}
+                      kriteriaDampak={riskReference.kriteriaDampak}
+                      kriteriaKemungkinan={riskReference.kriteriaKemungkinan}
                       titikDitampilkan={['inheren', 'residual', 'target', 'aktual']}
                       titikBisaDiubah={['aktual']}
                       nilai={{
@@ -458,8 +497,25 @@ function RtpRowCard({
 // bentuk data asli row.* yang dipakai di tempat lain.
 type SearchableRtpRow = RtpRow & { id: number; [key: string]: unknown };
 
+type StatusFilter = 'semua' | 'sudah' | 'belum';
+
 export default function Form89({ opdOptions, opdId, tahun, isAdmin, triwulanOptions, triwulanLabels, rows, riskReference }: PageProps) {
-  const searchableRows: SearchableRtpRow[] = rows.map((row, index) => ({ ...row, id: index }));
+  // Filter Form 8/Form 9 SENGAJA dipisah (bukan satu filter "sudah/belum
+  // diisi" gabungan) — kasus nyata di lapangan: OPD sudah isi Rencana
+  // Pengkomunikasian (Form 8) tapi Pemantauannya (Form 9) belum sempat
+  // dicatat, atau sebaliknya. Filter gabungan tidak bisa membedakan kedua
+  // kasus itu dari "keduanya sudah"/"keduanya belum".
+  const [form8Filter, setForm8Filter] = useState<StatusFilter>('semua');
+  const [form9Filter, setForm9Filter] = useState<StatusFilter>('semua');
+
+  const filteredRows = rows.filter((row) => {
+    if (form8Filter === 'sudah' && !isForm8Filled(row)) return false;
+    if (form8Filter === 'belum' && isForm8Filled(row)) return false;
+    if (form9Filter === 'sudah' && !isForm9Filled(row)) return false;
+    if (form9Filter === 'belum' && isForm9Filled(row)) return false;
+    return true;
+  });
+  const searchableRows: SearchableRtpRow[] = filteredRows.map((row, index) => ({ ...row, id: index }));
 
   // Badge OPD/Tahun per-card relevan HANYA saat sedang lintas-OPD ("Semua
   // OPD", cuma bisa admin) atau lintas-tahun ("Semua Tahun") — kalau sudah
@@ -542,6 +598,32 @@ export default function Form89({ opdOptions, opdId, tahun, isAdmin, triwulanOpti
               </SelectContent>
             </Select>
           </div>
+          <div className="w-48 space-y-1">
+            <Label>Status Form 8</Label>
+            <Select value={form8Filter} onValueChange={(v) => setForm8Filter(v as StatusFilter)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="semua">Semua</SelectItem>
+                <SelectItem value="sudah">Sudah diisi</SelectItem>
+                <SelectItem value="belum">Belum diisi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-48 space-y-1">
+            <Label>Status Form 9</Label>
+            <Select value={form9Filter} onValueChange={(v) => setForm9Filter(v as StatusFilter)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="semua">Semua</SelectItem>
+                <SelectItem value="sudah">Sudah diisi</SelectItem>
+                <SelectItem value="belum">Belum diisi</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {rows.length === 0 ? (
@@ -549,6 +631,12 @@ export default function Form89({ opdOptions, opdId, tahun, isAdmin, triwulanOpti
             <CardContent className="p-8 text-center text-sm text-muted-foreground">
               Belum ada RTP{opdId || tahun ? ' untuk filter ini' : ''} — isi dulu Rencana Tindak Pengendalian di
               Form Input IRS/IRO atau RTP CEE (1d).
+            </CardContent>
+          </Card>
+        ) : filteredRows.length === 0 ? (
+          <Card>
+            <CardContent className="p-8 text-center text-sm text-muted-foreground">
+              Tidak ada RTP yang cocok dengan filter Status Form 8/Form 9 yang dipilih.
             </CardContent>
           </Card>
         ) : (

@@ -160,12 +160,35 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
     }, {
       preserveScroll: true,
       onSuccess: () => {
-        toast.success('Laporan berhasil ditautkan ke risiko terdaftar.');
+        toast.success('Tautan risiko berhasil diperbarui.');
         setDetail((prev) => (prev ? { ...prev, risiko_terdaftar_tipe: r.tipe, risiko_terdaftar_id: r.id, risiko_terdaftar_uraian: r.uraian_risiko } : prev));
         setCariRisikoQuery('');
         setCariRisikoHasil([]);
       },
       onError: () => toast.error('Gagal menautkan risiko.'),
+      onFinish: () => setSavingRisikoTerdaftar(false),
+    });
+  };
+
+  // Lepas tautan sepenuhnya (kembali ke null) — dipakai saat laporan warga
+  // TERLANJUR salah ditautkan ke risiko yg keliru dan Admin belum tahu
+  // risiko pengganti yg benar (mis. risikonya belum pernah didaftarkan sama
+  // sekali) — kotak pencarian di atas tetap jadi cara utama utk LANGSUNG
+  // ganti ke risiko lain yg benar, ini cuma jalan keluar utk kasus "lepas
+  // dulu, baru cari lagi nanti".
+  const lepasTautanRisikoTerdaftar = () => {
+    if (!detail) return;
+    setSavingRisikoTerdaftar(true);
+    router.put(`/lapor-kejadian/rekap/${detail.id}/risiko-terdaftar`, {
+      risiko_terdaftar_tipe: null,
+      risiko_terdaftar_id: null,
+    }, {
+      preserveScroll: true,
+      onSuccess: () => {
+        toast.success('Tautan risiko dilepas — laporan ini kini belum tertaut.');
+        setDetail((prev) => (prev ? { ...prev, risiko_terdaftar_tipe: null, risiko_terdaftar_id: null, risiko_terdaftar_uraian: null } : prev));
+      },
+      onError: () => toast.error('Gagal melepas tautan.'),
       onFinish: () => setSavingRisikoTerdaftar(false),
     });
   };
@@ -216,6 +239,21 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
       prefill_opd: l.opd?.nama ?? '',
     });
     window.open(`${RISIKO_ROUTE[tipe]}?${params.toString()}`, '_blank');
+  };
+
+  // Laporan yg SUDAH tertaut ke risiko terdaftar (risiko_terdaftar_tipe/id
+  // terisi, mis. dipilih pelapor sendiri lewat mode "Cek Risiko yang Sudah
+  // Terjadi" di form publik) tidak boleh lagi ditawari "Input ke Register
+  // Risiko" (form TAMBAH BARU kosong) — risikonya sudah ada, PIC cukup
+  // dibawa ke baris risiko itu (highlight_id, sama pola dgn tombol "Lihat
+  // Data" di Data Risiko Gabungan) utk ditinjau/dilengkapi, bukan disuruh
+  // input ulang dari nol. Sebelumnya blok "Input ke Register Risiko" selalu
+  // tampil tanpa syarat, menyebabkan duplikasi data risiko yg sebenarnya
+  // sudah ada.
+  const bukaRisikoTerdaftar = (l: Laporan) => {
+    if (!l.risiko_terdaftar_tipe || !l.risiko_terdaftar_id) return;
+    const tipe = l.risiko_terdaftar_tipe as 'irs_pemda' | 'irs_pd' | 'iro_pd';
+    window.open(`${RISIKO_ROUTE[tipe]}?highlight_id=${l.risiko_terdaftar_id}`, '_blank');
   };
 
   const simpanTindakLanjut = () => {
@@ -442,26 +480,66 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
                 </div>
               )}
 
-              <div className="space-y-2 border-t pt-3">
-                <Label>Input ke Register Risiko</Label>
-                <p className="text-xs text-muted-foreground">
-                  Buka form terkait di tab baru dengan Uraian Risiko/OPD/Pemicu sudah terisi otomatis dari laporan
-                  ini — lengkapi sisa penilaian risiko lalu simpan seperti biasa.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <Button type="button" variant="outline" size="sm" onClick={() => bukaFormRisiko(detail, 'irs_pemda')}>
-                    IRS Pemda
-                  </Button>
-                  <Button type="button" variant="outline" size="sm" onClick={() => bukaFormRisiko(detail, 'irs_pd')}>
-                    IRS PD
-                  </Button>
-                  <Button type="button" variant="outline" size="sm" onClick={() => bukaFormRisiko(detail, 'iro_pd')}>
-                    IRO PD
+              {detail.risiko_terdaftar_tipe ? (
+                <div className="space-y-2 border-t pt-3">
+                  <Label>Risiko Sudah Terdaftar</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Laporan ini sudah tertaut ke risiko yang sudah ada — buka baris risikonya langsung untuk
+                    ditinjau/dilengkapi, tidak perlu input ulang dari form baru.
+                  </p>
+                  <Button type="button" variant="outline" size="sm" onClick={() => bukaRisikoTerdaftar(detail)}>
+                    Buka {TIPE_LABEL[detail.risiko_terdaftar_tipe] ?? detail.risiko_terdaftar_tipe}
                   </Button>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-2 border-t pt-3">
+                  <Label>Input ke Register Risiko</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Buka form terkait di tab baru dengan Uraian Risiko/OPD/Pemicu sudah terisi otomatis dari laporan
+                    ini — lengkapi sisa penilaian risiko lalu simpan seperti biasa.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button type="button" variant="outline" size="sm" onClick={() => bukaFormRisiko(detail, 'irs_pemda')}>
+                      IRS Pemda
+                    </Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => bukaFormRisiko(detail, 'irs_pd')}>
+                      IRS PD
+                    </Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => bukaFormRisiko(detail, 'iro_pd')}>
+                      IRO PD
+                    </Button>
+                  </div>
+                </div>
+              )}
 
-              {isAdminOrSuperAdmin && !detail.risiko_terdaftar_tipe && (
+              {/* TIDAK dibatasi isAdminOrSuperAdmin — PIC OPD juga boleh
+                  menautkan/melepas tautan risiko utk laporan OPD-nya
+                  sendiri (server-side: ensureCanManage() di
+                  LaporanKejadianController::updateRisikoTerdaftar sudah
+                  mengizinkan Admin/Super Admin ATAU PIC OPD pemilik
+                  laporan; visibilitas laporan itu sendiri di halaman ini
+                  juga sudah dibatasi per-OPD utk PIC non-admin lewat
+                  index(), jadi tidak ada laporan OPD lain yg bisa dilihat
+                  di sini utk disalahgunakan). Beda dgn "OPD Terkait" di
+                  atas yg TETAP admin-only krn memindah laporan ke OPD lain
+                  adalah keputusan lintas-OPD.
+
+                  Dua cabang MUTUALLY EXCLUSIVE (bukan digabung dlm satu
+                  blok spt sebelumnya): kalau SUDAH tertaut, kotak pencarian
+                  "cari risiko pengganti" disembunyikan total (informasinya
+                  sudah tersaji lengkap di kartu "Risiko Sudah Terdaftar" di
+                  atas) — cukup tombol "Lepas tautan" (gaya solid spt "Catat
+                  ke Form 10"), yg begitu ditekan mengosongkan tautan dan
+                  otomatis jatuh ke cabang "belum tertaut" (kotak pencarian
+                  utk menautkan lagi), TANPA perlu tombol pencarian
+                  redundan tampil berdampingan dgn kartu info yg sudah ada. */}
+              {detail.risiko_terdaftar_tipe ? (
+                <div className="space-y-2 border-t pt-3">
+                  <Button type="button" size="sm" disabled={savingRisikoTerdaftar} onClick={lepasTautanRisikoTerdaftar}>
+                    Lepas tautan (jadikan belum tertaut)
+                  </Button>
+                </div>
+              ) : (
                 <div className="space-y-2 border-t pt-3">
                   <Label>Tautkan ke Risiko Terdaftar</Label>
                   <p className="text-xs text-muted-foreground">

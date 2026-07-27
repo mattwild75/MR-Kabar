@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\SharesCetakContext;
 use App\Models\CeeRtp;
+use App\Models\CeeSimpulan;
+use App\Models\CeeUnsur;
 use App\Models\DataUmum;
 use App\Models\IroPd;
 use App\Models\IrsPd;
@@ -228,6 +230,7 @@ class CetakLaporanController extends Controller
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
             'monitoringRows' => $this->monitoringRowsForTriwulan($opdId, $tahun, $triwulan),
             'kejadianRows' => $this->kejadianRowsForTriwulan($opdId, $tahun, $triwulan),
+            'tahapanRealtime' => $this->tahapanRealtimeOpd($tahun, $triwulan, $opdId),
             'canEdit' => true,
             'narasi' => $this->narasiRow($narasi, self::NARASI_KEYS_2, $pemerintahKabkota, $tahun, $triwulan),
         ]);
@@ -365,6 +368,7 @@ class CetakLaporanController extends Controller
             'pemerintahKabkota' => $pemerintahKabkota,
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
             'rekapKepatuhan' => $this->rekapKepatuhanOpd($tahun, $triwulan),
+            'tahapanRealtime' => $this->tahapanRealtimeOpd($tahun, $triwulan),
             'canEdit' => $this->canEditLaporan($request),
             'narasi' => $this->narasiRow($narasi, self::NARASI_KEYS_3, $pemerintahKabkota, $tahun, $triwulan),
         ]);
@@ -409,5 +413,94 @@ class CetakLaporanController extends Controller
                 'status' => $adaMonitoring && $adaKejadian ? 'lengkap' : (($adaMonitoring || $adaKejadian) ? 'sebagian' : 'belum'),
             ];
         })->values();
+    }
+
+    /**
+     * Progres 7 tahapan per OPD (CEE, Identifikasi Risiko, Analisis, RTP
+     * Risiko Prioritas, RTP CEE, Monitoring RTP, Pencatatan Kejadian) — SAMA
+     * PERSIS logikanya dgn DashboardController::buildProgresTahapan(), TAPI
+     * dihitung ulang di sini (bukan memanggil controller lain) krn scoping
+     * time-nya beda: Monitoring RTP & Pencatatan Kejadian di sini DIBATASI
+     * ke $triwulan yg sedang dilihat (konsisten dgn rekapKepatuhanOpd() di
+     * atas), sementara Dashboard menghitung kumulatif satu tahun penuh
+     * lintas-triwulan. Ditampilkan sbg bar 7-segmen horizontal (bukan
+     * popover vertikal spt di Dashboard) krn kolom "Status Progress" di
+     * tabel cetak butuh format ringkas sekali-pandang, realtime dari data
+     * yg sama (bukan snapshot tersimpan).
+     *
+     * $opdId: null = SEMUA OPD (Form 13/kompilasi Pemda Form 12), diisi =
+     * HANYA OPD itu (Form 12 per-OPD, 1 baris/1 bar saja).
+     */
+    private function tahapanRealtimeOpd(int $tahun, string $triwulan, ?int $opdId = null): array
+    {
+        $opds = $opdId ? Opd::where('id', $opdId)->get() : Opd::orderBy('nama')->get();
+        $totalUnsurCee = CeeUnsur::count();
+        $ambangTinggi = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
+
+        $ceeSimpulanCounts = CeeSimpulan::where('tahun_penilaian', $tahun)
+            ->selectRaw('opd_id, count(*) as jumlah')
+            ->groupBy('opd_id')->pluck('jumlah', 'opd_id');
+        $ceeKurangMemadaiOpd = CeeSimpulan::where('tahun_penilaian', $tahun)
+            ->where('simpulan', 'Kurang Memadai')->pluck('opd_id')->unique();
+        $ceeRtpOpd = CeeRtp::where('tahun_penilaian', $tahun)->pluck('opd_id')->unique();
+
+        $kolomRisiko = ['id', 'user_id', 'SKALA DAMPAK', 'SKALA RISIKO', 'RENCANA TINDAK PENGENDALIAN'];
+        $rowsSemuaOpd = collect()
+            ->concat(IrsPemda::where('TAHUN DINILAI RISIKO', (string) $tahun)->with('user:id,opd_id')->select($kolomRisiko)->get())
+            ->concat(IrsPd::where('TAHUN DINILAI RISIKO', (string) $tahun)->with('user:id,opd_id')->select($kolomRisiko)->get())
+            ->concat(IroPd::where('TAHUN DINILAI RISIKO', (string) $tahun)->with('user:id,opd_id')->select($kolomRisiko)->get())
+            ->map(fn ($r) => [
+                'opd_id' => $r->user?->opd_id,
+                'skala_dampak' => $r->{'SKALA DAMPAK'},
+                'skala_risiko' => $r->{'SKALA RISIKO'} !== null ? (int) $r->{'SKALA RISIKO'} : null,
+                'rencana_tindak_pengendalian' => $r->{'RENCANA TINDAK PENGENDALIAN'},
+            ]);
+
+        $risikoTeridentifikasiOpd = $rowsSemuaOpd->pluck('opd_id')->filter()->unique();
+        $skalaTerisiOpd = $rowsSemuaOpd->filter(fn ($r) => $r['skala_dampak'] !== null)->pluck('opd_id')->filter()->unique();
+
+        $rtpRisikoLengkapOpd = $rowsSemuaOpd
+            ->filter(fn ($r) => $r['opd_id'] !== null)
+            ->groupBy('opd_id')
+            ->filter(function ($g) use ($ambangTinggi) {
+                $prioritas = $g->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi);
+
+                return $prioritas->every(fn ($r) => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '');
+            })
+            ->keys();
+
+        // Monitoring RTP & Pencatatan Kejadian DIBATASI ke $triwulan yg
+        // sedang dilihat laporan ini — beda dari Dashboard yg kumulatif
+        // satu tahun (lihat komentar method).
+        $monitoringOpd = MonitoringRtp::where('tahun_penilaian', $tahun)
+            ->where(fn ($q) => $q->where('triwulan_rencana_komunikasi', $triwulan)->orWhere('triwulan_rencana_pemantauan', $triwulan))
+            ->pluck('opd_id')->unique();
+        $pencatatanOpd = PencatatanKejadianRisiko::where('tahun_penilaian', $tahun)
+            ->where('triwulan_rencana_rtp', $triwulan)
+            ->pluck('opd_id')->unique();
+
+        return $opds->map(function ($opd) use (
+            $ceeSimpulanCounts, $totalUnsurCee, $ceeKurangMemadaiOpd, $ceeRtpOpd,
+            $risikoTeridentifikasiOpd, $skalaTerisiOpd, $rtpRisikoLengkapOpd, $monitoringOpd, $pencatatanOpd
+        ) {
+            $jumlahSimpulan = $ceeSimpulanCounts[$opd->id] ?? 0;
+            $ceeSelesai = $totalUnsurCee > 0 && $jumlahSimpulan >= $totalUnsurCee;
+            $butuhRtpCee = $ceeKurangMemadaiOpd->contains($opd->id);
+
+            $tahap = [
+                ['nama' => 'CEE (1a-1c)', 'selesai' => $ceeSelesai],
+                ['nama' => 'Identifikasi Risiko', 'selesai' => $risikoTeridentifikasiOpd->contains($opd->id)],
+                ['nama' => 'Analisis (Skala Dampak/Kemungkinan)', 'selesai' => $skalaTerisiOpd->contains($opd->id)],
+                ['nama' => 'RTP Risiko Prioritas', 'selesai' => $rtpRisikoLengkapOpd->contains($opd->id)],
+                ['nama' => 'RTP CEE (1d)', 'selesai' => $ceeSelesai && (!$butuhRtpCee || $ceeRtpOpd->contains($opd->id))],
+                ['nama' => 'Monitoring RTP (8-9)', 'selesai' => $monitoringOpd->contains($opd->id)],
+                ['nama' => 'Pencatatan Kejadian (10)', 'selesai' => $pencatatanOpd->contains($opd->id)],
+            ];
+
+            return [
+                'opd_nama' => $opd->nama,
+                'tahap' => $tahap,
+            ];
+        })->values()->all();
     }
 }

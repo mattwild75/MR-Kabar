@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Concerns;
 
 use App\Models\RiskEntitasPenilai;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 /**
@@ -19,20 +20,23 @@ trait GeneratesKodeRisiko
     private ?array $entitasUrutanMap = null;
 
     /**
-     * Peta nama entitas (lowercase+trim) -> urutan, dimuat SEKALI per
-     * request lalu dipakai ulang oleh setiap panggilan generateKodeRisiko()
-     * — sebelumnya tiap baris risiko memicu query
-     * RiskEntitasPenilai::whereRaw(...)->first() sendiri-sendiri (N+1),
-     * padahal tabel referensi ini kecil & sama sekali tidak berubah dalam
-     * satu request. Form 4/5/7 (lintas-OPD, bisa ratusan baris risiko)
-     * jadi cuma 1 query total utk seluruh render, bukan 1 query per baris.
+     * Peta nama entitas (lowercase+trim) -> urutan, dimemoize per-instance
+     * (in-memory, `$this->entitasUrutanMap`) SUPAYA tiap baris risiko dlm
+     * satu render tidak memicu query berulang, DAN di-cache lintas-request
+     * (Cache::rememberForever, invalidasi otomatis via
+     * RiskEntitasPenilai::booted() saat Admin edit tabel ini) supaya
+     * request BERIKUTNYA juga tidak perlu query ulang tabel referensi
+     * kecil yg sama sekali tidak berubah antar-request (temuan audit
+     * performa: sebelumnya nol implementasi Cache:: di seluruh aplikasi).
      */
     private function entitasUrutanMap(): array
     {
         if ($this->entitasUrutanMap === null) {
-            $this->entitasUrutanMap = RiskEntitasPenilai::all(['nama', 'urutan'])
-                ->mapWithKeys(fn ($e) => [mb_strtolower(trim($e->nama)) => $e->urutan])
-                ->all();
+            $this->entitasUrutanMap = Cache::rememberForever(RiskEntitasPenilai::CACHE_KEY, function () {
+                return RiskEntitasPenilai::all(['nama', 'urutan'])
+                    ->mapWithKeys(fn ($e) => [mb_strtolower(trim($e->nama)) => $e->urutan])
+                    ->all();
+            });
         }
 
         return $this->entitasUrutanMap;

@@ -14,7 +14,6 @@ use App\Models\MonitoringRtp;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
-use App\Models\RiskLevel;
 use App\Models\RiskMatrixCell;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
@@ -99,13 +98,12 @@ class DashboardController extends Controller
         $tahun = $request->integer('tahun') ?: (int) $this->pengaturan()->tahun_penilaian;
 
         $riskRows = $this->rowsForTahun($tahun, $opdId);
-        $riskLevels = RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']);
-        // Fallback ?? 16 / ?? 20 di bawah mengasumsikan label RiskLevel
-        // 'Tinggi'/'Sangat Tinggi' selalu ada & ambangnya konvensional (16/20)
-        // — dipakai HANYA saat tabel RiskLevel kosong/label diubah. Bukan
-        // fix aman utk diubah otomatis (butuh keputusan produk apakah label
-        // level risiko harus imutable); dibiarkan sbg asumsi terdokumentasi.
-        $ambangTinggi = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
+        // riskLevelsOrdered()/ambangTinggi() di-cache di service (tabel
+        // referensi kecil, sebelumnya di-query ulang tiap request tanpa
+        // cache — temuan audit performa), invalidasi otomatis saat Admin
+        // edit Level Risiko lewat Keterangan Pendukung.
+        $riskLevels = $this->riskRef->riskLevelsOrdered();
+        $ambangTinggi = $this->riskRef->ambangTinggi();
         // Dihitung sekali & dipakai bersama Ringkasan + widget Kepatuhan —
         // sebelumnya buildKepatuhan() dipanggil 2x dgn argumen identik
         // (sekali di dalam buildRingkasan, sekali di sini), dobel query
@@ -707,8 +705,9 @@ class DashboardController extends Controller
     private function buildTrenTahunan(?int $opdId, int $tahunAktif): array
     {
         $tahunList = range($tahunAktif - 4, $tahunAktif);
-        $ambangSangatTinggi = RiskLevel::where('label', 'Sangat Tinggi')->value('skala_min') ?? 20;
-        $ambangTinggi = RiskLevel::where('label', 'Tinggi')->value('skala_min') ?? 16;
+        $riskLevels = $this->riskRef->riskLevelsOrdered();
+        $ambangSangatTinggi = $riskLevels->firstWhere('label', 'Sangat Tinggi')?->skala_min ?? 20;
+        $ambangTinggi = $riskLevels->firstWhere('label', 'Tinggi')?->skala_min ?? 16;
 
         return collect($tahunList)->map(function ($tahun) use ($opdId, $ambangSangatTinggi, $ambangTinggi) {
             $rows = $this->skalaRowsForTren($tahun, $opdId);
@@ -809,7 +808,7 @@ class DashboardController extends Controller
     private function buildRankingOpd(int $tahun): array
     {
         $rows = $this->rowsForTahun($tahun, null);
-        $ambangTinggi = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
+        $ambangTinggi = $this->riskRef->ambangTinggi();
 
         return $rows
             ->filter(fn ($r) => $r['opd_id'] !== null)

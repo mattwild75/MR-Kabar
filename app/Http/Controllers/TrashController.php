@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CeeJawaban;
 use App\Models\CeeKelemahanDokumen;
+use App\Models\CeeRtp;
 use App\Models\CeeSimpulan;
 use App\Models\IroPd;
 use App\Models\IrsPd;
@@ -11,6 +12,8 @@ use App\Models\IrsPemda;
 use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\KrsPemda;
+use App\Models\LaporanKejadianRisiko;
+use App\Models\ProgramBupatiRisiko;
 use App\Services\KroIroPdSyncService;
 use App\Services\KrsIrsPdSyncService;
 use App\Services\KrsIrsSyncService;
@@ -70,6 +73,22 @@ class TrashController extends Controller
                 'opd_scoped' => true,
                 'sync' => null,
             ],
+            // CeeRtp (Form 1d — RTP atas kelemahan CEE) SEBELUMNYA tidak
+            // terdaftar di sini sama sekali padahal punya tombol Hapus di
+            // UI (CeeFormController::destroy1d()) yg memanggil ->delete()
+            // — krn model pakai SoftDeletes, "hapus" itu sebenarnya
+            // soft-delete, tapi tanpa entri di sini datanya TIDAK BISA
+            // dipulihkan lewat aplikasi sama sekali (bug ditemukan user
+            // saat menguji halaman /trash).
+            'cee_1d' => [
+                'model' => CeeRtp::class,
+                'label' => 'CEE 1d RTP Kelemahan Pengendalian',
+                'title_field' => 'kondisi_kurang_memadai',
+                'subtitle_fields' => ['rencana_tindak_pengendalian', 'penanggung_jawab'],
+                'owned' => false,
+                'opd_scoped' => true,
+                'sync' => null,
+            ],
             'krs_pemda' => [
                 'model' => KrsPemda::class,
                 'label' => 'I_a Risiko Strategis Pemda',
@@ -117,6 +136,44 @@ class TrashController extends Controller
                 'subtitle_fields' => ['SASARAN RENSTRA', 'PEMILIK RISIKO'],
                 'owned' => true,
                 'sync' => KroIroPdSyncService::class,
+            ],
+            // LaporanKejadianRisiko (laporan warga via QR /lapor-kejadian)
+            // — DITEMPATKAN PALING AKHIR (bukan sebelum kertas kerja
+            // risiko utama KRS/IRS/KRO/IRO) krn ini sumber pelengkap
+            // (masukan warga), bukan kertas kerja utama sesuai Perdep
+            // PPKD No.4/2019 — urutan tab wajib mengikuti urutan
+            // kepentingan data, bukan urutan penambahan fitur.
+            // Sama masalahnya dgn cee_1d di atas: LaporanKejadianController
+            // ::destroy() sudah lama punya tombol Hapus di Rekap.tsx yg
+            // memanggil ->delete() (soft-delete krn model pakai SoftDeletes),
+            // tapi tanpa entri di sini laporan warga yg terhapus TIDAK BISA
+            // dipulihkan. Kepemilikan opd_scoped (bukan owned/user_id) krn
+            // kolomnya opd_id, sama pola dgn ensureCanManage() di
+            // LaporanKejadianController (PIC OPD hanya kelola laporan
+            // opd_id-nya sendiri).
+            'laporan_kejadian' => [
+                'model' => LaporanKejadianRisiko::class,
+                'label' => 'Laporan Kejadian Risiko (Warga)',
+                'title_field' => 'kejadian',
+                'subtitle_fields' => ['nama_lengkap', 'status'],
+                'owned' => false,
+                'opd_scoped' => true,
+                'sync' => null,
+            ],
+            // Kaitan risiko <-> Program Bupati (halaman "Miscellaneous >
+            // Risiko 100 Program Bupati") — lintas-OPD (satu risiko boleh
+            // terkait program apa saja, tidak terikat kepemilikan OPD
+            // tertentu), jadi owned=false DAN opd_scoped tidak diisi
+            // (default false) => sesuai trashedQuery(), hanya admin/
+            // super-admin yg bisa lihat/pulihkan/hapus permanen di sini,
+            // sama pola dgn krs_pemda (data lintas-OPD tingkat Pemda).
+            'program_bupati_risiko' => [
+                'model' => ProgramBupatiRisiko::class,
+                'label' => 'Kaitan Risiko - 100 Program Bupati',
+                'title_field' => 'ringkasan',
+                'subtitle_fields' => [],
+                'owned' => false,
+                'sync' => null,
             ],
         ];
     }

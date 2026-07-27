@@ -64,9 +64,9 @@ Fungsi: melaksanakan penilaian risiko, melaporkan peristiwa risiko, menyusun has
 Contoh (level Pemda): Risiko gagal mencapai target kemiskinan => Pemilik Risiko: Bupati (Ketua UPR Tingkat Pemda) — WAJIB Bupati krn TINGKAT RISIKO-nya Strategis Pemda, bukan Kepala Dinas Sosial meski risiko ini domain teknisnya di sana.
 Contoh (level OPD): Risiko keterlambatan proyek fisik => Pemilik Risiko: Kepala Dinas PUPR (UPR Tingkat Eselon 2).`,
 
-  'URAIAN PENYEBAB RISIKO': `Definisi: Faktor langsung atau kondisi yang memunculkan risiko, diklasifikasikan memakai kerangka 7M + 1E (pengembangan dari 5M/fishbone klasik) — boleh pilih lebih dari 1 kategori sekaligus kalau risikonya disebabkan gabungan beberapa faktor.
+  'URAIAN PENYEBAB RISIKO': `Definisi: Faktor langsung atau kondisi yang memunculkan risiko, diklasifikasikan memakai kerangka 7M+1E untuk penyebab Internal dan PESTLE untuk penyebab Eksternal — boleh pilih lebih dari 1 kategori sekaligus (bahkan lintas Internal/Eksternal) kalau risikonya disebabkan gabungan beberapa faktor.
 
-Kategori 7M (faktor internal — dalam kendali/pengaruh OPD):
+Kategori 7M+1E (INTERNAL — dalam kendali/pengaruh OPD):
 - Men (Manusia/SDM): kompetensi, jumlah, atau perilaku SDM — mis. kurangnya jumlah petugas, SDM belum terlatih.
 - Machine (Mesin/Peralatan/Sistem): peralatan, mesin, atau sistem/aplikasi — mis. server sering down, aplikasi belum terintegrasi.
 - Method (Metode/Prosedur/Kebijakan): prosedur, SOP, atau kebijakan yang belum ada/belum memadai — mis. belum ada SOP baku.
@@ -74,18 +74,24 @@ Kategori 7M (faktor internal — dalam kendali/pengaruh OPD):
 - Money (Anggaran/Pembiayaan): ketersediaan/kecukupan anggaran — mis. anggaran terbatas, pencairan anggaran terlambat.
 - Management (Tata Kelola/Pengawasan): kelemahan pengawasan, koordinasi lintas unit, atau kepemimpinan — mis. belum ada mekanisme monitoring berkala, pengawasan berjenjang lemah.
 - Measurement (Pengukuran/Indikator): kesalahan atau ketiadaan indikator/standar pengukuran kinerja — mis. indikator kinerja tidak terukur jelas, tidak ada baseline data.
+- Environment (Lingkungan kerja INTERNAL): kondisi fisik kantor/fasilitas kerja — mis. ruang kerja tidak memadai, fasilitas penunjang rusak/kurang. BUKAN cuaca/bencana alam (itu masuk Environmental di PESTLE Eksternal di bawah).
 
-Kategori 1E (faktor eksternal — di luar kendali OPD):
-- Environment (Lingkungan): kondisi alam, cuaca, geografis, atau lingkungan sekitar yang berada di luar kendali OPD — mis. curah hujan ekstrem, bencana alam, kondisi geografis terpencil.
+Kategori PESTLE (EKSTERNAL — di luar kendali OPD):
+- Political (Politik/Kebijakan): perubahan kebijakan pemerintah pusat/daerah lain, dinamika politik — mis. perubahan regulasi mendadak dari pusat.
+- Economic (Ekonomi): kondisi ekonomi makro/daerah — mis. inflasi, resesi, penurunan pendapatan daerah.
+- Social (Sosial): dinamika sosial masyarakat — mis. resistensi masyarakat, perubahan pola perilaku warga.
+- Technological (Teknologi): perkembangan/gangguan teknologi dari luar OPD — mis. serangan siber pihak luar, ketergantungan sistem pihak ketiga yang bermasalah.
+- Legal (Hukum): perubahan peraturan perundang-undangan atau putusan hukum di luar kendali OPD — mis. putusan pengadilan, perubahan undang-undang.
+- Environmental (Lingkungan alam EKSTERNAL): kondisi alam, cuaca, geografis, atau bencana alam — mis. curah hujan ekstrem, bencana alam, kondisi geografis terpencil.
 
-Catatan: kategori Environment di sini murni MENJELASKAN kondisi faktualnya (apa lingkungannya). Penilaian apakah faktor itu bisa dikendalikan OPD tetap diisi lengkap lewat field "Sumber Sebab Risiko" (Internal/Eksternal) dan "C / UC" (Controllable/Uncontrollable) di bawah — ketiganya saling melengkapi, bukan menggantikan satu sama lain.
+Catatan: "Environment" (7M+1E, Internal) dan "Environmental" (PESTLE, Eksternal) adalah DUA kategori BERBEDA meski namanya mirip — Environment soal kondisi fisik kantor, Environmental soal alam/cuaca/bencana. Penilaian apakah faktor itu bisa dikendalikan OPD tetap diisi lengkap lewat field "Sumber Sebab Risiko" (Internal/Eksternal, otomatis terhitung dari kategori yang dicentang di sini) dan "C / UC" (Controllable/Uncontrollable) di bawah — ketiganya saling melengkapi, bukan menggantikan satu sama lain.
 
-Cara mengisi: centang kategori yang relevan (boleh lebih dari satu), lalu tulis uraian penyebabnya di kotak masing-masing kategori.
+Cara mengisi: centang kategori yang relevan (boleh lebih dari satu, boleh campur Internal+Eksternal), lalu tulis uraian penyebabnya di kotak masing-masing kategori.
 
 Contoh:
 Money (Anggaran penanggulangan kemiskinan terbatas)
 Material (Data kemiskinan tidak akurat)
-Environment (Curah hujan ekstrem di luar prediksi normal menyebabkan debit air melampaui kapasitas desain tanggul)`,
+Environmental (Curah hujan ekstrem di luar prediksi normal menyebabkan debit air melampaui kapasitas desain tanggul)`,
 
   'SUMBER SEBAB RISIKO': `Definisi: Asal penyebab risiko — Internal, Eksternal, atau keduanya sekaligus (kalau kedua kotak dicentang, otomatis tergabung jadi "Internal dan Eksternal").
 

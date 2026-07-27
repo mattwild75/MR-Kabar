@@ -42,6 +42,10 @@ class SettingAppController extends Controller
             'logo_bg'                 => 'nullable|string|max:20',
             'favicon'                 => 'nullable|file|image|mimes:ico,png,jpg,jpeg,webp|max:1024',
             'favicon_from_logo'       => 'nullable|boolean',
+            'login_splash_enabled'    => 'nullable|boolean',
+            'login_splash_video'      => 'nullable|file|mimes:mp4,webm,mov|max:20480',
+            'login_splash_video_remove' => 'nullable|boolean',
+            'login_splash_muted'      => 'nullable|boolean',
             'warna'                   => 'nullable|string|max:20',
             'seo'                     => 'nullable|array',
             'contact_email'           => 'nullable|email|max:255',
@@ -53,6 +57,20 @@ class SettingAppController extends Controller
         $generateFaviconFromLogo = (bool) ($data['favicon_from_logo'] ?? false);
         unset($data['favicon_from_logo']);
 
+        // Checkbox HTML yg TIDAK dicentang tidak pernah terkirim ke server
+        // sama sekali (bukan terkirim "false") — WAJIB diberi default
+        // eksplisit di sini, kalau tidak, kolom boolean ini akan selalu
+        // ke-cast jadi null lalu dianggap falsy tiap kali form disimpan
+        // (baik dicentang atau tidak), padahal frontend SELALU mengirim
+        // nilai eksplisit true/false (lihat Form.tsx: transform() di
+        // sana), jadi baris ini murni jaga-jaga kalau request datang dari
+        // luar form standar (mis. API lain di masa depan).
+        $data['login_splash_enabled'] = $request->boolean('login_splash_enabled');
+        $data['login_splash_muted'] = $request->boolean('login_splash_muted');
+
+        $removeSplashVideo = (bool) ($data['login_splash_video_remove'] ?? false);
+        unset($data['login_splash_video_remove']);
+
         if ($request->hasFile('logo')) {
             $data['logo'] = $request->file('logo')->store('logo', 'public');
         } else {
@@ -63,6 +81,19 @@ class SettingAppController extends Controller
             $data['favicon'] = $request->file('favicon')->store('favicon', 'public');
         } else {
             unset($data['favicon']);
+        }
+
+        if ($request->hasFile('login_splash_video')) {
+            $data['login_splash_video'] = $request->file('login_splash_video')->store('login-splash', 'public');
+        } elseif ($removeSplashVideo) {
+            // Hapus video splash kembali ke "tanpa video kustom" — halaman
+            // login-splash.tsx fallback ke video statis bawaan
+            // (/media/logo-animation.mp4) kalau kolom ini kosong, BUKAN
+            // langsung menonaktifkan splash sama sekali (itu tanggung
+            // jawab toggle login_splash_enabled yang terpisah).
+            $data['login_splash_video'] = null;
+        } else {
+            unset($data['login_splash_video']);
         }
 
         $setting->fill($data)->save();

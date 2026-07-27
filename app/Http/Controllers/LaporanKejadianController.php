@@ -255,20 +255,23 @@ class LaporanKejadianController extends Controller
     }
 
     /**
-     * Tautkan (atau lepas tautan) laporan ke risiko terdaftar — admin/super-
-     * admin saja. Dipakai skenario "risiko belum terdaftar saat pelapor
-     * mengisi form publik": admin daftarkan dulu risikonya via tombol
-     * "Input ke Register Risiko" (buka form IRS/IRO terpisah di tab baru),
-     * lalu balik ke sini utk menautkan baris yang baru dibuat itu — begitu
-     * tertaut, tombol "Catat ke Form 10" di Rekap.tsx otomatis muncul
-     * (constraint Form 10 SELALU butuh risiko yg sudah terdaftar, tidak
-     * bisa langsung dari laporan warga tanpa risiko_id yg valid).
+     * Tautkan, ubah tautan, atau lepas tautan laporan ke risiko terdaftar —
+     * Admin/Super Admin ATAU PIC OPD pemilik laporan (sama gate dgn
+     * ensureCanManage() yg dipakai updateStatus()/destroy()). Sebelumnya
+     * admin/super-admin-only, padahal PIC OPD-lah yg paling tahu risiko
+     * mana yg benar utk laporan OPD-nya sendiri — terutama utk mengoreksi
+     * laporan warga yg TERLANJUR salah ditautkan ke risiko yg keliru.
+     * Dipakai jg utk skenario "risiko belum terdaftar saat pelapor mengisi
+     * form publik": daftarkan dulu risikonya via tombol "Input ke Register
+     * Risiko" (buka form IRS/IRO terpisah di tab baru), lalu balik ke sini
+     * utk menautkan baris yang baru dibuat itu — begitu tertaut, tombol
+     * "Catat ke Form 10" di Rekap.tsx otomatis muncul (constraint Form 10
+     * SELALU butuh risiko yg sudah terdaftar, tidak bisa langsung dari
+     * laporan warga tanpa risiko_id yg valid).
      */
     public function updateRisikoTerdaftar(Request $request, LaporanKejadianRisiko $laporanKejadian)
     {
-        if (!$request->user()->hasAnyRole(['admin', 'super-admin'])) {
-            throw new AccessDeniedHttpException('Hanya Admin/Super Admin yang dapat menautkan laporan ke risiko terdaftar.');
-        }
+        $this->ensureCanManage($request, $laporanKejadian);
 
         $validated = $request->validate([
             'risiko_terdaftar_tipe' => ['nullable', Rule::in(array_keys(self::RISIKO_MODELS))],

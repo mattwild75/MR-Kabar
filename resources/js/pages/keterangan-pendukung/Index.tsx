@@ -105,6 +105,24 @@ interface OpdRow {
   nama: string;
 }
 
+interface ProgramPembangunanRow {
+  id: number;
+  nomor: number;
+  program_pembangunan: string;
+  branding: string | null;
+  perangkat_daerah: string;
+  misi_urutan: number;
+}
+
+/** Visi (1 baris) & Misi (per misi_urutan 1-7) — dibaca LIVE dari tbl_krs_pemda
+ *  (kolom VISI/MISI), BUKAN disimpan di program_pembangunan_bupati, supaya selalu
+ *  sinkron dengan KRS Pemda (I_a) tanpa perlu diedit dobel. Nilai bisa null kalau
+ *  KRS Pemda belum diisi Visi/Misi sama sekali utk Misi tsb. */
+interface VisiMisiPemda {
+  visi: string | null;
+  misi: Record<number, string | null>;
+}
+
 interface PageProps {
   tab: string;
   kriteriaDampak: KriteriaDampakRow[];
@@ -114,6 +132,8 @@ interface PageProps {
   jenisRisiko: JenisRisikoRow[];
   entitasPenilai: EntitasRow[];
   opdList: OpdRow[];
+  programPembangunan: ProgramPembangunanRow[];
+  visiMisiPemda: VisiMisiPemda;
 }
 
 const TABS = [
@@ -124,9 +144,10 @@ const TABS = [
   { id: 'jenis_risiko', label: 'Jenis Risiko' },
   { id: 'entitas_penilai', label: 'Entitas Penilai Risiko' },
   { id: 'opd', label: 'Seluruh OPD' },
+  { id: 'program_pembangunan', label: '100 Program Pembangunan Bupati' },
 ] as const;
 
-export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteriaKemungkinan, matrixCells, riskLevels, jenisRisiko, entitasPenilai, opdList }: PageProps) {
+export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteriaKemungkinan, matrixCells, riskLevels, jenisRisiko, entitasPenilai, opdList, programPembangunan, visiMisiPemda }: PageProps) {
   const [activeTab, setActiveTab] = useState<string>(tab || 'kriteria_dampak');
 
   const switchTab = (id: string) => {
@@ -170,6 +191,7 @@ export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteria
         {activeTab === 'jenis_risiko' && <JenisRisikoTab rows={jenisRisiko} />}
         {activeTab === 'entitas_penilai' && <EntitasPenilaiTab rows={entitasPenilai} />}
         {activeTab === 'opd' && <OpdTab rows={opdList} />}
+        {activeTab === 'program_pembangunan' && <ProgramPembangunanTab rows={programPembangunan} visiMisiPemda={visiMisiPemda} />}
       </div>
     </AppLayout>
   );
@@ -962,6 +984,218 @@ function OpdTab({ rows }: { rows: OpdRow[] }) {
             <div className="space-y-1">
               <Label>Nama OPD</Label>
               <Input value={form.nama ?? ''} onChange={(e) => setForm((f) => ({ ...f, nama: e.target.value }))} />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>Batal</Button>
+            <Button onClick={save} disabled={processing}>
+              <Save className="mr-2 h-4 w-4" />
+              Simpan
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
+
+// ── Tab: 100 Program Pembangunan Bupati (Tabel 3.7 RPJM 2025-2029) ──────────
+// Visi/Misi TIDAK di-hardcode di sini — selalu diambil dari prop
+// `visiMisiPemda` (live dari tbl_krs_pemda kolom VISI/MISI, lihat
+// KeteranganPendukungController::visiMisiPerMisi()), supaya teks yg
+// ditampilkan/dipilih SELALU sinkron dgn KRS Pemda (I_a), termasuk kalau
+// nanti Bupati/Wakil Bupati ganti & Visi-Misi RPJM periode berikutnya
+// diedit ulang di sana.
+const MISI_URUTAN_LIST = [1, 2, 3, 4, 5, 6, 7] as const;
+
+function ProgramPembangunanTab({ rows, visiMisiPemda }: { rows: ProgramPembangunanRow[]; visiMisiPemda: VisiMisiPemda }) {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editing, setEditing] = useState<ProgramPembangunanRow | null>(null);
+  const [form, setForm] = useState<Partial<ProgramPembangunanRow>>({});
+  const [processing, setProcessing] = useState(false);
+
+  const openCreate = () => {
+    setEditing(null);
+    const nomorBerikutnya = rows.length > 0 ? Math.max(...rows.map((r) => r.nomor)) + 1 : 1;
+    setForm({ nomor: nomorBerikutnya, program_pembangunan: '', branding: '', perangkat_daerah: '', misi_urutan: 1 });
+    setDialogOpen(true);
+  };
+
+  const openEdit = (row: ProgramPembangunanRow) => {
+    setEditing(row);
+    setForm(row);
+    setDialogOpen(true);
+  };
+
+  const save = () => {
+    setProcessing(true);
+    const url = editing ? `/keterangan-pendukung/program-pembangunan/${editing.id}` : '/keterangan-pendukung/program-pembangunan';
+    const method = editing ? router.put : router.post;
+    method(url, form, {
+      onSuccess: () => {
+        toast.success(editing ? 'Program berhasil diperbarui.' : 'Program berhasil ditambahkan.');
+        setDialogOpen(false);
+      },
+      onError: () => toast.error('Gagal menyimpan — pastikan Nomor belum dipakai baris lain.'),
+      onFinish: () => setProcessing(false),
+    });
+  };
+
+  const remove = (id: number) => {
+    router.delete(`/keterangan-pendukung/program-pembangunan/${id}`, {
+      onSuccess: () => toast.success('Program berhasil dihapus.'),
+      onError: () => toast.error('Gagal menghapus.'),
+    });
+  };
+
+  // Dikelompokkan per Misi sesuai penyajian Tabel 3.7 sumber (RPJM Kabupaten
+  // Aceh Barat 2025-2029) — bukan cuma daftar 1-100 datar, supaya struktur
+  // Visi/Misi tetap terbaca jelas di UI, bukan hanya tersimpan di data.
+  const grouped = MISI_URUTAN_LIST.map((urutan) => ({
+    urutan,
+    nama: visiMisiPemda.misi[urutan] ?? null,
+    rows: rows.filter((r) => r.misi_urutan === urutan).sort((a, b) => a.nomor - b.nomor),
+  })).filter((g) => g.rows.length > 0);
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-2">
+        <p className="text-sm text-muted-foreground">
+          Tabel 3.7 RPJM Kabupaten Aceh Barat Tahun 2025-2029 — 100 Program Pembangunan Pemerintah Kabupaten Aceh
+          Barat, dikelompokkan per Misi. Visi &amp; Misi diambil LIVE dari data KRS Pemda (I_a) — mengedit Visi/Misi
+          di sana otomatis ikut memperbarui tampilan di tab ini.
+          <br />
+          Total: <span className="font-semibold text-foreground">{rows.length} / 100 Program</span>
+        </p>
+        <Button onClick={openCreate} className="shrink-0">
+          <Plus className="mr-2 h-4 w-4" />
+          Tambah Program
+        </Button>
+      </div>
+
+      <div className="rounded-md border bg-muted/30 p-3 text-sm">
+        <span className="font-semibold text-foreground">Visi:</span>{' '}
+        {visiMisiPemda.visi ?? <span className="italic text-muted-foreground">Belum diisi di KRS Pemda (I_a)</span>}
+      </div>
+
+      {grouped.map((g) => (
+        <div key={g.urutan} className="space-y-2">
+          <p className="rounded-md bg-sky-500/10 px-3 py-1.5 text-sm font-semibold text-foreground ring-1 ring-sky-500/20">
+            {g.nama ?? `Misi ${g.urutan} : (belum diisi di KRS Pemda)`}
+          </p>
+          <div className="overflow-x-auto rounded-md border">
+            <table className="min-w-full text-sm">
+              <thead className="bg-muted/50">
+                <tr>
+                  <th className="border px-3 py-2 text-left font-semibold w-12">No</th>
+                  <th className="border px-3 py-2 text-left font-semibold">Program Pembangunan</th>
+                  <th className="border px-3 py-2 text-left font-semibold">Branding</th>
+                  <th className="border px-3 py-2 text-left font-semibold">Perangkat Daerah</th>
+                  <th className="border px-3 py-2 text-left font-semibold w-20">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.rows.map((row) => (
+                  <tr key={row.id}>
+                    <td className="border px-3 py-2 align-top text-muted-foreground">{row.nomor}</td>
+                    <td className="border px-3 py-2 align-top">{row.program_pembangunan}</td>
+                    <td className="border px-3 py-2 align-top italic">{row.branding ?? '-'}</td>
+                    <td className="border px-3 py-2 align-top">{row.perangkat_daerah}</td>
+                    <td className="border px-3 py-2 align-top">
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="icon" onClick={() => openEdit(row)}>
+                          <Edit className="h-4 w-4" />
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Hapus Program No. {row.nomor} ini?</AlertDialogTitle>
+                              <AlertDialogDescription>"{row.program_pembangunan}" akan dihapus permanen.</AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Batal</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => remove(row.id)} className="bg-destructive hover:bg-destructive/90">
+                                Hapus
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{editing ? 'Edit' : 'Tambah'} Program Pembangunan</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label>Nomor</Label>
+                <Input
+                  type="number"
+                  value={form.nomor ?? ''}
+                  onChange={(e) => setForm((f) => ({ ...f, nomor: Number(e.target.value) }))}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label>Misi</Label>
+                <Select
+                  value={form.misi_urutan ? String(form.misi_urutan) : undefined}
+                  onValueChange={(v) => setForm((f) => ({ ...f, misi_urutan: Number(v) }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Misi..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {MISI_URUTAN_LIST.map((urutan) => (
+                      <SelectItem key={urutan} value={String(urutan)}>
+                        Misi {urutan}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-1">
+              <Label>Program Pembangunan</Label>
+              <Textarea
+                rows={2}
+                value={form.program_pembangunan ?? ''}
+                onChange={(e) => setForm((f) => ({ ...f, program_pembangunan: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label>Branding (opsional)</Label>
+              <Textarea
+                rows={2}
+                value={form.branding ?? ''}
+                onChange={(e) => setForm((f) => ({ ...f, branding: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label>Perangkat Daerah</Label>
+              <Textarea
+                rows={2}
+                value={form.perangkat_daerah ?? ''}
+                onChange={(e) => setForm((f) => ({ ...f, perangkat_daerah: e.target.value }))}
+              />
+              <p className="text-xs text-muted-foreground">
+                Gunakan nama PERSIS seperti yang teregister di tab "Seluruh OPD" — pisahkan dengan ", " bila lebih
+                dari satu OPD terlibat.
+              </p>
             </div>
           </div>
           <DialogFooter>

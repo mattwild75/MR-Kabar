@@ -291,9 +291,29 @@ function RisikoRowCard({
 // id sintetis dari index array, TANPA mengubah bentuk data asli row.*.
 type SearchableRisikoRow = RisikoRow & { id: number; [key: string]: unknown };
 
+type StatusFilter = 'semua' | 'sudah' | 'belum';
+type SumberFilter = 'semua' | 'warga' | 'bukan_warga';
+
 export default function Form10({ opdOptions, opdId, tahun, isAdmin, triwulanOptions, triwulanLabels, rows, prefill }: PageProps) {
   const prefillCardRef = useRef<HTMLDivElement>(null);
-  const searchableRows: SearchableRisikoRow[] = rows.map((row, index) => ({ ...row, id: index }));
+
+  // Filter status pencatatan (sudah/belum dicatat) DIPISAH dari filter
+  // sumber (laporan warga vs bukan) — dua sumbu independen, supaya PIC bisa
+  // mis. mencari khusus "laporan warga yang belum dicatat" tanpa tercampur
+  // catatan internal yang juga belum dicatat.
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('semua');
+  const [sumberFilter, setSumberFilter] = useState<SumberFilter>('semua');
+
+  const filteredRows = rows.filter((row) => {
+    const sudahDicatat = row.pencatatan_id !== null;
+    if (statusFilter === 'sudah' && !sudahDicatat) return false;
+    if (statusFilter === 'belum' && sudahDicatat) return false;
+    const dariWarga = row.laporan_kejadian_id !== null;
+    if (sumberFilter === 'warga' && !dariWarga) return false;
+    if (sumberFilter === 'bukan_warga' && dariWarga) return false;
+    return true;
+  });
+  const searchableRows: SearchableRisikoRow[] = filteredRows.map((row, index) => ({ ...row, id: index }));
 
   const {
     searchInput,
@@ -392,6 +412,32 @@ export default function Form10({ opdOptions, opdId, tahun, isAdmin, triwulanOpti
               </SelectContent>
             </Select>
           </div>
+          <div className="w-48 space-y-1">
+            <Label>Status Pencatatan</Label>
+            <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as StatusFilter)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="semua">Semua</SelectItem>
+                <SelectItem value="sudah">Sudah dicatat</SelectItem>
+                <SelectItem value="belum">Belum dicatat</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="w-48 space-y-1">
+            <Label>Sumber</Label>
+            <Select value={sumberFilter} onValueChange={(v) => setSumberFilter(v as SumberFilter)}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="semua">Semua</SelectItem>
+                <SelectItem value="warga">Dari Laporan Warga</SelectItem>
+                <SelectItem value="bukan_warga">Bukan Laporan Warga</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {rows.length === 0 ? (
@@ -399,6 +445,12 @@ export default function Form10({ opdOptions, opdId, tahun, isAdmin, triwulanOpti
             <CardContent className="p-8 text-center text-sm text-muted-foreground">
               Belum ada risiko teridentifikasi{opdId || tahun ? ' untuk filter ini' : ''} — isi dulu Uraian Risiko
               di Form Input IRS/IRO.
+            </CardContent>
+          </Card>
+        ) : filteredRows.length === 0 ? (
+          <Card>
+            <CardContent className="p-8 text-center text-sm text-muted-foreground">
+              Tidak ada risiko yang cocok dengan filter Status Pencatatan/Sumber yang dipilih.
             </CardContent>
           </Card>
         ) : (

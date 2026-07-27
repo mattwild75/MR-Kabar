@@ -46,6 +46,16 @@ interface OpdOption {
   nama: string;
 }
 
+interface TahapItem {
+  nama: string;
+  selesai: boolean;
+}
+
+interface TahapanRealtimeItem {
+  opd_nama: string;
+  tahap: TahapItem[];
+}
+
 interface Narasi {
   latar_belakang: string;
   dasar_hukum: string;
@@ -68,6 +78,7 @@ interface PageProps {
   dataUmum: DataUmum | null;
   monitoringRows: MonitoringRow[];
   kejadianRows: KejadianRow[];
+  tahapanRealtime: TahapanRealtimeItem[];
   canEdit: boolean;
   narasi: Narasi;
 }
@@ -171,6 +182,88 @@ function KejadianTable({ rows }: { rows: KejadianRow[] }) {
   );
 }
 
+/**
+ * Bar 7-segmen horizontal (hijau = tahap selesai, oranye = belum) — realtime,
+ * sama komponen visual dgn Cetak3 (Form 13), di-scope ke OPD yg sedang
+ * dipilih (atau semua OPD kalau kompilasi Pemda). Tiap segmen diberi ANGKA
+ * 1-7 (bukan cuma warna) supaya versi cetak/PDF tetap terbaca tanpa hover.
+ */
+function TahapanBar({ tahap }: { tahap: TahapItem[] }) {
+  if (tahap.length === 0) {
+    return <span className="text-muted-foreground">-</span>;
+  }
+
+  return (
+    <div className="flex h-5 w-full overflow-hidden rounded-sm border border-black/40 print:h-4">
+      {tahap.map((t, i) => (
+        <div
+          key={t.nama}
+          title={`${i + 1}. ${t.nama}: ${t.selesai ? 'Selesai' : 'Belum'}`}
+          className={`flex h-full flex-1 items-center justify-center text-[9px] leading-none font-semibold text-white ${
+            t.selesai ? 'bg-green-600' : 'bg-amber-500'
+          } ${i > 0 ? 'border-l border-black/30' : ''}`}
+        >
+          {i + 1}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Legenda angka 1-7 -> nama tahap, dirender SEKALI di atas tabel — sama komponen dgn Cetak3. */
+function TahapanLegend({ tahap }: { tahap: TahapItem[] }) {
+  if (tahap.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[9px] text-muted-foreground print:text-black">
+      <span className="flex items-center gap-1">
+        <span className="inline-block h-2.5 w-2.5 rounded-sm bg-green-600" /> Selesai
+      </span>
+      <span className="flex items-center gap-1">
+        <span className="inline-block h-2.5 w-2.5 rounded-sm bg-amber-500" /> Belum
+      </span>
+      <span className="text-black/40">|</span>
+      {tahap.map((t, i) => (
+        <span key={t.nama}>
+          {i + 1}={t.nama}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function StatusProgressTable({ rows }: { rows: TahapanRealtimeItem[] }) {
+  return (
+    <table className="mt-2 w-full table-fixed border-collapse border border-black text-[10px]">
+      <colgroup>
+        <col className="w-[8%]" />
+        <col className="w-[32%]" />
+        <col className="w-[60%]" />
+      </colgroup>
+      <thead>
+        <tr className="bg-muted/40">
+          <th className="border border-black p-1 font-semibold">No</th>
+          <th className="border border-black p-1 font-semibold">OPD</th>
+          <th className="border border-black p-1 font-semibold">Status Progress</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, i) => (
+          <tr key={r.opd_nama}>
+            <td className="border border-black p-1 align-top">{i + 1}</td>
+            <td className="border border-black p-1 align-top">{r.opd_nama}</td>
+            <td className="border border-black p-1 align-middle">
+              <TahapanBar tahap={r.tahap} />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
 function NarasiSection({
   label,
   value,
@@ -209,6 +302,7 @@ export default function Cetak2({
   dataUmum,
   monitoringRows,
   kejadianRows,
+  tahapanRealtime,
   canEdit,
   narasi,
 }: PageProps) {
@@ -297,6 +391,10 @@ export default function Cetak2({
             </tr>
           </tbody>
         </table>
+
+        <p className="mt-3 text-xs">Status Progress {opd ? `${opd.nama}` : 'seluruh OPD'} pada Triwulan {triwulan}:</p>
+        <TahapanLegend tahap={tahapanRealtime[0]?.tahap ?? []} />
+        <StatusProgressTable rows={tahapanRealtime} />
 
         <h3 className="mt-4 text-xs font-bold uppercase">I. Pendahuluan</h3>
         {NARASI_FIELDS.map(({ key, label }) => (

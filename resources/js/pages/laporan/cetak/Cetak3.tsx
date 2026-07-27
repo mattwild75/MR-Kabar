@@ -30,6 +30,16 @@ interface RekapItem {
   status: 'lengkap' | 'sebagian' | 'belum';
 }
 
+interface TahapItem {
+  nama: string;
+  selesai: boolean;
+}
+
+interface TahapanRealtimeItem {
+  opd_nama: string;
+  tahap: TahapItem[];
+}
+
 interface Narasi {
   latar_belakang: string;
   dasar_hukum: string;
@@ -49,6 +59,7 @@ interface PageProps {
   pemerintahKabkota: string;
   dataUmum: DataUmum | null;
   rekapKepatuhan: RekapItem[];
+  tahapanRealtime: TahapanRealtimeItem[];
   canEdit: boolean;
   narasi: Narasi;
 }
@@ -108,19 +119,74 @@ function statusBadge(status: RekapItem['status']) {
   );
 }
 
-function RekapTable({ rows }: { rows: RekapItem[] }) {
+/**
+ * Bar 7-segmen horizontal (hijau = tahap selesai, oranye = belum) — realtime
+ * dari data yg sama dgn widget "Progres Tahapan per UPR" Dashboard, di-scope
+ * per triwulan laporan (bukan kumulatif tahunan). Tiap segmen diberi ANGKA
+ * 1-7 (bukan cuma warna) supaya versi cetak/PDF tetap terbaca tanpa hover —
+ * cocokkan angkanya ke TahapanLegend yg dirender sekali di atas tabel.
+ */
+function TahapanBar({ tahap }: { tahap: TahapItem[] }) {
+  if (tahap.length === 0) {
+    return <span className="text-muted-foreground">-</span>;
+  }
+
+  return (
+    <div className="flex h-5 w-full overflow-hidden rounded-sm border border-black/40 print:h-4">
+      {tahap.map((t, i) => (
+        <div
+          key={t.nama}
+          title={`${i + 1}. ${t.nama}: ${t.selesai ? 'Selesai' : 'Belum'}`}
+          className={`flex h-full flex-1 items-center justify-center text-[9px] leading-none font-semibold text-white ${
+            t.selesai ? 'bg-green-600' : 'bg-amber-500'
+          } ${i > 0 ? 'border-l border-black/30' : ''}`}
+        >
+          {i + 1}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/** Legenda angka 1-7 -> nama tahap, dirender SEKALI di atas tabel (bukan diulang per baris) — dipakai bersama daftar "hijau=Selesai / oranye=Belum" supaya pembaca cetak tahu arti tiap angka & warna tanpa hover. */
+function TahapanLegend({ tahap }: { tahap: TahapItem[] }) {
+  if (tahap.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[9px] text-muted-foreground print:text-black">
+      <span className="flex items-center gap-1">
+        <span className="inline-block h-2.5 w-2.5 rounded-sm bg-green-600" /> Selesai
+      </span>
+      <span className="flex items-center gap-1">
+        <span className="inline-block h-2.5 w-2.5 rounded-sm bg-amber-500" /> Belum
+      </span>
+      <span className="text-black/40">|</span>
+      {tahap.map((t, i) => (
+        <span key={t.nama}>
+          {i + 1}={t.nama}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function RekapTable({ rows, tahapanByOpd }: { rows: RekapItem[]; tahapanByOpd: Map<string, TahapItem[]> }) {
   return (
     <table className="mt-2 w-full table-fixed border-collapse border border-black text-[10px]">
       <colgroup>
         <col className="w-[8%]" />
-        <col className="w-[62%]" />
-        <col className="w-[30%]" />
+        <col className="w-[37%]" />
+        <col className="w-[20%]" />
+        <col className="w-[35%]" />
       </colgroup>
       <thead>
         <tr className="bg-muted/40">
           <th className="border border-black p-1 font-semibold">No</th>
           <th className="border border-black p-1 font-semibold">OPD</th>
           <th className="border border-black p-1 font-semibold">Status Pelaporan</th>
+          <th className="border border-black p-1 font-semibold">Status Progress</th>
         </tr>
       </thead>
       <tbody>
@@ -134,6 +200,9 @@ function RekapTable({ rows }: { rows: RekapItem[] }) {
                 {r.status === 'lengkap' ? 'Lengkap' : r.status === 'sebagian' ? 'Sebagian' : 'Belum Lapor'}
               </span>
             </td>
+            <td className="border border-black p-1 align-middle">
+              <TahapanBar tahap={tahapanByOpd.get(r.opd_nama) ?? []} />
+            </td>
           </tr>
         ))}
       </tbody>
@@ -141,8 +210,9 @@ function RekapTable({ rows }: { rows: RekapItem[] }) {
   );
 }
 
-export default function Cetak3({ tahun, triwulan, periode, pemerintahKabkota, dataUmum, rekapKepatuhan, canEdit, narasi }: PageProps) {
+export default function Cetak3({ tahun, triwulan, periode, pemerintahKabkota, dataUmum, rekapKepatuhan, tahapanRealtime, canEdit, narasi }: PageProps) {
   const [editing, setEditing] = useState(false);
+  const tahapanByOpd = new Map(tahapanRealtime.map((t) => [t.opd_nama, t.tahap]));
   const form = useForm({
     tahun,
     triwulan,
@@ -229,7 +299,8 @@ export default function Cetak3({ tahun, triwulan, periode, pemerintahKabkota, da
 
         <h3 className="mt-4 text-xs font-bold uppercase">C. Monitoring terhadap Pengelolaan Risiko dan RTP oleh UPR</h3>
         <p className="mt-1 text-xs">Rekapitulasi status pelaporan seluruh OPD pada Triwulan {triwulan}:</p>
-        <RekapTable rows={rekapKepatuhan} />
+        <TahapanLegend tahap={tahapanRealtime[0]?.tahap ?? []} />
+        <RekapTable rows={rekapKepatuhan} tahapanByOpd={tahapanByOpd} />
 
         <h3 className="mt-4 text-xs font-bold uppercase">D. Rekomendasi / Feedback bagi UPR</h3>
         <NarasiSection label="" value={form.data.rekomendasi_feedback} editing={editing && canEdit} onChange={(v) => form.setData('rekomendasi_feedback', v)} />

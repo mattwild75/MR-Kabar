@@ -42,7 +42,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Contact',
                 'route' => '#',
-                'order' => 3,
+                'order' => 8,
                 'permission_name' => 'access-view',
             ]
         );
@@ -83,7 +83,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Settings',
                 'route' => '#',
-                'order' => 4,
+                'order' => 10,
                 'permission_name' => 'settings-view',
             ]
         );
@@ -169,7 +169,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'CreditCard',
                 'route' => '#',
-                'order' => 5,
+                'order' => 9,
                 'permission_name' => 'utilities-view',
             ]
         );
@@ -264,7 +264,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'FilePlus',
                 'route' => '#',
-                'order' => 6,
+                'order' => 3,
                 'permission_name' => null,
             ]
         );
@@ -280,7 +280,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Radar',
                 'route' => '#',
-                'order' => 7,
+                'order' => 4,
                 'permission_name' => null,
             ]
         );
@@ -313,7 +313,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Printer',
                 'route' => '#',
-                'order' => 8,
+                'order' => 5,
                 'permission_name' => null,
             ]
         );
@@ -593,18 +593,25 @@ class MenuSeeder extends Seeder
             ]
         );
 
-        // Sub-grup: Form Cetak -> Risiko -> Laporan -> 11/12/13, sejajar dgn
-        // "Monitoring & Evaluasi" — Bab IV Pelaporan & Lampiran 7 Perdep PPKD
-        // No.4/2019 (lihat CetakLaporanController). Laporan 13 (Pemantauan
-        // Unit Kepatuhan) SELALU level Pemda, boleh dilihat semua user tapi
-        // hanya Admin/Super Admin yg boleh mengedit narasinya (dibatasi di
-        // controller, bukan lewat permission_name menu).
+        // Sub-grup: Form Cetak -> Laporan -> 11/12/13 — SEJAJAR dengan
+        // "Risiko" (langsung anak "Form Cetak"), BUKAN bersarang di dalam
+        // "Risiko" spt sebelumnya (parent_id salah $formCetakRisiko->id,
+        // membuat menu Laporan muncul di dalam grup "Risiko" alih-alih
+        // langsung di bawah "Form Cetak" — ditemukan user lewat screenshot
+        // struktur menu aktual). Laporan 11/12/13 adalah OUTPUT PELAPORAN
+        // lintas-tahap (Bab IV Pelaporan Perdep PPKD No.4/2019), bukan
+        // bagian proses per-tahap spt Penetapan Konteks/Identifikasi/Hasil
+        // Analisis/RTP/Monitoring & Evaluasi yg memang wajar dikelompokkan
+        // di dalam "Risiko". Laporan 13 (Pemantauan Unit Kepatuhan) SELALU
+        // level Pemda, boleh dilihat semua user tapi hanya Admin/Super
+        // Admin yg boleh mengedit narasinya (dibatasi di controller, bukan
+        // lewat permission_name menu).
         $formCetakLaporan = Menu::updateOrCreate(
-            ['title' => 'Laporan', 'parent_id' => $formCetakRisiko->id],
+            ['title' => 'Laporan', 'parent_id' => $formCetak->id],
             [
                 'icon' => 'FileBarChart',
                 'route' => '#',
-                'order' => 6,
+                'order' => 3,
                 'permission_name' => null,
             ]
         );
@@ -900,7 +907,49 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Network',
                 'route' => '#',
-                'order' => 9,
+                'order' => 6,
+                'permission_name' => null,
+            ]
+        );
+
+        // GROUP: Miscellaneous — wadah menu top-level yg belum punya
+        // kategori spesifik lain, DIPOSISIKAN di antara Visualisasi dan
+        // Access sesuai permintaan eksplisit user. Urutan top-level FINAL
+        // (dan SEKARANG konsisten dgn nilai 'order' aktual di file ini,
+        // bukan lagi menyimpang spt sebelumnya — lihat memory
+        // feedback_menuseeder_order_clobber): Dashboard(1)-Panduan(2)-
+        // Form Input(3)-Monitoring(4)-Cetak(5)-Visualisasi(6)-
+        // Miscellaneous(7)-Access(8)-Utilities(9)-Settings(10). Menjalankan
+        // seeder ini SEKARANG AMAN dari clobber — nilai order di sini SUDAH
+        // sinkron dgn urutan yg dimaksud, tidak akan menimpa jadi urutan lama.
+        $miscellaneous = Menu::updateOrCreate(
+            ['title' => 'Miscellaneous', 'parent_id' => null],
+            [
+                'icon' => 'MoreHorizontal',
+                'route' => '#',
+                'order' => 7,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/program-bupati-risiko'],
+            [
+                'title' => 'Risiko 100 Program Bupati',
+                'parent_id' => $miscellaneous->id,
+                'icon' => 'Target',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/program-bupati-risiko/cetak'],
+            [
+                'title' => 'Risiko 100 Program Bupati_Cetak',
+                'parent_id' => $miscellaneous->id,
+                'icon' => 'Printer',
+                'order' => 2,
                 'permission_name' => null,
             ]
         );

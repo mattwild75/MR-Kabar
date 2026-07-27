@@ -2,17 +2,29 @@ import { useEffect, useRef, useState } from 'react';
 
 interface LoginSplashProps {
   onDone: () => void;
+  /** Path video kustom dari SettingApp.login_splash_video (mis. "login-splash/xxx.mp4"), diambil lewat /storage/{path} — null/undefined = pakai video contoh bawaan /media/logo-animation.mp4. */
+  videoPath?: string | null;
+  /** Dari SettingApp.login_splash_muted — default true (autoplay browser modern memblokir video BERSUARA yang autoplay tanpa interaksi user dulu). Set false kalau admin sengaja ingin video ini berbunyi. */
+  muted?: boolean;
 }
 
-// Splash setelah login berhasil: memutar video animasi logo asli MR KABAR.
-// Video di-serve dari /media/logo-animation.mp4 (public/media). Tanpa audio,
-// jadi autoplay tidak diblokir kebijakan browser. Ada tombol "Lewati" agar
-// user tidak wajib menunggu video selesai, dan fallback aman kalau video
-// gagal dimuat (langsung panggil onDone supaya tidak menutupi aplikasi).
-export function LoginSplash({ onDone }: LoginSplashProps) {
+// Splash setelah login berhasil: memutar video animasi logo, sumbernya
+// SEKARANG bisa diganti Admin lewat /settingsapp (lihat SettingApp.
+// login_splash_video) — SEBELUMNYA hardcode path /media/logo-animation.mp4
+// tanpa cara ganti/nonaktifkan lewat UI. Video contoh bawaan itu tetap
+// dipakai sbg fallback kalau admin belum pernah upload video sendiri.
+// muted defaultnya true supaya autoplay tidak diblokir kebijakan browser
+// (video BERSUARA yg autoplay tanpa gesture user akan ditolak Chrome/
+// Safari) — admin BOLEH menyalakan suara lewat toggle di Settings kalau
+// video-nya memang didesain bersuara & mereka paham risiko autoplay-block
+// itu (lihat catatan di Form.tsx). Ada tombol "Lewati" agar user tidak
+// wajib menunggu video selesai, dan fallback aman kalau video gagal
+// dimuat (langsung panggil onDone supaya tidak menutupi aplikasi).
+export function LoginSplash({ onDone, videoPath, muted = true }: LoginSplashProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const doneRef = useRef(false);
   const [visible, setVisible] = useState(true);
+  const src = videoPath ? `/storage/${videoPath}` : '/media/logo-animation.mp4';
 
   const finish = () => {
     if (doneRef.current) return;
@@ -38,9 +50,9 @@ export function LoginSplash({ onDone }: LoginSplashProps) {
       <video
         ref={videoRef}
         className="max-h-[80vh] max-w-[90vw] object-contain"
-        src="/media/logo-animation.mp4"
+        src={src}
         autoPlay
-        muted
+        muted={muted}
         playsInline
         onEnded={finish}
         onError={finish}

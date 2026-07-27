@@ -25,11 +25,13 @@ export default function AppSidebarLayout({
   const { props } = usePage();
 
   const flash = (props?.flash as { success?: string; error?: string; justLoggedIn?: boolean }) ?? {};
-  const [showSplash, setShowSplash] = useState(!!flash.justLoggedIn);
   const setting = props?.setting as {
     nama_app: string;
     logo?: string;
     warna?: string;
+    login_splash_enabled?: boolean;
+    login_splash_video?: string | null;
+    login_splash_muted?: boolean;
     seo?: {
       title?: string;
       description?: string;
@@ -39,6 +41,11 @@ export default function AppSidebarLayout({
     contact_email_secondary?: string | null;
     footer_credit?: string | null;
   };
+  // login_splash_enabled default true kalau field-nya belum ada (mis. cache
+  // Inertia lama sebelum kolom ini ditambahkan) — jangan tiba-tiba
+  // menghilangkan splash yg sebelumnya SELALU tampil hanya krn field baru
+  // ini undefined, HANYA matikan kalau admin EKSPLISIT set false.
+  const [showSplash, setShowSplash] = useState(!!flash.justLoggedIn && setting?.login_splash_enabled !== false);
 
   useEffect(() => {
     if (flash.success) toast.success(flash.success);
@@ -125,7 +132,13 @@ export default function AppSidebarLayout({
 
       <Toaster />
       <SessionTimeoutWarning />
-      {showSplash && <LoginSplash onDone={() => setShowSplash(false)} />}
+      {showSplash && (
+        <LoginSplash
+          onDone={() => setShowSplash(false)}
+          videoPath={setting?.login_splash_video}
+          muted={setting?.login_splash_muted ?? true}
+        />
+      )}
     </>
   );
 }

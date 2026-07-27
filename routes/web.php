@@ -16,6 +16,7 @@ use App\Http\Controllers\UserFileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\SettingAppController;
 use App\Http\Controllers\KeteranganPendukungController;
+use App\Http\Controllers\ProgramBupatiRisikoController;
 use App\Http\Controllers\MediaFolderController;
 use App\Http\Controllers\KaeresController;
 use App\Http\Controllers\KrsPemdaController;
@@ -133,6 +134,18 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/keterangan-pendukung/opd', [KeteranganPendukungController::class, 'storeOpd'])->name('keterangan-pendukung.opd.store');
     Route::put('/keterangan-pendukung/opd/{opd}', [KeteranganPendukungController::class, 'updateOpd'])->name('keterangan-pendukung.opd.update');
     Route::delete('/keterangan-pendukung/opd/{opd}', [KeteranganPendukungController::class, 'destroyOpd'])->name('keterangan-pendukung.opd.destroy');
+    Route::post('/keterangan-pendukung/program-pembangunan', [KeteranganPendukungController::class, 'storeProgramPembangunan'])->name('keterangan-pendukung.program-pembangunan.store');
+    Route::put('/keterangan-pendukung/program-pembangunan/{program}', [KeteranganPendukungController::class, 'updateProgramPembangunan'])->name('keterangan-pendukung.program-pembangunan.update');
+    Route::delete('/keterangan-pendukung/program-pembangunan/{program}', [KeteranganPendukungController::class, 'destroyProgramPembangunan'])->name('keterangan-pendukung.program-pembangunan.destroy');
+
+    // Miscellaneous > Risiko 100 Program Bupati — lihat
+    // ProgramBupatiRisikoController utk penjelasan lengkap.
+    Route::get('/program-bupati-risiko', [ProgramBupatiRisikoController::class, 'index'])->name('program-bupati-risiko.index');
+    Route::get('/program-bupati-risiko/cari-risiko', [ProgramBupatiRisikoController::class, 'searchRisiko'])->name('program-bupati-risiko.cari-risiko');
+    Route::post('/program-bupati-risiko/{program}/risiko', [ProgramBupatiRisikoController::class, 'storeRisiko'])->name('program-bupati-risiko.risiko.store');
+    Route::delete('/program-bupati-risiko/risiko/{pivot}', [ProgramBupatiRisikoController::class, 'destroyRisiko'])->name('program-bupati-risiko.risiko.destroy');
+    Route::get('/program-bupati-risiko/cetak', [ProgramBupatiRisikoController::class, 'cetak'])->name('program-bupati-risiko.cetak');
+    Route::get('/program-bupati-risiko/cetak/pdf', [ProgramBupatiRisikoController::class, 'pdf'])->name('program-bupati-risiko.cetak.pdf');
 
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 

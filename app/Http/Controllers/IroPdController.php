@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IroPd;
@@ -20,6 +21,7 @@ class IroPdController extends Controller
 {
     use HasOpdFillStatus;
     use GeneratesKodeRisiko;
+    use AppendsProgramBupatiTag;
 
     public function __construct(private readonly RiskReferenceDataService $riskRef)
     {
@@ -137,6 +139,14 @@ class IroPdController extends Controller
             $query->where('user_id', auth()->id());
         }
         $rows = $this->withNomorUrut($query->get());
+
+        // Penanda "(P{nomor})" utk risiko yg dikaitkan ke salah satu 100
+        // Program Pembangunan Bupati — lihat AppendsProgramBupatiTag,
+        // murni penanda internal tanpa penjelasan apapun di frontend.
+        $programBupatiMap = $this->programBupatiNomorMap('iro_pd');
+        foreach ($rows as $row) {
+            $row->{'URAIAN RISIKO'} = $this->withProgramBupatiTag($row->{'URAIAN RISIKO'}, $row->id, $programBupatiMap);
+        }
 
         // Daftar Kegiatan PD yang sudah ada di tbl_kro_pd, dipakai sebagai
         // pilihan combobox supaya Kegiatan yang dirujuk IRO_PD konsisten

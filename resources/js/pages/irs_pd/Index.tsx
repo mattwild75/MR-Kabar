@@ -1009,6 +1009,8 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
         open={matrixPickerOpen}
         onOpenChange={setMatrixPickerOpen}
         matriks={riskReference.matriksRisiko}
+        kriteriaDampak={riskReference.kriteriaDampak}
+        kriteriaKemungkinan={riskReference.kriteriaKemungkinan}
         existingControlDiisi={existingControlStatus === 'ya'}
         nilai={{
           inheren: { dampak: Number(data['SKALA DAMPAK INHEREN']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN INHEREN']) || null },

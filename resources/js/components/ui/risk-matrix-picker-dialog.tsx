@@ -8,6 +8,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { DampakCriteriaPopover, KemungkinanCriteriaPopover } from '@/components/ui/matrix-criteria-popover';
 
 interface MatrixCell {
   dampak: number;
@@ -20,6 +21,24 @@ interface RiskMatrixData {
   dampakLabels: string[];
   kemungkinanLabels: string[];
   cells: MatrixCell[];
+}
+
+interface KriteriaDampakRow {
+  level: number;
+  label: string | null;
+  kerugian_negara: string | null;
+  penurunan_reputasi: string | null;
+  penurunan_kinerja: string | null;
+  gangguan_pelayanan: string | null;
+  tuntutan_hukum: string | null;
+}
+
+interface KriteriaKemungkinanRow {
+  level: number;
+  nama: string;
+  probabilitas: string | null;
+  frekuensi: string | null;
+  toleransi: string | null;
 }
 
 type TitikKey = 'inheren' | 'residual' | 'target' | 'aktual';
@@ -89,6 +108,8 @@ export default function RiskMatrixPickerDialog({
   existingControlDiisi = true,
   titikDitampilkan,
   titikBisaDiubah,
+  kriteriaDampak,
+  kriteriaKemungkinan,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -98,6 +119,9 @@ export default function RiskMatrixPickerDialog({
   existingControlDiisi?: boolean;
   titikDitampilkan?: TitikKey[];
   titikBisaDiubah?: TitikKey[];
+  /** Dipakai popover info di header "Dampak"/"Kemungkinan" — opsional, kalau tidak dikirim tombol info tidak ditampilkan (mis. dipanggil dari halaman yg belum mengirim riskReference lengkap). */
+  kriteriaDampak?: KriteriaDampakRow[];
+  kriteriaKemungkinan?: KriteriaKemungkinanRow[];
 }) {
   const titikDefault: TitikKey[] = existingControlDiisi ? ['inheren', 'residual', 'target'] : ['inheren', 'target'];
   const titikTampil = titikDitampilkan ?? titikDefault;
@@ -189,7 +213,10 @@ export default function RiskMatrixPickerDialog({
                     Matriks
                   </th>
                   <th className="border px-3 py-2" colSpan={5}>
-                    Dampak
+                    <span className="inline-flex items-center gap-1.5">
+                      Dampak
+                      {kriteriaDampak && <DampakCriteriaPopover rows={kriteriaDampak} />}
+                    </span>
                   </th>
                 </tr>
                 <tr>
@@ -207,7 +234,10 @@ export default function RiskMatrixPickerDialog({
                   <tr key={kemungkinan}>
                     {rowPos === 0 && (
                       <th className="border px-3 py-2 font-semibold" rowSpan={5}>
-                        Kemungkinan
+                        <span className="inline-flex items-center gap-1.5">
+                          Kemungkinan
+                          {kriteriaKemungkinan && <KemungkinanCriteriaPopover rows={kriteriaKemungkinan} />}
+                        </span>
                       </th>
                     )}
                     <th className="border px-2 py-2 font-normal">

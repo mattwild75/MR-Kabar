@@ -339,8 +339,13 @@ class MonitoringEvaluasiController extends Controller
             'triwulanLabels' => self::TRIWULAN_LABELS,
             'rows' => $rows,
             // Dipakai dialog "Isi Nilai Risiko Aktual" (matriks 5x5) — sama
-            // data referensi dgn IRS/IRO, cukup ambil bagian matriksRisiko.
-            'riskReference' => ['matriksRisiko' => $this->riskRef->referenceDialogPayload()['matriksRisiko']],
+            // data referensi dgn IRS/IRO. kriteriaDampak/kriteriaKemungkinan
+            // disertakan juga (bukan cuma matriksRisiko) supaya popover info
+            // Dampak/Kemungkinan di RiskMatrixPickerDialog bisa dipakai sama
+            // persis seperti di IRS/IRO, bukan cuma di Form89.
+            'riskReference' => collect($this->riskRef->referenceDialogPayload())
+                ->only(['matriksRisiko', 'kriteriaDampak', 'kriteriaKemungkinan'])
+                ->all(),
         ]);
     }
 

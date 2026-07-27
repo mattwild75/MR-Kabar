@@ -14,6 +14,9 @@ class SettingApp extends Model
         'logo',
         'logo_bg',
         'favicon',
+        'login_splash_enabled',
+        'login_splash_video',
+        'login_splash_muted',
         'warna',
         'seo',
         'contact_email',
@@ -25,6 +28,8 @@ class SettingApp extends Model
     protected $casts = [
         'seo' => 'array',
         'git_sync_enabled' => 'boolean',
+        'login_splash_enabled' => 'boolean',
+        'login_splash_muted' => 'boolean',
     ];
 
     /** Cache per-request agar baris setting tidak diquery berulang kali. */

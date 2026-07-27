@@ -45,13 +45,48 @@ export default function PanduanPublic() {
 
   return (
     <div className="min-h-svh bg-background text-foreground">
-      <Head title="Apa itu Manajemen Risiko / MR Kabar" />
+      <Head title="Apa itu Manajemen Risiko / MR Kabar">
+        {/* Meta SEO dasar — halaman ini SATU-SATUNYA titik masuk publik
+            (tanpa login) yang layak diindeks mesin pencari, lihat catatan
+            keamanan di dokblok atas: tidak memuat data internal apa pun,
+            murni konten edukasi statis (SECTIONS), jadi aman terekspos
+            luas. Sebelumnya cuma ada <title>, tanpa description/OG — Google
+            & preview share (WhatsApp dll) menampilkan cuplikan asal-asalan
+            tanpa ini. */}
+        <meta
+          name="description"
+          content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019. Pelajari konsep, proses 5 tahap, dan struktur pengelolaan risiko sektor publik."
+        />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Apa itu Manajemen Risiko / MR Kabar" />
+        <meta
+          property="og:description"
+          content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019."
+        />
+        <meta property="og:site_name" content="MR Kabar" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Apa itu Manajemen Risiko / MR Kabar" />
+        <meta
+          name="twitter:description"
+          content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019."
+        />
+      </Head>
 
       {/* Header minimal — bukan sidebar aplikasi, cukup logo + link kembali ke login */}
       <header className="sticky top-0 z-20 border-b bg-card/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
           <span className="font-serif text-lg font-semibold">MR Kabar</span>
-          <Link href={route('login')} className="text-sm text-sky-500 underline underline-offset-2 hover:text-sky-600">
+          {/* Hardcode '/login' (bukan route('login')) — halaman ini di-SSR
+              (lihat resources/js/ssr.jsx) supaya title/meta SEO ikut
+              ter-render di HTML awal utk crawler yg tidak eksekusi JS,
+              tapi Ziggy's route() cuma tersedia di window (browser),
+              bukan di proses Node SSR (window undefined -> "route is not
+              defined" -> Inertia diam-diam fallback ke client render,
+              artinya meta SEO TIDAK PERNAH benar2 ter-render). Path
+              /login stabil (bukan route dinamis yg bisa berubah param),
+              aman di-hardcode. */}
+          <Link href="/login" className="text-sm text-sky-500 underline underline-offset-2 hover:text-sky-600">
             ← Kembali ke halaman Masuk
           </Link>
         </div>

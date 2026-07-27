@@ -22,7 +22,9 @@ Contoh: "Antrean pasien di Puskesmas X menumpuk lebih dari 2 jam pada pagi hari 
 
   pemicu: `Apa yang menurut Anda menyebabkan/memicu kejadian ini terjadi (opsional) — akan otomatis terisi bila Anda memilih risiko yang sudah terdaftar di atas, tapi tetap boleh diedit sesuai pengamatan Anda sendiri.
 
-Pilih satu atau lebih kategori yang paling sesuai, lalu jelaskan di kotak sebelahnya:
+Pilih satu atau lebih kategori yang paling sesuai, lalu jelaskan di kotak sebelahnya.
+
+Faktor dari DALAM organisasi (Internal):
 • Men — soal orang/petugas (kurang terlatih, kurang teliti, dsb)
 • Machine — soal alat/sistem/teknologi yang dipakai
 • Method — soal cara kerja/prosedur/aturan yang ada
@@ -30,7 +32,15 @@ Pilih satu atau lebih kategori yang paling sesuai, lalu jelaskan di kotak sebela
 • Money — soal anggaran/biaya
 • Management — soal pengawasan/koordinasi yang kurang
 • Measurement — soal ukuran/target/standar yang tidak jelas
-• Environment — soal cuaca, bencana alam, atau kondisi lingkungan sekitar
+• Environment — soal kondisi fisik kantor/fasilitas kerja (BUKAN cuaca/bencana alam)
+
+Faktor dari LUAR organisasi (Eksternal):
+• Political — soal kebijakan/keputusan pemerintah di luar OPD ini
+• Economic — soal kondisi ekonomi (inflasi, anggaran daerah menurun, dsb)
+• Social — soal dinamika/perilaku masyarakat
+• Technological — soal gangguan teknologi dari pihak luar (mis. serangan siber, sistem pihak ketiga bermasalah)
+• Legal — soal perubahan peraturan/putusan hukum di luar kendali OPD
+• Environmental — soal cuaca, bencana alam, atau kondisi lingkungan sekitar
 
 Tidak yakin kategorinya apa? Pilih yang paling mendekati saja, atau kosongkan — PIC OPD akan meninjau ulang laporan Anda.`,
 

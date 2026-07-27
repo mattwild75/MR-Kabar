@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
 use App\Models\IroPd;
@@ -29,6 +30,14 @@ class DataRisikoGabunganController extends Controller
 {
     use GeneratesKodeRisiko;
     use HasOpdFillStatus;
+    use AppendsProgramBupatiTag;
+
+    /** Field `risiko_tipe` (program_bupati_risiko) per model — dipakai buildSection() utk penanda "(P{nomor})". */
+    private const RISIKO_TIPE_BY_MODEL = [
+        IrsPemda::class => 'irs_pemda',
+        IrsPd::class => 'irs_pd',
+        IroPd::class => 'iro_pd',
+    ];
 
     /**
      * Kolom yg dibutuhkan tabel gabungan ini (kolom "Aksi" cukup butuh
@@ -78,13 +87,18 @@ class DataRisikoGabunganController extends Controller
 
         $nomorUrut = $this->nomorUrutFor($rows);
 
+        // Penanda "(P{nomor})" utk risiko yg dikaitkan ke salah satu 100
+        // Program Pembangunan Bupati — lihat AppendsProgramBupatiTag, murni
+        // penanda internal tanpa penjelasan apapun di frontend.
+        $programBupatiMap = $this->programBupatiNomorMap(self::RISIKO_TIPE_BY_MODEL[$modelClass]);
+
         return $rows
             ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
             ->map(fn ($r) => [
                 'id' => $r->id,
                 'no' => $nomorUrut[$r->id] ?? null,
                 'kelompok' => $r->{$groupField},
-                'uraian_risiko' => $r->{'URAIAN RISIKO'},
+                'uraian_risiko' => $this->withProgramBupatiTag($r->{'URAIAN RISIKO'}, $r->id, $programBupatiMap),
                 'tahun' => $r->{'TAHUN DINILAI RISIKO'},
                 'jenis_risiko' => $r->{'JENIS RISIKO'},
                 'entitas_penilai' => $r->{'ENTITAS PD YANG MENILAI'},

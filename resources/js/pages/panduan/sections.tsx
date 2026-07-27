@@ -415,14 +415,20 @@ export const SECTIONS: Section[] = [
         />
 
         <Kotak title="Data Risiko (IRS dan IRO) — cara cepat melihat ketiganya sekaligus" tone="accent">
-          Menu baru di bawah grup <strong>Risiko</strong>, di atas ketiga submenu Risiko Strategis Pemda/PD/Operasional
-          PD — menampilkan <strong>I_b_IRS_Pemda, II_b_IRS_PD, dan III_b_IRO_PD dalam satu halaman</strong>, murni
+          Menu baru di bawah grup <strong>Risiko</strong> (<code>/data-risiko-gabungan</code>), di atas ketiga
+          submenu Risiko Strategis Pemda/PD/Operasional PD — menampilkan{' '}
+          <strong>I_b_IRS_Pemda, II_b_IRS_PD, dan III_b_IRO_PD dalam satu halaman</strong>, murni
           untuk melihat &amp; mencari (read-only, tidak ada tombol tambah/edit/hapus di sini). Satu kotak pencarian
           tunggal di paling atas mencari lintas ketiga tabel sekaligus (bukan tiga kotak terpisah), dan kolom Aksi
           &quot;Lihat Data&quot; pada tiap baris langsung membuka halaman Form Input aslinya dengan baris itu
           otomatis ter-sorot — cocok dipakai saat perlu menelusuri satu risiko tapi belum yakin risiko itu ada di
           tingkat Pemda, OPD, atau Kegiatan yang mana.
         </Kotak>
+        <Screenshot
+          src="/images/panduan/data-risiko-gabungan.png"
+          alt="Tampilan halaman Data Risiko (IRS dan IRO), tabel gabungan tiga tingkatan"
+          caption="Data Risiko (IRS dan IRO) — tabel gabungan I_b_IRS_Pemda/II_b_IRS_PD/III_b_IRO_PD dengan satu kotak pencarian"
+        />
 
         <p className="mt-4 font-medium text-foreground">Form Monitoring dan Evaluasi (menu baru, di antara Form Input & Form Cetak)</p>
         <TreeDiagram
@@ -461,6 +467,44 @@ export const SECTIONS: Section[] = [
           src="/images/panduan/visualisasi-hierarki.png"
           alt="Tampilan diagram pohon Visualisasi Hirarki KRS + IRS"
           caption="Diagram pohon Visualisasi Hirarki — Visi hingga Risiko dalam satu gambar interaktif"
+        />
+
+        <p className="mt-4 font-medium text-foreground">Miscellaneous (menu top-level, di antara Visualisasi &amp; Access)</p>
+        <TreeDiagram
+          root={{
+            label: 'Miscellaneous',
+            children: [
+              { label: 'Risiko 100 Program Bupati', desc: 'Peta risiko yang mengganggu tiap Program Pembangunan Bupati (Tabel 3.7 RPJM 2025-2029), dikelompokkan per Misi' },
+              { label: 'Risiko 100 Program Bupati_Cetak', desc: 'Versi cetak/PDF A4 dari halaman di atas, Pemda-wide' },
+            ],
+          }}
+        />
+        <Kotak title="Risiko 100 Program Bupati — menautkan risiko harian ke janji politik" tone="accent">
+          <p>
+            Untuk tiap satu dari <strong>100 Program Pembangunan Bupati</strong> (Tabel 3.7 RPJM Kabupaten Aceh Barat
+            2025-2029), halaman ini menampilkan risiko-risiko yang teridentifikasi (dari IRS Pemda/IRS PD/IRO PD
+            tahun berjalan) yang secara nyata dapat mengganggu pencapaian program tersebut — dikelompokkan per Misi,
+            lengkap dengan Kode Risiko, Skala Risiko, dan badge <strong>&quot;N program yang sama&quot;</strong> kalau
+            satu risiko kebetulan mengganggu lebih dari satu program sekaligus (klik badge itu untuk lompat &amp;
+            sorot ke program lain itu, klik teks uraian risikonya untuk membuka Form Input aslinya).
+          </p>
+          <p className="mt-1">
+            Pemetaan awal diisi lewat analisis satu kali per periode RPJM, tapi PIC/Admin bisa menambah atau melepas
+            kaitan risiko kapan saja lewat tombol <strong>Tambah Kaitan Risiko</strong> di tiap kartu program — hapus
+            kaitan bersifat <em>soft delete</em> (bisa dipulihkan lewat <code>Utilities → Data Terhapus</code>).
+            Halaman ini <strong>tidak dibatasi Admin-only</strong> — seluruh pengguna login bisa melihatnya, murni
+            informasi read-mostly.
+          </p>
+        </Kotak>
+        <Screenshot
+          src="/images/panduan/program-bupati-risiko.png"
+          alt="Tampilan halaman Risiko 100 Program Bupati, dikelompokkan per Misi RPJMD"
+          caption="Risiko 100 Program Bupati — tiap program menampilkan risiko yang mengancamnya, badge merah = ada risiko prioritas"
+        />
+        <Screenshot
+          src="/images/panduan/program-bupati-risiko-cetak.png"
+          alt="Tampilan Form Cetak Risiko 100 Program Bupati, format A4"
+          caption="Form Cetak Risiko 100 Program Bupati — format A4, dikelompokkan per Misi, siap tanda tangan Bupati"
         />
 
         <p className="mt-4 font-medium text-foreground">Form Cetak (hasil akhir siap cetak/PDF)</p>
@@ -827,12 +871,14 @@ export const SECTIONS: Section[] = [
     content: (
       <>
         <p>
-          Referensi cepat: seluruh menu sidebar aplikasi dalam 8 kartu — 2 item top-level lepas (Dashboard,
-          Panduan) digabung satu kartu di atas untuk ringkas, ditambah <strong>7 grup</strong> sidebar sungguhan
-          (Form Input, Form Monitoring dan Evaluasi, Visualisasi, Form Cetak, Utilities, Settings, Access; urutannya
-          mengikuti urutan asli di sidebar). Warna aksen menandai grup yang paling sering dipakai PIC OPD
-          sehari-hari (Form Input, Form Monitoring dan Evaluasi, Form Cetak, Visualisasi); grup lainnya (Access,
-          Settings, Utilities) sebagian besar hanya terlihat penuh oleh Admin/Super Admin.
+          Referensi cepat: seluruh menu sidebar aplikasi dalam 9 kartu — 2 item top-level lepas (Dashboard,
+          Panduan) digabung satu kartu di atas untuk ringkas, ditambah <strong>8 grup</strong> sidebar sungguhan
+          (Form Input, Form Monitoring dan Evaluasi, Form Cetak, Visualisasi, Miscellaneous, Access, Utilities,
+          Settings; urutannya mengikuti urutan asli di sidebar). Warna aksen menandai grup yang paling sering
+          dipakai PIC OPD sehari-hari (Form Input, Form Monitoring dan Evaluasi, Form Cetak, Visualisasi); grup
+          lainnya (Miscellaneous, Access, Settings, Utilities) sebagian besar hanya terlihat penuh oleh Admin/Super
+          Admin — kecuali <strong>Miscellaneous</strong> yang justru sengaja dibuka untuk SEMUA pengguna login
+          (lihat kartu di bawah).
         </p>
         <MenuMapGrid
           groups={[
@@ -874,6 +920,11 @@ export const SECTIONS: Section[] = [
                 '8/9/10 — Monitoring & Evaluasi', '11/12/13 — Laporan',
                 'CEE 1a/1b/1c (cetak)',
               ],
+            },
+            {
+              title: '🎯 Miscellaneous',
+              tone: 'accent',
+              items: ['Risiko 100 Program Bupati', 'Risiko 100 Program Bupati_Cetak'],
             },
             {
               title: '🛠️ Utilities',
@@ -1425,7 +1476,7 @@ export const SECTIONS: Section[] = [
             ['(d)', 'Uraian Risiko', 'Kondisi/kejadian yang mengancam sasaran/kegiatan tersebut.'],
             ['(e)', 'Kode Risiko', 'Kode otomatis format PREFIX.TAHUN.JENIS.ENTITAS.URUT (lihat bagian "Bagaimana").'],
             ['(f)', 'Pemilik Risiko', 'Jabatan/unit yang bertanggung jawab mengelola risiko.'],
-            ['(g)', 'Uraian Sebab', 'Penyebab risiko, dikategorikan 7M+1E (Men/Machine/Method/Material/Money/Management/Measurement/Environment) — badge berwarna per kategori.'],
+            ['(g)', 'Uraian Sebab', 'Penyebab risiko, dikategorikan 7M+1E (Men/Machine/Method/Material/Money/Management/Measurement/Environment) untuk sebab Internal, atau PESTLE (Political/Economic/Social/Technological/Legal/Environmental) untuk sebab Eksternal — badge berwarna per kategori.'],
             ['(h)', 'Sumber Sebab', 'Internal atau Eksternal — badge berwarna.'],
             ['(i)', 'C / UC', 'Controllable (kendali penuh internal) atau Uncontrollable (bergantung faktor eksternal) — badge berwarna.'],
             ['(j)', 'Uraian Dampak', 'Akibat yang ditimbulkan jika risiko benar-benar terjadi.'],
@@ -1469,10 +1520,11 @@ export const SECTIONS: Section[] = [
           </table>
         </div>
         <p className="text-xs text-muted-foreground">
-          Kategori 7M+1E, Sumber (Internal/Eksternal), dan C/UC selalu tampil sebagai badge berwarna berbeda supaya
-          cepat dipindai secara visual — bukan sekadar teks polos. Kolom (h) Sumber Sebab dan (i) C/UC diisi{' '}
-          <strong>cukup dengan klik kategori</strong> di Form Input (tidak ada kotak uraian tambahan untuk
-          keduanya) — beda dari kolom (g) Uraian Sebab yang tetap punya kotak uraian bebas per kategori 7M+1E.
+          Kategori 7M+1E (Internal) dan PESTLE (Eksternal), Sumber (Internal/Eksternal), dan C/UC selalu tampil
+          sebagai badge berwarna berbeda supaya cepat dipindai secara visual — bukan sekadar teks polos. Kolom (h)
+          Sumber Sebab dan (i) C/UC diisi <strong>cukup dengan klik kategori</strong> di Form Input (tidak ada
+          kotak uraian tambahan untuk keduanya) — beda dari kolom (g) Uraian Sebab yang tetap punya kotak uraian
+          bebas per kategori 7M+1E/PESTLE.
         </p>
 
         <Kotak title="Sumber Data" tone="accent">
@@ -1487,6 +1539,11 @@ export const SECTIONS: Section[] = [
           meski belum ada risikonya. Kalau sebuah Sasaran belum diisi risikonya sama sekali di IRS/IRO, baris itu
           tidak akan muncul di Form 3a/3b/3c sampai ada minimal satu risiko tercatat.
         </Kotak>
+        <Screenshot
+          src="/images/panduan/identifikasi-risiko-3a.png"
+          alt="Tampilan Form Cetak 3a Identifikasi Risiko Strategis Pemda, kolom a-k lengkap"
+          caption="Form Cetak 3a — Identifikasi Risiko Strategis Pemda, dikelompokkan per Misi/Tujuan Strategis dengan kolom a-k lengkap"
+        />
       </>
     ),
   },
@@ -1544,7 +1601,7 @@ export const SECTIONS: Section[] = [
           Sama persis dengan Form 4, tapi <strong>hanya menampilkan risiko dengan Skala Risiko ≥ 16</strong>{' '}
           (kategori Tinggi &amp; Sangat Tinggi) — inilah daftar risiko yang wajib disusun Rencana Tindak
           Pengendaliannya lebih dulu (lanjut ke Form 7). Kolom Uraian Sebab tetap ditampilkan dengan badge kategori
-          7M+1E seperti Form 3a/3b/3c.
+          7M+1E/PESTLE seperti Form 3a/3b/3c.
         </p>
 
         <Kotak title="Kolom &quot;OPD&quot; menambah huruf, beda dari Perdep asli">
@@ -1561,6 +1618,11 @@ export const SECTIONS: Section[] = [
           melihat daftar SELURUH PIC yang mengisi IRS/IRO, dikelompokkan per OPD — memudahkan menelusuri siapa
           bertanggung jawab atas baris risiko tertentu tanpa harus membuka Data Umum satu-satu.
         </Kotak>
+        <Screenshot
+          src="/images/panduan/analisis-prioritas-4.png"
+          alt="Tampilan Form Cetak 4 Hasil Analisis Risiko dengan badge Skala Risiko berwarna"
+          caption="Form Cetak 4 — Hasil Analisis Risiko, Skala Risiko dihitung otomatis dari Dampak × Kemungkinan (badge kuning/oranye/merah)"
+        />
       </>
     ),
   },
@@ -1671,6 +1733,11 @@ export const SECTIONS: Section[] = [
           menambahkan kolom &quot;OPD&quot; (Form 7 saja, karena Form 6 memang per-OPD) sebagai kolom (b), sehingga
           Form 7 jadi (a)–(i).
         </Kotak>
+        <Screenshot
+          src="/images/panduan/rtp-7.png"
+          alt="Tampilan Form Cetak 7 RTP atas Hasil Identifikasi Risiko, badge kategori kontrol berwarna"
+          caption="Form Cetak 7 — RTP atas Hasil Identifikasi Risiko, badge kategori kontrol (Abate/Mitigate/dst) berwarna per efektivitas"
+        />
       </>
     ),
   },
@@ -1763,12 +1830,13 @@ export const SECTIONS: Section[] = [
           kosong — akan tercetak &quot;Tidak Terjadi&quot; di Form Cetak 10.
         </p>
 
-        <p className="mt-3 font-medium text-foreground">Kolom Sebab dikategorikan 7M+1E</p>
+        <p className="mt-3 font-medium text-foreground">Kolom Sebab dikategorikan 7M+1E/PESTLE</p>
         <p>
           Field &quot;Sebab (saat kejadian)&quot; memakai kotak isian ganda 7M+1E (Men/Machine/Method/Material/Money/
-          Management/Measurement/Environment — sama pola dengan Uraian Sebab Risiko di IRS/IRO) — centang kategori
-          yang relevan (boleh lebih dari satu) lalu isi uraiannya. Di Form Cetak 10, tiap kategori tercetak sebagai
-          badge warna berbeda:
+          Management/Measurement/Environment) untuk sebab Internal, dan PESTLE (Political/Economic/Social/
+          Technological/Legal/Environmental) untuk sebab Eksternal — sama pola dengan Uraian Sebab Risiko di
+          IRS/IRO) — centang kategori yang relevan (boleh lebih dari satu, boleh campur Internal/Eksternal) lalu
+          isi uraiannya. Di Form Cetak 10, tiap kategori tercetak sebagai badge warna berbeda:
         </p>
         <SimpleTable
           headers={['Kategori', 'Warna', 'Contoh']}
@@ -1811,6 +1879,11 @@ export const SECTIONS: Section[] = [
           yang sudah terjadi maupun belum), karena Perdep memang mensyaratkan pencatatan lengkap termasuk yang
           &quot;Tidak Terjadi&quot;.
         </Kotak>
+        <Screenshot
+          src="/images/panduan/monitoring-evaluasi-89.png"
+          alt="Tampilan Form Input 8-9 Monitoring RTP, satu baris per RTP dengan status Form 8/9"
+          caption="Form Input 8-9 — Monitoring RTP, satu baris mewakili satu RTP dengan status Rencana/Realisasi Komunikasi (Form 8) dan Pemantauan (Form 9)"
+        />
       </>
     ),
   },
@@ -2005,6 +2078,11 @@ export const SECTIONS: Section[] = [
                     kapan saja lewat kartu unggah maupun File Manager. Fitur ini murni lampiran pendukung (hard
                     delete, bukan data risiko inti) — tidak masuk Data Terhapus/Trash kalau dihapus.
                   </Kotak>
+                  <Screenshot
+                    src="/images/panduan/tata-cara-form-input.png"
+                    alt="Tampilan halaman Form Input I_b_IRS_Pemda dengan tabel risiko terisi"
+                    caption="Halaman Form Input I_b_IRS_Pemda — tombol Tambah Data, panel bantuan Alur Risiko & Penanggung Jawab, dan tabel risiko yang sudah terisi"
+                  />
                 </>
               ),
             },

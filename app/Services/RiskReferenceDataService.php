@@ -8,6 +8,7 @@ use App\Models\RiskJenis;
 use App\Models\RiskLevel;
 use App\Models\RiskLikelihoodCriteria;
 use App\Models\RiskMatrixCell;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Sumber tunggal utk data referensi risiko yang sebelumnya di-duplikasi 3x
@@ -282,15 +283,24 @@ class RiskReferenceDataService
             ->all();
     }
 
-    /** [dampak][kemungkinan] => skala risiko (1-25), sumber tabel risk_matrix_cells. */
+    /**
+     * [dampak][kemungkinan] => skala risiko (1-25), sumber tabel
+     * risk_matrix_cells — di-cache (invalidasi otomatis via
+     * RiskMatrixCell::booted() saat admin edit matriks) krn dipanggil
+     * hitungSkala() PER BARIS RISIKO (bisa ratusan kali per request tanpa
+     * cache — temuan audit performa: nol implementasi Cache:: di seluruh
+     * aplikasi sebelumnya).
+     */
     public function skalaRisikoMatrix(): array
     {
-        $matrix = [];
-        foreach (RiskMatrixCell::all() as $cell) {
-            $matrix[$cell->dampak][$cell->kemungkinan] = $cell->skala_risiko;
-        }
+        return Cache::rememberForever(RiskMatrixCell::CACHE_KEY, function () {
+            $matrix = [];
+            foreach (RiskMatrixCell::all() as $cell) {
+                $matrix[$cell->dampak][$cell->kemungkinan] = $cell->skala_risiko;
+            }
 
-        return $matrix;
+            return $matrix;
+        });
     }
 
     /** Skala Risiko (1-25) => Skala Prioritas (1-25, 1 = paling prioritas). */
@@ -389,5 +399,31 @@ class RiskReferenceDataService
         $level = RiskLevel::where('skala_min', '<=', $skala)->where('skala_max', '>=', $skala)->first();
 
         return $level?->warna_class ?? 'bg-muted text-muted-foreground';
+    }
+
+    /**
+     * Daftar Level Risiko terurut (kolom terbatas, dipakai prop 'riskLevels'
+     * ke Inertia di banyak controller) — di-cache krn tabel referensi kecil
+     * ini di-query ulang di HAMPIR SETIAP halaman risiko tanpa cache
+     * sebelumnya (temuan audit performa). Invalidasi otomatis via
+     * RiskLevel::booted() saat Admin edit Level Risiko.
+     */
+    public function riskLevelsOrdered(): \Illuminate\Support\Collection
+    {
+        return Cache::rememberForever(RiskLevel::CACHE_KEY, fn () => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']));
+    }
+
+    /**
+     * Ambang batas skala minimum kategori "Tinggi"/"Sangat Tinggi" — dipakai
+     * badge visual "risiko prioritas" di Dashboard/ProgramBupatiRisiko/Form
+     * Cetak, BUKAN filter data (jangan pakai utk query WHERE, cuma
+     * penentuan warna/label tampilan). Fallback 16 kalau tabel risk_levels
+     * belum diisi kategori itu.
+     */
+    public function ambangTinggi(): int
+    {
+        return $this->riskLevelsOrdered()
+            ->whereIn('label', ['Tinggi', 'Sangat Tinggi'])
+            ->min('skala_min') ?? 16;
     }
 }

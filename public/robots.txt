@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+Allow: /panduan-publik
+Allow: /login
+Disallow: /
+
+Sitemap: https://mrkabar.test/sitemap.xml

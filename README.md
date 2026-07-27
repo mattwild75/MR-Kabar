@@ -36,6 +36,12 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 - **Form Monitoring & Evaluasi** — pencatatan rencana/realisasi pengkomunikasian dan pemantauan atas Rencana Tindak Pengendalian (Form 8/9), serta pencatatan kejadian risiko nyata di lapangan (Form 10).
 - **Form Cetak Laporan Berjenjang** — Laporan Pelaksanaan Penilaian Risiko, Laporan Berkala Pengelolaan Risiko per triwulan, dan Laporan Pemantauan Unit Kepatuhan (Form 11/12/13), sesuai Bab IV Pelaporan Perdep.
 
+### Risiko 100 Program Bupati
+- Memetakan risiko yang teridentifikasi (IRS Pemda/IRS PD/IRO PD) terhadap 100 Program Pembangunan Bupati (Tabel 3.7 RPJM), dikelompokkan per Misi RPJMD.
+- Visi & Misi diambil langsung (live) dari data KRS Pemda — tidak diduplikasi manual.
+- Deteksi risiko yang mengganggu lebih dari satu program sekaligus, dengan navigasi cepat lompat-dan-sorot antar-program.
+- Kaitan risiko-program dapat ditambah/dilepas langsung dari halaman ini (soft delete, dapat dipulihkan), serta versi cetak/PDF siap tanda tangan Bupati.
+
 ### CEE (Control Environment Evaluation)
 - Kuesioner persepsi 8 unsur lingkungan pengendalian (37 pertanyaan baku, skala 1–4, multi-responden dengan perhitungan modus otomatis).
 - Pencatatan temuan kelemahan berdasarkan reviu dokumen (LHP, dsb).
@@ -82,6 +88,10 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 **Visualisasi Hierarki** (diagram pohon interaktif Visi → Misi → Tujuan → Sasaran → Program → Risiko)
 
 ![Visualisasi Hierarki](screenshots/visualisasi-hierarki.png)
+
+**Risiko 100 Program Bupati** (peta risiko terhadap 100 Program Pembangunan Bupati, dikelompokkan per Misi RPJMD)
+
+![Risiko 100 Program Bupati](screenshots/program-bupati-risiko.png)
 
 ---
 

@@ -21,6 +21,9 @@ interface SettingApp {
   logo: string;
   logo_bg: string | null;
   favicon: string;
+  login_splash_enabled: boolean;
+  login_splash_video: string | null;
+  login_splash_muted: boolean;
   seo: {
     title?: string;
     description?: string;
@@ -46,6 +49,9 @@ export default function SettingForm({ setting }: Props) {
   // always has *some* hex value and can't represent "no background".
   const [useLogoBg, setUseLogoBg] = useState(Boolean(setting?.logo_bg));
   const [faviconFromLogo, setFaviconFromLogo] = useState(false);
+  const [splashEnabled, setSplashEnabled] = useState(setting?.login_splash_enabled ?? true);
+  const [splashMuted, setSplashMuted] = useState(setting?.login_splash_muted ?? true);
+  const [removeSplashVideo, setRemoveSplashVideo] = useState(false);
 
   const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
@@ -62,10 +68,14 @@ export default function SettingForm({ setting }: Props) {
     footer_credit: setting?.footer_credit || '',
     logo: null as File | null,
     favicon: null as File | null,
+    login_splash_video: null as File | null,
   });
 
   const logoPreview = useRef<string | null>(setting?.logo ? `/storage/${setting.logo}` : null);
   const faviconPreview = useRef<string | null>(setting?.favicon ? `/storage/${setting.favicon}` : null);
+  const [splashVideoPreview, setSplashVideoPreview] = useState<string | null>(
+    setting?.login_splash_video ? `/storage/${setting.login_splash_video}` : null,
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,10 +85,14 @@ export default function SettingForm({ setting }: Props) {
       ...current,
       logo_bg: useLogoBg ? current.logo_bg : '',
       favicon_from_logo: faviconFromLogo,
+      login_splash_enabled: splashEnabled,
+      login_splash_muted: splashMuted,
+      login_splash_video_remove: removeSplashVideo,
     }));
     post('/settingsapp', {
       forceFormData: true,
       preserveScroll: true,
+      onSuccess: () => setRemoveSplashVideo(false),
     });
   };
 
@@ -219,6 +233,106 @@ export default function SettingForm({ setting }: Props) {
                   <img src={faviconPreview.current} alt="Preview Favicon" className="mt-2 h-10 rounded" />
                 )}
               </div>
+
+              {/* Login Splash Screen Section */}
+              <Separator />
+              <h3 className="text-lg font-semibold">Login Splash Screen</h3>
+              <p className="text-muted-foreground text-sm">
+                Video yang tampil sesaat setelah user berhasil login (sebelum masuk ke Dashboard). Kalau tidak
+                mengunggah video sendiri, aplikasi memakai video contoh bawaan.
+              </p>
+
+              <div className="flex items-center gap-3 rounded-md border p-3">
+                <Checkbox
+                  id="splash_enabled"
+                  checked={splashEnabled}
+                  onCheckedChange={(checked) => setSplashEnabled(checked === true)}
+                />
+                <Label htmlFor="splash_enabled" className="flex-1 text-sm font-normal">
+                  Aktifkan splash screen setelah login
+                </Label>
+              </div>
+
+              {splashEnabled && (
+                <>
+                  <div className="space-y-1">
+                    <Label htmlFor="login_splash_video">Video Splash (MP4/WebM/MOV, Max 20MB)</Label>
+                    <Input
+                      id="login_splash_video"
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        setData('login_splash_video', file);
+                        if (file) {
+                          setSplashVideoPreview(URL.createObjectURL(file));
+                          setRemoveSplashVideo(false);
+                        }
+                      }}
+                      className={errors.login_splash_video ? 'border-red-500' : ''}
+                    />
+                    {errors.login_splash_video && <p className="text-sm text-red-500">{errors.login_splash_video}</p>}
+                    <p className="text-muted-foreground text-xs">
+                      Kosongkan kalau tidak ingin mengganti — video yang sudah ada akan tetap dipakai.
+                    </p>
+
+                    {splashVideoPreview && !removeSplashVideo && (
+                      <div className="mt-2 space-y-2">
+                        <video
+                          src={splashVideoPreview}
+                          controls
+                          muted={splashMuted}
+                          className="max-h-48 rounded border"
+                        />
+                        <div>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              setRemoveSplashVideo(true);
+                              setSplashVideoPreview(null);
+                              setData('login_splash_video', null);
+                            }}
+                          >
+                            Hapus Video (kembali ke video contoh bawaan)
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {removeSplashVideo && (
+                      <p className="text-sm text-amber-600">
+                        Video kustom akan dihapus saat disimpan — akan kembali memakai video contoh bawaan.
+                      </p>
+                    )}
+
+                    {!splashVideoPreview && !removeSplashVideo && (
+                      <p className="text-muted-foreground text-xs italic">
+                        Belum ada video kustom — saat ini memakai video contoh bawaan.
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-3 rounded-md border p-3">
+                    <Checkbox
+                      id="splash_muted"
+                      checked={splashMuted}
+                      onCheckedChange={(checked) => setSplashMuted(checked === true)}
+                    />
+                    <Label htmlFor="splash_muted" className="flex-1 text-sm font-normal">
+                      Bisukan suara video (disarankan tetap dicentang)
+                    </Label>
+                  </div>
+                  {!splashMuted && (
+                    <p className="text-xs text-amber-600">
+                      Peringatan: browser modern (Chrome/Safari) sering memblokir autoplay video BERSUARA tanpa
+                      interaksi user terlebih dulu — video mungkin tidak otomatis berbunyi di beberapa perangkat
+                      walau opsi ini dinyalakan.
+                    </p>
+                  )}
+                </>
+              )}
 
               {/* SEO Section */}
               <Separator />

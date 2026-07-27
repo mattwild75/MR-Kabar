@@ -54,9 +54,22 @@ class ShareMenus
             $canManageCeeQuestions = $user->hasAnyRole(['admin', 'super-admin']);
             $isLaporRisiko = $user->hasRole('lapor-risiko');
 
-            // Ambil semua menu secara flat dan hapus duplikat yang sama persis
-            $allMenus = Menu::orderBy('parent_id')
-                ->orderBy('order')
+            // Ambil semua menu secara flat dan hapus duplikat yang sama persis.
+            // orderBy('order') SAJA (bukan orderBy('parent_id') dulu) — urutan
+            // final antar-siblings ditentukan buildTree() (filter per
+            // parent_id lalu ->values(), lihat di bawah), jadi urutan SQL di
+            // sini hanya perlu menjamin tiap grup sibling terurut oleh
+            // 'order'-nya sendiri. orderBy('parent_id') duluan sebelumnya
+            // membuat MySQL sort primer berdasar parent_id (angka ID induk,
+            // TIDAK ADA hubungannya dgn urutan tampil yg diatur user lewat
+            // drag-and-drop di Menu Management) — kolom 'order' jadi cuma
+            // tie-breaker sekunder yg efeknya kepotong, sehingga menu
+            // top-level (Access/Settings/Utilities dkk) tampil di sidebar
+            // TIDAK sinkron dgn urutan yg terlihat & sudah disimpan admin di
+            // halaman Menu Management (bug ditemukan user: sidebar
+            // menampilkan Access-Settings-Utilities di depan Form Input,
+            // padahal Menu Management sudah diatur Form Input dkk duluan).
+            $allMenus = Menu::orderBy('order')
                 ->get()
                 ->unique(function ($menu) {
                     return implode('|', [

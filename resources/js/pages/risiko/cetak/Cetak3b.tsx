@@ -141,10 +141,10 @@ export default function Cetak3b({ opdOptions, opd, tahun, periode, identifikasi,
             <p>Kolom d diisi dengan uraian peristiwa yang merupakan risiko.</p>
             <p>Kolom e diisi dengan Kode risiko.</p>
             <p>Kolom f diisi dengan Pemilik risiko, pihak/unit yang bertanggung jawab/berkepentingan untuk mengelola risiko.</p>
-            <p>Kolom g diisi dengan penyebab timbulnya risiko. Untuk mempermudah identifikasi sebab risiko, sebab risiko bisa dikategorikan ke dalam: Men, Machine, Method, Material, Money, Management, Measurement, dan Environment (7M+1E).</p>
+            <p>Kolom g diisi dengan penyebab timbulnya risiko. Untuk mempermudah identifikasi sebab risiko, sebab risiko bisa dikategorikan ke dalam: Men, Machine, Method, Material, Money, Management, Measurement, dan Environment (7M+1E) untuk sebab Internal, atau Political, Economic, Social, Technological, Legal, dan Environmental (PESTLE) untuk sebab Eksternal.</p>
             <p>Kolom h diisi dengan sumber risiko (Eksternal/Internal).</p>
             <p>Kolom i diisi dengan C, jika unit kerja mampu untuk mengendalikan penyebab risiko, atau UC jika unit kerja tidak mampu mengendalikan risiko.</p>
-            <p>Kolom j diisi dengan uraian akibat yang ditimbulkan jika risiko benar-benar terjadi. Untuk mempermudah identifikasi dampak risiko, dampak risiko bisa dikategorikan ke dalam: Keuangan, Kinerja, Reputasi dan Hukum.</p>
+            <p>Kolom j diisi dengan uraian akibat yang ditimbulkan jika risiko benar-benar terjadi. Untuk mempermudah identifikasi dampak risiko, dampak risiko bisa dikategorikan ke dalam 5 area sesuai kriteria penilaian dampak: Kerugian Negara/Daerah, Penurunan Reputasi, Penurunan Kinerja, Gangguan terhadap Pelayanan, dan Jumlah Tuntutan Hukum.</p>
             <p>Kolom k diisi dengan pihak/unit yang menderita/terkena dampak jika risiko benar-benar terjadi.</p>
             <p>Indikator kinerja tujuan strategis ditampilkan di kolom b (bersama label Tujuan Strategis), sedangkan kolom c khusus indikator kinerja sasaran strategis.</p>
           </div>

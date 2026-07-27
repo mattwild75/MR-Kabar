@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KrsPemda;
+use App\Models\ProgramPembangunanBupati;
 use App\Models\RiskEntitasPenilai;
 use App\Models\RiskImpactCriteria;
 use App\Models\RiskJenis;
@@ -59,7 +61,34 @@ class KeteranganPendukungController extends Controller
             'jenisRisiko' => RiskJenis::orderBy('urutan')->get(),
             'entitasPenilai' => RiskEntitasPenilai::orderBy('urutan')->get(),
             'opdList' => \App\Models\Opd::orderBy('nama')->get(),
+            'programPembangunan' => ProgramPembangunanBupati::orderBy('nomor')->get(),
+            'visiMisiPemda' => $this->visiMisiPerMisi(),
         ]);
+    }
+
+    /**
+     * Ambil teks Visi (1, sama utk semua) & Misi (per misi_urutan 1-7)
+     * LIVE dari tbl_krs_pemda (kolom VISI/MISI gaya #1 SPASI DAN KAPITAL,
+     * diisi manual di Form Input I_a KRS Pemda) — BUKAN disalin ulang ke
+     * program_pembangunan_bupati, supaya tab "100 Program Pembangunan
+     * Bupati" selalu menampilkan Visi/Misi yang SAMA PERSIS dgn yg
+     * tersimpan di KRS Pemda, otomatis ikut berubah kalau diedit di sana.
+     * Satu representative row per misi_urutan cukup diambil (bukan
+     * agregasi banyak baris) krn teks VISI/MISI identik utk seluruh baris
+     * dalam satu Misi yang sama.
+     *
+     * @return array{visi: string|null, misi: array<int, string|null>}
+     */
+    private function visiMisiPerMisi(): array
+    {
+        $visi = KrsPemda::whereNotNull('VISI')->where('VISI', '!=', '')->value('VISI');
+
+        $misiPerUrutan = [];
+        for ($urutan = 1; $urutan <= 7; $urutan++) {
+            $misiPerUrutan[$urutan] = KrsPemda::where('MISI', 'like', "Misi {$urutan} :%")->value('MISI');
+        }
+
+        return ['visi' => $visi, 'misi' => $misiPerUrutan];
     }
 
     // ── Kriteria Dampak ──────────────────────────────────────────────
@@ -243,5 +272,49 @@ class KeteranganPendukungController extends Controller
         $opd->delete();
 
         return back()->with('success', 'OPD berhasil dihapus.');
+    }
+
+    // ── Program Pembangunan Bupati (Tabel 3.7 RPJM 2025-2029) ────────
+    public function storeProgramPembangunan(Request $request)
+    {
+        $this->ensureAdmin();
+
+        $data = $request->validate([
+            'nomor' => ['required', 'integer', 'min:1', Rule::unique('program_pembangunan_bupati', 'nomor')],
+            'program_pembangunan' => ['required', 'string'],
+            'branding' => ['nullable', 'string', 'max:255'],
+            'perangkat_daerah' => ['required', 'string', 'max:255'],
+            'misi_urutan' => ['required', 'integer', 'min:1', 'max:7'],
+        ]);
+
+        ProgramPembangunanBupati::create($data);
+
+        return back()->with('success', 'Program Pembangunan berhasil ditambahkan.');
+    }
+
+    public function updateProgramPembangunan(Request $request, ProgramPembangunanBupati $program)
+    {
+        $this->ensureAdmin();
+
+        $data = $request->validate([
+            'nomor' => ['required', 'integer', 'min:1', Rule::unique('program_pembangunan_bupati', 'nomor')->ignore($program->id)],
+            'program_pembangunan' => ['required', 'string'],
+            'branding' => ['nullable', 'string', 'max:255'],
+            'perangkat_daerah' => ['required', 'string', 'max:255'],
+            'misi_urutan' => ['required', 'integer', 'min:1', 'max:7'],
+        ]);
+
+        $program->update($data);
+
+        return back()->with('success', 'Program Pembangunan berhasil diperbarui.');
+    }
+
+    public function destroyProgramPembangunan(ProgramPembangunanBupati $program)
+    {
+        $this->ensureAdmin();
+
+        $program->delete();
+
+        return back()->with('success', 'Program Pembangunan berhasil dihapus.');
     }
 }
