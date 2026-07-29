@@ -1,0 +1,29 @@
+Terpasang:
+../../public/video:
+total 343204
+drwxr-xr-x 1 Nurhikmat Muhammad 197121         0 Jul 29 04:20 .
+drwxr-xr-x 1 Nurhikmat Muhammad 197121         0 Jul 28 13:03 ..
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  16520421 Jul 29 02:31 edu-music.mp3
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  13553093 Jul 29 02:31 edu-narration.mp3
+-rw-r--r-- 1 Nurhikmat Muhammad 197121   6062104 Jul 29 02:31 edu-sfx.mp3
+-rw-r--r-- 1 Nurhikmat Muhammad 197121     23800 Jul 29 02:31 edu-subtitle.vtt
+-rw-r--r-- 1 Nurhikmat Muhammad 197121     23317 Jul 29 02:31 edu-transkrip.txt
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  16520421 Jul 29 04:20 edu-v2-music.mp3
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  13553093 Jul 29 04:20 edu-v2-narration.mp3
+-rw-r--r-- 1 Nurhikmat Muhammad 197121   6062104 Jul 29 04:20 edu-v2-sfx.mp3
+-rw-r--r-- 1 Nurhikmat Muhammad 197121     23800 Jul 29 04:20 edu-v2-subtitle.vtt
+-rw-r--r-- 1 Nurhikmat Muhammad 197121     23317 Jul 29 04:20 edu-v2-transkrip.txt
+drwxr-xr-x 1 Nurhikmat Muhammad 197121         0 Jul 29 02:31 klip
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  74327649 Jul 29 04:20 video-edukasi-mr-kabar-720p.mp4
+-rw-r--r-- 1 Nurhikmat Muhammad 197121 102083459 Jul 29 04:20 video-edukasi-mr-kabar-v2.mp4
+-rw-r--r-- 1 Nurhikmat Muhammad 197121 102630480 Jul 29 02:31 video-edukasi-mr-kabar.mp4
+
+../../public/video/klip:
+total 37200
+drwxr-xr-x 1 Nurhikmat Muhammad 197121        0 Jul 29 02:31 .
+drwxr-xr-x 1 Nurhikmat Muhammad 197121        0 Jul 29 04:20 ..
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  5141770 Jul 29 04:20 tahap-1.mp4
+-rw-r--r-- 1 Nurhikmat Muhammad 197121 17177291 Jul 29 04:20 tahap-2.mp4
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  7487372 Jul 29 04:20 tahap-3.mp4
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  2071135 Jul 29 04:20 tahap-4.mp4
+-rw-r--r-- 1 Nurhikmat Muhammad 197121  6203896 Jul 29 04:20 tahap-5.mp4

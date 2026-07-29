@@ -60,7 +60,11 @@ trait SharesCetakContext
         // OPD": PIC non-admin yg belum sempat di-assign opd_id (mis. akun
         // baru dari self-registration publik) HARUS ditolak, bukan diloloskan
         // — sebelumnya baris ini jadi celah IDOR lintas-OPD.
-        if ($user->hasAnyRole(array_merge(['admin', 'super-admin'], $peranEkstra))) {
+        // canViewAllOpd() mencakup admin, super-admin, dan peninjau eksekutif.
+        // Peninjau tetap aman dari celah IDOR di atas karena keanggotaannya
+        // ditentukan oleh PERAN yang diberikan eksplisit, bukan disimpulkan
+        // dari opd_id yang kosong.
+        if ($user->canViewAllOpd() || ($peranEkstra && $user->hasAnyRole($peranEkstra))) {
             return;
         }
 

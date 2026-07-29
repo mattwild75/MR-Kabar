@@ -49,7 +49,7 @@ class CetakLaporanController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->opd_id && !$user->canViewAllOpd()) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -58,7 +58,7 @@ class CetakLaporanController extends Controller
 
     private function canEditLaporan(Request $request): bool
     {
-        return $request->user()->hasAnyRole(['admin', 'super-admin']);
+        return $request->user()->canViewAllOpd();
     }
 
     // ── Template default narasi (auto-generate, bisa diedit manual) ──────
@@ -101,7 +101,7 @@ class CetakLaporanController extends Controller
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
 
-        if (!$request->user()->hasAnyRole(['admin', 'super-admin']) && $jenis === 'pemantauan_kepatuhan') {
+        if (!$request->user()->canViewAllOpd() && $jenis === 'pemantauan_kepatuhan') {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengubah Laporan Pemantauan Unit Kepatuhan.');
         }
 

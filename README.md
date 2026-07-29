@@ -54,6 +54,7 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 
 ### Manajemen Pengguna & Akses
 - Role & permission berjenjang (Spatie Laravel Permission) — Admin, Super Admin, PIC per-OPD, dan akun bersama untuk pengisian kolaboratif (CEE, Lapor Kejadian Risiko).
+- **Peran Peninjau (eksekutif)** untuk pimpinan/pemangku kepentingan: melihat seluruh data lintas-OPD persis seperti Admin, tetapi tidak dapat menambah/mengubah/menghapus apa pun. Larangan menulis ditegakkan satu middleware global, sehingga fitur baru otomatis ikut terkunci tanpa perlu didaftarkan satu per satu. Area khusus Super Admin (Permissions, Roles, Menu Manager, Backup DB, Audit Log) tetap tertutup.
 - Menu dinamis berbasis role dengan drag-and-drop pengaturan urutan/nesting.
 - Kepemilikan data per-OPD — data risiko satu OPD tidak terlihat/dapat diubah OPD lain.
 
@@ -64,6 +65,7 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 - **Backup Database** — otomatis & manual, dengan pembersihan backup lama terjadwal.
 - **Form Cetak** — dokumen siap tanda tangan (PDF) untuk CEE maupun laporan risiko, dihasilkan lewat Browsershot (rendering Chromium dari komponen React yang sama dengan tampilan web).
 - **Panduan Aplikasi** — dokumentasi interaktif lengkap dengan diagram alur, tabel, dan visualisasi struktur, termasuk versi publik yang bisa diakses siapa saja tanpa login lewat halaman Masuk.
+- **Video Edukasi (±23 menit)** — pengenalan manajemen risiko sektor publik mengikuti lima tahap Perdep PPKD No.4/2019, dengan daftar 20 bab yang bisa diklik, penyaring bagian sesuai peran (PIC OPD / Pimpinan / Admin), subtitle yang dapat dimatikan dan diatur ukurannya, transkrip bertimestamp, unduhan versi 720p untuk sosialisasi luring, potongan klip per tahap, serta uji pemahaman 5 pertanyaan. Narasi, musik, dan efek suara dikirim sebagai tiga jalur audio terpisah sehingga balance-nya dapat diatur dari App Settings tanpa render ulang.
 
 ---
 

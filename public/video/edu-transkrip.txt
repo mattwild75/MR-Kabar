@@ -1,0 +1,194 @@
+TRANSKRIP — VIDEO EDUKASI MR KABAR
+Manajemen Risiko Pemerintah Kabupaten Aceh Barat
+Mengacu pada Perdep PPKD No. 4 Tahun 2019 dan PP 60 Tahun 2008 (SPIP)
+Durasi 23 menit 37 detik · 128 kalimat
+
+==============================================================================
+
+[0:00]  PEMBUKA   (untuk: Semua)
+------------------------------------------------------------------------------
+  [0:01] Setiap tahun, pemerintah daerah menyusun rencana. Dan setiap tahun, sebagian dari rencana itu gagal tercapai.
+  [0:09] Bukan karena tidak ada yang bekerja, tapi karena ada hal-hal yang tidak diperhitungkan sejak awal.
+  [0:15] Hal-hal yang tidak diperhitungkan itu punya nama: risiko.
+  [0:20] Selamat datang di MR Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat.
+  [0:26] Dalam video ini Anda akan memahami empat hal: apa itu manajemen risiko, siapa yang bertanggung jawab, kapan dikerjakan, dan bagaimana seluruh prosesnya berjalan di dalam aplikasi.
+
+[0:41]  APA ITU RISIKO   (untuk: Semua)
+------------------------------------------------------------------------------
+  [0:41] Mari mulai dari definisinya. Dalam Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.
+  [0:52] Perhatikan tiga kata kuncinya: kemungkinan, mengancam, dan tujuan.
+  [0:58] Kemungkinan, artinya belum terjadi. Kalau sudah terjadi, itu bukan lagi risiko. Itu masalah.
+  [1:08] Mengancam, artinya definisi ini sengaja lebih sempit dari ISO 31000 yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.
+  [1:22] Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai.
+  [1:33] Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi.
+
+[1:43]  MENGAPA DIPERLUKAN   (untuk: Semua)
+------------------------------------------------------------------------------
+  [1:43] Perdep PPKD Nomor 4 Tahun 2019 lahir karena BPKP menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.
+  [1:51] Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti.
+  [2:03] Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan.
+  [2:13] Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD.
+  [2:25] Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi.
+  [2:32] Sebelum ada MR Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.
+  [2:45] MR Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.
+
+[3:02]  SIAPA YANG BERTANGGUNG JAWAB   (untuk: Pimpinan)
+------------------------------------------------------------------------------
+  [3:01] Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?
+  [3:08] Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat.
+  [3:14] Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko.
+  [3:24] Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD.
+  [3:32] Pelaksananya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.
+  [3:48] Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Three Lines of Defense.
+  [3:55] Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh UPR. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.
+  [4:17] Satu catatan penting. MR Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.
+  [4:30] Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. PIC Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.
+  [4:42] Akun bersama CEE Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.
+  [4:56] Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi.
+
+[5:04]  KAPAN DIKERJAKAN   (untuk: Pimpinan)
+------------------------------------------------------------------------------
+  [5:04] Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai.
+  [5:11] Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.
+  [5:20] Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran.
+  [5:29] Risiko Operasional OPD mengikuti siklus Renja dan RKA tahunan, dikerjakan pada masa penyusunan RKA hingga penetapan DPA.
+  [5:39] Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh UPR dan laporan pemantauan oleh Unit Kepatuhan.
+  [5:47] Di MR Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.
+
+[5:57]  LIMA TAHAP PERDEP   (untuk: Semua)
+------------------------------------------------------------------------------
+  [5:57] Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko.
+  [6:03] Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan.
+  [6:21] Kelimanya adalah adaptasi alur AS/NZS 4360 yang dipetakan ke lima unsur SPIP, dengan latar belakang konseptual delapan komponen COSO ERM 2004, versi yang dirujuk Perdep, bukan COSO 2017.
+  [6:34] Mari kita telusuri satu per satu, lengkap dengan menu MR Kabar yang mengerjakannya.
+
+[6:40]  TAHAP 1 — LINGKUNGAN PENGENDALIAN (CEE)   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [6:39] Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian.
+  [6:44] Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda.
+  [6:55] Metodenya Control Environment Evaluation, atau CEE, dengan pendekatan Control Self Assessment. Organisasi menilai dirinya sendiri.
+  [7:05] Di MR Kabar ini dikerjakan di menu CEE. Form 1a berisi kuesioner delapan unsur lingkungan pengendalian. Form 1b menilai kecukupan dokumen pendukung. Form 1c menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.
+  [7:20] Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan.
+  [7:34] Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait.
+  [7:51] Kedelapan unsur itu dijabarkan menjadi 37 pertanyaan di Form 1a.
+  [7:56] Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form 1d, dan dicetak sebagai Form 6.
+  [8:06] Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi.
+
+[8:16]  TAHAP 2 — PENILAIAN RISIKO: KONTEKS   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [8:16] Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis.
+  [8:27] Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda.
+  [8:35] Tingkat pertama, Strategis Pemda, bersumber dari RPJMD, disusun di menu KRS Pemda.
+  [8:44] Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah.
+  [8:52] Tingkat ketiga, Operasional OPD, bersumber dari Renja dan RKA, disusun di menu KRO Perangkat Daerah.
+  [9:01] Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini.
+
+[9:15]  TAHAP 2 — MENULIS PERNYATAAN RISIKO   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [9:15] Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih.
+  [9:26] Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik.
+  [9:33] Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab.
+  [9:41] Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak.
+  [9:48] Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.
+  [10:00] Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.
+
+[10:11]  TAHAP 2 — KLASIFIKASI PENYEBAB & KODE RISIKO   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [10:10] Penyebab lalu diklasifikasikan. Internal memakai kerangka 7M-1E: Man, Machine, Method, Material, Money, Management, Measurement, dan Environment.
+  [10:26] Eksternal memakai kerangka PESTLE: Political, Economic, Social, Technological, Legal, dan Environmental.
+  [10:37] Setiap risiko juga wajib ditandai sifatnya. Controllable, artinya masih dalam kendali organisasi. Atau Uncontrollable, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.
+  [10:51] Lalu MR Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.
+  [11:01] Contohnya, RSP.25.37.30.01. Artinya: Risiko Strategis Pemda, dinilai tahun 2025, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.
+
+[11:21]  TAHAP 2 — KRITERIA DAMPAK & KEMUNGKINAN   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [11:21] Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.
+  [11:31] Dan angka ini bukan tebakan. MR Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.
+  [11:41] Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir.
+  [11:53] Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum.
+  [12:05] Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari.
+  [12:14] Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari.
+  [12:27] Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain.
+
+[12:35]  TAHAP 2 — MATRIKS 5×5 & PRIORITAS   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [12:35] Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima.
+  [12:40] Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak.
+  [12:53] Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan.
+  [13:05] Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja.
+  [13:15] Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, dan Moderat kuning, ketiganya tidak bisa diterima dan wajib punya Rencana Tindak Pengendalian.
+  [13:26] Sementara Rendah hijau dan Sangat Rendah biru masih bisa diterima, cukup dipantau. Dari sinilah Daftar Risiko Prioritas terbentuk.
+
+[13:35]  TAHAP 3 — KEGIATAN PENGENDALIAN (RTP)   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [13:35] Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP.
+  [13:42] Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A.
+  [13:49] Avoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Abate, cegah kemungkinannya. Mitigate, kurangi dampaknya. Share atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Accept, terima sisa risikonya, pilihan terakhir.
+  [14:15] Abate menekan sumbu kemungkinan. Mitigate menekan sumbu dampak. Dan risiko yang tadi ditandai Uncontrollable praktis hanya punya dua pilihan: Share atau Accept.
+  [14:26] Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi.
+  [14:40] MR Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil CEE. Dan RTP atas risiko, dari hasil identifikasi.
+
+[14:51]  TAHAP 3 — EMPAT TITIK SKOR   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [14:51] Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko.
+  [14:58] Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan.
+  [15:10] Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan.
+  [15:20] Karena itu MR Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.
+  [15:31] Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif.
+  [15:54] Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita.
+
+[16:04]  TAHAP 4 — INFORMASI & KOMUNIKASI   (untuk: Semua)
+------------------------------------------------------------------------------
+  [16:04] Tahap keempat: Informasi dan Komunikasi.
+  [16:08] Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di JDIH, dan sosialisasi internal OPD.
+  [16:23] MR Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.
+  [16:34] Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat.
+
+[16:43]  TAHAP 5 — PEMANTAUAN & PELAPORAN   (untuk: PIC OPD)
+------------------------------------------------------------------------------
+  [16:43] Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas.
+  [16:51] Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga.
+  [17:08] Di MR Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form 8 mencatat rencana pengkomunikasian dan pemantauan. Form 9 mencatat realisasinya beserta Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi di lapangan.
+  [17:25] Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode QR, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.
+  [17:38] Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form 10, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.
+  [17:52] Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun UPR sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.
+  [18:06] Laporan berkala disusun UPR setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.
+  [18:22] Seluruh hasil pemantauan dirangkum ke tiga laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh UPR, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form 11, 12, dan 13.
+
+[18:39]  FITUR PENDUKUNG   (untuk: Admin)
+------------------------------------------------------------------------------
+  [18:39] Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu.
+  [18:44] Ekspor dan Impor Excel. Kalau OPD Anda terlanjur menyusun kertas kerja di Excel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor/Impor KRS.
+  [18:58] Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur.
+  [19:07] Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali.
+  [19:17] Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Excel.
+  [19:32] Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah.
+  [19:43] Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri.
+
+[19:55]  CONTOH NYATA: SATU RISIKO DARI AWAL   (untuk: Semua)
+------------------------------------------------------------------------------
+  [19:55] Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard.
+  [20:02] Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan.
+  [20:14] Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.
+  [20:29] Penyebabnya diklasifikasikan eksternal, kategori Legal. Sifatnya ditandai Uncontrollable, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.
+  [20:39] Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP.
+  [20:52] Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.
+  [21:07] Skala Target ditetapkan 13, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form 9, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya 14.
+  [21:22] Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard.
+
+[21:42]  DASHBOARD   (untuk: Pimpinan)
+------------------------------------------------------------------------------
+  [21:42] Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard.
+  [21:47] Enam seksi, enam belas panel. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per UPR. Distribusi risiko per tingkatan dan per kategori.
+  [22:05] Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah.
+  [22:23] Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda.
+
+[22:30]  PENUTUP & LANGKAH PERTAMA ANDA   (untuk: Semua)
+------------------------------------------------------------------------------
+  [22:30] Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam RPJMD benar-benar bisa ditepati.
+  [22:41] Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan.
+  [22:52] Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak.
+  [23:03] Setelah itu, isi kuesioner CEE, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.
+  [23:10] Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi.
+  [23:17] Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019.
+  [23:28] Itulah MR Kabar. Risiko TerKabar, Daerah Terjaga.

@@ -599,7 +599,14 @@ export default function Dashboard({
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <Card className="h-full">
             <CardHeader>
-              <CardTitle className="text-base">Peta Risiko (Matriks Dampak x Probabilitas)</CardTitle>
+              {/* Judul lama "Matriks Dampak x Probabilitas" memakai tanda "x"
+                  sehingga terbaca sebagai PERKALIAN. Skala Risiko di aplikasi
+                  ini bukan hasil perkalian, melainkan tabel peringkat 1–25
+                  (RiskMatrixCell) yang sengaja membobot dampak lebih besar:
+                  Dampak 5 × Kemungkinan 1 = 20, sedangkan Dampak 1 ×
+                  Kemungkinan 5 = 9. Label diperbaiki agar tidak menanamkan
+                  salah paham yang sama seperti sebelumnya. */}
+              <CardTitle className="text-base">Peta Risiko (Matriks Analisis Risiko 5×5)</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex gap-2">
@@ -626,7 +633,10 @@ export default function Dashboard({
                   )}
                 </div>
               </div>
-              <p className="mt-2 text-center text-xs text-muted-foreground">Dampak (sumbu horizontal) x Kemungkinan (sumbu vertikal)</p>
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                Dampak (sumbu horizontal) &amp; Kemungkinan (sumbu vertikal) — Skala Risiko dibaca dari tabel
+                peringkat 1–25, bukan hasil perkalian kedua sumbu
+              </p>
               <div className="mt-3 flex flex-wrap gap-2">
                 {riskLevels.map((b) => (
                   <Badge key={b.label} className={b.warna_class}>

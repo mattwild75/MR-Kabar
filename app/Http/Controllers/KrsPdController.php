@@ -420,7 +420,7 @@ class KrsPdController extends Controller
 
     public function index()
     {
-        $isAdmin = auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
+        $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
 
         // Baris hanya ditampilkan ke pemiliknya sendiri, kecuali admin/
         // super-admin yang melihat semua — konsisten dengan pembatasan
@@ -693,7 +693,7 @@ class KrsPdController extends Controller
             return back()->withErrors([$primaryField => "{$primaryField} tidak boleh kosong."]);
         }
 
-        $isAdmin = auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
+        $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
         $rows = $this->findNodeRows($level, $match, $isAdmin);
 
         if ($rows->isEmpty()) {
@@ -729,7 +729,7 @@ class KrsPdController extends Controller
 
         $match = (array) $request->input('match', []);
 
-        $isAdmin = auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
+        $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
         $rows = $this->findNodeRows($level, $match, $isAdmin);
 
         if ($rows->isEmpty()) {

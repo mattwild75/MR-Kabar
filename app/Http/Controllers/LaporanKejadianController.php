@@ -128,7 +128,7 @@ class LaporanKejadianController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $isAdminOrSuperAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+        $isAdminOrSuperAdmin = $user->canViewAllOpd();
 
         if (!$isAdminOrSuperAdmin && !$user->opd_id) {
             throw new AccessDeniedHttpException('Rekapan laporan kejadian risiko hanya dapat diakses oleh Admin/Super Admin atau PIC OPD terkait.');
@@ -293,7 +293,7 @@ class LaporanKejadianController extends Controller
      */
     public function updateOpd(Request $request, LaporanKejadianRisiko $laporanKejadian)
     {
-        if (!$request->user()->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$request->user()->canViewAllOpd()) {
             throw new AccessDeniedHttpException('Hanya Admin/Super Admin yang dapat mengubah OPD terkait laporan.');
         }
 
@@ -332,7 +332,7 @@ class LaporanKejadianController extends Controller
     {
         $user = $request->user();
 
-        if ($user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->canViewAllOpd()) {
             return;
         }
 

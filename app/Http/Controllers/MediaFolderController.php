@@ -36,7 +36,7 @@ class MediaFolderController extends Controller
         // di akunnya sendiri.
         if ($request->string('scope')->toString() === 'shared') {
             $targetUser = \App\Models\User::sharedFolderOwner();
-        } elseif ($requester->hasAnyRole(['admin', 'super-admin']) && $request->filled('user_id')) {
+        } elseif ($requester->canViewAllOpd() && $request->filled('user_id')) {
             $targetUser = \App\Models\User::findOrFail($request->input('user_id'));
 
             if (!$requester->hasRole('super-admin') && $targetUser->hasRole('super-admin') && $targetUser->id !== $requester->id) {
@@ -66,7 +66,7 @@ class MediaFolderController extends Controller
         $requester = $request->user();
         $isSharedFolder = $folder->user_id === \App\Models\User::sharedFolderOwner()->id;
         $isOwner = $folder->user_id === $requester->id;
-        $isAdminOrSuperAdmin = $requester->hasAnyRole(['admin', 'super-admin']);
+        $isAdminOrSuperAdmin = $requester->canViewAllOpd();
 
         if (!$isSharedFolder && !$isOwner && !$isAdminOrSuperAdmin) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus folder ini.');

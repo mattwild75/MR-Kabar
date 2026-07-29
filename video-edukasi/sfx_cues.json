@@ -1,0 +1,11 @@
+[
+  { "at": 31.0, "sfx": "warning", "reason": "line 5 mulai sebut ancaman nyata (keterlambatan, kegagalan, penyalahgunaan, bencana)" },
+  { "at": 87.0, "sfx": "success", "reason": "line 11 'MR Kabar hadir menggantikan proses manual' -- momen solusi diperkenalkan" },
+  { "at": 147.95, "sfx": "pageturn", "reason": "line 17 mulai Tahap 1" },
+  { "at": 176.85, "sfx": "pageturn", "reason": "line 20 mulai Tahap 2" },
+  { "at": 213.6, "sfx": "pageturn", "reason": "line 23 mulai Tahap 3" },
+  { "at": 287.3, "sfx": "pageturn", "reason": "line 29 mulai Tahap 4" },
+  { "at": 327.9, "sfx": "pageturn", "reason": "line 33 mulai Tahap 5" },
+  { "at": 280.4, "sfx": "click", "reason": "line 28 'langsung terlihat di Dashboard' -- momen UI konkret" },
+  { "at": 370.3, "sfx": "success", "reason": "line 37 tagline penutup 'Risiko TerKabar, Daerah Terjaga'" }
+]

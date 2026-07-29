@@ -1,4 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
+import { useIsViewer } from '@/hooks/use-viewer';
 import { Head, router, useForm } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -165,6 +166,7 @@ const emptyForm = (): FormData => {
 const skalaBadgeClass = riskLevelClassNameWithHover;
 
 export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, triwulanOptions, triwulanLabels, sasaranRenstraKodes, currentUserId, isAdmin, currentUserOpdNama, tahunAktif }: PageProps) {
+  const isViewer = useIsViewer();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<IrsRow | null>(null);
   const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
@@ -505,10 +507,12 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
           onEscapeKeyDown={(e) => e.preventDefault()}
         >
           <DialogHeader>
-            <DialogTitle>{editing ? 'Edit Data Risiko' : 'Tambah Data Risiko'}</DialogTitle>
+            <DialogTitle>
+              {isViewer ? 'Detail Data Risiko' : editing ? 'Edit Data Risiko' : 'Tambah Data Risiko'}
+            </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4 [&>div]:border-b [&>div]:border-border/50 [&>div]:pb-4 [&>div:last-child]:border-b-0 [&>div:last-child]:pb-0">
             {prefillFromLaporan && (
               <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
                 Data ini diambil dari laporan warga — Uraian Risiko, Penyebab (7M+1E), dan OPD sudah terisi otomatis.
@@ -806,9 +810,11 @@ export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, op
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Batal
               </Button>
-              <Button type="submit" disabled={processing}>
-                {editing ? 'Simpan Perubahan' : 'Simpan'}
-              </Button>
+              {!isViewer && (
+                <Button type="submit" disabled={processing}>
+                  {editing ? 'Simpan Perubahan' : 'Simpan'}
+                </Button>
+              )}
             </DialogFooter>
           </form>
         </DialogContent>

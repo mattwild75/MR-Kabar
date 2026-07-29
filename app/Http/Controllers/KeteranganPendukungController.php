@@ -41,7 +41,7 @@ class KeteranganPendukungController extends Controller
      */
     private function ensureAdmin(): void
     {
-        if (!auth()->user()?->hasAnyRole(['admin', 'super-admin'])) {
+        if (!auth()->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola Keterangan Pendukung.');
         }
     }

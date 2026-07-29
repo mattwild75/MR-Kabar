@@ -36,7 +36,7 @@ class UserFileController extends Controller
 
         $requester = $request->user();
 
-        if ($requester->hasAnyRole(['admin', 'super-admin']) && $request->filled('user_id')) {
+        if ($requester->canViewAllOpd() && $request->filled('user_id')) {
             $target = User::findOrFail($request->input('user_id'));
 
             $this->ensureCanViewTargetUser($requester, $target);
@@ -70,7 +70,7 @@ class UserFileController extends Controller
     {
         $requester = $request->user();
         $isSuperAdmin = $requester->hasRole('super-admin');
-        $isAdminOrSuperAdmin = $requester->hasAnyRole(['admin', 'super-admin']);
+        $isAdminOrSuperAdmin = $requester->canViewAllOpd();
         $isShared = $this->isSharedScope($request);
         $targetUser = $this->resolveTargetUser($request);
 
@@ -245,7 +245,7 @@ class UserFileController extends Controller
 
     private function ensureCanReviewSharedFile(Request $request): void
     {
-        if (!$request->user()?->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$request->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat menyetujui/menolak file Folder Umum.');
         }
     }
@@ -277,11 +277,11 @@ class UserFileController extends Controller
             $media = User::sharedFolderOwner()->media()->where('id', $id)->firstOrFail();
 
             $isUploader = (int) $media->getCustomProperty('uploader_id') === $requester->id;
-            if (!$isUploader && !$requester->hasAnyRole(['admin', 'super-admin'])) {
+            if (!$isUploader && !$requester->canViewAllOpd()) {
                 abort(403, 'Hanya Admin/Super Admin atau pengunggah file ini yang dapat menghapusnya.');
             }
         } else {
-            $media = $requester->hasAnyRole(['admin', 'super-admin'])
+            $media = $requester->canViewAllOpd()
                 ? Media::where('id', $id)->firstOrFail()
                 : $requester->media()->where('id', $id)->firstOrFail();
 

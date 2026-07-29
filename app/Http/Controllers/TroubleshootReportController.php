@@ -128,7 +128,7 @@ class TroubleshootReportController extends Controller
 
     private function ensureCanView(Request $request): void
     {
-        if (!$request->user()?->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$request->user()?->canViewAllOpd()) {
             throw new AccessDeniedHttpException('Rekapan troubleshoot hanya dapat diakses oleh Admin/Super Admin.');
         }
     }

@@ -23,7 +23,7 @@ class TahunAktifController extends Controller
 {
     public function update(Request $request)
     {
-        if (!$request->user()->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$request->user()->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengubah Tahun Penilaian aktif Pemda.');
         }
 

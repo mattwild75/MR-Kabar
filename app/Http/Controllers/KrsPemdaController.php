@@ -314,7 +314,7 @@ class KrsPemdaController extends Controller
             'visis' => $this->buildHierarchy($rows),
             'opdOptions' => Opd::orderBy('nama')->pluck('nama'),
             'fieldOptions' => $this->distinctFieldOptions($rows),
-            'isAdmin' => auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false,
+            'isAdmin' => auth()->user()?->canViewAllOpd() ?? false,
         ]);
     }
 
@@ -378,7 +378,7 @@ class KrsPemdaController extends Controller
      */
     private function ensureCanManage(Request $request): void
     {
-        if (!$request->user()->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$request->user()->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola data Risiko Strategis Pemda.');
         }
     }

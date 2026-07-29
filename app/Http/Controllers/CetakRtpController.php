@@ -54,7 +54,7 @@ class CetakRtpController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->opd_id && !$user->canViewAllOpd()) {
             return \App\Models\Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -281,7 +281,7 @@ class CetakRtpController extends Controller
     private function scopedOpdId(Request $request): ?int
     {
         $user = $request->user();
-        if ($user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->canViewAllOpd()) {
             return null;
         }
 

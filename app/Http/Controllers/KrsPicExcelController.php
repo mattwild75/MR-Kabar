@@ -80,7 +80,7 @@ class KrsPicExcelController extends Controller
      */
     private function ensureAdminOrSuperAdmin(): void
     {
-        if (!auth()->user()?->hasAnyRole(['admin', 'super-admin'])) {
+        if (!auth()->user()?->canViewAllOpd()) {
             abort(403, 'Persetujuan impor KRS hanya dapat dilakukan oleh Admin/Super Admin.');
         }
     }
@@ -88,7 +88,12 @@ class KrsPicExcelController extends Controller
     public function index()
     {
         $user = auth()->user();
-        if (!$user || !$user->hasAnyRole([...self::PIC_OPD_ROLES, 'admin', 'super-admin'])) {
+        // canViewAllOpd() mencakup admin & super-admin, plus peninjau
+        // eksekutif — halaman ini sekadar menampilkan daftar pengajuan
+        // impor, dan peninjau memang boleh melihat semua yang dilihat admin.
+        // Tombol aksinya (export/template/import/approve/reject) tetap
+        // dijaga terpisah di bawah dan seluruh penulisan ditolak middleware.
+        if (!$user || !($user->canViewAllOpd() || $user->hasAnyRole(self::PIC_OPD_ROLES))) {
             abort(403, 'Halaman ini khusus PIC OPD, Admin, dan Super Admin.');
         }
 
@@ -103,7 +108,7 @@ class KrsPicExcelController extends Controller
 
         // Admin/super-admin melihat SEMUA permintaan pending scope pic_opd
         // (perlu ditinjau); PIC OPD tidak pernah melihat antrean PIC lain.
-        $pendingRequests = $user->hasAnyRole(['admin', 'super-admin'])
+        $pendingRequests = $user->canViewAllOpd()
             ? RiskExcelImportRequest::with('user:id,name,username')
                 ->where('scope', self::SCOPE)
                 ->where('status', 'pending')

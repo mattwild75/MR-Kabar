@@ -36,6 +36,10 @@ class HandleInertiaRequests extends Middleware
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user()?->load('roles:id,name'),
+                // Dipakai frontend untuk menyembunyikan tombol aksi. Ini
+                // MURNI kosmetik — penjaga sesungguhnya ada di middleware
+                // ViewerReadOnly di sisi server.
+                'isViewer' => (bool) $request->user()?->isViewerOnly(),
             ],
             'flash' => [
                 'success' => session('success'),

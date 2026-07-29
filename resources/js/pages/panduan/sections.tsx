@@ -1573,8 +1573,10 @@ export const SECTIONS: Section[] = [
         <p className="mt-3 font-medium text-foreground">Form 4 — Hasil Analisis Risiko</p>
         <p>
           Menampilkan <strong>seluruh</strong> risiko teridentifikasi (Section I/II/III, sama seperti Form 3a/3b/3c
-          digabung jadi satu tabel), lengkap dengan Skala Dampak, Skala Kemungkinan, dan Skala Risiko hasil
-          perkalian keduanya lewat Matriks 5×5 di bawah — badge warna Skala Risiko mengikuti level yang sama.
+          digabung jadi satu tabel), lengkap dengan Skala Dampak, Skala Kemungkinan, dan Skala Risiko yang dibaca
+          dari Matriks 5×5 di bawah — <strong>bukan hasil perkalian</strong> kedua angka, melainkan tabel
+          peringkat 1–25 yang sengaja membobot dampak lebih besar (Dampak 5 × Kemungkinan 1 = 20, sedangkan
+          Dampak 1 × Kemungkinan 5 = 9). Badge warna Skala Risiko mengikuti level yang sama.
         </p>
         <RiskMatrix5x5 />
         <Kotak title="5 level Skala Risiko (dapat disesuaikan Admin)">
@@ -1621,7 +1623,7 @@ export const SECTIONS: Section[] = [
         <Screenshot
           src="/images/panduan/analisis-prioritas-4.png"
           alt="Tampilan Form Cetak 4 Hasil Analisis Risiko dengan badge Skala Risiko berwarna"
-          caption="Form Cetak 4 — Hasil Analisis Risiko, Skala Risiko dihitung otomatis dari Dampak × Kemungkinan (badge kuning/oranye/merah)"
+          caption="Form Cetak 4 — Hasil Analisis Risiko, Skala Risiko dibaca dari tabel Matriks 5×5 sesuai kombinasi Dampak &amp; Kemungkinan (badge kuning/oranye/merah)"
         />
       </>
     ),

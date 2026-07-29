@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>MR Kabar - Video Edukasi</title>
+<style>
+  :root{
+    --risk:#A8201A; --sys:#2b6777; --warn:#e0a458; --ok:#3f9e5a;
+    --neutral:#8a8578; --ink:#1A1A1A; --cream:#F7F4EE; --line:#e3ddd0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:1920px;height:1080px;overflow:hidden;background:var(--cream);
+    font-family:'Segoe UI',Arial,sans-serif;color:var(--ink)}
+  #stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+
+  .scene{position:absolute;inset:0;opacity:0;background:var(--cream)}
+  .cam{position:absolute;inset:0;transform-origin:center center}
+
+  .bgwash{position:absolute;inset:0;opacity:.06;
+    background:radial-gradient(circle at 18% 22%,var(--risk) 0,transparent 42%),
+               radial-gradient(circle at 82% 78%,var(--sys) 0,transparent 42%)}
+  .bggrid{position:absolute;inset:0;opacity:.05;
+    background-image:linear-gradient(var(--sys) 1px,transparent 1px),
+                     linear-gradient(90deg,var(--sys) 1px,transparent 1px);
+    background-size:80px 80px}
+  .particles{position:absolute;inset:0;pointer-events:none}
+  .particles i{position:absolute;width:8px;height:8px;border-radius:50%;
+    background:var(--sys);opacity:.14;display:block}
+
+  .brand{position:absolute;top:46px;left:70px;display:flex;align-items:center;gap:14px;
+    font-weight:800;font-size:26px;letter-spacing:1px;color:var(--risk);z-index:40}
+  .brand b{width:16px;height:16px;border-radius:50%;background:var(--risk);display:block}
+
+  .eyebrow{position:absolute;width:100%;text-align:center;top:112px;
+    font-size:23px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--risk)}
+  .title{position:absolute;width:100%;text-align:center;top:152px;
+    font-size:60px;font-weight:800;line-height:1.15}
+  .title.sm{font-size:50px}
+  .subtitle{position:absolute;width:1180px;left:370px;text-align:center;top:246px;
+    font-size:29px;line-height:1.45;color:#4a463f}
+
+  .ico{position:absolute;text-align:center}
+  .ico svg{width:100%;display:block;aspect-ratio:1/1;
+    filter:drop-shadow(0 10px 14px rgba(0,0,0,.09))}
+  .cap{margin-top:12px;font-size:20px;font-weight:700;color:#4a463f;line-height:1.25}
+  .cap.sm{font-size:17px}
+
+  .ac,.acf{fill:var(--ac,#A8201A)}
+  .c-risk{color:var(--risk);--ac:#7a1512}
+  .c-sys{color:var(--sys);--ac:#A8201A}
+  .c-warn{color:var(--warn);--ac:#A8201A}
+  .c-ok{color:var(--ok);--ac:#2b6777}
+  .c-neutral{color:var(--neutral);--ac:#A8201A}
+  .c-ink{color:var(--ink);--ac:#A8201A}
+
+  .card{position:absolute;background:#fff;border:2px solid var(--line);border-radius:22px;
+    box-shadow:0 14px 34px rgba(0,0,0,.07);padding:26px 30px}
+  .card .n{font-size:38px;font-weight:900;color:var(--risk);line-height:1}
+  .card .t{font-size:21px;font-weight:800;margin-top:8px;line-height:1.25}
+
+  .pill{position:absolute;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;
+    background:var(--ink);color:#fff;border-radius:999px;padding:13px 28px;
+    font-weight:800;font-size:22px;box-shadow:0 10px 22px rgba(0,0,0,.14)}
+  .pill.ghost{background:#fff;color:var(--ink);border:2px solid var(--line)}
+
+  .note{position:absolute;background:#fff;border:2px solid var(--line);border-radius:20px;
+    padding:22px 28px;font-size:24px;line-height:1.5;box-shadow:0 12px 28px rgba(0,0,0,.06)}
+  .note b{color:var(--risk)}
+
+  /* 76px (bukan 84) supaya tinggi total matriks 5x5 berhenti di y~942 --
+     zona y>=960 disisakan untuk subtitle burn-in agar tidak tertimpa. */
+  .mx{position:absolute;display:grid;grid-template-columns:repeat(5,76px);
+    grid-template-rows:repeat(5,76px);gap:8px}
+  .mx div{border-radius:11px;display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:25px;color:#fff}
+  .mxlbl{position:absolute;font-size:19px;font-weight:800;color:#6b665c}
+
+  .conn{position:absolute;height:5px;background:var(--line);border-radius:3px;transform-origin:left center}
+  .conn.on{background:var(--risk)}
+
+  .kw{transition:none;display:inline-block}
+  .lockup{position:absolute;width:100%;text-align:center}
+  .lockup .big{font-size:92px;font-weight:900;color:var(--risk);letter-spacing:2px}
+  .lockup .tag{font-size:30px;font-weight:800;color:var(--risk);margin-top:8px;letter-spacing:1px}
+</style>
+</head>
+<body>
+<div id="stage">
+<!--SYMBOLS-->
+
+  <div class="brand"><b></b> MR KABAR</div>
+
+  <!-- ══════════ S1 PEMBUKA ══════════ -->
+  <div class="scene" id="s1"><div class="cam">
+    <div class="bgwash"></div>
+    <div class="particles" data-particles="26"></div>
+    <div class="ico c-sys" id="s1-hero" style="left:830px;top:300px;width:260px"><svg viewBox="0 0 100 100"><use href="#i-gedung"/></svg></div>
+    <div class="s1-orb ico c-sys" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-doc"/></svg></div>
+    <div class="s1-orb ico c-risk" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-shield"/></svg></div>
+    <div class="s1-orb ico c-sys" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-bar"/></svg></div>
+    <div class="s1-orb ico c-neutral" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-gear"/></svg></div>
+    <div class="s1-orb ico c-sys" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-cloud"/></svg></div>
+    <div class="s1-orb ico c-ok" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-lock"/></svg></div>
+    <div class="s1-orb ico c-sys" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-calendar"/></svg></div>
+    <div class="s1-orb ico c-risk" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-target"/></svg></div>
+    <div class="s1-orb ico c-sys" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-database"/></svg></div>
+    <div class="s1-orb ico c-warn" style="width:96px"><svg viewBox="0 0 100 100"><use href="#i-radar"/></svg></div>
+    <div class="eyebrow" id="s1-eb" style="top:700px">Video Edukasi</div>
+    <div class="title" id="s1-t1" style="top:740px">Digitalisasi Manajemen Risiko<br>Sektor Publik</div>
+    <div class="subtitle" id="s1-t2" style="top:880px">Pemerintah Kabupaten Aceh Barat</div>
+    <div class="ico c-risk" id="s1-q" style="left:880px;top:330px;width:180px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-quest"/></svg></div>
+    <div class="title sm" id="s1-t3" style="top:600px;opacity:0">Apa sebenarnya<br>manajemen risiko itu?</div>
+  </div></div>
+
+  <!-- ══════════ S2 KONSEP & ANCAMAN ══════════ -->
+  <div class="scene" id="s2"><div class="cam">
+    <div class="bggrid"></div>
+    <div class="eyebrow">Konsep Dasar</div>
+    <div class="title">Apa itu Manajemen Risiko?</div>
+    <div class="ico c-sys s2-p" style="left:250px;top:330px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-search"/></svg><div class="cap">Mengidentifikasi</div></div>
+    <div class="ico c-sys s2-p" style="left:640px;top:330px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-scale"/></svg><div class="cap">Menilai</div></div>
+    <div class="ico c-sys s2-p" style="left:1030px;top:330px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-shield"/></svg><div class="cap">Mengendalikan</div></div>
+    <div class="ico c-sys s2-p" style="left:1420px;top:330px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-radar"/></svg><div class="cap">Memantau</div></div>
+    <div class="ico c-warn s2-th" style="left:210px;top:590px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-clock"/></svg><div class="cap sm">Keterlambatan<br>Proyek</div></div>
+    <div class="ico c-warn s2-th" style="left:490px;top:590px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-machine"/></svg><div class="cap sm">Kegagalan<br>Pelayanan</div></div>
+    <div class="ico c-risk s2-th" style="left:770px;top:590px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-bag"/></svg><div class="cap sm">Penyalahgunaan<br>Anggaran</div></div>
+    <div class="ico c-risk s2-th" style="left:1050px;top:590px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-storm"/></svg><div class="cap sm">Bencana<br>Alam</div></div>
+    <div class="ico c-risk s2-th" style="left:1330px;top:590px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-flood"/></svg><div class="cap sm">Banjir</div></div>
+    <div class="ico c-risk s2-th" style="left:1610px;top:590px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-fire"/></svg><div class="cap sm">Kebakaran</div></div>
+    <div class="note" id="s2-note" style="left:520px;top:830px;width:880px;text-align:center;opacity:0">
+      Tanpa pengelolaan sistematis, risiko baru diketahui <b>setelah kejadian</b>.</div>
+    <div class="ico c-risk" id="s2-warn" style="left:340px;top:820px;width:120px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-warn"/></svg></div>
+    <div class="ico c-neutral" id="s2-crack" style="left:1470px;top:820px;width:130px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-crack"/></svg></div>
+  </div></div>
+
+  <!-- ══════════ S3 REGULASI ══════════ -->
+  <div class="scene" id="s3"><div class="cam">
+    <div class="bgwash"></div>
+    <div class="eyebrow">Dasar Regulasi</div>
+    <div class="title">Perdep PPKD Nomor 4 Tahun 2019</div>
+    <div class="ico c-sys" id="s3-book" style="left:250px;top:380px;width:230px"><svg viewBox="0 0 100 100"><use href="#i-book"/></svg></div>
+    <div class="ico c-risk" id="s3-seal" style="left:520px;top:410px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-seal"/></svg></div>
+    <div class="ico c-neutral" id="s3-gavel" style="left:520px;top:600px;width:140px"><svg viewBox="0 0 100 100"><use href="#i-gavel"/></svg></div>
+    <div class="note" id="s3-note" style="left:760px;top:390px;width:900px">
+      Mewajibkan setiap pemerintah daerah menyelenggarakan manajemen risiko secara
+      <b>terstruktur</b> — mengidentifikasi sejak dini, bukan mencatat masalah setelah terjadi.</div>
+    <div class="ico c-ok s3-f" style="left:790px;top:610px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-search"/></svg><div class="cap sm">Sejak dini</div></div>
+    <div class="ico c-neutral s3-f" style="left:990px;top:610px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-arrow-r"/></svg></div>
+    <div class="ico c-warn s3-f" style="left:1190px;top:610px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-scale"/></svg><div class="cap sm">Nilai dampak</div></div>
+    <div class="ico c-neutral s3-f" style="left:1390px;top:610px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-arrow-r"/></svg></div>
+    <div class="ico c-ok s3-f" style="left:1560px;top:610px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-shield-check"/></svg><div class="cap sm">Kendalikan</div></div>
+  </div></div>
+
+  <!-- ══════════ S4 KENAPA MR KABAR ══════════ -->
+  <div class="scene" id="s4"><div class="cam">
+    <div class="bggrid"></div>
+    <div class="eyebrow">Solusi</div>
+    <div class="title">Kenapa MR Kabar Dibutuhkan?</div>
+    <div class="ico c-neutral s4-old" style="left:150px;top:340px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-excel"/></svg></div>
+    <div class="ico c-neutral s4-old" style="left:310px;top:390px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-word"/></svg></div>
+    <div class="ico c-neutral s4-old" style="left:180px;top:530px;width:110px"><svg viewBox="0 0 100 100"><use href="#i-folder"/></svg></div>
+    <div class="ico c-neutral s4-old" style="left:340px;top:560px;width:100px"><svg viewBox="0 0 100 100"><use href="#i-paper"/></svg></div>
+    <div class="ico c-neutral s4-old" style="left:110px;top:680px;width:100px"><svg viewBox="0 0 100 100"><use href="#i-paper"/></svg></div>
+    <div class="ico c-warn s4-old" style="left:300px;top:700px;width:110px"><svg viewBox="0 0 100 100"><use href="#i-quest"/></svg></div>
+    <div class="cap" id="s4-oldcap" style="position:absolute;left:120px;top:820px;width:330px;font-size:22px">Excel &amp; Word terpisah-pisah,<br>rawan hilang, tanpa jejak</div>
+    <div class="ico c-neutral" id="s4-arrow" style="left:520px;top:500px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-arrow-r"/></svg></div>
+    <div class="ico c-sys" id="s4-monitor" style="left:730px;top:400px;width:280px"><svg viewBox="0 0 100 100"><use href="#i-monitor"/></svg><div class="cap">Satu aplikasi web terpusat</div></div>
+    <div class="ico c-sys s4-new" style="left:1090px;top:360px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-database"/></svg></div>
+    <div class="ico c-sys s4-new" style="left:1260px;top:360px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-cloud"/></svg></div>
+    <div class="ico c-ok s4-new" style="left:1430px;top:360px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-lock"/></svg><div class="cap sm">Data per-OPD</div></div>
+    <div class="ico c-risk s4-new" style="left:1600px;top:360px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-nodes"/></svg><div class="cap sm">Terhubung</div></div>
+    <div class="ico c-sys" id="s4-tree" style="left:1120px;top:580px;width:220px"><svg viewBox="0 0 100 100"><use href="#i-tree"/></svg><div class="cap sm">Visi → Misi → Tujuan → Sasaran</div></div>
+    <div class="ico c-neutral" id="s4-chain" style="left:1400px;top:600px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-chain"/></svg><div class="cap sm">Keterkaitan otomatis</div></div>
+  </div></div>
+
+  <!-- ══════════ S5 LIMA TAHAP ══════════ -->
+  <div class="scene" id="s5"><div class="cam">
+    <div class="bgwash"></div>
+    <div class="eyebrow">Perdep PPKD No.4/2019</div>
+    <div class="title">5 Tahap Proses Manajemen Risiko</div>
+    <div class="card s5-c" style="left:110px;top:380px;width:300px;text-align:center">
+      <div class="n">1</div><div class="ico c-sys" style="position:relative;left:0;top:0;width:96px;margin:14px auto 0"><svg viewBox="0 0 100 100"><use href="#i-chat2"/></svg></div>
+      <div class="t">Komunikasi &amp;<br>Konsultasi</div></div>
+    <div class="card s5-c" style="left:460px;top:380px;width:300px;text-align:center">
+      <div class="n">2</div><div class="ico c-sys" style="position:relative;left:0;top:0;width:96px;margin:14px auto 0"><svg viewBox="0 0 100 100"><use href="#i-compass"/></svg></div>
+      <div class="t">Penetapan<br>Konteks</div></div>
+    <div class="card s5-c" style="left:810px;top:380px;width:300px;text-align:center">
+      <div class="n">3</div><div class="ico c-warn" style="position:relative;left:0;top:0;width:96px;margin:14px auto 0"><svg viewBox="0 0 100 100"><use href="#i-gauge"/></svg></div>
+      <div class="t">Penilaian<br>Risiko</div></div>
+    <div class="card s5-c" style="left:1160px;top:380px;width:300px;text-align:center">
+      <div class="n">4</div><div class="ico c-ok" style="position:relative;left:0;top:0;width:96px;margin:14px auto 0"><svg viewBox="0 0 100 100"><use href="#i-shield-check"/></svg></div>
+      <div class="t">Perlakuan<br>Risiko</div></div>
+    <div class="card s5-c" style="left:1510px;top:380px;width:300px;text-align:center">
+      <div class="n">5</div><div class="ico c-risk" style="position:relative;left:0;top:0;width:96px;margin:14px auto 0"><svg viewBox="0 0 100 100"><use href="#i-radar"/></svg></div>
+      <div class="t">Pemantauan<br>&amp; Reviu</div></div>
+    <div class="conn s5-l" style="left:412px;top:520px;width:46px"></div>
+    <div class="conn s5-l" style="left:762px;top:520px;width:46px"></div>
+    <div class="conn s5-l" style="left:1112px;top:520px;width:46px"></div>
+    <div class="conn s5-l" style="left:1462px;top:520px;width:46px"></div>
+    <div class="note" id="s5-note" style="left:560px;top:790px;width:800px;text-align:center;opacity:0">
+      Semuanya <b>berurutan</b> dan saling terhubung.</div>
+  </div></div>
+
+  <!-- ══════════ S6 TAHAP 1 ══════════ -->
+  <div class="scene" id="s6"><div class="cam">
+    <div class="bggrid"></div>
+    <div class="eyebrow">Tahap 1 / 5</div>
+    <div class="title">Komunikasi &amp; Konsultasi</div>
+    <div class="ico c-sys" id="s6-hero" style="left:230px;top:360px;width:230px"><svg viewBox="0 0 100 100"><use href="#i-chat2"/></svg></div>
+    <div class="ico c-risk" id="s6-nodes" style="left:520px;top:390px;width:170px"><svg viewBox="0 0 100 100"><use href="#i-nodes"/></svg><div class="cap sm">Seluruh pihak sepakat</div></div>
+    <div class="note" id="s6-note" style="left:820px;top:370px;width:860px">
+      Memastikan seluruh pihak terkait <b>memahami dan sepakat</b> tentang risiko yang akan dinilai.</div>
+    <div class="pill" id="s6-pill" style="left:1090px;top:530px">📋 Form Input → Data Umum</div>
+    <div class="ico c-sys s6-f" style="left:300px;top:670px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-clipboard"/></svg><div class="cap sm">Kertas kerja</div></div>
+    <div class="ico c-sys s6-f" style="left:560px;top:670px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-idcard"/></svg><div class="cap sm">Identitas &amp; PIC</div></div>
+    <div class="ico c-warn s6-f" style="left:820px;top:670px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-stamp"/></svg><div class="cap sm">Pengesahan</div></div>
+    <div class="ico c-neutral s6-f" style="left:1080px;top:670px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-arrow-r"/></svg></div>
+    <div class="ico c-ok s6-f" style="left:1330px;top:670px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-doc-check"/></svg><div class="cap sm">Otomatis di laporan</div></div>
+  </div></div>
+
+  <!-- ══════════ S7 TAHAP 2 ══════════ -->
+  <div class="scene" id="s7"><div class="cam">
+    <div class="bgwash"></div>
+    <div class="eyebrow">Tahap 2 / 5</div>
+    <div class="title">Penetapan Konteks</div>
+    <div class="ico c-sys" id="s7-hero" style="left:120px;top:400px;width:200px"><svg viewBox="0 0 100 100"><use href="#i-compass"/></svg><div class="cap">Menentukan ruang lingkup</div></div>
+    <div class="ico c-risk s7-sc" style="left:430px;top:360px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-gedung"/></svg><div class="cap sm">Sasaran Strategis<br>Pemda</div></div>
+    <div class="ico c-sys s7-sc" style="left:700px;top:360px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-gedung2"/></svg><div class="cap sm">Sasaran Strategis<br>Perangkat Daerah</div></div>
+    <div class="ico c-warn s7-sc" style="left:970px;top:360px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-gear"/></svg><div class="cap sm">Satu Kegiatan<br>operasional</div></div>
+    <div class="pill s7-pl" style="left:1270px;top:380px">🏛️ KRS Pemda</div>
+    <div class="pill s7-pl" style="left:1270px;top:452px">🏢 KRS Perangkat Daerah</div>
+    <div class="pill s7-pl" style="left:1270px;top:524px">📋 KRO Perangkat Daerah</div>
+    <div class="ico c-sys s7-h" style="left:180px;top:690px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-flag"/></svg><div class="cap sm">Visi</div></div>
+    <div class="ico c-sys s7-h" style="left:480px;top:690px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-target"/></svg><div class="cap sm">Misi</div></div>
+    <div class="ico c-sys s7-h" style="left:780px;top:690px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-node"/></svg><div class="cap sm">Tujuan</div></div>
+    <div class="ico c-sys s7-h" style="left:1080px;top:690px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-layers"/></svg><div class="cap sm">Sasaran</div></div>
+    <div class="ico c-risk s7-h" style="left:1380px;top:690px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-puzzle"/></svg><div class="cap sm">Program &amp; Kegiatan</div></div>
+    <div class="conn s7-cl" style="left:305px;top:748px;width:170px"></div>
+    <div class="conn s7-cl" style="left:605px;top:748px;width:170px"></div>
+    <div class="conn s7-cl" style="left:905px;top:748px;width:170px"></div>
+    <div class="conn s7-cl" style="left:1205px;top:748px;width:170px"></div>
+  </div></div>
+
+  <!-- ══════════ S8 TAHAP 3 ══════════ -->
+  <div class="scene" id="s8"><div class="cam">
+    <div class="bggrid"></div>
+    <div class="eyebrow">Tahap 3 / 5</div>
+    <div class="title">Penilaian Risiko</div>
+    <div class="ico c-sys" id="s8-i1" style="left:250px;top:330px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-search"/></svg><div class="cap">Identifikasi</div></div>
+    <div class="ico c-neutral" id="s8-i2" style="left:470px;top:350px;width:110px"><svg viewBox="0 0 100 100"><use href="#i-arrow-r"/></svg></div>
+    <div class="ico c-warn" id="s8-i3" style="left:650px;top:330px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-scale"/></svg><div class="cap">Analisis</div></div>
+    <div class="pill s8-pl" style="left:990px;top:330px">📊 IRS Pemda</div>
+    <div class="pill s8-pl" style="left:990px;top:400px">📊 IRS Perangkat Daerah</div>
+    <div class="pill s8-pl" style="left:990px;top:470px">📊 IRO Perangkat Daerah</div>
+    <div class="ico c-risk" id="s8-doc" style="left:1650px;top:300px;width:140px"><svg viewBox="0 0 100 100"><use href="#i-doc-alert"/></svg><div class="cap sm">Uraian, penyebab,<br>dampak</div></div>
+
+    <div class="cap" id="s8-lbl7m" style="position:absolute;left:130px;top:560px;font-size:22px;font-weight:800;color:var(--risk);opacity:0">INTERNAL — 7M + 1E</div>
+    <div class="ico c-sys s8-m" style="left:140px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-idcard"/></svg><div class="cap sm">Man</div></div>
+    <div class="ico c-sys s8-m" style="left:265px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-machine"/></svg><div class="cap sm">Machine</div></div>
+    <div class="ico c-sys s8-m" style="left:390px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-wrench"/></svg><div class="cap sm">Method</div></div>
+    <div class="ico c-sys s8-m" style="left:515px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-truck"/></svg><div class="cap sm">Material</div></div>
+    <div class="ico c-sys s8-m" style="left:140px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-coin"/></svg><div class="cap sm">Money</div></div>
+    <div class="ico c-sys s8-m" style="left:265px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-gear"/></svg><div class="cap sm">Management</div></div>
+    <div class="ico c-sys s8-m" style="left:390px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-ruler"/></svg><div class="cap sm">Measurement</div></div>
+    <div class="ico c-ok s8-m" style="left:515px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-leaf"/></svg><div class="cap sm">Environment</div></div>
+
+    <div class="cap" id="s8-lblp" style="position:absolute;left:700px;top:560px;font-size:22px;font-weight:800;color:var(--risk);opacity:0">EKSTERNAL — PESTLE</div>
+    <div class="ico c-warn s8-p" style="left:700px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-gedung2"/></svg><div class="cap sm">Political</div></div>
+    <div class="ico c-warn s8-p" style="left:825px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-line"/></svg><div class="cap sm">Economic</div></div>
+    <div class="ico c-warn s8-p" style="left:950px;top:600px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-nodes"/></svg><div class="cap sm">Social</div></div>
+    <div class="ico c-warn s8-p" style="left:700px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-chip"/></svg><div class="cap sm">Technological</div></div>
+    <div class="ico c-warn s8-p" style="left:825px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-gavel"/></svg><div class="cap sm">Legal</div></div>
+    <div class="ico c-ok s8-p" style="left:950px;top:750px;width:92px"><svg viewBox="0 0 100 100"><use href="#i-globe"/></svg><div class="cap sm">Environmental</div></div>
+
+    <div class="ico c-warn" id="s8-g1" style="left:1120px;top:590px;width:130px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-gauge"/></svg><div class="cap sm">Skala Dampak<br>1–5</div></div>
+    <div class="ico c-warn" id="s8-g2" style="left:1120px;top:760px;width:130px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-gauge"/></svg><div class="cap sm">Skala Kemungkinan<br>1–5</div></div>
+    <div class="mx" id="s8-mx" style="left:1330px;top:530px"></div>
+    <div class="mxlbl" id="s8-mxl1" style="left:1330px;top:500px;opacity:0">Dampak →</div>
+    <div class="mxlbl" id="s8-mxl2" style="left:1258px;top:650px;opacity:0;transform:rotate(-90deg)">Kemungkinan</div>
+    <div class="ico c-sys" id="s8-dash" style="left:1660px;top:600px;width:170px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-monitor"/></svg><div class="cap sm">Dashboard<br>risiko prioritas</div></div>
+  </div></div>
+
+  <!-- ══════════ S9 TAHAP 4 ══════════ -->
+  <div class="scene" id="s9"><div class="cam">
+    <div class="bgwash"></div>
+    <div class="eyebrow">Tahap 4 / 5</div>
+    <div class="title">Perlakuan Risiko</div>
+    <div class="ico c-ok" id="s9-hero" style="left:180px;top:360px;width:190px"><svg viewBox="0 0 100 100"><use href="#i-shield-check"/></svg></div>
+    <div class="ico c-sys" id="s9-rtp" style="left:420px;top:380px;width:150px"><svg viewBox="0 0 100 100"><use href="#i-clipboard"/></svg><div class="cap sm">Rencana Tindak<br>Pengendalian (RTP)</div></div>
+    <div class="ico c-risk s9-c" style="left:700px;top:350px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-noentry"/></svg><div class="cap sm">Avoid</div></div>
+    <div class="ico c-warn s9-c" style="left:890px;top:350px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-arrow-d"/></svg><div class="cap sm">Abate</div></div>
+    <div class="ico c-sys s9-c" style="left:1080px;top:350px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-shield"/></svg><div class="cap sm">Mitigate</div></div>
+    <div class="ico c-neutral s9-c" style="left:1270px;top:350px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-split"/></svg><div class="cap sm">Share /<br>Transfer</div></div>
+    <div class="ico c-ok s9-c" style="left:1470px;top:350px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-check"/></svg><div class="cap sm">Accept</div></div>
+    <div class="note" id="s9-eff" style="left:300px;top:640px;width:820px;opacity:0">
+      <b>Abate</b> menekan Skala Kemungkinan · <b>Mitigate</b> menekan Skala Dampak</div>
+    <div class="ico c-warn" id="s9-eg1" style="left:1200px;top:620px;width:120px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-gauge"/></svg></div>
+    <div class="ico c-sys" id="s9-eg2" style="left:1380px;top:620px;width:120px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-gauge"/></svg></div>
+    <div class="ico c-sys s9-o" style="left:520px;top:760px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-printer"/></svg><div class="cap sm">Cetak</div></div>
+    <div class="ico c-neutral s9-o" style="left:720px;top:760px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-pen"/></svg><div class="cap sm">Tanda tangan</div></div>
+    <div class="ico c-warn s9-o" style="left:920px;top:760px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-stamp"/></svg><div class="cap sm">Dokumen resmi</div></div>
+  </div></div>
+
+  <!-- ══════════ S10 TAHAP 5 ══════════ -->
+  <div class="scene" id="s10"><div class="cam">
+    <div class="bggrid"></div>
+    <div class="eyebrow">Tahap 5 / 5</div>
+    <div class="title">Pemantauan &amp; Reviu</div>
+    <div class="ico c-risk" id="s10-hero" style="left:200px;top:370px;width:220px"><svg viewBox="0 0 100 100"><use href="#i-radar"/></svg></div>
+    <div class="ico c-sys" id="s10-eye" style="left:470px;top:400px;width:140px"><svg viewBox="0 0 100 100"><use href="#i-eye"/></svg><div class="cap sm">RTP benar-benar<br>dijalankan</div></div>
+    <div class="note" id="s10-note" style="left:720px;top:380px;width:900px">
+      Bukan hanya <b>tersusun di atas kertas</b> — realisasinya dicatat dan direviu berkala.</div>
+    <div class="pill s10-pl" style="left:760px;top:530px">📡 Form Monitoring &amp; Evaluasi</div>
+    <div class="pill s10-pl" style="left:1230px;top:530px">📝 Pencatatan Kejadian Risiko</div>
+    <div class="ico c-sys s10-f" style="left:280px;top:680px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-monitor"/></svg><div class="cap sm">Realisasi</div></div>
+    <div class="ico c-risk s10-f" style="left:520px;top:680px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-doc-alert"/></svg><div class="cap sm">Kejadian nyata</div></div>
+    <div class="ico c-warn s10-f" style="left:760px;top:680px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-calendar"/></svg><div class="cap sm">Berkala</div></div>
+    <div class="ico c-neutral s10-f" style="left:1000px;top:680px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-bell"/></svg><div class="cap sm">Peringatan</div></div>
+    <div class="ico c-sys s10-f" style="left:1240px;top:680px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-report"/></svg><div class="cap sm">Laporan Berkala</div></div>
+    <div class="ico c-ok s10-f" style="left:1480px;top:680px;width:130px"><svg viewBox="0 0 100 100"><use href="#i-doc-check"/></svg><div class="cap sm">Laporan Unit<br>Kepatuhan</div></div>
+  </div></div>
+
+  <!-- ══════════ S11 PENUTUP ══════════ -->
+  <div class="scene" id="s11"><div class="cam">
+    <div class="bgwash"></div>
+    <div class="particles" data-particles="30"></div>
+    <div class="title sm" id="s11-t" style="top:130px">5 Tahap, Satu Alur Data Terhubung</div>
+    <div class="ico c-sys s11-s" style="left:190px;top:290px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-chat2"/></svg><div class="cap sm">1</div></div>
+    <div class="ico c-sys s11-s" style="left:490px;top:290px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-compass"/></svg><div class="cap sm">2</div></div>
+    <div class="ico c-warn s11-s" style="left:790px;top:290px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-gauge"/></svg><div class="cap sm">3</div></div>
+    <div class="ico c-ok s11-s" style="left:1090px;top:290px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-shield-check"/></svg><div class="cap sm">4</div></div>
+    <div class="ico c-risk s11-s" style="left:1390px;top:290px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-radar"/></svg><div class="cap sm">5</div></div>
+    <div class="conn s11-l" style="left:315px;top:348px;width:170px"></div>
+    <div class="conn s11-l" style="left:615px;top:348px;width:170px"></div>
+    <div class="conn s11-l" style="left:915px;top:348px;width:170px"></div>
+    <div class="conn s11-l" style="left:1215px;top:348px;width:170px"></div>
+    <div class="ico c-sys s11-d" style="left:530px;top:470px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-tree"/></svg><div class="cap sm">Visi Pemda</div></div>
+    <div class="ico c-neutral s11-d" style="left:730px;top:480px;width:110px"><svg viewBox="0 0 100 100"><use href="#i-arrow-r"/></svg></div>
+    <div class="ico c-risk s11-d" style="left:930px;top:470px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-doc-alert"/></svg><div class="cap sm">Satu baris risiko</div></div>
+    <div class="ico c-ok s11-d" style="left:1130px;top:470px;width:120px"><svg viewBox="0 0 100 100"><use href="#i-refresh"/></svg><div class="cap sm">Dipantau triwulan</div></div>
+    <div class="lockup" id="s11-lock" style="top:690px;opacity:0">
+      <div class="big">MR KABAR</div><div class="tag">Risiko TerKabar, Daerah Terjaga</div></div>
+    <div class="ico c-sys" id="s11-book" style="left:1560px;top:640px;width:120px;opacity:0"><svg viewBox="0 0 100 100"><use href="#i-book"/></svg><div class="cap sm">Panduan lengkap<br>di dalam aplikasi</div></div>
+  </div></div>
+
+</div>
+
+<script>
+const SCENES = /*SCENEMAP*/;
+const BEAT = 0.6;                       // 100 BPM -> semua event di-snap ke grid ini
+const snap = s => Math.round(s / BEAT) * BEAT;
+
+const MATRIX_DATA = {
+  "5,1":[9,"#4ade80"], "5,2":[15,"#fde047"], "5,3":[18,"#fb923c"], "5,4":[23,"#ef4444"], "5,5":[25,"#ef4444"],
+  "4,1":[6,"#4ade80"], "4,2":[12,"#fde047"], "4,3":[16,"#fb923c"], "4,4":[19,"#fb923c"], "4,5":[24,"#ef4444"],
+  "3,1":[4,"#38bdf8"], "3,2":[10,"#4ade80"], "3,3":[14,"#fde047"], "3,4":[17,"#fb923c"], "3,5":[22,"#ef4444"],
+  "2,1":[2,"#38bdf8"], "2,2":[7,"#4ade80"],  "2,3":[11,"#fde047"], "2,4":[13,"#fde047"], "2,5":[21,"#ef4444"],
+  "1,1":[1,"#38bdf8"], "1,2":[3,"#38bdf8"],  "1,3":[5,"#38bdf8"],  "1,4":[8,"#4ade80"],  "1,5":[20,"#ef4444"],
+};
+
+// ── Koreografi: at = detik RELATIF thd awal scene, di-snap ke ketukan.
+// anim: pop | up | left | right | fade   · stagger = jeda antar-elemen sekelompok
+const CHOREO = {
+  s1:{ cam:[{t:0,s:1.06},{t:12,s:1.0},{t:20,s:1.04}], items:[
+    {sel:'#s1-hero',at:0.6,anim:'pop'},
+    {sel:'.s1-orb',at:1.8,anim:'pop',stagger:0.3},
+    {sel:'#s1-eb',at:3.6,anim:'up'},{sel:'#s1-t1',at:4.2,anim:'up'},{sel:'#s1-t2',at:4.8,anim:'up'},
+    {sel:'#s1-eb',at:12.0,anim:'out'},{sel:'#s1-t1',at:12.0,anim:'out'},{sel:'#s1-t2',at:12.0,anim:'out'},
+    {sel:'.s1-orb',at:12.0,anim:'out'},{sel:'#s1-hero',at:12.0,anim:'out'},
+    {sel:'#s1-q',at:13.2,anim:'pop'},{sel:'#s1-t3',at:13.8,anim:'up'} ]},
+
+  s2:{ cam:[{t:0,s:1.0},{t:11,s:1.0},{t:12,s:1.05},{t:30,s:1.0}], items:[
+    {sel:'.s2-p',at:1.2,anim:'pop',stagger:0.6},
+    {sel:'.s2-th',at:11.4,anim:'up',stagger:0.6},
+    {sel:'#s2-note',at:21.6,anim:'up'},{sel:'#s2-warn',at:22.2,anim:'pop'},{sel:'#s2-crack',at:22.8,anim:'pop'} ]},
+
+  s3:{ cam:[{t:0,s:1.0},{t:27,s:1.05}], items:[
+    {sel:'#s3-book',at:0.6,anim:'left'},{sel:'#s3-seal',at:1.2,anim:'pop'},{sel:'#s3-gavel',at:1.8,anim:'pop'},
+    {sel:'#s3-note',at:2.4,anim:'right'},
+    {sel:'.s3-f',at:16.2,anim:'pop',stagger:0.6} ]},
+
+  s4:{ cam:[{t:0,s:1.0},{t:16,s:1.0},{t:17,s:1.04},{t:44,s:1.0}], items:[
+    {sel:'.s4-old',at:0.6,anim:'pop',stagger:0.3},{sel:'#s4-oldcap',at:2.4,anim:'up'},
+    {sel:'#s4-arrow',at:15.6,anim:'left'},{sel:'#s4-monitor',at:16.2,anim:'pop'},
+    {sel:'.s4-new',at:22.2,anim:'up',stagger:0.6},
+    {sel:'#s4-tree',at:27.6,anim:'pop'},{sel:'#s4-chain',at:28.2,anim:'pop'} ]},
+
+  s5:{ cam:[{t:0,s:1.0},{t:27,s:1.05}], items:[
+    {sel:'.s5-c',at:7.2,anim:'up',stagger:0.6},
+    {sel:'.s5-l',at:8.4,anim:'grow',stagger:0.6},
+    {sel:'#s5-note',at:19.8,anim:'up'} ]},
+
+  s6:{ cam:[{t:0,s:1.0},{t:29,s:1.04}], items:[
+    {sel:'#s6-hero',at:0.6,anim:'pop'},{sel:'#s6-nodes',at:1.2,anim:'pop'},
+    {sel:'#s6-note',at:1.8,anim:'right'},{sel:'#s6-pill',at:12.0,anim:'up'},
+    {sel:'.s6-f',at:13.2,anim:'up',stagger:0.6} ]},
+
+  s7:{ cam:[{t:0,s:1.0},{t:37,s:1.04}], items:[
+    {sel:'#s7-hero',at:0.6,anim:'left'},
+    {sel:'.s7-sc',at:1.8,anim:'pop',stagger:0.6},
+    {sel:'.s7-pl',at:15.0,anim:'right',stagger:0.6},
+    {sel:'.s7-h',at:16.8,anim:'up',stagger:0.6},
+    {sel:'.s7-cl',at:18.0,anim:'grow',stagger:0.6} ]},
+
+  s8:{ cam:[{t:0,s:1.0},{t:18,s:1.0},{t:19,s:1.03},{t:56,s:1.0},{t:74,s:1.03}], items:[
+    {sel:'#s8-i1',at:0.6,anim:'pop'},{sel:'#s8-i2',at:1.2,anim:'pop'},{sel:'#s8-i3',at:1.8,anim:'pop'},
+    {sel:'.s8-pl',at:7.2,anim:'right',stagger:0.6},{sel:'#s8-doc',at:9.0,anim:'pop'},
+    {sel:'#s8-lbl7m',at:18.6,anim:'up'},{sel:'.s8-m',at:19.2,anim:'pop',stagger:0.6},
+    {sel:'#s8-lblp',at:33.0,anim:'up'},{sel:'.s8-p',at:33.6,anim:'pop',stagger:0.6},
+    {sel:'#s8-g1',at:48.6,anim:'pop'},{sel:'#s8-g2',at:49.2,anim:'pop'},
+    {sel:'#s8-mxl1',at:57.0,anim:'fade'},{sel:'#s8-mxl2',at:57.0,anim:'fade'},
+    {sel:'#s8-dash',at:67.2,anim:'pop'} ]},
+
+  s9:{ cam:[{t:0,s:1.0},{t:40,s:1.04}], items:[
+    {sel:'#s9-hero',at:0.6,anim:'pop'},{sel:'#s9-rtp',at:1.2,anim:'pop'},
+    {sel:'.s9-c',at:10.2,anim:'up',stagger:0.6},
+    {sel:'#s9-eff',at:21.6,anim:'up'},{sel:'#s9-eg1',at:22.2,anim:'pop'},{sel:'#s9-eg2',at:22.8,anim:'pop'},
+    {sel:'.s9-o',at:32.4,anim:'pop',stagger:0.6} ]},
+
+  s10:{ cam:[{t:0,s:1.0},{t:31,s:1.04}], items:[
+    {sel:'#s10-hero',at:0.6,anim:'pop'},{sel:'#s10-eye',at:1.2,anim:'pop'},{sel:'#s10-note',at:1.8,anim:'right'},
+    {sel:'.s10-pl',at:10.2,anim:'up',stagger:0.6},
+    {sel:'.s10-f',at:12.0,anim:'up',stagger:0.6} ]},
+
+  s11:{ cam:[{t:0,s:1.0},{t:27,s:1.06}], items:[
+    {sel:'#s11-t',at:0.6,anim:'up'},
+    {sel:'.s11-s',at:1.2,anim:'pop',stagger:0.6},
+    {sel:'.s11-l',at:2.4,anim:'grow',stagger:0.6},
+    {sel:'.s11-d',at:6.0,anim:'up',stagger:0.6},
+    {sel:'#s11-lock',at:11.4,anim:'pop'},
+    {sel:'#s11-book',at:18.6,anim:'up'} ]},
+};
+
+// ── util
+const cl = x => Math.min(1, Math.max(0, x));
+const easeOut = p => 1 - Math.pow(1 - p, 3);
+const easeBack = p => { const c=1.9, c3=c+1; return 1 + c3*Math.pow(p-1,3) + c*Math.pow(p-1,2); };
+const lerp = (a,b,p) => a + (b-a)*p;
+
+function buildMatrix(){
+  const el = document.getElementById('s8-mx');
+  if(!el || el.children.length) return;
+  for(let k=5;k>=1;k--) for(let d=1;d<=5;d++){
+    const [skala,warna] = MATRIX_DATA[`${k},${d}`];
+    const c = document.createElement('div');
+    c.style.background = warna;
+    c.style.color = (warna === '#fde047') ? '#3a2a10' : '#fff';
+    c.textContent = skala;
+    el.appendChild(c);
+  }
+}
+function buildParticles(){
+  document.querySelectorAll('.particles').forEach(p=>{
+    if(p.children.length) return;
+    const n = +p.dataset.particles || 20;
+    for(let i=0;i<n;i++){
+      const d = document.createElement('i');
+      d.dataset.bx = Math.random()*1920;
+      d.dataset.by = Math.random()*1080;
+      d.dataset.sp = 0.25 + Math.random()*0.5;
+      d.dataset.ph = Math.random()*Math.PI*2;
+      d.style.width = d.style.height = (5 + Math.random()*9) + 'px';
+      p.appendChild(d);
+    }
+  });
+}
+buildMatrix(); buildParticles();
+
+// Semua elemen ber-animasi dikumpulkan sekali, disimpan gaya dasarnya.
+const REG = [];
+for(const [sid, def] of Object.entries(CHOREO)){
+  const scene = document.getElementById(sid);
+  if(!scene) continue;
+  for(const it of def.items){
+    const els = scene.querySelectorAll(it.sel);
+    els.forEach((el, idx) => {
+      REG.push({ el, sid,
+        at: snap(it.at) + (it.stagger ? idx * it.stagger : 0),
+        anim: it.anim,
+        base: el.classList.contains('conn') ? (parseFloat(el.style.width)||0) : 0 });
+    });
+  }
+}
+
+function applyItem(r, tRel){
+  const { el, at, anim } = r;
+  const dur = 0.7;
+  const p = cl((tRel - at) / dur);
+
+  if(anim === 'out'){
+    if(tRel >= at) el.style.opacity = String(1 - cl((tRel-at)/0.5));
+    return;
+  }
+  if(tRel < at){ el.style.opacity = '0'; return; }
+
+  let tx=0, ty=0, sc=1, op=p;
+  if(anim === 'pop'){ sc = 0.4 + 0.6*easeBack(p); }
+  else if(anim === 'up'){ ty = lerp(46, 0, easeOut(p)); }
+  else if(anim === 'left'){ tx = lerp(-90, 0, easeOut(p)); }
+  else if(anim === 'right'){ tx = lerp(90, 0, easeOut(p)); }
+  else if(anim === 'grow'){ el.style.width = (r.base * easeOut(p)) + 'px'; op = 1; }
+  else if(anim === 'fade'){ /* opacity saja */ }
+
+  el.style.opacity = String(op);
+  if(anim !== 'grow'){
+    const extra = el.id === 's8-mxl2' ? ' rotate(-90deg)' : '';
+    el.style.transform = `translate(${tx.toFixed(2)}px, ${ty.toFixed(2)}px) scale(${sc.toFixed(4)})${extra}`;
+  }
+}
+
+function camFor(def, tRel){
+  const ks = def.cam;
+  if(!ks || !ks.length) return 1;
+  if(tRel <= ks[0].t) return ks[0].s;
+  for(let i=0;i<ks.length-1;i++){
+    if(tRel >= ks[i].t && tRel <= ks[i+1].t){
+      const p = (tRel - ks[i].t) / (ks[i+1].t - ks[i].t);
+      return lerp(ks[i].s, ks[i+1].s, easeOut(p));
+    }
+  }
+  return ks[ks.length-1].s;
+}
+
+function setVideoTime(t){
+  // 1. visibilitas + kamera per-scene
+  for(const s of SCENES){
+    const el = document.getElementById(s.id);
+    if(!el) continue;
+    const vis = t >= s.start && t < s.end;
+    const fi = cl((t - s.start)/0.5), fo = cl((s.end - t)/0.5);
+    el.style.opacity = vis ? String(Math.min(fi, fo, 1)) : '0';
+    if(vis){
+      const cam = el.querySelector('.cam');
+      const def = CHOREO[s.id];
+      if(cam && def) cam.style.transform = `scale(${camFor(def, t - s.start).toFixed(4)})`;
+    }
+  }
+  // 2. item animasi (hanya scene yg sedang tampil, hemat kerja)
+  const active = SCENES.filter(s => t >= s.start - 1 && t < s.end + 1).map(s => s.id);
+  for(const r of REG){
+    if(!active.includes(r.sid)) continue;
+    const sc = SCENES.find(s => s.id === r.sid);
+    applyItem(r, t - sc.start);
+  }
+  // 3. objek berdenyut halus supaya tak pernah benar-benar diam
+  // Orbit elips di sekeliling gedung. Faktor vertikal ditekan (0.48) &
+  // pusat dinaikkan supaya lintasannya tidak turun sampai menabrak blok
+  // judul di bawahnya.
+  document.querySelectorAll('.s1-orb').forEach((el,i)=>{
+    const a = (i/10)*Math.PI*2 + t*0.16;
+    const R = 420, cx = 960, cy = 390;
+    el.style.left = (cx + Math.cos(a)*R - 48) + 'px';
+    el.style.top  = (cy + Math.sin(a)*R*0.48 - 48) + 'px';
+  });
+  // 4. partikel melayang
+  document.querySelectorAll('.particles i').forEach(d=>{
+    const bx=+d.dataset.bx, by=+d.dataset.by, sp=+d.dataset.sp, ph=+d.dataset.ph;
+    d.style.left = (bx + Math.sin(t*sp + ph)*26) + 'px';
+    d.style.top  = (by + Math.cos(t*sp*0.8 + ph)*20) + 'px';
+  });
+  // 5. jarum gauge & sapuan radar ikut waktu
+  document.querySelectorAll('.needle').forEach((n,i)=>{
+    n.setAttribute('transform', `rotate(${(Math.sin(t*0.7+i)*30).toFixed(1)} 50 68)`);
+  });
+  document.querySelectorAll('.sweep').forEach(n=>{
+    n.setAttribute('transform', `rotate(${((t*60)%360).toFixed(1)} 50 50)`);
+  });
+  // 6. matriks menyala sel-per-sel (scene 8, mulai detik ke-57 relatif)
+  const s8 = SCENES.find(s=>s.id==='s8');
+  if(s8){
+    const rel = t - s8.start;
+    document.querySelectorAll('#s8-mx div').forEach((c,i)=>{
+      const on = rel >= 57 + i*0.12;
+      c.style.opacity = on ? '1' : '0';
+      c.style.transform = on ? 'scale(1)' : 'scale(0.5)';
+    });
+  }
+  document.title = 't=' + t.toFixed(1);
+}
+window.setVideoTime = setVideoTime;
+setVideoTime(0);
+</script>
+</body>
+</html>

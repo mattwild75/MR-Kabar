@@ -25,7 +25,7 @@ trait BuildsHierarchyDiagram
      */
     private function rowVisibleToCurrentUser(object $row): bool
     {
-        $isAdmin = auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
+        $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
         if ($isAdmin) {
             return true;
         }

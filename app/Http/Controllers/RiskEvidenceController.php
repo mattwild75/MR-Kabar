@@ -64,7 +64,7 @@ class RiskEvidenceController extends Controller
     private function findRowOrFail(Request $request, string $type, int $id): Model
     {
         $modelClass = $this->resolveModel($type);
-        $isAdmin = $request->user()->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $request->user()->canViewAllOpd();
 
         $query = $modelClass::query()->whereKey($id);
         if (!$isAdmin) {

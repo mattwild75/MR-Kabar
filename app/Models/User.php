@@ -85,6 +85,26 @@ class User extends Authenticatable implements HasMedia
     }
 
     /**
+     * Boleh melihat data SELURUH OPD, bukan cuma OPD-nya sendiri.
+     *
+     * Dipisahkan dari pengecekan hak TULIS: peran `eksekutif` ikut di sini
+     * supaya pimpinan/pemangku kepentingan bisa membaca semua data, tapi
+     * tidak ikut di RiskOwnershipPolicy maupun ensureAdmin() sehingga tetap
+     * tidak bisa mengubah apa pun. Penjaga sesungguhnya ada di middleware
+     * ViewerReadOnly yang menolak seluruh metode penulisan.
+     */
+    public function canViewAllOpd(): bool
+    {
+        return $this->hasAnyRole(['admin', 'super-admin', 'eksekutif']);
+    }
+
+    /** Akun hanya-baca (peran eksekutif). */
+    public function isViewerOnly(): bool
+    {
+        return $this->hasRole('eksekutif');
+    }
+
+    /**
      * Data Umum (header identitas + penanda tangan) milik akun ini —
      * dipakai Form Cetak. PER-TAHUN (hasMany, bukan hasOne lagi) — satu
      * user bisa py banyak baris DataUmum, satu per Tahun Penilaian yg

@@ -16,7 +16,7 @@ class CeePertanyaanController extends Controller
 {
     private function ensureCanManage(Request $request): void
     {
-        if (!$request->user()->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$request->user()->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola pertanyaan kuesioner CEE.');
         }
     }

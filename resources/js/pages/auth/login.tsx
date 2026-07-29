@@ -1,11 +1,13 @@
-import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { LoaderCircle, PlayCircle } from 'lucide-react';
+import { FormEventHandler, useState } from 'react';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import EduVideoPlayer from '@/components/edu-video-player';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
@@ -28,6 +30,35 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         password: '',
         remember: false,
     });
+    const [videoOpen, setVideoOpen] = useState(false);
+
+    const { props } = usePage();
+    const setting = props?.setting as {
+        edu_video_enabled?: boolean;
+        edu_video_path?: string | null;
+        edu_video_gain_narration?: number;
+        edu_video_gain_music?: number;
+        edu_video_gain_sfx?: number;
+        edu_video_subtitle_enabled?: boolean;
+        edu_video_subtitle_size?: number;
+    } | undefined;
+    const eduVideoEnabled = setting?.edu_video_enabled ?? true;
+    const customPath = setting?.edu_video_path;
+    const eduVideoSrc = customPath ? `/storage/${customPath}` : '/video/video-edukasi-mr-kabar.mp4';
+    // Jalur audio terpisah hanya ada untuk video BAWAAN. Berkas yang diunggah
+    // admin sendiri audionya sudah menyatu, jadi diputar apa adanya.
+    const eduVideoStems = customPath
+        ? null
+        : {
+              narration: '/video/edu-narration.mp3',
+              music: '/video/edu-music.mp3',
+              sfx: '/video/edu-sfx.mp3',
+          };
+    const eduVideoGains = {
+        narration: setting?.edu_video_gain_narration ?? 100,
+        music: setting?.edu_video_gain_music ?? 100,
+        sfx: setting?.edu_video_gain_sfx ?? 100,
+    };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -111,11 +142,54 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
 
-            <div className="text-right">
+            <div className="flex flex-wrap items-center justify-end gap-2 text-right">
                 <TextLink href={route('panduan.public')} className="text-sm">
                     Apa itu MR Kabar / Manajemen Risiko?
                 </TextLink>
+                {eduVideoEnabled && (
+                    // Sebelumnya ikon telanjang ber-`text-primary opacity-70`:
+                    // di mode gelap warnanya nyaris menyatu dengan kartu login
+                    // sehingga tombolnya tidak terlihat sama sekali. Sekarang
+                    // dibuat pil bergaris dengan warna teks yang mengikuti tema
+                    // (border + foreground), plus label teks — selain terbaca di
+                    // kedua mode, keberadaannya juga jauh lebih jelas daripada
+                    // ikon kecil tanpa keterangan.
+                    <button
+                        type="button"
+                        onClick={() => setVideoOpen(true)}
+                        className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium text-foreground transition-colors hover:border-primary hover:bg-primary/10 hover:text-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        title="Tonton video edukasi MR Kabar"
+                        aria-label="Tonton video edukasi MR Kabar"
+                    >
+                        <PlayCircle className="h-4 w-4" aria-hidden="true" />
+                        Tonton video
+                    </button>
+                )}
             </div>
+
+            {eduVideoEnabled && (
+                <Dialog open={videoOpen} onOpenChange={setVideoOpen}>
+                    <DialogContent className="max-w-3xl p-0">
+                        <DialogHeader className="p-4 pb-0">
+                            <DialogTitle>Video Edukasi: Manajemen Risiko &amp; MR Kabar</DialogTitle>
+                        </DialogHeader>
+                        <div className="p-4 pt-2">
+                            <EduVideoPlayer
+                                src={eduVideoSrc}
+                                stems={eduVideoStems}
+                                gains={eduVideoGains}
+                                vtt={eduVideoStems ? '/video/edu-subtitle.vtt' : null}
+                                subtitleEnabled={setting?.edu_video_subtitle_enabled ?? true}
+                                subtitleSize={setting?.edu_video_subtitle_size ?? 70}
+                            />
+                            <p className="text-muted-foreground mt-3 text-xs">
+                                Durasi 23 menit. Versi dengan daftar bab, penyaring per peran, dan uji pemahaman
+                                tersedia di menu <span className="font-medium">Panduan</span> setelah Anda masuk.
+                            </p>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
         </AuthLayout>
     );
 }

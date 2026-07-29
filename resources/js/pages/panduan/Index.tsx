@@ -1,7 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { SECTIONS } from './sections';
+import EduVideoPlayer from '@/components/edu-video-player';
+import EduVideoQuiz from '@/components/edu-video-quiz';
 
 /**
  * Halaman panduan/dokumentasi statis "Apa itu Manajemen Risiko / MR Kabar".
@@ -15,6 +17,9 @@ import { SECTIONS } from './sections';
  */
 export default function PanduanIndex() {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
+  const setting = usePage().props?.setting as
+    | { edu_video_subtitle_enabled?: boolean; edu_video_subtitle_size?: number }
+    | undefined;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -82,6 +87,38 @@ export default function PanduanIndex() {
               </a>
             ))}
           </nav>
+
+          {/* Video edukasi versi LENGKAP ditaruh di sini, bukan cuma di halaman
+              login: 23 menit terlalu panjang untuk ditonton orang yang sedang
+              berdiri di pintu masuk. Di sini penonton bisa melompat per bab,
+              menyaring bagian sesuai perannya, dan menguji pemahamannya. */}
+          <section id="video-edukasi" className="scroll-mt-20 rounded-md border bg-card p-5">
+            <h2 className="mb-1 text-lg font-semibold">Video Edukasi (versi lengkap)</h2>
+            <p className="mb-4 text-sm text-muted-foreground">
+              Seluruh isi panduan ini dalam bentuk video 23 menit — lima tahap Perdep PPKD No.4/2019, cara menulis
+              pernyataan risiko, membaca matriks 5×5, sampai satu contoh risiko yang ditelusuri dari awal hingga
+              muncul di Dashboard. Klik judul bab untuk melompat langsung ke bagiannya.
+            </p>
+            <EduVideoPlayer
+              src="/video/video-edukasi-mr-kabar.mp4"
+              vtt="/video/edu-subtitle.vtt"
+              subtitleEnabled={setting?.edu_video_subtitle_enabled ?? true}
+              subtitleSize={setting?.edu_video_subtitle_size ?? 70}
+              stems={{
+                narration: '/video/edu-narration.mp3',
+                music: '/video/edu-music.mp3',
+                sfx: '/video/edu-sfx.mp3',
+              }}
+              showChapters
+              downloads={[
+                { label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)', href: '/video/video-edukasi-mr-kabar-720p.mp4' },
+                { label: 'Unduh transkrip (.txt)', href: '/video/edu-transkrip.txt' },
+              ]}
+            />
+            <div className="mt-6 border-t pt-5">
+              <EduVideoQuiz />
+            </div>
+          </section>
 
           {SECTIONS.map((s) => (
             <section key={s.id} id={s.id} className="scroll-mt-20 rounded-md border bg-card p-5">

@@ -14,6 +14,18 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $user = Role::firstOrCreate(['name' => 'user']);
 
+        // Peran PENINJAU untuk eksekutif/pemangku kepentingan: boleh melihat
+        // SELURUH data risiko lintas-OPD, tidak boleh mengubah apa pun.
+        //
+        // Cakupan bacanya datang dari User::canViewAllOpd(), larangan
+        // menulisnya dari middleware ViewerReadOnly. Permission-nya sengaja
+        // MINIM: menu data (Form Input/Monitoring/Cetak/Visualisasi) memang
+        // fail-open (permission_name kosong) sehingga otomatis terlihat,
+        // sedangkan menu administrasi (Access, Settings, Audit Logs, File
+        // Manager, Troubleshoot) terkunci permission — dengan tidak memberi
+        // permission itu, seluruh area admin & super-admin tetap tersembunyi.
+        $eksekutif = Role::firstOrCreate(['name' => 'eksekutif']);
+
         // Daftar permission berdasarkan menu structure
         $permissions = [
             'Dashboard' => [
@@ -82,6 +94,25 @@ class RolePermissionSeeder extends Seeder
                 if (!$admin->hasPermissionTo($permission)) {
                     $admin->givePermissionTo($permission);
                 }
+            }
+        }
+
+        // Peninjau mendapat PERSIS permission yang sama dengan admin — jadi
+        // seluruh halaman yang bisa dibuka admin juga bisa dibuka VIP. Karena
+        // daftar admin sendiri sudah TIDAK memuat $superAdminOnly, area
+        // super-admin (Permissions, Roles, Menu Manager, Backup DB, Audit
+        // Logs) otomatis ikut tertutup untuk peninjau.
+        //
+        // Yang membedakan VIP dari admin bukan apa yang bisa DILIHAT,
+        // melainkan apa yang bisa DIUBAH: seluruh metode penulisan ditolak
+        // middleware ViewerReadOnly.
+        $izinAdmin = $admin->permissions()->pluck('name')->all();
+        foreach (Permission::all() as $permission) {
+            $boleh = in_array($permission->name, $izinAdmin, true);
+            if ($boleh && !$eksekutif->hasPermissionTo($permission)) {
+                $eksekutif->givePermissionTo($permission);
+            } elseif (!$boleh && $eksekutif->hasPermissionTo($permission)) {
+                $eksekutif->revokePermissionTo($permission);
             }
         }
     }

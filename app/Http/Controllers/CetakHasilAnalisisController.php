@@ -309,7 +309,7 @@ class CetakHasilAnalisisController extends Controller
     private function scopedOpdId(Request $request): ?int
     {
         $user = $request->user();
-        if ($user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->canViewAllOpd()) {
             return null;
         }
 

@@ -59,7 +59,7 @@ class MediaDownloadController extends Controller
             abort(403, 'Anda tidak memiliki izin untuk mengakses file ini.');
         }
 
-        $isAdminOrSuperAdmin = $requester->hasAnyRole(['admin', 'super-admin']);
+        $isAdminOrSuperAdmin = $requester->canViewAllOpd();
         $isSharedFolderFile = $owner->id === User::sharedFolderOwner()->id;
 
         if ($isSharedFolderFile) {

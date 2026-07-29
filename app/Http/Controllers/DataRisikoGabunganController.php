@@ -60,7 +60,7 @@ class DataRisikoGabunganController extends Controller
     private function scopedOpdId(): ?int
     {
         $user = auth()->user();
-        if (!$user || $user->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$user || $user->canViewAllOpd()) {
             return null;
         }
 
@@ -116,7 +116,7 @@ class DataRisikoGabunganController extends Controller
 
     public function index()
     {
-        $isAdmin = auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
+        $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
         $opdId = $this->scopedOpdId();
 
         return Inertia::render('risiko/DataRisikoGabungan', [

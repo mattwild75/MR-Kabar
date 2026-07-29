@@ -1,0 +1,162 @@
+[
+ {
+  "id": "s1",
+  "judul": "Pembuka",
+  "mulai": 0.0,
+  "selesai": 41.0,
+  "durasi": 41.0,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s2",
+  "judul": "Apa itu risiko",
+  "mulai": 41.0,
+  "selesai": 103.7,
+  "durasi": 62.7,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s3",
+  "judul": "Mengapa diperlukan",
+  "mulai": 103.7,
+  "selesai": 182.0,
+  "durasi": 78.2,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s5",
+  "judul": "Siapa yang bertanggung jawab",
+  "mulai": 182.0,
+  "selesai": 304.8,
+  "durasi": 122.8,
+  "sasaran": "Pimpinan"
+ },
+ {
+  "id": "s7",
+  "judul": "Kapan dikerjakan",
+  "mulai": 304.8,
+  "selesai": 357.4,
+  "durasi": 52.5,
+  "sasaran": "Pimpinan"
+ },
+ {
+  "id": "s8",
+  "judul": "Lima tahap Perdep",
+  "mulai": 357.4,
+  "selesai": 400.0,
+  "durasi": 42.6,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s9",
+  "judul": "Tahap 1 — Lingkungan Pengendalian (CEE)",
+  "mulai": 400.0,
+  "selesai": 496.7,
+  "durasi": 96.7,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s10",
+  "judul": "Tahap 2 — Penilaian Risiko: konteks",
+  "mulai": 496.7,
+  "selesai": 555.4,
+  "durasi": 58.7,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s11",
+  "judul": "Tahap 2 — Menulis pernyataan risiko",
+  "mulai": 555.4,
+  "selesai": 611.0,
+  "durasi": 55.6,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s12",
+  "judul": "Tahap 2 — Klasifikasi penyebab & kode risiko",
+  "mulai": 611.0,
+  "selesai": 681.5,
+  "durasi": 70.5,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s13",
+  "judul": "Tahap 2 — Kriteria dampak & kemungkinan",
+  "mulai": 681.5,
+  "selesai": 755.5,
+  "durasi": 74.0,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s14",
+  "judul": "Tahap 2 — Matriks 5×5 & prioritas",
+  "mulai": 755.5,
+  "selesai": 815.4,
+  "durasi": 59.9,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s15",
+  "judul": "Tahap 3 — Kegiatan Pengendalian (RTP)",
+  "mulai": 815.4,
+  "selesai": 891.5,
+  "durasi": 76.1,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s16",
+  "judul": "Tahap 3 — Empat titik skor",
+  "mulai": 891.5,
+  "selesai": 964.7,
+  "durasi": 73.2,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s17",
+  "judul": "Tahap 4 — Informasi & Komunikasi",
+  "mulai": 964.7,
+  "selesai": 1003.5,
+  "durasi": 38.8,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s18",
+  "judul": "Tahap 5 — Pemantauan & pelaporan",
+  "mulai": 1003.5,
+  "selesai": 1119.1,
+  "durasi": 115.7,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s21",
+  "judul": "Fitur pendukung",
+  "mulai": 1119.1,
+  "selesai": 1195.9,
+  "durasi": 76.7,
+  "sasaran": "Admin"
+ },
+ {
+  "id": "s22",
+  "judul": "Contoh nyata: satu risiko dari awal",
+  "mulai": 1195.9,
+  "selesai": 1302.9,
+  "durasi": 107.0,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s19",
+  "judul": "Dashboard",
+  "mulai": 1302.9,
+  "selesai": 1350.2,
+  "durasi": 47.3,
+  "sasaran": "Pimpinan"
+ },
+ {
+  "id": "s20",
+  "judul": "Penutup & langkah pertama Anda",
+  "mulai": 1350.2,
+  "selesai": 1417.4,
+  "durasi": 67.2,
+  "sasaran": "Semua"
+ }
+]

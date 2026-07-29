@@ -1,0 +1,34 @@
+# Berkas ANTARA hasil build video edukasi — semuanya bisa dibuat ulang dari
+# skrip di folder ini, dan totalnya ratusan MB. Yang di-commit hanya sumbernya
+# (naskah, koreografi, simbol, skrip build), bukan hasil rendernya.
+#
+# Deliverable akhir TIDAK disimpan di sini melainkan disalin ke public/video/
+# (lihat README.md di v2/).
+
+audio/
+frames/
+sfx/
+*.wav
+*.mp4
+*.aac
+narration_full.mp3
+audio_final.mp3
+stem-*.mp3
+sm_*.png
+qc_*.png
+render_log.txt
+tts_log.txt
+__pycache__/
+
+# animation.html dirakit ulang oleh build_animation.py dari
+# animation_template.html + symbols.html + scenes.js + timeline.json
+animation.html
+
+# Tangkapan layar aplikasi & aset gambar untuk video — bisa diambil ulang
+# lewat skrip, dan totalnya belasan MB.
+shots/
+img/
+mux_log.txt
+chapters.json
+subtitle.vtt
+transkrip.txt

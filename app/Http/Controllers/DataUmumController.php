@@ -67,7 +67,7 @@ class DataUmumController extends Controller
      */
     private function targetUser(Request $request, ?int $opdId): ?User
     {
-        $isAdmin = $request->user()->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $request->user()->canViewAllOpd();
         if (!$isAdmin) {
             return $request->user();
         }
@@ -83,7 +83,7 @@ class DataUmumController extends Controller
     {
         $default = PengaturanPemda::current();
         $tahun = $request->integer('tahun') ?: (int) $default->tahun_penilaian;
-        $isAdmin = $request->user()->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $request->user()->canViewAllOpd();
         $opdId = $isAdmin ? $request->integer('opd_id') : $request->user()->opd_id;
 
         $targetUser = $this->targetUser($request, $opdId);
@@ -135,7 +135,7 @@ class DataUmumController extends Controller
             abort(403, 'Akun survei CEE tidak dapat mengubah Data Umum. Hubungi PIC OPD, Admin, atau Super Admin.');
         }
 
-        $isAdmin = $request->user()->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $request->user()->canViewAllOpd();
         // Tahun & opd_id HANYA dari query string (?tahun=&opd_id=), sama
         // pola dgn seluruh halaman Form Cetak/CEE — BUKAN dari body form
         // (field ini bukan bagian FIELDS/rules yg bisa dioprek user, treat
@@ -213,7 +213,7 @@ class DataUmumController extends Controller
     public function updatePenandatangan(Request $request, DataUmum $dataUmum)
     {
         $user = $request->user();
-        $isAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $user->canViewAllOpd();
         $sameOpd = $user->opd_id && $dataUmum->user?->opd_id === $user->opd_id;
 
         if (!$isAdmin && $dataUmum->user_id !== $user->id && !$sameOpd) {

@@ -24,6 +24,13 @@ interface SettingApp {
   login_splash_enabled: boolean;
   login_splash_video: string | null;
   login_splash_muted: boolean;
+  edu_video_enabled: boolean;
+  edu_video_path: string | null;
+  edu_video_gain_narration: number;
+  edu_video_gain_music: number;
+  edu_video_gain_sfx: number;
+  edu_video_subtitle_enabled: boolean;
+  edu_video_subtitle_size: number;
   seo: {
     title?: string;
     description?: string;
@@ -52,6 +59,14 @@ export default function SettingForm({ setting }: Props) {
   const [splashEnabled, setSplashEnabled] = useState(setting?.login_splash_enabled ?? true);
   const [splashMuted, setSplashMuted] = useState(setting?.login_splash_muted ?? true);
   const [removeSplashVideo, setRemoveSplashVideo] = useState(false);
+  const [eduVideoEnabled, setEduVideoEnabled] = useState(setting?.edu_video_enabled ?? true);
+  const [removeEduVideo, setRemoveEduVideo] = useState(false);
+  // Gain disimpan sbg persen (0–200) supaya kolomnya integer, bukan float.
+  const [gainNarration, setGainNarration] = useState(setting?.edu_video_gain_narration ?? 100);
+  const [gainMusic, setGainMusic] = useState(setting?.edu_video_gain_music ?? 100);
+  const [gainSfx, setGainSfx] = useState(setting?.edu_video_gain_sfx ?? 100);
+  const [subtitleEnabled, setSubtitleEnabled] = useState(setting?.edu_video_subtitle_enabled ?? true);
+  const [subtitleSize, setSubtitleSize] = useState(setting?.edu_video_subtitle_size ?? 70);
 
   const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
@@ -69,12 +84,16 @@ export default function SettingForm({ setting }: Props) {
     logo: null as File | null,
     favicon: null as File | null,
     login_splash_video: null as File | null,
+    edu_video_path: null as File | null,
   });
 
   const logoPreview = useRef<string | null>(setting?.logo ? `/storage/${setting.logo}` : null);
   const faviconPreview = useRef<string | null>(setting?.favicon ? `/storage/${setting.favicon}` : null);
   const [splashVideoPreview, setSplashVideoPreview] = useState<string | null>(
     setting?.login_splash_video ? `/storage/${setting.login_splash_video}` : null,
+  );
+  const [eduVideoPreview, setEduVideoPreview] = useState<string | null>(
+    setting?.edu_video_path ? `/storage/${setting.edu_video_path}` : '/video/video-edukasi-mr-kabar.mp4',
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -88,11 +107,21 @@ export default function SettingForm({ setting }: Props) {
       login_splash_enabled: splashEnabled,
       login_splash_muted: splashMuted,
       login_splash_video_remove: removeSplashVideo,
+      edu_video_enabled: eduVideoEnabled,
+      edu_video_remove: removeEduVideo,
+      edu_video_gain_narration: gainNarration,
+      edu_video_gain_music: gainMusic,
+      edu_video_gain_sfx: gainSfx,
+      edu_video_subtitle_enabled: subtitleEnabled,
+      edu_video_subtitle_size: subtitleSize,
     }));
     post('/settingsapp', {
       forceFormData: true,
       preserveScroll: true,
-      onSuccess: () => setRemoveSplashVideo(false),
+      onSuccess: () => {
+        setRemoveSplashVideo(false);
+        setRemoveEduVideo(false);
+      },
     });
   };
 
@@ -332,6 +361,177 @@ export default function SettingForm({ setting }: Props) {
                     </p>
                   )}
                 </>
+              )}
+
+              {/* Video Edukasi Section */}
+              <Separator />
+              <h3 className="text-lg font-semibold">Video Edukasi</h3>
+              <p className="text-muted-foreground text-sm">
+                Video pengenalan manajemen risiko &amp; MR Kabar (23 menit). Bisa ditonton lewat tombol
+                "Tonton video" di halaman login, dan versi lengkap dengan daftar bab, penyaring peran, serta uji
+                pemahaman ada di menu Panduan.
+              </p>
+
+              <div className="flex items-center gap-3 rounded-md border p-3">
+                <Checkbox
+                  id="edu_video_enabled"
+                  checked={eduVideoEnabled}
+                  onCheckedChange={(checked) => setEduVideoEnabled(checked === true)}
+                />
+                <Label htmlFor="edu_video_enabled" className="flex-1 text-sm font-normal">
+                  Tampilkan tombol video edukasi di halaman login
+                </Label>
+              </div>
+
+              {eduVideoEnabled && (
+                <div className="space-y-6">
+                  {/* Berkas kustom (opsional) */}
+                  <div className="space-y-1">
+                    {/* 50MB, bukan 150MB: batas sesungguhnya datang dari PHP
+                        (upload_max_filesize=50M, post_max_size=55M) — validasi
+                        Laravel di-set sama supaya pesan galatnya jelas, bukan
+                        gagal senyap di level web server. */}
+                    <Label htmlFor="edu_video_path">Ganti berkas video (MP4/WebM/MOV, maks 50MB)</Label>
+                    <Input
+                      id="edu_video_path"
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        setData('edu_video_path', file);
+                        if (file) {
+                          setEduVideoPreview(URL.createObjectURL(file));
+                          setRemoveEduVideo(false);
+                        }
+                      }}
+                      className={errors.edu_video_path ? 'border-red-500' : ''}
+                    />
+                    {errors.edu_video_path && <p className="text-sm text-red-500">{errors.edu_video_path}</p>}
+                    <p className="text-muted-foreground text-xs">
+                      Kosongkan kalau tidak ingin mengganti — video bawaan yang dipakai. Berkas unggahan sendiri
+                      audionya menyatu di dalam video, sehingga setelan volume &amp; subtitle di bawah tidak
+                      berlaku untuknya.
+                    </p>
+
+                    {eduVideoPreview && !removeEduVideo && (
+                      <div className="mt-2 space-y-2">
+                        <video src={eduVideoPreview} controls preload="none" className="max-h-48 rounded border" />
+                        {setting?.edu_video_path && (
+                          <div>
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => {
+                                setRemoveEduVideo(true);
+                                setEduVideoPreview(null);
+                                setData('edu_video_path', null);
+                              }}
+                            >
+                              Hapus berkas kustom (kembali ke video bawaan)
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {removeEduVideo && (
+                      <p className="text-sm text-amber-600">
+                        Berkas kustom akan dihapus saat disimpan — kembali memakai video bawaan.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Subtitle */}
+                  <div className="space-y-3 rounded-md border p-4">
+                    <div>
+                      <Label>Subtitle</Label>
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        Subtitle video bawaan dikirim sebagai berkas terpisah, bukan dibakar ke gambar — karena itu
+                        bisa dimatikan dan diubah ukurannya di sini tanpa perlu me-render ulang videonya.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Checkbox
+                        id="edu_video_subtitle_enabled"
+                        checked={subtitleEnabled}
+                        onCheckedChange={(checked) => setSubtitleEnabled(checked === true)}
+                      />
+                      <Label htmlFor="edu_video_subtitle_enabled" className="flex-1 text-sm font-normal">
+                        Tampilkan subtitle saat video diputar
+                      </Label>
+                    </div>
+
+                    {subtitleEnabled && (
+                      <div className="flex items-center gap-4">
+                        <span className="w-36 shrink-0 text-sm">Ukuran teks</span>
+                        <input
+                          type="range"
+                          min={50}
+                          max={200}
+                          step={5}
+                          value={subtitleSize}
+                          onChange={(e) => setSubtitleSize(Number(e.target.value))}
+                          className="accent-primary h-2 flex-1 cursor-pointer"
+                        />
+                        <span className="w-14 shrink-0 text-right font-mono text-sm tabular-nums">
+                          {subtitleSize}%
+                        </span>
+                      </div>
+                    )}
+                    {subtitleEnabled && (
+                      <p className="text-muted-foreground text-xs">
+                        70% adalah bawaan — ukuran asli peramban (100%) terasa terlalu besar di layar lebar dan
+                        menutupi isi video.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Balance audio */}
+                  <div className="space-y-3 rounded-md border p-4">
+                    <div>
+                      <Label>Volume mix audio</Label>
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        Video bawaan dikirim ke pemutar sebagai tiga jalur audio terpisah (narasi, musik, efek
+                        suara) — perubahan di sini langsung terdengar tanpa render ulang.
+                      </p>
+                    </div>
+                    {[
+                      { label: 'Narasi', value: gainNarration, set: setGainNarration },
+                      { label: 'Musik', value: gainMusic, set: setGainMusic },
+                      { label: 'Efek suara (SFX)', value: gainSfx, set: setGainSfx },
+                    ].map((row) => (
+                      <div key={row.label} className="flex items-center gap-4">
+                        <span className="w-36 shrink-0 text-sm">{row.label}</span>
+                        <input
+                          type="range"
+                          min={0}
+                          max={200}
+                          step={5}
+                          value={row.value}
+                          onChange={(e) => row.set(Number(e.target.value))}
+                          className="accent-primary h-2 flex-1 cursor-pointer"
+                        />
+                        <span className="w-14 shrink-0 text-right font-mono text-sm tabular-nums">
+                          {row.value}%
+                        </span>
+                      </div>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setGainNarration(100);
+                        setGainMusic(100);
+                        setGainSfx(100);
+                      }}
+                    >
+                      Kembalikan ke bawaan (100% / 100% / 100%)
+                    </Button>
+                  </div>
+                </div>
               )}
 
               {/* SEO Section */}

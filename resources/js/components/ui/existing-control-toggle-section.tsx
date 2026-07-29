@@ -282,7 +282,7 @@ function ScoringYa({
         </div>
       </div>
       <p className="text-xs text-muted-foreground">
-        Skala Risiko dan Skala Prioritas Residual/Current dihitung otomatis dari Dampak x Kemungkinan di atas.
+        Skala Risiko dan Skala Prioritas Residual/Current ditentukan otomatis dari kombinasi Dampak &amp; Kemungkinan di atas lewat tabel Matriks Analisis Risiko 5×5 — dibaca dari tabel peringkat 1–25, bukan hasil perkalian kedua angka.
       </p>
     </div>
   );

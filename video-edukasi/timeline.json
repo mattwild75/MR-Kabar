@@ -1,0 +1,385 @@
+{
+  "total_duration": 385.696,
+  "lines": [
+    {
+      "id": 1,
+      "voice": "ardi",
+      "text": "Selamat datang di Em-Er Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat.",
+      "display": "Selamat datang di MR Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat.",
+      "start": 0.0,
+      "end": 6.912,
+      "duration": 6.912,
+      "audio_file": "line_01.mp3"
+    },
+    {
+      "id": 2,
+      "voice": "ardi",
+      "text": "Sebelum kita bicara tentang aplikasinya, mari kita mulai dari pertanyaan paling dasar:",
+      "display": "Sebelum kita bicara tentang aplikasinya, mari kita mulai dari pertanyaan paling dasar:",
+      "start": 7.312,
+      "end": 12.568,
+      "duration": 5.256,
+      "audio_file": "line_02.mp3"
+    },
+    {
+      "id": 3,
+      "voice": "gadis",
+      "text": "Apa sebenarnya manajemen risiko itu, dan kenapa pemerintah daerah membutuhkannya?",
+      "display": "Apa sebenarnya manajemen risiko itu, dan kenapa pemerintah daerah membutuhkannya?",
+      "start": 12.968,
+      "end": 19.664,
+      "duration": 6.696,
+      "audio_file": "line_03.mp3"
+    },
+    {
+      "id": 4,
+      "voice": "ardi",
+      "text": "Manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan kejadian yang dapat mengancam pencapaian tujuan organisasi.",
+      "display": "Manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan kejadian yang dapat mengancam pencapaian tujuan organisasi.",
+      "start": 20.064,
+      "end": 30.768,
+      "duration": 10.704,
+      "audio_file": "line_04.mp3"
+    },
+    {
+      "id": 5,
+      "voice": "ardi",
+      "text": "Di lingkungan pemerintah daerah, ancaman itu bisa datang dari mana saja: keterlambatan proyek, kegagalan pelayanan publik, penyalahgunaan anggaran, hingga bencana alam.",
+      "display": "Di lingkungan pemerintah daerah, ancaman itu bisa datang dari mana saja: keterlambatan proyek, kegagalan pelayanan publik, penyalahgunaan anggaran, hingga bencana alam.",
+      "start": 31.168,
+      "end": 41.368,
+      "duration": 10.2,
+      "audio_file": "line_05.mp3"
+    },
+    {
+      "id": 6,
+      "voice": "ardi",
+      "text": "Tanpa pengelolaan yang sistematis, risiko-risiko ini baru diketahui setelah kejadian, saat sudah terlambat untuk dicegah.",
+      "display": "Tanpa pengelolaan yang sistematis, risiko-risiko ini baru diketahui setelah kejadian, saat sudah terlambat untuk dicegah.",
+      "start": 41.768,
+      "end": 49.28,
+      "duration": 7.512,
+      "audio_file": "line_06.mp3"
+    },
+    {
+      "id": 7,
+      "voice": "gadis",
+      "text": "Inilah kenapa Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah, atau Perdep PPKD Nomor 4 Tahun 2019, mewajibkan setiap pemerintah daerah menyelenggarakan manajemen risiko secara terstruktur.",
+      "display": "Inilah kenapa Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah, atau Perdep PPKD Nomor 4 Tahun 2019, mewajibkan setiap pemerintah daerah menyelenggarakan manajemen risiko secara terstruktur.",
+      "start": 49.68,
+      "end": 65.16,
+      "duration": 15.48,
+      "audio_file": "line_07.mp3"
+    },
+    {
+      "id": 8,
+      "voice": "ardi",
+      "text": "Bukan sekadar mencatat masalah setelah terjadi, tapi mengidentifikasinya sejak dini, menilai seberapa besar dampaknya, lalu menyiapkan langkah pengendalian sebelum risiko itu benar-benar terjadi.",
+      "display": "Bukan sekadar mencatat masalah setelah terjadi, tapi mengidentifikasinya sejak dini, menilai seberapa besar dampaknya, lalu menyiapkan langkah pengendalian sebelum risiko itu benar-benar terjadi.",
+      "start": 65.56,
+      "end": 76.624,
+      "duration": 11.064,
+      "audio_file": "line_08.mp3"
+    },
+    {
+      "id": 9,
+      "voice": "ardi",
+      "text": "Sebelum ada Em-Er Kabar, proses ini biasanya dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah.",
+      "display": "Sebelum ada MR Kabar, proses ini biasanya dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah.",
+      "start": 77.024,
+      "end": 84.56,
+      "duration": 7.536,
+      "audio_file": "line_09.mp3"
+    },
+    {
+      "id": 10,
+      "voice": "ardi",
+      "text": "Rawan hilang, sulit direkap lintas OPD, dan tidak ada jejak yang jelas, siapa mengisi data apa, dan kapan.",
+      "display": "Rawan hilang, sulit direkap lintas OPD, dan tidak ada jejak yang jelas, siapa mengisi data apa, dan kapan.",
+      "start": 84.96,
+      "end": 92.928,
+      "duration": 7.968,
+      "audio_file": "line_10.mp3"
+    },
+    {
+      "id": 11,
+      "voice": "ardi",
+      "text": "Em-Er Kabar hadir menggantikan proses manual itu dengan satu aplikasi web terpusat.",
+      "display": "MR Kabar hadir menggantikan proses manual itu dengan satu aplikasi web terpusat.",
+      "start": 93.328,
+      "end": 98.536,
+      "duration": 5.208,
+      "audio_file": "line_11.mp3"
+    },
+    {
+      "id": 12,
+      "voice": "ardi",
+      "text": "Aplikasi ini menstandarkan struktur data sesuai Perdep, menjaga keterkaitan otomatis dari Visi, Misi, Tujuan, Sasaran, hingga ke setiap risiko yang teridentifikasi.",
+      "display": "Aplikasi ini menstandarkan struktur data sesuai Perdep, menjaga keterkaitan otomatis dari Visi, Misi, Tujuan, Sasaran, hingga ke setiap risiko yang teridentifikasi.",
+      "start": 98.936,
+      "end": 110.192,
+      "duration": 11.256,
+      "audio_file": "line_12.mp3"
+    },
+    {
+      "id": 13,
+      "voice": "ardi",
+      "text": "Dan yang tidak kalah penting, setiap OPD hanya melihat dan mengelola datanya sendiri, sementara pimpinan tetap bisa melihat rekap risiko dari seluruh Pemerintah Kabupaten dalam satu Dashboard.",
+      "display": "Dan yang tidak kalah penting, setiap OPD hanya melihat dan mengelola datanya sendiri, sementara pimpinan tetap bisa melihat rekap risiko dari seluruh Pemerintah Kabupaten dalam satu Dashboard.",
+      "start": 110.592,
+      "end": 120.696,
+      "duration": 10.104,
+      "audio_file": "line_13.mp3"
+    },
+    {
+      "id": 14,
+      "voice": "ardi",
+      "text": "Perdep PPKD Nomor 4 Tahun 2019 membagi proses manajemen risiko menjadi lima tahap yang berurutan.",
+      "display": "Perdep PPKD Nomor 4 Tahun 2019 membagi proses manajemen risiko menjadi lima tahap yang berurutan.",
+      "start": 121.096,
+      "end": 127.792,
+      "duration": 6.696,
+      "audio_file": "line_14.mp3"
+    },
+    {
+      "id": 15,
+      "voice": "gadis",
+      "text": "Kelimanya adalah: Komunikasi dan Konsultasi, Penetapan Konteks, Penilaian Risiko, Perlakuan Risiko, dan Pemantauan serta Reviu.",
+      "display": "Kelimanya adalah: Komunikasi dan Konsultasi, Penetapan Konteks, Penilaian Risiko, Perlakuan Risiko, dan Pemantauan serta Reviu.",
+      "start": 128.192,
+      "end": 140.168,
+      "duration": 11.976,
+      "audio_file": "line_15.mp3"
+    },
+    {
+      "id": 16,
+      "voice": "ardi",
+      "text": "Mari kita bahas satu per satu, dan yang terpenting, bagaimana setiap tahap ini langsung bisa dikerjakan di Em-Er Kabar.",
+      "display": "Mari kita bahas satu per satu, dan yang terpenting, bagaimana setiap tahap ini langsung bisa dikerjakan di MR Kabar.",
+      "start": 140.568,
+      "end": 147.648,
+      "duration": 7.08,
+      "audio_file": "line_16.mp3"
+    },
+    {
+      "id": 17,
+      "voice": "ardi",
+      "text": "Tahap pertama adalah Komunikasi dan Konsultasi. Memastikan seluruh pihak terkait, dari pimpinan OPD hingga staf pelaksana, memahami dan sepakat tentang risiko yang akan dinilai.",
+      "display": "Tahap pertama adalah Komunikasi dan Konsultasi. Memastikan seluruh pihak terkait, dari pimpinan OPD hingga staf pelaksana, memahami dan sepakat tentang risiko yang akan dinilai.",
+      "start": 148.048,
+      "end": 159.472,
+      "duration": 11.424,
+      "audio_file": "line_17.mp3"
+    },
+    {
+      "id": 18,
+      "voice": "ardi",
+      "text": "Di Em-Er Kabar, tahap ini terwakili lewat menu Data Umum, tempat setiap Perangkat Daerah mencatat identitas kertas kerja, kepala OPD, dan penanggung jawab pengisian.",
+      "display": "Di MR Kabar, tahap ini terwakili lewat menu Data Umum, tempat setiap Perangkat Daerah mencatat identitas kertas kerja, kepala OPD, dan penanggung jawab pengisian.",
+      "start": 159.872,
+      "end": 169.952,
+      "duration": 10.08,
+      "audio_file": "line_18.mp3"
+    },
+    {
+      "id": 19,
+      "voice": "ardi",
+      "text": "Data ini menjadi dasar komunikasi resmi yang otomatis muncul di setiap laporan dan dokumen cetak selanjutnya.",
+      "display": "Data ini menjadi dasar komunikasi resmi yang otomatis muncul di setiap laporan dan dokumen cetak selanjutnya.",
+      "start": 170.352,
+      "end": 176.496,
+      "duration": 6.144,
+      "audio_file": "line_19.mp3"
+    },
+    {
+      "id": 20,
+      "voice": "ardi",
+      "text": "Tahap kedua, Penetapan Konteks. Menentukan ruang lingkup penilaian: apakah risiko ini mengancam Sasaran Strategis Pemerintah Daerah, Sasaran Strategis satu Perangkat Daerah, atau pelaksanaan satu Kegiatan operasional saja.",
+      "display": "Tahap kedua, Penetapan Konteks. Menentukan ruang lingkup penilaian: apakah risiko ini mengancam Sasaran Strategis Pemerintah Daerah, Sasaran Strategis satu Perangkat Daerah, atau pelaksanaan satu Kegiatan operasional saja.",
+      "start": 176.896,
+      "end": 190.984,
+      "duration": 14.088,
+      "audio_file": "line_20.mp3"
+    },
+    {
+      "id": 21,
+      "voice": "ardi",
+      "text": "Di Em-Er Kabar, konteks ini disusun lewat KRS Pemda, KRS Perangkat Daerah, dan KRO Perangkat Daerah, mengikuti hierarki Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan.",
+      "display": "Di MR Kabar, konteks ini disusun lewat KRS Pemda, KRS Perangkat Daerah, dan KRO Perangkat Daerah, mengikuti hierarki Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan.",
+      "start": 191.384,
+      "end": 204.992,
+      "duration": 13.608,
+      "audio_file": "line_21.mp3"
+    },
+    {
+      "id": 22,
+      "voice": "ardi",
+      "text": "Setiap risiko yang nanti diidentifikasi akan selalu tertaut ke konteks ini, sehingga jelas risiko itu mengancam pencapaian tujuan yang mana.",
+      "display": "Setiap risiko yang nanti diidentifikasi akan selalu tertaut ke konteks ini, sehingga jelas risiko itu mengancam pencapaian tujuan yang mana.",
+      "start": 205.392,
+      "end": 213.312,
+      "duration": 7.92,
+      "audio_file": "line_22.mp3"
+    },
+    {
+      "id": 23,
+      "voice": "ardi",
+      "text": "Tahap ketiga, Penilaian Risiko, terdiri dari dua langkah: identifikasi dan analisis.",
+      "display": "Tahap ketiga, Penilaian Risiko, terdiri dari dua langkah: identifikasi dan analisis.",
+      "start": 213.712,
+      "end": 220.336,
+      "duration": 6.624,
+      "audio_file": "line_23.mp3"
+    },
+    {
+      "id": 24,
+      "voice": "ardi",
+      "text": "Identifikasi dilakukan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mencatat uraian risiko, penyebabnya, dan dampaknya jika terjadi.",
+      "display": "Identifikasi dilakukan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mencatat uraian risiko, penyebabnya, dan dampaknya jika terjadi.",
+      "start": 220.736,
+      "end": 231.656,
+      "duration": 10.92,
+      "audio_file": "line_24.mp3"
+    },
+    {
+      "id": 25,
+      "voice": "gadis",
+      "text": "Penyebab risiko diklasifikasikan dalam dua kategori: internal, menggunakan kerangka tujuh-M-satu-E, yaitu Maen, Mashiin, Method, Matiirial, Mani, Management, Mezyurment, dan Invaironment; serta eksternal, menggunakan kerangka PESTLE, yaitu Poliitikel, Ikonomik, Soshel, Teknolojikel, Liigel, dan Invaironmentel.",
+      "display": "Penyebab risiko diklasifikasikan dalam dua kategori: internal, menggunakan kerangka tujuh-M-satu-E, yaitu Man, Machine, Method, Material, Money, Management, Measurement, dan Environment; serta eksternal, menggunakan kerangka PESTLE, yaitu Political, Economic, Social, Technological, Legal, dan Environmental.",
+      "start": 232.056,
+      "end": 261.576,
+      "duration": 29.52,
+      "audio_file": "line_25.mp3"
+    },
+    {
+      "id": 26,
+      "voice": "ardi",
+      "text": "Setelah teridentifikasi, risiko dianalisis dengan menilai Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.",
+      "display": "Setelah teridentifikasi, risiko dianalisis dengan menilai Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.",
+      "start": 261.976,
+      "end": 270.112,
+      "duration": 8.136,
+      "audio_file": "line_26.mp3"
+    },
+    {
+      "id": 27,
+      "voice": "ardi",
+      "text": "Em-Er Kabar menghitung otomatis Skala Risiko dari perkalian keduanya, lewat Matriks Analisis Risiko lima kali lima, lengkap dengan kategori warna dari Sangat Rendah hingga Sangat Tinggi.",
+      "display": "MR Kabar menghitung otomatis Skala Risiko dari perkalian keduanya, lewat Matriks Analisis Risiko lima kali lima, lengkap dengan kategori warna dari Sangat Rendah hingga Sangat Tinggi.",
+      "start": 270.512,
+      "end": 280.616,
+      "duration": 10.104,
+      "audio_file": "line_27.mp3"
+    },
+    {
+      "id": 28,
+      "voice": "ardi",
+      "text": "Hasil ini langsung terlihat di Dashboard, termasuk daftar risiko prioritas yang wajib segera ditindaklanjuti.",
+      "display": "Hasil ini langsung terlihat di Dashboard, termasuk daftar risiko prioritas yang wajib segera ditindaklanjuti.",
+      "start": 281.016,
+      "end": 287.544,
+      "duration": 6.528,
+      "audio_file": "line_28.mp3"
+    },
+    {
+      "id": 29,
+      "voice": "ardi",
+      "text": "Tahap keempat, Perlakuan Risiko. Menyusun Rencana Tindak Pengendalian, atau RTP, untuk setiap risiko yang sudah dinilai.",
+      "display": "Tahap keempat, Perlakuan Risiko. Menyusun Rencana Tindak Pengendalian, atau RTP, untuk setiap risiko yang sudah dinilai.",
+      "start": 287.944,
+      "end": 297.208,
+      "duration": 9.264,
+      "audio_file": "line_29.mp3"
+    },
+    {
+      "id": 30,
+      "voice": "gadis",
+      "text": "Em-Er Kabar menyediakan lima kategori respon risiko sesuai kerangka KO-SO: Evoid, Ebeit, Maitigeit, Syer atau Transfer, dan Eksept.",
+      "display": "MR Kabar menyediakan lima kategori respon risiko sesuai kerangka COSO: Avoid, Abate, Mitigate, Share atau Transfer, dan Accept.",
+      "start": 297.608,
+      "end": 309.152,
+      "duration": 11.544,
+      "audio_file": "line_30.mp3"
+    },
+    {
+      "id": 31,
+      "voice": "ardi",
+      "text": "Setiap kategori punya efek berbeda terhadap proyeksi skala risiko. Misalnya, Ebeit menekan Skala Kemungkinan, sementara Maitigeit menekan Skala Dampak.",
+      "display": "Setiap kategori punya efek berbeda terhadap proyeksi skala risiko. Misalnya, Abate menekan Skala Kemungkinan, sementara Mitigate menekan Skala Dampak.",
+      "start": 309.552,
+      "end": 319.872,
+      "duration": 10.32,
+      "audio_file": "line_31.mp3"
+    },
+    {
+      "id": 32,
+      "voice": "ardi",
+      "text": "Rencana ini disusun di Form RTP, dan hasilnya bisa langsung dicetak sebagai dokumen resmi siap tanda tangan Kepala Perangkat Daerah.",
+      "display": "Rencana ini disusun di Form RTP, dan hasilnya bisa langsung dicetak sebagai dokumen resmi siap tanda tangan Kepala Perangkat Daerah.",
+      "start": 320.272,
+      "end": 327.808,
+      "duration": 7.536,
+      "audio_file": "line_32.mp3"
+    },
+    {
+      "id": 33,
+      "voice": "ardi",
+      "text": "Tahap kelima, Pemantauan dan Reviu. Memastikan Rencana Tindak Pengendalian benar-benar dijalankan, bukan hanya tersusun di atas kertas.",
+      "display": "Tahap kelima, Pemantauan dan Reviu. Memastikan Rencana Tindak Pengendalian benar-benar dijalankan, bukan hanya tersusun di atas kertas.",
+      "start": 328.208,
+      "end": 337.664,
+      "duration": 9.456,
+      "audio_file": "line_33.mp3"
+    },
+    {
+      "id": 34,
+      "voice": "ardi",
+      "text": "Di Em-Er Kabar, tahap ini dijalankan lewat Form Monitoring dan Evaluasi, mencatat rencana serta realisasi pengkomunikasian dan pemantauan, dan Pencatatan Kejadian Risiko untuk kejadian nyata yang terjadi di lapangan.",
+      "display": "Di MR Kabar, tahap ini dijalankan lewat Form Monitoring dan Evaluasi, mencatat rencana serta realisasi pengkomunikasian dan pemantauan, dan Pencatatan Kejadian Risiko untuk kejadian nyata yang terjadi di lapangan.",
+      "start": 338.064,
+      "end": 350.52,
+      "duration": 12.456,
+      "audio_file": "line_34.mp3"
+    },
+    {
+      "id": 35,
+      "voice": "ardi",
+      "text": "Hasil pemantauan ini dirangkum dalam Laporan Berkala dan Laporan Pemantauan Unit Kepatuhan, sesuai kewajiban pelaporan berjenjang dalam Perdep.",
+      "display": "Hasil pemantauan ini dirangkum dalam Laporan Berkala dan Laporan Pemantauan Unit Kepatuhan, sesuai kewajiban pelaporan berjenjang dalam Perdep.",
+      "start": 350.92,
+      "end": 358.912,
+      "duration": 7.992,
+      "audio_file": "line_35.mp3"
+    },
+    {
+      "id": 36,
+      "voice": "ardi",
+      "text": "Lima tahap ini bukan langkah yang terpisah-pisah. Semuanya saling terhubung dalam satu alur data, dari Visi Pemerintah Daerah hingga ke satu baris risiko yang dipantau setiap triwulan.",
+      "display": "Lima tahap ini bukan langkah yang terpisah-pisah. Semuanya saling terhubung dalam satu alur data, dari Visi Pemerintah Daerah hingga ke satu baris risiko yang dipantau setiap triwulan.",
+      "start": 359.312,
+      "end": 370.184,
+      "duration": 10.872,
+      "audio_file": "line_36.mp3"
+    },
+    {
+      "id": 37,
+      "voice": "gadis",
+      "text": "Itulah Em-Er Kabar. Risiko TerKabar, Daerah Terjaga.",
+      "display": "Itulah MR Kabar. Risiko TerKabar, Daerah Terjaga.",
+      "start": 370.584,
+      "end": 377.28,
+      "duration": 6.696,
+      "audio_file": "line_37.mp3"
+    },
+    {
+      "id": 38,
+      "voice": "ardi",
+      "text": "Selamat mulai menggunakan Em-Er Kabar, dan pastikan tim Anda sudah membaca Panduan lengkap di dalam aplikasi untuk detail setiap langkah pengisian.",
+      "display": "Selamat mulai menggunakan MR Kabar, dan pastikan tim Anda sudah membaca Panduan lengkap di dalam aplikasi untuk detail setiap langkah pengisian.",
+      "start": 377.68,
+      "end": 385.696,
+      "duration": 8.016,
+      "audio_file": "line_38.mp3"
+    }
+  ]
+}

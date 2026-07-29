@@ -10,6 +10,8 @@ import { SessionTimeoutWarning } from '@/components/session-timeout-warning';
 import { type BreadcrumbItem } from '@/types';
 import { Toaster } from '@/components/ui/sonner';
 import { toast } from 'sonner';
+import { Eye } from 'lucide-react';
+import { useIsViewer } from '@/hooks/use-viewer';
 
 interface Props {
   children: React.ReactNode;
@@ -23,6 +25,7 @@ export default function AppSidebarLayout({
   title = 'Dashboard',
 }: Props) {
   const { props } = usePage();
+  const isViewer = useIsViewer();
 
   const flash = (props?.flash as { success?: string; error?: string; justLoggedIn?: boolean }) ?? {};
   const setting = props?.setting as {
@@ -118,7 +121,30 @@ export default function AppSidebarLayout({
             <div className="print:hidden">
               <AppSidebarHeader breadcrumbs={breadcrumbs} />
             </div>
-            <div className="min-w-0 flex-1">{children}</div>
+            {isViewer && (
+              // Ditampilkan permanen supaya pengguna eksekutif tahu sejak awal
+              // kenapa tombol-tombol aksi tidak ada — bukan mengira aplikasinya
+              // rusak. Larangan sesungguhnya ada di sisi server.
+              <div className="mx-4 mt-3 flex items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-400 print:hidden">
+                <Eye className="size-4 shrink-0" />
+                <span>
+                  <span className="font-medium">Mode Peninjau</span> — akun ini dapat melihat seluruh data,
+                  tetapi tidak dapat menambah, mengubah, atau menghapus apa pun.
+                </span>
+              </div>
+            )}
+            {/* max-w dibatasi HANYA di layar sangat lebar (ultrawide
+                2560px+) — di bawah itu (termasuk desktop 1920px biasa)
+                nilainya lebih besar dari lebar viewport jadi tidak
+                berpengaruh sama sekali, TIDAK mengurangi ruang tabel lebar
+                (Data Risiko Gabungan dkk) di resolusi umum. Tanpa batas
+                ini, kartu-kartu Dashboard/halaman lain melebar penuh
+                mengikuti viewport ultrawide dan terlihat "lengang"/tidak
+                proporsional (ditemukan lewat audit responsif desktop —
+                screenshot 2560px & 3440px). mx-auto menjaga konten tetap
+                di tengah, bukan menempel ke kiri, saat max-w ini aktif.
+                print:max-w-none supaya Form Cetak tetap tidak terpengaruh. */}
+            <div className="min-w-0 max-w-[1800px] flex-1 print:max-w-none xl:mx-auto xl:w-full">{children}</div>
             <div className="print:hidden">
               <AppFooter
                 contactEmail={setting?.contact_email}

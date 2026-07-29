@@ -258,7 +258,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                 Warnanya tetap jenuh & TAJAM di sini spy ada detail nyata
                 utk backdrop-blur kartu kaca proses jadi smear lembut. */}
             <div
-                className="pointer-events-none absolute inset-0 opacity-[0.5] transition-transform duration-300 ease-out dark:opacity-[0.4]"
+                className="pointer-events-none absolute inset-0 opacity-[0.65] transition-transform duration-300 ease-out dark:opacity-[0.55]"
                 style={{
                     background: `conic-gradient(from 200deg at 50% 35%, ${primaryColor}, #2b6777, #e0a458, ${primaryColor})`,
                     ...depth(-10),
@@ -288,7 +288,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                 Ini mengisi kekosongan itu supaya efek kaca terasa di seluruh
                 permukaan kartu, bukan cuma tepi. */}
             <div
-                className="pointer-events-none absolute top-1/2 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.22] blur-3xl transition-transform duration-200 ease-out dark:opacity-[0.26]"
+                className="pointer-events-none absolute top-1/2 left-1/2 h-[36rem] w-[36rem] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.3] blur-3xl transition-transform duration-200 ease-out dark:opacity-[0.34]"
                 style={{
                     background: `radial-gradient(circle, #2b6777, transparent 65%)`,
                     ...depth(16),
@@ -341,7 +341,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
             <div className="relative z-10 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ perspective: '1400px' }}>
                 <div
                     style={{
-                        transform: prefersReducedMotion ? undefined : `rotateX(${pointer.y * -10}deg) rotateY(${pointer.x * 10}deg)`,
+                        transform: prefersReducedMotion ? undefined : `rotateX(${pointer.y * -12}deg) rotateY(${pointer.x * 12}deg)`,
                         transition: 'transform 300ms ease-out',
                         transformStyle: 'preserve-3d',
                     }}
@@ -363,10 +363,10 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                 <div
                     className="overflow-hidden rounded-2xl border text-card-foreground shadow-2xl transition-[background-color,backdrop-filter] duration-200 ease-out"
                     style={{
-                        borderColor: isDark ? `rgba(255,255,255,${0.12 - tiltMagnitude * 0.05})` : `rgba(255,255,255,${0.4 - tiltMagnitude * 0.15})`,
+                        borderColor: isDark ? `rgba(255,255,255,${0.12 - tiltMagnitude * 0.06})` : `rgba(255,255,255,${0.4 - tiltMagnitude * 0.18})`,
                         backgroundColor: isDark
-                            ? `rgba(20,22,30,${0.2 - tiltMagnitude * 0.12})`
-                            : `rgba(255,255,255,${0.2 - tiltMagnitude * 0.12})`,
+                            ? `rgba(20,22,30,${0.14 - tiltMagnitude * 0.09})`
+                            : `rgba(255,255,255,${0.14 - tiltMagnitude * 0.09})`,
                         backdropFilter: `blur(${4 + tiltMagnitude * 36}px)`,
                         WebkitBackdropFilter: `blur(${4 + tiltMagnitude * 36}px)`,
                         boxShadow: `0 20px 60px -15px ${primaryColor}33, 0 8px 24px -8px rgb(0 0 0 / 0.15)`,

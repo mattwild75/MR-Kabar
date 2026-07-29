@@ -18,7 +18,7 @@ class SettingAppController extends Controller
      */
     private function ensureAdmin(): void
     {
-        if (!auth()->user()?->hasAnyRole(['admin', 'super-admin'])) {
+        if (!auth()->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola App Settings.');
         }
     }
@@ -46,6 +46,14 @@ class SettingAppController extends Controller
             'login_splash_video'      => 'nullable|file|mimes:mp4,webm,mov|max:20480',
             'login_splash_video_remove' => 'nullable|boolean',
             'login_splash_muted'      => 'nullable|boolean',
+            'edu_video_enabled'       => 'nullable|boolean',
+            'edu_video_path'          => 'nullable|file|mimes:mp4,webm,mov|max:51200',
+            'edu_video_remove'        => 'nullable|boolean',
+            'edu_video_gain_narration' => 'nullable|integer|min:0|max:200',
+            'edu_video_gain_music'    => 'nullable|integer|min:0|max:200',
+            'edu_video_gain_sfx'      => 'nullable|integer|min:0|max:200',
+            'edu_video_subtitle_enabled' => 'nullable|boolean',
+            'edu_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             'warna'                   => 'nullable|string|max:20',
             'seo'                     => 'nullable|array',
             'contact_email'           => 'nullable|email|max:255',
@@ -67,9 +75,15 @@ class SettingAppController extends Controller
         // luar form standar (mis. API lain di masa depan).
         $data['login_splash_enabled'] = $request->boolean('login_splash_enabled');
         $data['login_splash_muted'] = $request->boolean('login_splash_muted');
+        $data['edu_video_enabled'] = $request->boolean('edu_video_enabled');
+        $data['edu_video_subtitle_enabled'] = $request->boolean('edu_video_subtitle_enabled');
 
         $removeSplashVideo = (bool) ($data['login_splash_video_remove'] ?? false);
         unset($data['login_splash_video_remove']);
+
+        $removeEduVideo = (bool) ($data['edu_video_remove'] ?? false);
+        unset($data['edu_video_remove']);
+
 
         if ($request->hasFile('logo')) {
             $data['logo'] = $request->file('logo')->store('logo', 'public');
@@ -95,6 +109,19 @@ class SettingAppController extends Controller
         } else {
             unset($data['login_splash_video']);
         }
+
+        if ($request->hasFile('edu_video_path')) {
+            $data['edu_video_path'] = $request->file('edu_video_path')->store('edu-video', 'public');
+        } elseif ($removeEduVideo) {
+            // Kembali ke "tanpa video kustom" — login.tsx fallback ke video
+            // bawaan /video/video-edukasi-mr-kabar.mp4 kalau kolom ini
+            // kosong, BUKAN langsung menonaktifkan tombol video sama
+            // sekali (itu tanggung jawab toggle edu_video_enabled).
+            $data['edu_video_path'] = null;
+        } else {
+            unset($data['edu_video_path']);
+        }
+
 
         $setting->fill($data)->save();
 

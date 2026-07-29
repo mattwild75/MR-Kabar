@@ -74,7 +74,7 @@ class DashboardController extends Controller
     private function scopedOpdId(Request $request): ?int
     {
         $user = $request->user();
-        if ($user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->canViewAllOpd()) {
             return $request->integer('opd_id') ?: null;
         }
 
@@ -94,7 +94,7 @@ class DashboardController extends Controller
         // (opdId tidak null), tapi widget khusus admin (mis. filter OPD itu
         // sendiri) tetap harus tampil; widget lintas-OPD spt Ranking
         // Eksposur baru bermakna kalau memang sedang lihat SEMUA OPD.
-        $isAdmin = $request->user()->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $request->user()->canViewAllOpd();
         $tahun = $request->integer('tahun') ?: (int) $this->pengaturan()->tahun_penilaian;
 
         $riskRows = $this->rowsForTahun($tahun, $opdId);

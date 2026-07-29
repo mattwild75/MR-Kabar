@@ -180,7 +180,7 @@ class TrashController extends Controller
 
     private function isAdmin(): bool
     {
-        return auth()->user()?->hasAnyRole(['admin', 'super-admin']) ?? false;
+        return auth()->user()?->canViewAllOpd() ?? false;
     }
 
     /**

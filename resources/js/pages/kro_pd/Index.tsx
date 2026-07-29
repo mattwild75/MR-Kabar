@@ -30,6 +30,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import AppLayout from '@/layouts/app-layout';
+import { useIsViewer } from '@/hooks/use-viewer';
 import { Head, router, useForm } from '@inertiajs/react';
 import { ChevronRight, Search, Plus, Download, Edit, Trash2, ChevronUp, ChevronDown, X } from 'lucide-react';
 import { canManageRow } from '@/lib/ownership';
@@ -923,6 +924,7 @@ function NonPrioritasCard({ program, cb }: { program: NonPrioritasProgramItem; c
 }
 
 export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFillStatus, fieldOptions, program1aMap, currentUserId, isAdmin }: PageProps) {
+  const isViewer = useIsViewer();
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
@@ -1270,10 +1272,12 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFi
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editing ? 'Edit Data' : 'Tambah Data'}</DialogTitle>
+            <DialogTitle>
+              {isViewer ? 'Detail Data' : editing ? 'Edit Data' : 'Tambah Data'}
+            </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="space-y-4 [&>div]:border-b [&>div]:border-border/50 [&>div]:pb-4 [&>div:last-child]:border-b-0 [&>div:last-child]:pb-0">
             {/* Toggle Prioritas vs Non-Prioritas — auto-detect dari Sasaran
                 Renstra, bisa juga di-toggle manual. */}
             <div className="flex items-start gap-2 rounded-md border border-dashed p-3">
@@ -1348,9 +1352,11 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFi
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Batal
               </Button>
-              <Button type="submit" disabled={processing}>
-                {editing ? 'Simpan Perubahan' : 'Simpan'}
-              </Button>
+              {!isViewer && (
+                <Button type="submit" disabled={processing}>
+                  {editing ? 'Simpan Perubahan' : 'Simpan'}
+                </Button>
+              )}
             </DialogFooter>
           </form>
         </DialogContent>

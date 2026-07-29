@@ -50,7 +50,7 @@ class MonitoringEvaluasiController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->hasAnyRole(['admin', 'super-admin'])) {
+        if ($user->opd_id && !$user->canViewAllOpd()) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -64,7 +64,7 @@ class MonitoringEvaluasiController extends Controller
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
         $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->hasAnyRole(['admin', 'super-admin'])) {
+        if (!$opdId || !$user->opd_id || $user->canViewAllOpd()) {
             return;
         }
 
@@ -246,7 +246,7 @@ class MonitoringEvaluasiController extends Controller
     public function form89(Request $request)
     {
         $user = $request->user();
-        $isAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $user->canViewAllOpd();
 
         // Admin/super-admin: opd_id null = LINTAS-OPD (sesuai request query,
         // termasuk sengaja dikosongkan). PIC biasa: SELALU terkunci ke
@@ -568,7 +568,7 @@ class MonitoringEvaluasiController extends Controller
     public function form10(Request $request)
     {
         $user = $request->user();
-        $isAdmin = $user->hasAnyRole(['admin', 'super-admin']);
+        $isAdmin = $user->canViewAllOpd();
 
         // Sama pola dgn form89(): admin boleh lintas-OPD (opd_id null =
         // "Semua OPD"), PIC biasa selalu terkunci ke OPD-nya sendiri.

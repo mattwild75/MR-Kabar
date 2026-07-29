@@ -6,6 +6,7 @@ use App\Http\Middleware\CheckMenuPermission;
 use App\Http\Middleware\ForceLogoutAfterMaxDuration;
 use App\Http\Middleware\RestrictCeeSurveyRole;
 use App\Http\Middleware\RestrictLaporRisikoRole;
+use App\Http\Middleware\ViewerReadOnly;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -25,6 +26,10 @@ return Application::configure(basePath: dirname(__DIR__))
             ShareMenus::class,
             RestrictCeeSurveyRole::class,
             RestrictLaporRisikoRole::class,
+            // Ditaruh di rantai global (bukan per-route) supaya fitur baru
+            // apa pun otomatis ikut terkunci untuk peran `eksekutif` tanpa
+            // perlu diingat satu per satu.
+            ViewerReadOnly::class,
         ]);
 
         $middleware->alias([
