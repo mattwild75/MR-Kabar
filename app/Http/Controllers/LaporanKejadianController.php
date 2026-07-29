@@ -98,6 +98,35 @@ class LaporanKejadianController extends Controller
             'risiko_terdaftar_id' => ['nullable', 'integer'],
         ]);
 
+        // Kiriman kembar dalam dua menit dianggap satu laporan yang sama.
+        //
+        // Tombol Lapor sudah mengunci diri selama pengiriman, jadi klik ganda
+        // biasa tidak lolos. Yang tidak bisa ditahan dari sisi tampilan:
+        // ketukan ganda di ponsel sebelum layarnya sempat berubah, tombol
+        // Kembali lalu kirim ulang, dan peramban yang mengulang permintaan
+        // saat sinyal putus-nyambung — semuanya wajar terjadi karena formulir
+        // ini dibuka lewat QR di lapangan. Tabel ini memang menambah baris
+        // (satu kejadian satu baris), jadi tidak ada indeks unik yang bisa
+        // menolaknya; jendela waktu inilah gantinya.
+        //
+        // Dicocokkan pada ISI, bukan pada sesi: akun LAPOR dipakai bersama,
+        // dan kirim ulang lewat tombol Kembali bisa datang dari sesi lain.
+        // Dua orang berbeda yang mengetik nama, uraian, dan waktu kejadian
+        // yang sama persis dalam dua menit praktis tidak terjadi.
+        $kembar = LaporanKejadianRisiko::where('nama_lengkap', $validated['nama_lengkap'])
+            ->where('kejadian', $validated['kejadian'])
+            ->where('waktu_kejadian', $validated['waktu_kejadian'])
+            ->where('created_at', '>=', now()->subMinutes(2))
+            ->exists();
+
+        if ($kembar) {
+            // Sengaja dijawab seolah berhasil: bagi pelapor memang berhasil,
+            // laporannya sudah masuk beberapa detik lalu. Menampilkan galat
+            // di sini hanya akan membuatnya mengira laporannya tidak terkirim
+            // lalu mencoba lagi.
+            return back()->with('success', 'Laporan kejadian risiko berhasil dikirim. Terima kasih.');
+        }
+
         $laporan = LaporanKejadianRisiko::create([
             ...$validated,
             'status' => 'baru',
