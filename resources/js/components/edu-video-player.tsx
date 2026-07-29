@@ -214,28 +214,53 @@ export default function EduVideoPlayer({
 
     useEffect(() => { terapkanGain(); }, [terapkanGain]);
 
-    // ── subtitle: nyala/mati + ukuran ──
-    // Ukuran diatur lewat ::cue, bukan dibakar ke gambar — itulah sebabnya
-    // subtitle video bawaan bisa diubah tanpa render ulang. Kelas unik per
-    // instance supaya dua pemutar di satu halaman tidak saling menimpa.
-    const cueClass = useMemo(() => `eduvid-${Math.random().toString(36).slice(2, 9)}`, []);
-
-    // Ukuran cue dihitung sendiri dalam PIKSEL, bukan diserahkan ke satuan
-    // persen. Persen pada ::cue relatif terhadap ukuran bawaan peramban, dan
-    // ukuran bawaan itu tidak sebanding lurus dengan tinggi gambar: setelan
-    // yang pas di jendela kecil membengkak sampai menutupi isi video begitu
-    // masuk layar penuh. Dengan piksel, tampilannya sama persis di kedua
-    // keadaan karena selalu proporsional terhadap tinggi GAMBAR — bukan tinggi
-    // elemen, yang di layar 16:10 ikut menghitung bilah hitam atas-bawah.
+    // ── subtitle ──
+    // Subtitle DIGAMBAR SENDIRI, tidak diserahkan ke peramban lewat ::cue.
+    //
+    // Alasannya bukan selera: setelan teks bantu di Windows/Chrome (Settings →
+    // Accessibility → Captions) MENGALAHKAN aturan ::cue milik halaman. Di
+    // komputer yang setelan itu aktif, ukuran subtitle terkunci pada nilai
+    // pengguna dan slider di /settingsapp tidak berpengaruh sama sekali —
+    // tampak seperti fiturnya rusak, padahal aturannya memang diabaikan.
+    // Dengan menggambar sendiri, ukurannya pasti mengikuti setelan aplikasi.
+    //
+    // Keuntungan lain: posisi tegaknya bisa kita tentukan, sehingga subtitle
+    // duduk di bawah isi gambar dan tidak menimpanya.
+    // tinggi GAMBAR (isi videonya) dan tinggi KOTAK (elemennya). Keduanya beda
+    // saat ada bilah hitam — mis. video 16:9 di layar penuh 16:10.
     const [tinggiGambar, setTinggiGambar] = useState(0);
+    const [tinggiKotak, setTinggiKotak] = useState(0);
+    const [teksCue, setTeksCue] = useState('');
+    const [layarPenuh, setLayarPenuh] = useState(false);
+    const pembungkusRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const onFs = () => {
+            const el = document.fullscreenElement;
+            setLayarPenuh(el === pembungkusRef.current);
+            // Tombol layar penuh bawaan peramban menargetkan elemen <video>,
+            // dan di sana lapisan subtitle kita tidak ikut tampil. Jadi
+            // permintaannya dialihkan ke pembungkus.
+            if (el && el === videoRef.current && pembungkusRef.current) {
+                document
+                    .exitFullscreen()
+                    .then(() => pembungkusRef.current?.requestFullscreen())
+                    .catch(() => undefined);
+            }
+        };
+        document.addEventListener('fullscreenchange', onFs);
+        return () => document.removeEventListener('fullscreenchange', onFs);
+    }, []);
 
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
         const ukur = () => {
-            const { clientWidth: lebarKotak, clientHeight: tinggiKotak, videoWidth, videoHeight } = video;
-            if (!videoWidth || !videoHeight) return setTinggiGambar(tinggiKotak);
-            setTinggiGambar(Math.min(tinggiKotak, (lebarKotak * videoHeight) / videoWidth));
+            const { clientWidth: lebar, clientHeight: tinggi, videoWidth, videoHeight } = video;
+            setTinggiKotak(tinggi);
+            setTinggiGambar(
+                videoWidth && videoHeight ? Math.min(tinggi, (lebar * videoHeight) / videoWidth) : tinggi,
+            );
         };
         ukur();
         // ResizeObserver ikut terpicu saat masuk/keluar layar penuh, karena
@@ -263,15 +288,42 @@ export default function EduVideoPlayer({
     useEffect(() => {
         const video = videoRef.current;
         if (!video || !vtt) return;
-        const terapkan = () => {
-            for (let i = 0; i < video.textTracks.length; i++) {
-                video.textTracks[i].mode = subtitleEnabled ? 'showing' : 'disabled';
-            }
+
+        let track: TextTrack | null = null;
+        const bacaCue = () => {
+            const aktif = track?.activeCues;
+            if (!aktif || aktif.length === 0) return setTeksCue('');
+            setTeksCue(
+                Array.from(aktif)
+                    .map((c) => ('text' in c ? String((c as VTTCue).text) : ''))
+                    .join('\n')
+                    // VTT mengizinkan penanda sederhana seperti <i>/<b>; di sini
+                    // teksnya ditampilkan polos, jadi penandanya dibuang.
+                    .replace(/<[^>]+>/g, ''),
+            );
         };
+
+        const terapkan = () => {
+            track?.removeEventListener('cuechange', bacaCue);
+            track = video.textTracks[0] ?? null;
+            if (!track) return;
+            // 'hidden' — bukan 'showing': cue tetap dihitung dan memicu
+            // cuechange, tapi peramban tidak ikut menggambarnya. Kalau
+            // 'showing', subtitle akan tampil DUA KALI (versi peramban dan
+            // versi kita).
+            track.mode = subtitleEnabled ? 'hidden' : 'disabled';
+            if (!subtitleEnabled) return setTeksCue('');
+            track.addEventListener('cuechange', bacaCue);
+            bacaCue();
+        };
+
         terapkan();
         // track kadang baru siap setelah metadata termuat
         video.addEventListener('loadedmetadata', terapkan);
-        return () => video.removeEventListener('loadedmetadata', terapkan);
+        return () => {
+            track?.removeEventListener('cuechange', bacaCue);
+            video.removeEventListener('loadedmetadata', terapkan);
+        };
     }, [vtt, subtitleEnabled]);
 
     const lompat = (detik: number) => {
@@ -284,21 +336,55 @@ export default function EduVideoPlayer({
 
     return (
         <div className="space-y-3">
-            {vtt && (
-                <style>{`.${cueClass}::cue{font-size:${ukuranCue}px;background:rgba(0,0,0,.72);line-height:1.3}`}</style>
-            )}
-            <video
-                ref={videoRef}
-                src={src}
-                controls
-                preload="metadata"
-                crossOrigin="anonymous"
-                className={`aspect-video w-full rounded-md bg-black ${cueClass}`}
+            {/* Pembungkus inilah yang dijadikan elemen layar penuh, bukan
+                elemen <video>-nya. Kalau video sendiri yang dilayarpenuhkan,
+                lapisan subtitle di bawah ini ikut hilang karena bukan bagian
+                dari elemen itu. */}
+            <div
+                ref={pembungkusRef}
+                className={`relative overflow-hidden bg-black ${
+                    layarPenuh ? 'flex h-full w-full items-center justify-center' : 'rounded-md'
+                }`}
             >
-                {vtt && (
-                    <track kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />
+                <video
+                    ref={videoRef}
+                    src={src}
+                    controls
+                    preload="metadata"
+                    crossOrigin="anonymous"
+                    className={layarPenuh ? 'h-full w-full object-contain' : 'aspect-video w-full bg-black'}
+                >
+                    {vtt && (
+                        <track kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />
+                    )}
+                </video>
+
+                {teksCue && (
+                    // pointer-events-none supaya klik tetap tembus ke video
+                    // (play/pause) dan tidak tertahan lapisan subtitle.
+                    <div
+                        className="pointer-events-none absolute inset-x-0 flex justify-center px-[4%] text-center"
+                        // Diukur dari dasar GAMBAR, bukan dasar elemen: di layar
+                        // penuh 16:10 ada bilah hitam, dan subtitle yang
+                        // dipatok ke dasar elemen akan mendarat di dalam bilah
+                        // itu, bukan di atas gambarnya.
+                        style={{ bottom: Math.round((tinggiKotak - tinggiGambar) / 2 + tinggiGambar * 0.1) }}
+                    >
+                        <span
+                            className="whitespace-pre-wrap text-white"
+                            style={{
+                                fontSize: `${ukuranCue}px`,
+                                lineHeight: 1.3,
+                                background: 'rgba(0,0,0,.72)',
+                                padding: '0.1em 0.4em',
+                                textShadow: '0 1px 2px rgba(0,0,0,.9)',
+                            }}
+                        >
+                            {teksCue}
+                        </span>
+                    </div>
                 )}
-            </video>
+            </div>
 
             {stems && (
                 <>

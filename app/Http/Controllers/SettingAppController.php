@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use App\Models\SettingApp;
 use App\Services\FaviconGenerator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SettingAppController extends Controller
 {
@@ -49,6 +51,15 @@ class SettingAppController extends Controller
             'edu_video_enabled'       => 'nullable|boolean',
             'edu_video_path'          => 'nullable|file|mimes:mp4,webm,mov|max:51200',
             'edu_video_remove'        => 'nullable|boolean',
+            // Tidak memakai aturan mimes: berkas .vtt/.srt terdeteksi sebagai
+            // text/plain, jadi pemeriksaannya lewat ekstensi. Ukurannya kecil
+            // (2MB sudah jauh lebih dari cukup untuk video sepanjang apa pun).
+            'edu_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
+                if (!in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
+                    $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
+                }
+            }],
+            'edu_video_subtitle_remove' => 'nullable|boolean',
             'edu_video_gain_narration' => 'nullable|integer|min:0|max:200',
             'edu_video_gain_music'    => 'nullable|integer|min:0|max:200',
             'edu_video_gain_sfx'      => 'nullable|integer|min:0|max:200',
@@ -122,6 +133,24 @@ class SettingAppController extends Controller
             unset($data['edu_video_path']);
         }
 
+        $hapusSubtitle = (bool) ($data['edu_video_subtitle_remove'] ?? false);
+        unset($data['edu_video_subtitle_remove']);
+
+        if ($request->hasFile('edu_video_subtitle_path')) {
+            $berkas = $request->file('edu_video_subtitle_path');
+            $isi = (string) file_get_contents($berkas->getRealPath());
+            if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
+                $isi = $this->srtKeVtt($isi);
+            }
+            $nama = 'edu-video/subtitle-' . now()->format('YmdHis') . '-' . Str::random(6) . '.vtt';
+            Storage::disk('public')->put($nama, $isi);
+            $data['edu_video_subtitle_path'] = $nama;
+        } elseif ($hapusSubtitle) {
+            $data['edu_video_subtitle_path'] = null;
+        } else {
+            unset($data['edu_video_subtitle_path']);
+        }
+
 
         $setting->fill($data)->save();
 
@@ -137,5 +166,31 @@ class SettingAppController extends Controller
         SettingApp::clearCached();
 
         return redirect()->back()->with('success', 'Pengaturan berhasil disimpan.');
+    }
+
+    /**
+     * Ubah isi berkas .srt menjadi .vtt.
+     *
+     * Formatnya nyaris sama; yang berbeda hanya dua hal: WebVTT wajib diawali
+     * penanda "WEBVTT", dan pemisah desimal pada penanda waktu memakai titik,
+     * bukan koma (00:01:02,500 menjadi 00:01:02.500). Konversi dilakukan di
+     * sini, bukan meminta pengguna menyiapkan .vtt sendiri, karena berkas
+     * subtitle yang beredar sehari-hari hampir selalu berformat .srt.
+     */
+    private function srtKeVtt(string $isi): string
+    {
+        // Buang BOM kalau ada — peramban menolak berkas VTT yang tidak
+        // langsung diawali penanda WEBVTT.
+        $isi = ltrim($isi, "\u{FEFF}");
+
+        // Seragamkan akhir baris ke LF, termasuk berkas dari macOS lama (CR).
+        $isi = str_replace(["\r\n", "\r"], "\n", trim($isi));
+
+        // Koma pada penanda waktu diganti titik. Polanya dibatasi ke bentuk
+        // penanda waktu supaya koma di dalam kalimat subtitle tidak ikut
+        // terganti.
+        $isi = preg_replace('/(\d{2}:\d{2}:\d{2}),(\d{3})/', '$1.$2', $isi) ?? $isi;
+
+        return "WEBVTT\n\n" . $isi . "\n";
     }
 }

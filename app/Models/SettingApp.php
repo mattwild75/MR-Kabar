@@ -19,6 +19,7 @@ class SettingApp extends Model
         'login_splash_muted',
         'edu_video_enabled',
         'edu_video_path',
+        'edu_video_subtitle_path',
         'edu_video_gain_narration',
         'edu_video_gain_music',
         'edu_video_gain_sfx',

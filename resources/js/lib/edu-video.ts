@@ -16,6 +16,7 @@ export const STEM_BAWAAN = {
 interface SettingVideo {
     edu_video_enabled?: boolean;
     edu_video_path?: string | null;
+    edu_video_subtitle_path?: string | null;
     edu_video_gain_narration?: number;
     edu_video_gain_music?: number;
     edu_video_gain_sfx?: number;
@@ -47,6 +48,7 @@ export function useVersiVideo(): string {
 export function useEduVideo() {
     const setting = usePage().props?.setting as SettingVideo | undefined;
     const customPath = setting?.edu_video_path;
+    const subtitleUnggahan = setting?.edu_video_subtitle_path;
     const v = useVersiVideo();
 
     return {
@@ -66,7 +68,16 @@ export function useEduVideo() {
                   music: STEM_BAWAAN.music + v,
                   sfx: STEM_BAWAAN.sfx + v,
               }) as EduVideoStems | null,
-        vtt: customPath ? null : VTT_BAWAAN + v,
+        // Subtitle unggahan admin selalu menang: kalau ada, itu yang dipakai
+        // baik untuk video bawaan maupun video unggahan. Video unggahan tanpa
+        // subtitle unggahan berarti memang tidak punya subtitle — berkas
+        // bawaan tidak boleh dipasangkan ke sana karena menit-detiknya milik
+        // video yang berbeda.
+        vtt: subtitleUnggahan
+            ? `/storage/${subtitleUnggahan}`
+            : customPath
+              ? null
+              : VTT_BAWAAN + v,
         gains: {
             narration: setting?.edu_video_gain_narration ?? 100,
             music: setting?.edu_video_gain_music ?? 100,

@@ -28,6 +28,7 @@ interface SettingApp {
   login_splash_muted: boolean;
   edu_video_enabled: boolean;
   edu_video_path: string | null;
+  edu_video_subtitle_path: string | null;
   edu_video_gain_narration: number;
   edu_video_gain_music: number;
   edu_video_gain_sfx: number;
@@ -70,6 +71,7 @@ export default function SettingForm({ setting }: Props) {
   const [subtitleEnabled, setSubtitleEnabled] = useState(setting?.edu_video_subtitle_enabled ?? true);
   const [subtitleSize, setSubtitleSize] = useState(setting?.edu_video_subtitle_size ?? 70);
   const versiVideo = useVersiVideo();
+  const [hapusSubtitle, setHapusSubtitle] = useState(false);
 
   const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
@@ -88,6 +90,7 @@ export default function SettingForm({ setting }: Props) {
     favicon: null as File | null,
     login_splash_video: null as File | null,
     edu_video_path: null as File | null,
+    edu_video_subtitle_path: null as File | null,
   });
 
   const logoPreview = useRef<string | null>(setting?.logo ? `/storage/${setting.logo}` : null);
@@ -112,6 +115,7 @@ export default function SettingForm({ setting }: Props) {
       login_splash_video_remove: removeSplashVideo,
       edu_video_enabled: eduVideoEnabled,
       edu_video_remove: removeEduVideo,
+      edu_video_subtitle_remove: hapusSubtitle,
       edu_video_gain_narration: gainNarration,
       edu_video_gain_music: gainMusic,
       edu_video_gain_sfx: gainSfx,
@@ -124,6 +128,7 @@ export default function SettingForm({ setting }: Props) {
       onSuccess: () => {
         setRemoveSplashVideo(false);
         setRemoveEduVideo(false);
+        setHapusSubtitle(false);
       },
     });
   };
@@ -412,8 +417,8 @@ export default function SettingForm({ setting }: Props) {
                     {errors.edu_video_path && <p className="text-sm text-red-500">{errors.edu_video_path}</p>}
                     <p className="text-muted-foreground text-xs">
                       Kosongkan kalau tidak ingin mengganti — video bawaan yang dipakai. Berkas unggahan sendiri
-                      audionya menyatu di dalam video, sehingga setelan volume &amp; subtitle di bawah tidak
-                      berlaku untuknya.
+                      audionya menyatu di dalam video, sehingga setelan volume mix di bawah tidak berlaku
+                      untuknya; subtitle tetap bisa dipasang lewat kolom di bawah ini.
                     </p>
 
                     {eduVideoPreview && !removeEduVideo && (
@@ -481,9 +486,62 @@ export default function SettingForm({ setting }: Props) {
                     <div>
                       <Label>Subtitle</Label>
                       <p className="text-muted-foreground mt-1 text-xs">
-                        Subtitle video bawaan dikirim sebagai berkas terpisah, bukan dibakar ke gambar — karena itu
-                        bisa dimatikan dan diubah ukurannya di sini tanpa perlu me-render ulang videonya.
+                        Subtitle dikirim sebagai berkas terpisah, bukan dibakar ke gambar — karena itu bisa
+                        dimatikan dan diubah ukurannya di sini tanpa perlu me-render ulang videonya.
                       </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label htmlFor="edu_video_subtitle_path">Ganti berkas subtitle (.vtt atau .srt, maks 2MB)</Label>
+                      <Input
+                        id="edu_video_subtitle_path"
+                        type="file"
+                        accept=".vtt,.srt,text/vtt"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0] || null;
+                          setData('edu_video_subtitle_path', file);
+                          if (file) setHapusSubtitle(false);
+                        }}
+                        className={errors.edu_video_subtitle_path ? 'border-red-500' : ''}
+                      />
+                      {errors.edu_video_subtitle_path && (
+                        <p className="text-sm text-red-500">{errors.edu_video_subtitle_path}</p>
+                      )}
+                      <p className="text-muted-foreground text-xs">
+                        Kosongkan kalau tidak ingin mengganti. Berkas .srt otomatis dikonversi ke .vtt saat
+                        disimpan. Wajib diisi kalau Anda memasang video sendiri di atas — subtitle bawaan tidak
+                        dipakaikan ke video lain karena menit-detiknya milik video yang berbeda.
+                      </p>
+
+                      {setting?.edu_video_subtitle_path && !hapusSubtitle && (
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          <a
+                            href={`/storage/${setting.edu_video_subtitle_path}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-primary text-sm underline underline-offset-4 hover:no-underline"
+                          >
+                            Lihat berkas subtitle terpasang
+                          </a>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              setHapusSubtitle(true);
+                              setData('edu_video_subtitle_path', null);
+                            }}
+                          >
+                            Hapus (kembali ke subtitle bawaan)
+                          </Button>
+                        </div>
+                      )}
+
+                      {hapusSubtitle && (
+                        <p className="text-sm text-amber-600">
+                          Berkas subtitle akan dihapus saat disimpan — kembali memakai subtitle bawaan.
+                        </p>
+                      )}
                     </div>
 
                     <div className="flex items-center gap-3">
