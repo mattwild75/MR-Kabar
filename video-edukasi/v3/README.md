@@ -45,6 +45,20 @@ bash   mux_final.sh              # 1080p + 720p + klip per tahap
 bash   deploy.sh                 # pasang semuanya ke public/video/
 ```
 
+Kalau yang berubah **hanya audio** (musik/narasi/SFX) dan gambarnya tidak
+disentuh, lewati render dan mux penuh:
+
+```bash
+python generate_audio_assets.py --musik-saja   # music_bg.wav saja, SFX tak diubah
+python mix_audio.py
+bash   remux_audio.sh            # tukar trek audio, video disalin apa adanya
+bash   deploy.sh
+```
+
+Bedanya nyata: `mux_final.sh` meng-encode ulang 1080p dan 720p dari nol
+(puluhan menit) padahal gambarnya akan sama persis; `remux_audio.sh` menyalin
+video apa adanya sehingga selesai dalam ~1 menit tanpa penurunan mutu.
+
 `node smoke.cjs 30 420 700` memotret frame pada detik tertentu — untuk
 memeriksa tata letak sebelum render penuh.
 
