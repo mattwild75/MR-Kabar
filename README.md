@@ -137,6 +137,21 @@ php artisan serve
 
 ---
 
+## Pemasangan di Server (Live)
+
+Langkah di atas hanya untuk pengembangan lokal. Pemasangan ke server sungguhan
+punya beberapa syarat yang tidak muncul di lokal — Git LFS untuk berkas video,
+cron untuk penjadwal tugas berkala, Chromium untuk cetak PDF, dan sandi akun
+bersama yang harus sinkron antara `.env` dan basis data.
+
+| Dokumen | Isinya |
+|---|---|
+| [docs/CHECKLIST_GO_LIVE.md](docs/CHECKLIST_GO_LIVE.md) | Urutan pemasangan, langkah tiap deploy, dan lima pemeriksaan sesudahnya |
+| [docs/PENJADWAL_SERVER.md](docs/PENJADWAL_SERVER.md) | Memasang cron / Task Scheduler untuk `schedule:run` |
+| [docs/PANDUAN_LIVE_WORKER.md](docs/PANDUAN_LIVE_WORKER.md) | Demo lewat tunnel & mengaktifkan queue worker |
+
+---
+
 ## Lisensi
 
 Proyek internal untuk mendukung pengelolaan risiko sektor publik. Hubungi pengelola repository untuk pertanyaan terkait penggunaan atau kontribusi.

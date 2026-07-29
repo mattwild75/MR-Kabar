@@ -146,10 +146,10 @@ class PdfPrintService
         // BROWSERSHOT_NPM_BINARY) kalau Browsershot gagal auto-detect node/
         // npm di PATH — umum terjadi di Windows/Herd yg PATH proses PHP-nya
         // beda dari shell interaktif biasa.
-        if ($nodeBinary = env('BROWSERSHOT_NODE_BINARY')) {
+        if ($nodeBinary = config('mrkabar.browsershot.node_binary')) {
             $browsershot->setNodeBinary($nodeBinary);
         }
-        if ($npmBinary = env('BROWSERSHOT_NPM_BINARY')) {
+        if ($npmBinary = config('mrkabar.browsershot.npm_binary')) {
             $browsershot->setNpmBinary($npmBinary);
         }
 
