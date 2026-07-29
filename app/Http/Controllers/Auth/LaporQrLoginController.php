@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 /**
  * Auto-login sekali klik ke akun bersama LAPOR (role 'lapor-risiko'),
  * dipakai QR code di /panduan supaya pelapor kejadian risiko di lapangan
@@ -14,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
  * lapor. Kredensial akun ini SENGAJA publik (disebar lewat QR), jadi
  * endpoint ini tidak butuh proteksi token tambahan; scope aksesnya sendiri
  * sudah dikunci ketat oleh RestrictLaporRisikoRole.
+ *
+ * Perilaku saat peramban sudah punya sesi lain dijelaskan di QrLoginController.
  *
  * Password dibaca lewat config('mrkabar.akun_bersama.lapor'), yang
  * mengambilnya dari LAPOR_ACCOUNT_PASSWORD di .env (lihat
@@ -23,20 +20,20 @@ use Illuminate\Support\Facades\Auth;
  * mengembalikan null, dan QR ini akan memantulkan pelapor kembali ke halaman
  * masuk seolah sandinya salah — tanpa pesan galat apa pun.
  */
-class LaporQrLoginController extends Controller
+class LaporQrLoginController extends QrLoginController
 {
-    public function __invoke(Request $request): RedirectResponse
+    protected function username(): string
     {
-        if (!Auth::check()) {
-            Auth::attempt([
-                'username' => 'LAPOR',
-                'password' => config('mrkabar.akun_bersama.lapor'),
-            ]);
+        return 'LAPOR';
+    }
 
-            $request->session()->regenerate();
-            $request->session()->put('login_at', now()->timestamp);
-        }
+    protected function sandi(): string
+    {
+        return (string) config('mrkabar.akun_bersama.lapor');
+    }
 
-        return redirect('/lapor-kejadian');
+    protected function tujuan(): string
+    {
+        return '/lapor-kejadian';
     }
 }

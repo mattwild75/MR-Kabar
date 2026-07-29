@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 /**
  * Auto-login sekali klik ke akun bersama CEE_Survey (role 'cee-survey'),
  * dipakai QR code di /panduan supaya responden CEE lintas-OPD tidak perlu
@@ -15,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
  * ini SENGAJA dipakai bersama (disebar lewat QR), scope aksesnya dikunci
  * ketat oleh RestrictCeeSurveyRole + ShareMenus (whitelist menu CEE saja).
  *
+ * Perilaku saat peramban sudah punya sesi lain dijelaskan di QrLoginController.
+ *
  * Password dibaca lewat config('mrkabar.akun_bersama.cee_survey'), yang
  * mengambilnya dari CEE_SURVEY_ACCOUNT_PASSWORD di .env — TIDAK hardcode di
  * kode. Sengaja lewat config(), bukan env() langsung: setelah server
@@ -22,20 +19,20 @@ use Illuminate\Support\Facades\Auth;
  * mengembalikan null, dan QR ini akan memantulkan responden kembali ke
  * halaman masuk seolah sandinya salah — tanpa pesan galat apa pun.
  */
-class CeeSurveyQrLoginController extends Controller
+class CeeSurveyQrLoginController extends QrLoginController
 {
-    public function __invoke(Request $request): RedirectResponse
+    protected function username(): string
     {
-        if (!Auth::check()) {
-            Auth::attempt([
-                'username' => 'CEE_Survey',
-                'password' => config('mrkabar.akun_bersama.cee_survey'),
-            ]);
+        return 'CEE_Survey';
+    }
 
-            $request->session()->regenerate();
-            $request->session()->put('login_at', now()->timestamp);
-        }
+    protected function sandi(): string
+    {
+        return (string) config('mrkabar.akun_bersama.cee_survey');
+    }
 
-        return redirect('/cee/1a');
+    protected function tujuan(): string
+    {
+        return '/cee/1a';
     }
 }

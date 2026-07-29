@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,6 +19,9 @@ class RestrictLaporRisikoRole
         '/lapor-kejadian',
         '/dashboard',
         '/panduan',
+        // Lihat catatan yang sama di RestrictCeeSurveyRole: URL QR harus
+        // lolos, kalau tidak pemindaian silang berakhir di /dashboard.
+        '/login',
         '/logout',
         '/session-status',
         '/session-extend',
@@ -25,19 +29,22 @@ class RestrictLaporRisikoRole
 
     public function handle(Request $request, Closure $next): Response
     {
-        $user = $request->user();
-
-        if ($user && $user->hasRole('lapor-risiko')) {
-            $path = '/' . ltrim($request->path(), '/');
-            $allowed = collect(self::ALLOWED_PREFIXES)->contains(
-                fn ($prefix) => $path === $prefix || str_starts_with($path, rtrim($prefix, '/') . '/')
-            );
-
-            if (!$allowed) {
-                return redirect('/dashboard');
-            }
+        if (!self::bolehAkses($request->user(), '/' . ltrim($request->path(), '/'))) {
+            return redirect('/dashboard');
         }
 
         return $next($request);
+    }
+
+    /** Sama pola & alasan dengan RestrictCeeSurveyRole::bolehAkses(). */
+    public static function bolehAkses(?Authenticatable $user, string $path): bool
+    {
+        if (!$user || !$user->hasRole('lapor-risiko')) {
+            return true;
+        }
+
+        return collect(self::ALLOWED_PREFIXES)->contains(
+            fn ($prefix) => $path === $prefix || str_starts_with($path, rtrim($prefix, '/') . '/')
+        );
     }
 }
