@@ -10,9 +10,8 @@ use App\Models\CeeUnsur;
 use App\Models\DataUmum;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
-use Illuminate\Database\QueryException;
+use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -320,43 +319,25 @@ class CeeFormController extends Controller
         // kapitalisasi sudah ditangani kolasi *_ci kolomnya.
         $nama = trim($data['responden_nama']);
 
-        // Argumen kedua = jumlah percobaan. Kalau beberapa orang menyimpan
-        // untuk OPD & tahun yang sama pada saat bersamaan, transaksi mereka
-        // memperebutkan baris yang sama dan InnoDB bisa melaporkan deadlock
-        // (SQLSTATE 40001). Terbukti pada uji beban: delapan permintaan
-        // serentak membuat sebagian gagal dengan galat 500. Laravel
-        // mengulang closure-nya sendiri untuk galat semacam ini, dan
-        // pengulangan itu aman di sini karena isinya idempoten — menyimpan
-        // ulang jawaban yang sama menghasilkan keadaan yang sama.
-        DB::transaction(function () use ($data, $request, $nama) {
+        // Beberapa responden lazim menyimpan bersamaan lewat akun bersama
+        // CEE_Survey — dua di antaranya bisa berebut baris yang sama, baik
+        // lewat deadlock InnoDB maupun tabrakan indeks unik. Keduanya
+        // ditangani SafeUpsert; menyimpan ulang jawaban yang sama tidak
+        // mengubah apa pun, jadi pengulangannya aman.
+        SafeUpsert::run(function () use ($data, $request, $nama) {
             foreach ($data['jawaban'] as $pertanyaanId => $nilai) {
-                $kunci = [
+                CeeJawaban::updateOrCreate([
                     'opd_id' => $data['opd_id'],
                     'tahun_penilaian' => $data['tahun'],
                     'cee_pertanyaan_id' => (int) $pertanyaanId,
                     'responden_nama' => $nama,
-                ];
-                $isi = [
+                ], [
                     'responden_jabatan' => $data['responden_jabatan'],
                     'submitted_by' => $request->user()->id,
                     'nilai' => $nilai,
-                ];
-
-                try {
-                    CeeJawaban::updateOrCreate($kunci, $isi);
-                } catch (QueryException $e) {
-                    // 23000 = pelanggaran indeks unik: baris kembarnya baru
-                    // saja dibuat oleh permintaan lain yang berjalan
-                    // bersamaan — paling sering karena tombol Simpan diklik
-                    // dua kali. Itu bukan galat bagi pengisi, jadi
-                    // diperlakukan sebagai pembaruan, bukan dilempar.
-                    if (($e->errorInfo[0] ?? null) !== '23000') {
-                        throw $e;
-                    }
-                    CeeJawaban::where($kunci)->update($isi);
-                }
+                ]);
             }
-        }, 5);
+        });
 
         return redirect()
             ->route('cee.form1a', ['opd_id' => $data['opd_id'], 'tahun' => $data['tahun']])
@@ -620,27 +601,35 @@ class CeeFormController extends Controller
         // yg kebetulan ada.
         $dataUmum = $this->dataUmumForOpd((int) $data['opd_id'], (int) $data['tahun']);
 
-        // Akun bersama CEE_Survey hanya boleh mengisi simpulan yg BELUM ada
-        // (opd+tahun+unsur ini pertama kali diisi) — tidak boleh menimpa
-        // simpulan yg sudah tersimpan (bisa punya OPD lain / sudah disahkan).
-        if ($request->user()->hasRole('cee-survey')) {
-            $existingUnsurIds = CeeSimpulan::where('opd_id', $data['opd_id'])
-                ->where('tahun_penilaian', $data['tahun'])
-                ->whereIn('cee_unsur_id', collect($data['simpulan'])->pluck('cee_unsur_id'))
-                ->pluck('cee_unsur_id');
-
-            if ($existingUnsurIds->isNotEmpty()) {
-                abort(403, 'Akun survei CEE tidak dapat mengedit simpulan yang sudah tersimpan. Hubungi PIC OPD, Admin, atau Super Admin.');
-            }
-        }
-
         // Kepala OPD: PIC boleh menimpa manual via field kepala_opd_nama/
         // jabatan di request — kalau tidak diisi, fallback ke snapshot Data
         // Umum OPD ybs (perilaku lama, tetap dipertahankan).
         $kepalaOpdNama = $data['kepala_opd_nama'] ?? $dataUmum->nama_kepala_dinas ?? null;
         $kepalaOpdJabatan = $data['kepala_opd_jabatan'] ?? $dataUmum->jabatan_kepala_dinas ?? null;
 
-        DB::transaction(function () use ($data, $request, $kepalaOpdNama, $kepalaOpdJabatan) {
+        // Sama seperti 1a: satu OPD bisa disimpulkan oleh beberapa orang yang
+        // memakai akun yang sama, dan indeks unik cee_simpulan_unique membuat
+        // yang kalah balapan kena galat kunci ganda kalau tidak dibungkus.
+        SafeUpsert::run(function () use ($data, $request, $kepalaOpdNama, $kepalaOpdJabatan) {
+            // Akun bersama CEE_Survey hanya boleh mengisi simpulan yg BELUM
+            // ada (opd+tahun+unsur ini pertama kali diisi) — tidak boleh
+            // menimpa simpulan yg sudah tersimpan (bisa punya OPD lain /
+            // sudah disahkan). Diperiksa DI DALAM transaksi: kalau di luar,
+            // delapan orang yang menekan Simpan bersamaan sama-sama melihat
+            // "belum ada" lalu tujuh di antaranya tetap menimpa milik yang
+            // pertama — penjaganya lolos justru pada keadaan yang dijaganya.
+            if ($request->user()->hasRole('cee-survey')) {
+                $sudahAda = CeeSimpulan::where('opd_id', $data['opd_id'])
+                    ->where('tahun_penilaian', $data['tahun'])
+                    ->whereIn('cee_unsur_id', collect($data['simpulan'])->pluck('cee_unsur_id'))
+                    ->lockForUpdate()
+                    ->exists();
+
+                if ($sudahAda) {
+                    abort(403, 'Akun survei CEE tidak dapat mengedit simpulan yang sudah tersimpan. Hubungi PIC OPD, Admin, atau Super Admin.');
+                }
+            }
+
             foreach ($data['simpulan'] as $row) {
                 CeeSimpulan::updateOrCreate(
                     [

@@ -6,6 +6,7 @@ use App\Models\DataUmum;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Models\User;
+use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -180,7 +181,14 @@ class DataUmumController extends Controller
         $payload = collect(self::FIELDS)->mapWithKeys(fn ($f) => [$f => $validated[$f] ?? null])->all();
         $payload['penandatangan'] = $penandatangan;
 
-        DataUmum::updateOrCreate(['user_id' => $targetUser->id, 'tahun_penilaian' => (string) $tahun], $payload);
+        // Satu akun OPD sering dipakai bergantian oleh beberapa staf; kalau
+        // dua di antaranya menyimpan Data Umum tahun yang sama bersamaan,
+        // keduanya bisa mendapati barisnya belum ada lalu menabrak indeks
+        // unik (user_id, tahun_penilaian).
+        SafeUpsert::run(fn () => DataUmum::updateOrCreate(
+            ['user_id' => $targetUser->id, 'tahun_penilaian' => (string) $tahun],
+            $payload,
+        ));
 
         // Field Pemda-wide (Nama Pemda, Periode, Tahun, Kepala Daerah, Sumber
         // Dokumen) hanya boleh MENGUBAH DEFAULT GLOBAL bila yg menyimpan

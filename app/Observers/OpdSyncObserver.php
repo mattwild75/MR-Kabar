@@ -6,6 +6,7 @@ use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\KrsPemda;
 use App\Models\Opd;
+use App\Support\SafeUpsert;
 
 /**
  * Sinkron otomatis: setiap kali baris KRS_Pemda/KRS_PD/KRO_PD disimpan,
@@ -28,6 +29,10 @@ class OpdSyncObserver
             return;
         }
 
-        Opd::firstOrCreate(['nama' => $nama]);
+        // Kolom opd.nama unik. Dua baris risiko yang disimpan bersamaan dan
+        // sama-sama menyebut OPD yang belum terdaftar akan membuat salah
+        // satunya gagal — dan yang gagal bukan cuma sync ini, tapi
+        // penyimpanan baris risikonya, karena observer ikut satu transaksi.
+        SafeUpsert::run(fn () => Opd::firstOrCreate(['nama' => $nama]));
     }
 }

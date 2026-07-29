@@ -16,9 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
  * memeriksa langsung membocorkan hak tulis. Di sini, fitur apa pun yang
  * ditambahkan kemudian otomatis ikut terkunci tanpa perlu diingat.
  *
- * Yang tetap diizinkan hanya hal yang menyangkut sesi & akun sendiri —
- * tanpa ini pengguna eksekutif tidak bisa keluar dari aplikasi atau
- * mengganti kata sandi sementaranya sendiri.
+ * Yang tetap diizinkan hanya hal yang menyangkut sesi — tanpa ini pengguna
+ * eksekutif tidak bisa keluar dari aplikasi atau menandai notifikasinya
+ * terbaca.
  */
 class ViewerReadOnly
 {
@@ -33,10 +33,21 @@ class ViewerReadOnly
     private const ALLOWED_ROUTES = [
         'logout',
         'session.extend',
-        'password.update',
-        'profile.update',
         'notifications.read',
         'notifications.read-all',
+    ];
+
+    /**
+     * Pengaturan akun sendiri. Dulu ikut diizinkan dgn alasan "toh akunnya
+     * sendiri" — alasan itu tidak berlaku di sini: peran eksekutif hanya
+     * dipegang SATU akun (mrkabarvip) yang dipakai bergantian oleh banyak
+     * pejabat. Satu orang yang mengganti kata sandinya mengunci semua yang
+     * lain sekaligus, dan mengganti emailnya membuka jalan ambil alih lewat
+     * "lupa kata sandi". Pengelolaannya dikembalikan ke Admin.
+     */
+    private const ACCOUNT_ROUTES = [
+        'password.update',
+        'profile.update',
     ];
 
     public function handle(Request $request, Closure $next): Response
@@ -51,11 +62,15 @@ class ViewerReadOnly
             return $next($request);
         }
 
-        if (in_array($request->route()?->getName(), self::ALLOWED_ROUTES, true)) {
+        $rute = $request->route()?->getName();
+
+        if (in_array($rute, self::ALLOWED_ROUTES, true)) {
             return $next($request);
         }
 
-        $pesan = 'Akun peninjau hanya dapat melihat data. Perubahan data tidak diizinkan.';
+        $pesan = in_array($rute, self::ACCOUNT_ROUTES, true)
+            ? 'Akun peninjau dipakai bersama, jadi profil dan kata sandinya hanya dapat diubah oleh Admin.'
+            : 'Akun peninjau hanya dapat melihat data. Perubahan data tidak diizinkan.';
 
         if ($request->expectsJson()) {
             return response()->json(['message' => $pesan], 403);

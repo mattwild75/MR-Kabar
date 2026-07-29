@@ -17,6 +17,7 @@ use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
 use App\Models\RiskLevel;
 use App\Services\PdfPrintService;
+use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -110,10 +111,13 @@ class CetakLaporanController extends Controller
 
         $data = $request->validate(array_fill_keys($allowedKeys, ['nullable', 'string']));
 
-        LaporanNarasi::updateOrCreate(
+        // Narasi laporan berindeks unik (jenis, opd, tahun, triwulan) — dua
+        // orang yang menyimpan narasi laporan yang sama bersamaan tidak boleh
+        // membuat salah satunya kena galat kunci ganda.
+        SafeUpsert::run(fn () => LaporanNarasi::updateOrCreate(
             ['jenis_laporan' => $jenis, 'opd_id' => $opdId, 'tahun_penilaian' => $tahun, 'triwulan' => $triwulan],
             [...$data, 'submitted_by' => $request->user()->id],
-        );
+        ));
     }
 
     // ── Form 11: Laporan Pelaksanaan Penilaian Risiko ────────────────────
