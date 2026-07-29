@@ -10,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { type BreadcrumbItem } from '@/types';
+import EduVideoPlayer from '@/components/edu-video-player';
+import { VIDEO_BAWAAN, VTT_BAWAAN, STEM_BAWAAN } from '@/lib/edu-video';
 
 const DEFAULT_WARNA = '#181818';
 const DEFAULT_LOGO_BG = '#ffffff';
@@ -93,7 +95,7 @@ export default function SettingForm({ setting }: Props) {
     setting?.login_splash_video ? `/storage/${setting.login_splash_video}` : null,
   );
   const [eduVideoPreview, setEduVideoPreview] = useState<string | null>(
-    setting?.edu_video_path ? `/storage/${setting.edu_video_path}` : '/video/video-edukasi-mr-kabar.mp4',
+    setting?.edu_video_path ? `/storage/${setting.edu_video_path}` : VIDEO_BAWAAN,
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -415,7 +417,34 @@ export default function SettingForm({ setting }: Props) {
 
                     {eduVideoPreview && !removeEduVideo && (
                       <div className="mt-2 space-y-2">
-                        <video src={eduVideoPreview} controls preload="none" className="max-h-48 rounded border" />
+                        {/* Untuk video BAWAAN, pratinjaunya memakai pemutar yang
+                            sama persis dengan yang dilihat pengguna — bukan
+                            elemen <video> polos. Bedanya nyata: suara video
+                            bawaan datang dari tiga jalur audio terpisah, jadi
+                            hanya pemutar inilah yang membunyikannya, menuruti
+                            tombol bisu, dan menerapkan keempat setelan di bawah.
+                            Nilainya diambil dari state form, bukan dari yang
+                            tersimpan — supaya bisa didengar & dilihat SEBELUM
+                            disimpan. Berkas unggahan admin audionya menyatu di
+                            dalam video, jadi tetap diputar apa adanya. */}
+                        {eduVideoPreview === VIDEO_BAWAAN ? (
+                          <div className="max-w-md">
+                            <EduVideoPlayer
+                              src={VIDEO_BAWAAN}
+                              stems={STEM_BAWAAN}
+                              vtt={VTT_BAWAAN}
+                              gains={{ narration: gainNarration, music: gainMusic, sfx: gainSfx }}
+                              subtitleEnabled={subtitleEnabled}
+                              subtitleSize={subtitleSize}
+                            />
+                            <p className="text-muted-foreground mt-1.5 text-xs">
+                              Pratinjau ini langsung mengikuti setelan di bawah — geser slider sambil video
+                              berjalan untuk mendengar dan melihat hasilnya sebelum disimpan.
+                            </p>
+                          </div>
+                        ) : (
+                          <video src={eduVideoPreview} controls preload="none" className="max-h-48 rounded border" />
+                        )}
                         {setting?.edu_video_path && (
                           <div>
                             <Button

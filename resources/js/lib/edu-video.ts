@@ -1,6 +1,18 @@
 import { usePage } from '@inertiajs/react';
 import type { EduVideoStems } from '@/components/edu-video-player';
 
+/**
+ * Berkas video edukasi BAWAAN. Didefinisikan di sini saja karena dipakai di
+ * tiga tempat: dialog /login, /panduan, dan pratinjau di /settingsapp.
+ */
+export const VIDEO_BAWAAN = '/video/video-edukasi-mr-kabar.mp4';
+export const VTT_BAWAAN = '/video/edu-subtitle.vtt';
+export const STEM_BAWAAN = {
+    narration: '/video/edu-narration.mp3',
+    music: '/video/edu-music.mp3',
+    sfx: '/video/edu-sfx.mp3',
+};
+
 interface SettingVideo {
     edu_video_enabled?: boolean;
     edu_video_path?: string | null;
@@ -32,18 +44,12 @@ export function useEduVideo() {
         // video BAWAAN. Kalau admin memasang videonya sendiri, semua itu tidak
         // lagi cocok dan harus disembunyikan, bukan sekadar dibiarkan meleset.
         bawaan: !customPath,
-        src: customPath ? `/storage/${customPath}` : '/video/video-edukasi-mr-kabar.mp4',
+        src: customPath ? `/storage/${customPath}` : VIDEO_BAWAAN,
         // Jalur audio terpisah hanya ada untuk video BAWAAN. Berkas yang
         // diunggah admin sendiri audionya sudah menyatu, jadi diputar apa
         // adanya — begitu pula subtitle-nya, yang tidak kita punya.
-        stems: (customPath
-            ? null
-            : {
-                  narration: '/video/edu-narration.mp3',
-                  music: '/video/edu-music.mp3',
-                  sfx: '/video/edu-sfx.mp3',
-              }) as EduVideoStems | null,
-        vtt: customPath ? null : '/video/edu-subtitle.vtt',
+        stems: (customPath ? null : STEM_BAWAAN) as EduVideoStems | null,
+        vtt: customPath ? null : VTT_BAWAAN,
         gains: {
             narration: setting?.edu_video_gain_narration ?? 100,
             music: setting?.edu_video_gain_music ?? 100,
