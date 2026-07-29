@@ -446,6 +446,7 @@ export default function SettingForm({ setting }: Props) {
                               gains={{ narration: gainNarration, music: gainMusic, sfx: gainSfx }}
                               subtitleEnabled={subtitleEnabled}
                               subtitleSize={subtitleSize}
+                              chapterNav
                             />
                             <p className="text-muted-foreground mt-1.5 text-xs">
                               Pratinjau ini langsung mengikuti setelan di bawah — geser slider sambil video

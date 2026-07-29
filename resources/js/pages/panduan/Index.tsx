@@ -106,6 +106,7 @@ export default function PanduanIndex() {
               subtitleSize={video.subtitleSize}
               stems={video.stems}
               gains={video.gains}
+              chapterNav={video.bawaan}
               showChapters={video.bawaan}
               downloads={
                 video.bawaan

@@ -156,6 +156,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 vtt={video.vtt}
                                 subtitleEnabled={video.subtitleEnabled}
                                 subtitleSize={video.subtitleSize}
+                                chapterNav={video.bawaan}
                             />
                             <p className="text-muted-foreground mt-3 text-xs">
                                 {video.bawaan && 'Durasi 23 menit. '}

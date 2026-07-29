@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Maximize, Minimize } from 'lucide-react';
+import { Captions, CaptionsOff, ListVideo, Maximize, Minimize } from 'lucide-react';
 import chaptersData from '@/data/edu-video-chapters.json';
 
 export interface EduVideoStems {
@@ -35,6 +35,13 @@ interface Props {
     subtitleEnabled?: boolean;
     /** Ukuran teks subtitle dalam persen (50–200). */
     subtitleSize?: number;
+    /**
+     * Menit-detik bab pada edu-video-chapters.json hanya berlaku untuk video
+     * BAWAAN. Nyalakan ini kalau video yang diputar memang video itu, supaya
+     * tombol daftar isi & lompat antar-bab muncul di dalam pemutar (termasuk
+     * saat layar penuh, di mana daftar di bawah pemutar tidak terjangkau).
+     */
+    chapterNav?: boolean;
     /** Tampilkan daftar isi + panduan sasaran + unduhan (untuk halaman Panduan). */
     showChapters?: boolean;
     /** Tautan unduhan (berkas ringan bersubtitle, transkrip). */
@@ -56,6 +63,11 @@ const SASARAN = ['Semua', 'PIC OPD', 'Pimpinan', 'Admin'] as const;
 
 const jam = (d: number) => `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`;
 
+// Tombol tambahan yang mengambang di atas video (daftar isi, subtitle, layar
+// penuh). Bentuknya disamakan supaya barisnya terbaca sebagai satu kelompok.
+const TOMBOL =
+    'rounded-md bg-black/60 p-2 text-white/85 hover:bg-black/85 hover:text-white focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none';
+
 export default function EduVideoPlayer({
     src,
     stems,
@@ -63,6 +75,7 @@ export default function EduVideoPlayer({
     vtt,
     subtitleEnabled = true,
     subtitleSize = 70,
+    chapterNav = false,
     showChapters = false,
     downloads,
 }: Props) {
@@ -235,7 +248,16 @@ export default function EduVideoPlayer({
     const [layarPenuh, setLayarPenuh] = useState(false);
     const [kursorDiVideo, setKursorDiVideo] = useState(false);
     const [sedangJeda, setSedangJeda] = useState(true);
+    const [daftarBuka, setDaftarBuka] = useState(false);
     const pembungkusRef = useRef<HTMLDivElement>(null);
+
+    // Pengaturan aplikasi menentukan keadaan AWAL subtitle; penonton boleh
+    // mematikannya untuk dirinya sendiri (tombol CC / tombol "c"). Karena
+    // subtitle digambar sendiri, tombol CC bawaan peramban tidak tersedia —
+    // sudah diperiksa langsung di Chrome, tidak ada tombolnya sama sekali —
+    // jadi tanpa tombol ini subtitle tidak bisa dimatikan penonton.
+    const [subtitleOn, setSubtitleOn] = useState(subtitleEnabled);
+    useEffect(() => setSubtitleOn(subtitleEnabled), [subtitleEnabled]);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -335,8 +357,8 @@ export default function EduVideoPlayer({
             // cuechange, tapi peramban tidak ikut menggambarnya. Kalau
             // 'showing', subtitle akan tampil DUA KALI (versi peramban dan
             // versi kita).
-            track.mode = subtitleEnabled ? 'hidden' : 'disabled';
-            if (!subtitleEnabled) return setTeksCue('');
+            track.mode = subtitleOn ? 'hidden' : 'disabled';
+            if (!subtitleOn) return setTeksCue('');
             track.addEventListener('cuechange', bacaCue);
             bacaCue();
         };
@@ -348,15 +370,106 @@ export default function EduVideoPlayer({
             track?.removeEventListener('cuechange', bacaCue);
             video.removeEventListener('loadedmetadata', terapkan);
         };
-    }, [vtt, subtitleEnabled]);
+    }, [vtt, subtitleOn]);
 
-    const lompat = (detik: number) => {
+    const lompat = (detik: number, putar = true) => {
         const v = videoRef.current;
         if (!v) return;
         v.currentTime = detik;
         setPosisi(detik);
-        v.play().catch(() => undefined);
+        if (putar) v.play().catch(() => undefined);
     };
+
+    const geser = (delta: number) => {
+        const v = videoRef.current;
+        if (!v) return;
+        const batas = Number.isFinite(v.duration) ? v.duration : Infinity;
+        v.currentTime = Math.min(batas, Math.max(0, v.currentTime + delta));
+    };
+
+    const geserVolume = (delta: number) => {
+        const v = videoRef.current;
+        if (!v) return;
+        // Menaikkan volume saat sedang bisu tidak akan terdengar apa-apa
+        // kalau bisunya tidak ikut dilepas — itu tampak seperti tombolnya
+        // rusak.
+        v.muted = false;
+        v.volume = Math.min(1, Math.max(0, v.volume + delta));
+    };
+
+    /**
+     * Pola pemutar pada umumnya: "sebelumnya" mengulang bab yang sedang
+     * berjalan kalau sudah lewat beberapa detik, dan baru mundur ke bab
+     * sebelumnya kalau ditekan di awal bab.
+     */
+    const babGeser = (arah: 1 | -1) => {
+        const i = babAktif < 0 ? 0 : babAktif;
+        const bab = CHAPTERS[i];
+        if (!bab) return;
+        if (arah === -1 && posisi - bab.mulai > 3) return lompat(bab.mulai);
+        const tujuan = CHAPTERS[i + arah];
+        lompat(tujuan ? tujuan.mulai : arah === 1 ? bab.selesai : 0);
+    };
+
+    // Ditangkap pada fase CAPTURE lalu default-nya dibatalkan. Elemen <video>
+    // punya pintasannya sendiri (spasi & panah) saat ia yang dipegang fokus;
+    // kalau ditangani pada fase bubble, aksi bawaannya sudah telanjur jalan
+    // dan setiap penekanan tombol akan dihitung dua kali.
+    const onKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        const v = videoRef.current;
+        if (!v) return;
+
+        const sasaran = e.target as HTMLElement;
+        if (sasaran.tagName === 'INPUT' || sasaran.tagName === 'TEXTAREA' || sasaran.isContentEditable) return;
+
+        const tangani = (aksi: () => void) => {
+            e.preventDefault();
+            e.stopPropagation();
+            aksi();
+        };
+
+        switch (e.key) {
+            case ' ':
+            case 'k':
+            case 'K':
+                return tangani(() => (v.paused ? v.play().catch(() => undefined) : v.pause()));
+            case 'ArrowLeft':
+                return tangani(() => geser(-5));
+            case 'ArrowRight':
+                return tangani(() => geser(5));
+            case 'j':
+            case 'J':
+                return tangani(() => geser(-10));
+            case 'l':
+            case 'L':
+                return tangani(() => geser(10));
+            case 'ArrowUp':
+                return tangani(() => geserVolume(0.1));
+            case 'ArrowDown':
+                return tangani(() => geserVolume(-0.1));
+            case 'm':
+            case 'M':
+                return tangani(() => { v.muted = !v.muted; });
+            case 'f':
+            case 'F':
+                return tangani(alihLayarPenuh);
+            case 'c':
+            case 'C':
+                return vtt ? tangani(() => setSubtitleOn((s) => !s)) : undefined;
+            case 'Home':
+                return tangani(() => lompat(0, false));
+            case 'n':
+            case 'N':
+                return chapterNav ? tangani(() => babGeser(1)) : undefined;
+            case 'p':
+            case 'P':
+                return chapterNav ? tangani(() => babGeser(-1)) : undefined;
+            case 'Escape':
+                return daftarBuka ? tangani(() => setDaftarBuka(false)) : undefined;
+        }
+    };
+
+    const judulBab = babAktif >= 0 ? CHAPTERS[babAktif].judul : '';
 
     return (
         <div className="space-y-3">
@@ -372,9 +485,11 @@ export default function EduVideoPlayer({
                 dari elemen itu. */}
             <div
                 ref={pembungkusRef}
+                tabIndex={0}
+                onKeyDownCapture={onKeyDown}
                 onMouseEnter={() => setKursorDiVideo(true)}
                 onMouseLeave={() => setKursorDiVideo(false)}
-                className={`relative overflow-hidden bg-black ${
+                className={`relative overflow-hidden bg-black focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:outline-none ${
                     layarPenuh ? 'flex h-full w-full items-center justify-center' : 'rounded-md'
                 }`}
             >
@@ -398,21 +513,100 @@ export default function EduVideoPlayer({
                     hanya saat kursor di atas video atau video sedang jeda,
                     mengikuti perilaku baris kontrol, supaya tidak menutupi
                     gambar saat ditonton. */}
-                <button
-                    type="button"
-                    onClick={alihLayarPenuh}
-                    title={layarPenuh ? 'Keluar dari layar penuh' : 'Layar penuh'}
-                    aria-label={layarPenuh ? 'Keluar dari layar penuh' : 'Layar penuh'}
-                    className={`absolute right-3 rounded-md bg-black/60 p-2 text-white/85 transition-opacity hover:bg-black/85 hover:text-white focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none ${
+                <div
+                    className={`absolute right-3 flex items-center gap-2 transition-opacity ${
                         layarPenuh ? 'bottom-24' : 'bottom-14'
                     } ${tampilTombolPenuh ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
                 >
-                    {layarPenuh ? (
-                        <Minimize className="h-5 w-5" aria-hidden="true" />
-                    ) : (
-                        <Maximize className="h-5 w-5" aria-hidden="true" />
+                    {chapterNav && (
+                        <button
+                            type="button"
+                            onClick={() => setDaftarBuka((b) => !b)}
+                            title="Daftar isi (n / p untuk bab berikut & sebelumnya)"
+                            aria-label="Daftar isi"
+                            aria-expanded={daftarBuka}
+                            className={TOMBOL}
+                        >
+                            <ListVideo className="h-5 w-5" aria-hidden="true" />
+                        </button>
                     )}
-                </button>
+
+                    {vtt && (
+                        <button
+                            type="button"
+                            onClick={() => setSubtitleOn((s) => !s)}
+                            title={subtitleOn ? 'Matikan subtitle (c)' : 'Nyalakan subtitle (c)'}
+                            aria-label={subtitleOn ? 'Matikan subtitle' : 'Nyalakan subtitle'}
+                            aria-pressed={subtitleOn}
+                            className={TOMBOL}
+                        >
+                            {subtitleOn ? (
+                                <Captions className="h-5 w-5" aria-hidden="true" />
+                            ) : (
+                                <CaptionsOff className="h-5 w-5" aria-hidden="true" />
+                            )}
+                        </button>
+                    )}
+
+                    <button
+                        type="button"
+                        onClick={alihLayarPenuh}
+                        title={layarPenuh ? 'Keluar dari layar penuh (f)' : 'Layar penuh (f)'}
+                        aria-label={layarPenuh ? 'Keluar dari layar penuh' : 'Layar penuh'}
+                        className={TOMBOL}
+                    >
+                        {layarPenuh ? (
+                            <Minimize className="h-5 w-5" aria-hidden="true" />
+                        ) : (
+                            <Maximize className="h-5 w-5" aria-hidden="true" />
+                        )}
+                    </button>
+                </div>
+
+                {/* Daftar isi di DALAM pemutar. Daftar di bawah pemutar tidak
+                    terjangkau saat layar penuh, padahal di sanalah melompat
+                    antar-bab paling dibutuhkan pada video 23 menit. */}
+                {chapterNav && daftarBuka && (
+                    <div
+                        className={`absolute right-3 z-10 flex w-72 max-w-[85%] flex-col overflow-hidden rounded-md bg-black/85 text-white shadow-lg backdrop-blur-sm ${
+                            layarPenuh ? 'bottom-36 max-h-[60vh]' : 'bottom-26 max-h-[65%]'
+                        }`}
+                    >
+                        <div className="flex items-baseline justify-between border-b border-white/15 px-3 py-2">
+                            <span className="text-xs font-medium">Daftar isi</span>
+                            <span className="text-[11px] text-white/60">n / p</span>
+                        </div>
+                        <ol className="overflow-y-auto py-1">
+                            {CHAPTERS.map((c, i) => (
+                                <li key={c.id}>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            lompat(c.mulai);
+                                            setDaftarBuka(false);
+                                        }}
+                                        className={`flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs transition hover:bg-white/15 ${
+                                            i === babAktif ? 'bg-white/20 font-medium' : ''
+                                        }`}
+                                    >
+                                        <span className="w-10 shrink-0 text-right font-mono tabular-nums text-white/60">
+                                            {jam(c.mulai)}
+                                        </span>
+                                        <span className="flex-1">{c.judul}</span>
+                                    </button>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                )}
+
+                {/* Judul bab yang sedang berjalan. Di layar penuh tidak ada
+                    petunjuk lain soal posisi kita di dalam video 23 menit. */}
+                {chapterNav && judulBab && tampilTombolPenuh && (
+                    <div className="pointer-events-none absolute top-3 left-3 rounded bg-black/60 px-2 py-1 text-xs text-white/90">
+                        {judulBab}
+                    </div>
+                )}
 
                 {teksCue && (
                     // pointer-events-none supaya klik tetap tembus ke video
@@ -493,6 +687,23 @@ export default function EduVideoPlayer({
                             );
                         })}
                     </ol>
+
+                    {/* Pintasan hanya bekerja saat pemutarnya dipegang fokus —
+                        klik videonya dulu. Ditulis di sini karena tanpa
+                        disebutkan tidak ada yang akan menemukannya. */}
+                    <p className="text-muted-foreground text-xs">
+                        Klik videonya dulu, lalu:{' '}
+                        <kbd className="rounded border px-1">spasi</kbd> putar/jeda ·{' '}
+                        <kbd className="rounded border px-1">←</kbd>
+                        <kbd className="rounded border px-1">→</kbd> 5 detik ·{' '}
+                        <kbd className="rounded border px-1">J</kbd>
+                        <kbd className="rounded border px-1">L</kbd> 10 detik ·{' '}
+                        <kbd className="rounded border px-1">P</kbd>
+                        <kbd className="rounded border px-1">N</kbd> bab ·{' '}
+                        <kbd className="rounded border px-1">M</kbd> bisu ·{' '}
+                        <kbd className="rounded border px-1">C</kbd> subtitle ·{' '}
+                        <kbd className="rounded border px-1">F</kbd> layar penuh
+                    </p>
 
                     {downloads && downloads.length > 0 && (
                         <div className="flex flex-wrap gap-3 text-sm">
