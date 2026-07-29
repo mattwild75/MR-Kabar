@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Browsershot\Browsershot;
 
 /**
@@ -48,12 +49,55 @@ use Spatie\Browsershot\Browsershot;
 class PdfPrintService
 {
     /**
+     * Satu pencetakan PDF pada satu waktu untuk seluruh aplikasi.
+     *
+     * Tiap permintaan PDF menjalankan satu Chromium sendiri. Terukur: satu
+     * permintaan selesai 7 detik dan menghasilkan berkas ~940 KB, tapi EMPAT
+     * permintaan bersamaan membuat KEEMPATNYA gagal 500 setelah 32 detik —
+     * Chromium-nya berebut CPU sampai setiap permintaan menembus batas waktu
+     * eksekusi PHP dan mati di tengah render. Bukan sebagian yang gagal,
+     * semuanya, termasuk yang menekan tombol duluan.
+     *
+     * Yang ditolak di sini permintaannya, BUKAN diantrekan menunggu giliran.
+     * Mengantre sempat dicoba dan ternyata salah bentuk: permintaan yang
+     * menunggu tetap memegang satu pekerja PHP, padahal Chromium butuh
+     * pekerja itu untuk membuka halaman cetaknya sendiri ke server yang sama.
+     * Penunggunya justru membuat render yang sedang berjalan kelaparan —
+     * terukur, satu dari empat tetap gagal. Menolak cepat membebaskan
+     * pekerjanya seketika, sehingga yang sedang mencetak pasti selesai.
+     */
+    private const KUNCI = 'cetak-pdf';
+
+    /** Umur kunci: pelindung kalau prosesnya mati tanpa sempat melepas. */
+    private const UMUR_KUNCI = 150;
+
+    /**
      * @param  string  $url  URL lengkap halaman React yg mau dicetak (mis. url()->to('/cetak/risiko/2a?tahun=2026')).
      * @param  string  $filename  Nama file unduhan, TANPA ekstensi .pdf.
      */
     public static function downloadFromUrl(Request $request, string $url, string $filename)
     {
-        $pdf = self::render($request, $url);
+        // Batas bawaan PHP 30 detik terlalu mepet: render normal 7 detik, tapi
+        // halaman yang isinya banyak bisa jauh lebih lama.
+        set_time_limit(self::UMUR_KUNCI);
+
+        $kunci = Cache::lock(self::KUNCI, self::UMUR_KUNCI);
+
+        if (! $kunci->get()) {
+            // Balasan dirakit sendiri, bukan abort(503, $pesan): halaman galat
+            // bawaan Laravel hanya menampilkan "Service Unavailable" dan
+            // membuang pesannya begitu APP_DEBUG mati — persis di lingkungan
+            // yang membacanya. Tombol kembali disertakan karena tombol Unduh
+            // PDF berupa tautan biasa, jadi pengguna benar-benar berpindah
+            // halaman dan kehilangan pilihan OPD/tahun yang sudah diaturnya.
+            abort(response(view('pdf-sibuk'), 503, ['Retry-After' => 15]));
+        }
+
+        try {
+            $pdf = self::render($request, $url);
+        } finally {
+            $kunci->release();
+        }
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
@@ -93,7 +137,10 @@ class PdfPrintService
             // dgn @page milik halaman — showPrintBackground() TETAP dipakai
             // supaya warna latar (highlight kuning Sumber Data, dll) ikut
             // tercetak, bukan cuma teks hitam-putih (default Chrome print).
-            ->showBackground();
+            ->showBackground()
+            // Dibatasi di bawah umur kunci: kalau Chromium tersangkut, yang
+            // mati harus prosesnya, bukan giliran orang berikutnya.
+            ->timeout(self::UMUR_KUNCI - 30);
 
         // Override opsional lewat .env (BROWSERSHOT_NODE_BINARY /
         // BROWSERSHOT_NPM_BINARY) kalau Browsershot gagal auto-detect node/
