@@ -28,10 +28,19 @@ use Inertia\Inertia;
  *
  * EDITABLE lewat UI (tambah/lepas kaitan risiko per program) — pemetaan
  * AWAL diisi lewat ProgramBupatiRisikoSeeder (analisis satu kali per
- * periode RPJM), tapi PIC/Admin bisa mengoreksi/melengkapi kapan saja
- * lewat halaman ini. Tidak dibatasi admin-only (keputusan eksplisit user:
- * halaman ini murni informasi read-mostly, bukan data sensitif per-OPD).
- * Hapus kaitan = SOFT DELETE (lihat migrasi
+ * periode RPJM), tapi bisa dikoreksi/dilengkapi kapan saja lewat halaman
+ * ini.
+ *
+ * MENAMBAH kaitan terbuka untuk semua user yang login, termasuk PIC OPD —
+ * ini keputusan eksplisit user: halaman ini informasi read-mostly, dan PIC
+ * yang paling tahu risiko OPD-nya sendiri.
+ *
+ * MELEPAS kaitan dibatasi Admin & Super Admin sejak 29 Juli 2026, atas
+ * permintaan user setelah melihat tombol hapus muncul di akun PIC. Semula
+ * ikut terbuka seperti tambah, tapi sifatnya berbeda: satu klik
+ * menghilangkan hasil analisis yang dipakai seluruh Pemda dan ikut tercetak
+ * untuk Bupati, sementara kaitan yang keliru masih bisa ditinjau dan
+ * dikoreksi belakangan. Hapus kaitan = SOFT DELETE (lihat migrasi
  * 2026_07_27_160237_add_soft_deletes_to_program_bupati_risiko_table),
  * konsisten dgn konvensi hapus data risiko lain di aplikasi ini.
  */
@@ -75,7 +84,25 @@ class ProgramBupatiRisikoController extends Controller
             'riskLevels' => $this->riskRef->riskLevelsOrdered(),
             'totalRisikoTerpetakan' => $this->hitungTotalRisikoTerpetakan(),
             'visiMisiPemda' => $this->visiMisiPerMisi(),
+            // Dipakai frontend utk menyembunyikan tombol hapus. Ini MURNI
+            // kosmetik — penjaga sesungguhnya ada di destroyRisiko().
+            'bolehHapus' => $this->bolehMengelolaKaitan(),
         ]);
+    }
+
+    /**
+     * Hanya Admin & Super Admin yang boleh MELEPAS kaitan risiko dari
+     * program Bupati.
+     *
+     * Menambah kaitan tetap terbuka untuk PIC OPD (lihat catatan kelas di
+     * atas) — yang dibatasi khusus di sini adalah penghapusannya, karena
+     * sifatnya beda: satu klik menghilangkan hasil analisis yang dipakai
+     * seluruh Pemda, sementara menambah kaitan yang keliru masih bisa
+     * ditinjau dan dikoreksi belakangan.
+     */
+    private function bolehMengelolaKaitan(): bool
+    {
+        return (bool) request()->user()?->hasAnyRole(['admin', 'super-admin']);
     }
 
     /**
@@ -325,6 +352,14 @@ class ProgramBupatiRisikoController extends Controller
     /** Lepas satu kaitan risiko dari program — SOFT DELETE, bisa dipulihkan lewat /trash. */
     public function destroyRisiko(ProgramBupatiRisiko $pivot)
     {
+        // Sebelumnya endpoint ini TIDAK memeriksa apa pun: siapa saja yang
+        // login, termasuk 49 akun PIC OPD, bisa melepas kaitan risiko mana
+        // pun dari program Bupati mana pun. Menyembunyikan tombolnya saja
+        // tidak cukup — alamatnya tetap bisa dipanggil langsung.
+        if (!$this->bolehMengelolaKaitan()) {
+            abort(403, 'Hanya Admin atau Super Admin yang dapat melepas kaitan risiko dari Program Bupati.');
+        }
+
         $pivot->delete();
 
         return back()->with('success', 'Kaitan risiko berhasil dihapus.');

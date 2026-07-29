@@ -24,6 +24,7 @@ import {
 import { ChevronDown, ChevronRight, Plus, Search, Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { riskLevelClassName, type RiskLevelBand } from '@/lib/risk-level';
+import HighlightText from '@/components/ui/highlight-text';
 
 interface ProgramLainRef {
   nomor: number;
@@ -71,7 +72,17 @@ interface PageProps {
   riskLevels: RiskLevelBand[];
   totalRisikoTerpetakan: number;
   visiMisiPemda: VisiMisiPemda;
+  /** Hanya Admin & Super Admin. Kosmetik — penjaganya di destroyRisiko(). */
+  bolehHapus: boolean;
 }
+
+/** Apakah teks ini yang membuat barisnya lolos saring? */
+const cocok = (teks: string | null | undefined, query: string) =>
+  query !== '' && (teks ?? '').toLowerCase().includes(query);
+
+/** Berapa baris risiko di dalam program ini yang benar-benar cocok. */
+const jumlahRisikoCocok = (program: ProgramRow, query: string) =>
+  program.risiko.filter((r) => cocok(r.uraian_risiko, query) || cocok(r.opd_penanggung_jawab, query)).length;
 
 interface HasilPencarianRisiko {
   tipe: RisikoRow['tipe'];
@@ -90,7 +101,7 @@ const TIPE_LABEL: Record<RisikoRow['tipe'], string> = {
 
 const MISI_URUTAN_LIST = [1, 2, 3, 4, 5, 6, 7] as const;
 
-export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRisikoTerpetakan, visiMisiPemda }: PageProps) {
+export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRisikoTerpetakan, visiMisiPemda, bolehHapus }: PageProps) {
   const [search, setSearch] = useState('');
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
   const [tambahUntukProgram, setTambahUntukProgram] = useState<ProgramRow | null>(null);
@@ -292,15 +303,30 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
                             <div className="min-w-0">
                               <p className="text-sm font-medium">
                                 <span className="text-muted-foreground">#{program.nomor}</span>{' '}
-                                {program.program_pembangunan}
+                                <HighlightText text={program.program_pembangunan} query={search.trim()} />
                               </p>
                               <p className="text-xs text-muted-foreground">
-                                {program.branding && <span className="italic">{program.branding} · </span>}
-                                {program.perangkat_daerah}
+                                {program.branding && (
+                                  <span className="italic">
+                                    <HighlightText text={program.branding} query={search.trim()} /> ·{' '}
+                                  </span>
+                                )}
+                                <HighlightText text={program.perangkat_daerah} query={search.trim()} />
                               </p>
                             </div>
                           </div>
                           <div className="flex shrink-0 items-center gap-1.5">
+                            {/* Kenapa program ini ikut tersaring padahal namanya
+                                tidak mengandung kata yang dicari? Karena
+                                penyaringnya juga melihat risiko di dalamnya.
+                                Jumlah yang cocok ditampilkan supaya jelas
+                                berapa dari sekian baris yang benar-benar
+                                menyebabkannya muncul. */}
+                            {query !== '' && (
+                              <Badge variant="outline" className="border-yellow-500/60 text-[10px] text-yellow-700 dark:text-yellow-400">
+                                {jumlahRisikoCocok(program, query)} dari {program.risiko.length} risiko cocok
+                              </Badge>
+                            )}
                             {program.jumlah_risiko_prioritas > 0 && (
                               <Badge className="bg-red-500 text-white hover:bg-red-500">
                                 {program.jumlah_risiko_prioritas} prioritas
@@ -338,7 +364,22 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
                                   {r.kode_risiko && (
                                     <span className="shrink-0 font-mono text-[10px] text-muted-foreground">{r.kode_risiko}</span>
                                   )}
-                                  <span className="min-w-0 flex-1 truncate">{r.uraian_risiko}</span>
+                                  <span className="min-w-0 flex-1 truncate">
+                                    <HighlightText text={r.uraian_risiko} query={search.trim()} />
+                                  </span>
+                                  {/* OPD Penanggung Jawab Pengendalian ikut
+                                      disaring tapi TIDAK pernah ditampilkan,
+                                      sehingga baris bisa lolos tanpa satu pun
+                                      kata yang dicari terlihat di layar —
+                                      persis yang membuat hasil pencarian
+                                      membingungkan. Ditampilkan hanya ketika
+                                      dialah alasannya, supaya baris lain tidak
+                                      ikut ramai. */}
+                                  {cocok(r.opd_penanggung_jawab, query) && !cocok(r.uraian_risiko, query) && (
+                                    <span className="hidden shrink-0 text-[10px] text-muted-foreground sm:inline">
+                                      PJ: <HighlightText text={r.opd_penanggung_jawab ?? ''} query={search.trim()} />
+                                    </span>
+                                  )}
                                   <Badge className={`shrink-0 ${riskLevelClassName(r.skala_risiko, riskLevels)}`}>
                                     {r.skala_risiko ?? '-'}
                                   </Badge>
@@ -357,6 +398,11 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
                                     </Badge>
                                   </button>
                                 )}
+                                {/* Melepas kaitan hanya untuk Admin & Super
+                                    Admin — satu klik menghilangkan hasil
+                                    analisis yang dipakai seluruh Pemda dan
+                                    ikut tercetak untuk Bupati. */}
+                                {bolehHapus && (
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
                                     <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive">
@@ -380,6 +426,7 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
                                     </AlertDialogFooter>
                                   </AlertDialogContent>
                                 </AlertDialog>
+                                )}
                               </div>
                             ))}
                             <Button variant="outline" size="sm" className="mt-1" onClick={() => setTambahUntukProgram(program)}>
