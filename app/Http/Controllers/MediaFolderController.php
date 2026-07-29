@@ -78,7 +78,7 @@ class MediaFolderController extends Controller
 
         $user = $folder->user;
 
-        // 🔁 Hapus semua file dalam folder ini
+        // Hapus semua file dalam folder ini
         $files = $user->media()
             ->where('collection_name', 'files')
             ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.folder_id')) = ?", [(string)$folder->id])
@@ -88,13 +88,13 @@ class MediaFolderController extends Controller
             $file->delete();
         }
 
-        // 🔁 Hapus subfolder langsung (1 level)
+        // Hapus subfolder langsung (1 level)
         $childFolders = $user->mediaFolders()->where('parent_id', $folder->id)->get();
         foreach ($childFolders as $child) {
             $child->delete();
         }
 
-        // 🗑️ Hapus folder utama
+        // Hapus folder utama
         $folder->delete();
 
         return redirect('/files')->with('success', 'Folder berhasil dihapus.');

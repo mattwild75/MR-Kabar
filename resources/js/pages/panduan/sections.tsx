@@ -883,12 +883,12 @@ export const SECTIONS: Section[] = [
         <MenuMapGrid
           groups={[
             {
-              title: '🏠 Dashboard & Panduan',
+              title: 'Dashboard & Panduan',
               tone: 'accent',
               items: ['Dashboard', 'Apa itu Manajemen Risiko / MR Kabar (halaman ini)'],
             },
             {
-              title: '📝 Form Input',
+              title: 'Form Input',
               tone: 'accent',
               items: [
                 'Data Umum',
@@ -902,17 +902,17 @@ export const SECTIONS: Section[] = [
               ],
             },
             {
-              title: '📡 Form Monitoring dan Evaluasi',
+              title: 'Form Monitoring dan Evaluasi',
               tone: 'accent',
               items: ['8-9_Monitoring RTP', '10_Pencatatan Kejadian Risiko'],
             },
             {
-              title: '🌳 Visualisasi',
+              title: 'Visualisasi',
               tone: 'accent',
               items: ['KRS_IRS_Pemda Visualisasi', 'KRS_IRS_PD Visualisasi', 'KRO_IRO_PD Visualisasi'],
             },
             {
-              title: '🖨️ Form Cetak',
+              title: 'Form Cetak',
               tone: 'accent',
               items: [
                 '2a/2b/2c — Penetapan Konteks', '3a/3b/3c — Identifikasi Risiko',
@@ -922,23 +922,23 @@ export const SECTIONS: Section[] = [
               ],
             },
             {
-              title: '🎯 Miscellaneous',
+              title: 'Miscellaneous',
               tone: 'accent',
               items: ['Risiko 100 Program Bupati', 'Risiko 100 Program Bupati_Cetak'],
             },
             {
-              title: '🛠️ Utilities',
+              title: 'Utilities',
               items: [
                 'Audit Logs (Admin)', 'File Manager', 'Troubleshoot (Admin)',
                 'Data Terhapus', 'Lapor Kejadian Risiko', 'Rekap Lapor Kejadian Risiko',
               ],
             },
             {
-              title: '⚙️ Settings (Admin)',
+              title: 'Settings (Admin)',
               items: ['Menu Manager', 'App Settings', 'Backup → Backup DB dan GitHub', 'Backup → Ekspor/Impor Excel', 'Keterangan Pendukung'],
             },
             {
-              title: '🔐 Access (Admin)',
+              title: 'Access (Admin)',
               items: ['Permissions', 'Users', 'Roles'],
             },
           ]}

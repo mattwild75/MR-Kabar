@@ -1,5 +1,5 @@
 """
-Sintesis musik latar + pustaka SFX, murni numpy (tanpa layanan musik AI).
+Sintesis musik latar + pustaka SFX, murni numpy (tanpa layanan musik pihak ketiga).
 
 MUSIK v4 -- "Corporate Ambient, Formal & Modern" yang berkembang:
   100 BPM (ketuk 0.6s, bar 2.4s). Delapan layer:

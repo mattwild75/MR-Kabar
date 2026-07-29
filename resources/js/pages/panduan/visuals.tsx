@@ -384,7 +384,7 @@ export function MiniBarChart({ items }: { items: BarItem[] }) {
 export function InteractiveTag() {
   return (
     <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-400">
-      🖱️ Bisa diklik
+      Bisa diklik
     </span>
   );
 }

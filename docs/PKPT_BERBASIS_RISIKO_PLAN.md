@@ -8,20 +8,20 @@ Dokumen ini adalah **rencana**, bukan implementasi — belum ada kode yang diuba
 
 | Komponen | Status | Lokasi |
 |---|---|---|
-| Skor risiko per baris (Dampak × Kemungkinan, 1-25) | ✅ Ada | `IrsPemda`/`IrsPd`/`IroPd`, kolom `SKALA DAMPAK`/`SKALA KEMUNGKINAN`/`SKALA RISIKO` |
-| Skor inheren vs residual vs target vs aktual | ✅ Ada | Sama seperti di atas + `RiskReferenceDataService::hitungSemuaSkala()` |
-| Ranking OPD berdasar skor total risiko (Σ skala) | ✅ Ada (baru diperbaiki) | `DashboardController::buildRankingOpd()` — widget "Ranking Eksposur Risiko per OPD" |
-| Kategori/jenis risiko (Strategis Pemda/OPD, Operasional) | ✅ Ada | `tipe` per baris di `collectRiskRows()` |
-| Data Sasaran RPJMD per OPD (teks, bukan skor) | ✅ Ada | `KrsPemda.'SASARAN RPJMD'`, `KrsPd.'SASARAN RPJMD'` (rujukan) |
-| Struktur Program/Kegiatan/Sub-Kegiatan | ✅ Ada | `KrsPemda`/`KrsPd`/`KroPd` |
-| Riwayat multi-tahun risiko per OPD | ✅ Ada | `TAHUN DINILAI RISIKO` per baris, `buildTrenTahunan()` |
-| **Field anggaran/nilai rupiah** | ❌ Tidak ada | — |
-| **Skor signifikansi program terhadap RPJMD (1-5)** | ❌ Tidak ada (hanya teks rujukan, belum diskor) | — |
-| **Data temuan audit & tindak lanjut** | ❌ Tidak ada (di luar domain aplikasi) | — |
-| **Data isu terkini/sorotan publik** | ❌ Tidak ada | — |
-| **Riwayat tahun terakhir diaudit per OPD** | ❌ Tidak ada | — |
-| **Frekuensi pengawasan (output rekomendasi)** | ❌ Tidak ada | — |
-| **Ekspor/cetak tabel skor PKPT gabungan** | ❌ Tidak ada | — |
+| Skor risiko per baris (Dampak × Kemungkinan, 1-25) | Ada | `IrsPemda`/`IrsPd`/`IroPd`, kolom `SKALA DAMPAK`/`SKALA KEMUNGKINAN`/`SKALA RISIKO` |
+| Skor inheren vs residual vs target vs aktual | Ada | Sama seperti di atas + `RiskReferenceDataService::hitungSemuaSkala()` |
+| Ranking OPD berdasar skor total risiko (Σ skala) | Ada (baru diperbaiki) | `DashboardController::buildRankingOpd()` — widget "Ranking Eksposur Risiko per OPD" |
+| Kategori/jenis risiko (Strategis Pemda/OPD, Operasional) | Ada | `tipe` per baris di `collectRiskRows()` |
+| Data Sasaran RPJMD per OPD (teks, bukan skor) | Ada | `KrsPemda.'SASARAN RPJMD'`, `KrsPd.'SASARAN RPJMD'` (rujukan) |
+| Struktur Program/Kegiatan/Sub-Kegiatan | Ada | `KrsPemda`/`KrsPd`/`KroPd` |
+| Riwayat multi-tahun risiko per OPD | Ada | `TAHUN DINILAI RISIKO` per baris, `buildTrenTahunan()` |
+| **Field anggaran/nilai rupiah** | Tidak ada | — |
+| **Skor signifikansi program terhadap RPJMD (1-5)** | Tidak ada (hanya teks rujukan, belum diskor) | — |
+| **Data temuan audit & tindak lanjut** | Tidak ada (di luar domain aplikasi) | — |
+| **Data isu terkini/sorotan publik** | Tidak ada | — |
+| **Riwayat tahun terakhir diaudit per OPD** | Tidak ada | — |
+| **Frekuensi pengawasan (output rekomendasi)** | Tidak ada | — |
+| **Ekspor/cetak tabel skor PKPT gabungan** | Tidak ada | — |
 
 **Kesimpulan posisi**: MR Kabar sudah mengcover **Risiko Bawaan/Inherent Risk** (bobot 70% pada metodologi Tangerang) dengan cukup baik. Yang sama sekali belum ada adalah **Faktor Pertimbangan Manajemen** (bobot 30%, pecah jadi 5 indikator berbobot) dan **tahap akhir penentuan Rank + Frekuensi Pengawasan** yang bisa dicetak sebagai lampiran PKPT.
 
@@ -31,11 +31,11 @@ Dokumen ini adalah **rencana**, bukan implementasi — belum ada kode yang diuba
 
 | # | Indikator | Bobot | Ada di MR Kabar? | Sumber data yang dibutuhkan |
 |---|---|---|---|---|
-| 1 | % Anggaran (anggaran program vs anggaran belanja langsung APBD) | 25% | ❌ | Butuh field baru: nilai anggaran per Program/Kegiatan + total APBD |
+| 1 | % Anggaran (anggaran program vs anggaran belanja langsung APBD) | 25% | Tidak ada | Butuh field baru: nilai anggaran per Program/Kegiatan + total APBD |
 | 2 | Program terkait sektor unggulan & RPJMD | 25% | Sebagian (teks ada, skor tidak) | Butuh: skor 1-5 keterkaitan + skor indikator kinerja OPD vs total kinerja Pemda |
-| 3 | Temuan & tindak lanjut, potensi fraud, kasus hukum | 20% | ❌ | Di luar domain — butuh integrasi manual/impor dari sistem lain (atau input manual APIP) |
-| 4 | Isu terkini terkait program | 15% | ❌ | Kualitatif — butuh input manual admin/APIP per periode PKPT |
-| 5 | Pertimbangan lain (tahun terakhir diaudit, pengalaman APIP) | 15% | ❌ | Butuh field baru: riwayat tahun audit terakhir per OPD |
+| 3 | Temuan & tindak lanjut, potensi fraud, kasus hukum | 20% | Tidak ada | Di luar domain — butuh integrasi manual/impor dari sistem lain (atau input manual APIP) |
+| 4 | Isu terkini terkait program | 15% | Tidak ada | Kualitatif — butuh input manual admin/APIP per periode PKPT |
+| 5 | Pertimbangan lain (tahun terakhir diaudit, pengalaman APIP) | 15% | Tidak ada | Butuh field baru: riwayat tahun audit terakhir per OPD |
 
 Catatan penting: indikator #3 dan #4 secara struktural **tidak bisa** diturunkan dari data manajemen risiko murni — itu domain sistem pengawasan (LHP, tindak lanjut temuan), yang **di luar cakupan MR Kabar** sebagai aplikasi manajemen risiko. Untuk kedua indikator ini, opsi realistis hanya:
 - (a) Input manual per periode PKPT oleh admin/APIP (field skor 1-5 langsung, tanpa sumber data pendukung), atau

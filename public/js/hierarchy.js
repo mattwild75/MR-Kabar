@@ -658,7 +658,7 @@
         // Saat menuju hasil pencarian: cukup SOROT + scroll ke node (node
         // sudah ter-highlight di diagram), TANPA membuka popup detail — biar
         // pengguna langsung melihat node hasil pada diagram, bukan tertutup
-        // popup. Detail tetap bisa dibuka manual lewat tombol info (ℹ️) node.
+        // popup. Detail tetap bisa dibuka manual lewat tombol info pada node.
     }
 
     function searchNext() { if (searchCurrentIndex >= 0) goToSearchMatch(searchCurrentIndex + 1); }

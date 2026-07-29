@@ -1,6 +1,6 @@
 """
 Sintesis audio non-suara (musik latar + sound effect) murni pakai numpy --
-TANPA API musik AI berbayar (Suno/Udio dkk, di luar akses tool ini).
+TANPA layanan musik berbayar (Suno/Udio dkk, di luar akses skrip ini).
 
 MUSIK (v3 -- Corporate Ambient, Formal & Modern):
   Tempo 100 BPM (di tengah rentang 90-110 yg diminta) -> 1 ketuk 0.6s,
