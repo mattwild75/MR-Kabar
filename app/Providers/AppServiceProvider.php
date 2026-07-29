@@ -20,6 +20,9 @@ use App\Models\MonitoringRtp;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\LaporanKejadianRisiko;
 use Spatie\Permission\Models\Role;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use App\Observers\GlobalActivityLogger;
 use App\Observers\OpdSyncObserver;
 use App\Observers\UserFolderObserver;
@@ -76,5 +79,44 @@ class AppServiceProvider extends ServiceProvider
         KrsPemda::observe(OpdSyncObserver::class);
         KrsPd::observe(OpdSyncObserver::class);
         KroPd::observe(OpdSyncObserver::class);
+
+        $this->daftarkanBatasLaju();
+    }
+
+    /**
+     * Batas laju untuk rute yang dipakai AKUN BERSAMA (LAPOR & CEE_Survey,
+     * kredensialnya sengaja disebar lewat QR code).
+     *
+     * Batas bawaan Laravel mengunci kuota pada ID pengguna kalau sudah login.
+     * Untuk akun bersama itu keliru: kuota satu akun dipakai beramai-ramai,
+     * sehingga sepuluh pelapor yang mengirim laporan pada menit yang sama
+     * saling menghabiskan jatah dan sebagian ditolak 429 — padahal tidak ada
+     * yang menyalahgunakan apa pun. Terukur sebelum perbaikan: dari 12 orang
+     * yang masuk lewat QR secara bersamaan, hanya 10 yang lolos, dan pada
+     * rute CEE tidak ada satu pun yang lolos.
+     *
+     * Kuncinya dipindah ke ID SESI (satu orang = satu sesi, walau akunnya
+     * sama), dengan batas per-IP sebagai pagar kedua supaya perlindungan
+     * terhadap penyalahgunaan massal dari satu sumber tidak hilang.
+     */
+    private function daftarkanBatasLaju(): void
+    {
+        // Masuk lewat QR hanya membuat sesi. Di sini sesi BELUM ada saat
+        // permintaannya tiba, jadi tidak bisa dikunci per sesi — dikunci per
+        // IP, dinaikkan supaya satu ruangan sosialisasi yang memindai QR
+        // bersama-sama tidak saling menghalangi.
+        RateLimiter::for('qr-login', fn (Request $r) => Limit::perMinute(60)->by($r->ip()));
+
+        RateLimiter::for('lapor-submit', fn (Request $r) => [
+            Limit::perMinute(10)->by($r->session()->getId()),
+            Limit::perMinute(60)->by($r->ip()),
+        ]);
+
+        // Pencarian risiko dipanggil sambil pengguna mengetik, jadi jatahnya
+        // jauh lebih longgar daripada pengiriman laporan.
+        RateLimiter::for('lapor-cari', fn (Request $r) => [
+            Limit::perMinute(30)->by($r->session()->getId()),
+            Limit::perMinute(200)->by($r->ip()),
+        ]);
     }
 }

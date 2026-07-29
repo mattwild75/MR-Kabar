@@ -59,13 +59,13 @@ Route::get('/', function () {
 // Auto-login sekali klik ke akun bersama LAPOR — dipakai QR code di
 // /panduan, harus DI LUAR grup 'auth' karena diakses SEBELUM login.
 Route::get('/login/lapor-kejadian', LaporQrLoginController::class)
-    ->middleware('throttle:10,1')
+    ->middleware('throttle:qr-login')
     ->name('login.lapor-kejadian');
 
 // Auto-login sekali klik ke akun bersama CEE_Survey — sama pola dgn LAPOR
 // di atas, dipakai QR code di /panduan.
 Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
-    ->middleware('throttle:10,1')
+    ->middleware('throttle:qr-login')
     ->name('login.cee-survey');
 
 // Versi PUBLIK halaman Panduan — TANPA login, diakses siapa saja (link
@@ -184,12 +184,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // siapa pun yang memegang kredensial publik itu bisa scraping seluruh
     // isi kolom URAIAN RISIKO/PENYEBAB/OPD dari IRS/IRO secara berulang.
     Route::get('/lapor-kejadian/cari-risiko', [LaporanKejadianController::class, 'searchRisiko'])
-        ->middleware('throttle:30,1')
+        ->middleware('throttle:lapor-cari')
         ->name('lapor-kejadian.search-risiko');
     // Throttle: endpoint submit publik yg sama (akun bersama LAPOR via QR),
     // batasi laju submit spam/DoS tanpa mengubah alur/validasi pelaporan.
     Route::post('/lapor-kejadian', [LaporanKejadianController::class, 'store'])
-        ->middleware('throttle:10,1')
+        ->middleware('throttle:lapor-submit')
         ->name('lapor-kejadian.store');
     Route::get('/lapor-kejadian/rekap', [LaporanKejadianController::class, 'index'])->name('lapor-kejadian.index');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/status', [LaporanKejadianController::class, 'updateStatus'])->name('lapor-kejadian.update-status');

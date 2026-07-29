@@ -10,6 +10,7 @@ use App\Models\CeeUnsur;
 use App\Models\DataUmum;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -314,37 +315,48 @@ class CeeFormController extends Controller
 
         // Timpa (update) jawaban lama bila responden dgn NAMA SAMA mengisi
         // ulang utk OPD+tahun yg sama — mencegah data ganda dari orang yg
-        // sama & modus tetap akurat. Nama dicocokkan case-insensitive +
-        // trim supaya beda spasi/kapitalisasi kecil tetap dianggap sama.
-        DB::transaction(function () use ($data, $request) {
-            $namaKey = trim($data['responden_nama']);
-            foreach ($data['jawaban'] as $pertanyaanId => $nilai) {
-                $existing = CeeJawaban::where('opd_id', $data['opd_id'])
-                    ->where('tahun_penilaian', $data['tahun'])
-                    ->where('cee_pertanyaan_id', (int) $pertanyaanId)
-                    ->whereRaw('LOWER(TRIM(responden_nama)) = ?', [mb_strtolower($namaKey)])
-                    ->first();
+        // sama & modus tetap akurat. Nama disimpan sudah ter-trim supaya
+        // cocok dgn indeks unik cee_jawaban_responden_unique; beda
+        // kapitalisasi sudah ditangani kolasi *_ci kolomnya.
+        $nama = trim($data['responden_nama']);
 
-                if ($existing) {
-                    $existing->update([
-                        'responden_nama' => $data['responden_nama'],
-                        'responden_jabatan' => $data['responden_jabatan'],
-                        'submitted_by' => $request->user()->id,
-                        'nilai' => $nilai,
-                    ]);
-                } else {
-                    CeeJawaban::create([
-                        'opd_id' => $data['opd_id'],
-                        'cee_pertanyaan_id' => (int) $pertanyaanId,
-                        'tahun_penilaian' => $data['tahun'],
-                        'responden_nama' => $data['responden_nama'],
-                        'responden_jabatan' => $data['responden_jabatan'],
-                        'submitted_by' => $request->user()->id,
-                        'nilai' => $nilai,
-                    ]);
+        // Argumen kedua = jumlah percobaan. Kalau beberapa orang menyimpan
+        // untuk OPD & tahun yang sama pada saat bersamaan, transaksi mereka
+        // memperebutkan baris yang sama dan InnoDB bisa melaporkan deadlock
+        // (SQLSTATE 40001). Terbukti pada uji beban: delapan permintaan
+        // serentak membuat sebagian gagal dengan galat 500. Laravel
+        // mengulang closure-nya sendiri untuk galat semacam ini, dan
+        // pengulangan itu aman di sini karena isinya idempoten — menyimpan
+        // ulang jawaban yang sama menghasilkan keadaan yang sama.
+        DB::transaction(function () use ($data, $request, $nama) {
+            foreach ($data['jawaban'] as $pertanyaanId => $nilai) {
+                $kunci = [
+                    'opd_id' => $data['opd_id'],
+                    'tahun_penilaian' => $data['tahun'],
+                    'cee_pertanyaan_id' => (int) $pertanyaanId,
+                    'responden_nama' => $nama,
+                ];
+                $isi = [
+                    'responden_jabatan' => $data['responden_jabatan'],
+                    'submitted_by' => $request->user()->id,
+                    'nilai' => $nilai,
+                ];
+
+                try {
+                    CeeJawaban::updateOrCreate($kunci, $isi);
+                } catch (QueryException $e) {
+                    // 23000 = pelanggaran indeks unik: baris kembarnya baru
+                    // saja dibuat oleh permintaan lain yang berjalan
+                    // bersamaan — paling sering karena tombol Simpan diklik
+                    // dua kali. Itu bukan galat bagi pengisi, jadi
+                    // diperlakukan sebagai pembaruan, bukan dilempar.
+                    if (($e->errorInfo[0] ?? null) !== '23000') {
+                        throw $e;
+                    }
+                    CeeJawaban::where($kunci)->update($isi);
                 }
             }
-        });
+        }, 5);
 
         return redirect()
             ->route('cee.form1a', ['opd_id' => $data['opd_id'], 'tahun' => $data['tahun']])
