@@ -48,6 +48,12 @@ class HandleInertiaRequests extends Middleware
                 'importResult' => session('importResult'),
             ],
             'setting' => fn() => SettingApp::cached(),
+            // Penanda versi berkas video edukasi bawaan, ditempelkan sebagai
+            // query string pada URL-nya di sisi klien. Nama berkasnya tetap
+            // sama tiap kali video di-deploy ulang, sehingga tanpa penanda ini
+            // peramban akan terus memakai salinan lamanya dari cache — berkas
+            // 70MB tidak akan diminta ulang hanya karena isinya berubah.
+            'eduVideoVersion' => fn() => @filemtime(public_path('video/video-edukasi-mr-kabar.mp4')) ?: null,
             'unreadNotificationsCount' => fn() => $request->user()?->unreadNotifications()->count() ?? 0,
         ]);
     }

@@ -220,6 +220,40 @@ export default function EduVideoPlayer({
     // instance supaya dua pemutar di satu halaman tidak saling menimpa.
     const cueClass = useMemo(() => `eduvid-${Math.random().toString(36).slice(2, 9)}`, []);
 
+    // Ukuran cue dihitung sendiri dalam PIKSEL, bukan diserahkan ke satuan
+    // persen. Persen pada ::cue relatif terhadap ukuran bawaan peramban, dan
+    // ukuran bawaan itu tidak sebanding lurus dengan tinggi gambar: setelan
+    // yang pas di jendela kecil membengkak sampai menutupi isi video begitu
+    // masuk layar penuh. Dengan piksel, tampilannya sama persis di kedua
+    // keadaan karena selalu proporsional terhadap tinggi GAMBAR — bukan tinggi
+    // elemen, yang di layar 16:10 ikut menghitung bilah hitam atas-bawah.
+    const [tinggiGambar, setTinggiGambar] = useState(0);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+        const ukur = () => {
+            const { clientWidth: lebarKotak, clientHeight: tinggiKotak, videoWidth, videoHeight } = video;
+            if (!videoWidth || !videoHeight) return setTinggiGambar(tinggiKotak);
+            setTinggiGambar(Math.min(tinggiKotak, (lebarKotak * videoHeight) / videoWidth));
+        };
+        ukur();
+        // ResizeObserver ikut terpicu saat masuk/keluar layar penuh, karena
+        // kotak elemennya berubah jadi seukuran layar.
+        const ro = new ResizeObserver(ukur);
+        ro.observe(video);
+        video.addEventListener('loadedmetadata', ukur);
+        return () => {
+            ro.disconnect();
+            video.removeEventListener('loadedmetadata', ukur);
+        };
+    }, []);
+
+    // 2.8% tinggi gambar pada posisi slider 100% — sekitar 30px di gambar
+    // 1080p. Ada batas bawah supaya di pemutar kecil (dialog halaman login)
+    // teksnya tidak mengecil sampai tak terbaca.
+    const ukuranCue = Math.max(13, Math.round((tinggiGambar * 0.028 * Math.min(200, Math.max(50, subtitleSize))) / 100));
+
     useEffect(() => {
         const video = videoRef.current;
         if (!video || !vtt) return;
@@ -245,7 +279,7 @@ export default function EduVideoPlayer({
     return (
         <div className="space-y-3">
             {vtt && (
-                <style>{`.${cueClass}::cue{font-size:${Math.min(200, Math.max(50, subtitleSize))}%;background:rgba(0,0,0,.72);line-height:1.35}`}</style>
+                <style>{`.${cueClass}::cue{font-size:${ukuranCue}px;background:rgba(0,0,0,.72);line-height:1.3}`}</style>
             )}
             <video
                 ref={videoRef}

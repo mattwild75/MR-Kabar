@@ -144,7 +144,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
             {video.enabled && (
                 <Dialog open={videoOpen} onOpenChange={setVideoOpen}>
-                    <DialogContent className="max-w-3xl p-0">
+                    <DialogContent className="max-w-5xl p-0">
                         <DialogHeader className="p-4 pb-0">
                             <DialogTitle>Video Edukasi: Manajemen Risiko &amp; MR Kabar</DialogTitle>
                         </DialogHeader>

@@ -24,19 +24,30 @@ interface SettingVideo {
 }
 
 /**
+ * Penanda versi untuk ditempelkan ke URL berkas video bawaan. Nama berkasnya
+ * tidak pernah berubah antar-deploy, jadi tanpa ini peramban akan terus
+ * memutar salinan lamanya dari cache — persis yang terjadi saat trek audio
+ * video diganti tapi pengguna masih mendapat berkas tanpa audio.
+ */
+export function useVersiVideo(): string {
+    const { eduVideoVersion } = usePage().props as unknown as { eduVideoVersion?: number | null };
+    return eduVideoVersion ? `?v=${eduVideoVersion}` : '';
+}
+
+/**
  * Menurunkan seluruh prop pemutar video edukasi dari pengaturan aplikasi.
  *
- * Ditaruh di satu tempat karena videonya tampil di DUA halaman (dialog di
- * /login dan versi lengkap di /panduan) dengan sumber pengaturan yang sama.
- * Sebelumnya masing-masing halaman menurunkannya sendiri, dan keduanya sempat
- * berbeda: /panduan menyalakan jalur audio bawaan secara paksa, sehingga
- * slider mix, unggahan video admin, dan sakelar aktif/nonaktif di
+ * Ditaruh di satu tempat karena videonya tampil di TIGA tempat (dialog di
+ * /login, versi lengkap di /panduan, pratinjau di /settingsapp) dengan sumber
+ * pengaturan yang sama. Sebelumnya masing-masing menurunkannya sendiri, dan
+ * sempat menyimpang: /panduan menyalakan jalur audio bawaan secara paksa,
+ * sehingga slider mix, unggahan video admin, dan sakelar aktif/nonaktif di
  * /settingsapp tidak berpengaruh di sana.
  */
 export function useEduVideo() {
     const setting = usePage().props?.setting as SettingVideo | undefined;
-
     const customPath = setting?.edu_video_path;
+    const v = useVersiVideo();
 
     return {
         enabled: setting?.edu_video_enabled ?? true,
@@ -44,12 +55,18 @@ export function useEduVideo() {
         // video BAWAAN. Kalau admin memasang videonya sendiri, semua itu tidak
         // lagi cocok dan harus disembunyikan, bukan sekadar dibiarkan meleset.
         bawaan: !customPath,
-        src: customPath ? `/storage/${customPath}` : VIDEO_BAWAAN,
+        src: customPath ? `/storage/${customPath}` : VIDEO_BAWAAN + v,
         // Jalur audio terpisah hanya ada untuk video BAWAAN. Berkas yang
         // diunggah admin sendiri audionya sudah menyatu, jadi diputar apa
         // adanya — begitu pula subtitle-nya, yang tidak kita punya.
-        stems: (customPath ? null : STEM_BAWAAN) as EduVideoStems | null,
-        vtt: customPath ? null : VTT_BAWAAN,
+        stems: (customPath
+            ? null
+            : {
+                  narration: STEM_BAWAAN.narration + v,
+                  music: STEM_BAWAAN.music + v,
+                  sfx: STEM_BAWAAN.sfx + v,
+              }) as EduVideoStems | null,
+        vtt: customPath ? null : VTT_BAWAAN + v,
         gains: {
             narration: setting?.edu_video_gain_narration ?? 100,
             music: setting?.edu_video_gain_music ?? 100,

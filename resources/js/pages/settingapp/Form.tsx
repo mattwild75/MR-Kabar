@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { type BreadcrumbItem } from '@/types';
 import EduVideoPlayer from '@/components/edu-video-player';
-import { VIDEO_BAWAAN, VTT_BAWAAN, STEM_BAWAAN } from '@/lib/edu-video';
+import { VIDEO_BAWAAN, VTT_BAWAAN, STEM_BAWAAN, useVersiVideo } from '@/lib/edu-video';
 
 const DEFAULT_WARNA = '#181818';
 const DEFAULT_LOGO_BG = '#ffffff';
@@ -69,6 +69,7 @@ export default function SettingForm({ setting }: Props) {
   const [gainSfx, setGainSfx] = useState(setting?.edu_video_gain_sfx ?? 100);
   const [subtitleEnabled, setSubtitleEnabled] = useState(setting?.edu_video_subtitle_enabled ?? true);
   const [subtitleSize, setSubtitleSize] = useState(setting?.edu_video_subtitle_size ?? 70);
+  const versiVideo = useVersiVideo();
 
   const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
@@ -430,9 +431,13 @@ export default function SettingForm({ setting }: Props) {
                         {eduVideoPreview === VIDEO_BAWAAN ? (
                           <div className="max-w-md">
                             <EduVideoPlayer
-                              src={VIDEO_BAWAAN}
-                              stems={STEM_BAWAAN}
-                              vtt={VTT_BAWAAN}
+                              src={VIDEO_BAWAAN + versiVideo}
+                              stems={{
+                                narration: STEM_BAWAAN.narration + versiVideo,
+                                music: STEM_BAWAAN.music + versiVideo,
+                                sfx: STEM_BAWAAN.sfx + versiVideo,
+                              }}
+                              vtt={VTT_BAWAAN + versiVideo}
                               gains={{ narration: gainNarration, music: gainMusic, sfx: gainSfx }}
                               subtitleEnabled={subtitleEnabled}
                               subtitleSize={subtitleSize}

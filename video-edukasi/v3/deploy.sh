@@ -15,12 +15,16 @@ for f in MR_Kabar_Video_Edukasi_v3.mp4 MR_Kabar_Video_Edukasi_v3_720p.mp4 \
   [ -f "$f" ] || { echo "BELUM ADA: $f — batal."; exit 1; }
 done
 
-# Berkas yang diputar DI DALAM aplikasi sengaja dibuang trek audionya.
-# Suaranya datang dari tiga stem di bawah, jadi trek bawaan video tidak akan
-# pernah terdengar — tapi kalau dibiarkan ada, menaikkan volume lewat kontrol
-# peramban membunyikannya BERBARENGAN dengan stem, dan terdengar dobel.
-# Menyalin stream saja (tanpa encode ulang): hitungan detik, gambar identik.
-ffmpeg -v error -y -i MR_Kabar_Video_Edukasi_v3.mp4 -c:v copy -an \
+# Trek audio berkas yang diputar DI DALAM aplikasi diganti trek SENYAP.
+# Suaranya datang dari tiga stem di bawah; kalau trek asli video dibiarkan,
+# menaikkan volume akan membunyikannya BERBARENGAN dengan stem dan terdengar
+# dobel. Tapi treknya juga tidak boleh dibuang sama sekali: tanpa trek audio,
+# Chrome MEMATIKAN tombol bisu dan slider volumenya — pengguna kehilangan
+# kendali suara sepenuhnya. Jadi treknya tetap ada, isinya diam.
+# Gambar disalin apa adanya (tanpa encode ulang), hanya audionya yang dibuat.
+ffmpeg -v error -y -i MR_Kabar_Video_Edukasi_v3.mp4 \
+       -f lavfi -i anullsrc=channel_layout=stereo:sample_rate=44100 \
+       -c:v copy -c:a aac -b:a 8k -shortest \
        "$PUB/video-edukasi-mr-kabar.mp4"
 # Yang 720p JUSTRU perlu audionya: berkas ini untuk diunduh & ditonton luring.
 cp MR_Kabar_Video_Edukasi_v3_720p.mp4 "$PUB/video-edukasi-mr-kabar-720p.mp4"
