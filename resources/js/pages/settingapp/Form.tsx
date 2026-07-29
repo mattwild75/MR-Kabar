@@ -429,7 +429,7 @@ export default function SettingForm({ setting }: Props) {
                             disimpan. Berkas unggahan admin audionya menyatu di
                             dalam video, jadi tetap diputar apa adanya. */}
                         {eduVideoPreview === VIDEO_BAWAAN ? (
-                          <div className="max-w-md">
+                          <div>
                             <EduVideoPlayer
                               src={VIDEO_BAWAAN + versiVideo}
                               stems={{
@@ -509,15 +509,18 @@ export default function SettingForm({ setting }: Props) {
                           onChange={(e) => setSubtitleSize(Number(e.target.value))}
                           className="accent-primary h-2 flex-1 cursor-pointer"
                         />
-                        <span className="w-14 shrink-0 text-right font-mono text-sm tabular-nums">
+                        <span className="w-28 shrink-0 text-right font-mono text-sm tabular-nums">
                           {subtitleSize}%
+                          <span className="text-muted-foreground ml-1 text-xs">
+                            ~{Math.round((1080 * 0.028 * subtitleSize) / 100)}px
+                          </span>
                         </span>
                       </div>
                     )}
                     {subtitleEnabled && (
                       <p className="text-muted-foreground text-xs">
-                        70% adalah bawaan — ukuran asli peramban (100%) terasa terlalu besar di layar lebar dan
-                        menutupi isi video.
+                        Ukuran mengikuti besar gambar, jadi porsinya sama baik di pemutar kecil maupun layar
+                        penuh. Angka px di samping slider adalah perkiraan pada layar 1080p.
                       </p>
                     )}
                   </div>

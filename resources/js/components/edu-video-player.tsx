@@ -250,9 +250,15 @@ export default function EduVideoPlayer({
     }, []);
 
     // 2.8% tinggi gambar pada posisi slider 100% — sekitar 30px di gambar
-    // 1080p. Ada batas bawah supaya di pemutar kecil (dialog halaman login)
-    // teksnya tidak mengecil sampai tak terbaca.
-    const ukuranCue = Math.max(13, Math.round((tinggiGambar * 0.028 * Math.min(200, Math.max(50, subtitleSize))) / 100));
+    // 1080p. Karena proporsional, subtitle memakai bagian layar yang sama
+    // besarnya baik di pemutar kecil maupun layar penuh.
+    //
+    // Batas bawahnya sengaja rendah. Batas yang terlalu tinggi membuat
+    // slidernya seolah rusak: di pratinjau kecil, posisi 50% dan 200%
+    // sama-sama mentok ke angka yang sama sehingga tidak ada bedanya yang
+    // terlihat. Nilai 6px hanya menahan kasus ekstrem (pemutar di layar
+    // ponsel) agar teksnya tidak hilang sama sekali.
+    const ukuranCue = Math.max(6, Math.round((tinggiGambar * 0.028 * Math.min(200, Math.max(50, subtitleSize))) / 100));
 
     useEffect(() => {
         const video = videoRef.current;
