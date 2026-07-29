@@ -1,9 +1,9 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
-import { FileDown } from 'lucide-react';
+
 import { IdentifikasiRisikoTable } from './Cetak3a';
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface RisikoRow {
   konteks: string | null;
@@ -82,12 +82,7 @@ export default function Cetak3c({ opdOptions, opd, tahun, periode, identifikasi,
         <div className="flex flex-wrap items-end justify-between gap-3">
           <OpdTahunPicker routeName="/cetak/risiko/3c" opdOptions={opdOptions} opdId={opd?.id ?? null} tahun={tahun} />
           {opd && (
-            <Button asChild>
-              <a href={`/cetak/risiko/3c/pdf?opd_id=${opd.id}&tahun=${tahun}`}>
-                <FileDown className="mr-2 h-4 w-4" />
-                Unduh PDF
-              </a>
-            </Button>
+            <UnduhPdfButton href={`/cetak/risiko/3c/pdf?opd_id=${opd.id}&tahun=${tahun}`} />
           )}
         </div>
       </div>

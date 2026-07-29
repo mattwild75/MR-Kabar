@@ -3,10 +3,11 @@ import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
-import { FileDown, Pencil, Save } from 'lucide-react';
+import { Pencil, Save } from 'lucide-react';
 import { useState } from 'react';
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
 import { MultiPenandatanganEditor } from '@/components/cee/multi-penandatangan-editor';
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface Signatory {
   jabatan: string;
@@ -183,12 +184,7 @@ export default function Cetak1({
                 {editing ? 'Simpan Narasi' : 'Edit Narasi'}
               </Button>
             )}
-            <Button asChild>
-              <a href={pdfHref}>
-                <FileDown className="mr-2 h-4 w-4" />
-                Unduh PDF
-              </a>
-            </Button>
+            <UnduhPdfButton href={pdfHref} />
           </div>
         </div>
       </div>

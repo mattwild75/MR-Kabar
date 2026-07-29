@@ -1,8 +1,8 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
-import { FileDown } from 'lucide-react';
+
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface ProgramLainRef {
   nomor: number;
@@ -161,12 +161,7 @@ export default function CetakProgramBupatiRisiko({ tahun, periode, pemerintahKab
           </p>
         </div>
         <div className="flex justify-end">
-          <Button asChild>
-            <a href={pdfHref}>
-              <FileDown className="mr-2 h-4 w-4" />
-              Unduh PDF
-            </a>
-          </Button>
+          <UnduhPdfButton href={pdfHref} />
         </div>
       </div>
 

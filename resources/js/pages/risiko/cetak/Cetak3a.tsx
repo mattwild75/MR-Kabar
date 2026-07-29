@@ -1,9 +1,9 @@
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FileDown } from 'lucide-react';
+
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface RisikoRow {
   konteks: string | null;
@@ -501,12 +501,7 @@ export default function Cetak3a({ tahun, periode, identifikasi, visi, pemerintah
             <Label>Tahun Penilaian</Label>
             <Input type="number" value={tahun} onChange={(e) => navigate(Number(e.target.value) || tahun)} />
           </div>
-          <Button asChild>
-            <a href={`/cetak/risiko/3a/pdf?tahun=${tahun}`}>
-              <FileDown className="mr-2 h-4 w-4" />
-              Unduh PDF
-            </a>
-          </Button>
+          <UnduhPdfButton href={`/cetak/risiko/3a/pdf?tahun=${tahun}`} />
         </div>
       </div>
 

@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { OpdTahunTriwulanPicker } from '@/components/cee/opd-tahun-triwulan-picker';
-import { FileDown, Pencil, Save, CheckCircle2, CircleDashed, Circle } from 'lucide-react';
+import { Pencil, Save, CheckCircle2, CircleDashed, Circle } from 'lucide-react';
 import { useState } from 'react';
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
 import { MultiPenandatanganEditor } from '@/components/cee/multi-penandatangan-editor';
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface Signatory {
   jabatan: string;
@@ -253,12 +254,7 @@ export default function Cetak3({ tahun, triwulan, periode, pemerintahKabkota, da
             ) : (
               <p className="self-center text-xs text-muted-foreground">Hanya Admin/Super Admin yang dapat mengedit laporan ini.</p>
             )}
-            <Button asChild>
-              <a href={pdfHref}>
-                <FileDown className="mr-2 h-4 w-4" />
-                Unduh PDF
-              </a>
-            </Button>
+            <UnduhPdfButton href={pdfHref} />
           </div>
         </div>
       </div>

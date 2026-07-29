@@ -1,8 +1,8 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
-import { FileDown } from 'lucide-react';
+
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface Pertanyaan {
   id: number;
@@ -60,12 +60,7 @@ export default function Cetak1a({ opdOptions, opd, tahun, unsurs, rekap, jumlahR
         <div className="flex flex-wrap items-end justify-between gap-3">
           <OpdTahunPicker routeName="/cetak/cee/1a" opdOptions={opdOptions} opdId={opd?.id ?? null} tahun={tahun} />
           {opd && (
-            <Button asChild>
-              <a href={`/cetak/cee/1a/pdf?opd_id=${opd.id}&tahun=${tahun}`}>
-                <FileDown className="mr-2 h-4 w-4" />
-                Unduh PDF
-              </a>
-            </Button>
+            <UnduhPdfButton href={`/cetak/cee/1a/pdf?opd_id=${opd.id}&tahun=${tahun}`} />
           )}
         </div>
       </div>

@@ -1,11 +1,11 @@
 import { Head } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
-import { FileDown } from 'lucide-react';
+
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
 import { MultiPenandatanganEditor } from '@/components/cee/multi-penandatangan-editor';
 import RtpCategoryText from '@/components/ui/rtp-category-text';
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface Row {
   kegiatan_pengendalian: string | null;
@@ -149,12 +149,7 @@ export default function Cetak8({ opdOptions, opd, tahun, periode, rows, pemerint
         <div className="flex flex-wrap items-end justify-between gap-3">
           <OpdTahunPicker routeName="/cetak/monitoring-evaluasi/8" opdOptions={opdOptions} opdId={opd?.id ?? null} tahun={tahun} />
           {opd && (
-            <Button asChild>
-              <a href={`/cetak/monitoring-evaluasi/8/pdf?opd_id=${opd.id}&tahun=${tahun}`}>
-                <FileDown className="mr-2 h-4 w-4" />
-                Unduh PDF
-              </a>
-            </Button>
+            <UnduhPdfButton href={`/cetak/monitoring-evaluasi/8/pdf?opd_id=${opd.id}&tahun=${tahun}`} />
           )}
         </div>
       </div>

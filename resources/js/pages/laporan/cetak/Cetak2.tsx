@@ -3,10 +3,11 @@ import AppLayout from '@/layouts/app-layout';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { OpdTahunTriwulanPicker } from '@/components/cee/opd-tahun-triwulan-picker';
-import { FileDown, Pencil, Save } from 'lucide-react';
+import { Pencil, Save } from 'lucide-react';
 import { useState } from 'react';
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
 import { MultiPenandatanganEditor } from '@/components/cee/multi-penandatangan-editor';
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 interface MonitoringRow {
   opd_nama: string | null;
@@ -354,12 +355,7 @@ export default function Cetak2({
                 {editing ? 'Simpan Narasi' : 'Edit Narasi'}
               </Button>
             )}
-            <Button asChild>
-              <a href={pdfHref}>
-                <FileDown className="mr-2 h-4 w-4" />
-                Unduh PDF
-              </a>
-            </Button>
+            <UnduhPdfButton href={pdfHref} />
           </div>
         </div>
       </div>

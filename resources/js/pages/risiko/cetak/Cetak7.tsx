@@ -1,13 +1,13 @@
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FileDown } from 'lucide-react';
+
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
 import { MultiPenandatanganEditor } from '@/components/cee/multi-penandatangan-editor';
 import { OpdTahunPicker } from '@/components/cee/opd-tahun-picker';
 import RtpCategoryText from '@/components/ui/rtp-category-text';
+import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
 // Warna badge kategori Existing Control (E/KE/TE), inline style spy pola
 // KATEGORI_CUC_WARNA dkk di Cetak3a.tsx — inline (bukan class Tailwind)
@@ -260,12 +260,7 @@ export default function Cetak7({ tahun, periode, sections, pemerintahKabkota, is
               <Input type="number" value={tahun} onChange={(e) => navigate(Number(e.target.value) || tahun)} />
             </div>
           )}
-          <Button asChild>
-            <a href={pdfHref}>
-              <FileDown className="mr-2 h-4 w-4" />
-              Unduh PDF
-            </a>
-          </Button>
+          <UnduhPdfButton href={pdfHref} />
         </div>
       </div>
 
