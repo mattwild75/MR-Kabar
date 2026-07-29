@@ -1,4 +1,4 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle, PlayCircle } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import { useEduVideo } from '@/lib/edu-video';
 
 interface LoginForm {
     username: string;
@@ -32,33 +33,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     });
     const [videoOpen, setVideoOpen] = useState(false);
 
-    const { props } = usePage();
-    const setting = props?.setting as {
-        edu_video_enabled?: boolean;
-        edu_video_path?: string | null;
-        edu_video_gain_narration?: number;
-        edu_video_gain_music?: number;
-        edu_video_gain_sfx?: number;
-        edu_video_subtitle_enabled?: boolean;
-        edu_video_subtitle_size?: number;
-    } | undefined;
-    const eduVideoEnabled = setting?.edu_video_enabled ?? true;
-    const customPath = setting?.edu_video_path;
-    const eduVideoSrc = customPath ? `/storage/${customPath}` : '/video/video-edukasi-mr-kabar.mp4';
-    // Jalur audio terpisah hanya ada untuk video BAWAAN. Berkas yang diunggah
-    // admin sendiri audionya sudah menyatu, jadi diputar apa adanya.
-    const eduVideoStems = customPath
-        ? null
-        : {
-              narration: '/video/edu-narration.mp3',
-              music: '/video/edu-music.mp3',
-              sfx: '/video/edu-sfx.mp3',
-          };
-    const eduVideoGains = {
-        narration: setting?.edu_video_gain_narration ?? 100,
-        music: setting?.edu_video_gain_music ?? 100,
-        sfx: setting?.edu_video_gain_sfx ?? 100,
-    };
+    const video = useEduVideo();
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -146,7 +121,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 <TextLink href={route('panduan.public')} className="text-sm">
                     Apa itu MR Kabar / Manajemen Risiko?
                 </TextLink>
-                {eduVideoEnabled && (
+                {video.enabled && (
                     // Sebelumnya ikon telanjang ber-`text-primary opacity-70`:
                     // di mode gelap warnanya nyaris menyatu dengan kartu login
                     // sehingga tombolnya tidak terlihat sama sekali. Sekarang
@@ -167,7 +142,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 )}
             </div>
 
-            {eduVideoEnabled && (
+            {video.enabled && (
                 <Dialog open={videoOpen} onOpenChange={setVideoOpen}>
                     <DialogContent className="max-w-3xl p-0">
                         <DialogHeader className="p-4 pb-0">
@@ -175,15 +150,16 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         </DialogHeader>
                         <div className="p-4 pt-2">
                             <EduVideoPlayer
-                                src={eduVideoSrc}
-                                stems={eduVideoStems}
-                                gains={eduVideoGains}
-                                vtt={eduVideoStems ? '/video/edu-subtitle.vtt' : null}
-                                subtitleEnabled={setting?.edu_video_subtitle_enabled ?? true}
-                                subtitleSize={setting?.edu_video_subtitle_size ?? 70}
+                                src={video.src}
+                                stems={video.stems}
+                                gains={video.gains}
+                                vtt={video.vtt}
+                                subtitleEnabled={video.subtitleEnabled}
+                                subtitleSize={video.subtitleSize}
                             />
                             <p className="text-muted-foreground mt-3 text-xs">
-                                Durasi 23 menit. Versi dengan daftar bab, penyaring per peran, dan uji pemahaman
+                                {video.bawaan && 'Durasi 23 menit. '}
+                                Versi dengan daftar bab, penyaring per peran, dan uji pemahaman
                                 tersedia di menu <span className="font-medium">Panduan</span> setelah Anda masuk.
                             </p>
                         </div>

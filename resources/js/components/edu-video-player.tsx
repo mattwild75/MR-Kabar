@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import chaptersData from '@/data/edu-video-chapters.json';
 
 export interface EduVideoStems {
@@ -71,6 +71,8 @@ export default function EduVideoPlayer({
     const sfxRef = useRef<HTMLAudioElement>(null);
     const audioCtxRef = useRef<AudioContext | null>(null);
     const gainNodesRef = useRef<Record<string, GainNode>>({});
+    // Volume keseluruhan dari kontrol bawaan peramban (0 saat dibisukan).
+    const masterRef = useRef(1);
     const [posisi, setPosisi] = useState(0);
     const [filter, setFilter] = useState<string>('Semua');
 
@@ -113,6 +115,14 @@ export default function EduVideoPlayer({
         };
         const onPause = () => tracks.forEach((t) => t.pause());
         const onRate = () => tracks.forEach((t) => { t.playbackRate = video.playbackRate; });
+        // Tombol bisu & slider volume bawaan peramban milik elemen <video>,
+        // sedangkan suara yang terdengar keluar dari tiga <audio> di sampingnya.
+        // Tanpa penerusan ini, menekan bisu tidak berpengaruh sama sekali —
+        // pengguna mematikan trek yang memang sudah senyap.
+        const onVolume = () => {
+            masterRef.current = video.muted ? 0 : video.volume;
+            terapkanRef.current();
+        };
         const onTimeUpdate = () => {
             setPosisi(video.currentTime);
             tracks.forEach((t) => {
@@ -127,12 +137,15 @@ export default function EduVideoPlayer({
         video.addEventListener('seeked', seekAll);
         video.addEventListener('ratechange', onRate);
         video.addEventListener('timeupdate', onTimeUpdate);
+        video.addEventListener('volumechange', onVolume);
+        onVolume();
         return () => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
             video.removeEventListener('seeked', seekAll);
             video.removeEventListener('ratechange', onRate);
             video.removeEventListener('timeupdate', onTimeUpdate);
+            video.removeEventListener('volumechange', onVolume);
             tracks.forEach((t) => t.pause());
         };
     }, [stems]);
@@ -150,12 +163,15 @@ export default function EduVideoPlayer({
     // Lewat Web Audio supaya gain bisa melampaui 1 (slider sampai 200%);
     // HTMLMediaElement.volume dibatasi 0–1. Kalau Web Audio tidak tersedia,
     // jatuh ke .volume dengan nilai yang di-clamp.
-    useEffect(() => {
+    const terapkanGain = useCallback(() => {
         if (!stems) return;
+        // Slider di /settingsapp menentukan BALANCE antar jalur; kontrol bawaan
+        // peramban menentukan volume KESELURUHAN. Keduanya dikalikan.
+        const master = masterRef.current;
         const entries: [string, HTMLAudioElement | null, number][] = [
-            ['narration', narrationRef.current, BASE.narration * pct.narration],
-            ['music', musicRef.current, BASE.music * pct.music],
-            ['sfx', sfxRef.current, BASE.sfx * pct.sfx],
+            ['narration', narrationRef.current, BASE.narration * pct.narration * master],
+            ['music', musicRef.current, BASE.music * pct.music * master],
+            ['sfx', sfxRef.current, BASE.sfx * pct.sfx * master],
         ];
 
         const Ctx =
@@ -188,6 +204,15 @@ export default function EduVideoPlayer({
             node.gain.value = Math.max(0, g);
         });
     }, [stems, pct.narration, pct.music, pct.sfx]);
+
+    // Dipegang lewat ref supaya penerus volume di efek sinkronisasi selalu
+    // memanggil versi terbaru tanpa perlu memasang ulang listener — memasang
+    // ulang akan menjalankan cleanup-nya, yang menghentikan audio di
+    // tengah pemutaran setiap kali slider di /settingsapp digeser.
+    const terapkanRef = useRef(terapkanGain);
+    terapkanRef.current = terapkanGain;
+
+    useEffect(() => { terapkanGain(); }, [terapkanGain]);
 
     // ── subtitle: nyala/mati + ukuran ──
     // Ukuran diatur lewat ::cue, bukan dibakar ke gambar — itulah sebabnya
@@ -227,7 +252,6 @@ export default function EduVideoPlayer({
                 src={src}
                 controls
                 preload="metadata"
-                muted={Boolean(stems)}
                 crossOrigin="anonymous"
                 className={`aspect-video w-full rounded-md bg-black ${cueClass}`}
             >

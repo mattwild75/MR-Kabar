@@ -15,7 +15,14 @@ for f in MR_Kabar_Video_Edukasi_v3.mp4 MR_Kabar_Video_Edukasi_v3_720p.mp4 \
   [ -f "$f" ] || { echo "BELUM ADA: $f — batal."; exit 1; }
 done
 
-cp MR_Kabar_Video_Edukasi_v3.mp4      "$PUB/video-edukasi-mr-kabar.mp4"
+# Berkas yang diputar DI DALAM aplikasi sengaja dibuang trek audionya.
+# Suaranya datang dari tiga stem di bawah, jadi trek bawaan video tidak akan
+# pernah terdengar — tapi kalau dibiarkan ada, menaikkan volume lewat kontrol
+# peramban membunyikannya BERBARENGAN dengan stem, dan terdengar dobel.
+# Menyalin stream saja (tanpa encode ulang): hitungan detik, gambar identik.
+ffmpeg -v error -y -i MR_Kabar_Video_Edukasi_v3.mp4 -c:v copy -an \
+       "$PUB/video-edukasi-mr-kabar.mp4"
+# Yang 720p JUSTRU perlu audionya: berkas ini untuk diunduh & ditonton luring.
 cp MR_Kabar_Video_Edukasi_v3_720p.mp4 "$PUB/video-edukasi-mr-kabar-720p.mp4"
 cp stem-narration.mp3                 "$PUB/edu-narration.mp3"
 cp stem-music.mp3                     "$PUB/edu-music.mp3"
