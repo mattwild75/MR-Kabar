@@ -11,10 +11,16 @@ use App\Models\IrsPemda;
 use App\Models\KrsPemda;
 use App\Models\PengaturanPemda;
 use App\Models\ProgramBupatiRisiko;
+use App\Models\ProgramBupatiRisikoUsulan;
 use App\Models\ProgramPembangunanBupati;
+use App\Models\User;
+use App\Notifications\ProgramBupatiUsulanReviewed;
+use App\Notifications\ProgramBupatiUsulanSubmitted;
 use App\Services\PdfPrintService;
 use App\Services\RiskReferenceDataService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -87,7 +93,40 @@ class ProgramBupatiRisikoController extends Controller
             // Dipakai frontend utk menyembunyikan tombol hapus. Ini MURNI
             // kosmetik — penjaga sesungguhnya ada di destroyRisiko().
             'bolehHapus' => $this->bolehMengelolaKaitan(),
+            'usulan' => $this->usulanMenunggu(),
         ]);
+    }
+
+    /**
+     * Usulan yang masih menunggu keputusan.
+     *
+     * Admin menerima SEMUANYA (itulah daftar tinjauannya); PIC hanya menerima
+     * usulannya sendiri, supaya barisnya bisa ditandai "menunggu persetujuan"
+     * dan dia tidak mengusulkan hal yang sama dua kali.
+     */
+    private function usulanMenunggu(): array
+    {
+        $user = request()->user();
+
+        return ProgramBupatiRisikoUsulan::with(['program:id,nomor,program_pembangunan', 'user:id,name'])
+            ->where('status', 'pending')
+            ->when(!$this->bolehMengelolaKaitan(), fn ($q) => $q->where('user_id', $user?->id))
+            ->orderBy('created_at')
+            ->get()
+            ->map(fn (ProgramBupatiRisikoUsulan $u) => [
+                'id' => $u->id,
+                'aksi' => $u->aksi,
+                'program_id' => $u->program_pembangunan_bupati_id,
+                'program_nomor' => $u->program?->nomor,
+                'program_nama' => $u->program?->program_pembangunan,
+                'risiko_tipe' => $u->risiko_tipe,
+                'risiko_id' => $u->risiko_id,
+                'uraian_risiko' => $u->risiko()?->{'URAIAN RISIKO'},
+                'pengusul' => $u->user?->name,
+                'diusulkan_pada' => $u->created_at?->toDateTimeString(),
+            ])
+            ->values()
+            ->all();
     }
 
     /**
@@ -286,6 +325,11 @@ class ProgramBupatiRisikoController extends Controller
             return response()->json([]);
         }
 
+        // PIC hanya boleh mengusulkan risiko dari register miliknya sendiri,
+        // jadi pencariannya pun dibatasi ke sana — kalau tidak, mereka melihat
+        // pilihan yang pasti ditolak begitu dikirim.
+        $hanyaMilikSendiri = !$this->bolehMengelolaKaitan();
+
         $results = [];
         foreach (self::RISIKO_MODELS as $tipe => $modelClass) {
             $rows = $modelClass::where(function ($q) use ($query) {
@@ -293,6 +337,7 @@ class ProgramBupatiRisikoController extends Controller
                     ->orWhere('UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN', 'like', "%{$query}%")
                     ->orWhereHas('user.opd', fn ($uq) => $uq->where('nama', 'like', "%{$query}%"));
             })
+                ->when($hanyaMilikSendiri, fn ($q) => $q->where('user_id', $request->user()->id))
                 ->limit(10)
                 ->get();
 
@@ -320,49 +365,192 @@ class ProgramBupatiRisikoController extends Controller
         ]);
 
         $modelClass = self::RISIKO_MODELS[$validated['risiko_tipe']];
-        if (!$modelClass::whereKey($validated['risiko_id'])->exists()) {
+        $risiko = $modelClass::find($validated['risiko_id']);
+        if (!$risiko) {
             abort(422, 'Risiko yang dipilih tidak ditemukan.');
         }
 
-        // withTrashed: kalau kaitan ini PERNAH ada lalu di-soft-delete,
-        // pulihkan baris lama alih-alih membuat baris duplikat baru
-        // (unique constraint program+tipe+id tidak mengizinkan insert baru
-        // di atas baris yg soft-deleted tapi masih ada di tabel).
-        $existing = ProgramBupatiRisiko::withTrashed()
-            ->where('program_pembangunan_bupati_id', $program->id)
-            ->where('risiko_tipe', $validated['risiko_tipe'])
-            ->where('risiko_id', $validated['risiko_id'])
-            ->first();
+        // PIC OPD mengusulkan, tidak menerapkan langsung.
+        if (!$this->bolehMengelolaKaitan()) {
+            $this->pastikanRisikoMilikSendiri($request, $risiko);
 
-        if ($existing) {
-            if ($existing->trashed()) {
-                $existing->restore();
-            }
-        } else {
-            ProgramBupatiRisiko::create([
-                'program_pembangunan_bupati_id' => $program->id,
-                'risiko_tipe' => $validated['risiko_tipe'],
-                'risiko_id' => $validated['risiko_id'],
-            ]);
+            return $this->catatUsulan($request, $program, $validated['risiko_tipe'], (int) $validated['risiko_id'], 'tambah');
         }
+
+        $this->kaitkan($program->id, $validated['risiko_tipe'], (int) $validated['risiko_id']);
 
         return back()->with('success', 'Kaitan risiko berhasil ditambahkan.');
     }
 
     /** Lepas satu kaitan risiko dari program — SOFT DELETE, bisa dipulihkan lewat /trash. */
-    public function destroyRisiko(ProgramBupatiRisiko $pivot)
+    public function destroyRisiko(Request $request, ProgramBupatiRisiko $pivot)
     {
         // Sebelumnya endpoint ini TIDAK memeriksa apa pun: siapa saja yang
         // login, termasuk 49 akun PIC OPD, bisa melepas kaitan risiko mana
         // pun dari program Bupati mana pun. Menyembunyikan tombolnya saja
         // tidak cukup — alamatnya tetap bisa dipanggil langsung.
         if (!$this->bolehMengelolaKaitan()) {
-            abort(403, 'Hanya Admin atau Super Admin yang dapat melepas kaitan risiko dari Program Bupati.');
+            $risiko = $pivot->risiko();
+            if (!$risiko) {
+                abort(422, 'Baris risiko yang dikaitkan tidak ditemukan.');
+            }
+            $this->pastikanRisikoMilikSendiri($request, $risiko);
+
+            return $this->catatUsulan(
+                $request,
+                $pivot->program,
+                $pivot->risiko_tipe,
+                (int) $pivot->risiko_id,
+                'lepas',
+            );
         }
 
         $pivot->delete();
 
         return back()->with('success', 'Kaitan risiko berhasil dihapus.');
+    }
+
+    /**
+     * PIC hanya boleh mengusulkan atas risiko dari REGISTER MILIKNYA SENDIRI.
+     *
+     * Kepemilikan dibaca dari kolom user_id, definisi yang sama persis dipakai
+     * halaman register risiko saat menyaring daftar untuk PIC (lihat
+     * IrsPdController::index) dan RiskOwnershipPolicy. Sengaja bukan
+     * pencocokan teks nama OPD: kolom "UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN"
+     * berisi teks bebas yang ejaannya bisa berbeda-beda, jadi memakainya
+     * sebagai dasar izin berarti izin ikut berubah kalau ada yang mengoreksi
+     * ketikan.
+     */
+    private function pastikanRisikoMilikSendiri(Request $request, Model $risiko): void
+    {
+        if ($risiko->user_id !== $request->user()->id) {
+            abort(403, 'Anda hanya dapat mengusulkan risiko dari register milik OPD Anda sendiri.');
+        }
+    }
+
+    /**
+     * Simpan usulan PIC lalu beri tahu para Admin. Usulan yang sama dan masih
+     * menunggu keputusan tidak digandakan — tombol yang ditekan dua kali tidak
+     * boleh membuat dua antrean tinjauan untuk hal yang sama.
+     */
+    private function catatUsulan(Request $request, ProgramPembangunanBupati $program, string $tipe, int $risikoId, string $aksi)
+    {
+        $kunci = [
+            'program_pembangunan_bupati_id' => $program->id,
+            'risiko_tipe' => $tipe,
+            'risiko_id' => $risikoId,
+            'aksi' => $aksi,
+        ];
+
+        if (ProgramBupatiRisikoUsulan::where($kunci)->where('status', 'pending')->exists()) {
+            return back()->with('success', 'Usulan ini sudah terkirim dan masih menunggu persetujuan Admin.');
+        }
+
+        $usulan = ProgramBupatiRisikoUsulan::create($kunci + [
+            'user_id' => $request->user()->id,
+            'status' => 'pending',
+        ]);
+
+        Notification::send(
+            User::role(['admin', 'super-admin'])->get(),
+            new ProgramBupatiUsulanSubmitted($usulan->load('program', 'user')),
+        );
+
+        return back()->with(
+            'success',
+            $aksi === 'tambah'
+                ? 'Usulan penambahan kaitan risiko terkirim — menunggu persetujuan Admin.'
+                : 'Usulan pelepasan kaitan risiko terkirim — menunggu persetujuan Admin.',
+        );
+    }
+
+    /** Setujui usulan PIC lalu terapkan perubahannya. Admin & Super Admin saja. */
+    public function setujuiUsulan(Request $request, ProgramBupatiRisikoUsulan $usulan)
+    {
+        $this->pastikanBolehMeninjau($usulan);
+
+        if ($usulan->aksi === 'tambah') {
+            $this->kaitkan($usulan->program_pembangunan_bupati_id, $usulan->risiko_tipe, (int) $usulan->risiko_id);
+        } else {
+            ProgramBupatiRisiko::where('program_pembangunan_bupati_id', $usulan->program_pembangunan_bupati_id)
+                ->where('risiko_tipe', $usulan->risiko_tipe)
+                ->where('risiko_id', $usulan->risiko_id)
+                ->delete();
+        }
+
+        $usulan->update([
+            'status' => 'approved',
+            'reviewed_by' => $request->user()->id,
+            'reviewed_at' => now(),
+        ]);
+
+        $usulan->user?->notify(new ProgramBupatiUsulanReviewed($usulan->load('program', 'peninjau')));
+
+        return back()->with('success', 'Usulan disetujui dan sudah diterapkan.');
+    }
+
+    /** Tolak usulan PIC. Admin & Super Admin saja. */
+    public function tolakUsulan(Request $request, ProgramBupatiRisikoUsulan $usulan)
+    {
+        $this->pastikanBolehMeninjau($usulan);
+
+        $data = $request->validate([
+            'rejection_reason' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $usulan->update([
+            'status' => 'rejected',
+            'reviewed_by' => $request->user()->id,
+            'reviewed_at' => now(),
+            'rejection_reason' => $data['rejection_reason'] ?? null,
+        ]);
+
+        $usulan->user?->notify(new ProgramBupatiUsulanReviewed($usulan->load('program', 'peninjau')));
+
+        return back()->with('success', 'Usulan ditolak.');
+    }
+
+    private function pastikanBolehMeninjau(ProgramBupatiRisikoUsulan $usulan): void
+    {
+        if (!$this->bolehMengelolaKaitan()) {
+            abort(403, 'Hanya Admin atau Super Admin yang dapat memutuskan usulan kaitan risiko.');
+        }
+
+        if ($usulan->status !== 'pending') {
+            abort(422, 'Usulan ini sudah pernah diputuskan.');
+        }
+    }
+
+    /**
+     * Kaitkan risiko ke program — dipakai jalur langsung (Admin) maupun saat
+     * usulan PIC disetujui, supaya keduanya menempuh logika yang sama persis.
+     *
+     * withTrashed: kalau kaitan ini PERNAH ada lalu di-soft-delete, pulihkan
+     * baris lama alih-alih membuat baris duplikat baru (unique constraint
+     * program+tipe+id tidak mengizinkan insert baru di atas baris yg
+     * soft-deleted tapi masih ada di tabel).
+     */
+    private function kaitkan(int $programId, string $tipe, int $risikoId): void
+    {
+        $existing = ProgramBupatiRisiko::withTrashed()
+            ->where('program_pembangunan_bupati_id', $programId)
+            ->where('risiko_tipe', $tipe)
+            ->where('risiko_id', $risikoId)
+            ->first();
+
+        if ($existing) {
+            if ($existing->trashed()) {
+                $existing->restore();
+            }
+
+            return;
+        }
+
+        ProgramBupatiRisiko::create([
+            'program_pembangunan_bupati_id' => $programId,
+            'risiko_tipe' => $tipe,
+            'risiko_id' => $risikoId,
+        ]);
     }
 
     /** Total baris risiko unik (lintas tipe) yg PALING TIDAK punya 1 kaitan program — utk ringkasan header halaman. */

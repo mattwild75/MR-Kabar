@@ -67,6 +67,20 @@ interface VisiMisiPemda {
   misi: Record<number, string | null>;
 }
 
+/** Usulan PIC yang masih menunggu keputusan Admin. */
+interface UsulanRow {
+  id: number;
+  aksi: 'tambah' | 'lepas';
+  program_id: number;
+  program_nomor: number | null;
+  program_nama: string | null;
+  risiko_tipe: RisikoRow['tipe'];
+  risiko_id: number;
+  uraian_risiko: string | null;
+  pengusul: string | null;
+  diusulkan_pada: string | null;
+}
+
 interface PageProps {
   programs: ProgramRow[];
   riskLevels: RiskLevelBand[];
@@ -74,6 +88,8 @@ interface PageProps {
   visiMisiPemda: VisiMisiPemda;
   /** Hanya Admin & Super Admin. Kosmetik — penjaganya di destroyRisiko(). */
   bolehHapus: boolean;
+  /** Admin menerima semua usulan yang menunggu; PIC hanya miliknya sendiri. */
+  usulan: UsulanRow[];
 }
 
 /** Apakah teks ini yang membuat barisnya lolos saring? */
@@ -101,7 +117,7 @@ const TIPE_LABEL: Record<RisikoRow['tipe'], string> = {
 
 const MISI_URUTAN_LIST = [1, 2, 3, 4, 5, 6, 7] as const;
 
-export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRisikoTerpetakan, visiMisiPemda, bolehHapus }: PageProps) {
+export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRisikoTerpetakan, visiMisiPemda, bolehHapus, usulan }: PageProps) {
   const [search, setSearch] = useState('');
   const [expandedIds, setExpandedIds] = useState<Set<number>>(new Set());
   const [tambahUntukProgram, setTambahUntukProgram] = useState<ProgramRow | null>(null);
@@ -130,11 +146,21 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
     });
   };
 
+  // Endpoint yang sama dipakai dua peran: Admin melepas kaitannya langsung,
+  // PIC menghasilkan usulan. Pesan suksesnya diambil dari balasan server,
+  // bukan ditulis di sini, supaya tidak pernah mengaku "berhasil dihapus"
+  // padahal yang terjadi adalah usulan terkirim.
   const hapusKaitan = (pivotId: number) => {
     router.delete(`/program-bupati-risiko/risiko/${pivotId}`, {
       preserveScroll: true,
-      onSuccess: () => toast.success('Kaitan risiko berhasil dihapus.'),
-      onError: () => toast.error('Gagal menghapus kaitan.'),
+      onError: () => toast.error(bolehHapus ? 'Gagal menghapus kaitan.' : 'Gagal mengirim usulan.'),
+    });
+  };
+
+  const putuskanUsulan = (usulanId: number, keputusan: 'setujui' | 'tolak') => {
+    router.post(`/program-bupati-risiko/usulan/${usulanId}/${keputusan}`, {}, {
+      preserveScroll: true,
+      onError: () => toast.error('Gagal memproses usulan.'),
     });
   };
 
@@ -191,6 +217,10 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
     : programs;
 
   const totalRisikoPrioritas = programs.reduce((sum, p) => sum + p.jumlah_risiko_prioritas, 0);
+
+  // Penanda cepat "baris ini sedang diusulkan", supaya PIC tidak mengusulkan
+  // hal yang sama dua kali dan Admin melihat mana yang sedang ditunggu.
+  const usulanPerRisiko = new Map(usulan.map((u) => [`${u.program_id}#${u.risiko_tipe}#${u.risiko_id}`, u]));
 
   // Tombol "Buka/Tutup Semua" berganti label & aksi tergantung apakah
   // SEMUA program yg sedang tampil (filtered) sudah terbuka — kalau ya,
@@ -272,6 +302,41 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
             )}
           </Button>
         </div>
+
+        {/* Kotak usulan. Untuk Admin ini daftar tinjauan; untuk PIC ini
+            tanda terima — tanpa itu dia tidak punya cara tahu usulannya
+            sudah masuk atau belum. */}
+        {usulan.length > 0 && (
+          <div className="rounded-md border border-sky-500/40 bg-sky-500/5 p-3">
+            <p className="mb-2 text-sm font-semibold">
+              {bolehHapus
+                ? `Usulan menunggu persetujuan Anda (${usulan.length})`
+                : `Usulan Anda yang menunggu persetujuan Admin (${usulan.length})`}
+            </p>
+            <div className="space-y-1.5">
+              {usulan.map((u) => (
+                <div key={u.id} className="flex flex-wrap items-center gap-2 rounded-md bg-card px-2 py-1.5 text-sm shadow-sm">
+                  <Badge variant="outline" className={`shrink-0 text-[10px] ${u.aksi === 'lepas' ? 'border-red-400 text-red-700 dark:text-red-400' : 'border-emerald-400 text-emerald-700 dark:text-emerald-400'}`}>
+                    {u.aksi === 'lepas' ? 'Lepas' : 'Tambah'}
+                  </Badge>
+                  <span className="shrink-0 text-xs text-muted-foreground">Program #{u.program_nomor}</span>
+                  <span className="min-w-0 flex-1 truncate">{u.uraian_risiko ?? '(risiko tidak ditemukan)'}</span>
+                  {bolehHapus && (
+                    <>
+                      <span className="shrink-0 text-xs text-muted-foreground">oleh {u.pengusul}</span>
+                      <Button size="sm" className="h-7 shrink-0" onClick={() => putuskanUsulan(u.id, 'setujui')}>
+                        Setujui
+                      </Button>
+                      <Button size="sm" variant="outline" className="h-7 shrink-0" onClick={() => putuskanUsulan(u.id, 'tolak')}>
+                        Tolak
+                      </Button>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {filtered.length === 0 ? (
           <div className="rounded-md border p-8 text-center text-sm text-muted-foreground">
@@ -398,40 +463,69 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
                                     </Badge>
                                   </button>
                                 )}
-                                {/* Melepas kaitan hanya untuk Admin & Super
-                                    Admin — satu klik menghilangkan hasil
-                                    analisis yang dipakai seluruh Pemda dan
-                                    ikut tercetak untuk Bupati. */}
-                                {bolehHapus && (
-                                <AlertDialog>
-                                  <AlertDialogTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive">
-                                      <Trash2 className="h-3.5 w-3.5" />
-                                    </Button>
-                                  </AlertDialogTrigger>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                      <AlertDialogTitle>Hapus kaitan risiko ini?</AlertDialogTitle>
-                                      <AlertDialogDescription>
-                                        Kaitan ke risiko "{r.uraian_risiko}" akan dihapus dari Program #{program.nomor} —
-                                        risiko aslinya di {TIPE_LABEL[r.tipe]} TIDAK ikut terhapus, dan kaitan ini bisa
-                                        dipulihkan lewat menu Data Terhapus.
-                                      </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                      <AlertDialogCancel>Batal</AlertDialogCancel>
-                                      <AlertDialogAction onClick={() => hapusKaitan(r.pivot_id)} className="bg-destructive hover:bg-destructive/90">
-                                        Hapus
-                                      </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialog>
+                                {/* Baris yang sedang menunggu keputusan Admin
+                                    ditandai, supaya PIC tidak mengusulkan hal
+                                    yang sama dua kali dan Admin tahu mana yang
+                                    sedang ditunggu. */}
+                                {usulanPerRisiko.has(`${program.id}#${r.tipe}#${r.id}`) ? (
+                                  <Badge
+                                    variant="outline"
+                                    className="shrink-0 border-sky-400 text-[10px] text-sky-700 dark:text-sky-400"
+                                  >
+                                    {usulanPerRisiko.get(`${program.id}#${r.tipe}#${r.id}`)?.aksi === 'lepas'
+                                      ? 'usul lepas — menunggu Admin'
+                                      : 'usul tambah — menunggu Admin'}
+                                  </Badge>
+                                ) : (
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        title={bolehHapus ? 'Lepas kaitan risiko ini' : 'Usulkan pelepasan kaitan ini ke Admin'}
+                                        className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
+                                      >
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                          {bolehHapus ? 'Hapus kaitan risiko ini?' : 'Usulkan pelepasan kaitan ini?'}
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          {bolehHapus ? (
+                                            <>
+                                              Kaitan ke risiko "{r.uraian_risiko}" akan dihapus dari Program #{program.nomor} —
+                                              risiko aslinya di {TIPE_LABEL[r.tipe]} TIDAK ikut terhapus, dan kaitan ini bisa
+                                              dipulihkan lewat menu Data Terhapus.
+                                            </>
+                                          ) : (
+                                            <>
+                                              Usulan pelepasan kaitan ke risiko "{r.uraian_risiko}" dari Program #{program.nomor}{' '}
+                                              akan dikirim ke Admin. Kaitannya BELUM dilepas sampai Admin menyetujui, dan Anda
+                                              akan menerima notifikasi begitu diputuskan.
+                                            </>
+                                          )}
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                                        <AlertDialogAction
+                                          onClick={() => hapusKaitan(r.pivot_id)}
+                                          className={bolehHapus ? 'bg-destructive hover:bg-destructive/90' : ''}
+                                        >
+                                          {bolehHapus ? 'Hapus' : 'Kirim Usulan'}
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
                                 )}
                               </div>
                             ))}
                             <Button variant="outline" size="sm" className="mt-1" onClick={() => setTambahUntukProgram(program)}>
                               <Plus className="mr-1.5 h-3.5 w-3.5" />
-                              Tambah Kaitan Risiko
+                              {bolehHapus ? 'Tambah Kaitan Risiko' : 'Usulkan Kaitan Risiko'}
                             </Button>
                           </div>
                         )}
@@ -447,13 +541,23 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
 
       <TambahKaitanDialog
         program={tambahUntukProgram}
+        bolehLangsung={bolehHapus}
         onClose={() => setTambahUntukProgram(null)}
       />
     </AppLayout>
   );
 }
 
-function TambahKaitanDialog({ program, onClose }: { program: ProgramRow | null; onClose: () => void }) {
+function TambahKaitanDialog({
+  program,
+  bolehLangsung,
+  onClose,
+}: {
+  program: ProgramRow | null;
+  /** Admin: kaitan langsung berlaku. PIC: yang terkirim adalah usulan. */
+  bolehLangsung: boolean;
+  onClose: () => void;
+}) {
   const [query, setQuery] = useState('');
   const [hasil, setHasil] = useState<HasilPencarianRisiko[]>([]);
   const [searching, setSearching] = useState(false);
@@ -482,13 +586,15 @@ function TambahKaitanDialog({ program, onClose }: { program: ProgramRow | null; 
       { risiko_tipe: r.tipe, risiko_id: r.id },
       {
         preserveScroll: true,
+        // Tanpa toast di sini: pesannya datang dari server lewat flash,
+        // karena endpoint yang sama berarti "ditambahkan" bagi Admin dan
+        // "usulan terkirim" bagi PIC.
         onSuccess: () => {
-          toast.success('Kaitan risiko berhasil ditambahkan.');
           setQuery('');
           setHasil([]);
           onClose();
         },
-        onError: () => toast.error('Gagal menambahkan kaitan.'),
+        onError: () => toast.error(bolehLangsung ? 'Gagal menambahkan kaitan.' : 'Gagal mengirim usulan.'),
         onFinish: () => setSaving(false),
       },
     );
@@ -498,9 +604,17 @@ function TambahKaitanDialog({ program, onClose }: { program: ProgramRow | null; 
     <Dialog open={program !== null} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Tambah Kaitan Risiko — Program #{program?.nomor}</DialogTitle>
+          <DialogTitle>
+            {bolehLangsung ? 'Tambah' : 'Usulkan'} Kaitan Risiko — Program #{program?.nomor}
+          </DialogTitle>
         </DialogHeader>
         <p className="text-xs text-muted-foreground">{program?.program_pembangunan}</p>
+        {!bolehLangsung && (
+          <p className="rounded-md bg-sky-500/10 px-2.5 py-2 text-xs text-muted-foreground">
+            Pencarian ini hanya menampilkan risiko dari register OPD Anda sendiri. Pilihan Anda dikirim
+            sebagai usulan dan baru berlaku setelah disetujui Admin.
+          </p>
+        )}
         <div className="relative">
           <Search className="pointer-events-none absolute top-2.5 left-2.5 h-4 w-4 text-muted-foreground" />
           <Input

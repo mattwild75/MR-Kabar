@@ -144,6 +144,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/program-bupati-risiko/cari-risiko', [ProgramBupatiRisikoController::class, 'searchRisiko'])->name('program-bupati-risiko.cari-risiko');
     Route::post('/program-bupati-risiko/{program}/risiko', [ProgramBupatiRisikoController::class, 'storeRisiko'])->name('program-bupati-risiko.risiko.store');
     Route::delete('/program-bupati-risiko/risiko/{pivot}', [ProgramBupatiRisikoController::class, 'destroyRisiko'])->name('program-bupati-risiko.risiko.destroy');
+    // Keputusan atas usulan PIC — dijaga di controller (Admin/Super Admin).
+    Route::post('/program-bupati-risiko/usulan/{usulan}/setujui', [ProgramBupatiRisikoController::class, 'setujuiUsulan'])->name('program-bupati-risiko.usulan.setujui');
+    Route::post('/program-bupati-risiko/usulan/{usulan}/tolak', [ProgramBupatiRisikoController::class, 'tolakUsulan'])->name('program-bupati-risiko.usulan.tolak');
     Route::get('/program-bupati-risiko/cetak', [ProgramBupatiRisikoController::class, 'cetak'])->name('program-bupati-risiko.cetak');
     Route::get('/program-bupati-risiko/cetak/pdf', [ProgramBupatiRisikoController::class, 'pdf'])->name('program-bupati-risiko.cetak.pdf');
 
