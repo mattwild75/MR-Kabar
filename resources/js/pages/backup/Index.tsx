@@ -35,13 +35,18 @@ interface Props {
   canPushGit: boolean;
   gitSyncEnabled: boolean;
   gitTags: string[];
+  penjadwal: {
+    terakhir: string | null;
+    menitLalu: number | null;
+    sehat: boolean;
+  };
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Backup', href: '/backup' },
 ];
 
-export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags }: Props) {
+export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal }: Props) {
   const [gitMessage, setGitMessage] = useState('');
   const [pushing, setPushing] = useState(false);
   const [pulling, setPulling] = useState(false);
@@ -150,6 +155,30 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
       <Head title="Backup" />
 
       <div className="p-4 md:p-6 space-y-4">
+        {/* Penjadwal tugas berkala hanya jalan kalau cron/Task Scheduler di
+            server memanggilnya tiap menit. Kalau pemanggil itu belum
+            dipasang, tidak ada gejala apa pun — pembersihan log cuma diam,
+            begitu pula tugas berkala apa pun yang ditambahkan kemudian.
+            Peringatan ini yang membuat diamnya kelihatan. */}
+        {!penjadwal.sehat && (
+          <div className="rounded-md border border-amber-500/50 bg-amber-50 p-4 text-sm dark:bg-amber-950/30">
+            <p className="font-medium text-amber-900 dark:text-amber-200">
+              Penjadwal tugas berkala tidak berjalan
+            </p>
+            <p className="mt-1 text-amber-800 dark:text-amber-300">
+              {penjadwal.terakhir
+                ? `Terakhir terdeteksi ${penjadwal.terakhir} (sekitar ${penjadwal.menitLalu} menit lalu).`
+                : 'Belum pernah terdeteksi berjalan sama sekali.'}{' '}
+              Pembersihan log lama dan tugas berkala lain tidak akan jalan sampai server memanggil{' '}
+              <code className="rounded bg-amber-100 px-1 py-0.5 dark:bg-amber-900/50">
+                php artisan schedule:run
+              </code>{' '}
+              setiap menit. Lihat <span className="font-medium">docs/PENJADWAL_SERVER.md</span> untuk
+              perintah pemasangannya.
+            </p>
+          </div>
+        )}
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>

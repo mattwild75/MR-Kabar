@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -124,7 +125,28 @@ class BackupController extends Controller
             'canPushGit' => true,
             'gitSyncEnabled' => (bool) SettingApp::cached()?->git_sync_enabled,
             'gitTags' => $this->listGitTags(),
+            'penjadwal' => $this->statusPenjadwal(),
         ]);
+    }
+
+    /**
+     * Keadaan penjadwal tugas berkala, dibaca dari detak yang ditulis tiap
+     * menit di routes/console.php.
+     *
+     * Ditaruh di halaman Backup karena di sinilah pemeliharaan server
+     * dilihat, dan halaman ini sudah khusus super-admin. Toleransinya satu
+     * jam, jauh di atas selang satu menit — supaya server yang sesaat sibuk
+     * atau baru saja di-restart tidak langsung dituduh mati penjadwalnya.
+     */
+    private function statusPenjadwal(): array
+    {
+        $detak = Cache::get('penjadwal_detak_terakhir');
+
+        return [
+            'terakhir' => $detak ? Carbon::createFromTimestamp($detak)->toDateTimeString() : null,
+            'menitLalu' => $detak ? (int) Carbon::createFromTimestamp($detak)->diffInMinutes(now(), true) : null,
+            'sehat' => $detak !== null && Carbon::createFromTimestamp($detak)->greaterThan(now()->subHour()),
+        ];
     }
 
     /**
