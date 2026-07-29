@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Maximize, Minimize } from 'lucide-react';
 import chaptersData from '@/data/edu-video-chapters.json';
 
 export interface EduVideoStems {
@@ -232,25 +233,48 @@ export default function EduVideoPlayer({
     const [tinggiKotak, setTinggiKotak] = useState(0);
     const [teksCue, setTeksCue] = useState('');
     const [layarPenuh, setLayarPenuh] = useState(false);
+    const [kursorDiVideo, setKursorDiVideo] = useState(false);
+    const [sedangJeda, setSedangJeda] = useState(true);
     const pembungkusRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const onFs = () => {
-            const el = document.fullscreenElement;
-            setLayarPenuh(el === pembungkusRef.current);
-            // Tombol layar penuh bawaan peramban menargetkan elemen <video>,
-            // dan di sana lapisan subtitle kita tidak ikut tampil. Jadi
-            // permintaannya dialihkan ke pembungkus.
-            if (el && el === videoRef.current && pembungkusRef.current) {
-                document
-                    .exitFullscreen()
-                    .then(() => pembungkusRef.current?.requestFullscreen())
-                    .catch(() => undefined);
-            }
+        const video = videoRef.current;
+        if (!video) return;
+        const perbarui = () => setSedangJeda(video.paused);
+        perbarui();
+        video.addEventListener('play', perbarui);
+        video.addEventListener('pause', perbarui);
+        return () => {
+            video.removeEventListener('play', perbarui);
+            video.removeEventListener('pause', perbarui);
         };
+    }, []);
+
+    useEffect(() => {
+        const onFs = () => setLayarPenuh(document.fullscreenElement === pembungkusRef.current);
         document.addEventListener('fullscreenchange', onFs);
         return () => document.removeEventListener('fullscreenchange', onFs);
     }, []);
+
+    // Yang dilayarpenuhkan harus PEMBUNGKUS, bukan elemen <video>: lapisan
+    // subtitle di atas bukan bagian dari elemen video, jadi akan hilang kalau
+    // video sendiri yang dilayarpenuhkan.
+    //
+    // Karena itu tombol bawaan peramban dimatikan (controlsList) dan diganti
+    // tombol sendiri. Sempat dicoba membiarkan tombol bawaan lalu mengalihkan
+    // permintaannya lewat event fullscreenchange — cara itu GAGAL: peramban
+    // menolak permintaan layar penuh yang tidak datang langsung dari klik
+    // ("API can only be initiated by a user gesture"), sehingga menekan tombol
+    // layar penuh justru tidak menghasilkan apa-apa.
+    const tampilTombolPenuh = kursorDiVideo || sedangJeda;
+
+    const alihLayarPenuh = () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen().catch(() => undefined);
+        } else {
+            pembungkusRef.current?.requestFullscreen().catch(() => undefined);
+        }
+    };
 
     useEffect(() => {
         const video = videoRef.current;
@@ -336,12 +360,20 @@ export default function EduVideoPlayer({
 
     return (
         <div className="space-y-3">
+            {/* controlsList="nofullscreen" menonaktifkan tombol layar penuh
+                bawaan, tapi Chrome tetap MENGGAMBARNYA dalam keadaan mati —
+                jadi ada dua tombol layar penuh berdampingan, satu hidup satu
+                tidak. Pseudo-element di bawah ini menyembunyikannya. */}
+            <style>{'.eduvid-video::-webkit-media-controls-fullscreen-button{display:none!important}'}</style>
+
             {/* Pembungkus inilah yang dijadikan elemen layar penuh, bukan
                 elemen <video>-nya. Kalau video sendiri yang dilayarpenuhkan,
                 lapisan subtitle di bawah ini ikut hilang karena bukan bagian
                 dari elemen itu. */}
             <div
                 ref={pembungkusRef}
+                onMouseEnter={() => setKursorDiVideo(true)}
+                onMouseLeave={() => setKursorDiVideo(false)}
                 className={`relative overflow-hidden bg-black ${
                     layarPenuh ? 'flex h-full w-full items-center justify-center' : 'rounded-md'
                 }`}
@@ -350,14 +382,37 @@ export default function EduVideoPlayer({
                     ref={videoRef}
                     src={src}
                     controls
+                    controlsList="nofullscreen"
                     preload="metadata"
                     crossOrigin="anonymous"
-                    className={layarPenuh ? 'h-full w-full object-contain' : 'aspect-video w-full bg-black'}
+                    className={`eduvid-video ${layarPenuh ? 'h-full w-full object-contain' : 'aspect-video w-full bg-black'}`}
                 >
                     {vtt && (
                         <track kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />
                     )}
                 </video>
+
+                {/* Ditaruh di kanan BAWAH, tepat di atas baris kontrol bawaan —
+                    bukan di kanan atas, karena di sana ada tulisan "MR KABAR"
+                    milik videonya sendiri dan tombolnya akan menimpa. Muncul
+                    hanya saat kursor di atas video atau video sedang jeda,
+                    mengikuti perilaku baris kontrol, supaya tidak menutupi
+                    gambar saat ditonton. */}
+                <button
+                    type="button"
+                    onClick={alihLayarPenuh}
+                    title={layarPenuh ? 'Keluar dari layar penuh' : 'Layar penuh'}
+                    aria-label={layarPenuh ? 'Keluar dari layar penuh' : 'Layar penuh'}
+                    className={`absolute right-3 rounded-md bg-black/60 p-2 text-white/85 transition-opacity hover:bg-black/85 hover:text-white focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none ${
+                        layarPenuh ? 'bottom-24' : 'bottom-14'
+                    } ${tampilTombolPenuh ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+                >
+                    {layarPenuh ? (
+                        <Minimize className="h-5 w-5" aria-hidden="true" />
+                    ) : (
+                        <Maximize className="h-5 w-5" aria-hidden="true" />
+                    )}
+                </button>
 
                 {teksCue && (
                     // pointer-events-none supaya klik tetap tembus ke video
