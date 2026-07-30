@@ -121,6 +121,33 @@ mana yang terlambat, dan peringkat ketaatan. Ini sekaligus alat kerja Unit Kepat
 (lini kedua) yang sekarang tidak punya halaman sendiri, dan sekaligus dasar
 pemberian penghargaan atas pengelolaan Risiko yang baik.
 
+### A9. CEE 1c tidak merekam dua sumber simpulannya
+
+**Keadaan sekarang.** `cee_simpulan` hanya menyimpan `simpulan` dan `penjelasan`.
+Formulir CEE 1c melompat langsung ke simpulan tanpa merekam dari mana simpulan itu
+datang. Cilegon menyandingkan dua sumber lebih dulu — hasil reviu dokumen (hasil dan
+uraian) dan hasil survei persepsi (hasil dan uraian) — lalu baru menyimpulkan, dengan
+aturan bila keduanya bertentangan dilakukan pendalaman atau professional judgement.
+
+**Mengapa penting.** Keduanya memang bisa berbeda. Pada contoh Cilegon, tiga unsur
+justru bertentangan: reviu dokumen menyimpulkan kurang memadai sedangkan survei
+persepsi menyimpulkan memadai. Tanpa merekam keduanya, Inspektorat selaku lini ketiga
+tidak dapat memverifikasi simpulan SKPK — tidak terlihat simpulan itu bersumber dari
+mana, dan tidak terlihat apakah ada pertentangan yang dijembatani.
+
+**Yang perlu dibangun.** Kedua bahannya sudah ada di basis data: hasil survei persepsi
+dapat dihitung dari `cee_jawaban` (memadai bila modus 3 atau 4), hasil reviu dokumen
+dapat diturunkan dari ada atau tidaknya baris `cee_kelemahan_dokumen` pada unsur yang
+sama. Jadi yang dibangun hanya penyajian bersanding pada CEE 1c, satu kolom dasar
+pertimbangan yang wajib diisi bila kedua sumber bertentangan, dan penyesuaian Form
+Cetak 1c.
+
+**Bobot.** Sedang-ringan. Tidak ada perhitungan baru, hanya penyajian dan satu kolom.
+
+**Kaitan Perbup.** Formulir 15 pada Lampiran XII sekarang hanya memuat Unsur,
+Simpulan, Penjelasan, Penyusun, dan Jabatan Penyusun. Dua kolom sumber perlu
+ditambahkan bersamaan dengan perubahan aplikasinya.
+
 ---
 
 ## B. Revisi atas yang sudah ada
@@ -176,16 +203,18 @@ Supaya tidak ada yang membangun ulang hal yang sudah ada:
 
 1. **A2** dan **A4** — ringan, langsung memperbaiki mutu data yang sedang diisi.
 2. **A3** — ringan, mencegah pekerjaan ganda sebelum data pemantauan membesar.
-3. **B1** — pengisian percontohan CEE dan Monitoring RTP. Wajib sebelum Perbup
+3. **A9** — penyajian dua sumber pada CEE 1c. Dikerjakan sebelum B1 supaya SKPK
+   percontohan langsung mengisi bentuk yang benar, bukan mengisi ulang nanti.
+4. **B1** — pengisian percontohan CEE dan Monitoring RTP. Wajib sebelum Perbup
    ditetapkan.
-4. **A1** — jadwal penyelenggaraan. Berat, tetapi menjadi tulang punggung
+5. **A1** — jadwal penyelenggaraan. Berat, tetapi menjadi tulang punggung
    pengawasan dan menjadi prasyarat Lampiran jadwal pada Perbup.
-5. **A8** — dasbor kepatuhan, menumpang data jadwal dari A1.
-6. **A5** dan **A6** — struktur pengelola dan laporan Komite.
-7. **B2** — keputusan penamaan peran, dikerjakan sekali sebelum go-live.
-8. **A7** — kematangan SPIP, hanya setelah diputuskan memang di dalam aplikasi.
+6. **A8** — dasbor kepatuhan, menumpang data jadwal dari A1.
+7. **A5** dan **A6** — struktur pengelola dan laporan Komite.
+8. **B2** — keputusan penamaan peran, dikerjakan sekali sebelum go-live.
+9. **A7** — kematangan SPIP, hanya setelah diputuskan memang di dalam aplikasi.
 
-Perbup dapat ditetapkan setelah nomor 1 sampai 4 tuntas. Nomor 5 sampai 8 bisa
+Perbup dapat ditetapkan setelah nomor 1 sampai 4 tuntas. Nomor 5 sampai 9 bisa
 menyusul dan diatur pada perubahan Perbup berikutnya.
 
 ---

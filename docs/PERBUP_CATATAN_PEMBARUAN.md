@@ -101,6 +101,11 @@ baik. Perkiraan 2 Pasal. Prasyarat aplikasi: A8.
 Perkiraan 3 Pasal, disisipkan pada Bagian Rencana Tindak Pengendalian dan Bagian
 Pemantauan.
 
+Ditambah perubahan **Formulir 15 pada Lampiran XII**: sekarang hanya memuat Unsur,
+Simpulan, Penjelasan, Penyusun, dan Jabatan Penyusun. Perlu ditambah kolom hasil
+reviu dokumen dan hasil survei persepsi beserta uraiannya, serta ketentuan bahwa
+bila kedua sumber bertentangan dilakukan pendalaman. Prasyarat: A9.
+
 ### Tahap 4 — Bagian baru "Jadwal Penyelenggaraan" dan Lampiran jadwal
 
 Ini gap paling substantif. Naskah menyebut RPJMD, Renstra, dan Renja sebagai sumber
