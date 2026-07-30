@@ -68,8 +68,9 @@ lihat [REVISI_APLIKASI.md](REVISI_APLIKASI.md).
 
 ### Tahap 0 — verifikasi
 
-- Nomor Lembaran Negara Perpres 39/2023 tentang MRPN. Perpres-nya sudah dipastikan
-  ada, ditetapkan 16 Juni 2023, tetapi nomor Lembaran Negaranya belum terverifikasi.
+- ~~Nomor Lembaran Negara Perpres 39/2023 tentang MRPN.~~ **Selesai** — LN Tahun 2023
+  Nomor 90, ditetapkan dan diundangkan 16 Juni 2023, diverifikasi langsung dari naskah
+  Perpres-nya.
 - Nomor Berita Negara Perka BPKP Nomor 25 Tahun 2013 tentang Petunjuk Pelaksanaan
   Control Environment Evaluation. Cilegon merujuknya di lampiran; kita punya modul CEE
   utuh tetapi belum mencantumkannya.
@@ -78,7 +79,10 @@ Yang tidak terverifikasi tidak dicantumkan.
 
 ### Tahap 1 — Ketentuan Umum dan dasar hukum
 
-Rumusan pengertian "Sisa Risiko". Naskah memakai istilah "Residual" tiga kali pada
+Dua pekerjaan. **Pertama**, tambahkan prinsip **kolaboratif** dan **perbaikan
+berkelanjutan** pada Pasal 5 — Perpres 39/2023 Pasal 5 menetapkan sembilan prinsip
+sedangkan naskah kita baru memuat tujuh. **Kedua**, rumusan pengertian "Sisa Risiko":
+naskah memakai istilah "Residual" tiga kali pada
 Formulir 7 tanpa pernah merumuskannya — cacat yang sejenis dengan Toleransi Risiko
 dan SPIP yang sudah diperbaiki. Tambahkan pula Perka BPKP 25/2013 dan Perpres 39/2023
 pada Mengingat bila Tahap 0 berhasil.

@@ -6,9 +6,9 @@ searah dengannya, dan apa yang perlu dibangun bila Aceh Barat hendak ikut.
 ## Apa itu MRPN
 
 Manajemen Risiko Pembangunan Nasional diatur dengan **Peraturan Presiden Nomor 39
-Tahun 2023**, ditetapkan 16 Juni 2023. Nomor Lembaran Negaranya belum diverifikasi
-dan wajib dicocokkan ke sumber resmi sebelum dikutip pada bagian Mengingat peraturan
-apa pun.
+Tahun 2023** (**Lembaran Negara Republik Indonesia Tahun 2023 Nomor 90**), ditetapkan
+dan diundangkan 16 Juni 2023. Penunjukan Lembaran Negara itu **sudah diverifikasi
+langsung dari naskah Perpres-nya**, yang tersimpan di Desktop\MR Kabar.
 
 Yang perlu diketahui:
 
@@ -25,11 +25,34 @@ Yang perlu diketahui:
 - **Ada Komite MRPN** di tingkat nasional.
 - Penerapannya sedang didorong ke 543 pemerintah daerah melalui proyek percontohan.
 
-Yang **belum** diverifikasi dan tidak boleh diasumsikan: rincian tahapan proses,
-bentuk register yang diwajibkan, mekanisme pelaporan daerah ke tingkat nasional, dan
-apakah ada penilaian tingkat kematangan MRPN tersendiri. Sebelum roadmap ini
-dijalankan, teks Perpres 39/2023 beserta Pedoman MRPN Lintas Sektoral harus dibaca
-langsung.
+- **Susunannya 5 BAB**: Ketentuan Umum, Penerapan MRPN, Pembinaan MRPN, Ketentuan
+  Peralihan, dan Ketentuan Penutup.
+- **Sembilan prinsip** (Pasal 5): terintegrasi; terstruktur dan komprehensif;
+  kustomisasi; inklusif; kolaboratif; dinamis; informasi terbaik yang tersedia;
+  mempertimbangkan sosial dan budaya; serta perbaikan berkelanjutan.
+
+## Temuan penting: Perbup kita sudah berupa Kebijakan MRPN organisasi
+
+**Pasal 10 Perpres 39/2023** menyatakan Kebijakan MRPN organisasi **ditetapkan oleh
+pimpinan Entitas MRPN** — untuk kabupaten berarti Bupati — dan paling sedikit memuat
+tiga hal:
+
+| Muatan wajib | Keadaan rancangan Perbup Aceh Barat |
+|---|---|
+| Struktur MRPN | sudah ada, BAB IV berikut tiga lini pertahanan |
+| Kerangka Kerja MRPN | sudah ada, BAB V delapan Bagian proses |
+| Strategi pembangunan Budaya Risiko | **belum ada**, hanya tujuan pada Pasal 3 |
+
+Artinya rancangan Perbup kita **sudah merupakan Kebijakan MRPN organisasi dalam
+wujudnya**, tinggal kurang unsur ketiga. Butir A8 pada REVISI_APLIKASI.md semula hanya
+meniru praktik Cilegon; ternyata itu unsur wajib menurut Perpres. Bobotnya naik.
+
+Selain itu Perbup kita memuat 7 prinsip, sedangkan Perpres menetapkan 9 — **belum
+memuat prinsip kolaboratif dan perbaikan berkelanjutan**.
+
+Yang **belum** diverifikasi: Pedoman MRPN Lintas Sektoral yang disusun Bappenas dan
+BPKP belum dibaca. Bentuk register, mekanisme pelaporan daerah ke tingkat nasional,
+dan penilaian kematangan MRPN masih bergantung pada pedoman itu.
 
 ## Bedanya dengan yang sudah kita kerjakan
 

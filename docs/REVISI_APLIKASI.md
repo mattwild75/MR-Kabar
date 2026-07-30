@@ -121,6 +121,12 @@ mana yang terlambat, dan peringkat ketaatan. Ini sekaligus alat kerja Unit Kepat
 (lini kedua) yang sekarang tidak punya halaman sendiri, dan sekaligus dasar
 pemberian penghargaan atas pengelolaan Risiko yang baik.
 
+**Bobotnya naik.** Semula butir ini hanya meniru praktik Cilegon. Setelah naskah
+Perpres 39/2023 dibaca langsung, ternyata "strategi pembangunan Budaya Risiko" adalah
+salah satu dari tiga muatan wajib Kebijakan MRPN organisasi menurut Pasal 10 — dan
+rancangan Perbup kita sudah memuat dua muatan lainnya. Ini bukan pelengkap, melainkan
+unsur yang hilang. Lihat [ROADMAP_MRPN.md](ROADMAP_MRPN.md).
+
 ### A9. CEE 1c tidak merekam dua sumber simpulannya
 
 **Keadaan sekarang.** `cee_simpulan` hanya menyimpan `simpulan` dan `penjelasan`.
