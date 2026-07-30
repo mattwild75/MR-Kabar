@@ -21,8 +21,10 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
+        // Aplikasi ini masuk dengan username, bukan surel (lihat
+        // LoginRequest::rules) — uji bawaan starter-kit masih mengirim surel.
         $response = $this->post('/login', [
-            'email' => $user->email,
+            'username' => $user->username,
             'password' => 'password',
         ]);
 

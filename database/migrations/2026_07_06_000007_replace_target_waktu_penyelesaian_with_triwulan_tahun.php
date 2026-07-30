@@ -35,9 +35,19 @@ return new class extends Migration
         // bertipe int (bug lama) — di-drop total, bukan diubah tipe, karena
         // isinya sudah pasti NULL semua (int tidak pernah menampung teks
         // "Triwulan III 2026").
-        DB::statement('ALTER TABLE tbl_krs_irs_pemda DROP COLUMN TARGET_WAKTU_PENYELESAIAN');
-        DB::statement('ALTER TABLE tbl_krs_irs_pemda ADD COLUMN TRIWULAN TEXT NULL AFTER PEMILIK_PENANGGUNGJAWAB');
-        DB::statement('ALTER TABLE tbl_krs_irs_pemda ADD COLUMN TAHUN_TARGET_PENYELESAIAN SMALLINT UNSIGNED NULL AFTER TRIWULAN');
+        //
+        // Dijaga hasTable seperti seluruh migrasi lain yang menyentuh tabel
+        // ini: tbl_krs_irs_pemda TIDAK pernah dibuat oleh migrasi mana pun
+        // (tabel turunan warisan sistem lama), jadi pada basis data yang
+        // masih kosong — lingkungan pengujian, maupun pemasangan baru —
+        // pernyataan mentah di bawah ini menghentikan seluruh rangkaian
+        // migrasi. Sintaksnya juga khusus MySQL sehingga tidak dapat jalan
+        // di SQLite yang dipakai pengujian.
+        if (Schema::hasTable('tbl_krs_irs_pemda')) {
+            DB::statement('ALTER TABLE tbl_krs_irs_pemda DROP COLUMN TARGET_WAKTU_PENYELESAIAN');
+            DB::statement('ALTER TABLE tbl_krs_irs_pemda ADD COLUMN TRIWULAN TEXT NULL AFTER PEMILIK_PENANGGUNGJAWAB');
+            DB::statement('ALTER TABLE tbl_krs_irs_pemda ADD COLUMN TAHUN_TARGET_PENYELESAIAN SMALLINT UNSIGNED NULL AFTER TRIWULAN');
+        }
 
         Schema::table('tbl_krs_irs_pd', function (Blueprint $blueprint) {
             $blueprint->dropColumn('TARGET_WAKTU_PENYELESAIAN');
@@ -61,10 +71,12 @@ return new class extends Migration
             });
         }
 
-        Schema::table('tbl_krs_irs_pemda', function (Blueprint $blueprint) {
-            $blueprint->dropColumn(['TRIWULAN', 'TAHUN_TARGET_PENYELESAIAN']);
-            $blueprint->integer('TARGET_WAKTU_PENYELESAIAN')->nullable();
-        });
+        if (Schema::hasTable('tbl_krs_irs_pemda')) {
+            Schema::table('tbl_krs_irs_pemda', function (Blueprint $blueprint) {
+                $blueprint->dropColumn(['TRIWULAN', 'TAHUN_TARGET_PENYELESAIAN']);
+                $blueprint->integer('TARGET_WAKTU_PENYELESAIAN')->nullable();
+            });
+        }
 
         Schema::table('tbl_krs_irs_pd', function (Blueprint $blueprint) {
             $blueprint->dropColumn(['TRIWULAN', 'TAHUN_TARGET_PENYELESAIAN']);

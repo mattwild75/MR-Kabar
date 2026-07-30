@@ -61,39 +61,12 @@ class ProfileUpdateTest extends TestCase
         $this->assertNotNull($user->refresh()->email_verified_at);
     }
 
-    public function test_user_can_delete_their_account()
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->delete('/settings/profile', [
-                'password' => 'password',
-            ]);
-
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/');
-
-        $this->assertGuest();
-        $this->assertNull($user->fresh());
-    }
-
-    public function test_correct_password_must_be_provided_to_delete_account()
-    {
-        $user = User::factory()->create();
-
-        $response = $this
-            ->actingAs($user)
-            ->from('/settings/profile')
-            ->delete('/settings/profile', [
-                'password' => 'wrong-password',
-            ]);
-
-        $response
-            ->assertSessionHasErrors('password')
-            ->assertRedirect('/settings/profile');
-
-        $this->assertNotNull($user->fresh());
-    }
+    /*
+     * Uji "user can delete their account" dan "correct password must be
+     * provided to delete account" bawaan starter-kit DIHAPUS: pengguna di
+     * aplikasi ini tidak dapat menghapus akunnya sendiri, rutenya memang
+     * ditiadakan dan pengelolaan akun sepenuhnya di tangan Administrator.
+     * Keduanya sebelumnya gagal dengan galat 405 karena menguji rute yang
+     * sudah tidak ada.
+     */
 }

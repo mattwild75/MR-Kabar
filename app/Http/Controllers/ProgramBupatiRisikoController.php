@@ -130,14 +130,15 @@ class ProgramBupatiRisikoController extends Controller
     }
 
     /**
-     * Hanya Admin & Super Admin yang boleh MELEPAS kaitan risiko dari
-     * program Bupati.
+     * Hanya Admin & Super Admin yang boleh MENERAPKAN perubahan kaitan
+     * risiko pada program Bupati secara langsung, baik menambah maupun
+     * melepas.
      *
-     * Menambah kaitan tetap terbuka untuk PIC OPD (lihat catatan kelas di
-     * atas) — yang dibatasi khusus di sini adalah penghapusannya, karena
-     * sifatnya beda: satu klik menghilangkan hasil analisis yang dipakai
-     * seluruh Pemda, sementara menambah kaitan yang keliru masih bisa
-     * ditinjau dan dikoreksi belakangan.
+     * PIC OPD tidak ditolak, melainkan dialihkan menjadi usulan yang
+     * menunggu keputusan (lihat catatUsulan) — halaman ini menghasilkan
+     * dokumen tingkat Pemda yang ikut dicetak untuk Bupati, jadi
+     * perubahannya perlu diputuskan satu pintu. Fungsi yang sama juga
+     * menjadi penjaga setujuiUsulan() dan tolakUsulan().
      */
     private function bolehMengelolaKaitan(): bool
     {

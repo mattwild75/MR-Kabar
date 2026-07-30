@@ -22,8 +22,22 @@
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_STORE" value="array"/>
-        <env name="DB_CONNECTION" value="sqlite"/>
-        <env name="DB_DATABASE" value=":memory:"/>
+        <!--
+            Pengujian memakai MySQL, bukan SQLite dalam memori. Skema aplikasi
+            ini terikat erat ke MySQL: beberapa migrasi memakai pernyataan
+            mentah ALTER TABLE ... CHANGE / ... AFTER / ADD INDEX berprefiks
+            panjang yang tidak dikenal SQLite, sehingga rangkaian migrasi
+            berhenti sebelum satu pun pengujian berjalan. Menguji di mesin
+            basis data yang sama dengan produksi juga membuat hasilnya berarti.
+
+            Basis datanya TERPISAH dari basis data kerja (mrkabar) dan
+            dikosongkan ulang setiap kali pengujian dijalankan. Buat sekali
+            sebelum menjalankan pengujian:
+                CREATE DATABASE mrkabar_testing
+                    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        -->
+        <env name="DB_CONNECTION" value="mysql"/>
+        <env name="DB_DATABASE" value="mrkabar_testing"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="QUEUE_CONNECTION" value="sync"/>

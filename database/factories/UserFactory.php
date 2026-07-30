@@ -25,6 +25,10 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            // Kolom username wajib dan unik sejak pengguna masuk memakai
+            // username, bukan surel — tanpa baris ini setiap pembuatan
+            // pengguna di pengujian gagal dengan galat 1364.
+            'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
