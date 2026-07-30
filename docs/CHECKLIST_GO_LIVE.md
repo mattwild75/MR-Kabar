@@ -76,6 +76,16 @@ Beri hak tulis pada pengguna web server (`www-data` atau setara):
 sudo chown -R www-data:www-data storage bootstrap/cache
 ```
 
+**Dua tabel warisan akan terbentuk kosong.** `tbl_krs_pemda` dan
+`tbl_krs_irs_pemda` terbawa dari berkas Excel bermakro yang lama dan sampai
+Juli 2026 tidak pernah dibuat oleh migrasi mana pun — di server lama keduanya
+ada hanya karena diimpor manual. Migrasi
+`2026_07_30_000000_create_missing_legacy_pemda_tables` kini membentuknya, jadi
+`migrate` tidak lagi berhenti dan halaman **Risiko 100 Program Bupati** tidak
+lagi galat 500 pada pemasangan baru. Tetapi isinya kosong: VISI, MISI, dan
+sasaran RPJMD harus diisi lewat menu **I_a_KRS_Pemda** atau **Ekspor/Impor
+Excel** sebelum halaman itu menampilkan sesuatu yang berarti.
+
 ### A5. Penjadwal tugas berkala
 
 Wajib, dan **tidak otomatis** meski server menyala 24 jam. Perintahnya ada di
@@ -157,3 +167,38 @@ Tidak ada worker yang perlu dijaga hidup untuk saat ini.
 optimize` dijalankan di server, `env()` di luar sana mengembalikan `null`
 dan yang rusak karenanya tidak bersuara. Tambahkan kuncinya di
 `config/mrkabar.php` lalu baca lewat `config()`.
+
+---
+
+## E. Menjalankan pengujian
+
+Pengujian **tidak** dijalankan di server produksi. Bagian ini untuk mesin
+pengembang atau mesin integrasi.
+
+Pengujian memakai MySQL, bukan SQLite dalam memori. Alasannya: sebagian
+migrasi memakai pernyataan mentah `ALTER TABLE ... CHANGE`, `... AFTER`, dan
+indeks berprefiks panjang yang tidak dikenal SQLite, sehingga rangkaian
+migrasi berhenti sebelum satu pun pengujian berjalan. Menguji di mesin basis
+data yang sama dengan produksi juga membuat hasilnya berarti.
+
+Basis datanya **terpisah** dari basis data kerja dan dikosongkan ulang setiap
+kali pengujian dijalankan. Buat sekali saja:
+
+```sql
+CREATE DATABASE mrkabar_testing
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Lalu:
+
+```bash
+php artisan test
+```
+
+Nama basis datanya sudah tertulis di `phpunit.xml`, tidak perlu diubah.
+Basis data kerja (`mrkabar`) tidak pernah disentuh pengujian.
+
+Kalau langkah `CREATE DATABASE` di atas terlewat, `php artisan test` gagal
+dengan pesan `SQLSTATE[HY000] [1049] Unknown database 'mrkabar_testing'`.
+Pesan itu berarti basis datanya belum dibuat, bukan tanda ada yang rusak pada
+aplikasi.
