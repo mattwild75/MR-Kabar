@@ -76,8 +76,9 @@ tambahan di luar kolom a–g baku Lampiran 5. Menjadikannya syarat "Form 9 teris
 akan mengubah angka kepatuhan seluruh SKPK di Dasbor tanpa satu pun data
 berubah.
 
-Bagian B belum dikerjakan. Rincian versi dan snapshot database ada di
-`docs/VERSI_DAN_SNAPSHOT.md`.
+**Bagian B juga sudah tuntas per 1 Agustus 2026:** B2 diputuskan tidak mengganti nama
+peran, sedangkan B1 dan B3 ditutup atas keputusan pemilik aplikasi. Rincian versi dan
+snapshot database ada di `docs/VERSI_DAN_SNAPSHOT.md`.
 
 ---
 
@@ -272,15 +273,25 @@ penandaan Risiko Prioritas, menggantikan ambang tetap.
 
 ## B. Revisi atas yang sudah ada
 
-### B1. Modul CEE dan Monitoring RTP masih kosong
+### B1. Modul CEE dan Monitoring RTP masih kosong — DITUTUP, tidak dilanjutkan
 
-`cee_jawaban`, `cee_kelemahan_dokumen`, `cee_simpulan`, `cee_rtp`, dan
-`monitoring_rtp` semuanya nol baris. Artinya dua modul yang diwajibkan Perbup belum
-pernah dipakai sungguhan. Ini bukan kerusakan kode, tetapi risiko go-live: pasal yang
-mewajibkannya akan berlaku atas modul yang belum pernah diuji dengan data nyata.
-
-Tindakan: satu SKPK percontohan mengisi CEE 1a sampai 1d dan Monitoring RTP sampai
+Semula: `cee_jawaban`, `cee_kelemahan_dokumen`, `cee_simpulan`, `cee_rtp`, dan
+`monitoring_rtp` seluruhnya nol baris, sehingga dua modul yang diwajibkan Perbup belum
+pernah dipakai. Tindakan yang disarankan adalah satu SKPK percontohan mengisinya sampai
 tuntas sebelum Perbup ditetapkan.
+
+**Keputusan pemilik aplikasi, 1 Agustus 2026: tidak dilanjutkan sebagai prasyarat.**
+
+Yang berubah sejak butir ini ditulis: seluruh modul itu kini terisi satu set penuh data
+Tahun Penilaian 2025 hasil `Set2025Seeder` — 481 jawaban CEE, 40 simpulan, 14 RTP CEE,
+205 baris monitoring, dan 157 narasi laporan — dan seluruh halamannya sudah dibuka serta
+diperiksa di peramban. Risikonya karena itu jauh lebih kecil daripada saat butir ini
+disusun: yang belum terjadi hanyalah pengisian oleh petugas SKPK yang sesungguhnya,
+bukan ketiadaan pembuktian bahwa modulnya berjalan.
+
+Yang perlu tetap disadari: data 2025 yang ada sekarang **hasil seeder, bukan pengisian
+nyata**. Angka pada Dasbor dan Form Cetak menggambarkan contoh, bukan keadaan SKPK yang
+sebenarnya, sampai petugas mulai mengisi sendiri.
 
 ### B2. Istilah "Administrator" berbenturan — SELESAI, diputuskan tidak diganti
 
@@ -309,11 +320,14 @@ misalnya "pengelola aplikasi" — supaya pembaca Perbup tidak mengira itu jenjan
 jabatan administrator ASN. Peran teknisnya tetap bernama `admin` di dalam
 aplikasi.
 
-### B3. Panel tinjauan usulan Program Bupati belum diperiksa di peramban
+### B3. Panel tinjauan usulan Program Bupati belum diperiksa di peramban — DITUTUP
 
-Alur usulan-persetujuan sudah lulus 12 pengujian otomatis, tetapi tampilan panel
-tinjauan Admin dan penanda status pada baris PIC belum pernah dilihat langsung di
-peramban. Perlu satu kali penelusuran manual.
+Alur usulan-persetujuan lulus 12 pengujian otomatis, tetapi tampilan panel tinjauan Admin
+dan penanda status pada baris PIC belum pernah dilihat langsung di peramban.
+
+**Keputusan pemilik aplikasi, 1 Agustus 2026: dianggap selesai, tidak perlu ditelusuri
+manual.** Dua puluh satu halaman lain sudah diperiksa di peramban pada 1 Agustus 2026 dan
+seluruhnya bersih, sehingga keyakinan atas lapisan tampilan aplikasi ini sudah memadai.
 
 ---
 
