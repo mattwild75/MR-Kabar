@@ -649,6 +649,26 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Struktur Pengelolaan Risiko — SEJAJAR dengan "Risiko" dan
+        // "Laporan" (langsung anak "Form Cetak"), sebab isinya bukan bagian
+        // dari proses per-tahap maupun output pelaporan berkala, melainkan
+        // susunan pengelola yang mendasari keduanya (Perdep Lampiran 2).
+        // Ikon Network dipilih karena benar-benar menggambarkan bagan
+        // susunan berjenjang, bukan ikon dokumen generik.
+        // permission_name null (fail-open): seluruh Pengguna justru perlu
+        // tahu kepada siapa mereka melapor; yang boleh MENGUBAH dibatasi di
+        // controller ke Admin/Super Admin.
+        Menu::updateOrCreate(
+            ['route' => '/cetak/struktur-pengelolaan-risiko'],
+            [
+                'title' => 'Struktur Pengelolaan Risiko',
+                'parent_id' => $formCetak->id,
+                'icon' => 'Network',
+                'order' => 4,
+                'permission_name' => null,
+            ]
+        );
+
         // Data Umum — item pertama di Form Input (sebelum Risiko Strategis
         // Pemda). Berisi header identitas + penanda tangan per-PIC untuk Form
         // Cetak. permission_name null (fail-open); isi dibatasi per-user di

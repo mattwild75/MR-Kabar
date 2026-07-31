@@ -42,6 +42,7 @@ use App\Http\Controllers\CetakCeeController;
 use App\Http\Controllers\CetakHasilAnalisisController;
 use App\Http\Controllers\CetakRisikoController;
 use App\Http\Controllers\CetakRtpController;
+use App\Http\Controllers\CetakStrukturPengelolaController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TahunAktifController;
 use App\Http\Controllers\LaporanKejadianController;
@@ -350,6 +351,15 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
 
     // Form Cetak Monitoring & Evaluasi 8/9/10 — sesuai Lampiran 5 Perdep
     // PPKD No.4/2019, PER-OPD spt Form 6 (lihat CetakMonitoringEvaluasiController).
+    // Struktur pengelolaan Risiko (Perdep Lampiran 2) — halaman cetak
+    // sekaligus tempat menyuntingnya. Susunannya tersimpan sebagai data supaya
+    // dapat dirujuk aplikasi, bukan sekadar naskah yang dicetak.
+    Route::get('cetak/struktur-pengelolaan-risiko', [CetakStrukturPengelolaController::class, 'index'])->name('cetak.struktur.index');
+    Route::get('cetak/struktur-pengelolaan-risiko/pdf', [CetakStrukturPengelolaController::class, 'pdf'])->name('cetak.struktur.pdf');
+    Route::post('cetak/struktur-pengelolaan-risiko', [CetakStrukturPengelolaController::class, 'store'])->name('cetak.struktur.store');
+    Route::post('cetak/struktur-pengelolaan-risiko/salin', [CetakStrukturPengelolaController::class, 'salinDariTahunLalu'])->name('cetak.struktur.salin');
+    Route::put('cetak/struktur-pengelolaan-risiko/{struktur}', [CetakStrukturPengelolaController::class, 'update'])->name('cetak.struktur.update');
+    Route::delete('cetak/struktur-pengelolaan-risiko/{struktur}', [CetakStrukturPengelolaController::class, 'destroy'])->name('cetak.struktur.destroy');
     Route::get('cetak/monitoring-evaluasi/8', [CetakMonitoringEvaluasiController::class, 'cetak8'])->name('cetak.monev.8');
     Route::get('cetak/monitoring-evaluasi/8/pdf', [CetakMonitoringEvaluasiController::class, 'pdf8'])->name('cetak.monev.8.pdf');
     Route::get('cetak/monitoring-evaluasi/9', [CetakMonitoringEvaluasiController::class, 'cetak9'])->name('cetak.monev.9');
