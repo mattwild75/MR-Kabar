@@ -28,6 +28,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Plus, Edit, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
+import ArahanPenilaianTab, { type ArahanRow } from './ArahanPenilaianTab';
 
 // Palet warna terbatas & tetap (bukan class dinamis bebas) — supaya semua
 // class Tailwind yang mungkin dipakai SELALU muncul literal di source ini,
@@ -147,6 +148,8 @@ interface PageProps {
   programPembangunan: ProgramPembangunanRow[];
   visiMisiPemda: VisiMisiPemda;
   seleraRisiko: SeleraRisiko;
+  arahanPenilaian: ArahanRow[];
+  jenisArahanLabel: Record<string, string>;
 }
 
 const TABS = [
@@ -157,10 +160,11 @@ const TABS = [
   { id: 'jenis_risiko', label: 'Jenis Risiko' },
   { id: 'entitas_penilai', label: 'Entitas Penilai Risiko' },
   { id: 'opd', label: 'Seluruh OPD' },
+  { id: 'arahan_penilaian', label: 'Arahan & Jadwal Penilaian' },
   { id: 'program_pembangunan', label: '100 Program Pembangunan Bupati' },
 ] as const;
 
-export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteriaKemungkinan, matrixCells, riskLevels, jenisRisiko, entitasPenilai, opdList, programPembangunan, visiMisiPemda, seleraRisiko }: PageProps) {
+export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteriaKemungkinan, matrixCells, riskLevels, jenisRisiko, entitasPenilai, opdList, programPembangunan, visiMisiPemda, seleraRisiko, arahanPenilaian, jenisArahanLabel }: PageProps) {
   const [activeTab, setActiveTab] = useState<string>(tab || 'kriteria_dampak');
 
   const switchTab = (id: string) => {
@@ -201,6 +205,9 @@ export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteria
         {activeTab === 'kriteria_kemungkinan' && <KriteriaKemungkinanTab rows={kriteriaKemungkinan} />}
         {activeTab === 'matriks' && <MatriksTab cells={matrixCells} selera={seleraRisiko} />}
         {activeTab === 'level_risiko' && <LevelRisikoTab rows={riskLevels} selera={seleraRisiko} />}
+        {activeTab === 'arahan_penilaian' && (
+          <ArahanPenilaianTab rows={arahanPenilaian} jenisLabel={jenisArahanLabel} />
+        )}
         {activeTab === 'jenis_risiko' && <JenisRisikoTab rows={jenisRisiko} />}
         {activeTab === 'entitas_penilai' && <EntitasPenilaiTab rows={entitasPenilai} />}
         {activeTab === 'opd' && <OpdTab rows={opdList} />}

@@ -134,6 +134,14 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/keterangan-pendukung/opd', [KeteranganPendukungController::class, 'storeOpd'])->name('keterangan-pendukung.opd.store');
     Route::put('/keterangan-pendukung/opd/{opd}', [KeteranganPendukungController::class, 'updateOpd'])->name('keterangan-pendukung.opd.update');
     Route::delete('/keterangan-pendukung/opd/{opd}', [KeteranganPendukungController::class, 'destroyOpd'])->name('keterangan-pendukung.opd.destroy');
+    // Arahan dan Kebijakan Penilaian Risiko (Perdep Lampiran 3 & 4) — tahapan
+    // yang direkam di sini menjadi sumber data jadwal pada Dasbor.
+    Route::post('/keterangan-pendukung/arahan', [KeteranganPendukungController::class, 'storeArahan'])->name('keterangan-pendukung.arahan.store');
+    Route::put('/keterangan-pendukung/arahan/{arahan}', [KeteranganPendukungController::class, 'updateArahan'])->name('keterangan-pendukung.arahan.update');
+    Route::delete('/keterangan-pendukung/arahan/{arahan}', [KeteranganPendukungController::class, 'destroyArahan'])->name('keterangan-pendukung.arahan.destroy');
+    Route::post('/keterangan-pendukung/arahan/{arahan}/tahapan', [KeteranganPendukungController::class, 'storeTahapan'])->name('keterangan-pendukung.tahapan.store');
+    Route::put('/keterangan-pendukung/tahapan/{tahapan}', [KeteranganPendukungController::class, 'updateTahapan'])->name('keterangan-pendukung.tahapan.update');
+    Route::delete('/keterangan-pendukung/tahapan/{tahapan}', [KeteranganPendukungController::class, 'destroyTahapan'])->name('keterangan-pendukung.tahapan.destroy');
     Route::post('/keterangan-pendukung/program-pembangunan', [KeteranganPendukungController::class, 'storeProgramPembangunan'])->name('keterangan-pendukung.program-pembangunan.store');
     Route::put('/keterangan-pendukung/program-pembangunan/{program}', [KeteranganPendukungController::class, 'updateProgramPembangunan'])->name('keterangan-pendukung.program-pembangunan.update');
     Route::delete('/keterangan-pendukung/program-pembangunan/{program}', [KeteranganPendukungController::class, 'destroyProgramPembangunan'])->name('keterangan-pendukung.program-pembangunan.destroy');

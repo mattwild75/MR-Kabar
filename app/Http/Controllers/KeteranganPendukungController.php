@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArahanPenilaianRisiko;
+use App\Models\ArahanTahapan;
 use App\Models\KrsPemda;
 use App\Models\ProgramPembangunanBupati;
 use App\Models\RiskEntitasPenilai;
@@ -64,7 +66,111 @@ class KeteranganPendukungController extends Controller
             'programPembangunan' => ProgramPembangunanBupati::orderBy('nomor')->get(),
             'visiMisiPemda' => $this->visiMisiPerMisi(),
             'seleraRisiko' => $this->ringkasanSeleraRisiko(),
+            'arahanPenilaian' => ArahanPenilaianRisiko::with('tahapan')
+                ->orderByDesc('tahun_mulai')
+                ->orderBy('jenis')
+                ->get(),
+            'jenisArahanLabel' => ArahanPenilaianRisiko::JENIS_LABEL,
         ]);
+    }
+
+    // ── Arahan dan Kebijakan Penilaian Risiko ────────────────────────
+    //
+    // Perdep PPKD 4/2019 Lampiran 3 dan 4 memuat contoh Surat Edaran Kepala
+    // Daerah yang menetapkan kapan penilaian risiko dilakukan. Yang direkam di
+    // sini adalah isi arahan itu, dan tahapannya menjadi sumber data jadwal
+    // pada Dasbor — supaya jadwal yang ditagihkan kepada OPD benar-benar yang
+    // ditetapkan Bupati, bukan karangan aplikasi.
+
+    private function aturanArahan(): array
+    {
+        return [
+            'jenis' => ['required', Rule::in(ArahanPenilaianRisiko::JENIS)],
+            'tahun_mulai' => ['required', 'integer', 'digits:4', 'min:2000', 'max:2100'],
+            'tahun_selesai' => ['required', 'integer', 'digits:4', 'min:2000', 'max:2100', 'gte:tahun_mulai'],
+            'nomor_se' => ['nullable', 'string', 'max:255'],
+            'tanggal_se' => ['nullable', 'date'],
+            'dasar_hukum' => ['nullable', 'string'],
+            'catatan' => ['nullable', 'string'],
+            'status' => ['required', Rule::in(ArahanPenilaianRisiko::STATUS)],
+        ];
+    }
+
+    public function storeArahan(Request $request)
+    {
+        $this->ensureAdmin();
+        $data = $request->validate($this->aturanArahan());
+
+        ArahanPenilaianRisiko::create($data + ['ditetapkan_oleh' => $request->user()->id]);
+
+        return back()->with('success', 'Arahan Penilaian Risiko berhasil ditambahkan.');
+    }
+
+    public function updateArahan(Request $request, ArahanPenilaianRisiko $arahan)
+    {
+        $this->ensureAdmin();
+        $data = $request->validate($this->aturanArahan());
+
+        $arahan->update($data);
+
+        return back()->with('success', 'Arahan Penilaian Risiko berhasil diperbarui.');
+    }
+
+    public function destroyArahan(ArahanPenilaianRisiko $arahan)
+    {
+        $this->ensureAdmin();
+        $arahan->delete();
+
+        return back()->with('success', 'Arahan Penilaian Risiko berhasil dihapus.');
+    }
+
+    private function aturanTahapan(): array
+    {
+        return [
+            'urutan' => ['nullable', 'integer', 'min:0', 'max:999'],
+            'tahapan' => ['required', 'string', 'max:255'],
+            'dokumen_pemicu' => ['nullable', 'string', 'max:255'],
+            'tanggal_mulai' => ['nullable', 'date'],
+            // Tenggat yang mendahului tanggal mulai akan membuat tahapan itu
+            // selamanya berkeadaan "terlambat" sejak hari pertama.
+            'tanggal_selesai' => ['nullable', 'date', 'after_or_equal:tanggal_mulai'],
+            'pelaksana' => ['nullable', 'string', 'max:255'],
+            'keluaran' => ['nullable', 'string', 'max:255'],
+        ];
+    }
+
+    public function storeTahapan(Request $request, ArahanPenilaianRisiko $arahan)
+    {
+        $this->ensureAdmin();
+        $data = $request->validate($this->aturanTahapan());
+
+        // Urutan yang tidak diisi ditaruh paling belakang, bukan di 0 — kalau
+        // di 0, tahapan baru akan melompat ke atas dan mengacak urutan yang
+        // sudah disusun Admin.
+        $data['urutan'] = $data['urutan'] ?? ((int) $arahan->tahapan()->max('urutan') + 1);
+
+        $arahan->tahapan()->create($data);
+
+        return back()->with('success', 'Tahapan berhasil ditambahkan.');
+    }
+
+    public function updateTahapan(Request $request, ArahanTahapan $tahapan)
+    {
+        $this->ensureAdmin();
+        $data = $request->validate($this->aturanTahapan());
+        $data['urutan'] = $data['urutan'] ?? $tahapan->urutan;
+
+        $tahapan->update($data);
+
+        return back()->with('success', 'Tahapan berhasil diperbarui.');
+    }
+
+    public function destroyTahapan(ArahanTahapan $tahapan)
+    {
+        $this->ensureAdmin();
+        $tahapan->delete();
+
+        return back()->with('success', 'Tahapan berhasil dihapus.');
     }
 
     /**
