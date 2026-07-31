@@ -385,7 +385,7 @@ class RiskReferenceDataService
                     });
                 })->values(),
             ],
-            'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
+            'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class', 'melampaui_selera']),
         ];
     }
 
@@ -410,20 +410,46 @@ class RiskReferenceDataService
      */
     public function riskLevelsOrdered(): \Illuminate\Support\Collection
     {
-        return Cache::rememberForever(RiskLevel::CACHE_KEY, fn () => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']));
+        return Cache::rememberForever(RiskLevel::CACHE_KEY, fn () => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class', 'melampaui_selera']));
     }
 
     /**
-     * Ambang batas skala minimum kategori "Tinggi"/"Sangat Tinggi" — dipakai
-     * badge visual "risiko prioritas" di Dashboard/ProgramBupatiRisiko/Form
-     * Cetak, BUKAN filter data (jangan pakai utk query WHERE, cuma
-     * penentuan warna/label tampilan). Fallback 16 kalau tabel risk_levels
-     * belum diisi kategori itu.
+     * Skala Risiko terkecil yang sudah MELAMPAUI Selera Risiko — di atas atau
+     * sama dengan angka ini, sebuah risiko dihitung sebagai Risiko Prioritas.
+     *
+     * Batasnya dibaca dari penanda `melampaui_selera` pada tiap Level Risiko,
+     * yang dapat diubah Admin lewat Keterangan Pendukung → Level Risiko. Dulu
+     * ambang ini dicari dengan mencocokkan label "Tinggi" dan "Sangat Tinggi",
+     * sehingga selera Risiko sesungguhnya terkunci di antara Sedang dan Tinggi
+     * dan tidak bisa digeser tanpa mengganti nama level.
+     *
+     * SATU-SATUNYA tempat ambang ini ditentukan. Sebelumnya kueri label yang
+     * sama disalin ke empat controller cetak, sehingga menggeser seleranya
+     * akan membuat halaman yang satu menghitung Risiko Prioritas berbeda dari
+     * halaman lainnya.
+     *
+     * Fallback 16 dipakai bila tidak ada satu pun level yang ditandai — mis.
+     * tabel referensi belum diisi — supaya perilakunya sama dengan sebelumnya
+     * alih-alih menganggap seluruh risiko prioritas.
      */
-    public function ambangTinggi(): int
+    public function ambangSeleraRisiko(): int
     {
         return $this->riskLevelsOrdered()
-            ->whereIn('label', ['Tinggi', 'Sangat Tinggi'])
+            ->where('melampaui_selera', true)
             ->min('skala_min') ?? 16;
+    }
+
+    /**
+     * Level Risiko mana saja yang berada di luar Selera Risiko, dipakai
+     * frontend untuk menggambar garis batas selera pada matriks.
+     *
+     * @return array<int, string>
+     */
+    public function levelMelampauiSelera(): array
+    {
+        return $this->riskLevelsOrdered()
+            ->where('melampaui_selera', true)
+            ->pluck('label')
+            ->all();
     }
 }

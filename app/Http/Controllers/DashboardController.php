@@ -98,12 +98,12 @@ class DashboardController extends Controller
         $tahun = $request->integer('tahun') ?: (int) $this->pengaturan()->tahun_penilaian;
 
         $riskRows = $this->rowsForTahun($tahun, $opdId);
-        // riskLevelsOrdered()/ambangTinggi() di-cache di service (tabel
+        // riskLevelsOrdered()/ambangSeleraRisiko() di-cache di service (tabel
         // referensi kecil, sebelumnya di-query ulang tiap request tanpa
         // cache — temuan audit performa), invalidasi otomatis saat Admin
         // edit Level Risiko lewat Keterangan Pendukung.
         $riskLevels = $this->riskRef->riskLevelsOrdered();
-        $ambangTinggi = $this->riskRef->ambangTinggi();
+        $ambangTinggi = $this->riskRef->ambangSeleraRisiko();
         // Dihitung sekali & dipakai bersama Ringkasan + widget Kepatuhan —
         // sebelumnya buildKepatuhan() dipanggil 2x dgn argumen identik
         // (sekali di dalam buildRingkasan, sekali di sini), dobel query
@@ -808,7 +808,7 @@ class DashboardController extends Controller
     private function buildRankingOpd(int $tahun): array
     {
         $rows = $this->rowsForTahun($tahun, null);
-        $ambangTinggi = $this->riskRef->ambangTinggi();
+        $ambangTinggi = $this->riskRef->ambangSeleraRisiko();
 
         return $rows
             ->filter(fn ($r) => $r['opd_id'] !== null)

@@ -15,8 +15,8 @@ use App\Models\MonitoringRtp;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
-use App\Models\RiskLevel;
 use App\Services\PdfPrintService;
+use App\Services\RiskReferenceDataService;
 use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -175,7 +175,7 @@ class CetakLaporanController extends Controller
     /** Ringkasan hasil identifikasi & analisis risiko (jumlah per tingkat + jumlah prioritas) — dasar bagian III Laporan 11, TANPA menyalin data (proyeksi live). */
     private function ringkasanRisiko(?int $opdId, int $tahun): array
     {
-        $ambangTinggi = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
+        $ambangTinggi = app(RiskReferenceDataService::class)->ambangSeleraRisiko();
 
         $hitung = function (string $modelClass) use ($opdId, $tahun, $ambangTinggi) {
             // Filter OPD didorong ke SQL (tak ada penomoran kode risiko yg
@@ -439,7 +439,7 @@ class CetakLaporanController extends Controller
     {
         $opds = $opdId ? Opd::where('id', $opdId)->get() : Opd::orderBy('nama')->get();
         $totalUnsurCee = CeeUnsur::count();
-        $ambangTinggi = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min') ?? 16;
+        $ambangTinggi = app(RiskReferenceDataService::class)->ambangSeleraRisiko();
 
         $ceeSimpulanCounts = CeeSimpulan::where('tahun_penilaian', $tahun)
             ->selectRaw('opd_id, count(*) as jumlah')

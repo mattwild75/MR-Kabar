@@ -11,8 +11,8 @@ use App\Models\IroPd;
 use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\PengaturanPemda;
-use App\Models\RiskLevel;
 use App\Services\PdfPrintService;
+use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -206,7 +206,7 @@ class CetakRtpController extends Controller
      */
     private function ambangPrioritas(): ?int
     {
-        return RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min');
+        return app(RiskReferenceDataService::class)->ambangSeleraRisiko();
     }
 
     /**

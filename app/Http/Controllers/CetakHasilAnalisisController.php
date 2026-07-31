@@ -369,13 +369,10 @@ class CetakHasilAnalisisController extends Controller
      */
     private function filterPrioritas(Collection $rows): Collection
     {
-        $ambangTinggi = RiskLevel::whereIn('label', ['Tinggi', 'Sangat Tinggi'])->min('skala_min');
-        if ($ambangTinggi === null) {
-            return collect();
-        }
+        $ambangSelera = $this->riskRef->ambangSeleraRisiko();
 
         return $rows
-            ->filter(fn ($r) => (int) ($r['skala_risiko'] ?? 0) >= $ambangTinggi)
+            ->filter(fn ($r) => (int) ($r['skala_risiko'] ?? 0) >= $ambangSelera)
             ->sortByDesc(fn ($r) => (int) ($r['skala_risiko'] ?? 0))
             ->values();
     }

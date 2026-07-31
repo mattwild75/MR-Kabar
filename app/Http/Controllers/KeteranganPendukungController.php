@@ -63,7 +63,34 @@ class KeteranganPendukungController extends Controller
             'opdList' => \App\Models\Opd::orderBy('nama')->get(),
             'programPembangunan' => ProgramPembangunanBupati::orderBy('nomor')->get(),
             'visiMisiPemda' => $this->visiMisiPerMisi(),
+            'seleraRisiko' => $this->ringkasanSeleraRisiko(),
         ]);
+    }
+
+    /**
+     * Keadaan Selera Risiko yang berlaku, diturunkan dari penanda
+     * `melampaui_selera` pada tiap Level Risiko.
+     *
+     * Dikirim sebagai satu bagian tersendiri — bukan dibiarkan dihitung ulang
+     * di frontend — supaya tab Matriks dan tab Level Risiko menggambarkan
+     * batas yang sama persis, dan sama pula dengan yang dipakai server saat
+     * menetapkan Risiko Prioritas.
+     */
+    private function ringkasanSeleraRisiko(): array
+    {
+        $levels = RiskLevel::orderBy('urutan')->get();
+        $melampaui = $levels->where('melampaui_selera', true);
+
+        return [
+            // Skala terkecil yang sudah di luar selera. Null berarti belum ada
+            // level yang ditandai, sehingga garis batas tidak digambar sama
+            // sekali alih-alih digambar di tempat yang menyesatkan.
+            'ambang' => $melampaui->min('skala_min'),
+            'label_melampaui' => $melampaui->pluck('label')->values()->all(),
+            // Level tertinggi yang MASIH di dalam selera — dipakai kalimat
+            // "Selera Risiko: sampai dengan tingkat <ini>".
+            'batas_diterima' => $levels->where('melampaui_selera', false)->sortByDesc('skala_max')->first()?->label,
+        ];
     }
 
     /**
@@ -153,7 +180,14 @@ class KeteranganPendukungController extends Controller
             'skala_max' => ['required', 'integer', 'min:1', 'max:25', 'gte:skala_min'],
             'warna_class' => ['required', 'string', 'max:100'],
             'urutan' => ['nullable', 'integer'],
+            'melampaui_selera' => ['nullable', 'boolean'],
         ]);
+
+        // Checkbox yang tidak dicentang tidak terkirim sama sekali oleh
+        // peramban, jadi ketiadaannya harus dibaca sebagai "false" — kalau
+        // dibiarkan hilang dari $data, penanda yang dilepas tidak akan pernah
+        // tersimpan dan seleranya seolah tidak bisa diturunkan.
+        $data['melampaui_selera'] = (bool) ($data['melampaui_selera'] ?? false);
 
         $level->update($data);
 

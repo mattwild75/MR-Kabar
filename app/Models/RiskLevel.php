@@ -15,6 +15,11 @@ class RiskLevel extends Model
         'skala_max',
         'warna_class',
         'urutan',
+        'melampaui_selera',
+    ];
+
+    protected $casts = [
+        'melampaui_selera' => 'boolean',
     ];
 
     /** Kunci cache dipakai RiskReferenceDataService — tabel referensi kecil (5 baris) yg di-query ulang puluhan kali per request tanpa cache sebelumnya (temuan audit performa). */

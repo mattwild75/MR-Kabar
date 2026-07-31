@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Dialog,
@@ -85,6 +86,17 @@ interface RiskLevelRow {
   skala_max: number;
   warna_class: string;
   urutan: number;
+  /** Level ini di luar Selera Risiko, sehingga risikonya jadi Risiko Prioritas. */
+  melampaui_selera: boolean;
+}
+
+/** Keadaan Selera Risiko yang berlaku, dihitung server dari penanda tiap level. */
+interface SeleraRisiko {
+  /** Skala terkecil yang sudah melampaui selera; null bila belum ada yang ditandai. */
+  ambang: number | null;
+  label_melampaui: string[];
+  /** Level tertinggi yang masih di dalam selera. */
+  batas_diterima: string | null;
 }
 
 interface JenisRisikoRow {
@@ -134,6 +146,7 @@ interface PageProps {
   opdList: OpdRow[];
   programPembangunan: ProgramPembangunanRow[];
   visiMisiPemda: VisiMisiPemda;
+  seleraRisiko: SeleraRisiko;
 }
 
 const TABS = [
@@ -147,7 +160,7 @@ const TABS = [
   { id: 'program_pembangunan', label: '100 Program Pembangunan Bupati' },
 ] as const;
 
-export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteriaKemungkinan, matrixCells, riskLevels, jenisRisiko, entitasPenilai, opdList, programPembangunan, visiMisiPemda }: PageProps) {
+export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteriaKemungkinan, matrixCells, riskLevels, jenisRisiko, entitasPenilai, opdList, programPembangunan, visiMisiPemda, seleraRisiko }: PageProps) {
   const [activeTab, setActiveTab] = useState<string>(tab || 'kriteria_dampak');
 
   const switchTab = (id: string) => {
@@ -186,8 +199,8 @@ export default function KeteranganPendukungIndex({ tab, kriteriaDampak, kriteria
 
         {activeTab === 'kriteria_dampak' && <KriteriaDampakTab rows={kriteriaDampak} />}
         {activeTab === 'kriteria_kemungkinan' && <KriteriaKemungkinanTab rows={kriteriaKemungkinan} />}
-        {activeTab === 'matriks' && <MatriksTab cells={matrixCells} />}
-        {activeTab === 'level_risiko' && <LevelRisikoTab rows={riskLevels} />}
+        {activeTab === 'matriks' && <MatriksTab cells={matrixCells} selera={seleraRisiko} />}
+        {activeTab === 'level_risiko' && <LevelRisikoTab rows={riskLevels} selera={seleraRisiko} />}
         {activeTab === 'jenis_risiko' && <JenisRisikoTab rows={jenisRisiko} />}
         {activeTab === 'entitas_penilai' && <EntitasPenilaiTab rows={entitasPenilai} />}
         {activeTab === 'opd' && <OpdTab rows={opdList} />}
@@ -392,7 +405,7 @@ function KriteriaKemungkinanTab({ rows }: { rows: KriteriaKemungkinanRow[] }) {
 }
 
 // ── Tab: Matriks Analisis Risiko ─────────────────────────────────────────
-function MatriksTab({ cells }: { cells: MatrixCellRow[] }) {
+function MatriksTab({ cells, selera }: { cells: MatrixCellRow[]; selera: SeleraRisiko }) {
   const [editing, setEditing] = useState<MatrixCellRow | null>(null);
   const [form, setForm] = useState<Partial<MatrixCellRow>>({});
   const [processing, setProcessing] = useState(false);
@@ -400,6 +413,34 @@ function MatriksTab({ cells }: { cells: MatrixCellRow[] }) {
   const openEdit = (cell: MatrixCellRow) => {
     setEditing(cell);
     setForm(cell);
+  };
+
+  /** Sel ini sudah di luar Selera Risiko? */
+  const diLuarSelera = (dampak: number, kemungkinan: number) => {
+    if (selera.ambang === null) return false;
+    const c = cells.find((x) => x.dampak === dampak && x.kemungkinan === kemungkinan);
+    return c !== undefined && c.skala_risiko >= selera.ambang;
+  };
+
+  /**
+   * Garis batas Selera Risiko digambar pada tepi antara sel yang melampaui
+   * selera dan tetangganya yang belum. Dihitung per tepi, bukan sebagai satu
+   * garis lurus, karena batas selera pada matriks memang bertangga — dan
+   * dengan begini ia ikut bergeser sendiri begitu penanda level dipindahkan.
+   */
+  const gayaBatas = (dampak: number, kemungkinan: number): React.CSSProperties => {
+    if (!diLuarSelera(dampak, kemungkinan)) return {};
+
+    const garis = '3px dashed var(--batas-selera)';
+    const gaya: React.CSSProperties = {};
+
+    // Tetangga kiri = dampak satu tingkat lebih rendah.
+    if (!diLuarSelera(dampak - 1, kemungkinan)) gaya.borderLeft = garis;
+    // Baris di bawahnya pada tabel = kemungkinan satu tingkat lebih rendah,
+    // karena baris diurutkan 5 di atas sampai 1 di bawah.
+    if (!diLuarSelera(dampak, kemungkinan - 1)) gaya.borderBottom = garis;
+
+    return gaya;
   };
 
   const save = () => {
@@ -420,7 +461,39 @@ function MatriksTab({ cells }: { cells: MatrixCellRow[] }) {
       <p className="mb-3 text-sm text-muted-foreground">
         Klik sel untuk mengubah skala risiko dan warnanya. Baris = Kemungkinan (1-5), Kolom = Dampak (1-5).
       </p>
-      <div className="overflow-x-auto rounded-md border">
+
+      {/* Batas Selera Risiko. Warnanya lewat custom property supaya garis
+          putus-putus tetap terbaca di latar terang maupun gelap tanpa perlu
+          menduplikasi seluruh perhitungan tepinya. */}
+      <div
+        className="mb-3 rounded-md border bg-muted/40 p-3 text-sm [--batas-selera:#b91c1c] dark:[--batas-selera:#fca5a5]"
+      >
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span
+            aria-hidden
+            className="inline-block h-0 w-10 border-t-[3px] border-dashed"
+            style={{ borderColor: 'var(--batas-selera)' }}
+          />
+          <span className="font-medium">Batas Selera Risiko</span>
+          {selera.ambang === null ? (
+            <span className="text-muted-foreground">
+              belum ditetapkan — tandai level mana yang melampaui selera pada tab Tabel Level Risiko
+            </span>
+          ) : (
+            <span className="text-muted-foreground">
+              Skala Risiko {selera.ambang} ke atas berada di luar selera
+              {selera.batas_diterima ? `, sehingga selera Risiko sampai dengan tingkat ${selera.batas_diterima}` : ''}
+              {selera.label_melampaui.length > 0 && ` (${selera.label_melampaui.join(', ')})`}.
+            </span>
+          )}
+        </div>
+        <p className="text-muted-foreground mt-1 text-xs">
+          Risiko yang jatuh di luar garis ini ditetapkan sebagai Risiko Prioritas. Batasnya diatur pada tab{' '}
+          <strong>Tabel Level Risiko</strong>, dan garis di bawah ikut bergeser sendiri.
+        </p>
+      </div>
+
+      <div className="overflow-x-auto rounded-md border [--batas-selera:#b91c1c] dark:[--batas-selera:#fca5a5]">
         <table className="min-w-full border-collapse text-center text-sm">
           <thead>
             <tr>
@@ -441,10 +514,17 @@ function MatriksTab({ cells }: { cells: MatrixCellRow[] }) {
                 {[1, 2, 3, 4, 5].map((dampak) => {
                   const cell = cells.find((c) => c.dampak === dampak && c.kemungkinan === kemungkinan);
                   if (!cell) return <td key={dampak} className="border px-3 py-2">-</td>;
+                  const luar = diLuarSelera(dampak, kemungkinan);
                   return (
                     <td
                       key={dampak}
                       onClick={() => openEdit(cell)}
+                      style={gayaBatas(dampak, kemungkinan)}
+                      title={
+                        luar
+                          ? `Skala ${cell.skala_risiko} — di luar Selera Risiko, menjadi Risiko Prioritas`
+                          : `Skala ${cell.skala_risiko} — masih di dalam Selera Risiko`
+                      }
                       className={`cursor-pointer border px-3 py-2 font-semibold transition-opacity hover:opacity-80 ${cell.warna_class}`}
                     >
                       {cell.skala_risiko}
@@ -511,7 +591,7 @@ function MatriksTab({ cells }: { cells: MatrixCellRow[] }) {
 }
 
 // ── Tab: Tabel Level Risiko ───────────────────────────────────────────────
-function LevelRisikoTab({ rows }: { rows: RiskLevelRow[] }) {
+function LevelRisikoTab({ rows, selera }: { rows: RiskLevelRow[]; selera: SeleraRisiko }) {
   const [editing, setEditing] = useState<RiskLevelRow | null>(null);
   const [form, setForm] = useState<Partial<RiskLevelRow>>({});
   const [processing, setProcessing] = useState(false);
@@ -535,13 +615,35 @@ function LevelRisikoTab({ rows }: { rows: RiskLevelRow[] }) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-md border">
+    <div>
+      {/* Selera Risiko ditetapkan di sini, dan dipakai seluruh aplikasi untuk
+          menentukan mana yang menjadi Risiko Prioritas — termasuk Dasbor,
+          Program Bupati, dan Form Cetak. */}
+      <div className="mb-3 rounded-md border bg-muted/40 p-3 text-sm">
+        <p className="font-medium">
+          Selera Risiko:{' '}
+          {selera.batas_diterima
+            ? `sampai dengan tingkat ${selera.batas_diterima}`
+            : selera.ambang === null
+              ? 'belum ditetapkan'
+              : 'seluruh tingkat melampaui selera'}
+        </p>
+        <p className="text-muted-foreground mt-1">
+          Centang kolom <strong>Melampaui Selera</strong> pada level yang sudah di luar selera Risiko
+          Pemerintah Kabupaten Aceh Barat. Risiko pada level bercentang ditetapkan sebagai{' '}
+          <strong>Risiko Prioritas</strong>, dan garis putus-putus pada tab{' '}
+          <strong>Matriks Analisis Risiko</strong> ikut bergeser sendiri mengikutinya.
+        </p>
+      </div>
+
+      <div className="overflow-x-auto rounded-md border">
       <table className="min-w-full text-sm">
         <thead className="bg-muted/50">
           <tr>
             <th className="border px-3 py-2 text-left font-semibold">Label</th>
             <th className="border px-3 py-2 text-left font-semibold">Skala Min</th>
             <th className="border px-3 py-2 text-left font-semibold">Skala Max</th>
+            <th className="border px-3 py-2 text-left font-semibold">Melampaui Selera</th>
             <th className="border px-3 py-2 text-left font-semibold">Warna</th>
             <th className="border px-3 py-2 text-left font-semibold">Aksi</th>
           </tr>
@@ -554,6 +656,15 @@ function LevelRisikoTab({ rows }: { rows: RiskLevelRow[] }) {
               </td>
               <td className="border px-3 py-2 align-top text-center">{row.skala_min}</td>
               <td className="border px-3 py-2 align-top text-center">{row.skala_max}</td>
+              <td className="border px-3 py-2 text-center align-top">
+                {row.melampaui_selera ? (
+                  <span className="rounded border border-red-500/50 bg-red-50 px-2 py-0.5 text-xs font-medium text-red-800 dark:bg-red-950/40 dark:text-red-300">
+                    Di luar selera
+                  </span>
+                ) : (
+                  <span className="text-muted-foreground text-xs">Dalam selera</span>
+                )}
+              </td>
               <td className="border px-3 py-2 align-top">
                 <span className={`rounded px-2 py-1 text-xs ${row.warna_class}`}>{row.warna_class}</span>
               </td>
@@ -566,6 +677,7 @@ function LevelRisikoTab({ rows }: { rows: RiskLevelRow[] }) {
           ))}
         </tbody>
       </table>
+      </div>
 
       <Dialog open={!!editing} onOpenChange={(o) => !o && setEditing(null)}>
         <DialogContent className="max-w-md">
@@ -607,6 +719,21 @@ function LevelRisikoTab({ rows }: { rows: RiskLevelRow[] }) {
               <div className={`mt-1 rounded px-2 py-1 text-center text-sm ${warnaPreviewClass(form.warna_class ?? '')}`}>
                 Pratinjau: {form.label ?? '-'}
               </div>
+            </div>
+            <div className="flex items-start gap-2 rounded-md border p-3">
+              <Checkbox
+                id="melampaui_selera"
+                className="mt-0.5"
+                checked={!!form.melampaui_selera}
+                onCheckedChange={(v) => setForm((f) => ({ ...f, melampaui_selera: v === true }))}
+              />
+              <Label htmlFor="melampaui_selera" className="cursor-pointer text-sm leading-snug font-normal">
+                Level ini melampaui Selera Risiko
+                <span className="text-muted-foreground block">
+                  Risiko yang jatuh pada level ini menjadi Risiko Prioritas, dan letak garis batas pada
+                  matriks ikut menyesuaikan.
+                </span>
+              </Label>
             </div>
           </div>
           <DialogFooter>

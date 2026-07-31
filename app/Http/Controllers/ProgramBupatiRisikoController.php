@@ -196,7 +196,7 @@ class ProgramBupatiRisikoController extends Controller
         // dari RiskLevel (di-cache di service) spy konsisten dgn definisi
         // Level Risiko yg bisa diedit Admin (Settings > Keterangan
         // Pendukung), BUKAN hardcode 16.
-        $ambangTinggi = $this->riskRef->ambangTinggi();
+        $ambangTinggi = $this->riskRef->ambangSeleraRisiko();
 
         // Peta "risiko (tipe+id) -> daftar {nomor program, pivot_id}" utk
         // SEMUA program yg mengaitkannya, TERMASUK program yg sedang
