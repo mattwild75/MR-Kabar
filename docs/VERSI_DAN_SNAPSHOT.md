@@ -101,7 +101,21 @@ yang menekan tombol berbeda hampir bersamaan tidak bisa saling menimpa.
 Tag **v1.0.0, v1.0.1, dan v1.0.2 tidak punya snapshot** dan tidak bisa
 dibuatkan secara surut — datanya pada saat itu sudah tidak ada. Ketiganya tetap
 muncul di daftar, ditandai "Tanpa snapshot", dan rollback ke sana hanya
-memundurkan kode. Pemasangan berpasangan dimulai dari **v1.0.3**.
+memundurkan kode.
+
+**v1.0.3 juga kehilangan snapshot-nya.** Snapshot itu sempat direkam, lalu
+terhapus oleh pembersihan berkas pengujian yang keliru menghapus seluruh folder
+`versi/`, bukan hanya berkas buatannya sendiri. Kekeliruan itu sudah diperbaiki
+(lihat `tests/Feature/VersiSnapshotTest.php`), tetapi berkasnya tidak dapat
+dipulihkan.
+
+Untungnya rollback ke v1.0.3 tetap aman dijalankan: ketujuh migrasi antara
+v1.0.3 dan v1.0.4 seluruhnya **menambah** tabel dan kolom, tidak mengubah atau
+menghapus apa pun yang sudah ada. Kode v1.0.3 mengabaikan tabel dan kolom yang
+tidak dikenalnya. Aplikasi tetap akan memperingatkan bahwa jumlah migrasinya
+tidak sepadan — peringatan itu benar, dan pada pasangan ini tidak berbahaya.
+
+Snapshot yang benar-benar berpasangan dimulai dari **v1.0.4**.
 
 ## Riwayat versi
 
