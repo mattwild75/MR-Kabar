@@ -12,6 +12,8 @@ interface Unsur {
 
 interface Simpulan {
   id: number;
+  /** Keputusan final penyusun (kolom g), bukan hasil hitungan ulang dua sumber. */
+  simpulan: 'Memadai' | 'Kurang Memadai' | null;
   penjelasan: string | null;
   penyusun_nama: string;
   penyusun_jabatan: string;
@@ -26,6 +28,8 @@ interface Row {
   hasil_survei: 'Memadai' | 'Kurang Memadai' | null;
   uraian_survei: string;
   simpulan: Simpulan | null;
+  /** Kedua sumber saling bertentangan, sehingga kolom g bertumpu pada pertimbangan. */
+  bertentangan: boolean;
 }
 
 interface OpdOption {
@@ -117,12 +121,15 @@ export default function Cetak1c({ opdOptions, opd, tahun, rows, pemerintahKabkot
                   <td className="border border-black p-1 align-top">{r.uraian_dokumen || '-'}</td>
                   <td className="border border-black p-1 text-center align-top">{r.hasil_survei ?? '-'}</td>
                   <td className="border border-black p-1 align-top">{r.uraian_survei || '-'}</td>
+                  {/* Kolom g adalah KEPUTUSAN penyusun, dicetak apa adanya.
+                      Sebelumnya kolom ini dihitung ulang dari kedua sumber,
+                      sehingga simpulan hasil professional judgement — justru
+                      yang diperintahkan Perdep saat keduanya bertentangan —
+                      tercetak berbeda dari yang tersimpan dan yang tampil di
+                      layar. */}
                   <td className="border border-black p-1 text-center align-top font-medium">
-                    {r.simpulan
-                      ? r.hasil_dokumen === 'Kurang Memadai' || r.hasil_survei === 'Kurang Memadai'
-                        ? 'Kurang Memadai'
-                        : 'Memadai'
-                      : '-'}
+                    {r.simpulan?.simpulan ?? '-'}
+                    {r.bertentangan && r.simpulan && <sup className="ml-0.5">*)</sup>}
                   </td>
                   <td className="border border-black p-1 align-top">{r.simpulan?.penjelasan ?? '-'}</td>
                 </tr>
@@ -144,6 +151,13 @@ export default function Cetak1c({ opdOptions, opd, tahun, rows, pemerintahKabkot
               judgement untuk menyimpulkannya
             </p>
             <p>Kolom h diisi dengan uraian kelemahan</p>
+            {rows.some((r) => r.bertentangan && r.simpulan) && (
+              <p className="mt-1">
+                *) Hasil penilaian awal dan survei persepsi pada sub unsur ini bertentangan, sehingga
+                simpulannya ditarik melalui pendalaman atau professional judgement sebagaimana diuraikan pada
+                kolom h.
+              </p>
+            )}
           </div>
         </div>
       )}

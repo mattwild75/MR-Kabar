@@ -45,6 +45,8 @@ interface Ringkasan {
   nama: string;
   simpulan_1a: 'Memadai' | 'Kurang Memadai' | null;
   kelemahan_1b: Kelemahan1b[];
+  /** Hasil reviu dokumen dan survei persepsi saling bertentangan pada sub unsur ini. */
+  bertentangan: boolean;
 }
 
 interface SubmittedBy {
@@ -145,9 +147,22 @@ function UnsurCard({
 
   const hasilDokumen = r.kelemahan_1b.length === 0 ? 'Memadai' : 'Kurang Memadai';
 
+  // Perdep Lampiran 5 Form 1.c kolom (g): bila kedua sumber bertentangan,
+  // simpulannya ditarik lewat pendalaman atau professional judgement — dan
+  // pertimbangan itu harus tertulis supaya dapat diperiksa. Berlaku juga saat
+  // simpulannya "Memadai", yang justru paling perlu dipertanggungjawabkan.
+  const wajibPenjelasan = r.bertentangan;
+  const penjelasanDimatikan = simpulan === 'Memadai' && !wajibPenjelasan;
+
   const save = () => {
     if (!simpulan) {
       setError('Simpulan wajib dipilih.');
+      return;
+    }
+    if (wajibPenjelasan && penjelasan.trim() === '') {
+      setError(
+        'Hasil reviu dokumen dan survei persepsi pada sub unsur ini bertentangan — tuliskan dasar pendalaman atau professional judgement Anda pada Penjelasan.',
+      );
       return;
     }
     if (!penyusunNama || !penyusunJabatan) {
@@ -157,7 +172,7 @@ function UnsurCard({
     setError(null);
     setSaving(true);
 
-    const payload = { simpulan, penjelasan: simpulan === 'Memadai' ? null : penjelasan || null };
+    const payload = { simpulan, penjelasan: penjelasanDimatikan ? null : penjelasan || null };
     const onDone = {
       preserveScroll: true,
       onSuccess: () => {
@@ -276,6 +291,20 @@ function UnsurCard({
           </div>
         </div>
 
+        {r.bertentangan && (
+          <div className="rounded-md border border-amber-500/60 bg-amber-50 p-3 text-sm dark:bg-amber-950/30">
+            <p className="font-medium text-amber-900 dark:text-amber-200">
+              Kedua sumber bertentangan
+            </p>
+            <p className="mt-1 text-amber-800 dark:text-amber-300">
+              Reviu dokumen menyimpulkan <strong>{hasilDokumen}</strong>, sedangkan survei persepsi
+              menyimpulkan <strong>{r.simpulan_1a}</strong>. Perdep meminta simpulannya ditarik lewat
+              pendalaman &mdash; misalnya wawancara atau konfirmasi &mdash; atau lewat professional
+              judgement. Tuliskan dasarnya pada Penjelasan di bawah, apa pun simpulan yang Anda pilih.
+            </p>
+          </div>
+        )}
+
         {editing ? (
           <>
             <div className="space-y-1">
@@ -299,19 +328,24 @@ function UnsurCard({
 
             <div className="space-y-1">
               <div className="flex items-center gap-1.5">
-                <Label>Penjelasan Simpulan</Label>
+                <Label>
+                  Penjelasan Simpulan
+                  {wajibPenjelasan && <span className="text-destructive"> *</span>}
+                </Label>
                 <FieldInfoPopover text={CEE_FORM1C_FIELD_INFO.PENJELASAN_SIMPULAN} />
               </div>
               <Textarea
                 rows={2}
-                value={simpulan === 'Memadai' ? '' : penjelasan}
+                value={penjelasanDimatikan ? '' : penjelasan}
                 onChange={(e) => setPenjelasan(e.target.value)}
                 placeholder={
-                  simpulan === 'Memadai'
-                    ? 'Tidak diperlukan — simpulan sudah Memadai.'
-                    : 'Jika hasil reviu dokumen & survei persepsi bertentangan, lakukan pendalaman/professional judgement untuk menyimpulkannya.'
+                  wajibPenjelasan
+                    ? 'Wajib diisi — tuliskan dasar pendalaman atau professional judgement Anda.'
+                    : penjelasanDimatikan
+                      ? 'Tidak diperlukan — simpulan sudah Memadai.'
+                      : 'Uraikan dasar simpulan ini.'
                 }
-                disabled={simpulan === 'Memadai'}
+                disabled={penjelasanDimatikan}
               />
             </div>
 

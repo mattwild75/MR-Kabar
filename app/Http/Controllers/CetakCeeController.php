@@ -241,6 +241,12 @@ class CetakCeeController extends Controller
             'hasil_survei' => $hasilSurvei,
             'uraian_survei' => $uraianSurvei,
             'simpulan' => $simpulan->get($unsur->id),
+            // Perdep Lampiran 5 Form 1.c kolom (g): bila hasil penilaian awal
+            // dan survei persepsi bertentangan, simpulannya ditarik lewat
+            // pendalaman atau professional judgement. Baris semacam itu
+            // ditandai supaya pembaca laporan tahu simpulan mana yang bertumpu
+            // pada pertimbangan, bukan pada dua sumber yang sudah sepakat.
+            'bertentangan' => $hasilSurvei !== null && $hasilSurvei !== $hasilDokumen,
         ];
     }
 

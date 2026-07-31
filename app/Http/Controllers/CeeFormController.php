@@ -518,13 +518,18 @@ class CeeFormController extends Controller
                     ->filter();
                 $adaKurangMemadai = $simpulanList->contains('Kurang Memadai');
                 $simpulan1a = $simpulanList->isEmpty() ? null : ($adaKurangMemadai ? 'Kurang Memadai' : 'Memadai');
+                $kelemahanUnsur = $kelemahan1b->where('cee_unsur_id', $unsur->id)->values();
 
                 return [
                     'unsur_id' => $unsur->id,
                     'kode' => $unsur->kode,
                     'nama' => $unsur->nama,
                     'simpulan_1a' => $simpulan1a,
-                    'kelemahan_1b' => $kelemahan1b->where('cee_unsur_id', $unsur->id)->values(),
+                    'kelemahan_1b' => $kelemahanUnsur,
+                    // Dihitung di server, bukan di peramban, supaya penanda
+                    // yang dilihat pengisi sama persis dengan yang dipakai
+                    // store1c() saat mewajibkan penjelasan.
+                    'bertentangan' => self::bertentangan($simpulan1a, $kelemahanUnsur->count()),
                 ];
             });
 
@@ -562,6 +567,61 @@ class CeeFormController extends Controller
         ]);
     }
 
+    /**
+     * Apakah kedua sumber simpulan satu sub unsur saling bertentangan.
+     *
+     * Perdep Lampiran 5 Form 1.c kolom (g): "jika hasil antara penilaian awal
+     * dan survei persepsi bertentangan, maka lakukan pendalaman atau lakukan
+     * professional judgement untuk menyimpulkannya". Pertimbangan itu tidak
+     * berguna kalau tidak tertulis — karena itu keadaan ini yang dipakai
+     * mewajibkan Penjelasan, lihat store1c().
+     *
+     * Hasil reviu dokumen (1b) dibaca dari ADA TIDAKNYA kelemahan yang
+     * diklasifikasikan ke sub unsur ini, sama seperti yang dicetak pada Form
+     * 1c. Bila survei persepsi (1a) belum diisi sama sekali, tidak ada yang
+     * dapat dipertentangkan.
+     */
+    /**
+     * Peta cee_unsur_id => apakah kedua sumbernya bertentangan, untuk satu OPD
+     * dan tahun. Dihitung ulang dari data terkini, bukan dari kiriman peramban.
+     *
+     * @return array<int, bool>
+     */
+    private function unsurBertentangan(int $opdId, int $tahun): array
+    {
+        $rekap1a = $this->hitungRekap1a($opdId, $tahun)['per_pertanyaan'];
+        $kelemahan1b = CeeKelemahanDokumen::where('opd_id', $opdId)
+            ->where('tahun_penilaian', $tahun)
+            ->get();
+
+        return CeeUnsur::with('pertanyaan')->get()
+            ->mapWithKeys(function ($unsur) use ($rekap1a, $kelemahan1b) {
+                $simpulanList = $unsur->pertanyaan
+                    ->map(fn($p) => $rekap1a[$p->id]['simpulan'] ?? null)
+                    ->filter();
+                $simpulanSurvei = $simpulanList->isEmpty()
+                    ? null
+                    : ($simpulanList->contains('Kurang Memadai') ? 'Kurang Memadai' : 'Memadai');
+
+                return [$unsur->id => self::bertentangan(
+                    $simpulanSurvei,
+                    $kelemahan1b->where('cee_unsur_id', $unsur->id)->count()
+                )];
+            })
+            ->all();
+    }
+
+    private static function bertentangan(?string $simpulanSurvei, int $jumlahKelemahan): bool
+    {
+        if ($simpulanSurvei === null) {
+            return false;
+        }
+
+        $hasilDokumen = $jumlahKelemahan === 0 ? 'Memadai' : 'Kurang Memadai';
+
+        return $simpulanSurvei !== $hasilDokumen;
+    }
+
     public function store1c(Request $request)
     {
         $data = $request->validate([
@@ -589,6 +649,35 @@ class CeeFormController extends Controller
         ]);
 
         $this->ensureOpdAccess($request, (int) $data['opd_id']);
+
+        // Perdep Lampiran 5 Form 1.c kolom (g): bila hasil penilaian awal dan
+        // survei persepsi bertentangan, simpulannya harus ditarik lewat
+        // pendalaman atau professional judgement. Pertimbangan semacam itu
+        // tidak dapat diperiksa siapa pun kalau tidak tertulis, jadi
+        // Penjelasan diwajibkan tepat pada sub unsur yang kedua sumbernya
+        // berbeda — termasuk ketika simpulannya "Memadai", yang justru
+        // keadaan paling perlu dipertanggungjawabkan (reviu dokumen menemukan
+        // kelemahan, tetapi tetap disimpulkan memadai).
+        //
+        // Diperiksa ULANG di server, bukan cukup di peramban: pertentangan
+        // dihitung dari jawaban 1a dan kelemahan 1b milik OPD ybs, yang bisa
+        // saja berubah setelah halaman dibuka.
+        $bertentangan = $this->unsurBertentangan((int) $data['opd_id'], (int) $data['tahun']);
+        $galat = [];
+
+        foreach ($data['simpulan'] as $i => $row) {
+            $unsurId = (int) $row['cee_unsur_id'];
+            if (($bertentangan[$unsurId] ?? false) && trim((string) ($row['penjelasan'] ?? '')) === '') {
+                $galat["simpulan.{$i}.penjelasan"] =
+                    'Hasil reviu dokumen dan survei persepsi pada sub unsur ini bertentangan. '
+                    . 'Perdep mewajibkan simpulannya ditarik lewat pendalaman atau professional judgement, '
+                    . 'jadi Penjelasan wajib diisi.';
+            }
+        }
+
+        if ($galat !== []) {
+            throw \Illuminate\Validation\ValidationException::withMessages($galat);
+        }
 
         // Kepala OPD (penandatangan/UPR) di-snapshot dari Data Umum milik
         // OPD YG SEDANG DISIMPULKAN ($data['opd_id']) — BUKAN akun yg login
