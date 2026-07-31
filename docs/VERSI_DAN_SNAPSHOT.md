@@ -124,3 +124,4 @@ Snapshot yang benar-benar berpasangan dimulai dari **v1.0.4**.
 | v1.0.0 – v1.0.2 | sebelum fitur snapshot ada, tanpa snapshot database |
 | v1.0.3 | alur usulan-persetujuan Program Bupati, perbaikan pendaratan QR, pemindahan `env()` ke `config()`, migrasi dua tabel warisan, berkas pengujian otomatis, dan pemasangan versi dengan snapshot database |
 | v1.0.4 | seluruh prasyarat A pada `docs/REVISI_APLIKASI.md`: Selera Risiko sebagai data (A12), celah pengendalian berkriteria Perdep (A2), pertentangan dua sumber simpulan CEE (A9), penanda duplikasi RTP (A3), uji coba pengendalian (A4), Arahan Penilaian Risiko (A11), widget jadwal Dasbor (A1), struktur pengelola Risiko (A5), dan laporan pembinaan Komite (A6) |
+| v1.0.5 | satu set penuh data Tahun Penilaian 2025 dari CEE sampai pelaporan, keterangan bantuan untuk fitur baru, dan Panduan yang menyusul |
