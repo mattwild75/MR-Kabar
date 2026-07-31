@@ -17,6 +17,70 @@ Daftar di bawah disusun mengikuti urutan itu.
 
 ---
 
+## Keadaan pengerjaan per 31 Juli 2026 — versi v1.0.4
+
+Seluruh butir A sudah dikerjakan. Tiga di antaranya ternyata tidak menghasilkan
+pekerjaan baru karena sarananya sudah ada, dan dua temuan di bawah meralat isi
+dokumen ini sendiri.
+
+| Butir | Keadaan | Keterangan |
+|---|---|---|
+| A1 | selesai | Widget jadwal di Dasbor, membaca tahapan dari A11 |
+| A2 | selesai | Lima centang celah pengendalian saat dinilai TE atau KE |
+| A3 | selesai | Penanda kemiripan RTP, ditutup lewat "sudah saya periksa" |
+| A4 | selesai | Uji coba pengendalian pada Form 9 berikut buktinya |
+| A5 | selesai | Struktur pengelola sebagai data, halaman `/cetak/struktur-pengelolaan-risiko` |
+| A6 | selesai | Laporan 14 pembinaan Komite |
+| A7 | **tidak jadi modul** | Cukup satu baris tahapan pada Arahan (A11) |
+| A8 budaya Risiko | **dilebur ke A1** | Diukur dari ketaatan pada jadwal |
+| A8 Unit Kepatuhan | **tidak jadi pekerjaan** | Peringkat ketaatan per SKPK SUDAH ada sebagai widget Kepatuhan Pelaporan Form 8/9/10 pada Seksi 6 Dasbor |
+| A9 | selesai, **beda dari dugaan** | Lihat ralat di bawah |
+| A10 | **dicabut** | Sudah tercakup rancangan Perbup; Perdep Lampiran 1 memang berupa Perkada |
+| A11 | selesai | Modul Arahan Penilaian Risiko, tab baru di Keterangan Pendukung |
+| A12 | selesai | Selera Risiko sebagai penanda per Level Risiko |
+
+### Dua ralat atas dokumen ini
+
+**A9 — penyandingan dua sumber SUDAH ADA.** Dokumen ini menyatakan Form 1c
+langsung ke simpulan tanpa menyandingkan hasil reviu dokumen dan survei
+persepsi. Keliru: penyandingannya sudah ada di form pengisian maupun di Form
+Cetak 1c yang bahkan sudah bertata letak delapan kolom sesuai Lampiran 5. Yang
+benar-benar kurang adalah perintah pokok kolom (g) — bila kedua sumber
+bertentangan, simpulannya ditarik lewat pendalaman atau *professional
+judgement*. Di situ ditemukan dua cacat: kotak Penjelasan justru dimatikan
+setiap kali simpulannya "Memadai" (keadaan yang paling perlu
+dipertanggungjawabkan), dan kolom (g) Form Cetak menghitung ulang simpulan dari
+kedua sumber alih-alih mencetak keputusan penyusun.
+
+**A6 — laporan Komite SEMESTERAN, bukan triwulanan.** Perdep halaman berlabel
+148 menyebut "laporan semesteran dan tahunan kegiatan pembinaan". Periodenya
+karena itu S1, S2, atau TAHUNAN.
+
+### Temuan lain yang mengubah cara pengerjaan
+
+**A12 menyentuh empat controller cetak.** Kueri ambang Risiko Prioritas yang
+mencocokkan label "Tinggi" dan "Sangat Tinggi" ternyata disalin ke
+CetakHasilAnalisis, CetakLaporan (dua kali), dan CetakRtp. Tanpa disatukan,
+menggeser Selera Risiko akan membuat Dasbor dan Form Cetak menghitung Risiko
+Prioritas berbeda. Keempatnya kini membaca
+`RiskReferenceDataService::ambangSeleraRisiko()`.
+
+**A3 tidak bisa memakai Jaccard.** Duplikasi RTP di lapangan hampir selalu
+berupa satu rumusan yang lebih rinci daripada yang lain, dan Jaccard menghukum
+selisih panjangnya sampai skornya jatuh di bawah ambang. Pengukurannya diganti
+menjadi irisan dibagi himpunan terkecil, dengan syarat sisi terpendek memuat
+sekurangnya tiga kata pokok.
+
+**A4 sengaja tidak menjadi syarat kepatuhan.** Uji coba adalah keterangan
+tambahan di luar kolom a–g baku Lampiran 5. Menjadikannya syarat "Form 9 terisi"
+akan mengubah angka kepatuhan seluruh SKPK di Dasbor tanpa satu pun data
+berubah.
+
+Bagian B belum dikerjakan. Rincian versi dan snapshot database ada di
+`docs/VERSI_DAN_SNAPSHOT.md`.
+
+---
+
 ## A. Prasyarat — pasal Perbup menunggu ini
 
 ### A1. Jadwal penyelenggaraan yang terikat siklus perencanaan
