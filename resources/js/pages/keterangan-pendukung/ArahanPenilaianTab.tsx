@@ -18,6 +18,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
+import { ARAHAN_FIELD_INFO } from '@/lib/arahan-penilaian-field-info';
 import { Plus, Edit, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -321,7 +323,10 @@ export default function ArahanPenilaianTab({
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
-              <Label>Jenis Arahan</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Jenis Arahan</Label>
+                <FieldInfoPopover text={ARAHAN_FIELD_INFO.jenis} />
+              </div>
               <Select value={String(form.jenis)} onValueChange={(v) => setForm((f) => ({ ...f, jenis: v }))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -337,7 +342,10 @@ export default function ArahanPenilaianTab({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <Label>Tahun Mulai</Label>
+                <div className="flex items-center gap-1.5">
+                  <Label>Tahun Mulai</Label>
+                  <FieldInfoPopover text={ARAHAN_FIELD_INFO.periode} />
+                </div>
                 <Input
                   type="number"
                   value={String(form.tahun_mulai ?? '')}
@@ -356,7 +364,10 @@ export default function ArahanPenilaianTab({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <Label>Nomor Surat Edaran</Label>
+                <div className="flex items-center gap-1.5">
+                  <Label>Nomor Surat Edaran</Label>
+                  <FieldInfoPopover text={ARAHAN_FIELD_INFO.surat_edaran} />
+                </div>
                 <Input
                   value={String(form.nomor_se ?? '')}
                   onChange={(e) => setForm((f) => ({ ...f, nomor_se: e.target.value }))}
@@ -390,7 +401,10 @@ export default function ArahanPenilaianTab({
               />
             </div>
             <div className="space-y-1">
-              <Label>Status</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Status</Label>
+                <FieldInfoPopover text={ARAHAN_FIELD_INFO.status} />
+              </div>
               <Select value={String(form.status)} onValueChange={(v) => setForm((f) => ({ ...f, status: v }))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -421,7 +435,10 @@ export default function ArahanPenilaianTab({
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
-              <Label>Tahapan</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Tahapan</Label>
+                <FieldInfoPopover text={ARAHAN_FIELD_INFO.tahapan} />
+              </div>
               <Input
                 value={String(tahapanForm.tahapan ?? '')}
                 onChange={(e) => setTahapanForm((f) => ({ ...f, tahapan: e.target.value }))}
@@ -429,7 +446,10 @@ export default function ArahanPenilaianTab({
               />
             </div>
             <div className="space-y-1">
-              <Label>Dokumen Pemicu</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Dokumen Pemicu</Label>
+                <FieldInfoPopover text={ARAHAN_FIELD_INFO.dokumen_pemicu} />
+              </div>
               <Input
                 value={String(tahapanForm.dokumen_pemicu ?? '')}
                 onChange={(e) => setTahapanForm((f) => ({ ...f, dokumen_pemicu: e.target.value }))}
@@ -442,7 +462,10 @@ export default function ArahanPenilaianTab({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <Label>Tanggal Mulai</Label>
+                <div className="flex items-center gap-1.5">
+                  <Label>Tanggal Mulai</Label>
+                  <FieldInfoPopover text={ARAHAN_FIELD_INFO.tenggat} />
+                </div>
                 <Input
                   type="date"
                   value={String(tahapanForm.tanggal_mulai ?? '')}
@@ -459,7 +482,10 @@ export default function ArahanPenilaianTab({
               </div>
             </div>
             <div className="space-y-1">
-              <Label>Pelaksana</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Pelaksana</Label>
+                <FieldInfoPopover text={ARAHAN_FIELD_INFO.pelaksana} />
+              </div>
               <Input
                 value={String(tahapanForm.pelaksana ?? '')}
                 onChange={(e) => setTahapanForm((f) => ({ ...f, pelaksana: e.target.value }))}
@@ -467,7 +493,10 @@ export default function ArahanPenilaianTab({
               />
             </div>
             <div className="space-y-1">
-              <Label>Keluaran</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Keluaran</Label>
+                <FieldInfoPopover text={ARAHAN_FIELD_INFO.keluaran} />
+              </div>
               <Input
                 value={String(tahapanForm.keluaran ?? '')}
                 onChange={(e) => setTahapanForm((f) => ({ ...f, keluaran: e.target.value }))}

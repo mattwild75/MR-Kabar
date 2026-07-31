@@ -142,7 +142,9 @@ Fungsi: Menentukan seberapa besar Skala Kemungkinan RESIDUAL (sisa risiko) turun
 - Efektif (E) → faktor 0.4 (K turun banyak).
 Skala Kemungkinan Residual = round(K inheren × faktor). Karena itu, bila kategori ini diisi, Skala Dampak & Kemungkinan INHEREN WAJIB diisi lebih dulu sebagai basis. Bila DIKOSONGKAN (risiko baru murni tanpa kontrol apa pun), Inheren otomatis disamakan dengan Residual dan Anda langsung menyusun RTP.
 
-Cara mengisi: pilih kategori, uraian penjelasan opsional. Skala Kemungkinan Residual tetap bisa Anda ubah manual bila tidak setuju hasil hitung otomatis.`,
+Cara mengisi: pilih kategori, uraian penjelasan opsional. Skala Kemungkinan Residual tetap bisa Anda ubah manual bila tidak setuju hasil hitung otomatis.
+
+Bila Anda memilih TE atau KE, isian CELAH PENGENDALIAN di bawah akan berganti menjadi centang kriteria baku Perdep — sebab kedua kategori itu sama-sama berarti pengendaliannya belum menutup risiko, sehingga celahnya wajib disebutkan.`,
 
   'KATEGORI PROYEKSI RTP': `Definisi: Proyeksi efektivitas gabungan (existing control + RTP yang direncanakan) SETELAH RTP benar-benar dijalankan — dipakai menghitung Skala TARGET (kondisi yang diharapkan tercapai).
 
@@ -152,13 +154,24 @@ Cara mengisi: pilih tingkat efektivitas yang Anda YAKIN bisa dicapai kalau RTP d
 
   'CELAH PENGENDALIAN': `Definisi: Kelemahan atau kekurangan dalam pengendalian yang ada saat ini.
 
-Contoh:
-Bansos belum tepat sasaran, Data kemiskinan belum terintegrasi, Koordinasi antar-OPD masih lemah
+Fungsi: Menjadi dasar penyusunan Rencana Tindak Pengendalian — RTP dirancang untuk menutup celah yang disebut di sini, bukan untuk menambah kegiatan baru yang tidak berkaitan.
 
-Jika ada lebih dari 1 kelemahan pengendalian yang sudah ada, maka ditulis juga sel dibawahnya, dengan contoh:
-Bansos belum tepat sasaran
-Data kemiskinan belum terintegrasi
-Koordinasi antar-OPD masih lemah`,
+Cara mengisi: begitu KATEGORI EXISTING CONTROL dinilai Tidak Efektif (TE) atau Kurang Efektif (KE), isian ini berganti menjadi lima CENTANG kriteria baku Perdep berikut kotak uraian bebas di bawahnya. Boleh mencentang lebih dari satu, dan boleh menambahi uraian sendiri. Untuk Cukup Efektif (CE) dan Efektif (E), isiannya tetap teks bebas seperti biasa.
+
+Lima kriteria itu berasal dari Perdep PPKD 4/2019 — butir a sampai d dari daftar "pengendalian dinyatakan tidak efektif antara lain jika", dan butir e dari contoh celah pengendalian:
+a. Kebijakan dan prosedur pengendalian sudah dilakukan, namun belum mampu menangani risiko yang teridentifikasi
+b. Prosedur pengendalian belum dilaksanakan
+c. Kebijakan belum diikuti dengan prosedur baku yang jelas
+d. Kebijakan dan prosedur yang ada tidak sesuai dengan peraturan di atasnya
+e. Pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul
+
+Butir e adalah penanda khas Kurang Efektif: pengendaliannya berjalan, tetapi belum menutup seluruhnya.
+
+Contoh isian lengkap:
+b. Prosedur pengendalian belum dilaksanakan
+c. Kebijakan belum diikuti dengan prosedur baku yang jelas
+
+Monitoring tidak rutin, SDM pengawas terbatas`,
 
   'RENCANA TINDAK PENGENDALIAN': `Definisi: Aksi tambahan yang direncanakan untuk menutup celah pengendalian risiko.
 

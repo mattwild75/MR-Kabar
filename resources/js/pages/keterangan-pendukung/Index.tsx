@@ -26,6 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { Plus, Edit, Trash2, Save } from 'lucide-react';
 import { toast } from 'sonner';
 import ArahanPenilaianTab, { type ArahanRow } from './ArahanPenilaianTab';
@@ -51,6 +52,18 @@ const WARNA_OPTIONS = [
 function warnaPreviewClass(value: string) {
   return value || 'bg-muted';
 }
+
+/**
+ * Keterangan Selera Risiko, dipakai bersama tab Matriks dan tab Level Risiko
+ * supaya keduanya menerangkan hal yang sama persis.
+ */
+const SELERA_INFO = `Definisi: Selera Risiko (risk appetite) adalah tingkat Risiko yang masih bersedia diterima Pemerintah Kabupaten Aceh Barat tanpa penanganan khusus.
+
+Fungsi: Perdep PPKD 4/2019 menyatakan penetapan area yang menjadi Risiko Prioritas dipengaruhi selera Risiko atau preferensi manajemen pemerintah daerah, dan sisa Risiko harus dibawa ke tingkat yang berada di dalam selera itu. Di aplikasi ini, batas tersebut menentukan Risiko mana yang dihitung sebagai Risiko Prioritas — pada Dasbor, Program Bupati, maupun seluruh Form Cetak.
+
+Cara mengisi: centang kolom "Melampaui Selera" pada Level Risiko yang sudah berada DI LUAR selera. Sekarang yang dicentang Tinggi dan Sangat Tinggi, sehingga selera Risiko sampai dengan tingkat Sedang. Bila kelak selera diperketat, cukup centang juga Sedang — garis putus-putus pada tab Matriks Analisis Risiko akan bergeser sendiri mengikutinya.
+
+Catatan: garis batas itu tidak lurus melainkan bertangga, karena mengikuti bentuk sel-sel yang melampaui selera pada matriks 5x5. Bila tidak ada satu pun level yang dicentang, aplikasi kembali memakai ambang lama (Skala Risiko 16) supaya penetapan Risiko Prioritas tidak berubah diam-diam.`;
 
 interface KriteriaDampakRow {
   id: number;
@@ -482,6 +495,7 @@ function MatriksTab({ cells, selera }: { cells: MatrixCellRow[]; selera: SeleraR
             style={{ borderColor: 'var(--batas-selera)' }}
           />
           <span className="font-medium">Batas Selera Risiko</span>
+          <FieldInfoPopover text={SELERA_INFO} />
           {selera.ambang === null ? (
             <span className="text-muted-foreground">
               belum ditetapkan — tandai level mana yang melampaui selera pada tab Tabel Level Risiko
@@ -627,13 +641,14 @@ function LevelRisikoTab({ rows, selera }: { rows: RiskLevelRow[]; selera: Selera
           menentukan mana yang menjadi Risiko Prioritas — termasuk Dasbor,
           Program Bupati, dan Form Cetak. */}
       <div className="mb-3 rounded-md border bg-muted/40 p-3 text-sm">
-        <p className="font-medium">
-          Selera Risiko:{' '}
+        <p className="flex flex-wrap items-center gap-1.5 font-medium">
+          <span>Selera Risiko:</span>{' '}
           {selera.batas_diterima
             ? `sampai dengan tingkat ${selera.batas_diterima}`
             : selera.ambang === null
               ? 'belum ditetapkan'
               : 'seluruh tingkat melampaui selera'}
+          <FieldInfoPopover text={SELERA_INFO} />
         </p>
         <p className="text-muted-foreground mt-1">
           Centang kolom <strong>Melampaui Selera</strong> pada level yang sudah di luar selera Risiko

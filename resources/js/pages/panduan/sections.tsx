@@ -2496,4 +2496,172 @@ export const SECTIONS: Section[] = [
       </>
     ),
   },
+
+  // ────────────────────────────────────────────────────────────────────
+  {
+    id: 'penyempurnaan-perdep',
+    title: 'Penyempurnaan Mengikuti Perdep — Selera Risiko, Jadwal, Struktur, dan Laporan Komite',
+    navLabel: '19. Penyempurnaan Mengikuti Perdep',
+    content: (
+      <>
+        <p>
+          Sembilan penyempurnaan berikut ditambahkan setelah membandingkan aplikasi ini dengan Perdep PPKD Nomor 4
+          Tahun 2019 baris demi baris. Seluruhnya berangkat dari hal yang <em>diminta Perdep</em> tetapi belum punya
+          tempat di aplikasi — bukan dari daftar fitur yang dikarang sendiri.
+        </p>
+
+        <Kotak title="Selera Risiko sekarang dapat digeser" tone="accent">
+          <p>
+            Perdep menyatakan penetapan area yang menjadi Risiko Prioritas <strong>dipengaruhi selera Risiko atau
+            preferensi manajemen pemerintah daerah</strong>. Sebelumnya aplikasi menganggap batasnya selalu di
+            antara Sedang dan Tinggi, karena ambangnya dicari dengan mencocokkan nama level.
+          </p>
+          <p className="mt-2">
+            Sekarang batas itu menjadi data: buka <strong>Settings &rarr; Keterangan Pendukung &rarr; Tabel Level
+            Risiko</strong>, lalu centang kolom <strong>Melampaui Selera</strong> pada level yang sudah di luar
+            selera. Pada tab <strong>Matriks Analisis Risiko</strong>, garis putus-putus batas selera akan bergeser
+            sendiri mengikutinya. Garis itu bertangga, bukan lurus, karena mengikuti bentuk sel yang melampaui
+            selera.
+          </p>
+          <p className="mt-2">
+            Yang ikut berubah begitu centangnya digeser: kartu Risiko Prioritas di Dashboard, daftar Risiko
+            Prioritas, penandaan pada Program Bupati, dan seluruh Form Cetak yang menyebut Risiko Prioritas.
+            Keempatnya kini membaca satu sumber yang sama.
+          </p>
+        </Kotak>
+
+        <Kotak title="Celah pengendalian dituntun kriteria Perdep">
+          <p>
+            Begitu <strong>KATEGORI EXISTING CONTROL</strong> dinilai <strong>TE (Tidak Efektif)</strong> atau{' '}
+            <strong>KE (Kurang Efektif)</strong>, isian <strong>CELAH PENGENDALIAN</strong> berganti menjadi lima
+            centang kriteria baku berikut kotak uraian bebas. Boleh mencentang lebih dari satu.
+          </p>
+          <p className="mt-2">
+            Butir a sampai d disalin dari daftar &quot;pengendalian dinyatakan tidak efektif antara lain jika&quot;,
+            butir e dari contoh celah pengendalian pada Perdep. Butir e — <em>pengendalian sudah berjalan namun
+            masih lemah</em> — adalah penanda khas Kurang Efektif.
+          </p>
+          <p className="mt-2">
+            Hasilnya tersimpan pada kolom yang sudah ada, sehingga Form Cetak 6 dan 7 serta ekspor Excel langsung
+            ikut menampilkannya. Uraian bebas yang sudah pernah ditulis tidak hilang — kriteria hanya ditambahkan di
+            atasnya. Untuk CE dan E, isiannya tetap teks bebas seperti biasa.
+          </p>
+        </Kotak>
+
+        <Kotak title="Simpulan CEE yang bertentangan wajib dijelaskan">
+          <p>
+            Lampiran 5 Form 1.c kolom (g) berbunyi: <em>jika hasil antara penilaian awal dan survei persepsi
+            bertentangan, maka lakukan pendalaman atau lakukan professional judgement untuk menyimpulkannya</em>.
+          </p>
+          <p className="mt-2">
+            Form 1c sekarang menandai sub unsur yang kedua sumbernya berbeda, dan mewajibkan{' '}
+            <strong>Penjelasan</strong> diisi di sana — termasuk ketika simpulannya &quot;Memadai&quot;, yang justru
+            keadaan paling perlu dipertanggungjawabkan (reviu dokumen menemukan kelemahan, tetapi tetap disimpulkan
+            memadai). Pada Form Cetak, baris semacam itu diberi catatan kaki.
+          </p>
+        </Kotak>
+
+        <Kotak title="RTP yang mirip saling ditandai">
+          <p>
+            Perdep meminta dokumen RTP akhir diselaraskan agar tidak duplikatif: RTP perbaikan lingkungan
+            pengendalian (dari CEE Form 1d) dan RTP perbaikan kegiatan pengendalian (dari register Risiko) bisa
+            merumuskan kebutuhan yang sama persis.
+          </p>
+          <p className="mt-2">
+            Pada <strong>Monitoring dan Evaluasi Form 8/9</strong>, RTP yang rumusannya mirip dengan RTP lain di OPD
+            dan tahun yang sama sekarang diberi peringatan, lengkap dengan RTP pembandingnya. Peringatan ini{' '}
+            <strong>tidak pernah menghalangi penyimpanan</strong> — pencocokan kalimat tidak akan selalu benar.
+            Kalau setelah diperiksa keduanya memang berbeda, tekan{' '}
+            <strong>&quot;Sudah saya periksa, memang berbeda&quot;</strong> dan peringatannya hilang untuk
+            selamanya.
+          </p>
+        </Kotak>
+
+        <Kotak title="Uji coba penerapan pengendalian">
+          <p>
+            Perdep merinci enam langkah membangun infrastruktur pengendalian. Langkah ke-4 <em>melakukan uji coba
+            penerapan pengendalian</em>, ke-5 <em>menyempurnakan rancangan berdasarkan hasil uji coba</em>, baru
+            ke-6 <em>menetapkan penerapannya</em>.
+          </p>
+          <p className="mt-2">
+            Pada Form 9 Pemantauan, di antara &quot;Rencana — Tahun&quot; dan &quot;Realisasi Waktu
+            Pelaksanaan&quot;, sekarang ada bagian <strong>Uji Coba Penerapan Pengendalian</strong>: triwulan dan
+            tahun pelaksanaannya, uraian hasilnya, serta unggahan bukti berupa dokumen atau foto. Hasilnya dibuat
+            sebagai uraian, bukan penanda selesai, karena langkah ke-5 menyempurnakan rancangan berdasarkan isinya.
+          </p>
+          <p className="mt-2">
+            Uji coba <strong>tidak</strong> menjadi syarat &quot;Form 9 terisi&quot; — ini keterangan tambahan di
+            luar kolom a sampai g baku Lampiran 5, dan memaksakannya akan mengubah angka kepatuhan seluruh OPD tanpa
+            satu pun data berubah.
+          </p>
+        </Kotak>
+
+        <Kotak title="Arahan dan Kebijakan Penilaian Risiko, serta jadwal di Dashboard" tone="accent">
+          <p>
+            Lampiran 3 dan 4 Perdep memuat contoh <strong>Surat Edaran Kepala Daerah</strong> yang menetapkan kapan
+            penilaian Risiko dilakukan — yang 5 tahunan mengikuti periode RPJMD, yang 1 tahunan mengikuti siklus
+            anggaran dan menyebut tanggal konkret, misalnya <em>penilaian Risiko operasional dilakukan 3 sampai 14
+            Oktober setelah RKA disusun</em>.
+          </p>
+          <p className="mt-2">
+            Arahan ditetapkan <strong>terpisah dari Peraturan Bupati</strong>, mengikuti bentuk pada Perdep: Perbup
+            adalah pedoman yang jarang berubah, sedangkan arahan berubah tiap tahun. Kalau digabung, tiap tahun
+            Perbup harus ikut diubah.
+          </p>
+          <p className="mt-2">
+            Rekam di <strong>Settings &rarr; Keterangan Pendukung &rarr; Arahan &amp; Jadwal Penilaian</strong>:
+            identitas Surat Edaran, dasar hukum, periode, dan daftar tahapan berisi dokumen pemicu, tanggal mulai
+            dan selesai, pelaksana, serta keluaran. Tahapan pada arahan berstatus <strong>Berlaku</strong> langsung
+            muncul sebagai <strong>widget jadwal di Dashboard</strong>, tepat di bawah judul dan di atas kartu
+            ringkasan, lengkap dengan keadaannya: belum waktunya, sedang berjalan, atau tenggat terlampaui. Selama
+            masih <strong>Draf</strong>, arahan tidak menagih siapa pun.
+          </p>
+        </Kotak>
+
+        <Kotak title="Struktur Pengelolaan Risiko sebagai data">
+          <p>
+            Lampiran 2 Perdep memuat contoh Keputusan Kepala Daerah tentang struktur pengelolaan Risiko. Menu{' '}
+            <strong>Form Cetak &rarr; Struktur Pengelolaan Risiko</strong> merekamnya sebagai data per tahun —
+            bukan sekadar naskah cetak — sehingga aplikasi tahu siapa Unit Kepatuhan, siapa Koordinator, dan siapa
+            anggota UPR tiap OPD.
+          </p>
+          <p className="mt-2">
+            Semua Pengguna boleh melihatnya, justru itu gunanya: supaya tahu kepada siapa melapor. Hanya Admin dan
+            Super Admin yang boleh mengubah. Karena susunan berubah mengikuti mutasi jabatan, tersedia tombol{' '}
+            <strong>Salin dari Tahun Sebelumnya</strong> agar tidak perlu mengetik ulang seluruh peran berikut
+            tugasnya.
+          </p>
+        </Kotak>
+
+        <Kotak title="Laporan 14 — Pembinaan Komite Pengelolaan Risiko">
+          <p>
+            Perdep menyebut tugas ketiga Komite: <em>membuat laporan semesteran dan tahunan kegiatan pembinaan
+            pengelolaan risiko yang disampaikan kepada Kepala Daerah cq Sekretaris Daerah</em>. Aplikasi baru punya
+            tiga dari empat jenis laporan pada bagian outline Perdep.
+          </p>
+          <p className="mt-2">
+            Menu <strong>Form Cetak &rarr; Laporan &rarr; 14_Laporan Pembinaan Komite Pengelolaan Risiko</strong>
+            melengkapinya. Periodenya <strong>semesteran</strong> — Semester I, Semester II, atau Tahunan — bukan
+            triwulanan seperti Laporan 12 dan 13. Empat bagiannya mengikuti outline Perdep: Rencana dan Realisasi
+            Kegiatan, Hambatan Pelaksanaan, Hasil Pembinaan, serta Rekomendasi bagi UPR. Blok tanda tangannya
+            mengambil pejabat berperan Komite dari Struktur Pengelolaan Risiko tahun berjalan.
+          </p>
+        </Kotak>
+
+        <Kotak title="Versi aplikasi berpasangan dengan salinan database">
+          <p>
+            Memundurkan kode sendirian tidak pernah aman: berkas program kembali ke versi lama, tetapi database
+            tetap berisi skema hasil pembaruan yang lebih baru. Pada halaman <strong>Settings &rarr; Backup</strong>{' '}
+            (khusus Super Admin) sekarang ada <strong>Versi Aplikasi &amp; Snapshot Database</strong>.
+          </p>
+          <p className="mt-2">
+            Menandai versi menyimpan kode <em>berikut</em> salinan database saat itu juga dalam satu tombol. Saat
+            mengembalikan kode ke versi lama, database yang sepadan dapat dipulihkan sekaligus. Salinan database{' '}
+            <strong>hanya tersimpan di komputer ini</strong> dan tidak pernah ikut terkirim ke GitHub — hasil
+            unduhan dari GitHub selalu berdatabase kosong untuk diisi sendiri.
+          </p>
+        </Kotak>
+      </>
+    ),
+  },
 ];

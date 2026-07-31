@@ -19,6 +19,8 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
+import { STRUKTUR_FIELD_INFO } from '@/lib/struktur-pengelola-field-info';
 import { Plus, Edit, Trash2, Save, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -187,6 +189,26 @@ export default function StrukturPengelola({
           </div>
         </div>
 
+        {/* Keterangan dasar Perdep — di luar kertas, tidak ikut tercetak.
+            Ditaruh di halaman ini, bukan hanya di Panduan, karena di sinilah
+            orang memutuskan siapa mengisi peran apa. */}
+        <div className="bg-muted/40 rounded-md border p-3 text-sm print:hidden">
+          <p className="font-medium">Dasar penyusunan menurut Perdep PPKD 4/2019</p>
+          <p className="text-muted-foreground mt-1">
+            Lampiran 2 memuat contoh Keputusan Kepala Daerah tentang struktur pengelolaan Risiko, dan Lampiran 3
+            menyebut susunannya: <strong>Sekretaris Daerah</strong> sebagai koordinator penyelenggaraan;{' '}
+            <strong>Kepala Daerah</strong> sebagai Unit Pemilik Risiko tingkat Pemerintah Daerah, dengan pejabat
+            eselon sebagai Unit Pemilik Risiko di tingkatnya; <strong>Komite Pengelolaan Risiko</strong> tingkat
+            Pemerintah Daerah; <strong>Asisten Sekretaris Daerah</strong> sebagai Unit Kepatuhan; dan{' '}
+            <strong>Inspektur Daerah</strong> sebagai penanggung jawab pengawasan.
+          </p>
+          <p className="text-muted-foreground mt-1">
+            Susunan ini bukan sekadar naskah cetak. Karena tersimpan sebagai data, aplikasi dapat merujuknya —
+            blok tanda tangan Laporan 14 Pembinaan Komite mengambil pejabat berperan Komite dari tahun berjalan.
+            Nama boleh dikosongkan bila jabatannya lowong; naskah tetap dapat dicetak dengan jabatannya saja.
+          </p>
+        </div>
+
         {rows.length === 0 ? (
           <p className="text-muted-foreground py-8 text-center text-sm">
             Belum ada susunan pengelola Risiko untuk tahun {tahun}.
@@ -273,7 +295,10 @@ export default function StrukturPengelola({
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-1">
-              <Label>Peran</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Peran</Label>
+                <FieldInfoPopover text={STRUKTUR_FIELD_INFO.peran} />
+              </div>
               <Select value={String(form.peran)} onValueChange={(v) => setForm((f) => ({ ...f, peran: v }))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -289,7 +314,10 @@ export default function StrukturPengelola({
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
                 <Label>Jabatan</Label>
+                <FieldInfoPopover text={STRUKTUR_FIELD_INFO.jabatan} />
+              </div>
                 <Input
                   value={String(form.jabatan ?? '')}
                   onChange={(e) => setForm((f) => ({ ...f, jabatan: e.target.value }))}
@@ -297,7 +325,10 @@ export default function StrukturPengelola({
                 />
               </div>
               <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
                 <Label>Nama</Label>
+                <FieldInfoPopover text={STRUKTUR_FIELD_INFO.nama} />
+              </div>
                 <Input
                   value={String(form.nama ?? '')}
                   onChange={(e) => setForm((f) => ({ ...f, nama: e.target.value }))}
@@ -306,7 +337,10 @@ export default function StrukturPengelola({
               </div>
             </div>
             <div className="space-y-1">
-              <Label>OPD</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>OPD</Label>
+                <FieldInfoPopover text={STRUKTUR_FIELD_INFO.opd} />
+              </div>
               <Select
                 value={form.opd_id === '' ? 'tidak_ada' : String(form.opd_id)}
                 onValueChange={(v) => setForm((f) => ({ ...f, opd_id: v === 'tidak_ada' ? '' : v }))}
@@ -325,7 +359,10 @@ export default function StrukturPengelola({
               </Select>
             </div>
             <div className="space-y-1">
-              <Label>Tugas</Label>
+              <div className="flex items-center gap-1.5">
+                <Label>Tugas</Label>
+                <FieldInfoPopover text={STRUKTUR_FIELD_INFO.tugas} />
+              </div>
               <Textarea
                 rows={3}
                 value={String(form.tugas ?? '')}
