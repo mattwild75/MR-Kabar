@@ -649,6 +649,22 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Laporan 14 — pembinaan Komite Pengelolaan Risiko. Perdep halaman
+        // berlabel 148 menyebutnya sebagai tugas ketiga Komite, disusun
+        // SEMESTERAN dan tahunan (bukan triwulanan seperti 12 dan 13).
+        // Ikon GraduationCap dipilih karena isinya memang pembinaan —
+        // sosialisasi, bimbingan, supervisi, dan pelatihan.
+        Menu::updateOrCreate(
+            ['route' => '/cetak/laporan/4'],
+            [
+                'title' => '14_Laporan Pembinaan Komite Pengelolaan Risiko',
+                'parent_id' => $formCetakLaporan->id,
+                'icon' => 'GraduationCap',
+                'order' => 4,
+                'permission_name' => null,
+            ]
+        );
+
         // Struktur Pengelolaan Risiko — SEJAJAR dengan "Risiko" dan
         // "Laporan" (langsung anak "Form Cetak"), sebab isinya bukan bagian
         // dari proses per-tahap maupun output pelaporan berkala, melainkan

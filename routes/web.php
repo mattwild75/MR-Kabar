@@ -378,6 +378,11 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('cetak/laporan/3', [CetakLaporanController::class, 'cetak3'])->name('cetak.laporan.3');
     Route::get('cetak/laporan/3/pdf', [CetakLaporanController::class, 'pdf3'])->name('cetak.laporan.3.pdf');
     Route::post('cetak/laporan/3/narasi', [CetakLaporanController::class, 'simpanNarasi3'])->name('cetak.laporan.3.narasi');
+    // Laporan 14 — pembinaan Komite Pengelolaan Risiko, SEMESTERAN dan
+    // tahunan sesuai tugas ketiga Komite pada Perdep halaman berlabel 148.
+    Route::get('cetak/laporan/4', [CetakLaporanController::class, 'cetak4'])->name('cetak.laporan.4');
+    Route::get('cetak/laporan/4/pdf', [CetakLaporanController::class, 'pdf4'])->name('cetak.laporan.4.pdf');
+    Route::post('cetak/laporan/4/narasi', [CetakLaporanController::class, 'simpanNarasi4'])->name('cetak.laporan.4.narasi');
 
     // Edit manual isian TTD (tempat/tanggal/jabatan/nama) langsung dari
     // halaman Form Cetak — menyimpan permanen ke Data Umum terkait.

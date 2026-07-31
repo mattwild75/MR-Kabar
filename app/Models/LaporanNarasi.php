@@ -12,6 +12,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LaporanNarasi extends Model
 {
+    /**
+     * Nilai kolom `triwulan` untuk Laporan 14 (Komite Pengelolaan Risiko).
+     *
+     * Perdep halaman berlabel 148 mewajibkan laporan Komite disusun
+     * SEMESTERAN dan tahunan — bukan triwulanan seperti Laporan 12 dan 13.
+     * Kolom periodenya dipakai bersama karena indeks unik (jenis_laporan,
+     * opd_id, tahun_penilaian, triwulan) sudah menjadikannya penanda periode
+     * apa pun bentuknya; nama kolomnya saja yang terlanjur menyebut triwulan.
+     * Nilai di bawah ini yang membedakannya, dan sengaja tidak berupa angka
+     * romawi supaya tidak pernah tertukar dengan triwulan.
+     */
+    public const PERIODE_KOMITE = ['S1', 'S2', 'TAHUNAN'];
+
+    public const PERIODE_KOMITE_LABEL = [
+        'S1' => 'Semester I (Januari sampai Juni)',
+        'S2' => 'Semester II (Juli sampai Desember)',
+        'TAHUNAN' => 'Tahunan',
+    ];
+
     use SoftDeletes;
 
     protected $table = 'laporan_narasi';
@@ -34,6 +53,7 @@ class LaporanNarasi extends Model
         'realisasi_kegiatan',
         'hambatan_pelaksanaan',
         'monitoring_risiko_rtp',
+        'hasil_pembinaan',
         'rekomendasi_feedback',
         'submitted_by',
     ];

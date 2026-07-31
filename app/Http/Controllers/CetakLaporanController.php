@@ -15,6 +15,7 @@ use App\Models\MonitoringRtp;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
+use App\Models\StrukturPengelolaRisiko;
 use App\Services\PdfPrintService;
 use App\Services\RiskReferenceDataService;
 use App\Support\SafeUpsert;
@@ -66,7 +67,17 @@ class CetakLaporanController extends Controller
 
     private function defaultTemplate(string $key, string $pemerintahKabkota, int $tahun, ?string $triwulan = null): string
     {
-        $periodeLabel = $triwulan ? "Triwulan {$triwulan} Tahun {$tahun}" : "Tahun {$tahun}";
+        // Kolom periode dipakai bersama tiga bentuk: triwulan (I sampai IV)
+        // untuk Laporan 12 dan 13, serta semester (S1/S2) atau TAHUNAN untuk
+        // Laporan 14. Tanpa pembedaan ini, laporan Komite akan berbunyi
+        // "Triwulan S1 Tahun 2026".
+        $periodeLabel = match (true) {
+            $triwulan === null => "Tahun {$tahun}",
+            $triwulan === 'TAHUNAN' => "Tahun {$tahun}",
+            $triwulan === 'S1' => "Semester I Tahun {$tahun}",
+            $triwulan === 'S2' => "Semester II Tahun {$tahun}",
+            default => "Triwulan {$triwulan} Tahun {$tahun}",
+        };
 
         return match ($key) {
             'latar_belakang' => "Dalam rangka mendukung akuntabilitas pengelolaan risiko sesuai Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019 tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah, {$pemerintahKabkota} menyusun laporan pengelolaan risiko periode {$periodeLabel} sebagai bentuk pertanggungjawaban penyelenggaraan Sistem Pengendalian Intern Pemerintah.",
@@ -82,6 +93,7 @@ class CetakLaporanController extends Controller
             'realisasi_kegiatan' => "Bagian ini berisi kegiatan-kegiatan pengendalian terhadap risiko yang dilaksanakan pada periode {$periodeLabel} beserta uraian mengenai kesenjangan (gap) antara rencana dan realisasinya.",
             'hambatan_pelaksanaan' => 'Bagian ini berisi uraian dan analisis hal-hal yang menjadi kendala atau hambatan dalam pelaksanaan kegiatan pengendalian, atau hal-hal yang menyebabkan terjadinya kesenjangan antara rencana dan realisasi kegiatan pengelolaan risiko.',
             'monitoring_risiko_rtp' => "Bagian ini berisi hasil monitoring atas pengomunikasian risiko dan RTP, keterjadian risiko, pelaksanaan RTP, dan kegiatan pemantauan RTP pada {$periodeLabel}.",
+            'hasil_pembinaan' => "Bagian ini berisi uraian hasil kegiatan pembinaan terhadap pengelolaan risiko {$pemerintahKabkota} kepada Unit Pemilik Risiko pada {$periodeLabel} — meliputi sosialisasi, bimbingan, supervisi, dan pelatihan — serta hasil fasilitasi dalam memandu pelaksanaan langkah demi langkah proses penilaian risiko maupun pemutakhiran risiko dan RTP.",
             'rekomendasi_feedback' => 'Bagian ini berisi rekomendasi, saran, ataupun umpan balik atas kendala dan hambatan yang dilaporkan oleh Unit Pemilik Risiko, serta rekomendasi strategis maupun teknis dari hasil pemantauan kegiatan pengendalian.',
             default => '',
         };
@@ -102,12 +114,20 @@ class CetakLaporanController extends Controller
         $opdId = $request->integer('opd_id') ?: null;
         $this->ensureOpdAccess($request, $opdId);
 
-        if (!$request->user()->canViewAllOpd() && $jenis === 'pemantauan_kepatuhan') {
-            abort(403, 'Hanya Admin/Super Admin yang dapat mengubah Laporan Pemantauan Unit Kepatuhan.');
+        // Laporan 13 dan 14 SELALU tingkat Pemda — bukan milik satu OPD —
+        // jadi hanya Admin/Super Admin yang boleh mengubah narasinya, walau
+        // semua Pengguna boleh membacanya.
+        if (!$request->user()->canViewAllOpd() && in_array($jenis, ['pemantauan_kepatuhan', 'pembinaan_komite'], true)) {
+            abort(403, 'Hanya Admin/Super Admin yang dapat mengubah laporan tingkat Pemerintah Daerah.');
         }
 
         $tahun = $request->integer('tahun');
-        $triwulan = $request->string('triwulan')->toString() ?: null;
+        // Kolom `triwulan` sesungguhnya penanda PERIODE apa pun bentuknya —
+        // Laporan 14 memakainya untuk semester (lihat
+        // LaporanNarasi::PERIODE_KOMITE), dan mengirimkannya dengan nama
+        // 'periode' supaya halamannya tidak berbohong kepada pengisinya.
+        $triwulan = $request->string('periode')->toString()
+            ?: ($request->string('triwulan')->toString() ?: null);
 
         $data = $request->validate(array_fill_keys($allowedKeys, ['nullable', 'string']));
 
@@ -393,6 +413,85 @@ class CetakLaporanController extends Controller
         $url = url("/cetak/laporan/3?" . http_build_query(['tahun' => $tahun, 'triwulan' => $triwulan]));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-13-Laporan-Pemantauan-Triwulan-{$triwulan}-{$tahun}");
+    }
+
+    // ── Form 14: Laporan Pembinaan Komite Pengelolaan Risiko ─────────────
+    //
+    // Perdep PPKD 4/2019 halaman berlabel 148 menyebut tugas ketiga Komite
+    // Pengelolaan Risiko: "Membuat laporan semesteran dan tahunan kegiatan
+    // pembinaan pengelolaan risiko yang disampaikan kepada Kepala Daerah cq
+    // Sekretaris Daerah". Outline-nya ada di halaman berlabel 148 sampai 149,
+    // berisi empat bagian: A Rencana dan Realisasi Kegiatan, B Hambatan
+    // Pelaksanaan Kegiatan, C Hasil Pembinaan Terhadap Pengelolaan Risiko
+    // Pemerintah Daerah, dan D Rekomendasi/Feedback bagi UPR.
+    //
+    // SEMESTERAN, bukan triwulanan seperti Laporan 12 dan 13 — lihat
+    // LaporanNarasi::PERIODE_KOMITE.
+    //
+    // Seluruhnya naratif: aplikasi tidak merekam kegiatan pembinaan
+    // (sosialisasi, bimbingan, supervisi, pelatihan) sebagai data, jadi tidak
+    // ada yang bisa diproyeksi live seperti pada Laporan 11 sampai 13.
+    // Membuat-buat angka dari data lain justru akan menyesatkan pembacanya.
+    private const NARASI_KEYS_4 = [
+        'latar_belakang', 'dasar_hukum', 'maksud_tujuan', 'ruang_lingkup',
+        'rencana_kegiatan', 'realisasi_kegiatan', 'hambatan_pelaksanaan',
+        'hasil_pembinaan', 'rekomendasi_feedback', 'penutup',
+    ];
+
+    private function periodeKomite(Request $request): string
+    {
+        $periode = $request->string('periode')->toString() ?: 'S1';
+
+        return in_array($periode, LaporanNarasi::PERIODE_KOMITE, true) ? $periode : 'S1';
+    }
+
+    public function cetak4(Request $request)
+    {
+        // SELALU tingkat Pemda, sama pola dengan cetak3(): semua Pengguna
+        // boleh melihat, hanya Admin/Super Admin yang boleh mengubah.
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $periode = $this->periodeKomite($request);
+        $pengaturan = $this->pengaturan();
+        $pemerintahKabkota = $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat';
+
+        $narasi = LaporanNarasi::forKey('pembinaan_komite', null, $tahun, $periode);
+
+        return Inertia::render('laporan/cetak/Cetak4', [
+            'tahun' => $tahun,
+            'periode' => $periode,
+            'periodeOptions' => LaporanNarasi::PERIODE_KOMITE_LABEL,
+            'pemerintahKabkota' => $pemerintahKabkota,
+            'dataUmum' => $this->dataUmumForInertia(DataUmum::forOpdAndTahun(null, $tahun)),
+            'canEdit' => $this->canEditLaporan($request),
+            'narasi' => $this->narasiRow($narasi, self::NARASI_KEYS_4, $pemerintahKabkota, $tahun, $periode),
+            // Penanda tangan diambil dari susunan Komite yang direkam pada
+            // Struktur Pengelolaan Risiko tahun berjalan — inilah gunanya
+            // struktur itu disimpan sebagai data. Kalau belum direkam,
+            // halaman jatuh ke Kepala Daerah seperti Laporan 13.
+            'komite' => StrukturPengelolaRisiko::where('tahun', $tahun)
+                ->where('peran', 'komite')
+                ->orderBy('urutan')
+                ->get(['nama', 'jabatan'])
+                ->map(fn ($k) => ['nama' => $k->nama, 'jabatan' => $k->jabatan])
+                ->values(),
+        ]);
+    }
+
+    public function simpanNarasi4(Request $request)
+    {
+        $this->simpanNarasi($request, 'pembinaan_komite', self::NARASI_KEYS_4);
+
+        return back();
+    }
+
+    public function pdf4(Request $request)
+    {
+        $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
+        $periode = $this->periodeKomite($request);
+
+        $url = url('/cetak/laporan/4?' . http_build_query(['tahun' => $tahun, 'periode' => $periode]));
+
+        return PdfPrintService::downloadFromUrl($request, $url, "Form-14-Laporan-Pembinaan-Komite-{$periode}-{$tahun}");
     }
 
     /** Rekap kepatuhan lintas-OPD per triwulan — sama semangat dgn DashboardController::buildKepatuhan(), tapi difilter per triwulan (bukan kumulatif tahunan) utk keperluan Laporan Pemantauan. */
