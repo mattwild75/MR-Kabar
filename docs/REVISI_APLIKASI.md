@@ -295,28 +295,33 @@ Berkas terkait: [PERBUP_CATATAN_PEMBARUAN.md](PERBUP_CATATAN_PEMBARUAN.md) dan
 
 ## F. Rujukan halaman Perdep
 
-Nomor yang dipakai adalah **nomor halaman berkas PDF** — yang diketik pada kotak
-halaman pembaca PDF. Nomor cetak pada naskahnya tidak dipakai karena setiap lampiran
-memulai penomorannya sendiri dari 1, sehingga menyesatkan.
+Berkas Perdep memasang **label halaman** yang mengulang penomoran dari 1 pada halaman
+fisik ke-21. Akibatnya satu halaman punya tiga nomor sekaligus: urutan fisik, label, dan
+folio yang tercetak di badan halaman.
+
+**Nomor pada tabel di bawah adalah label** — angka yang tampil pada kotak halaman pembaca
+PDF dan yang diketik untuk melompat. Folio tercetak dicantumkan sebagai penanda tambahan,
+dan hanya ada untuk batang tubuh; setiap lampiran memulai folio cetaknya sendiri dari 1.
 
 Berkas: `Perdep PPKD No 04 2019 ttg Pedoman Pengelolaan Risiko Pada Pemerintah Daerah
 (060520)  (1).pdf`, 173 halaman, di Desktop\MR Kabar.
 
-| Butir | Pokok | PDF halaman |
-|---|---|---|
-| A1 | Jadwal, tabel waktu dan tahapan berikut pelaksananya | 122&ndash;134, tabel utama 124 |
-| A2 | Kriteria pengendalian dinyatakan tidak efektif | 86 |
-| A3 | Menyelaraskan RTP agar tidak duplikatif | 94 |
-| A4 | Uji coba penerapan pengendalian, langkah 4 dari 6 | 96 |
-| A5 | Contoh Keputusan Kepala Daerah tentang struktur | 135&ndash;136 |
-| A6 | Tugas Komite membuat laporan triwulanan dan tahunan | 115 |
-| A7 | Maturitas SPIP | 124 |
-| A8 | Budaya Risiko, dan Unit Kepatuhan selaku lini kedua | 32&ndash;33, 44&ndash;51 |
-| A9 | Form 1.c, simpulan dari reviu dokumen dan survei persepsi | 145 |
-| A10 | Contoh Kebijakan Pengelolaan Risiko | 121&ndash;134 |
-| A11 | Arahan dan Kebijakan Penilaian Risiko 5 Tahunan dan 1 Tahunan | 137&ndash;141 |
-| A12 | Selera Risiko sebagai dasar penetapan Risiko Prioritas | 42&ndash;43 |
+| Butir | Pokok | Ketik nomor ini (label) | Folio tercetak |
+|---|---|---|---|
+| A1 | Jadwal, tabel waktu dan tahapan berikut pelaksana serta keluarannya | **102–114, tabel utama 104** | — |
+| A2 | Kriteria kapan pengendalian dinyatakan tidak efektif | **66** | 68 |
+| A3 | Menyelaraskan Rencana Tindak Pengendalian agar tidak duplikatif | **74** | 76 |
+| A4 | Uji coba penerapan pengendalian, langkah ke-4 dari 6 | **76** | 78 |
+| A5 | Contoh Keputusan Kepala Daerah tentang struktur pengelolaan Risiko | **115–116** | — |
+| A6 | Tugas Komite membuat laporan triwulanan dan tahunan pembinaan | **95** | — |
+| A7 | Penilaian maturitas SPIP sebagai keluaran tahunan | **104** | — |
+| A8 | Budaya Risiko | **12–13** | 14–15 |
+| A8 | Unit Kepatuhan selaku lini kedua | **24–31** | 26–33 |
+| A9 | Form 1.c, simpulan dari reviu dokumen dan survei persepsi bersanding | **125** | — |
+| A10 | Contoh Kebijakan Pengelolaan Risiko | **101–114** | — |
+| A11 | Arahan dan Kebijakan Penilaian Risiko 5 Tahunan dan 1 Tahunan | **117–121** | — |
+| A12 | Selera Risiko sebagai dasar penetapan Risiko Prioritas | **22–23** | 24–25 |
 
-Catatan: 14 halaman pada berkas itu berupa pindaian tanpa lapisan teks, sehingga tidak
-dapat dicari dengan penelusuran kata. Halaman tersebut adalah 1, 26, 57, 100, 101, 104,
-106, 109, 150, 158, 163, dan 171 sampai dengan 173.
+Empat belas halaman berupa pindaian tanpa lapisan teks sehingga tidak dapat ditelusuri
+dengan pencarian kata. Dalam label: 1, 6, 37, 80, 81, 84, 86, 89, 130, 138, 143, serta 151
+sampai dengan 153.
