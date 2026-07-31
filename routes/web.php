@@ -287,6 +287,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // MonitoringRtp, lihat MonitoringEvaluasiController::rtpGabungan()).
     Route::get('monitoring-evaluasi/8-9', [MonitoringEvaluasiController::class, 'form89'])->name('monitoring-evaluasi.form89');
     Route::post('monitoring-evaluasi/8-9', [MonitoringEvaluasiController::class, 'storeOrUpdate89'])->name('monitoring-evaluasi.form89.store');
+    // Penyelarasan RTP agar tidak duplikatif (Perdep): kemiripan hanya
+    // ditandai, dan pasangan yang sudah diperiksa manusia ditutup lewat sini.
+    Route::post('monitoring-evaluasi/kemiripan/abaikan', [MonitoringEvaluasiController::class, 'abaikanKemiripan'])->name('monitoring-evaluasi.kemiripan.abaikan');
     Route::get('monitoring-evaluasi/10', [MonitoringEvaluasiController::class, 'form10'])->name('monitoring-evaluasi.form10');
     Route::post('monitoring-evaluasi/10', [MonitoringEvaluasiController::class, 'storeOrUpdate10'])->name('monitoring-evaluasi.form10.store');
 

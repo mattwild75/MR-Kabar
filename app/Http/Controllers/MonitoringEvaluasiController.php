@@ -11,7 +11,9 @@ use App\Models\MonitoringRtp;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
+use App\Models\RtpKemiripanDiabaikan;
 use App\Services\RiskReferenceDataService;
+use App\Services\RtpKemiripanService;
 use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -44,8 +46,10 @@ class MonitoringEvaluasiController extends Controller
         'IV' => 'Triwulan IV (Oktober/November/Desember)',
     ];
 
-    public function __construct(private RiskReferenceDataService $riskRef)
-    {
+    public function __construct(
+        private RiskReferenceDataService $riskRef,
+        private RtpKemiripanService $kemiripan,
+    ) {
     }
 
     private function opdOptions(Request $request)
@@ -266,6 +270,13 @@ class MonitoringEvaluasiController extends Controller
 
         $rtpGabungan = ($opdId || $isAdmin) ? $this->rtpGabungan($opdId, $tahun) : [];
 
+        // Perdep meminta dokumen RTP akhir diselaraskan agar tidak duplikatif:
+        // RTP dari CEE dan RTP dari register risiko bisa merumuskan kebutuhan
+        // pengendalian yang sama, lalu satu pekerjaan dipantau dua kali dan
+        // capaiannya terhitung ganda. Di sini hanya ditandai — lihat
+        // RtpKemiripanService.
+        $rtpGabungan = $this->kemiripan->tandai($rtpGabungan);
+
         // unique(rtp_sumber_tipe, rtp_sumber_id) TANPA tahun_penilaian —
         // satu RTP sumber cuma py SATU baris monitoring sepanjang waktu
         // (kolom tahun_penilaian di MonitoringRtp cuma mencatat tahun submit
@@ -296,6 +307,7 @@ class MonitoringEvaluasiController extends Controller
                 'opd_id' => $rtp['opd_id'],
                 'opd_nama' => $rtp['opd_nama'],
                 'tahun' => $rtp['tahun'],
+                'kemiripan' => $rtp['kemiripan'] ?? [],
                 'monitoring_id' => $monitoring?->id,
                 'media_komunikasi' => $monitoring?->media_komunikasi,
                 'penyedia_informasi' => $monitoring?->penyedia_informasi,
@@ -348,6 +360,49 @@ class MonitoringEvaluasiController extends Controller
                 ->only(['matriksRisiko', 'kriteriaDampak', 'kriteriaKemungkinan'])
                 ->all(),
         ]);
+    }
+
+    /**
+     * Tandai satu pasangan RTP sebagai sudah diperiksa dan memang berbeda,
+     * sehingga lencana kemiripannya tidak muncul lagi.
+     *
+     * Kedua RTP wajib milik OPD yang sama dengan OPD yang boleh diakses
+     * pengguna — tanpa itu, siapa pun yang bisa membuka Monitoring dapat
+     * membungkam peringatan atas RTP OPD lain hanya dengan menebak id-nya.
+     */
+    public function abaikanKemiripan(Request $request)
+    {
+        $data = $request->validate([
+            'opd_id' => ['required', 'integer', 'exists:opd,id'],
+            'tipe_a' => ['required', Rule::in(array_keys(self::RISK_MODELS))],
+            'id_a' => ['required', 'integer'],
+            'tipe_b' => ['required', Rule::in(array_keys(self::RISK_MODELS))],
+            'id_b' => ['required', 'integer'],
+            'alasan' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $opdId = (int) $data['opd_id'];
+        $this->ensureOpdAccess($request, $opdId);
+        $this->ensureSumberBelongsToOpd($data['tipe_a'], (int) $data['id_a'], $opdId);
+        $this->ensureSumberBelongsToOpd($data['tipe_b'], (int) $data['id_b'], $opdId);
+
+        if ($data['tipe_a'] === $data['tipe_b'] && (int) $data['id_a'] === (int) $data['id_b']) {
+            return back()->with('error', 'Kedua RTP yang dirujuk sama, tidak ada yang perlu diperiksa.');
+        }
+
+        [$tipeA, $idA, $tipeB, $idB] = RtpKemiripanDiabaikan::bakukan(
+            $data['tipe_a'],
+            (int) $data['id_a'],
+            $data['tipe_b'],
+            (int) $data['id_b'],
+        );
+
+        RtpKemiripanDiabaikan::updateOrCreate(
+            ['tipe_a' => $tipeA, 'id_a' => $idA, 'tipe_b' => $tipeB, 'id_b' => $idB],
+            ['diabaikan_oleh' => $request->user()->id, 'alasan' => $data['alasan'] ?? null],
+        );
+
+        return back()->with('success', 'Pasangan RTP ditandai sudah diperiksa dan memang berbeda.');
     }
 
     private function monitoringValidationRules(): array

@@ -21,7 +21,7 @@ import {
   ekstrakKategoriKontrol,
   arahReduksiRtp,
 } from '@/lib/irs-reference-data';
-import { Pencil, Grid3x3, Search, X, ChevronUp, ChevronDown } from 'lucide-react';
+import { Pencil, Grid3x3, Search, X, ChevronUp, ChevronDown, TriangleAlert } from 'lucide-react';
 import { toast } from 'sonner';
 import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
 
@@ -30,11 +30,22 @@ interface OpdOption {
   nama: string;
 }
 
+/** Satu RTP lain yang rumusannya mirip dengan baris ini. */
+interface Kemiripan {
+  tipe: 'irs_pemda' | 'irs_pd' | 'iro_pd' | 'cee_rtp';
+  id: number;
+  label: string;
+  konteks: string;
+  /** Kesamaan kata pokok, 0-100. */
+  skor: number;
+}
+
 interface RtpRow {
   rtp_sumber_tipe: 'irs_pemda' | 'irs_pd' | 'iro_pd' | 'cee_rtp';
   rtp_sumber_id: number;
   label: string;
   konteks: string;
+  kemiripan: Kemiripan[];
   opd_id: number | null;
   opd_nama: string | null;
   tahun: number | null;
@@ -123,6 +134,79 @@ const TIPE_LABEL: Record<RtpRow['rtp_sumber_tipe'], string> = {
 // sama sudah/belum diisi.
 const isForm8Filled = (row: RtpRow) => (row.media_komunikasi ?? '').trim() !== '';
 const isForm9Filled = (row: RtpRow) => (row.metode_pemantauan ?? '').trim() !== '';
+
+/**
+ * Peringatan bahwa rumusan RTP ini mirip dengan RTP lain di OPD dan tahun yang
+ * sama — biasanya antara RTP dari CEE dan RTP dari register risiko, yang oleh
+ * Perdep diminta diselaraskan agar tidak duplikatif.
+ *
+ * Hanya memberi tahu; tidak ada yang terkunci. Bila setelah diperiksa keduanya
+ * memang berbeda, tombol di bawah menutup peringatannya untuk selamanya
+ * supaya tidak menjadi bising di kunjungan berikutnya.
+ */
+function PanelKemiripan({ row }: { row: RtpRow }) {
+  const [memproses, setMemproses] = useState<string | null>(null);
+
+  const abaikan = (m: Kemiripan) => {
+    if (row.opd_id === null) {
+      toast.error('OPD baris ini tidak diketahui, penandaan tidak dapat disimpan.');
+      return;
+    }
+    const kunci = `${m.tipe}:${m.id}`;
+    setMemproses(kunci);
+    router.post(
+      '/monitoring-evaluasi/kemiripan/abaikan',
+      {
+        opd_id: row.opd_id,
+        tipe_a: row.rtp_sumber_tipe,
+        id_a: row.rtp_sumber_id,
+        tipe_b: m.tipe,
+        id_b: m.id,
+      },
+      {
+        preserveScroll: true,
+        onSuccess: () => toast.success('Ditandai sudah diperiksa — peringatan ini tidak akan muncul lagi.'),
+        onError: () => toast.error('Gagal menyimpan penandaan.'),
+        onFinish: () => setMemproses(null),
+      },
+    );
+  };
+
+  return (
+    <div className="mt-2 rounded-md border border-amber-500/60 bg-amber-50 p-2.5 text-xs dark:bg-amber-950/30">
+      <p className="flex items-center gap-1.5 font-medium text-amber-900 dark:text-amber-200">
+        <TriangleAlert className="h-3.5 w-3.5" />
+        Mirip dengan {row.kemiripan.length} RTP lain di OPD dan tahun yang sama
+      </p>
+      <p className="mt-1 text-amber-800 dark:text-amber-300">
+        Perdep meminta RTP diselaraskan agar tidak duplikatif. Periksa apakah keduanya memang pekerjaan
+        yang berbeda &mdash; kalau sama, cukup pantau salah satunya supaya capaiannya tidak terhitung dua kali.
+      </p>
+      <ul className="mt-2 space-y-2">
+        {row.kemiripan.map((m) => (
+          <li key={`${m.tipe}:${m.id}`} className="rounded border border-amber-500/40 bg-background/60 p-2">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Badge variant="outline">{TIPE_LABEL[m.tipe]}</Badge>
+              <span className="text-muted-foreground">{m.skor}% kata pokoknya sama</span>
+            </div>
+            <p className="mt-1 font-medium">{m.label}</p>
+            <p className="text-muted-foreground">{m.konteks}</p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-2 h-7"
+              disabled={memproses === `${m.tipe}:${m.id}`}
+              onClick={() => abaikan(m)}
+            >
+              Sudah saya periksa, memang berbeda
+            </Button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 function RtpRowCard({
   row,
@@ -222,6 +306,7 @@ function RtpRowCard({
             <p className="text-xs text-muted-foreground">
               <HighlightText text={row.konteks} query={activeQuery} />
             </p>
+            {row.kemiripan.length > 0 && <PanelKemiripan row={row} />}
           </div>
           <div className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
             <Badge className={form8Filled ? 'bg-green-600 hover:bg-green-600' : 'bg-transparent text-muted-foreground'} variant={form8Filled ? 'default' : 'outline'}>
