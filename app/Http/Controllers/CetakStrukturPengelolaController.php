@@ -7,6 +7,7 @@ use App\Models\PengaturanPemda;
 use App\Models\StrukturPengelolaRisiko;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 /**
@@ -53,6 +54,8 @@ class CetakStrukturPengelolaController extends Controller
                 'id' => $r->id,
                 'peran' => $r->peran,
                 'peran_label' => $r->peranLabel(),
+                'kedudukan' => $r->kedudukan,
+                'kedudukan_label' => $r->kedudukanLabel(),
                 'nama' => $r->nama,
                 'jabatan' => $r->jabatan,
                 'opd_id' => $r->opd_id,
@@ -75,6 +78,7 @@ class CetakStrukturPengelolaController extends Controller
                 ->all(),
             'rows' => $baris,
             'peranOptions' => StrukturPengelolaRisiko::PERAN_LABEL,
+            'kedudukanOptions' => StrukturPengelolaRisiko::KEDUDUKAN_LABEL,
             'opdOptions' => Opd::orderBy('nama')->get(['id', 'nama']),
             'canEdit' => (bool) $request->user()?->canViewAllOpd(),
             'pemerintahKabkota' => PengaturanPemda::current()->pemerintah_kabkota
@@ -87,6 +91,7 @@ class CetakStrukturPengelolaController extends Controller
         return [
             'tahun' => ['required', 'integer', 'digits:4', 'min:2000', 'max:2100'],
             'peran' => ['required', 'string', 'max:60'],
+            'kedudukan' => ['nullable', Rule::in(array_keys(StrukturPengelolaRisiko::KEDUDUKAN_LABEL))],
             'nama' => ['nullable', 'string', 'max:255'],
             'jabatan' => ['nullable', 'string', 'max:255'],
             'opd_id' => ['nullable', 'integer', 'exists:opd,id'],
@@ -158,6 +163,7 @@ class CetakStrukturPengelolaController extends Controller
             StrukturPengelolaRisiko::create([
                 'tahun' => $data['tahun_tujuan'],
                 'peran' => $r->peran,
+                'kedudukan' => $r->kedudukan,
                 'nama' => $r->nama,
                 'jabatan' => $r->jabatan,
                 'opd_id' => $r->opd_id,

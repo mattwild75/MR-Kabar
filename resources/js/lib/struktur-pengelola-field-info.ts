@@ -12,6 +12,14 @@ Cara mengisi: pilih peran baku yang tersedia. Perdep menyebut susunannya sebagai
 
 Contoh: Koordinator Penyelenggaraan Pengelolaan Risiko untuk Sekretaris Daerah; Penanggung Jawab Pengawasan untuk Inspektur.`,
 
+  kedudukan: `Definisi: Kedudukan seseorang DI DALAM satu peran — Ketua, Koordinator merangkap anggota, atau Anggota.
+
+Fungsi: Perdep PPKD 4/2019 Lampiran 2 menyebut Unit Pemilik Risiko dan Komite Pengelolaan Risiko sebagai TIM, bukan jabatan tunggal. Contohnya Unit Pemilik Risiko Tingkat Pemerintah Daerah: Bupati sebagai ketua, Kepala Bappeda sebagai koordinator merangkap anggota, dan seluruh Kepala Perangkat Daerah sebagai anggota. Kedudukan inilah yang membuat bagan struktur menampilkan tim lengkap, bukan satu kotak untuk seluruh tingkatan.
+
+Cara mengisi: pilih "Tanpa kedudukan" untuk peran yang memang dipangku satu orang — Koordinator Penyelenggaraan, Unit Kepatuhan, dan Penanggung Jawab Pengawasan. Untuk Unit Pemilik Risiko dan Komite, tambahkan satu baris untuk tiap kedudukan.
+
+Catatan yang mudah terlewat: Komite Pengelolaan Risiko DIKETUAI Bupati sendiri, bukan pejabat lain — dan Kepala Bappeda memegang kedudukan koordinator di dua tempat sekaligus, yaitu pada Unit Pemilik Risiko Tingkat Pemerintah Daerah dan pada Komite.`,
+
   jabatan: `Definisi: Jabatan yang memangku peran ini.
 
 Fungsi: Menjadi isi kolom Pejabat pada naskah cetak, dan bertahan meski pejabatnya berganti.

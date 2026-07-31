@@ -29,6 +29,8 @@ interface Baris {
   id: number;
   peran: string;
   peran_label: string;
+  kedudukan: string | null;
+  kedudukan_label: string | null;
   nama: string | null;
   jabatan: string | null;
   opd_id: number | null;
@@ -42,6 +44,7 @@ interface PageProps {
   tahunOptions: number[];
   rows: Baris[];
   peranOptions: Record<string, string>;
+  kedudukanOptions: Record<string, string>;
   opdOptions: { id: number; nama: string }[];
   canEdit: boolean;
   pemerintahKabkota: string;
@@ -60,6 +63,7 @@ export default function StrukturPengelola({
   tahunOptions,
   rows,
   peranOptions,
+  kedudukanOptions,
   opdOptions,
   canEdit,
   pemerintahKabkota,
@@ -67,6 +71,7 @@ export default function StrukturPengelola({
   const kosong: Record<string, string | number> = {
     tahun,
     peran: 'upr_pemda',
+    kedudukan: '',
     nama: '',
     jabatan: '',
     opd_id: '',
@@ -89,6 +94,7 @@ export default function StrukturPengelola({
     setForm({
       tahun,
       peran: row.peran,
+      kedudukan: row.kedudukan ?? '',
       nama: row.nama ?? '',
       jabatan: row.jabatan ?? '',
       opd_id: row.opd_id ?? '',
@@ -238,6 +244,9 @@ export default function StrukturPengelola({
                     <td className="border border-black p-1 text-center align-top">{i + 1}</td>
                     <td className="border border-black p-1 align-top font-medium">
                       {r.peran_label}
+                      {r.kedudukan_label && (
+                        <span className="block font-normal italic">{r.kedudukan_label}</span>
+                      )}
                       {r.opd_nama && <span className="block font-normal">{r.opd_nama}</span>}
                     </td>
                     <td className="border border-black p-1 align-top">
@@ -312,6 +321,28 @@ export default function StrukturPengelola({
                 </SelectTrigger>
                 <SelectContent>
                   {Object.entries(peranOptions).map(([k, v]) => (
+                    <SelectItem key={k} value={k}>
+                      {v}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5">
+                <Label>Kedudukan dalam Tim</Label>
+                <FieldInfoPopover text={STRUKTUR_FIELD_INFO.kedudukan} />
+              </div>
+              <Select
+                value={form.kedudukan === '' ? 'tunggal' : String(form.kedudukan)}
+                onValueChange={(v) => setForm((f) => ({ ...f, kedudukan: v === 'tunggal' ? '' : v }))}
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="tunggal">Tanpa kedudukan (peran dipangku satu orang)</SelectItem>
+                  {Object.entries(kedudukanOptions).map(([k, v]) => (
                     <SelectItem key={k} value={k}>
                       {v}
                     </SelectItem>
