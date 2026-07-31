@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
+import BaganStrukturRisiko from '@/components/ui/bagan-struktur-risiko';
 import { STRUKTUR_FIELD_INFO } from '@/lib/struktur-pengelola-field-info';
 import { Plus, Edit, Trash2, Save, Copy } from 'lucide-react';
 import { toast } from 'sonner';
@@ -284,6 +285,12 @@ export default function StrukturPengelola({
                 ))}
               </tbody>
             </table>
+
+            {/* Bagan dibaca dari baris yang sama dengan tabel di atas, jadi
+                menyunting tabel langsung mengubah bagannya — tidak ada dua
+                tempat yang bisa berbeda isi. Berada di dalam kertas cetak
+                supaya ikut terpotret saat diunduh sebagai PDF. */}
+            <BaganStrukturRisiko rows={rows} />
           </div>
         )}
       </div>
