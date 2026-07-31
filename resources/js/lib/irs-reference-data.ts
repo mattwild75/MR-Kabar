@@ -178,6 +178,30 @@ export const RESPON_RISIKO_KATEGORI = ['Avoid', 'Abate', 'Mitigate', 'Share/Tran
 // yang dimaksud sebenarnya CE (0.6).
 export const KATEGORI_EXISTING_CONTROL_OPTIONS = KATEGORI_EFEKTIVITAS_OPTIONS;
 
+/**
+ * Celah pengendalian baku menurut Perdep PPKD 4/2019.
+ *
+ * Butir a sampai d disalin dari daftar "Pengendalian dinyatakan tidak efektif
+ * antara lain jika" pada Perdep halaman berlabel 66; butir e dari contoh celah
+ * pengendalian pada halaman berlabel 67, yang memuat keempat butir itu
+ * ditambah satu keadaan lagi. Ejaan disesuaikan ("diatasnya" menjadi "di
+ * atasnya"), isinya tidak diubah.
+ *
+ * Ditampilkan saat KATEGORI EXISTING CONTROL bernilai TE atau KE, sebab
+ * keduanya sama-sama menuntut celahnya disebutkan. Butir e adalah penanda khas
+ * Kurang Efektif: pengendaliannya berjalan, tetapi belum menutup seluruhnya.
+ */
+export const CELAH_PENGENDALIAN_KRITERIA = [
+  { kode: 'a', teks: 'Kebijakan dan prosedur pengendalian sudah dilakukan, namun belum mampu menangani risiko yang teridentifikasi' },
+  { kode: 'b', teks: 'Prosedur pengendalian belum dilaksanakan' },
+  { kode: 'c', teks: 'Kebijakan belum diikuti dengan prosedur baku yang jelas' },
+  { kode: 'd', teks: 'Kebijakan dan prosedur yang ada tidak sesuai dengan peraturan di atasnya' },
+  { kode: 'e', teks: 'Pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul' },
+] as const;
+
+/** Kategori efektivitas yang mewajibkan celah pengendalian disebutkan. */
+export const KATEGORI_WAJIB_CELAH = ['TE', 'KE'] as const;
+
 // ENTITAS_PENILAI_OPTIONS, KRITERIA_DAMPAK, KRITERIA_KEMUNGKINAN, dan
 // MATRIKS_RISIKO (hardcode) SUDAH DIHAPUS dari file ini — sumber kebenaran
 // sekarang tabel DB RiskEntitasPenilai/RiskImpactCriteria/

@@ -5,7 +5,8 @@ import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
-import { KATEGORI_EXISTING_CONTROL_OPTIONS } from '@/lib/irs-reference-data';
+import KriteriaCelahPengendalian from '@/components/ui/kriteria-celah-pengendalian';
+import { KATEGORI_EXISTING_CONTROL_OPTIONS, KATEGORI_WAJIB_CELAH } from '@/lib/irs-reference-data';
 
 /**
  * Toggle "Apakah risiko ini sudah memiliki Pengendalian yang Sudah Ada
@@ -85,6 +86,12 @@ export default function ExistingControlToggleSection({
       setData('CELAH PENGENDALIAN', '');
     }
   };
+
+  // Kategori efektivitas disimpan sebagai "TE (uraian)" oleh
+  // CategorizedTextarea, jadi kodenya diambil dari kata pertama.
+  const kategoriEfektivitas = ((data['KATEGORI EXISTING CONTROL'] ?? '').trim().split(/[\s(]/)[0] ?? '')
+    .toUpperCase();
+  const wajibSebutCelah = (KATEGORI_WAJIB_CELAH as readonly string[]).includes(kategoriEfektivitas);
 
   const uraianTerisi =
     (data['URAIAN PENGENDALIAN YANG SUDAH ADA'] ?? '').trim() !== '' &&
@@ -186,13 +193,25 @@ export default function ExistingControlToggleSection({
               <Label htmlFor="CELAH PENGENDALIAN">CELAH PENGENDALIAN</Label>
               {info['CELAH PENGENDALIAN'] && <FieldInfoPopover text={info['CELAH PENGENDALIAN']} />}
             </div>
-            <AutocompleteTextarea
-              id="CELAH PENGENDALIAN"
-              value={data['CELAH PENGENDALIAN']}
-              onChange={(val) => setData('CELAH PENGENDALIAN', val)}
-              options={fieldOptions['CELAH PENGENDALIAN'] ?? []}
-              rows={2}
-            />
+            {/* TE dan KE sama-sama berarti pengendaliannya belum menutup
+                risiko, jadi celahnya dituntun lewat kriteria baku Perdep.
+                Untuk CE dan E — atau selama kategorinya belum dipilih —
+                isiannya tetap bebas seperti semula. */}
+            {wajibSebutCelah ? (
+              <KriteriaCelahPengendalian
+                value={data['CELAH PENGENDALIAN'] ?? ''}
+                onChange={(val) => setData('CELAH PENGENDALIAN', val)}
+                kategori={kategoriEfektivitas}
+              />
+            ) : (
+              <AutocompleteTextarea
+                id="CELAH PENGENDALIAN"
+                value={data['CELAH PENGENDALIAN']}
+                onChange={(val) => setData('CELAH PENGENDALIAN', val)}
+                options={fieldOptions['CELAH PENGENDALIAN'] ?? []}
+                rows={2}
+              />
+            )}
             {errors['CELAH PENGENDALIAN'] && <p className="text-sm text-destructive">{errors['CELAH PENGENDALIAN']}</p>}
           </div>
         </div>
