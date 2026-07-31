@@ -40,6 +40,10 @@ class RiskEvidenceController extends Controller
         'iro_pd' => IroPd::class,
         'monitoring_rtp_komunikasi' => MonitoringRtp::class,
         'monitoring_rtp_pemantauan' => MonitoringRtp::class,
+        // Uji coba penerapan pengendalian (Perdep halaman berlabel 76, langkah
+        // ke-4) — sub-tipe ketiga pada baris MonitoringRtp yang sama, dipisah
+        // slug supaya buktinya tidak tercampur dengan bukti Form 8/Form 9.
+        'monitoring_rtp_uji_coba' => MonitoringRtp::class,
     ];
 
     /** MonitoringRtp py kepemilikan lewat opd_id (bukan user_id spt IRS/IRO) — sama pola ensureOpdAccess() di MonitoringEvaluasiController. */

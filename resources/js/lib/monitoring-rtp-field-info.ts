@@ -82,6 +82,14 @@ Cara mengisi: kosongkan dulu bila belum terlaksana — isi setelah pemantauan be
 
 Contoh: "Juni 2019", "Oktober, November, Desember 2019"`,
 
+  uji_coba: `Definisi: Percobaan menerapkan pengendalian yang baru dibangun, sebelum ditetapkan berlaku penuh. Informasi tambahan di luar format baku Lampiran 5 Form 9 (tidak dicetak di kolom a-g resmi).
+
+Fungsi: Perdep PPKD 4/2019 merinci enam langkah membangun infrastruktur pengendalian. Langkah ke-4 "Melakukan uji coba penerapan pengendalian", langkah ke-5 "Menyempurnakan rancangan infrastruktur pengendalian berdasarkan hasil pelaksanaan uji coba", baru langkah ke-6 "Menetapkan penerapan infrastruktur pengendalian". Jadi hasil uji coba adalah dasar penyempurnaan, bukan sekadar catatan bahwa sesuatu sudah dicoba.
+
+Cara mengisi: pilih triwulan dan tahun saat uji coba dijalankan, lalu uraikan temuannya — bagian mana yang berjalan, bagian mana yang perlu diperbaiki sebelum diberlakukan. Unggah bukti berupa dokumen atau foto pelaksanaannya.
+
+Contoh: "Triwulan II 2026 — prosedur verifikasi diuji pada tiga kecamatan. Alur berjalan, tetapi formulir isian terlalu panjang sehingga petugas melewatkan kolom penerima. Kolom disederhanakan sebelum diberlakukan."`,
+
   keterangan_pemantauan: `Definisi: Catatan tambahan seputar hasil pemantauan RTP ini — kolom (g) Form 9, opsional.
 
 Fungsi: Memberi konteks hasil pemantauan yang tidak tertampung di kolom lain — mis. apakah pemantauan sudah didokumentasikan/didistribusikan ke pihak terkait.

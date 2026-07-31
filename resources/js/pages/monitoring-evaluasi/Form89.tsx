@@ -21,7 +21,7 @@ import {
   ekstrakKategoriKontrol,
   arahReduksiRtp,
 } from '@/lib/irs-reference-data';
-import { Pencil, Grid3x3, Search, X, ChevronUp, ChevronDown, TriangleAlert } from 'lucide-react';
+import { Pencil, Grid3x3, Search, X, ChevronUp, ChevronDown, TriangleAlert, FlaskConical } from 'lucide-react';
 import { toast } from 'sonner';
 import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
 
@@ -61,6 +61,9 @@ interface RtpRow {
   penanggung_jawab_pemantauan: string | null;
   triwulan_rencana_pemantauan: string | null;
   tahun_rencana_pemantauan: number | null;
+  uji_coba_triwulan: string | null;
+  uji_coba_tahun: number | null;
+  uji_coba_hasil: string | null;
   realisasi_waktu_pemantauan: string | null;
   keterangan_pemantauan: string | null;
   skala_dampak: number | null;
@@ -249,6 +252,9 @@ function RtpRowCard({
     metode_pemantauan: row.metode_pemantauan ?? '',
     penanggung_jawab_pemantauan: row.penanggung_jawab_pemantauan ?? '',
     triwulan_rencana_pemantauan: row.triwulan_rencana_pemantauan ?? '',
+    uji_coba_triwulan: row.uji_coba_triwulan ?? '',
+    uji_coba_tahun: row.uji_coba_tahun ? String(row.uji_coba_tahun) : '',
+    uji_coba_hasil: row.uji_coba_hasil ?? '',
     tahun_rencana_pemantauan: row.tahun_rencana_pemantauan ? String(row.tahun_rencana_pemantauan) : '',
     realisasi_waktu_pemantauan: row.realisasi_waktu_pemantauan ?? '',
     keterangan_pemantauan: row.keterangan_pemantauan ?? '',
@@ -434,6 +440,56 @@ function RtpRowCard({
                   <Input type="number" value={form.tahun_rencana_pemantauan} onChange={(e) => setField('tahun_rencana_pemantauan', e.target.value)} placeholder="mis. 2026" />
                 </div>
               </div>
+
+              {/* Uji coba penerapan pengendalian — langkah ke-4 dari enam
+                  langkah membangun infrastruktur pengendalian (Perdep halaman
+                  berlabel 76). Diletakkan sebelum Realisasi karena memang
+                  terjadi lebih dulu: hasilnya dipakai menyempurnakan rancangan
+                  pada langkah ke-5, sebelum pengendalian ditetapkan berlaku. */}
+              <div className="space-y-3 rounded-md border border-dashed p-3">
+                <div className="flex items-center gap-1.5">
+                  <FlaskConical className="text-muted-foreground h-4 w-4" />
+                  <p className="text-xs font-semibold tracking-wide uppercase">Uji Coba Penerapan Pengendalian</p>
+                  <FieldInfoPopover text={MONITORING_RTP_FIELD_INFO.uji_coba} />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="space-y-1">
+                    <Label>Uji Coba — Triwulan</Label>
+                    <Select value={form.uji_coba_triwulan || undefined} onValueChange={(v) => setField('uji_coba_triwulan', v)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Pilih Triwulan" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {triwulanOptions.map((k) => (
+                          <SelectItem key={k} value={k}>
+                            {triwulanLabels[k] ?? k}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1">
+                    <Label>Uji Coba — Tahun</Label>
+                    <Input type="number" value={form.uji_coba_tahun} onChange={(e) => setField('uji_coba_tahun', e.target.value)} placeholder="mis. 2026" />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <Label>Hasil Uji Coba</Label>
+                  <Textarea
+                    rows={2}
+                    value={form.uji_coba_hasil}
+                    onChange={(e) => setField('uji_coba_hasil', e.target.value)}
+                    placeholder="Apa yang ditemukan saat diuji, dan bagian rancangan mana yang perlu disempurnakan."
+                  />
+                </div>
+                {/* Bukti baru dapat diunggah setelah barisnya tersimpan, sebab
+                    berkas ditempelkan pada baris monitoring — sama seperti
+                    bukti Form 8 dan Form 9. */}
+                {(form.uji_coba_triwulan !== '' || form.uji_coba_hasil.trim() !== '') && (
+                  <RiskEvidenceUploader type="monitoring_rtp_uji_coba" rowId={row.monitoring_id} />
+                )}
+              </div>
+
               <div className="space-y-1">
                 <div className="flex items-center gap-1.5">
                   <Label>Realisasi Waktu Pelaksanaan</Label>

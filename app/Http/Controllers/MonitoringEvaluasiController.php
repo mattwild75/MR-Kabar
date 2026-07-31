@@ -320,6 +320,9 @@ class MonitoringEvaluasiController extends Controller
                 'penanggung_jawab_pemantauan' => $monitoring?->penanggung_jawab_pemantauan,
                 'triwulan_rencana_pemantauan' => $monitoring?->triwulan_rencana_pemantauan,
                 'tahun_rencana_pemantauan' => $monitoring?->tahun_rencana_pemantauan,
+                'uji_coba_triwulan' => $monitoring?->uji_coba_triwulan,
+                'uji_coba_tahun' => $monitoring?->uji_coba_tahun,
+                'uji_coba_hasil' => $monitoring?->uji_coba_hasil,
                 'realisasi_waktu_pemantauan' => $monitoring?->realisasi_waktu_pemantauan,
                 'keterangan_pemantauan' => $monitoring?->keterangan_pemantauan,
                 // Basis hitung Skala Aktual — arah reduksi (K/D) ditentukan
@@ -423,6 +426,13 @@ class MonitoringEvaluasiController extends Controller
             'penanggung_jawab_pemantauan' => ['nullable', 'string', 'max:255'],
             'triwulan_rencana_pemantauan' => ['nullable', Rule::in(self::TRIWULAN_OPTIONS)],
             'tahun_rencana_pemantauan' => ['nullable', 'integer', 'digits:4'],
+            // Uji coba penerapan pengendalian — langkah ke-4 dari enam langkah
+            // membangun infrastruktur pengendalian pada Perdep halaman
+            // berlabel 76. Hasilnya menjadi dasar langkah ke-5, menyempurnakan
+            // rancangan sebelum pengendalian ditetapkan berlaku.
+            'uji_coba_triwulan' => ['nullable', Rule::in(self::TRIWULAN_OPTIONS)],
+            'uji_coba_tahun' => ['nullable', 'integer', 'digits:4'],
+            'uji_coba_hasil' => ['nullable', 'string'],
             'realisasi_waktu_pemantauan' => ['nullable', 'string', 'max:255'],
             'keterangan_pemantauan' => ['nullable', 'string'],
             // Skala Aktual (hasil re-assessment risiko saat monitoring) —
@@ -534,6 +544,9 @@ class MonitoringEvaluasiController extends Controller
                 'penanggung_jawab_pemantauan' => $data['penanggung_jawab_pemantauan'] ?? null,
                 'triwulan_rencana_pemantauan' => $data['triwulan_rencana_pemantauan'] ?? null,
                 'tahun_rencana_pemantauan' => $data['tahun_rencana_pemantauan'] ?? null,
+                'uji_coba_triwulan' => $data['uji_coba_triwulan'] ?? null,
+                'uji_coba_tahun' => $data['uji_coba_tahun'] ?? null,
+                'uji_coba_hasil' => $data['uji_coba_hasil'] ?? null,
                 'realisasi_waktu_pemantauan' => $data['realisasi_waktu_pemantauan'] ?? null,
                 'keterangan_pemantauan' => $data['keterangan_pemantauan'] ?? null,
                 'kategori_existing_control_aktual' => $data['kategori_existing_control_aktual'] ?? null,
