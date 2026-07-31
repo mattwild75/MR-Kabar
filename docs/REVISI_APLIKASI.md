@@ -154,6 +154,56 @@ Cetak 1c.
 Simpulan, Penjelasan, Penyusun, dan Jabatan Penyusun. Dua kolom sumber perlu
 ditambahkan bersamaan dengan perubahan aplikasinya.
 
+### A10. Dokumen Kebijakan Pengelolaan Risiko
+
+**Keadaan sekarang.** Tidak ada. Aplikasi menyimpan hasil penilaian Risiko, tetapi
+tidak menyimpan dokumen kebijakan yang menjadi payungnya.
+
+**Perintah Perdep.** Lampiran 1 Perdep memuat contoh utuh Kebijakan Pengelolaan Risiko
+yang ditetapkan dengan Peraturan Kepala Daerah — memuat asas, ruang lingkup, struktur,
+kriteria penilaian, sampai jadwal penyelenggaraan. Rancangan Perbup kita sesungguhnya
+sudah menjadi dokumen itu; yang belum ada adalah tempatnya di aplikasi sebagai rujukan
+yang dapat dibuka Pengguna.
+
+**Yang perlu dibangun.** Modul dokumen kebijakan: unggah atau rekam naskah kebijakan
+yang berlaku beserta tahun berlakunya, lalu tautkan dari setiap formulir sebagai dasar
+pengisian.
+
+**Rujukan Perdep.** PDF halaman 121 sampai dengan 134.
+
+### A11. Arahan dan Kebijakan Penilaian Risiko 5 Tahunan dan 1 Tahunan
+
+**Keadaan sekarang.** Tidak ada. Penilaian Risiko di aplikasi dimulai kapan saja tanpa
+pemicu resmi.
+
+**Perintah Perdep.** Lampiran 3 dan Lampiran 4 Perdep memuat contoh Surat Edaran Kepala
+Daerah berisi arahan penilaian Risiko — 5 tahunan mengikuti periode RPJMD, dan 1 tahunan
+mengikuti siklus anggaran. Isinya menetapkan SKPK dan urusan mana yang dinilai tahun itu,
+siapa pelaksananya, dan **tanggal mulai serta selesai tiap tahapan**. Contoh 1 tahunan
+menyebut tanggal konkret, misalnya penilaian Risiko operasional SKPK dilakukan 3 sampai
+14 Oktober setelah RKA disusun.
+
+**Yang perlu dibangun.** Modul arahan penilaian per tahun: SKPK dan urusan yang ditunjuk,
+tahapan beserta tenggatnya. Ini **sumber data bagi butir A1** — jadwal tidak perlu
+dikarang, melainkan direkam dari arahan yang ditetapkan Bupati tiap tahun.
+
+**Rujukan Perdep.** PDF halaman 137 sampai dengan 141.
+
+### A12. Selera Risiko sebagai data
+
+**Keadaan sekarang.** Tidak ada field-nya. Kata "selera risiko" hanya muncul pada materi
+video panduan. Penetapan Risiko Prioritas di aplikasi memakai ambang tetap.
+
+**Perintah Perdep.** Penetapan area yang menjadi Risiko Prioritas **dipengaruhi selera
+Risiko atau preferensi manajemen pemerintah daerah**. Perdep juga menyebut sisa Risiko
+harus dibawa ke tingkat yang berada dalam selera Risiko manajemen.
+
+**Yang perlu dibangun.** Selera Risiko sebagai data acuan per tahun penilaian —
+sekurangnya ambang Skala Risiko yang masih dapat diterima — lalu dipakai sebagai dasar
+penandaan Risiko Prioritas, menggantikan ambang tetap.
+
+**Rujukan Perdep.** PDF halaman 42 dan 43.
+
 ---
 
 ## B. Revisi atas yang sudah ada
@@ -207,16 +257,19 @@ Supaya tidak ada yang membangun ulang hal yang sudah ada:
 
 ## D. Urutan pengerjaan yang disarankan
 
-1. **A2** dan **A4** — ringan, langsung memperbaiki mutu data yang sedang diisi.
+1. **A2**, **A4**, dan **A12** — ringan, langsung memperbaiki mutu data yang sedang
+   diisi.
 2. **A3** — ringan, mencegah pekerjaan ganda sebelum data pemantauan membesar.
 3. **A9** — penyajian dua sumber pada CEE 1c. Dikerjakan sebelum B1 supaya SKPK
    percontohan langsung mengisi bentuk yang benar, bukan mengisi ulang nanti.
 4. **B1** — pengisian percontohan CEE dan Monitoring RTP. Wajib sebelum Perbup
    ditetapkan.
-5. **A1** — jadwal penyelenggaraan. Berat, tetapi menjadi tulang punggung
+5. **A11** lalu **A1** — arahan penilaian per tahun menjadi sumber data jadwal,
+   sehingga dikerjakan lebih dulu. Berat, tetapi menjadi tulang punggung
    pengawasan dan menjadi prasyarat Lampiran jadwal pada Perbup.
 6. **A8** — dasbor kepatuhan, menumpang data jadwal dari A1.
-7. **A5** dan **A6** — struktur pengelola dan laporan Komite.
+7. **A5**, **A6**, dan **A10** — struktur pengelola, laporan Komite, dan dokumen
+   kebijakan.
 8. **B2** — keputusan penamaan peran, dikerjakan sekali sebelum go-live.
 9. **A7** — kematangan SPIP, hanya setelah diputuskan memang di dalam aplikasi.
 
@@ -237,3 +290,33 @@ menyusul dan diatur pada perubahan Perbup berikutnya.
 
 Berkas terkait: [PERBUP_CATATAN_PEMBARUAN.md](PERBUP_CATATAN_PEMBARUAN.md) dan
 [ROADMAP_MRPN.md](ROADMAP_MRPN.md).
+
+---
+
+## F. Rujukan halaman Perdep
+
+Nomor yang dipakai adalah **nomor halaman berkas PDF** — yang diketik pada kotak
+halaman pembaca PDF. Nomor cetak pada naskahnya tidak dipakai karena setiap lampiran
+memulai penomorannya sendiri dari 1, sehingga menyesatkan.
+
+Berkas: `Perdep PPKD No 04 2019 ttg Pedoman Pengelolaan Risiko Pada Pemerintah Daerah
+(060520)  (1).pdf`, 173 halaman, di Desktop\MR Kabar.
+
+| Butir | Pokok | PDF halaman |
+|---|---|---|
+| A1 | Jadwal, tabel waktu dan tahapan berikut pelaksananya | 122&ndash;134, tabel utama 124 |
+| A2 | Kriteria pengendalian dinyatakan tidak efektif | 86 |
+| A3 | Menyelaraskan RTP agar tidak duplikatif | 94 |
+| A4 | Uji coba penerapan pengendalian, langkah 4 dari 6 | 96 |
+| A5 | Contoh Keputusan Kepala Daerah tentang struktur | 135&ndash;136 |
+| A6 | Tugas Komite membuat laporan triwulanan dan tahunan | 115 |
+| A7 | Maturitas SPIP | 124 |
+| A8 | Budaya Risiko, dan Unit Kepatuhan selaku lini kedua | 32&ndash;33, 44&ndash;51 |
+| A9 | Form 1.c, simpulan dari reviu dokumen dan survei persepsi | 145 |
+| A10 | Contoh Kebijakan Pengelolaan Risiko | 121&ndash;134 |
+| A11 | Arahan dan Kebijakan Penilaian Risiko 5 Tahunan dan 1 Tahunan | 137&ndash;141 |
+| A12 | Selera Risiko sebagai dasar penetapan Risiko Prioritas | 42&ndash;43 |
+
+Catatan: 14 halaman pada berkas itu berupa pindaian tanpa lapisan teks, sehingga tidak
+dapat dicari dengan penelusuran kata. Halaman tersebut adalah 1, 26, 57, 100, 101, 104,
+106, 109, 150, 158, 163, dan 171 sampai dengan 173.
