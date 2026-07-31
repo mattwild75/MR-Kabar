@@ -223,14 +223,36 @@ class CeeContoh2025Seeder extends Seeder
             $adaKelemahan = collect($skenario['kelemahan'])->contains('unsur', $kode);
             $simpulanAkhir = ($rataRata >= 2.5 && !$adaKelemahan) ? 'Memadai' : 'Kurang Memadai';
 
-            $penjelasan = $adaKelemahan
-                ? collect($skenario['kelemahan'])->firstWhere('unsur', $kode)['uraian']
-                : ($simpulanAkhir === 'Memadai' ? 'Kondisi sub unsur ini telah memadai berdasarkan hasil survei persepsi dan tidak ditemukan kelemahan berdasarkan reviu dokumen.' : null);
+            // Dua sumber simpulan menurut Lampiran 5 Form 1.c: hasil reviu
+            // dokumen (ada tidaknya kelemahan pada 1b) dan hasil survei
+            // persepsi (modus jawaban 1a, di sini diwakili rata-ratanya).
+            $hasilDokumen = $adaKelemahan ? 'Kurang Memadai' : 'Memadai';
+            $hasilSurvei = $rataRata >= 2.5 ? 'Memadai' : 'Kurang Memadai';
+            $bertentangan = $hasilSurvei !== $hasilDokumen;
+
+            // Perdep kolom (g): bila kedua sumber bertentangan, simpulannya
+            // ditarik lewat pendalaman atau professional judgement — dan
+            // pertimbangan itu WAJIB tertulis. Tanpa ini, baris hasil seeder
+            // akan ditolak formnya sendiri begitu disimpan ulang.
+            if ($bertentangan) {
+                $penjelasan = 'Hasil reviu dokumen (' . $hasilDokumen . ') dan hasil survei persepsi ('
+                    . $hasilSurvei . ') pada sub unsur ini bertentangan. Setelah dilakukan pendalaman melalui '
+                    . 'konfirmasi kepada pengelola sub unsur, disimpulkan ' . $simpulanAkhir
+                    . ' karena bukti pelaksanaan yang ditemukan belum sejalan dengan persepsi responden.';
+            } elseif ($adaKelemahan) {
+                $penjelasan = collect($skenario['kelemahan'])->firstWhere('unsur', $kode)['uraian'];
+            } else {
+                $penjelasan = 'Kondisi sub unsur ini telah memadai berdasarkan hasil survei persepsi dan tidak ditemukan kelemahan berdasarkan reviu dokumen.';
+            }
 
             CeeSimpulan::create([
                 'opd_id' => $opd->id,
                 'tahun_penilaian' => self::TAHUN,
                 'cee_unsur_id' => $unsur->id,
+                // Kolom (g) Lampiran 5 Form 1.c — keputusan final penyusun.
+                // Sebelumnya dihitung tetapi tidak pernah disimpan, sehingga
+                // Form 1c dan Form Cetak 1c menampilkan simpulan kosong.
+                'simpulan' => $simpulanAkhir,
                 'penjelasan' => $penjelasan,
                 'penyusun_nama' => $skenario['penyusun']['nama'],
                 'penyusun_jabatan' => $skenario['penyusun']['jabatan'],
