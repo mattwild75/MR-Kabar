@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
+use App\Services\VersiSnapshotService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -17,6 +18,10 @@ use ZipArchive;
 
 class BackupController extends Controller
 {
+    public function __construct(private readonly VersiSnapshotService $versi)
+    {
+    }
+
     /**
      * Lapis kedua di luar permission_name menu — backup database (dump
      * PENUH seluruh tabel termasuk hash password semua user) dan push kode
@@ -109,6 +114,15 @@ class BackupController extends Controller
 
         $files = File::exists($realPath) ? File::files($realPath) : [];
 
+        // Sidik jari tiap snapshot versi, dipakai mengenali backup harian yang
+        // isinya ternyata sama persis dengan snapshot sebuah versi (memang
+        // demikian tepat setelah "Tandai Versi", karena keduanya berasal dari
+        // satu dump yang sama). Tanpa penandaan ini operator melihat sederet
+        // berkas bertanggal tanpa tahu mana yang bersejarah.
+        $sidikVersi = collect($this->versi->manifes())
+            ->filter(fn($baris) => !empty($baris['sidik_jari']))
+            ->mapWithKeys(fn($baris) => [$baris['sidik_jari'] => $baris['tag']]);
+
         $backups = collect($files)
             ->filter(fn($file) => $file->getExtension() === 'zip')
             ->map(fn($file) => [
@@ -116,6 +130,7 @@ class BackupController extends Controller
                 'size' => $file->getSize(),
                 'last_modified' => $file->getMTime(),
                 'download_url' => route('backup.download', ['file' => $file->getFilename()]),
+                'versi' => $sidikVersi->get(hash_file('sha256', $file->getPathname())),
             ])
             ->sortByDesc('last_modified')
             ->values();
@@ -126,7 +141,41 @@ class BackupController extends Controller
             'gitSyncEnabled' => (bool) SettingApp::cached()?->git_sync_enabled,
             'gitTags' => $this->listGitTags(),
             'penjadwal' => $this->statusPenjadwal(),
+            'versi' => $this->daftarVersi(),
+            'commitSekarang' => $this->versi->commitSekarang(),
         ]);
+    }
+
+    /**
+     * Daftar versi yang punya snapshot database, digabung dengan tag git yang
+     * ada di repo tetapi BELUM punya snapshot. Tag tanpa snapshot sengaja
+     * tetap ditampilkan dan diberi tanda — itulah tag lama yang dibuat sebelum
+     * fitur ini ada, dan operator perlu tahu bahwa rollback ke sana hanya akan
+     * memundurkan kode tanpa data yang sepadan.
+     */
+    private function daftarVersi(): array
+    {
+        $manifes = collect($this->versi->manifes())->keyBy('tag');
+
+        return collect($this->listGitTags())
+            ->map(function (string $tag) use ($manifes) {
+                $catatan = $manifes->get($tag);
+
+                return [
+                    'tag' => $tag,
+                    'commit' => $catatan['commit'] ?? null,
+                    'dibuat' => $catatan['dibuat'] ?? null,
+                    'ukuran' => $catatan['ukuran'] ?? null,
+                    'migrasi_terakhir' => $catatan['migrasi_terakhir'] ?? null,
+                    'jumlah_migrasi' => $catatan['jumlah_migrasi'] ?? null,
+                    'cacah_tabel' => $catatan['cacah_tabel'] ?? null,
+                    'catatan' => $catatan['catatan'] ?? null,
+                    'ada_snapshot' => $this->versi->snapshotAda($tag),
+                    'unduh_url' => route('backup.versi.unduh', ['tag' => $tag]),
+                ];
+            })
+            ->values()
+            ->all();
     }
 
     /**
@@ -318,7 +367,8 @@ class BackupController extends Controller
 
     /**
      * Tarik commit terbaru dari GitHub ke working directory server ini
-     * (kebalikan dari gitPush) — TIDAK menyentuh database sama sekali.
+     * (kebalikan dari gitPush) — didahului backup database, TIDAK mengubah
+     * isi database sendiri.
      * Bukan deploy: cuma menyamakan kode lokal dengan remote HEAD branch
      * yang sedang aktif. Kalau ada perubahan lokal belum di-commit yang
      * konflik dengan pull, git akan menolak & kita tampilkan error apa
@@ -330,8 +380,19 @@ class BackupController extends Controller
         $this->ensureGitSyncEnabled();
 
         return $this->withBackupLock(function () {
+            // Backup dulu, baru tarik. Kode yang masuk dari remote bisa membawa
+            // migrasi yang mengubah skema begitu dijalankan, dan sesudah itu
+            // tidak ada lagi cadangan atas keadaan sebelum penarikan. Sama
+            // prinsipnya dengan urutan di gitPush() dan checkoutTag().
+            try {
+                Artisan::call('backup:run', ['--only-db' => true]);
+                $this->keepOnlyLatestBackup();
+            } catch (\Throwable $e) {
+                return redirect()->back()->with('error', 'Backup database gagal, git pull dibatalkan: ' . $e->getMessage());
+            }
+
             $base = base_path();
-            $result = Process::timeout(120)->run(['git', '-C', $base, 'pull', 'origin', 'HEAD']);
+            $result = Process::timeout(120)->run(['git', '-C', $base, 'pull', '--tags', 'origin', 'HEAD']);
 
             if (!$result->successful()) {
                 return redirect()->back()->with(
@@ -340,7 +401,11 @@ class BackupController extends Controller
                 );
             }
 
-            return redirect()->back()->with('success', 'Kode berhasil ditarik dari GitHub: ' . trim($result->output()));
+            return redirect()->back()->with(
+                'success',
+                'Kode berhasil ditarik dari GitHub: ' . trim($result->output())
+                . ' Backup database sebelum penarikan tersimpan di daftar backup.'
+            );
         });
     }
 
@@ -371,6 +436,7 @@ class BackupController extends Controller
 
         $data = $request->validate([
             'tag' => ['required', 'string', 'max:100'],
+            'pulihkan_database' => ['nullable', 'boolean'],
         ]);
 
         $availableTags = $this->listGitTags();
@@ -396,12 +462,205 @@ class BackupController extends Controller
                 );
             }
 
-            return redirect()->back()->with(
-                'success',
-                'Kode server berhasil dikembalikan ke versi ' . $data['tag'] . '. Backup database sebelum checkout tersimpan di daftar backup. '
-                . 'Jalankan migrasi/rebuild jika perlu menyesuaikan skema database dengan versi kode ini.'
-            );
+            // Kode sudah mundur. Kalau operator memilih memulihkan datanya
+            // sekalian DAN versi itu memang punya snapshot, lakukan sekarang
+            // juga di dalam kunci yang sama — jeda antara "kode sudah versi
+            // lama" dan "database masih versi baru" adalah keadaan yang bisa
+            // membuat aplikasi crash, jadi jangan dibiarkan menganga menunggu
+            // klik berikutnya.
+            $pesan = 'Kode server berhasil dikembalikan ke versi ' . $data['tag'] . '. Backup database sebelum checkout tersimpan di daftar backup.';
+
+            if (!empty($data['pulihkan_database'])) {
+                if (!$this->versi->snapshotAda($data['tag'])) {
+                    return redirect()->back()->with(
+                        'warning',
+                        $pesan . ' Database TIDAK dipulihkan karena versi ini belum punya snapshot — '
+                        . 'tag tersebut dibuat sebelum fitur snapshot versi ada. Jalankan migrasi/rebuild secara manual bila skema tidak cocok.'
+                    );
+                }
+
+                if (!$this->versi->snapshotUtuh($data['tag'])) {
+                    return redirect()->back()->with(
+                        'error',
+                        $pesan . ' Database TIDAK dipulihkan karena berkas snapshot versi ini rusak '
+                        . '(sidik jarinya tidak lagi sama dengan saat direkam). Database sekarang sengaja dibiarkan apa adanya.'
+                    );
+                }
+
+                try {
+                    $sql = $this->sqlDariZip($this->versi->berkasSnapshot($data['tag']));
+                } catch (\RuntimeException $e) {
+                    return redirect()->back()->with('error', $pesan . ' Database TIDAK dipulihkan: ' . $e->getMessage());
+                }
+
+                return $this->timpaDatabaseDariSql($sql, 'snapshot versi ' . $data['tag']);
+            }
+
+            $selisih = $this->versi->selisihMigrasi($data['tag']);
+            if ($selisih !== null && !$selisih['sepadan']) {
+                $pesan .= ' PERHATIAN: database saat ini punya ' . $selisih['sekarang'] . ' migrasi, sedangkan versi '
+                    . $data['tag'] . ' tercatat ' . $selisih['tag'] . ' migrasi — skemanya tidak sepadan dengan kode ini. '
+                    . 'Pulihkan database dari snapshot versi tersebut, atau sesuaikan skema secara manual.';
+            } else {
+                $pesan .= ' Jalankan migrasi/rebuild jika perlu menyesuaikan skema database dengan versi kode ini.';
+            }
+
+            return redirect()->back()->with('success', $pesan);
         });
+    }
+
+    /**
+     * Tandai keadaan sekarang sebagai satu versi: commit perubahan, buat tag
+     * git, lalu rekam snapshot database yang sepadan dengannya.
+     *
+     * Inilah satu-satunya jalan resmi membuat tag di aplikasi ini, dan
+     * sengaja dibuat sebagai satu tombol — bukan tiga langkah terpisah —
+     * karena tag yang dibuat manual lewat terminal tidak akan punya snapshot,
+     * dan tag tanpa snapshot tidak bisa dirollback dengan aman.
+     *
+     * Urutannya dipilih supaya kegagalan di tengah tidak meninggalkan sisa:
+     * commit dulu (masih bisa diperbaiki), lalu tag, lalu snapshot. Kalau
+     * snapshot gagal, tag yang baru dibuat DIHAPUS lagi — lebih baik tidak ada
+     * versi sama sekali daripada ada versi yang mengaku punya cadangan padahal
+     * tidak.
+     */
+    public function tandaiVersi(Request $request)
+    {
+        $this->ensureSuperAdmin();
+
+        $data = $request->validate([
+            'tag' => ['required', 'string', 'max:100', 'regex:' . VersiSnapshotService::POLA_TAG],
+            'catatan' => ['nullable', 'string', 'max:500'],
+            'push' => ['nullable', 'boolean'],
+        ], [
+            'tag.regex' => 'Nama versi harus berbentuk v<angka>.<angka>.<angka>, misalnya v1.0.4.',
+        ]);
+
+        if (in_array($data['tag'], $this->listGitTags(), true)) {
+            return redirect()->back()->with(
+                'error',
+                'Versi ' . $data['tag'] . ' sudah ada. Memindahkan tag yang sudah dipublikasikan akan membuat '
+                . 'salinan orang lain berisi kode berbeda dengan nama versi yang sama — pakai nomor versi berikutnya.'
+            );
+        }
+
+        $wajibPush = (bool) ($data['push'] ?? false);
+        if ($wajibPush) {
+            $this->ensureGitSyncEnabled();
+        }
+
+        return $this->withBackupLock(function () use ($data, $wajibPush) {
+            $base = base_path();
+            $pesanCommit = 'Tandai versi ' . $data['tag'] . ($data['catatan'] ? ' — ' . $data['catatan'] : '');
+
+            // Langkah 1: pastikan tidak ada perubahan yang tertinggal di luar
+            // versi ini. "nothing to commit" bukan kegagalan — artinya working
+            // tree memang sudah bersih dan tag akan menunjuk HEAD apa adanya.
+            foreach ([['git', '-C', $base, 'add', '-A'], ['git', '-C', $base, 'commit', '-m', $pesanCommit]] as $cmd) {
+                $hasil = Process::timeout(120)->run($cmd);
+                if (!$hasil->successful() && !str_contains($hasil->output() . $hasil->errorOutput(), 'nothing to commit')) {
+                    return redirect()->back()->with(
+                        'error',
+                        'Gagal menyimpan perubahan sebelum menandai versi: ' . trim($hasil->errorOutput() ?: $hasil->output())
+                    );
+                }
+            }
+
+            // Langkah 2: buat tag beranotasi (bukan tag ringan) supaya
+            // pembuatnya, waktunya, dan catatannya ikut tersimpan di dalam
+            // objek tag itu sendiri, bukan cuma di manifes aplikasi.
+            $anotasi = $data['catatan'] ?: 'Versi ' . $data['tag'];
+            $hasilTag = Process::timeout(60)->run(['git', '-C', $base, 'tag', '-a', $data['tag'], '-m', $anotasi]);
+            if (!$hasilTag->successful()) {
+                return redirect()->back()->with(
+                    'error',
+                    'Gagal membuat tag ' . $data['tag'] . ': ' . trim($hasilTag->errorOutput() ?: $hasilTag->output())
+                );
+            }
+
+            // Langkah 3: snapshot database. Gagal di sini berarti tag dibatalkan.
+            try {
+                $catatan = $this->versi->rekam($data['tag'], storage_path('app/' . $this->backupPath()), $data['catatan'] ?? null);
+                $this->keepOnlyLatestBackup();
+            } catch (\Throwable $e) {
+                Process::timeout(60)->run(['git', '-C', $base, 'tag', '-d', $data['tag']]);
+
+                return redirect()->back()->with(
+                    'error',
+                    'Snapshot database gagal, tag ' . $data['tag'] . ' dibatalkan supaya tidak ada versi tanpa cadangan data: ' . $e->getMessage()
+                );
+            }
+
+            $pesan = 'Versi ' . $data['tag'] . ' ditandai, berikut snapshot database '
+                . round($catatan['ukuran'] / 1024) . ' KB pada ' . $catatan['jumlah_migrasi'] . ' migrasi.';
+
+            if ($wajibPush) {
+                $hasilPush = Process::timeout(180)->run(['git', '-C', $base, 'push', '--follow-tags', 'origin', 'HEAD']);
+                if (!$hasilPush->successful()) {
+                    return redirect()->back()->with(
+                        'warning',
+                        $pesan . ' Tetapi push ke GitHub gagal: ' . trim($hasilPush->errorOutput() ?: $hasilPush->output())
+                        . ' — versi tetap tersimpan di lokal dan bisa di-push ulang.'
+                    );
+                }
+                $pesan .= ' Kode dan tag sudah di-push ke GitHub (snapshot database TIDAK ikut, tetap di lokal).';
+            }
+
+            return redirect()->back()->with('success', $pesan);
+        });
+    }
+
+    /**
+     * Unduh snapshot database milik satu versi, supaya bisa dipulihkan sendiri
+     * lewat menu Import — jalur manual yang diminta tetap ada di samping
+     * pemulihan otomatis saat checkout tag.
+     */
+    public function unduhVersi(string $tag)
+    {
+        $this->ensureSuperAdmin();
+
+        if (!$this->versi->tagSah($tag) || !$this->versi->snapshotAda($tag)) {
+            abort(404, 'Snapshot untuk versi ini tidak ditemukan.');
+        }
+
+        return response()->download($this->versi->berkasSnapshot($tag), $tag . '.zip');
+    }
+
+    /**
+     * Pulihkan database ke snapshot milik satu versi TANPA menyentuh kode.
+     * Dipakai ketika kode sudah terlanjur mundur lewat jalur lain, atau ketika
+     * operator hanya ingin mengembalikan data ke titik itu.
+     */
+    public function pulihkanVersi(Request $request, string $tag)
+    {
+        $this->ensureSuperAdmin();
+
+        if (!$this->versi->tagSah($tag) || !$this->versi->snapshotAda($tag)) {
+            return redirect()->back()->with('error', 'Snapshot untuk versi ' . $tag . ' tidak ditemukan.');
+        }
+
+        // Ketik ulang nama versi — pengaman yang sama dengan checkout tag,
+        // karena akibatnya sama-sama menimpa dan tidak bisa dibatalkan.
+        $data = $request->validate(['konfirmasi' => ['required', 'string']]);
+        if ($data['konfirmasi'] !== $tag) {
+            return redirect()->back()->with('error', 'Konfirmasi tidak cocok — ketik nama versi persis seperti tertulis.');
+        }
+
+        if (!$this->versi->snapshotUtuh($tag)) {
+            return redirect()->back()->with(
+                'error',
+                'Berkas snapshot versi ' . $tag . ' rusak (sidik jarinya tidak lagi sama dengan saat direkam). '
+                . 'Database sengaja dibiarkan apa adanya.'
+            );
+        }
+
+        try {
+            $sql = $this->sqlDariZip($this->versi->berkasSnapshot($tag));
+        } catch (\RuntimeException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        return $this->withBackupLock(fn() => $this->timpaDatabaseDariSql($sql, 'snapshot versi ' . $tag));
     }
 
     /**
@@ -424,15 +683,36 @@ class BackupController extends Controller
         ]);
 
         $uploaded = $request->file('backup_file');
-        $tmpZipPath = $uploaded->getRealPath();
 
-        $zip = new ZipArchive();
-        if ($zip->open($tmpZipPath) !== true) {
-            return redirect()->back()->with('error', 'File zip tidak valid atau rusak.');
+        try {
+            $sqlContent = $this->sqlDariZip($uploaded->getRealPath());
+        } catch (\RuntimeException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
 
-        // Cari SATU file .sql di root zip — sesuai format Spatie Backup
-        // --only-db (bukan backup penuh berisi kode project).
+        return $this->withBackupLock(function () use ($uploaded, $sqlContent) {
+            return $this->timpaDatabaseDariSql($sqlContent, $uploaded->getClientOriginalName());
+        });
+    }
+
+    /**
+     * Ambil isi satu-satunya berkas .sql dari dalam zip backup.
+     *
+     * Dipakai bersama oleh impor berkas unggahan dan pemulihan snapshot versi,
+     * karena keduanya membaca format zip yang sama persis — hasil Spatie Backup
+     * `--only-db`. Menolak zip berisi lebih dari satu .sql adalah pengaman
+     * sengaja: backup PENUH (berisi kode project) juga berekstensi .zip dan
+     * kalau lolos akan dijalankan sebagai dump, merusak database.
+     *
+     * @throws \RuntimeException dengan pesan yang sudah layak ditampilkan
+     */
+    private function sqlDariZip(string $zipPath): string
+    {
+        $zip = new ZipArchive();
+        if ($zip->open($zipPath) !== true) {
+            throw new \RuntimeException('File zip tidak valid atau rusak.');
+        }
+
         $sqlEntryName = null;
         for ($i = 0; $i < $zip->numFiles; $i++) {
             $name = $zip->getNameIndex($i);
@@ -440,7 +720,7 @@ class BackupController extends Controller
                 if ($sqlEntryName !== null) {
                     $zip->close();
 
-                    return redirect()->back()->with('error', 'Zip berisi lebih dari satu file .sql — format tidak dikenali.');
+                    throw new \RuntimeException('Zip berisi lebih dari satu file .sql — format tidak dikenali.');
                 }
                 $sqlEntryName = $name;
             }
@@ -449,75 +729,88 @@ class BackupController extends Controller
         if ($sqlEntryName === null) {
             $zip->close();
 
-            return redirect()->back()->with('error', 'Zip tidak berisi file .sql — pastikan ini file backup database yang benar.');
+            throw new \RuntimeException('Zip tidak berisi file .sql — pastikan ini file backup database yang benar.');
         }
 
         $sqlContent = $zip->getFromName($sqlEntryName);
         $zip->close();
 
         if ($sqlContent === false || trim($sqlContent) === '') {
-            return redirect()->back()->with('error', 'Gagal membaca isi dump SQL dari zip.');
+            throw new \RuntimeException('Gagal membaca isi dump SQL dari zip.');
         }
 
-        return $this->withBackupLock(function () use ($uploaded, $sqlContent) {
-            // Safety net: backup kondisi SEKARANG dulu sebelum ditimpa — kalau
-            // gagal, batalkan import sepenuhnya (sama prinsipnya dengan urutan
-            // di gitPush()).
-            try {
-                Artisan::call('backup:run', ['--only-db' => true]);
-                $this->keepOnlyLatestBackup();
-            } catch (\Throwable $e) {
-                return redirect()->back()->with('error', 'Backup pengaman sebelum impor gagal, impor dibatalkan: ' . $e->getMessage());
+        return $sqlContent;
+    }
+
+    /**
+     * Timpa seluruh database dengan isi satu dump SQL, didahului backup
+     * pengaman atas keadaan sekarang.
+     *
+     * WAJIB dipanggil dari dalam withBackupLock() — tidak mengunci sendiri,
+     * supaya pemanggil bisa membungkus beberapa langkah (mis. checkout tag lalu
+     * pulihkan database) dalam satu kunci yang sama.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    private function timpaDatabaseDariSql(string $sqlContent, string $namaSumber)
+    {
+        // Safety net: backup kondisi SEKARANG dulu sebelum ditimpa — kalau
+        // gagal, batalkan sepenuhnya (sama prinsipnya dengan urutan di
+        // gitPush()).
+        try {
+            Artisan::call('backup:run', ['--only-db' => true]);
+            $this->keepOnlyLatestBackup();
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Backup pengaman sebelum menimpa database gagal, proses dibatalkan: ' . $e->getMessage());
+        }
+
+        $tmpSqlPath = storage_path('app/private/import-' . uniqid() . '.sql');
+        File::put($tmpSqlPath, $sqlContent);
+
+        try {
+            $failedStatements = $this->restoreFromSqlFile($tmpSqlPath);
+        } catch (\Throwable $e) {
+            return redirect()->back()->with(
+                'error',
+                'Pemulihan database gagal total: ' . $e->getMessage() . ' — database mungkin dalam kondisi tidak konsisten. '
+                . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini).'
+            );
+        } finally {
+            File::delete($tmpSqlPath);
+        }
+
+        // Smoke-test: pastikan tabel inti benar-benar terisi setelah
+        // restore, bukan cuma "tidak melempar exception". DDL MySQL
+        // auto-commit per statement dan tidak bisa di-rollback — kalau
+        // satu statement di tengah gagal (mis. data mengandung ";\n"
+        // yang salah displit jadi 2 statement), sisa tabel setelahnya
+        // tidak akan pernah dibuat ulang, tapi loop di
+        // restoreFromSqlFile() tetap lanjut sampai akhir tanpa
+        // melempar exception. Smoke-test ini yang mendeteksi hasil
+        // restore rusak sebelum terlanjur dilaporkan "berhasil".
+        $missingTables = [];
+        foreach (['users', 'menus'] as $table) {
+            if (!Schema::hasTable($table)) {
+                $missingTables[] = $table;
             }
+        }
 
-            $tmpSqlPath = storage_path('app/private/import-' . uniqid() . '.sql');
-            File::put($tmpSqlPath, $sqlContent);
+        if (!empty($missingTables) || DB::table('users')->count() === 0) {
+            return redirect()->back()->with(
+                'error',
+                'Pemulihan selesai TAPI database hasilnya tampak tidak lengkap (tabel inti kosong/hilang: '
+                . (empty($missingTables) ? 'users' : implode(', ', $missingTables))
+                . '). Kemungkinan ada statement SQL yang gagal di tengah proses. '
+                . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini) via menu Import lagi.'
+            );
+        }
 
-            try {
-                $failedStatements = $this->restoreFromSqlFile($tmpSqlPath);
-            } catch (\Throwable $e) {
-                return redirect()->back()->with(
-                    'error',
-                    'Impor database gagal total: ' . $e->getMessage() . ' — database mungkin dalam kondisi tidak konsisten. '
-                    . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum impor ini).'
-                );
-            } finally {
-                File::delete($tmpSqlPath);
-            }
+        $message = 'Database berhasil dipulihkan dari ' . $namaSumber . '. Backup kondisi sebelumnya tersimpan di daftar backup.';
+        if ($failedStatements > 0) {
+            $message .= " Peringatan: {$failedStatements} statement SQL dilewati karena error (lihat log) — periksa data hasil pemulihan.";
+        }
 
-            // Smoke-test: pastikan tabel inti benar-benar terisi setelah
-            // restore, bukan cuma "tidak melempar exception". DDL MySQL
-            // auto-commit per statement dan tidak bisa di-rollback — kalau
-            // satu statement di tengah gagal (mis. data mengandung ";\n"
-            // yang salah displit jadi 2 statement), sisa tabel setelahnya
-            // tidak akan pernah dibuat ulang, tapi loop di
-            // restoreFromSqlFile() tetap lanjut sampai akhir tanpa
-            // melempar exception. Smoke-test ini yang mendeteksi hasil
-            // restore rusak sebelum terlanjur dilaporkan "berhasil".
-            $missingTables = [];
-            foreach (['users', 'menus'] as $table) {
-                if (!Schema::hasTable($table)) {
-                    $missingTables[] = $table;
-                }
-            }
-
-            if (!empty($missingTables) || DB::table('users')->count() === 0) {
-                return redirect()->back()->with(
-                    'error',
-                    'Impor selesai TAPI database hasil restore tampak tidak lengkap (tabel inti kosong/hilang: '
-                    . (empty($missingTables) ? 'users' : implode(', ', $missingTables))
-                    . '). Kemungkinan ada statement SQL yang gagal di tengah proses. '
-                    . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum impor ini) via menu Import lagi.'
-                );
-            }
-
-            $message = 'Database berhasil diimpor dari ' . $uploaded->getClientOriginalName() . '. Backup kondisi sebelumnya tersimpan di daftar backup.';
-            if ($failedStatements > 0) {
-                $message .= " Peringatan: {$failedStatements} statement SQL dilewati karena error (lihat log) — periksa data hasil impor.";
-            }
-
-            return redirect()->back()->with('success', $message);
-        });
+        return redirect()->back()->with('success', $message);
     }
 
     /**

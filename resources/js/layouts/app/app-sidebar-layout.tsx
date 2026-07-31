@@ -27,7 +27,8 @@ export default function AppSidebarLayout({
   const { props } = usePage();
   const isViewer = useIsViewer();
 
-  const flash = (props?.flash as { success?: string; error?: string; justLoggedIn?: boolean }) ?? {};
+  const flash =
+    (props?.flash as { success?: string; error?: string; warning?: string; justLoggedIn?: boolean }) ?? {};
   const setting = props?.setting as {
     nama_app: string;
     logo?: string;
@@ -53,6 +54,9 @@ export default function AppSidebarLayout({
   useEffect(() => {
     if (flash.success) toast.success(flash.success);
     if (flash.error) toast.error(flash.error);
+    // Peringatan sengaja diberi durasi panjang: isinya selalu tentang bagian
+    // yang TIDAK jadi dikerjakan, jadi harus sempat terbaca sampai habis.
+    if (flash.warning) toast.warning(flash.warning, { duration: 12000 });
   }, [flash]);
 
   const primaryColor = setting?.warna || '#0ea5e9';

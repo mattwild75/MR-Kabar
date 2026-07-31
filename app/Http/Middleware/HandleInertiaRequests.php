@@ -44,6 +44,11 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => session('success'),
                 'error' => session('error'),
+                // Keadaan ketiga: aksi utamanya berhasil, tapi ada bagian yang
+                // tidak jadi dikerjakan dan operator harus tahu. Dilaporkan
+                // sebagai 'success' akan menyesatkan, sebagai 'error' akan
+                // membuat orang mengira semuanya batal.
+                'warning' => session('warning'),
                 'justLoggedIn' => session('just_logged_in'),
                 'importResult' => session('importResult'),
             ],

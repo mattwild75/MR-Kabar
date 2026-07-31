@@ -209,6 +209,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/backup/git-checkout-tag', [BackupController::class, 'checkoutTag'])->name('backup.git-checkout-tag');
     Route::post('/backup/git-sync-toggle', [BackupController::class, 'toggleGitSync'])->name('backup.git-sync-toggle');
     Route::post('/backup/import', [BackupController::class, 'importDatabase'])->name('backup.import');
+    // Versi = tag git yang dipasangkan dengan snapshot database sepadan.
+    // Snapshot-nya TIDAK PERNAH ikut ke GitHub (storage/app/private diabaikan
+    // git), jadi hasil clone selalu berdatabase kosong untuk diisi sendiri.
+    Route::post('/backup/versi', [BackupController::class, 'tandaiVersi'])->name('backup.versi.tandai');
+    Route::get('/backup/versi/{tag}/unduh', [BackupController::class, 'unduhVersi'])->name('backup.versi.unduh');
+    Route::post('/backup/versi/{tag}/pulihkan', [BackupController::class, 'pulihkanVersi'])->name('backup.versi.pulihkan');
     Route::get('/backup/excel', [RiskExcelController::class, 'index'])->name('backup.excel.index');
     Route::get('/backup/excel/export', [RiskExcelController::class, 'export'])->name('backup.excel.export');
     Route::get('/backup/excel/template', [RiskExcelController::class, 'template'])->name('backup.excel.template');

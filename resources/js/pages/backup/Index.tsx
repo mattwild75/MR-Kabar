@@ -7,7 +7,17 @@ import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Github, FileSpreadsheet, Upload, GitPullRequestArrow, TriangleAlert, History } from 'lucide-react';
+import {
+  Github,
+  FileSpreadsheet,
+  Upload,
+  GitPullRequestArrow,
+  TriangleAlert,
+  History,
+  Tags,
+  DatabaseBackup,
+  Download,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { type BreadcrumbItem } from '@/types';
 import { formatTanggalWaktu } from '@/lib/date';
@@ -28,6 +38,21 @@ interface Backup {
   size: number;
   last_modified: number;
   download_url: string;
+  /** Terisi bila isi berkas ini sama persis dengan snapshot sebuah versi. */
+  versi: string | null;
+}
+
+interface Versi {
+  tag: string;
+  commit: string | null;
+  dibuat: string | null;
+  ukuran: number | null;
+  migrasi_terakhir: string | null;
+  jumlah_migrasi: number | null;
+  cacah_tabel: Record<string, number> | null;
+  catatan: string | null;
+  ada_snapshot: boolean;
+  unduh_url: string;
 }
 
 interface Props {
@@ -40,13 +65,23 @@ interface Props {
     menitLalu: number | null;
     sehat: boolean;
   };
+  versi: Versi[];
+  commitSekarang: string | null;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
   { title: 'Backup', href: '/backup' },
 ];
 
-export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal }: Props) {
+export default function BackupIndex({
+  backups,
+  canPushGit,
+  gitSyncEnabled,
+  gitTags,
+  penjadwal,
+  versi,
+  commitSekarang,
+}: Props) {
   const [gitMessage, setGitMessage] = useState('');
   const [pushing, setPushing] = useState(false);
   const [pulling, setPulling] = useState(false);
@@ -57,6 +92,16 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
   const [selectedTag, setSelectedTag] = useState('');
   const [tagConfirmText, setTagConfirmText] = useState('');
   const [checkingOutTag, setCheckingOutTag] = useState(false);
+  const [pulihkanSaatCheckout, setPulihkanSaatCheckout] = useState(true);
+  const [tagBaru, setTagBaru] = useState('');
+  const [catatanVersi, setCatatanVersi] = useState('');
+  const [pushSaatTandai, setPushSaatTandai] = useState(false);
+  const [menandaiVersi, setMenandaiVersi] = useState(false);
+  const [versiDipulihkan, setVersiDipulihkan] = useState('');
+  const [konfirmasiPulih, setKonfirmasiPulih] = useState('');
+  const [memulihkanVersi, setMemulihkanVersi] = useState(false);
+
+  const snapshotTagTerpilih = versi.find((v) => v.tag === selectedTag);
 
   const handleToggleGitSync = (checked: boolean) => {
     setTogglingGitSync(true);
@@ -104,12 +149,54 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
     });
   };
 
+  const handleTandaiVersi = () => {
+    if (!tagBaru) return;
+    setMenandaiVersi(true);
+    router.post(
+      '/backup/versi',
+      { tag: tagBaru, catatan: catatanVersi, push: pushSaatTandai },
+      {
+        onSuccess: () => {
+          toast.success(`Versi ${tagBaru} ditandai berikut snapshot database-nya.`);
+          setTagBaru('');
+          setCatatanVersi('');
+        },
+        onError: () => toast.error('Gagal menandai versi — cek pesan error di halaman.'),
+        onFinish: () => setMenandaiVersi(false),
+        preserveScroll: true,
+      },
+    );
+  };
+
+  const handlePulihkanVersi = (tag: string) => {
+    setMemulihkanVersi(true);
+    router.post(
+      `/backup/versi/${tag}/pulihkan`,
+      { konfirmasi: konfirmasiPulih },
+      {
+        onSuccess: () => {
+          toast.success(`Database dipulihkan ke snapshot versi ${tag}.`);
+          setKonfirmasiPulih('');
+          setVersiDipulihkan('');
+        },
+        onError: () => toast.error('Pemulihan gagal — cek pesan error di halaman.'),
+        onFinish: () => setMemulihkanVersi(false),
+        preserveScroll: true,
+      },
+    );
+  };
+
   const handleCheckoutTag = () => {
     if (!selectedTag) return;
     setCheckingOutTag(true);
     router.post(
       '/backup/git-checkout-tag',
-      { tag: selectedTag },
+      {
+        tag: selectedTag,
+        // Hanya diminta bila versinya memang punya snapshot — kalau tidak,
+        // permintaannya cuma akan berbuah peringatan yang membingungkan.
+        pulihkan_database: pulihkanSaatCheckout && !!snapshotTagTerpilih?.ada_snapshot,
+      },
       {
         onSuccess: () => {
           toast.success(`Kode berhasil dikembalikan ke versi ${selectedTag}.`);
@@ -209,10 +296,18 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                     className="flex items-center justify-between border rounded p-3 bg-muted/50"
                   >
                     <div>
-                      <div className="font-medium">{backup.name}</div>
+                      <div className="flex flex-wrap items-center gap-2 font-medium">
+                        {backup.name}
+                        {backup.versi && (
+                          <span className="rounded border border-emerald-500/50 bg-emerald-50 px-1.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
+                            Versi {backup.versi}
+                          </span>
+                        )}
+                      </div>
                       <div className="text-xs text-muted-foreground">
                         {formatSize(backup.size)} •{' '}
                         {formatTanggalWaktu(backup.last_modified * 1000)}
+                        {backup.versi && ' • isinya sama dengan snapshot versi ini'}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -243,6 +338,184 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                           </AlertDialogFooter>
                         </AlertDialogContent>
                       </AlertDialog>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Versi = tag git + snapshot database yang sepadan dengannya. Dijadikan
+            satu kartu supaya jelas keduanya tidak pernah terpisah: tag tanpa
+            snapshot tidak bisa dirollback dengan aman, dan snapshot tanpa tag
+            tidak diketahui milik kode yang mana. */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-xl font-bold">
+              <Tags className="h-5 w-5" />
+              Versi Aplikasi &amp; Snapshot Database
+            </CardTitle>
+            <p className="text-muted-foreground text-sm">
+              Menandai versi akan menyimpan kode (tag git) <strong>berikut salinan database</strong> pada
+              saat itu juga, sehingga rollback ke versi lama tidak meninggalkan kode lama berjalan di atas
+              data baru. Snapshot database <strong>hanya tersimpan di komputer ini</strong> dan tidak pernah
+              ikut ter-push ke GitHub — hasil clone selalu berdatabase kosong untuk diisi sendiri.
+            </p>
+          </CardHeader>
+          <Separator />
+          <CardContent className="space-y-5 pt-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1">
+                <Label htmlFor="tag_baru">Nomor versi baru</Label>
+                <Input
+                  id="tag_baru"
+                  value={tagBaru}
+                  onChange={(e) => setTagBaru(e.target.value)}
+                  placeholder="mis. v1.0.4"
+                  autoComplete="off"
+                />
+                <p className="text-muted-foreground text-xs">
+                  Bentuknya v&lt;angka&gt;.&lt;angka&gt;.&lt;angka&gt;. Versi yang sudah ada tidak bisa
+                  dipakai ulang.
+                </p>
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="catatan_versi">Catatan versi (opsional)</Label>
+                <Input
+                  id="catatan_versi"
+                  value={catatanVersi}
+                  onChange={(e) => setCatatanVersi(e.target.value)}
+                  placeholder="mis. Selera Risiko dan jadwal penilaian"
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              {canPushGit && gitSyncEnabled && (
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id="push_saat_tandai"
+                    checked={pushSaatTandai}
+                    onCheckedChange={(checked) => setPushSaatTandai(checked === true)}
+                  />
+                  <Label htmlFor="push_saat_tandai" className="cursor-pointer text-sm font-normal">
+                    Sekalian push kode dan tag ke GitHub
+                  </Label>
+                </div>
+              )}
+              <Button onClick={handleTandaiVersi} disabled={!tagBaru || menandaiVersi}>
+                <Tags className="mr-2 h-4 w-4" />
+                {menandaiVersi ? 'Menandai versi...' : 'Tandai Versi Sekarang'}
+              </Button>
+            </div>
+
+            <Separator />
+
+            {versi.length === 0 ? (
+              <p className="text-muted-foreground text-center text-sm">Belum ada versi yang ditandai.</p>
+            ) : (
+              <ul className="space-y-2">
+                {versi.map((v) => (
+                  <li key={v.tag} className="rounded border bg-muted/50 p-3">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-semibold">{v.tag}</span>
+                          {v.ada_snapshot ? (
+                            <span className="rounded border border-emerald-500/50 bg-emerald-50 px-1.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
+                              Ada snapshot database
+                            </span>
+                          ) : (
+                            <span className="rounded border border-amber-500/50 bg-amber-50 px-1.5 py-0.5 text-xs font-medium text-amber-900 dark:bg-amber-950/40 dark:text-amber-300">
+                              Tanpa snapshot
+                            </span>
+                          )}
+                          {v.commit && commitSekarang && v.commit === commitSekarang && (
+                            <span className="rounded border border-sky-500/50 bg-sky-50 px-1.5 py-0.5 text-xs font-medium text-sky-800 dark:bg-sky-950/40 dark:text-sky-300">
+                              Versi yang sedang berjalan
+                            </span>
+                          )}
+                        </div>
+                        {v.catatan && <p className="mt-1 text-sm">{v.catatan}</p>}
+                        <div className="text-muted-foreground mt-1 text-xs">
+                          {v.ada_snapshot ? (
+                            <>
+                              {v.dibuat} • {v.ukuran ? formatSize(v.ukuran) : '—'} •{' '}
+                              {v.jumlah_migrasi} migrasi
+                              {v.cacah_tabel && (
+                                <> • {Object.values(v.cacah_tabel).reduce((a, b) => a + b, 0)} baris pada tabel inti</>
+                              )}
+                            </>
+                          ) : (
+                            'Tag ini dibuat sebelum snapshot versi ada, jadi rollback ke sini hanya memundurkan kode.'
+                          )}
+                        </div>
+                      </div>
+
+                      {v.ada_snapshot && (
+                        <div className="flex shrink-0 items-center gap-2">
+                          <a href={v.unduh_url}>
+                            <Button variant="outline" size="sm">
+                              <Download className="mr-2 h-4 w-4" />
+                              Unduh
+                            </Button>
+                          </a>
+
+                          <AlertDialog
+                            onOpenChange={(open) => {
+                              setVersiDipulihkan(open ? v.tag : '');
+                              setKonfirmasiPulih('');
+                            }}
+                          >
+                            <AlertDialogTrigger asChild>
+                              <Button variant="destructive" size="sm" disabled={memulihkanVersi}>
+                                <DatabaseBackup className="mr-2 h-4 w-4" />
+                                Pulihkan Database
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle className="flex items-center gap-2">
+                                  <TriangleAlert className="text-destructive h-5 w-5" />
+                                  Pulihkan database ke snapshot {v.tag}?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription asChild>
+                                  <div className="space-y-2">
+                                    <p>
+                                      Seluruh isi database sekarang akan <strong>diganti total</strong> dengan
+                                      data pada saat versi {v.tag} ditandai
+                                      {v.dibuat ? ` (${v.dibuat})` : ''}. Data yang diisi setelah itu akan
+                                      hilang. Kode aplikasi <strong>tidak</strong> ikut mundur — pakai Checkout
+                                      Tag di bawah bila memang ingin keduanya mundur bersama.
+                                    </p>
+                                    <p>
+                                      Kondisi sekarang di-backup dulu sebagai jaring pengaman. Ketik{' '}
+                                      <strong>{v.tag}</strong> untuk melanjutkan.
+                                    </p>
+                                    <Input
+                                      value={konfirmasiPulih}
+                                      onChange={(e) => setKonfirmasiPulih(e.target.value)}
+                                      placeholder={v.tag}
+                                      autoComplete="off"
+                                    />
+                                  </div>
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Batal</AlertDialogCancel>
+                                <AlertDialogAction
+                                  className="bg-destructive hover:bg-destructive/90"
+                                  disabled={konfirmasiPulih !== v.tag || versiDipulihkan !== v.tag}
+                                  onClick={() => handlePulihkanVersi(v.tag)}
+                                >
+                                  Pulihkan ke {v.tag}
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      )}
                     </div>
                   </li>
                 ))}
@@ -322,8 +595,9 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
               </CardTitle>
               <p className="text-muted-foreground text-sm">
                 Kebalikan dari push di atas: menarik commit terbaru dari branch remote ke kode di server ini
-                (<code>git pull origin HEAD</code>). Tidak menyentuh database sama sekali, dan bukan deploy ke
-                server produksi manapun.
+                (<code>git pull --tags origin HEAD</code>). Database di-backup otomatis lebih dulu — kode yang
+                masuk bisa membawa migrasi yang mengubah skema — tetapi isinya sendiri tidak diubah. Bukan
+                deploy ke server produksi manapun.
               </p>
             </CardHeader>
             <Separator />
@@ -394,6 +668,35 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                           lokal yang belum di-commit akan hilang. Ini bukan aksi ringan; pastikan Anda memang
                           ingin rollback.
                         </p>
+
+                        {snapshotTagTerpilih?.ada_snapshot ? (
+                          <div className="flex items-start gap-2 rounded border p-2">
+                            <Checkbox
+                              id="pulihkan_saat_checkout"
+                              className="mt-0.5"
+                              checked={pulihkanSaatCheckout}
+                              onCheckedChange={(checked) => setPulihkanSaatCheckout(checked === true)}
+                            />
+                            <Label
+                              htmlFor="pulihkan_saat_checkout"
+                              className="cursor-pointer text-sm leading-snug font-normal"
+                            >
+                              Pulihkan juga database ke snapshot versi ini
+                              {snapshotTagTerpilih.dibuat ? ` (${snapshotTagTerpilih.dibuat})` : ''}.
+                              <span className="text-muted-foreground block">
+                                Dianjurkan. Tanpa ini kode versi lama akan berjalan di atas data versi baru,
+                                dan aplikasi bisa gagal terbuka karena skemanya tidak cocok.
+                              </span>
+                            </Label>
+                          </div>
+                        ) : (
+                          <p className="text-amber-700 dark:text-amber-400">
+                            Versi ini <strong>tidak punya snapshot database</strong> karena tag-nya dibuat
+                            sebelum fitur snapshot ada. Hanya kode yang akan mundur; skema database tetap
+                            seperti sekarang dan mungkin tidak cocok.
+                          </p>
+                        )}
+
                         <p>
                           Ketik <strong>{selectedTag}</strong> untuk melanjutkan.
                         </p>
