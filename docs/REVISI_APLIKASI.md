@@ -282,14 +282,32 @@ mewajibkannya akan berlaku atas modul yang belum pernah diuji dengan data nyata.
 Tindakan: satu SKPK percontohan mengisi CEE 1a sampai 1d dan Monitoring RTP sampai
 tuntas sebelum Perbup ditetapkan.
 
-### B2. Istilah "Administrator" berbenturan
+### B2. Istilah "Administrator" berbenturan — SELESAI, diputuskan tidak diganti
 
 Aplikasi memakai "Administrator" untuk pengelola sistem, sementara "pejabat
 administrator" adalah jenjang jabatan ASN yang juga dipakai rancangan Perbup pada
-UPR tingkat operasional. Konteks membedakannya, tetapi kalau Bagian Hukum menghendaki
-nol ambiguitas, peran aplikasi perlu diganti nama — misalnya menjadi Pengelola
-Sistem. Perubahan nama peran merembet ke seeder, menu, dan seluruh pemeriksaan izin,
-jadi keputusannya diambil sekali dan jangan diubah lagi setelah go-live.
+UPR tingkat operasional.
+
+**Keputusan pemilik aplikasi, 31 Juli 2026: nama peran TIDAK diganti.** Alasannya,
+kedua peran itu memang berbicara tentang pengelolaan aplikasi, bukan tentang jenjang
+jabatan ASN:
+
+| Peran aplikasi | Artinya di sini |
+|---|---|
+| `super-admin` | Pemilik aplikasi, satu akun (`memet`) |
+| `admin` | Pengelola data aplikasi selain pemilik |
+| `eksekutif` | Peninjau, membaca seluruh OPD tanpa boleh mengubah |
+| `user` | PIC OPD, mengisi data OPD-nya sendiri |
+
+Mengganti nama peran akan merembet ke seeder, menu, dan seluruh pemeriksaan izin —
+biaya yang tidak sebanding dengan ambiguitas yang sesungguhnya sudah terurai oleh
+konteks.
+
+**Yang perlu dijaga saat menyusun Perbup:** jangan memakai kata "Administrator"
+untuk menyebut peran aplikasi di dalam naskah Perbup. Sebut saja fungsinya —
+misalnya "pengelola aplikasi" — supaya pembaca Perbup tidak mengira itu jenjang
+jabatan administrator ASN. Peran teknisnya tetap bernama `admin` di dalam
+aplikasi.
 
 ### B3. Panel tinjauan usulan Program Bupati belum diperiksa di peramban
 
