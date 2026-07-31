@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
+import JadwalPenilaianWidget, { type JadwalArahan } from '@/components/ui/jadwal-penilaian-widget';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { useMemo, useState } from 'react';
@@ -200,6 +201,7 @@ interface PageProps {
   opdOptions: OpdOption[];
   tahun: number;
   tahunOptions: number[];
+  jadwalPenilaian: JadwalArahan[];
   ringkasan: Ringkasan;
   matriks: Record<string, number>;
   matriksDetail: Record<string, MatriksDetailRisiko[]>;
@@ -412,6 +414,7 @@ export default function Dashboard({
   opdOptions,
   tahun,
   tahunOptions,
+  jadwalPenilaian,
   ringkasan,
   matriks,
   matriksDetail,
@@ -538,6 +541,12 @@ export default function Dashboard({
             </Select>
           </div>
         </div>
+
+        {/* Jadwal penyelenggaraan penilaian Risiko — ditaruh di atas kartu
+            ringkasan karena menjawab pertanyaan yang lebih dulu muncul:
+            "apa yang harus saya kerjakan sekarang", sebelum "berapa
+            angkanya". Isinya dibaca dari Arahan yang ditetapkan Bupati. */}
+        <JadwalPenilaianWidget arahan={jadwalPenilaian} tahun={tahun} isAdmin={isAdmin} />
 
         {/* Seksi 1: Ringkasan — aksen warna per-kartu + hover lift + icon berwarna */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">

@@ -11,6 +11,7 @@ use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\LaporanKejadianRisiko;
 use App\Models\MonitoringRtp;
+use App\Models\ArahanPenilaianRisiko;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
@@ -116,6 +117,7 @@ class DashboardController extends Controller
             'opdOptions' => $isAdmin ? Opd::orderBy('nama')->get(['id', 'nama']) : [],
             'tahun' => $tahun,
             'tahunOptions' => $this->tahunOptions($opdId),
+            'jadwalPenilaian' => $this->buildJadwalPenilaian($tahun),
             'ringkasan' => $this->buildRingkasan($riskRows, $ambangTinggi, $kepatuhan),
             'matriks' => $this->buildMatriks($riskRows),
             'matriksDetail' => $this->buildMatriksDetail($riskRows),
@@ -899,6 +901,56 @@ class DashboardController extends Controller
             ->sortByDesc('tanggal')
             ->values()
             ->all();
+    }
+
+    /**
+     * Jadwal penyelenggaraan penilaian Risiko untuk tahun berjalan.
+     *
+     * Dibaca dari Arahan dan Kebijakan Penilaian Risiko yang DITETAPKAN Bupati
+     * (lihat ArahanPenilaianRisiko) — bukan dikarang aplikasi. Perdep PPKD
+     * 4/2019 Lampiran 3 dan 4 memuat contoh Surat Edaran yang menetapkan
+     * tahapan beserta tenggatnya; di sinilah tahapan itu ditagihkan.
+     *
+     * Arahan berstatus draf sengaja tidak terbaca (lihat scope berlakuPada),
+     * sebab menagih OPD atas sesuatu yang belum ditetapkan Bupati sama saja
+     * dengan mengarang jadwal.
+     *
+     * TIDAK di-scope per-OPD: arahan berlaku bagi seluruh Pemerintah Kabupaten
+     * Aceh Barat, jadi PIC dan Admin melihat tenggat yang sama persis.
+     */
+    private function buildJadwalPenilaian(int $tahun): array
+    {
+        $arahan = ArahanPenilaianRisiko::berlakuPada($tahun)
+            ->with('tahapan')
+            // Arahan 1 tahunan didahulukan atas yang 5 tahunan: yang tahunan
+            // memuat tanggal konkret, sedangkan yang lima tahunan biasanya
+            // hanya kerangka periodenya.
+            ->orderByRaw("CASE WHEN jenis = '1_tahunan' THEN 0 ELSE 1 END")
+            ->orderByDesc('tahun_mulai')
+            ->get();
+
+        $sekarang = now();
+
+        return $arahan->map(fn ($a) => [
+            'id' => $a->id,
+            'jenis' => $a->jenis,
+            'jenis_label' => ArahanPenilaianRisiko::JENIS_LABEL[$a->jenis] ?? $a->jenis,
+            'tahun_mulai' => $a->tahun_mulai,
+            'tahun_selesai' => $a->tahun_selesai,
+            'nomor_se' => $a->nomor_se,
+            'tanggal_se' => $a->tanggal_se?->toDateString(),
+            'catatan' => $a->catatan,
+            'tahapan' => $a->tahapan->map(fn ($t) => [
+                'id' => $t->id,
+                'tahapan' => $t->tahapan,
+                'dokumen_pemicu' => $t->dokumen_pemicu,
+                'tanggal_mulai' => $t->tanggal_mulai?->toDateString(),
+                'tanggal_selesai' => $t->tanggal_selesai?->toDateString(),
+                'pelaksana' => $t->pelaksana,
+                'keluaran' => $t->keluaran,
+                'keadaan' => $t->keadaan($sekarang),
+            ])->values()->all(),
+        ])->values()->all();
     }
 
     // ── Seksi 6.1: Kepatuhan Form 8/9/10 per OPD ─────────────────────────
