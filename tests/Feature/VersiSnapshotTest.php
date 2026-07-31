@@ -23,6 +23,13 @@ class VersiSnapshotTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Satu-satunya nama versi yang dipakai pengujian ini. Dipusatkan supaya
+     * pembersihan di tearDown() tidak mungkin meleset dari yang dibuat, dan
+     * angkanya sengaja jauh di atas versi sungguhan agar tidak pernah bentrok.
+     */
+    private const TAG_UJI = 'v9.9.9';
+
     private function buatPeran(): void
     {
         foreach (['admin', 'super-admin', 'user'] as $nama) {
@@ -84,11 +91,35 @@ class VersiSnapshotTest extends TestCase
         return $berkas;
     }
 
+    /** Isi manifes milik pengguna sebelum pengujian menyentuhnya. */
+    private ?string $manifesAsli = null;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $berkas = $this->layanan()->folder() . '/manifest.json';
+        $this->manifesAsli = File::exists($berkas) ? File::get($berkas) : null;
+    }
+
     protected function tearDown(): void
     {
-        // Folder versi ada di storage sungguhan, bukan disk palsu — kalau tidak
-        // dibersihkan, sisa pengujian akan muncul di halaman Backup pengguna.
-        File::deleteDirectory($this->layanan()->folder());
+        // Folder versi berada di storage SUNGGUHAN, bukan disk palsu, dan
+        // isinya snapshot database milik pengguna. Yang dibuat pengujian harus
+        // dibersihkan, tetapi snapshot pengguna TIDAK BOLEH ikut terhapus.
+        //
+        // Versi awal berkas ini menghapus seluruh folder, dan itu benar-benar
+        // memusnahkan snapshot v1.0.3 yang sesungguhnya begitu seluruh berkas
+        // pengujian dijalankan. Karena itu di sini hanya berkas bertag uji yang
+        // dihapus, dan manifes dikembalikan persis seperti semula.
+        File::delete($this->layanan()->berkasSnapshot(self::TAG_UJI));
+
+        $berkas = $this->layanan()->folder() . '/manifest.json';
+        if ($this->manifesAsli !== null) {
+            File::put($berkas, $this->manifesAsli);
+        } else {
+            File::delete($berkas);
+        }
 
         parent::tearDown();
     }
@@ -130,7 +161,7 @@ class VersiSnapshotTest extends TestCase
 
     public function test_admin_biasa_tidak_dapat_mengunduh_snapshot_versi(): void
     {
-        $this->palsukanSnapshot('v9.9.9');
+        $this->palsukanSnapshot(self::TAG_UJI);
 
         $this->actingAs($this->admin())
             ->get('/backup/versi/v9.9.9/unduh')
@@ -139,7 +170,7 @@ class VersiSnapshotTest extends TestCase
 
     public function test_admin_biasa_tidak_dapat_memulihkan_database_dari_snapshot_versi(): void
     {
-        $this->palsukanSnapshot('v9.9.9');
+        $this->palsukanSnapshot(self::TAG_UJI);
 
         $this->actingAs($this->admin())
             ->post('/backup/versi/v9.9.9/pulihkan', ['konfirmasi' => 'v9.9.9'])
@@ -176,7 +207,7 @@ class VersiSnapshotTest extends TestCase
 
     public function test_pemulihan_ditolak_bila_konfirmasi_tidak_sama_dengan_nama_versi(): void
     {
-        $this->palsukanSnapshot('v9.9.9');
+        $this->palsukanSnapshot(self::TAG_UJI);
 
         $this->actingAs($this->superAdmin())
             ->post('/backup/versi/v9.9.9/pulihkan', ['konfirmasi' => 'v9.9.8'])
@@ -190,13 +221,13 @@ class VersiSnapshotTest extends TestCase
 
     public function test_pemulihan_ditolak_bila_berkas_snapshot_berubah_sejak_direkam(): void
     {
-        $berkas = $this->palsukanSnapshot('v9.9.9');
+        $berkas = $this->palsukanSnapshot(self::TAG_UJI);
 
         // Rusak berkasnya tanpa memperbarui manifes — persis yang terjadi kalau
         // seseorang menimpanya lewat Explorer.
         File::put($berkas, 'bukan zip sama sekali');
 
-        $this->assertFalse($this->layanan()->snapshotUtuh('v9.9.9'));
+        $this->assertFalse($this->layanan()->snapshotUtuh(self::TAG_UJI));
 
         $this->actingAs($this->superAdmin())
             ->post('/backup/versi/v9.9.9/pulihkan', ['konfirmasi' => 'v9.9.9'])
@@ -238,25 +269,25 @@ class VersiSnapshotTest extends TestCase
 
     public function test_versi_yang_berkas_snapshotnya_terhapus_tidak_lagi_diakui_ada(): void
     {
-        $berkas = $this->palsukanSnapshot('v9.9.9');
+        $berkas = $this->palsukanSnapshot(self::TAG_UJI);
         $layanan = $this->layanan();
 
-        $this->assertTrue($layanan->snapshotAda('v9.9.9'));
+        $this->assertTrue($layanan->snapshotAda(self::TAG_UJI));
 
         File::delete($berkas);
 
         // Manifes masih menyebutnya, tapi berkasnya sudah tidak ada — keadaan
         // ini harus terbaca sebagai "tidak ada", bukan "ada".
-        $this->assertNotNull($layanan->catatan('v9.9.9'));
-        $this->assertFalse($layanan->snapshotAda('v9.9.9'));
-        $this->assertFalse($layanan->snapshotUtuh('v9.9.9'));
+        $this->assertNotNull($layanan->catatan(self::TAG_UJI));
+        $this->assertFalse($layanan->snapshotAda(self::TAG_UJI));
+        $this->assertFalse($layanan->snapshotUtuh(self::TAG_UJI));
     }
 
     public function test_selisih_migrasi_terbaca_ketika_skema_lebih_maju_daripada_versi(): void
     {
-        $this->palsukanSnapshot('v9.9.9');
+        $this->palsukanSnapshot(self::TAG_UJI);
 
-        $selisih = $this->layanan()->selisihMigrasi('v9.9.9');
+        $selisih = $this->layanan()->selisihMigrasi(self::TAG_UJI);
 
         $this->assertNotNull($selisih);
         $this->assertSame(95, $selisih['tag']);
