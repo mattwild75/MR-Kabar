@@ -1,15 +1,14 @@
 import { Link } from '@inertiajs/react';
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import {
-  CalendarClock,
-  ChevronLeft,
-  ChevronRight,
-  CircleAlert,
-  CircleCheck,
-  CircleDashed,
-  CircleDot,
-} from 'lucide-react';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { CalendarClock, CircleAlert, CircleCheck, CircleDashed, CircleDot } from 'lucide-react';
 
 export interface JadwalTahapan {
   id: number;
@@ -88,138 +87,236 @@ const rentang = (mulai: string | null, selesai: string | null) => {
   return 'Tenggat belum ditetapkan';
 };
 
-/** Kartu satu tahapan, berikut panah kecil yang menunjuk ke sumbu waktu. */
-function KartuTahapan({ tahapan, diAtas }: { tahapan: JadwalTahapan; diAtas: boolean }) {
-  const k = KEADAAN[tahapan.keadaan];
-  const Ikon = k.Ikon;
+/**
+ * Rentang tanggal versi pendek untuk garis waktu: tahun pada tanggal mulai
+ * dibuang bila keduanya jatuh di tahun yang sama, sebab menuliskannya dua kali
+ * hanya memakan lebar kolom tanpa menambah keterangan apa pun.
+ */
+const rentangSingkat = (mulai: string | null, selesai: string | null) => {
+  if (!mulai || !selesai) return rentang(mulai, selesai);
+  const [a, b] = [new Date(mulai + 'T00:00:00'), new Date(selesai + 'T00:00:00')];
+  const hariBulan = (d: Date) =>
+    d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+  return a.getFullYear() === b.getFullYear()
+    ? `${hariBulan(a)} – ${hariBulan(b)} ${b.getFullYear()}`
+    : `${tanggal(mulai)} – ${tanggal(selesai)}`;
+};
+
+/**
+ * Rincian satu tahapan. Sengaja tidak ditampilkan di garis waktu: pelaksana
+ * dan keluaran kerap berupa satu kalimat penuh, dan menaruh keduanya di sana
+ * membuat sebelas tahapan setinggi separuh layar padahal yang dicari orang
+ * saat melirik Dasbor cuma "apa, kapan, dan sudah lewat atau belum".
+ */
+function DialogTahapan({
+  tahapan,
+  onOpenChange,
+}: {
+  tahapan: JadwalTahapan | null;
+  onOpenChange: (terbuka: boolean) => void;
+}) {
+  const k = tahapan ? KEADAAN[tahapan.keadaan] : null;
+  const Ikon = k?.Ikon;
   return (
-    <div className={`relative mx-2 rounded-md border p-2.5 ${k.kelas}`}>
-      {/*
-        Panah dibuat dari kotak yang diputar 45 derajat, dengan dua sisi
-        bersebelahan saja yang bergaris. Sisi yang menghadap sumbu dibiarkan
-        polos supaya garis kartunya terlihat menyambung ke panah, bukan
-        terpotong garis melintang.
-      */}
-      <span
-        aria-hidden
-        className={`absolute left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border ${k.kelas} ${
-          diAtas ? '-bottom-[7px] border-t-0 border-l-0' : '-top-[7px] border-r-0 border-b-0'
-        }`}
-      />
-      <div className={`flex items-center gap-1.5 text-xs font-medium ${k.teks}`}>
-        <Ikon className="h-3.5 w-3.5 shrink-0" />
-        {k.label}
-      </div>
-      <p className="mt-1 text-sm leading-snug font-medium">{tahapan.tahapan}</p>
-      <p className="text-muted-foreground text-xs">
-        {rentang(tahapan.tanggal_mulai, tahapan.tanggal_selesai)}
-      </p>
-      {tahapan.dokumen_pemicu && (
-        <p className="text-muted-foreground text-xs">Setelah {tahapan.dokumen_pemicu} disusun</p>
-      )}
-      {tahapan.pelaksana && (
-        <p className="text-muted-foreground text-xs">Pelaksana: {tahapan.pelaksana}</p>
-      )}
-      {tahapan.keluaran && (
-        <p className="text-muted-foreground text-xs">Keluaran: {tahapan.keluaran}</p>
-      )}
-    </div>
+    <Dialog open={tahapan !== null} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-lg">
+        {tahapan && k && Ikon && (
+          <>
+            <DialogHeader>
+              <div className={`flex items-center gap-1.5 text-xs font-medium ${k.teks}`}>
+                <Ikon className="h-3.5 w-3.5 shrink-0" />
+                {k.label}
+              </div>
+              <DialogTitle className="text-left text-base leading-snug">
+                {tahapan.tahapan}
+              </DialogTitle>
+              <DialogDescription className="text-left">
+                {rentang(tahapan.tanggal_mulai, tahapan.tanggal_selesai)}
+              </DialogDescription>
+            </DialogHeader>
+            <dl className="grid gap-3 text-sm">
+              {tahapan.dokumen_pemicu && (
+                <div>
+                  <dt className="text-muted-foreground text-xs">Dikerjakan setelah</dt>
+                  <dd>{tahapan.dokumen_pemicu} disusun</dd>
+                </div>
+              )}
+              {tahapan.pelaksana && (
+                <div>
+                  <dt className="text-muted-foreground text-xs">Pelaksana</dt>
+                  <dd>{tahapan.pelaksana}</dd>
+                </div>
+              )}
+              {tahapan.keluaran && (
+                <div>
+                  <dt className="text-muted-foreground text-xs">Keluaran</dt>
+                  <dd>{tahapan.keluaran}</dd>
+                </div>
+              )}
+            </dl>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
 
+const NAMA_BULAN = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+const kePersen = (n: number) => `${Math.min(100, Math.max(0, n)).toFixed(3)}%`;
+const waktu = (v: string, akhirHari = false) =>
+  new Date(`${v.slice(0, 10)}T${akhirHari ? '23:59:59' : '00:00:00'}`).getTime();
+
 /**
- * Garis waktu mendatar: satu sumbu menerus, penanda bulat di atasnya, dan
- * kartu berselang-seling di atas dan di bawah sumbu.
+ * Garis waktu berskala tanggal sungguhan: letak tiap batang dihitung dari
+ * porsinya terhadap seluruh periode arahan, bukan dari urutannya. Tahapan
+ * yang berlangsung dua bulan karena itu tampak dua kali lebih panjang
+ * daripada yang dua minggu — hal yang tidak terbaca sama sekali pada
+ * susunan kartu berjajar.
  *
- * Susunannya kisi tiga baris `1fr auto 1fr` yang mengalir menyamping, sehingga
- * kedua baris kartu selalu setinggi kartu tertinggi dan barisan penandanya
- * tetap sejajar — berapa pun panjang uraian tiap tahapan. Ruas sumbu digambar
- * di dalam sel penanda tanpa sela antar kolom, jadi sumbunya tidak pernah
- * terputus di antara dua tahapan.
+ * Dua bentuk, sesuai jenis arahannya:
+ *
+ * - **1 tahunan** — sumbunya dua belas bulan, dengan garis merah tegak di
+ *   tanggal hari ini.
+ * - **5 tahunan** — sumbunya tahun, ditambah bilah kemajuan yang terisi
+ *   sampai hari ini. Periode RPJMD terlalu panjang untuk dinilai dari
+ *   tanggal saja; yang dicari pembaca justru "sudah sejauh mana".
+ *
+ * Tiap tahapan menempati barisnya sendiri. Menumpuk beberapa tahapan dalam
+ * satu baris memang lebih ringkas, tetapi label dan batangnya lalu saling
+ * menimpa begitu ada dua tahapan yang waktunya beririsan — dan pada jadwal
+ * penilaian Risiko, beririsan itu justru lazim.
  */
-function GarisWaktu({ tahapan }: { tahapan: JadwalTahapan[] }) {
-  const jalur = useRef<HTMLDivElement>(null);
-  const [bisaKiri, setBisaKiri] = useState(false);
-  const [bisaKanan, setBisaKanan] = useState(false);
+function GarisWaktu({ arahan }: { arahan: JadwalArahan }) {
+  const [dipilih, pilih] = useState<JadwalTahapan | null>(null);
 
-  const hitung = useCallback(() => {
-    const el = jalur.current;
-    if (!el) return;
-    setBisaKiri(el.scrollLeft > 4);
-    setBisaKanan(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
-  }, []);
+  const berTahun = arahan.tahun_selesai > arahan.tahun_mulai;
+  const awal = new Date(arahan.tahun_mulai, 0, 1).getTime();
+  const akhir = new Date(arahan.tahun_selesai, 11, 31, 23, 59, 59).getTime();
+  const bentang = Math.max(1, akhir - awal);
+  const posisi = (ms: number) => ((ms - awal) / bentang) * 100;
 
-  useEffect(() => {
-    hitung();
-    const el = jalur.current;
-    if (!el) return;
-    const pengamat = new ResizeObserver(hitung);
-    pengamat.observe(el);
-    return () => pengamat.disconnect();
-  }, [hitung, tahapan.length]);
+  const kiniPersen = posisi(Date.now());
+  const kiniTerlihat = kiniPersen >= 0 && kiniPersen <= 100;
 
-  const geser = (arah: -1 | 1) =>
-    jalur.current?.scrollBy({ left: arah * jalur.current.clientWidth * 0.8, behavior: 'smooth' });
+  const tanda = berTahun
+    ? Array.from({ length: arahan.tahun_selesai - arahan.tahun_mulai + 1 }, (_, i) => {
+        const th = arahan.tahun_mulai + i;
+        return { kunci: `t${th}`, label: String(th), kiri: posisi(new Date(th, 0, 1).getTime()) };
+      })
+    : NAMA_BULAN.map((b, i) => ({
+        kunci: `b${i}`,
+        label: b,
+        kiri: posisi(new Date(arahan.tahun_mulai, i, 1).getTime()),
+      }));
 
-  const Tombol = ({ arah }: { arah: -1 | 1 }) => {
-    const aktif = arah === -1 ? bisaKiri : bisaKanan;
-    const Ikon = arah === -1 ? ChevronLeft : ChevronRight;
-    return (
-      <button
-        type="button"
-        onClick={() => geser(arah)}
-        disabled={!aktif}
-        aria-label={arah === -1 ? 'Geser jadwal ke tahapan sebelumnya' : 'Geser jadwal ke tahapan berikutnya'}
-        className={`bg-background/90 absolute top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border shadow-sm transition sm:flex ${
-          arah === -1 ? 'left-0' : 'right-0'
-        } ${aktif ? 'hover:bg-accent' : 'pointer-events-none opacity-0'}`}
-      >
-        <Ikon className="h-4 w-4" />
-      </button>
-    );
-  };
+  const tahunBerjalan = Math.min(
+    arahan.tahun_selesai - arahan.tahun_mulai + 1,
+    Math.max(1, new Date().getFullYear() - arahan.tahun_mulai + 1),
+  );
 
   return (
-    <div className="relative">
-      <Tombol arah={-1} />
-      <Tombol arah={1} />
-      <div
-        ref={jalur}
-        onScroll={hitung}
-        className="scrollbar-thin overflow-x-auto overflow-y-hidden pb-1"
-      >
-        {/*
-          Ketiga barisnya `auto`, bukan `1fr auto 1fr`. Dengan `1fr` kedua baris
-          kartu dipaksa sama tinggi, sehingga widget selalu setinggi dua kali
-          kartu terpanjang walaupun baris bawahnya pendek.
-        */}
-        <div className="grid auto-cols-[17rem] grid-flow-col grid-rows-[auto_auto_auto]">
-          {tahapan.map((t, i) => {
-            const k = KEADAAN[t.keadaan];
-            const Ikon = k.Ikon;
-            const diAtas = i % 2 === 0;
-            return (
-              <Fragment key={t.id}>
-                <div className="flex items-end">{diAtas && <KartuTahapan tahapan={t} diAtas />}</div>
-                {/* Sengaja lebih pendek daripada penandanya: bulatan 24 piksel
-                    dibiarkan meluber ke luar baris supaya jarak kartu ke sumbu
-                    tinggal 12 piksel, cukup dekat untuk disambung panah. */}
-                <div className="relative flex h-6 items-center justify-center">
-                  <span aria-hidden className={`absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 ${k.garis}`} />
-                  <span
-                    className={`relative flex h-6 w-6 items-center justify-center rounded-full border-2 ${k.penanda}`}
-                  >
-                    <Ikon className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-                <div className="flex items-start">
-                  {!diAtas && <KartuTahapan tahapan={t} diAtas={false} />}
-                </div>
-              </Fragment>
-            );
-          })}
-        </div>
+    <div className="mt-2">
+      {/* Sumbu: nama bulan atau tahun, diletakkan pada porsinya sendiri */}
+      <div className="relative h-4 text-[10px] text-muted-foreground">
+        {tanda.map((s) => (
+          <span key={s.kunci} className="absolute top-0" style={{ left: kePersen(s.kiri) }}>
+            {s.label}
+          </span>
+        ))}
       </div>
+
+      {berTahun ? (
+        <>
+          <div className="bg-muted relative h-2.5 overflow-hidden rounded-full">
+            <div
+              className="h-full rounded-full bg-sky-500"
+              style={{ width: kePersen(kiniPersen) }}
+              aria-hidden
+            />
+          </div>
+          <p className="text-muted-foreground mt-1 text-[11px]">
+            Tahun ke-{tahunBerjalan} dari {arahan.tahun_selesai - arahan.tahun_mulai + 1} &middot;{' '}
+            {Math.round(kiniPersen)}% periode berjalan
+          </p>
+        </>
+      ) : (
+        <div className="relative h-1.5">
+          <div className="bg-border absolute inset-x-0 top-1/2 h-px -translate-y-1/2" />
+          {tanda.map((s) => (
+            <span
+              key={s.kunci}
+              className="bg-border absolute top-0 h-1.5 w-px"
+              style={{ left: kePersen(s.kiri) }}
+              aria-hidden
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Satu baris untuk satu tahapan */}
+      <div className="relative mt-2 space-y-1">
+        {kiniTerlihat && (
+          /* Sengaja tanpa z-index, dan ditulis paling awal, supaya batang dan
+             label tahapan menimpanya. Sebagai garis rambut ia tetap terlihat
+             pada ruang kosong, tetapi tidak lagi memotong tulisan. */
+          <span
+            className="absolute inset-y-0 w-px bg-red-500/70"
+            style={{ left: kePersen(kiniPersen) }}
+            aria-hidden
+          />
+        )}
+
+        {arahan.tahapan.map((t) => {
+          const k = KEADAAN[t.keadaan];
+          const mulai = t.tanggal_mulai ? waktu(t.tanggal_mulai) : awal;
+          const selesai = t.tanggal_selesai ? waktu(t.tanggal_selesai, true) : mulai;
+          const kiri = Math.max(0, posisi(mulai));
+          // Batang yang sangat pendek tetap diberi lebar minimum, kalau tidak
+          // tahapan dua minggu di dalam periode lima tahun menjadi tak terlihat.
+          const lebar = Math.max(posisi(selesai) - kiri, berTahun ? 0.8 : 1.4);
+          const diDalam = lebar >= 24;
+          const keKiri = !diDalam && kiri + lebar > 62;
+          const keterangan = `${t.tahapan} · ${rentangSingkat(t.tanggal_mulai, t.tanggal_selesai)}`;
+
+          return (
+            <button
+              key={t.id}
+              type="button"
+              onClick={() => pilih(t)}
+              title={keterangan}
+              aria-label={`Lihat rincian tahapan ${t.tahapan}`}
+              className="group relative block h-6 w-full text-left focus-visible:outline-none"
+            >
+              <span
+                className={`absolute inset-y-0 rounded-sm border transition group-hover:brightness-125 group-focus-visible:ring-2 ${k.kelas}`}
+                style={{ left: kePersen(kiri), width: kePersen(lebar) }}
+              />
+              <span
+                className={`absolute inset-y-0 flex items-center text-[11px] leading-none whitespace-nowrap ${
+                  diDalam ? 'overflow-hidden px-1.5' : ''
+                }`}
+                style={
+                  diDalam
+                    ? { left: kePersen(kiri), width: kePersen(lebar) }
+                    : keKiri
+                      ? { right: `calc(${kePersen(100 - kiri)} + 6px)` }
+                      : { left: `calc(${kePersen(kiri + lebar)} + 6px)` }
+                }
+              >
+                <span className={`truncate font-medium ${diDalam ? k.teks : ''}`}>{t.tahapan}</span>
+                {!diDalam && (
+                  <span className="text-muted-foreground ml-1.5">
+                    {rentangSingkat(t.tanggal_mulai, t.tanggal_selesai)}
+                  </span>
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <DialogTahapan tahapan={dipilih} onOpenChange={(t) => !t && pilih(null)} />
     </div>
   );
 }
@@ -312,7 +409,7 @@ export default function JadwalPenilaianWidget({
             {a.tahapan.length === 0 ? (
               <p className="text-muted-foreground mt-1 text-sm">Belum ada tahapan yang dirinci pada arahan ini.</p>
             ) : (
-              <GarisWaktu tahapan={a.tahapan} />
+              <GarisWaktu arahan={a} />
             )}
           </div>
         ))}
