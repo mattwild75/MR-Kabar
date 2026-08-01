@@ -116,6 +116,8 @@ MENGINGAT = [
     "Indonesia Nomor 6400);",
     "Peraturan Presiden Nomor 54 Tahun 2018 tentang Strategi Nasional Pencegahan Korupsi (Lembaran "
     "Negara Republik Indonesia Tahun 2018 Nomor 108);",
+    "Peraturan Presiden Nomor 39 Tahun 2023 tentang Manajemen Risiko Pembangunan Nasional "
+    "(Lembaran Negara Republik Indonesia Tahun 2023 Nomor 90);",
     "Peraturan Presiden Nomor 95 Tahun 2018 tentang Sistem Pemerintahan Berbasis Elektronik "
     "(Lembaran Negara Republik Indonesia Tahun 2018 Nomor 182);",
     "Peraturan Menteri Dalam Negeri Nomor 77 Tahun 2020 tentang Pedoman Teknis Pengelolaan Keuangan "
@@ -175,6 +177,8 @@ DEF = [
     "Selera Risiko adalah tingkat Risiko yang bersedia diterima Pemerintah Kabupaten atau SKPK dalam "
     "rangka pencapaian tujuan.",
     "Toleransi Risiko adalah batas penyimpangan dari Selera Risiko yang masih dapat diterima Pemerintah Kabupaten atau SKPK tanpa mengganggu pencapaian tujuan dan sasaran.",
+    "Sisa Risiko adalah Risiko yang masih tersisa setelah memperhitungkan pengendalian yang telah "
+    "dilaksanakan.",
     "Rencana Tindak Pengendalian yang selanjutnya disingkat RTP adalah dokumen yang memuat rencana "
     "kegiatan pengendalian atas Risiko Prioritas beserta penanggung jawab dan waktu pelaksanaannya.",
     "Kode Risiko adalah penanda unik setiap Risiko yang menunjukkan tingkatan Risiko, tahun "
@@ -208,7 +212,7 @@ DEF = [
     "sesuai dengan kewenangannya.",
     "Hak Akses adalah kewenangan yang diberikan kepada Pengguna untuk melakukan tindakan tertentu di "
     "dalam MR KABAR.",
-    "Administrator adalah pejabat atau pegawai yang ditugaskan mengelola MR KABAR, meliputi "
+    "Pengelola MR KABAR adalah pejabat atau pegawai yang ditugaskan mengelola MR KABAR, meliputi "
     "pengelolaan Hak Akses, data acuan, dan pemeliharaan aplikasi.",
     "Perangkat Daerah yang membidangi urusan komunikasi dan informatika adalah SKPK yang "
     "menyelenggarakan urusan pemerintahan bidang komunikasi, informatika, dan persandian pada "
@@ -254,17 +258,22 @@ A(ayat(2, "Manajemen Risiko sebagaimana dimaksud pada ayat (1) diterapkan pada t
 
 # ══════════════════ BAB III ══════════════════
 A(bab("III", "PRINSIP DAN KEBIJAKAN PENGELOLAAN RISIKO"))
+A(bagian("Kesatu", "Prinsip dan Kebijakan"))
 A(pasal(5))
 A(par("Penyelenggaraan Manajemen Risiko dilaksanakan berdasarkan prinsip:", after=100))
-for h, t in zip("abcdefg", [
+for h, t in zip("abcdefghi", [
     "terpadu, yaitu menjadi bagian tidak terpisahkan dari seluruh proses penyelenggaraan "
     "pemerintahan daerah;",
     "terstruktur dan menyeluruh, yaitu dilakukan secara sistematis atas seluruh tujuan dan sasaran;",
     "sesuai kebutuhan, yaitu disesuaikan dengan karakteristik, tugas, dan fungsi masing-masing SKPK;",
     "inklusif, yaitu melibatkan pemangku kepentingan yang relevan;",
+    "kolaboratif, yaitu dilaksanakan melalui kerja sama antar-SKPK dan dengan pihak lain yang "
+    "terkait, terutama atas Risiko yang penanganannya melampaui kewenangan satu SKPK;",
     "dinamis, yaitu ditinjau dan dimutakhirkan mengikuti perubahan keadaan;",
-    "berdasarkan informasi terbaik yang tersedia; dan",
-    "mempertimbangkan faktor manusia dan budaya organisasi.",
+    "berdasarkan informasi terbaik yang tersedia;",
+    "mempertimbangkan faktor manusia dan budaya organisasi; dan",
+    "perbaikan berkelanjutan, yaitu hasil pemantauan dan evaluasi dipakai untuk menyempurnakan "
+    "penyelenggaraan Manajemen Risiko pada periode berikutnya.",
 ]):
     A(huruf(h, t))
 A(pasal(6))
@@ -285,12 +294,38 @@ A(ayat(4, "Bersamaan dengan penetapan Selera Risiko sebagaimana dimaksud pada ay
 A(ayat(5, "Toleransi Risiko sebagaimana dimaksud pada ayat (4) menjadi dasar pengisian kolom "
           "toleransi pada kriteria kemungkinan terjadinya Risiko sebagaimana tercantum dalam "
           "Lampiran VI."))
+A(ayat(6, "Selera Risiko dan Toleransi Risiko sebagaimana dimaksud pada ayat (1) sampai dengan "
+          "ayat (4) direkam pada MR KABAR dan menjadi dasar penentuan Risiko Prioritas secara "
+          "elektronik."))
+
+A(bagian("Kedua", "Pengembangan Budaya Sadar Risiko"))
+A(pasal(8))
+A(ayat(1, "Pemerintah Kabupaten mengembangkan budaya sadar Risiko pada seluruh SKPK."))
+A(ayat(2, "Pengembangan budaya sadar Risiko sebagaimana dimaksud pada ayat (1) dilaksanakan "
+          "melalui:"))
+for h, t in zip("abcd", [
+    "sosialisasi pemahaman Risiko kepada pejabat dan pegawai;",
+    "internalisasi pertimbangan Risiko dalam setiap pengambilan keputusan;",
+    "perbaikan lingkungan pengendalian berdasarkan hasil CEE; dan",
+    "keteladanan pimpinan dalam menerapkan Manajemen Risiko.",
+]):
+    A(huruf(h, t, kiri=1021))
+A(ayat(3, "Pengembangan budaya sadar Risiko sebagaimana dimaksud pada ayat (2) dikoordinasikan oleh "
+          "Koordinator Penyelenggaraan Pengelolaan Risiko dan difasilitasi Inspektorat."))
+A(pasal(9))
+A(ayat(1, "Bupati dapat memberikan penghargaan kepada SKPK yang menyelenggarakan Manajemen Risiko "
+          "secara baik."))
+A(ayat(2, "Penilaian untuk pemberian penghargaan sebagaimana dimaksud pada ayat (1) didasarkan pada "
+          "ketaatan penyampaian laporan, kelengkapan perekaman pada MR KABAR, dan tindak lanjut atas "
+          "RTP yang telah disusun."))
+A(ayat(3, "Ketaatan sebagaimana dimaksud pada ayat (2) terbaca dari MR KABAR dan tidak memerlukan "
+          "penilaian tersendiri."))
 
 
 # ══════════════════ BAB IV ══════════════════
 A(bab("IV", "STRUKTUR PENGELOLAAN RISIKO"))
 A(bagian("Kesatu", "Umum"))
-A(pasal(8))
+A(pasal(10))
 A(ayat(1, "Struktur pengelolaan Risiko pada Pemerintah Kabupaten terdiri atas:"))
 for h, t in zip("abcdef", [
     "Komite Pengelolaan Risiko tingkat Pemerintah Kabupaten;",
@@ -316,19 +351,32 @@ A(ayat(3, "Pelaksanaan tugas pada masing-masing lini sebagaimana dimaksud pada a
           "menghapuskan tanggung jawab UPR sebagai pemilik Risiko."))
 
 A(bagian("Kedua", "Komite Pengelolaan Risiko"))
-A(pasal(9))
+A(pasal(11))
 A(ayat(1, "Komite Pengelolaan Risiko tingkat Pemerintah Kabupaten dipimpin oleh Bupati."))
-A(ayat(2, "Komite sebagaimana dimaksud pada ayat (1) bertugas:"))
-for h, t in zip("abcd", [
-    "menetapkan arah kebijakan pengelolaan Risiko Pemerintah Kabupaten;",
-    "menetapkan Selera Risiko tingkat Pemerintah Kabupaten;",
-    "memutuskan penanganan Risiko yang bersifat lintas SKPK; dan",
-    "memantau efektivitas penyelenggaraan Manajemen Risiko secara keseluruhan.",
+A(ayat(2, "Susunan Komite Pengelolaan Risiko tingkat Pemerintah Kabupaten terdiri atas:"))
+for h, t in zip("abc", [
+    "ketua, dijabat oleh Bupati;",
+    "koordinator merangkap anggota, dijabat oleh Kepala SKPK yang menyelenggarakan urusan "
+    "perencanaan pembangunan daerah; dan",
+    "anggota, terdiri atas Kepala SKPK yang ditunjuk.",
 ]):
     A(huruf(h, t, kiri=1021))
+A(ayat(3, "Komite sebagaimana dimaksud pada ayat (1) bertugas:"))
+for h, t in zip("abcde", [
+    "menetapkan arah kebijakan pengelolaan Risiko Pemerintah Kabupaten;",
+    "menetapkan Selera Risiko tingkat Pemerintah Kabupaten;",
+    "memutuskan penanganan Risiko yang bersifat lintas SKPK;",
+    "memantau efektivitas penyelenggaraan Manajemen Risiko secara keseluruhan; dan",
+    "melakukan pembinaan penyelenggaraan Manajemen Risiko kepada SKPK.",
+]):
+    A(huruf(h, t, kiri=1021))
+A(ayat(4, "Dalam melaksanakan tugas sebagaimana dimaksud pada ayat (3), Komite dapat membentuk tim "
+          "teknis."))
+A(ayat(5, "Susunan keanggotaan Komite sebagaimana dimaksud pada ayat (2) ditetapkan dengan Keputusan "
+          "Bupati."))
 
 A(bagian("Ketiga", "Koordinator Penyelenggaraan Pengelolaan Risiko"))
-A(pasal(10))
+A(pasal(12))
 A(ayat(1, "Sekretaris Daerah bertindak sebagai Koordinator Penyelenggaraan Pengelolaan Risiko."))
 A(ayat(2, "Koordinator sebagaimana dimaksud pada ayat (1) bertugas:"))
 for h, t in zip("abcde", [
@@ -341,7 +389,7 @@ for h, t in zip("abcde", [
     A(huruf(h, t, kiri=1021))
 
 A(bagian("Keempat", "Unit Pemilik Risiko"))
-A(pasal(11))
+A(pasal(13))
 A(ayat(1, "UPR terdiri atas:"))
 for h, t in zip("abc", [
     "UPR tingkat Pemerintah Kabupaten;",
@@ -355,7 +403,13 @@ A(ayat(3, "UPR tingkat strategis SKPK sebagaimana dimaksud pada ayat (1) huruf b
           "SKPK."))
 A(ayat(4, "UPR tingkat operasional SKPK sebagaimana dimaksud pada ayat (1) huruf c dijabat oleh "
           "pejabat administrator atau pejabat pengawas pada SKPK sesuai dengan tugas dan fungsinya."))
-A(pasal(12))
+A(ayat(5, "UPR pada setiap tingkatan sebagaimana dimaksud pada ayat (1) berbentuk tim dengan susunan "
+          "terdiri atas ketua, koordinator merangkap anggota, dan anggota."))
+A(ayat(6, "Koordinator sebagaimana dimaksud pada ayat (5) dijabat oleh pejabat yang menangani "
+          "perencanaan pada tingkatan yang bersangkutan."))
+A(ayat(7, "Susunan UPR pada setiap tingkatan sebagaimana dimaksud pada ayat (5) ditetapkan dengan "
+          "Keputusan Bupati untuk jangka waktu 1 (satu) tahun dan direkam pada MR KABAR."))
+A(pasal(14))
 A(par("UPR bertugas:", after=100))
 for h, t in zip("abcdef", [
     "menetapkan konteks Risiko pada tingkatannya;",
@@ -369,13 +423,13 @@ for h, t in zip("abcdef", [
     A(huruf(h, t))
 
 A(bagian("Kelima", "Pengelola Risiko"))
-A(pasal(13))
+A(pasal(15))
 A(ayat(1, "Kepala SKPK menetapkan Pengelola Risiko pada SKPK yang dipimpinnya."))
 A(ayat(2, "Pengelola Risiko bertugas membantu UPR dalam melaksanakan proses Manajemen Risiko dan "
           "melakukan perekaman data pada MR KABAR."))
 
 A(bagian("Keenam", "Unit Kepatuhan"))
-A(pasal(14))
+A(pasal(16))
 A(ayat(1, "Asisten Sekretaris Daerah yang membidangi urusan pemerintahan dan keistimewaan bertindak "
           "sebagai Unit Kepatuhan."))
 A(ayat(2, "Unit Kepatuhan sebagaimana dimaksud pada ayat (1) bertugas:"))
@@ -384,7 +438,7 @@ for h, t in zip("abcde", [
     "Peraturan Bupati ini;",
     "menelaah kewajaran hasil Analisis Risiko dan kelayakan RTP yang disusun UPR;",
     "memantau realisasi RTP dan perkembangan Kejadian Risiko melalui MR KABAR;",
-    "menyusun laporan pemantauan sebagaimana dimaksud dalam Pasal 48; dan",
+    "menyusun laporan pemantauan sebagaimana dimaksud dalam Pasal 55; dan",
     "menyampaikan saran perbaikan kepada Koordinator Penyelenggaraan Pengelolaan Risiko.",
 ]):
     A(huruf(h, t, kiri=1021))
@@ -392,7 +446,7 @@ A(ayat(3, "Dalam melaksanakan tugas sebagaimana dimaksud pada ayat (2), Unit Kep
           "melaksanakan sendiri proses Manajemen Risiko yang menjadi tanggung jawab UPR."))
 
 A(bagian("Ketujuh", "Penanggung Jawab Pengawasan"))
-A(pasal(15))
+A(pasal(17))
 A(ayat(1, "Inspektorat bertindak sebagai Penanggung Jawab Pengawasan penyelenggaraan Manajemen "
           "Risiko."))
 A(ayat(2, "Inspektorat sebagaimana dimaksud pada ayat (1) bertugas:"))
@@ -405,15 +459,15 @@ for h, t in zip("abcde", [
     "melakukan pembinaan substansi atas penyelenggaraan MR KABAR.",
 ]):
     A(huruf(h, t, kiri=1021))
-A(pasal(16))
-A(par("Dalam melaksanakan tugas sebagaimana dimaksud dalam Pasal 15 ayat (2), Inspektorat tidak "
+A(pasal(18))
+A(par("Dalam melaksanakan tugas sebagaimana dimaksud dalam Pasal 17 ayat (2), Inspektorat tidak "
       "mengambil alih tanggung jawab UPR dalam mengelola Risiko."))
 
 
 # ══════════════════ BAB V ══════════════════
 A(bab("V", "PROSES MANAJEMEN RISIKO"))
 A(bagian("Kesatu", "Umum"))
-A(pasal(17))
+A(pasal(19))
 A(ayat(1, "Proses Manajemen Risiko dilaksanakan secara berkelanjutan setiap tahun dan meliputi "
           "tahapan:"))
 for h, t in zip("abcdefg", [
@@ -434,8 +488,30 @@ A(ayat(4, "Contoh pengisian formulir sebagaimana dimaksud pada ayat (3) tercantu
           "XIII, Lampiran XV, Lampiran XVII, dan Lampiran XVIII yang merupakan bagian tidak "
           "terpisahkan dari Peraturan Bupati ini."))
 
-A(bagian("Kedua", "Penetapan Konteks"))
-A(pasal(18))
+A(bagian("Kedua", "Jadwal Penyelenggaraan"))
+A(pasal(20))
+A(ayat(1, "Bupati menetapkan arahan dan kebijakan penilaian Risiko yang memuat jadwal "
+          "penyelenggaraan setiap tahapan Manajemen Risiko."))
+A(ayat(2, "Arahan dan kebijakan sebagaimana dimaksud pada ayat (1) terdiri atas:"))
+for h, t in zip("ab", [
+    "arahan 5 (lima) tahunan, mengikuti periode Rencana Pembangunan Jangka Menengah Daerah; dan",
+    "arahan 1 (satu) tahunan, mengikuti siklus penyusunan dan pelaksanaan anggaran.",
+]):
+    A(huruf(h, t, kiri=1021))
+A(ayat(3, "Arahan dan kebijakan sebagaimana dimaksud pada ayat (2) ditetapkan dengan Surat Edaran "
+          "Bupati dan paling sedikit memuat tahapan, waktu mulai dan selesai, pelaksana, serta "
+          "keluaran setiap tahapan."))
+A(ayat(4, "Jadwal sebagaimana dimaksud pada ayat (3) disusun selaras dengan siklus penyusunan "
+          "Rencana Pembangunan Jangka Menengah Daerah, Rencana Strategis, Rencana Kerja Pemerintah "
+          "Daerah, Rencana Kerja, Kebijakan Umum Anggaran dan Prioritas Plafon Anggaran Sementara, "
+          "Rencana Kerja dan Anggaran, serta Dokumen Pelaksanaan Anggaran."))
+A(ayat(5, "Arahan dan kebijakan sebagaimana dimaksud pada ayat (1) direkam pada MR KABAR dan "
+          "menjadi dasar penandaan tahapan yang telah melampaui tenggat."))
+A(ayat(6, "Jadwal tidak dituangkan dalam Lampiran Peraturan Bupati ini karena disesuaikan setiap "
+          "tahun mengikuti siklus perencanaan dan penganggaran."))
+
+A(bagian("Ketiga", "Penetapan Konteks"))
+A(pasal(21))
 A(ayat(1, "Penetapan Konteks dilakukan atas tujuan dan sasaran Pemerintah Kabupaten serta tujuan dan "
           "sasaran SKPK."))
 A(ayat(2, "Sumber Penetapan Konteks sebagaimana dimaksud pada ayat (1) meliputi:"))
@@ -445,12 +521,12 @@ for h, t in zip("abc", [
     "Rencana Kerja SKPK, untuk konteks Risiko tingkat operasional SKPK.",
 ]):
     A(huruf(h, t, kiri=1021))
-A(pasal(19))
+A(pasal(22))
 A(par("Penetapan Konteks paling sedikit memuat tujuan dan sasaran, indikator kinerja, pemangku "
       "kepentingan, proses bisnis, kriteria dampak dan kemungkinan, serta Selera Risiko."))
 
-A(bagian("Ketiga", "Identifikasi Risiko"))
-A(pasal(20))
+A(bagian("Keempat", "Identifikasi Risiko"))
+A(pasal(23))
 A(ayat(1, "Identifikasi Risiko dilakukan dengan menguraikan peristiwa Risiko, penyebab Risiko, "
           "sumber Risiko, dan dampak Risiko atas setiap tujuan dan sasaran."))
 A(ayat(2, "Penyebab Risiko sebagaimana dimaksud pada ayat (1) dikategorikan ke dalam:"))
@@ -467,8 +543,8 @@ A(ayat(4, "Rincian kategori penyebab Risiko sebagaimana dimaksud pada ayat (2) t
 A(ayat(5, "Sumber sebab Risiko terisi otomatis oleh MR KABAR sebagai internal atau eksternal "
           "berdasarkan kategori penyebab yang dipilih."))
 A(ayat(6, "Setiap Risiko yang teridentifikasi diberi Kode Risiko."))
-A(pasal(21))
-A(ayat(1, "Kode Risiko sebagaimana dimaksud dalam Pasal 20 ayat (6) disusun dengan susunan "
+A(pasal(24))
+A(ayat(1, "Kode Risiko sebagaimana dimaksud dalam Pasal 23 ayat (6) disusun dengan susunan "
           "[TINGKATAN].[TAHUN].[URUSAN].[ENTITAS].[NOMOR URUT]."))
 A(ayat(2, "Tingkatan sebagaimana dimaksud pada ayat (1) terdiri atas:"))
 for h, t in zip("abc", [
@@ -483,8 +559,8 @@ A(ayat(3, "Susunan Kode Risiko sebagaimana dimaksud pada ayat (1) tercantum dala
           "ini."))
 A(ayat(4, "Kode Risiko dibentuk secara otomatis oleh MR KABAR."))
 
-A(bagian("Keempat", "Analisis Risiko"))
-A(pasal(22))
+A(bagian("Kelima", "Analisis Risiko"))
+A(pasal(25))
 A(ayat(1, "Analisis Risiko dilakukan dengan menentukan tingkat dampak dan tingkat kemungkinan "
           "terjadinya Risiko."))
 A(ayat(2, "Tingkat dampak sebagaimana dimaksud pada ayat (1) ditentukan berdasarkan kriteria dampak "
@@ -495,29 +571,29 @@ A(ayat(3, "Kriteria dampak sebagaimana dimaksud pada ayat (2) tercantum dalam La
 A(ayat(4, "Tingkat kemungkinan sebagaimana dimaksud pada ayat (1) ditentukan berdasarkan kriteria "
           "kemungkinan yang meliputi probabilitas, frekuensi, dan toleransi, sebagaimana tercantum "
           "dalam Lampiran V yang merupakan bagian tidak terpisahkan dari Peraturan Bupati ini."))
-A(pasal(23))
+A(pasal(26))
 A(ayat(1, "Skala Risiko diperoleh dari pertemuan tingkat dampak dan tingkat kemungkinan pada matriks "
           "analisis Risiko dengan ukuran 5 (lima) kali 5 (lima)."))
 A(ayat(2, "Skala Risiko sebagaimana dimaksud pada ayat (1) dibaca dari tabel peringkat 1 (satu) "
           "sampai dengan 25 (dua puluh lima) dan bukan merupakan hasil perkalian kedua sumbu."))
 A(ayat(3, "Matriks analisis Risiko sebagaimana dimaksud pada ayat (1) tercantum dalam Lampiran VI "
           "yang merupakan bagian tidak terpisahkan dari Peraturan Bupati ini."))
-A(pasal(24))
-A(ayat(1, "Berdasarkan Skala Risiko sebagaimana dimaksud dalam Pasal 23, Risiko dikelompokkan ke "
+A(pasal(27))
+A(ayat(1, "Berdasarkan Skala Risiko sebagaimana dimaksud dalam Pasal 26, Risiko dikelompokkan ke "
           "dalam peringkat sangat rendah, rendah, sedang, tinggi, dan sangat tinggi."))
 A(ayat(2, "Pengelompokan peringkat Risiko sebagaimana dimaksud pada ayat (1) tercantum dalam "
           "Lampiran VII yang merupakan bagian tidak terpisahkan dari Peraturan Bupati ini."))
 A(ayat(3, "Hasil Analisis Risiko dituangkan dalam Peta Risiko."))
 
-A(bagian("Kelima", "Evaluasi Risiko"))
-A(pasal(25))
+A(bagian("Keenam", "Evaluasi Risiko"))
+A(pasal(28))
 A(ayat(1, "Evaluasi Risiko dilakukan dengan membandingkan Skala Risiko terhadap Selera Risiko untuk "
           "menentukan Risiko Prioritas."))
 A(ayat(2, "Risiko Prioritas sebagaimana dimaksud pada ayat (1) dituangkan dalam daftar Risiko "
           "Prioritas."))
 
-A(bagian("Keenam", "Keterkaitan Risiko Prioritas dengan Program Pembangunan Bupati"))
-A(pasal(26))
+A(bagian("Ketujuh", "Keterkaitan Risiko Prioritas dengan Program Pembangunan Bupati"))
+A(pasal(29))
 A(ayat(1, "Risiko Prioritas dikaitkan dengan Program Pembangunan Bupati yang pencapaiannya "
           "berpotensi terganggu oleh Risiko tersebut."))
 A(ayat(2, "Keterkaitan sebagaimana dimaksud pada ayat (1) dilakukan melalui MR KABAR."))
@@ -533,12 +609,12 @@ A(ayat(4, "Satu Risiko Prioritas dapat dikaitkan dengan lebih dari 1 (satu) Prog
           "Bupati, dan satu Program Pembangunan Bupati dapat dikaitkan dengan lebih dari 1 (satu) "
           "Risiko Prioritas."))
 
-A(pasal(27))
+A(pasal(30))
 A(ayat(1, "UPR mengusulkan keterkaitan atau pelepasan keterkaitan sebagaimana dimaksud dalam "
-          "Pasal 26 kepada Administrator melalui MR KABAR."))
+          "Pasal 29 kepada Pengelola MR KABAR melalui MR KABAR."))
 A(ayat(2, "Usulan sebagaimana dimaksud pada ayat (1) hanya dapat diajukan atas Risiko yang berada "
           "dalam register Risiko SKPK yang bersangkutan."))
-A(ayat(3, "Administrator menyetujui atau menolak usulan sebagaimana dimaksud pada ayat (1) dengan "
+A(ayat(3, "Pengelola MR KABAR menyetujui atau menolak usulan sebagaimana dimaksud pada ayat (1) dengan "
           "mempertimbangkan:"))
 for h, t in zip("abc", [
     "kesesuaian uraian Risiko dengan keluaran Program Pembangunan Bupati yang diusulkan;",
@@ -546,37 +622,74 @@ for h, t in zip("abc", [
     "kelengkapan dan kebenaran data Risiko yang direkam.",
 ]):
     A(huruf(h, t, kiri=1021))
-A(ayat(4, "Keterkaitan berlaku sejak usulan disetujui Administrator."))
+A(ayat(4, "Keterkaitan berlaku sejak usulan disetujui Pengelola MR KABAR."))
 A(ayat(5, "Penolakan usulan sebagaimana dimaksud pada ayat (3) disertai alasan dan disampaikan "
           "kepada UPR pengusul melalui MR KABAR."))
 A(ayat(6, "Seluruh usulan, persetujuan, dan penolakan sebagaimana dimaksud pada ayat (1) sampai "
           "dengan ayat (5) terekam dalam MR KABAR sebagai jejak audit."))
 
-A(bagian("Ketujuh", "Rencana Tindak Pengendalian"))
-A(pasal(28))
+A(bagian("Kedelapan", "Rencana Tindak Pengendalian"))
+A(pasal(31))
 A(ayat(1, "Setiap Risiko Prioritas wajib disusun RTP."))
 A(ayat(2, "Penyusunan RTP didahului dengan analisis akar penyebab Risiko."))
 A(ayat(3, "RTP paling sedikit memuat kegiatan pengendalian, penanggung jawab, target waktu "
           "penyelesaian, dan indikator keberhasilan."))
-A(pasal(29))
+A(pasal(32))
 A(par("Respons Risiko dalam RTP dapat berupa menghindari Risiko, mengurangi kemungkinan terjadinya "
       "Risiko, mengurangi dampak Risiko, membagi Risiko, atau menerima Risiko."))
 
-A(bagian("Kedelapan", "Pemantauan"))
-A(pasal(30))
+A(pasal(33))
+A(ayat(1, "Penyusunan RTP didahului penilaian efektivitas pengendalian yang telah ada."))
+A(ayat(2, "Pengendalian yang telah ada dinilai tidak efektif atau kurang efektif apabila memenuhi "
+          "paling sedikit 1 (satu) keadaan berikut:"))
+for h, t in zip("abcde", [
+    "prosedur pengendalian belum dilaksanakan;",
+    "kebijakan belum diikuti prosedur baku yang jelas;",
+    "kebijakan dan prosedur yang ada tidak sesuai dengan peraturan di atasnya;",
+    "kebijakan dan prosedur pengendalian sudah dilakukan, namun belum mampu menangani Risiko yang "
+    "teridentifikasi; dan/atau",
+    "pengendalian sudah berjalan namun masih lemah, sehingga masih ada Risiko lain yang timbul.",
+]):
+    A(huruf(h, t, kiri=1021))
+A(ayat(3, "Keadaan sebagaimana dimaksud pada ayat (2) dicantumkan pada kolom celah pengendalian dan "
+          "menjadi dasar penyusunan RTP."))
+
+A(pasal(34))
+A(ayat(1, "Rancangan pengendalian yang disusun dalam RTP diuji coba sebelum ditetapkan berlaku."))
+A(ayat(2, "Uji coba sebagaimana dimaksud pada ayat (1) dilaksanakan dalam lingkup terbatas untuk "
+          "mengetahui apakah pengendalian dapat dijalankan dan menekan Risiko sebagaimana "
+          "diharapkan."))
+A(ayat(3, "Hasil uji coba sebagaimana dimaksud pada ayat (2) digunakan untuk menyempurnakan "
+          "rancangan pengendalian."))
+A(ayat(4, "Triwulan pelaksanaan, tahun pelaksanaan, dan hasil uji coba beserta dokumen pendukungnya "
+          "direkam pada MR KABAR."))
+A(ayat(5, "Dikecualikan dari kewajiban uji coba sebagaimana dimaksud pada ayat (1) adalah "
+          "pengendalian yang berupa penetapan peraturan perundang-undangan."))
+
+A(pasal(35))
+A(ayat(1, "RTP atas kelemahan lingkungan pengendalian sebagaimana dimaksud dalam Pasal 40 "
+          "diselaraskan dengan RTP atas Risiko Prioritas."))
+A(ayat(2, "Keselarasan sebagaimana dimaksud pada ayat (1) dimaksudkan agar satu kegiatan "
+          "pengendalian tidak disusun dan dipantau dua kali pada dokumen yang berbeda."))
+A(ayat(3, "Dalam hal rumusan kegiatan pengendalian pada kedua RTP sebagaimana dimaksud pada ayat "
+          "(1) sama atau serupa, kegiatan tersebut dinyatakan sebagai satu kegiatan pengendalian "
+          "dengan satu penanggung jawab."))
+
+A(bagian("Kesembilan", "Pemantauan"))
+A(pasal(36))
 A(ayat(1, "Pemantauan dilakukan atas realisasi kegiatan pengendalian, Kejadian Risiko, dan tingkat "
           "Risiko aktual."))
 A(ayat(2, "Pemantauan sebagaimana dimaksud pada ayat (1) dilaksanakan paling sedikit setiap "
           "triwulan."))
-A(pasal(31))
+A(pasal(37))
 A(ayat(1, "Kejadian Risiko yang terjadi dicatat ke dalam MR KABAR paling lambat 14 (empat belas) "
           "hari kerja sejak diketahui."))
 A(ayat(2, "Pegawai dan masyarakat dapat menyampaikan laporan Kejadian Risiko melalui kanal pelaporan "
           "yang disediakan pada MR KABAR."))
 A(ayat(3, "Laporan sebagaimana dimaksud pada ayat (2) ditindaklanjuti oleh UPR yang bersangkutan."))
 
-A(pasal(32))
-A(ayat(1, "Selain pencatatan Kejadian Risiko oleh UPR sebagaimana dimaksud dalam Pasal 31, pegawai "
+A(pasal(38))
+A(ayat(1, "Selain pencatatan Kejadian Risiko oleh UPR sebagaimana dimaksud dalam Pasal 37, pegawai "
           "dan masyarakat dapat menyampaikan laporan Kejadian Risiko melalui MR KABAR."))
 A(ayat(2, "Laporan sebagaimana dimaksud pada ayat (1) paling sedikit memuat:"))
 for h, t in zip("abcde", [
@@ -600,8 +713,8 @@ A(ayat(5, "Perkembangan tindak lanjut atas setiap laporan direkam dalam MR KABAR
 A(ayat(6, "Identitas pelapor sebagaimana dimaksud pada ayat (2) huruf a dilindungi dan hanya dapat "
           "diakses oleh Pengguna yang berwenang menindaklanjuti laporan."))
 
-A(bagian("Kesembilan", "Informasi dan Komunikasi"))
-A(pasal(33))
+A(bagian("Kesepuluh", "Informasi dan Komunikasi"))
+A(pasal(39))
 A(ayat(1, "Informasi dan komunikasi Risiko dilakukan melalui rapat berkala, dialog Risiko, "
           "pelaporan berkala, dan penyajian informasi pada MR KABAR."))
 A(ayat(2, "Rencana informasi dan komunikasi beserta realisasinya direkam ke dalam MR KABAR."))
@@ -609,13 +722,22 @@ A(ayat(2, "Rencana informasi dan komunikasi beserta realisasinya direkam ke dala
 
 # ══════════════════ BAB VI ══════════════════
 A(bab("VI", "EVALUASI LINGKUNGAN PENGENDALIAN"))
-A(pasal(34))
+A(pasal(40))
+A(ayat(1, "Simpulan CEE atas setiap unsur lingkungan pengendalian disusun dengan menyandingkan "
+          "hasil reviu dokumen dan hasil survei persepsi pegawai."))
+A(ayat(2, "Dalam hal kedua sumber sebagaimana dimaksud pada ayat (1) menghasilkan simpulan yang "
+          "bertentangan, dilakukan pendalaman atau penggunaan pertimbangan profesional."))
+A(ayat(3, "Alasan penetapan simpulan sebagaimana dimaksud pada ayat (2) wajib diuraikan dan direkam "
+          "pada MR KABAR."))
+A(ayat(4, "Setiap unsur yang disimpulkan kurang memadai disusun RTP atas kelemahan lingkungan "
+          "pengendalian."))
+A(pasal(41))
 A(ayat(1, "Setiap SKPK melaksanakan CEE paling sedikit 1 (satu) kali dalam 1 (satu) tahun."))
 A(ayat(2, "CEE dilaksanakan melalui pengisian kuesioner atas 8 (delapan) unsur lingkungan "
           "pengendalian."))
 A(ayat(3, "Kuesioner sebagaimana dimaksud pada ayat (2) tercantum dalam Lampiran IX yang merupakan "
           "bagian tidak terpisahkan dari Peraturan Bupati ini."))
-A(pasal(35))
+A(pasal(42))
 A(ayat(1, "Responden CEE paling sedikit terdiri atas pejabat pimpinan tinggi pratama, pejabat "
           "administrator, pejabat pengawas, dan pelaksana pada SKPK yang bersangkutan."))
 A(ayat(2, "Simpulan atas setiap butir kuesioner ditentukan berdasarkan modus jawaban responden."))
@@ -628,7 +750,7 @@ A(ayat(4, "Unsur yang dinyatakan kurang memadai ditindaklanjuti dengan rencana p
 # ══════════════════ BAB VII ══════════════════
 A(bab("VII", "PENYELENGGARAAN MANAJEMEN RISIKO BERBASIS ELEKTRONIK"))
 A(bagian("Kesatu", "Umum"))
-A(pasal(36))
+A(pasal(43))
 A(ayat(1, "Penyelenggaraan Manajemen Risiko dilaksanakan secara elektronik melalui MR KABAR."))
 A(ayat(2, "MR KABAR merupakan bagian dari penyelenggaraan SPBE di lingkungan Pemerintah Kabupaten."))
 A(ayat(3, "Dokumen Elektronik Manajemen Risiko yang dihasilkan melalui MR KABAR merupakan dokumen "
@@ -639,7 +761,7 @@ A(ayat(4, "Nama, alamat, dan ruang lingkup modul MR KABAR tercantum dalam Lampir
           "bagian tidak terpisahkan dari Peraturan Bupati ini."))
 
 A(bagian("Kedua", "Ruang Lingkup Modul"))
-A(pasal(37))
+A(pasal(44))
 A(par("MR KABAR paling sedikit memuat modul:", after=100))
 for h, t in zip("abcdefghijklm", [
     "Penetapan Konteks Risiko;",
@@ -659,19 +781,19 @@ for h, t in zip("abcdefghijklm", [
     A(huruf(h, t))
 
 A(bagian("Ketiga", "Hak Akses"))
-A(pasal(38))
-A(ayat(1, "Kepala SKPK mengusulkan Pengguna pada SKPK yang dipimpinnya kepada Administrator."))
+A(pasal(45))
+A(ayat(1, "Kepala SKPK mengusulkan Pengguna pada SKPK yang dipimpinnya kepada Pengelola MR KABAR."))
 A(ayat(2, "Hak Akses diberikan secara berjenjang sesuai dengan kewenangan Pengguna, yang terdiri "
           "atas:"))
 for h, tx in zip("abcd", [
-    "Administrator, berwenang mengelola Hak Akses, data acuan, dan seluruh data Manajemen Risiko "
+    "Pengelola MR KABAR, berwenang mengelola Hak Akses, data acuan, dan seluruh data Manajemen Risiko "
     "pada semua SKPK;",
     "Pengelola Risiko SKPK, berwenang merekam dan mengubah data Manajemen Risiko pada SKPK yang "
     "bersangkutan saja;",
     "Pembaca, berwenang membaca dan mencetak seluruh data Manajemen Risiko tanpa dapat mengubahnya, "
     "diberikan kepada pimpinan daerah dan pejabat yang ditetapkan Bupati; dan",
     "akun berkegunaan terbatas, berwenang membuka 1 (satu) formulir tertentu saja, yaitu kuesioner "
-    "CEE atau pelaporan Kejadian Risiko sebagaimana dimaksud dalam Pasal 32.",
+    "CEE atau pelaporan Kejadian Risiko sebagaimana dimaksud dalam Pasal 38.",
 ]):
     A(huruf(h, tx, kiri=1021))
 A(ayat(3, "Pengguna bertanggung jawab atas kerahasiaan dan penggunaan Hak Akses yang diberikan "
@@ -682,7 +804,7 @@ A(ayat(5, "Kebenaran dan kelengkapan data yang direkam ke dalam MR KABAR menjadi
           "Pemilik Risiko pada masing-masing SKPK."))
 
 A(bagian("Keempat", "Data Umum"))
-A(pasal(39))
+A(pasal(46))
 A(ayat(1, "Setiap SKPK merekam Data Umum pada MR KABAR sebelum merekam dokumen Manajemen Risiko."))
 A(ayat(2, "Data Umum sebagaimana dimaksud pada ayat (1) digunakan sebagai sumber kepala dokumen dan "
           "blok tanda tangan pada seluruh dokumen Manajemen Risiko yang dicetak melalui MR KABAR."))
@@ -691,12 +813,12 @@ A(ayat(3, "Perubahan pejabat penanda tangan direkam dalam Data Umum paling lamba
 A(ayat(4, "Kebenaran Data Umum menjadi tanggung jawab Kepala SKPK yang bersangkutan."))
 
 A(bagian("Kelima", "Perekaman Massal dan Pemulihan Data"))
-A(pasal(40))
+A(pasal(47))
 A(ayat(1, "Perekaman data Manajemen Risiko dapat dilakukan sekaligus dalam jumlah banyak melalui "
           "unggahan berkas lembar sebar dengan bentuk baku yang disediakan MR KABAR."))
 A(ayat(2, "Unggahan sebagaimana dimaksud pada ayat (1) oleh Pengelola Risiko SKPK berlaku setelah "
-          "disetujui Administrator."))
-A(ayat(3, "Administrator menolak unggahan sebagaimana dimaksud pada ayat (2) dalam hal:"))
+          "disetujui Pengelola MR KABAR."))
+A(ayat(3, "Pengelola MR KABAR menolak unggahan sebagaimana dimaksud pada ayat (2) dalam hal:"))
 for h, tx in zip("abc", [
     "bentuk berkas tidak sesuai dengan bentuk baku;",
     "data yang diunggah bukan data SKPK yang bersangkutan; atau",
@@ -708,11 +830,11 @@ A(ayat(4, "Penolakan sebagaimana dimaksud pada ayat (3) disertai alasan dan disa
 A(ayat(5, "Data Manajemen Risiko dapat diunduh dalam bentuk lembar sebar oleh Pengguna sesuai "
           "dengan kewenangannya."))
 
-A(pasal(41))
+A(pasal(48))
 A(ayat(1, "Penghapusan data Manajemen Risiko pada MR KABAR bersifat sementara."))
 A(ayat(2, "Data yang dihapus sebagaimana dimaksud pada ayat (1) tidak ditampilkan pada formulir dan "
-          "laporan, tetapi tetap tersimpan dan dapat dipulihkan oleh Administrator."))
-A(ayat(3, "Penghapusan secara tetap hanya dapat dilakukan Administrator setelah memperoleh "
+          "laporan, tetapi tetap tersimpan dan dapat dipulihkan oleh Pengelola MR KABAR."))
+A(ayat(3, "Penghapusan secara tetap hanya dapat dilakukan Pengelola MR KABAR setelah memperoleh "
           "persetujuan tertulis Kepala SKPK pemilik data."))
 A(ayat(4, "Setiap perekaman, perubahan, penghapusan, dan pemulihan data terekam sebagai jejak audit "
           "yang memuat identitas Pengguna, waktu, dan bentuk perubahannya."))
@@ -720,7 +842,7 @@ A(ayat(5, "Jejak audit sebagaimana dimaksud pada ayat (4) tidak dapat diubah ata
           "menjadi bahan pengawasan bagi Penanggung Jawab Pengawasan."))
 
 A(bagian("Keenam", "Keamanan Informasi dan Pelindungan Data Pribadi"))
-A(pasal(42))
+A(pasal(49))
 A(ayat(1, "Penyelenggaraan MR KABAR dilaksanakan dengan memperhatikan keamanan informasi dan "
           "pelindungan data pribadi sesuai dengan ketentuan peraturan perundang-undangan."))
 A(ayat(2, "Keamanan informasi sebagaimana dimaksud pada ayat (1) paling sedikit meliputi:"))
@@ -736,24 +858,24 @@ A(ayat(3, "Data dan informasi yang bersifat rahasia sesuai dengan ketentuan pera
           "perundang-undangan hanya dapat diakses oleh Pengguna yang berwenang."))
 
 A(bagian("Ketujuh", "Keterpaduan"))
-A(pasal(43))
+A(pasal(50))
 A(ayat(1, "Penyelenggaraan MR KABAR dilaksanakan sesuai dengan arsitektur SPBE Pemerintah Kabupaten "
           "dan memenuhi prinsip interoperabilitas."))
 A(ayat(2, "MR KABAR dapat diintegrasikan dengan sistem elektronik lain di lingkungan Pemerintah "
           "Kabupaten, terutama sistem perencanaan dan penganggaran daerah."))
 
 A(bagian("Kedelapan", "Pengelola"))
-A(pasal(44))
+A(pasal(51))
 A(ayat(1, "Inspektorat bertindak sebagai wali data dan pembina substansi MR KABAR."))
 A(ayat(2, "Perangkat Daerah yang membidangi urusan komunikasi dan informatika bertindak sebagai "
           "penyedia dan pengelola infrastruktur, nama domain, serta keamanan sistem MR KABAR."))
-A(ayat(3, "Administrator ditetapkan dengan Keputusan Bupati atas usul Inspektur."))
+A(ayat(3, "Pengelola MR KABAR ditetapkan dengan Keputusan Bupati atas usul Inspektur."))
 
 
 # ══════════════════ BAB VIII ══════════════════
 A(bab("VIII", "PELAPORAN"))
 A(bagian("Kesatu", "Umum"))
-A(pasal(45))
+A(pasal(52))
 A(ayat(1, "Laporan penerapan Manajemen Risiko terdiri atas:"))
 for h, tx in zip("abc", [
     "laporan pelaksanaan penilaian Risiko;",
@@ -768,8 +890,8 @@ A(ayat(4, "Contoh laporan sebagaimana dimaksud pada ayat (1) tercantum dalam Lam
           "merupakan bagian tidak terpisahkan dari Peraturan Bupati ini."))
 
 A(bagian("Kedua", "Laporan Pelaksanaan Penilaian Risiko"))
-A(pasal(46))
-A(ayat(1, "UPR menyusun laporan pelaksanaan penilaian Risiko sebagaimana dimaksud dalam Pasal 45 "
+A(pasal(53))
+A(ayat(1, "UPR menyusun laporan pelaksanaan penilaian Risiko sebagaimana dimaksud dalam Pasal 52 "
           "ayat (1) huruf a pada setiap akhir pelaksanaan penilaian Risiko."))
 A(ayat(2, "Laporan sebagaimana dimaksud pada ayat (1) paling sedikit memuat:"))
 for h, tx in zip("abcde", [
@@ -785,8 +907,8 @@ A(ayat(3, "Laporan sebagaimana dimaksud pada ayat (1) disampaikan kepada Bupati 
           "belas) hari kerja sejak penilaian Risiko dinyatakan selesai."))
 
 A(bagian("Ketiga", "Laporan Berkala Pengelolaan Risiko"))
-A(pasal(47))
-A(ayat(1, "UPR menyusun laporan berkala pengelolaan Risiko sebagaimana dimaksud dalam Pasal 45 "
+A(pasal(54))
+A(ayat(1, "UPR menyusun laporan berkala pengelolaan Risiko sebagaimana dimaksud dalam Pasal 52 "
           "ayat (1) huruf b secara triwulanan dan tahunan."))
 A(ayat(2, "Laporan sebagaimana dimaksud pada ayat (1) paling sedikit memuat:"))
 for h, tx in zip("abcde", [
@@ -801,8 +923,8 @@ A(ayat(3, "Laporan triwulanan sebagaimana dimaksud pada ayat (1) disampaikan pal
           "(sepuluh) hari kerja setelah triwulan berkenaan berakhir."))
 
 A(bagian("Keempat", "Laporan Pemantauan Unit Kepatuhan"))
-A(pasal(48))
-A(ayat(1, "Unit Kepatuhan menyusun laporan pemantauan sebagaimana dimaksud dalam Pasal 45 ayat (1) "
+A(pasal(55))
+A(ayat(1, "Unit Kepatuhan menyusun laporan pemantauan sebagaimana dimaksud dalam Pasal 52 ayat (1) "
           "huruf c secara triwulanan dan tahunan."))
 A(ayat(2, "Laporan sebagaimana dimaksud pada ayat (1) paling sedikit memuat:"))
 for h, tx in zip("abcd", [
@@ -815,11 +937,27 @@ for h, tx in zip("abcd", [
 A(ayat(3, "Laporan sebagaimana dimaksud pada ayat (1) disampaikan kepada Bupati melalui Sekretaris "
           "Daerah dengan tembusan kepada Inspektorat."))
 
-A(bagian("Kelima", "Tata Cara Penyampaian"))
-A(pasal(49))
-A(ayat(1, "Laporan tahunan sebagaimana dimaksud dalam Pasal 47 dan Pasal 48 disampaikan paling "
+A(bagian("Kelima", "Laporan Pembinaan Komite Pengelolaan Risiko"))
+A(pasal(56))
+A(ayat(1, "Komite Pengelolaan Risiko menyusun laporan pembinaan penyelenggaraan Manajemen Risiko."))
+A(ayat(2, "Laporan sebagaimana dimaksud pada ayat (1) disusun secara semesteran dan tahunan."))
+A(ayat(3, "Laporan sebagaimana dimaksud pada ayat (1) paling sedikit memuat:"))
+for h, t in zip("abcde", [
+    "gambaran umum penyelenggaraan Manajemen Risiko pada periode pelaporan;",
+    "pembinaan yang telah dilaksanakan kepada SKPK;",
+    "hambatan yang dihadapi SKPK beserta penanganannya;",
+    "hasil pemantauan efektivitas penyelenggaraan Manajemen Risiko; dan",
+    "rekomendasi perbaikan untuk periode berikutnya.",
+]):
+    A(huruf(h, t, kiri=1021))
+A(ayat(4, "Laporan sebagaimana dimaksud pada ayat (1) disampaikan kepada Bupati dengan tembusan "
+          "Koordinator Penyelenggaraan Pengelolaan Risiko."))
+
+A(bagian("Keenam", "Tata Cara Penyampaian"))
+A(pasal(57))
+A(ayat(1, "Laporan tahunan sebagaimana dimaksud dalam Pasal 54 dan Pasal 55 disampaikan paling "
           "lambat akhir bulan Januari tahun berikutnya."))
-A(ayat(2, "Penyampaian seluruh laporan sebagaimana dimaksud dalam Pasal 45 ayat (1) dilakukan "
+A(ayat(2, "Penyampaian seluruh laporan sebagaimana dimaksud dalam Pasal 52 ayat (1) dilakukan "
           "melalui MR KABAR."))
 A(ayat(3, "Sekretaris Daerah menyampaikan rekapitulasi laporan penyelenggaraan Manajemen Risiko "
           "kepada Bupati paling lambat akhir bulan Februari tahun berikutnya."))
@@ -827,14 +965,14 @@ A(ayat(3, "Sekretaris Daerah menyampaikan rekapitulasi laporan penyelenggaraan M
 
 # ══════════════════ BAB IX ══════════════════
 A(bab("IX", "PEMBINAAN, PENGAWASAN, DAN PENDANAAN"))
-A(pasal(50))
+A(pasal(58))
 A(ayat(1, "Pembinaan penerapan Manajemen Risiko dilaksanakan oleh Inspektorat."))
 A(ayat(2, "Pembinaan sebagaimana dimaksud pada ayat (1) meliputi sosialisasi, bimbingan teknis, "
           "pendampingan, dan konsultasi, termasuk penggunaan MR KABAR."))
-A(pasal(51))
+A(pasal(59))
 A(par("Pengawasan atas penerapan Manajemen Risiko dilaksanakan oleh Inspektorat melalui reviu, "
       "evaluasi, dan pemantauan tindak lanjut."))
-A(pasal(52))
+A(pasal(60))
 A(par("Pendanaan penyelenggaraan Manajemen Risiko dan MR KABAR dibebankan pada Anggaran Pendapatan "
       "dan Belanja Kabupaten Aceh Barat serta sumber lain yang sah dan tidak mengikat sesuai dengan "
       "ketentuan peraturan perundang-undangan."))
@@ -842,7 +980,7 @@ A(par("Pendanaan penyelenggaraan Manajemen Risiko dan MR KABAR dibebankan pada A
 
 # ══════════════════ BAB X ══════════════════
 A(bab("X", "KETENTUAN PERALIHAN"))
-A(pasal(53))
+A(pasal(61))
 A(ayat(1, "Dokumen Manajemen Risiko yang telah disusun sebelum Peraturan Bupati ini mulai berlaku "
           "dinyatakan tetap sah dan berlaku."))
 A(ayat(2, "Dokumen sebagaimana dimaksud pada ayat (1) direkam ke dalam MR KABAR paling lambat 1 "
@@ -854,12 +992,12 @@ A(ayat(3, "Dalam hal MR KABAR mengalami gangguan teknis, penyelenggaraan Manajem
 
 # ══════════════════ BAB XI ══════════════════
 A(bab("XI", "KETENTUAN PENUTUP"))
-A(pasal(54))
+A(pasal(62))
 A(par("Pada saat Peraturan Bupati ini mulai berlaku, Peraturan Bupati Aceh Barat Nomor 16 Tahun 2022 "
       "tentang Pedoman Penerapan Manajemen Risiko di Lingkungan Pemerintah Kabupaten Aceh Barat "
       "(Berita Daerah Kabupaten Aceh Barat Tahun 2022 Nomor 16) dicabut dan dinyatakan tidak "
       "berlaku."))
-A(pasal(55))
+A(pasal(63))
 A(par("Peraturan Bupati ini mulai berlaku pada tanggal diundangkan."))
 A(P("", after=120))
 A(par("Agar setiap orang mengetahuinya, memerintahkan pengundangan Peraturan Bupati ini dengan "
@@ -977,7 +1115,7 @@ A(ttd_lampiran())
 A(kepala_lampiran("II", "KATEGORI RISIKO BERDASARKAN URUSAN PEMERINTAHAN"))
 A(par("Kategori Risiko digunakan untuk menjamin proses Identifikasi Risiko, Analisis Risiko, dan "
       "Evaluasi Risiko dilakukan secara menyeluruh, sekaligus menjadi komponen [URUSAN] pada "
-      "Kode Risiko sebagaimana dimaksud dalam Pasal 21.", after=200))
+      "Kode Risiko sebagaimana dimaksud dalam Pasal 24.", after=200))
 baris = [["No.", "Kode", "Kategori Risiko/Urusan Pemerintahan"]]
 for i, j in enumerate(REF["jenis"], 1):
     baris.append([str(i), j["kode"], j["nama"]])
@@ -1196,7 +1334,7 @@ A(par("Pemantauan dilaksanakan setiap triwulan dan bermuara pada laporan tahunan
 A(gambar(RID["siklus"], str(GBR / "siklus.jpeg"), "Siklus pemantauan dan pelaporan"))
 A(gambar(RID["lapor"], str(GBR / "lapor.jpeg"),
          "Alur penyampaian laporan penerapan Manajemen Risiko"))
-A(par("Laporan penerapan Manajemen Risiko sebagaimana dimaksud dalam Pasal 45 ayat (1) terdiri "
+A(par("Laporan penerapan Manajemen Risiko sebagaimana dimaksud dalam Pasal 52 ayat (1) terdiri "
       "atas 3 (tiga) jenis laporan dengan sistematika sebagai berikut, dan seluruhnya dihasilkan "
       "melalui MR KABAR.", after=200))
 LAPORAN = [
@@ -1702,7 +1840,7 @@ FORMULIR = [
         ("Peringkat Risiko", "peringkat Risiko hasil Evaluasi Risiko, terisi otomatis"),
         ("Pengusul", "UPR yang mengajukan usulan keterkaitan"),
         ("Tanggal Usulan", "tanggal usulan diajukan melalui MR KABAR"),
-        ("Keputusan", "disetujui atau ditolak oleh Administrator"),
+        ("Keputusan", "disetujui atau ditolak oleh Pengelola MR KABAR"),
         ("Tanggal Keputusan", "tanggal keputusan diambil"),
         ("Alasan", "alasan penolakan, diisi dalam hal usulan ditolak"),
     ]),
@@ -1875,7 +2013,7 @@ A(tabel([700, 3500, 700, 3500], _baris, p=16,
 A(P("", after=200))
 A(par("Kode entitas penilai bersifat tetap. Dalam hal terjadi perubahan susunan perangkat daerah, "
       "kode entitas yang sudah tidak digunakan tidak dipakai ulang untuk SKPK lain, dan SKPK baru "
-      "diberikan kode berikutnya oleh Administrator.", after=300))
+      "diberikan kode berikutnya oleh Pengelola MR KABAR.", after=300))
 A(ttd_lampiran())
 
 
@@ -2246,7 +2384,7 @@ A(P("A.  Contoh Pengisian Formulir Keterkaitan Risiko Prioritas dengan Program P
     rata="left", b=True, before=200, after=140, jaga=True))
 A(par("Keterkaitan berikut benar-benar terekam pada MR KABAR untuk tahun penilaian 2025. Kolom "
       "keputusan dan tanggal merupakan peragaan alur persetujuan sebagaimana dimaksud dalam "
-      "Pasal 27.", after=140))
+      "Pasal 30.", after=140))
 _b = [["No.", "Nomor Program", "Program Pembangunan Bupati", "SKPK Pengampu", "Kode Risiko",
        "Uraian Risiko", "Peringkat Risiko", "Pengusul", "Tanggal Usulan", "Keputusan",
        "Tanggal Keputusan", "Alasan"]]
@@ -2276,7 +2414,7 @@ for _hrf, _ket in zip(HURUF_KOLOM, [
     "peringkat Risiko hasil Evaluasi Risiko, terisi otomatis",
     "UPR yang mengajukan usulan keterkaitan",
     "tanggal usulan diajukan melalui MR KABAR",
-    "keputusan Administrator, yaitu disetujui atau ditolak",
+    "keputusan Pengelola MR KABAR, yaitu disetujui atau ditolak",
     "tanggal keputusan diambil",
     "alasan penolakan, diisi dalam hal usulan ditolak",
 ]):
@@ -2286,7 +2424,7 @@ for _hrf, _ket in zip(HURUF_KOLOM, [
 A(P("B.  Contoh Pengisian Formulir Pelaporan Kejadian Risiko oleh Pegawai dan Masyarakat",
     rata="left", b=True, before=240, after=140, jaga=True))
 A(par("Identitas pelapor pada contoh berikut ditulis sebagai penanda karena merupakan data pribadi "
-      "yang dilindungi sebagaimana dimaksud dalam Pasal 32 ayat (6).", after=140))
+      "yang dilindungi sebagaimana dimaksud dalam Pasal 38 ayat (6).", after=140))
 _LAP = [
     ("Dinas Kesehatan",
      "Pelayanan ambulan gratis tertunda karena kendaraan sedang dalam perbaikan dan tidak tersedia "

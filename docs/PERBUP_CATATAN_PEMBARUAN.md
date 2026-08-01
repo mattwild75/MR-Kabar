@@ -10,10 +10,10 @@ Naskahnya bukan bagian dari repositori ini; berkasnya ada di Desktop\MR Kabar,
 > pada [REVISI_APLIKASI.md](REVISI_APLIKASI.md) selesai seluruhnya, begitu pula
 > B1 sampai B3.
 >
-> **Yang tersisa bukan lagi pekerjaan aplikasi, melainkan pekerjaan naskah.**
-> Batang tubuh Perbup belum diubah sama sekali — masih 55 Pasal, belum memuat
-> satu pun Bagian baru yang direncanakan di bawah. Ketujuh tahap itu kini
-> boleh dikerjakan kapan saja.
+> **Pekerjaan naskahnya juga sudah dikerjakan hari itu juga.** Ketujuh tahap
+> di bawah sudah masuk ke batang tubuh: 55 Pasal menjadi **63 Pasal**, delapan
+> Pasal baru, dan dua Bagian baru. Uraian tiap tahap dipertahankan sebagai
+> rekaman pertimbangan, bukan sebagai pekerjaan yang menunggu.
 
 ## Tiga naskah pendamping yang sudah jadi
 
@@ -73,9 +73,8 @@ menyimpannya berdampingan.
 
 | | |
 |---|---|
-| Halaman | 82 |
-| Kata | 18.444 |
-| Batang tubuh | 11 BAB, 55 Pasal |
+| Kata | 19.516 |
+| Batang tubuh | 11 BAB, **63 Pasal** |
 | Lampiran | I sampai dengan XVIII |
 | Tabel | 67, semuanya berketerangan bernomor otomatis |
 | Gambar | 14 ilustrasi berwarna, ditambah lambang negara |
@@ -127,6 +126,46 @@ pembentukan Kabupaten Aceh Barat, sumber primernya Perbup Aceh Barat Nomor 6 Tah
 2025 — cara tercepat mengetahui rujukan mana yang sedang dipakai Bagian Hukum adalah
 membaca produk hukum Aceh Barat yang paling baru, bukan mencari di pangkalan data
 nasional.
+
+## Delapan Pasal baru, hasil revisi 1 Agustus 2026
+
+| Pasal | Isi | Menjawab |
+|---|---|---|
+| **8** dan **9** | Pengembangan Budaya Sadar Risiko: sosialisasi, internalisasi dalam pengambilan keputusan, perbaikan lingkungan pengendalian, keteladanan pimpinan, dan penghargaan | Tahap 2 |
+| **20** | Jadwal Penyelenggaraan: arahan 5 tahunan dan 1 tahunan, ditetapkan dengan Surat Edaran Bupati | Tahap 4 |
+| **33** | Ukuran kapan pengendalian dinyatakan tidak efektif — **lima** keadaan, bukan empat | Tahap 3 |
+| **34** | Kewajiban uji coba pengendalian sebelum diberlakukan, berikut pengecualiannya | Tahap 3 |
+| **35** | Kewajiban menyelaraskan RTP lingkungan pengendalian dengan RTP Risiko | Tahap 3 |
+| **40** | Penyandingan dua sumber simpulan CEE dan kewajiban menguraikan alasan bila bertentangan | Tahap 3 |
+| **56** | Laporan pembinaan Komite Pengelolaan Risiko, **semesteran dan tahunan** | Tahap 6 |
+
+Ditambah perubahan pada Pasal yang sudah ada: sembilan prinsip pada Pasal 5
+(kolaboratif dan perbaikan berkelanjutan menyusul), rumusan pengertian **Sisa
+Risiko**, susunan Komite dan UPR berketua-koordinator-anggota berikut kewenangan
+membentuk tim teknis (Tahap 5), Selera Risiko yang direkam pada MR KABAR, serta
+**penggantian istilah "Administrator" menjadi "Pengelola MR KABAR"** — pelaksanaan
+keputusan B2 agar tidak berbenturan dengan jenjang jabatan administrator aparatur
+sipil negara.
+
+### Dua keputusan penaskahan yang perlu diketahui
+
+**Jadwal rinci tidak dijadikan Lampiran.** Rencana semula menempatkannya sebagai
+satu Lampiran berisi tabel jadwal. Itu tidak dilakukan: jadwalnya berubah setiap
+tahun mengikuti siklus perencanaan dan penganggaran, sedangkan Lampiran Perbup
+hanya dapat diubah dengan mengubah Perbup. Perdep sendiri menempatkannya pada
+Surat Edaran pimpinan, dan kedua Surat Edaran itu sudah disusun. Pasal 20 ayat (6)
+menyatakan alasan itu secara terbuka di dalam naskah.
+
+**Perka BPKP 25/2013 tidak dicantumkan pada Mengingat.** Alasannya di Tahap 0.
+Yang ditambahkan ke Mengingat hanya Peraturan Presiden Nomor 39 Tahun 2023 tentang
+Manajemen Risiko Pembangunan Nasional.
+
+### Yang masih tersisa dari Tahap 3
+
+Formulir 15 pada Lampiran XII belum ditambah kolom hasil reviu dokumen dan hasil
+survei persepsi. Kewajibannya sudah diatur di batang tubuh (Pasal 40), tetapi
+bentuk formulirnya belum menyusul. Ini pekerjaan tabel di dalam Lampiran, bukan
+pekerjaan pasal.
 
 ## Rencana pembaruan — hasil pembandingan dengan Perwal Cilegon 2/2022
 
