@@ -44,8 +44,12 @@ detik tertentu, `_sambung.py` menyambung literal yang terpotong baris baru.
 ## Latar belakang v3
 
 Versi ini **menggantikan** v1 dan v2 sepenuhnya. Keduanya sudah dihapus dari
-`public/video/` dan pemilih "Video 1 / Video 2" di `/settingsapp` ikut dibuang,
-karena v1 memuat dua kekeliruan mendasar yang tidak boleh dibiarkan bisa
+`public/video/` dan pemilih "Video 1 / Video 2" di `/settingsapp` ikut dibuang.
+Sumbernya pun **dihapus dari repositori pada 1 Agustus 2026** — menyimpan tiga
+generasi berdampingan hanya mengundang orang membangun ulang dari naskah yang
+salah. Riwayat git tetap menyimpannya bila suatu saat perlu ditengok.
+
+Alasannya, v1 memuat dua kekeliruan mendasar yang tidak boleh dibiarkan bisa
 dipilih:
 
 1. menyebut alur **ISO 31000** (Komunikasi & Konsultasi → Penetapan Konteks →
