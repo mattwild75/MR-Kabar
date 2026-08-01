@@ -17,6 +17,32 @@ Daftar di bawah disusun mengikuti urutan itu.
 
 ---
 
+## Keadaan pengerjaan per 1 Agustus 2026 — versi v1.0.9
+
+Dokumen ini disusun sebagai daftar prasyarat pengesahan Perbup, dan seluruhnya
+sudah tuntas. Bagian di bawah dipertahankan sebagai rekaman pertimbangan.
+
+Pekerjaan sesudah butir A dan B selesai, seluruhnya pada 1 Agustus 2026:
+
+| | |
+|---|---|
+| **Naskah hukum** | Perbup direvisi 55 → **63 Pasal**; delapan Pasal baru dan dua Bagian baru. Empat isian untuk Bagian Hukum dicetak merah. Penyusun naskahnya dipindahkan dari direktori sementara ke [`naskah-hukum/`](../naskah-hukum/README.md) |
+| **Rujukan hukum** | Pembentukan Kabupaten Aceh Barat dibetulkan menjadi **UU 11/2024**; yang lama sudah usang |
+| **Uji kesesuaian** | Aplikasi diuji ulang terhadap Perdep — lihat [KESESUAIAN_PERDEP.md](KESESUAIAN_PERDEP.md). Selera Risiko ditetapkan sampai dengan Sedang |
+| **Video edukasi** | v4, **28 menit 45 detik**, 151 kalimat, 25 adegan, 22 bab. Dua segmen baru dan sepuluh sisipan |
+| **Kuis Panduan** | Menyimpan jawaban; Admin melihat rekap kegagalan per soal. Satu soal ternyata memuat kekeliruan yang sama dengan video lama |
+| **Jadwal penilaian** | Disajikan sebagai garis waktu berskala tanggal sungguhan, dua bentuk: sumbu bulan untuk arahan 1 tahunan, bilah kemajuan untuk yang 5 tahunan |
+| **Bagan struktur** | Konektornya tidak lagi terputus |
+| **Data Umum** | Kolom urusan dan sub-urusan diberi daftar usulan, tetap bebas diketik |
+| **Halaman masuk** | Menampilkan versi aplikasi, dibaca dari tag git |
+
+Dua cacat yang ikut ketahuan dan sudah diperbaiki: data referensi Risiko tidak
+pernah ikut di-seed sehingga pemasangan baru menghasilkan matriks kosong, dan
+`db:seed` gagal dengan galat kunci ganda di basis data yang adminnya bersurel
+lain.
+
+---
+
 ## Keadaan pengerjaan per 31 Juli 2026 — versi v1.0.4
 
 Seluruh butir A sudah dikerjakan. Tiga di antaranya ternyata tidak menghasilkan

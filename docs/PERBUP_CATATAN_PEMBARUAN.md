@@ -98,18 +98,27 @@ kehilangan kemampuan membangunnya ulang.
 Cukup `python naskah.py` untuk membangun seluruh Perbup dari nol. Keterangan tiap
 berkas, dan yang perlu diketahui sebelum mengubahnya, ada pada README di folder itu.
 
-## Empat isian yang tersisa
+## Empat isian yang tersisa — tiga di antaranya kini dicetak MERAH
 
-Semuanya wewenang Bagian Hukum pada saat penetapan, sengaja dibiarkan kosong:
+Semuanya wewenang Bagian Hukum pada saat penetapan, sengaja dibiarkan kosong.
+Sejak 1 Agustus 2026 ketiga yang pertama **dicetak merah di dalam naskah**, supaya
+siapa pun yang membukanya langsung melihat mana yang menunggu diisi tanpa perlu
+membaca catatan ini lebih dulu. Terhitung 21 penanda merah pada berkas `.docx`.
 
-1. Nomor Perbup pada kepala naskah dan pada setiap kepala lampiran.
-2. Nama dan sebutan jabatan penanda tangan pengundangan. Per 13 Juni 2026 jabatan
-   Sekretaris Daerah masih dijalankan Pelaksana Tugas, sehingga sebutan jabatannya
-   belum pasti.
-3. Nomor Berita Daerah.
-4. Penunjuk sambungan halaman di kanan bawah setiap halaman. Isinya harus berupa kata
-   pembuka halaman berikutnya, sehingga hanya dapat diketik setelah tata letak final.
-   Perbup Aceh Barat Nomor 17 Tahun 2024 memakainya di seluruh halaman.
+1. **Nomor Perbup** pada kepala naskah dan pada setiap kepala lampiran — 19 tempat,
+   seluruhnya merah.
+2. **Nama dan sebutan jabatan penanda tangan pengundangan**, merah. Per 13 Juni 2026
+   jabatan Sekretaris Daerah masih dijalankan Pelaksana Tugas, sehingga sebutan
+   jabatannya belum pasti.
+3. **Nomor Berita Daerah**, merah.
+4. **Penunjuk sambungan halaman** di kanan bawah setiap halaman. Yang satu ini
+   **belum ada sama sekali** di dalam naskah, dan memang belum bisa dibuat: isinya
+   harus berupa kata pembuka halaman berikutnya, sehingga hanya dapat diketik setelah
+   tata letak final. Perbup Aceh Barat Nomor 17 Tahun 2024 memakainya di seluruh
+   halaman.
+
+Warna merah dihasilkan `inti.py` lewat parameter `warna` pada `R()` dan `P()`;
+konstanta `MERAH` ada di kepala `naskah.py`.
 
 ## Dasar hukum yang sudah terverifikasi
 
