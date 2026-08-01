@@ -139,7 +139,25 @@ function Pita({ label, anggota }: { label: string; anggota: BarisStruktur[] }) {
   );
 }
 
-const GarisTegak = () => <div className="h-5 w-px bg-[#4a7ebb]" aria-hidden />;
+/**
+ * Ruas tegak setebal 2 piksel. `tumbuh` dipakai pada ruas yang harus memanjang
+ * sendiri mengikuti tinggi kolom di sebelahnya, sehingga tidak pernah tersisa
+ * celah kosong berapa pun banyaknya anggota yang direkam.
+ */
+const RuasTegak = ({ tumbuh = false }: { tumbuh?: boolean }) => (
+  <div
+    className={`w-0.5 shrink-0 bg-[#4a7ebb] ${tumbuh ? 'min-h-6 flex-1' : 'h-6'}`}
+    aria-hidden
+  />
+);
+
+/** Ruas mendatar yang selalu memenuhi sisa ruang, jadi kedua ujungnya menempel. */
+const RuasDatar = ({ putus = false }: { putus?: boolean }) =>
+  putus ? (
+    <div className="h-0 flex-1 border-t-2 border-dashed border-[#c0504d]" aria-hidden />
+  ) : (
+    <div className="h-0.5 flex-1 bg-[#4a7ebb]" aria-hidden />
+  );
 
 export default function BaganStrukturRisiko({ rows }: { rows: BarisStruktur[] }) {
   const per = (peran: string) => rows.filter((r) => r.peran === peran);
@@ -151,66 +169,75 @@ export default function BaganStrukturRisiko({ rows }: { rows: BarisStruktur[] })
         Mengikuti Gambar 2.6 Perdep PPKD Nomor 4 Tahun 2019
       </p>
 
-      {/* Tingkat 1 — Unit Pemilik Risiko tingkat Pemerintah Daerah. */}
-      <div className="flex flex-col items-center">
-        <Kotak
-          keterangan={['Penanggung Jawab', 'Unit Pemilik Risiko Tk. Pemerintah Daerah']}
-          anggota={per('upr_pemda')}
-          cadangan="Bupati"
-          lebar="w-80"
-        />
-        <GarisTegak />
-      </div>
-
-      {/* Tingkat 2 — Koordinator, diapit Komite, Unit Kepatuhan, dan Pengawasan. */}
-      <div className="flex items-start justify-center gap-2">
-        <div className="flex flex-col items-end gap-2 pt-4">
-          {/* Komite menasihati Bupati; Perdep menggambarkannya dengan garis
-              putus-putus karena bukan hubungan perintah berjenjang. */}
+      {/*
+        Ketiga kolom sengaja dibuat sama lebar (w-64) agar kolom tengah persis
+        di titik tengah bagan. Dengan begitu tulang punggung tegak di bawahnya
+        boleh sekadar dipusatkan, tanpa perlu perhitungan geser apa pun.
+      */}
+      <div className="flex items-stretch justify-center">
+        {/* Kolom kiri: Komite dan Unit Kepatuhan, keduanya menyambung ke tulang
+            punggung Bupati - Sekretaris Daerah, bukan ke kotaknya. */}
+        <div className="flex w-64 shrink-0 flex-col justify-center gap-4">
+          {/* Perdep menggambar hubungan Komite sebagai garis putus-putus karena
+              sifatnya menasihati, bukan memerintah berjenjang. */}
           <div className="flex items-center">
             <KotakSamping
               judul="Komite Pengelolaan Risiko Tk. Pemda"
               anggota={per('komite')}
               warna="merah"
             />
-            <div className="h-px w-5 border-t border-dashed border-[#c0504d]" aria-hidden />
+            <RuasDatar putus />
           </div>
           <div className="flex items-center">
             <KotakSamping judul="Unit Kepatuhan" anggota={per('unit_kepatuhan')} />
-            <div className="h-px w-5 bg-[#4a7ebb]" aria-hidden />
+            <RuasDatar />
           </div>
         </div>
 
-        <Kotak
-          keterangan={[
-            'Koordinator Penyelenggaraan Pengelolaan Risiko',
-            'Unit Pemilik Risiko Tk. Eselon II',
-          ]}
-          anggota={per('koordinator_penyelenggaraan')}
-          cadangan="Sekretaris Daerah"
-          lebar="w-72"
-        />
-
-        <div className="flex items-center pt-4">
-          <div className="h-px w-5 bg-[#4a7ebb]" aria-hidden />
+        {/* Kolom tengah: kedua kotak utama dan tulang punggung di antaranya. */}
+        <div className="flex w-80 shrink-0 flex-col items-center">
           <Kotak
-            keterangan={['Penanggung Jawab Pengawasan', 'Unit Pemilik Risiko Tk. Eselon II']}
-            anggota={per('penanggung_jawab_pengawasan')}
-            cadangan="Inspektur"
-            lebar="w-56"
+            keterangan={['Penanggung Jawab', 'Unit Pemilik Risiko Tk. Pemerintah Daerah']}
+            anggota={per('upr_pemda')}
+            cadangan="Bupati"
+            lebar="w-80"
           />
+          <RuasTegak tumbuh />
+          <Kotak
+            keterangan={[
+              'Koordinator Penyelenggaraan Pengelolaan Risiko',
+              'Unit Pemilik Risiko Tk. Eselon II',
+            ]}
+            anggota={per('koordinator_penyelenggaraan')}
+            cadangan="Sekretaris Daerah"
+            lebar="w-80"
+          />
+        </div>
+
+        {/* Kolom kanan: Pengawasan, dirapatkan ke bawah agar sejajar dengan
+            kotak Koordinator Penyelenggaraan yang disambunginya. */}
+        <div className="flex w-64 shrink-0 flex-col justify-end">
+          <div className="flex items-center">
+            <RuasDatar />
+            <Kotak
+              keterangan={['Penanggung Jawab Pengawasan', 'Unit Pemilik Risiko Tk. Eselon II']}
+              anggota={per('penanggung_jawab_pengawasan')}
+              cadangan="Inspektur"
+              lebar="w-56"
+            />
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-col items-center">
-        <GarisTegak />
-      </div>
-
       {/* Tingkat 3 dan 4 — jenjang Unit Pemilik Risiko pada Perangkat Daerah. */}
-      <div className="space-y-2">
-        <Pita label="Unit Pemilik Risiko Tk. Eselon II" anggota={per('upr_eselon_2')} />
-        <Pita label="Unit Pemilik Risiko Tk. Eselon III dan IV" anggota={per('upr_eselon_3_4')} />
+      <div className="flex flex-col items-center">
+        <RuasTegak />
       </div>
+      <Pita label="Unit Pemilik Risiko Tk. Eselon II" anggota={per('upr_eselon_2')} />
+      <div className="flex flex-col items-center">
+        <RuasTegak />
+      </div>
+      <Pita label="Unit Pemilik Risiko Tk. Eselon III dan IV" anggota={per('upr_eselon_3_4')} />
 
       <p className="mt-3 text-[10px] leading-snug">
         Garis putus-putus merah menunjukkan hubungan penasihatan Komite Pengelolaan Risiko kepada
