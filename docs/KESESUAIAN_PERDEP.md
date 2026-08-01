@@ -147,13 +147,33 @@ kalimat lama: keduanya kini menjelaskan bahwa batasnya **ditetapkan Pemerintah
 Daerah sendiri** — dan itulah rumusan yang paling dekat dengan bunyi Perdep.
 Yang keliru hanya cara saya menyebut kalimat lamanya.
 
-## 5. Yang tidak diuji pada putaran ini
+## 5. Yang sengaja tidak diuji — keputusan pemilik aplikasi
 
-- Kriteria dampak lima dimensi dan kriteria kemungkinan belum dibandingkan
-  angka per angka dengan Perka BPKP 688/2012, 10/2013, dan 24/2013 yang dirujuk
-  Perdep. Ketiganya belum ada berkasnya.
-- Kuesioner CEE 37 pertanyaan belum dicocokkan butir per butir dengan Lampiran
-  Perdep.
-- Empat belas halaman Perdep berupa pindaian tanpa lapisan teks (label 1, 6, 37,
-  80, 81, 84, 86, 89, 130, 138, 143, 151–153) sehingga tidak dapat ditelusuri
-  dengan pencarian kata; yang relevan dibaca sebagai gambar.
+Ketiganya **ditutup 1 Agustus 2026**, bukan tertunda. Dicatat di sini supaya
+tidak diangkat lagi sebagai pekerjaan yang belum selesai.
+
+**Bentuk formulir pada aplikasi dibiarkan apa adanya.** Kolom tiap Form Cetak
+tidak perlu diverifikasi satu per satu terhadap Perdep. Formulir 15 sempat
+diperiksa dan disamakan karena ditanyakan langsung; sisanya tidak.
+
+Yang perlu diingat kalau kelak ada yang meninjau ulang: **arah penyesuaiannya
+selalu Perdep → aplikasi → Perbup**, dan yang menjadi acuan di tengah adalah
+aplikasi. Perbup menggambarkan formulir yang benar-benar dicetak, bukan
+sebaliknya. Penomorannya memang berbeda dan itu bukan masalah — Perdep memakai
+Form 1a–10, Perbup menomori sendiri 1–19, dan pemetaannya ada pada tabel
+Bagian 1 di atas.
+
+**Kriteria dampak dan kriteria kemungkinan** tidak dibandingkan dengan Perka
+BPKP 688/2012, 10/2013, maupun 24/2013. Kriteria itu wewenang daerah sendiri
+untuk menetapkannya, sudah tersedia dan dapat disunting Admin pada menu
+Keterangan Pendukung, dan sudah ditetapkan.
+
+**Kuesioner CEE 37 pertanyaan** tidak dicocokkan butir per butir dengan
+Lampiran Perdep. Sudah ditetapkan.
+
+## 6. Batas pembacaan Perdep
+
+Empat belas halaman Perdep berupa pindaian tanpa lapisan teks (label 1, 6, 37,
+80, 81, 84, 86, 89, 130, 138, 143, 151–153) sehingga tidak dapat ditelusuri
+dengan pencarian kata. Yang relevan dibaca sebagai gambar — termasuk Tabel 2.12
+yang menjadi dasar perbandingan matriks pada Bagian 2.
