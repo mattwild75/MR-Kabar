@@ -1,4 +1,4 @@
-# Video Edukasi MR Kabar — v4 (video tunggal, ±30 menit)
+# Video Edukasi MR Kabar — v4 (video tunggal, ±29 menit)
 
 > **Folder ini bernama `v3` tetapi isinya sudah v4.** Nama folder dan nama
 > berkas keluaran (`MR_Kabar_Video_Edukasi_v3.mp4`) sengaja tidak diganti:
@@ -27,12 +27,16 @@ kriteria celah pengendalian, pertentangan dua sumber simpulan CEE, Form 14
 sebagai laporan wajib keempat, RTP yang tidak boleh duplikatif, struktur
 pengelola sebagai data, akun peninjau, dan panel jadwal pada Dashboard.
 
-Ditambah beberapa selingan ringan supaya segmen padat tidak terasa
-menjemukan, serta delapan efek masuk dan lima gerak diam baru di
+Ditambah tujuh efek masuk dan lima gerak diam baru di
 `animation_template.html` (`swing`, `stamp`, `spinin`, `unfold`, `bounce`,
 `diag`, `wipe`; `breathe`, `drift`, `wobble`, `tick`, `shake`).
 
-Naskah: 128 → 159 kalimat. Scene: 23 → 25. Bab: 20 → 22. Durasi 23:37 → 30:00.
+Naskah: 128 → 151 kalimat. Scene: 23 → 25. Bab: 20 → 22. Durasi 23:37 → 28:45.
+
+Selingan ringan sempat ditambahkan lalu **dibuang seluruhnya** atas keputusan
+pemilik aplikasi — delapan kalimat dibuang dan satu dipotong ekornya lewat
+`hapus_selingan.py`. Yang dibuang hanya kalimat yang memang ditulis sebagai
+selingan; kalimat yang menerangkan sesuatu tetap tinggal walaupun bernada ringan.
 
 Skrip penambalnya disimpan agar jejak perubahannya terbaca: `revisi_v4.py`
 (naskah), `koreografi_v4.py` dan `koreografi_v4b.py` (koreografi),
@@ -79,7 +83,9 @@ permanen di layar, dan layar penutup keresmian.
 ## Urutan build
 
 ```bash
-python generate_audio.py         # 128 baris narasi -> audio/line_XXX.mp3
+python revisi_v4.py              # naskah v3 -> v4 (menolak berjalan dua kali)
+python hapus_selingan.py         # buang selingan; ikut membuang koreografinya
+python generate_audio.py         # 151 baris narasi -> audio/line_XXX.mp3
 python build_timeline.py         # timeline.json + subtitle.srt + narration_full.mp3
 python generate_audio_assets.py  # music_bg.wav + sfx/ (20 efek)
 python build_sfx_bus.py          # sfx_bus.wav (232 cue)

@@ -39,6 +39,13 @@ cp transkrip.txt                      "$PUB/edu-transkrip.txt"
 # mendarat di tempat yang salah tanpa ada yang tampak rusak.
 cp chapters.json                      "../../resources/js/data/edu-video-chapters.json"
 
+# WAJIB sesudah menyalin daftar bab. Berkas itu di-import berkas TSX, jadi
+# isinya ikut dikompilasi ke dalam bundel -- menyalinnya saja tidak mengubah
+# apa pun yang dilihat pengguna sampai bundelnya dibangun ulang. Terlewat pada
+# v4: daftar bab di aplikasi masih memakai waktu video lama padahal berkas
+# JSON-nya sudah benar, dan tidak ada yang tampak rusak dari luar.
+( cd ../.. && npm run build )
+
 mkdir -p "$PUB/klip"
 cp klip/*.mp4 "$PUB/klip/" 2>/dev/null || true
 

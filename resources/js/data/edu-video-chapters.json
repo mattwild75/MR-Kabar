@@ -11,167 +11,167 @@
   "id": "s2",
   "judul": "Apa itu risiko",
   "mulai": 41.0,
-  "selesai": 118.5,
-  "durasi": 77.5,
+  "selesai": 103.7,
+  "durasi": 62.7,
   "sasaran": "Semua"
  },
  {
   "id": "s3",
   "judul": "Mengapa diperlukan",
-  "mulai": 118.5,
-  "selesai": 196.8,
+  "mulai": 103.7,
+  "selesai": 182.0,
   "durasi": 78.2,
   "sasaran": "Semua"
  },
  {
   "id": "s5",
   "judul": "Siapa yang bertanggung jawab",
-  "mulai": 196.8,
-  "selesai": 363.0,
-  "durasi": 166.3,
+  "mulai": 182.0,
+  "selesai": 343.1,
+  "durasi": 161.1,
   "sasaran": "Pimpinan"
  },
  {
   "id": "s24",
   "judul": "Tiga peran yang sering tertukar",
-  "mulai": 363.0,
-  "selesai": 440.1,
-  "durasi": 77.0,
+  "mulai": 343.1,
+  "selesai": 413.5,
+  "durasi": 70.4,
   "sasaran": "Semua"
  },
  {
   "id": "s7",
   "judul": "Kapan dikerjakan",
-  "mulai": 440.1,
-  "selesai": 529.4,
+  "mulai": 413.5,
+  "selesai": 502.9,
   "durasi": 89.3,
   "sasaran": "Pimpinan"
  },
  {
   "id": "s8",
   "judul": "Lima tahap Perdep",
-  "mulai": 529.4,
-  "selesai": 572.1,
+  "mulai": 502.9,
+  "selesai": 545.5,
   "durasi": 42.6,
   "sasaran": "Semua"
  },
  {
   "id": "s9",
   "judul": "Tahap 1 — Lingkungan Pengendalian (CEE)",
-  "mulai": 572.1,
-  "selesai": 697.1,
+  "mulai": 545.5,
+  "selesai": 670.6,
   "durasi": 125.1,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s10",
   "judul": "Tahap 2 — Penilaian Risiko: konteks",
-  "mulai": 697.1,
-  "selesai": 755.9,
+  "mulai": 670.6,
+  "selesai": 729.3,
   "durasi": 58.7,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s11",
   "judul": "Tahap 2 — Menulis pernyataan risiko",
-  "mulai": 755.9,
-  "selesai": 822.5,
-  "durasi": 66.6,
+  "mulai": 729.3,
+  "selesai": 784.9,
+  "durasi": 55.6,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s12",
   "judul": "Tahap 2 — Klasifikasi penyebab & kode risiko",
-  "mulai": 822.5,
-  "selesai": 893.0,
+  "mulai": 784.9,
+  "selesai": 855.5,
   "durasi": 70.5,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s13",
   "judul": "Tahap 2 — Kriteria dampak & kemungkinan",
-  "mulai": 893.0,
-  "selesai": 974.0,
-  "durasi": 81.0,
+  "mulai": 855.5,
+  "selesai": 929.4,
+  "durasi": 74.0,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s14",
   "judul": "Tahap 2 — Matriks 5×5 & prioritas",
-  "mulai": 974.0,
-  "selesai": 1069.7,
-  "durasi": 95.7,
+  "mulai": 929.4,
+  "selesai": 1016.7,
+  "durasi": 87.2,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s15",
   "judul": "Tahap 3 — Kegiatan Pengendalian (RTP)",
-  "mulai": 1069.7,
-  "selesai": 1170.8,
-  "durasi": 101.1,
+  "mulai": 1016.7,
+  "selesai": 1107.5,
+  "durasi": 90.8,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s16",
   "judul": "Tahap 3 — Empat titik skor",
-  "mulai": 1170.8,
-  "selesai": 1287.2,
+  "mulai": 1107.5,
+  "selesai": 1223.8,
   "durasi": 116.4,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s25",
   "judul": "Tahap 3 — Uji coba pengendalian",
-  "mulai": 1287.2,
-  "selesai": 1324.9,
-  "durasi": 37.7,
+  "mulai": 1223.8,
+  "selesai": 1253.6,
+  "durasi": 29.8,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s17",
   "judul": "Tahap 4 — Informasi & Komunikasi",
-  "mulai": 1324.9,
-  "selesai": 1363.7,
+  "mulai": 1253.6,
+  "selesai": 1292.4,
   "durasi": 38.8,
   "sasaran": "Semua"
  },
  {
   "id": "s18",
   "judul": "Tahap 5 — Pemantauan & pelaporan",
-  "mulai": 1363.7,
-  "selesai": 1491.5,
+  "mulai": 1292.4,
+  "selesai": 1420.3,
   "durasi": 127.9,
   "sasaran": "PIC OPD"
  },
  {
   "id": "s21",
   "judul": "Fitur pendukung",
-  "mulai": 1491.5,
-  "selesai": 1572.1,
-  "durasi": 80.5,
+  "mulai": 1420.3,
+  "selesai": 1497.0,
+  "durasi": 76.7,
   "sasaran": "Admin"
  },
  {
   "id": "s22",
   "judul": "Contoh nyata: satu risiko dari awal",
-  "mulai": 1572.1,
-  "selesai": 1679.0,
+  "mulai": 1497.0,
+  "selesai": 1604.0,
   "durasi": 107.0,
   "sasaran": "Semua"
  },
  {
   "id": "s19",
   "judul": "Dashboard",
-  "mulai": 1679.0,
-  "selesai": 1733.1,
+  "mulai": 1604.0,
+  "selesai": 1658.1,
   "durasi": 54.1,
   "sasaran": "Pimpinan"
  },
  {
   "id": "s20",
   "judul": "Penutup & langkah pertama Anda",
-  "mulai": 1733.1,
-  "selesai": 1800.3,
+  "mulai": 1658.1,
+  "selesai": 1725.3,
   "durasi": 67.2,
   "sasaran": "Semua"
  }
