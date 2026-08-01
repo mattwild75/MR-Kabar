@@ -1,0 +1,699 @@
+{
+    "jenis": [
+        {
+            "kode": "1",
+            "nama": "Pendidikan"
+        },
+        {
+            "kode": "2",
+            "nama": "Kesehatan"
+        },
+        {
+            "kode": "3",
+            "nama": "PU dan Tata Ruang"
+        },
+        {
+            "kode": "4",
+            "nama": "Perumahan dan Kawasan Permukiman"
+        },
+        {
+            "kode": "5",
+            "nama": "Ketentraman, Ketertiban Umum, dan Perlindungan Masyarakat"
+        },
+        {
+            "kode": "6",
+            "nama": "Sosial"
+        },
+        {
+            "kode": "7",
+            "nama": "Tenaga Kerja"
+        },
+        {
+            "kode": "8",
+            "nama": "Pemberdayaan Perempuan dan Pelindungan Anak"
+        },
+        {
+            "kode": "9",
+            "nama": "Pangan"
+        },
+        {
+            "kode": "10",
+            "nama": "Pertanahan"
+        },
+        {
+            "kode": "11",
+            "nama": "Lingkungan Hidup"
+        },
+        {
+            "kode": "12",
+            "nama": "Administrasi kependudukan dan pencatatan sipil"
+        },
+        {
+            "kode": "13",
+            "nama": "Pemberdayaan masyarakat dan desa"
+        },
+        {
+            "kode": "14",
+            "nama": "Pengendalian penduduk dan keluarga berencana"
+        },
+        {
+            "kode": "15",
+            "nama": "Perhubungan"
+        },
+        {
+            "kode": "16",
+            "nama": "Komunikasi dan informatika"
+        },
+        {
+            "kode": "17",
+            "nama": "Koperasi, Usaha Kecil dan Menengah"
+        },
+        {
+            "kode": "18",
+            "nama": "Penanaman Modal"
+        },
+        {
+            "kode": "19",
+            "nama": "Kepemudaan dan olah raga"
+        },
+        {
+            "kode": "20",
+            "nama": "Statistik"
+        },
+        {
+            "kode": "21",
+            "nama": "Persandian"
+        },
+        {
+            "kode": "22",
+            "nama": "Kebudayaan"
+        },
+        {
+            "kode": "23",
+            "nama": "Perpustakaan"
+        },
+        {
+            "kode": "24",
+            "nama": "Kearsipan"
+        },
+        {
+            "kode": "25",
+            "nama": "Kelautan dan perikanan"
+        },
+        {
+            "kode": "26",
+            "nama": "Pariwisata"
+        },
+        {
+            "kode": "27",
+            "nama": "Pertanian"
+        },
+        {
+            "kode": "28",
+            "nama": "Kehutanan\/Perkebunan"
+        },
+        {
+            "kode": "29",
+            "nama": "Energi dan sumber daya mineral"
+        },
+        {
+            "kode": "30",
+            "nama": "Perdagangan"
+        },
+        {
+            "kode": "31",
+            "nama": "Perindustrian"
+        },
+        {
+            "kode": "32",
+            "nama": "Transmigrasi"
+        },
+        {
+            "kode": "33",
+            "nama": "Penyusunan Kebijakan dan Koordinasi Administratif"
+        },
+        {
+            "kode": "34",
+            "nama": "Administrasi Kesekretariatan DPRD"
+        },
+        {
+            "kode": "35",
+            "nama": "Pembinaan dan Pengawasan"
+        },
+        {
+            "kode": "36",
+            "nama": "Perencanaan pembangunan, litbang"
+        },
+        {
+            "kode": "37",
+            "nama": "Keuangan dan Pendapatan"
+        },
+        {
+            "kode": "38",
+            "nama": "Kepegawaian dan Pengembangan SDM"
+        },
+        {
+            "kode": "39",
+            "nama": "Bencana"
+        },
+        {
+            "kode": "40",
+            "nama": "Politik"
+        },
+        {
+            "kode": "41",
+            "nama": "Lainnya"
+        }
+    ],
+    "level": [
+        {
+            "label": "Sangat Tinggi",
+            "skala_min": 20,
+            "skala_max": 25
+        },
+        {
+            "label": "Tinggi",
+            "skala_min": 16,
+            "skala_max": 19
+        },
+        {
+            "label": "Sedang",
+            "skala_min": 11,
+            "skala_max": 15
+        },
+        {
+            "label": "Rendah",
+            "skala_min": 6,
+            "skala_max": 10
+        },
+        {
+            "label": "Sangat Rendah",
+            "skala_min": 1,
+            "skala_max": 5
+        }
+    ],
+    "dampak": [
+        {
+            "id": 1,
+            "level": 1,
+            "label": "Tidak Signifikan",
+            "kerugian_negara": "< Rp 10.000.000",
+            "penurunan_reputasi": "Keluhan Stakeholder Secara Lisan \/ Tulisan ke Organisasi, ≥ 3 Kali Dalam Satu Periode",
+            "penurunan_kinerja": "Pencapaian Target Kinerja ≥ 100%",
+            "gangguan_pelayanan": "Pelayanan Tertunda ≤ 1 Hari",
+            "tuntutan_hukum": "≤ 5 Kali Dalam Satu Periode",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:44:22"
+        },
+        {
+            "id": 2,
+            "level": 2,
+            "label": "Minor",
+            "kerugian_negara": "> Rp10.000.000 s.d. Rp50.000.000",
+            "penurunan_reputasi": "Keluhan Stakeholder Secara Lisan \/ Tulisan ke Organisasi, > 3 Kali Dalam Satu Periode",
+            "penurunan_kinerja": "Pencapaian Target Kinerja diatas 80% s.d 100%",
+            "gangguan_pelayanan": "Pelayanan Tertunda diatas 1 Hari s.d 5 hari",
+            "tuntutan_hukum": "Diatas 5 Kali s.d 15 Kali Dalam Satu Periode",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:44:22"
+        },
+        {
+            "id": 3,
+            "level": 3,
+            "label": "Moderat",
+            "kerugian_negara": "> Rp50.000.000 s.d. Rp100.000.000",
+            "penurunan_reputasi": "Pemberitaan Negatif di Media Massa Lokal",
+            "penurunan_kinerja": "Pencapaian Target Kinerja diatas 50% s.d 80%",
+            "gangguan_pelayanan": "Pelayanan Tertunda diatas 5 Hari s.d 15 Hari",
+            "tuntutan_hukum": "Diatas 15 Kali s.d 30 Kali Dalam Satu Periode",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:44:22"
+        },
+        {
+            "id": 4,
+            "level": 4,
+            "label": "Signifikan",
+            "kerugian_negara": "> Rp100.000.000 s.d. Rp500.000.000",
+            "penurunan_reputasi": "Pemberitaan Negatif di Media Massa Nasional",
+            "penurunan_kinerja": "Pencapaian Target Kinerja diatas 25% s.d 50%",
+            "gangguan_pelayanan": "Pelayanan Tertunda diatas 15 Hari s.d 30 Hari",
+            "tuntutan_hukum": "Diatas 30 Kali s.d 50 Kali Dalam Satu Periode",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:44:22"
+        },
+        {
+            "id": 5,
+            "level": 5,
+            "label": "Sangat Signifikan",
+            "kerugian_negara": "> Rp 500.000.000",
+            "penurunan_reputasi": "Pemberitaan Negatif di Media Massa Internasional",
+            "penurunan_kinerja": "Pencapaian Target Kinerja < 25%",
+            "gangguan_pelayanan": "Pelayanan Tertunda Lebih Dari 30 Hari",
+            "tuntutan_hukum": "Diatas 50 Kali Dalam Satu Periode",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:44:22"
+        }
+    ],
+    "kemungkinan": [
+        {
+            "id": 1,
+            "level": 1,
+            "nama": "Hampir Tidak Terjadi",
+            "probabilitas": "Terjadi Kurang dari 5% dari Kejadian Transaksi",
+            "frekuensi": "Terjadi Sangat Jarang, Kurang Dari 2 Kali",
+            "toleransi": "1 Kejadian dalam 5 Tahun Terakhir",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:40:04"
+        },
+        {
+            "id": 2,
+            "level": 2,
+            "nama": "Jarang Terjadi",
+            "probabilitas": "Terjadi Antara 5% s.d 10% dari Kejadian Transaksi",
+            "frekuensi": "Terjadi Jarang, Kurang 2 Kali s.d 10 Kali",
+            "toleransi": "1 Kejadian dalam 4 Tahun Terakhir",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:40:04"
+        },
+        {
+            "id": 3,
+            "level": 3,
+            "nama": "Terjadi",
+            "probabilitas": "Terjadi Antara 10% s.d 20% dari Kejadian Transaksi",
+            "frekuensi": "Terjadi Cukup Sering, Kurang 10 Kali s.d 18 Kali",
+            "toleransi": "1 Kejadian dalam 3 Tahun Terakhir",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:40:04"
+        },
+        {
+            "id": 4,
+            "level": 4,
+            "nama": "Sering Terjadi",
+            "probabilitas": "Terjadi Antara 20% s.d 50% dari Kejadian Transaksi",
+            "frekuensi": "Terjadi Sering, Kurang 18 Kali s.d 26 Kali",
+            "toleransi": "1 Kejadian dalam 2 Tahun Terakhir",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:40:04"
+        },
+        {
+            "id": 5,
+            "level": 5,
+            "nama": "Hampir Pasti Terjadi",
+            "probabilitas": "Terjadi Lebih Dari 50% Kejadian Transaksi",
+            "frekuensi": "Terjadi Sangat Sering, Lebih Dari 26 Kali",
+            "toleransi": "1 Kejadian dalam 1 Tahun Terakhir",
+            "created_at": "2026-07-11 03:40:04",
+            "updated_at": "2026-07-11 03:40:04"
+        }
+    ],
+    "matriks": [
+        {
+            "dampak": 1,
+            "kemungkinan": 1,
+            "skala_risiko": 1
+        },
+        {
+            "dampak": 1,
+            "kemungkinan": 2,
+            "skala_risiko": 2
+        },
+        {
+            "dampak": 1,
+            "kemungkinan": 3,
+            "skala_risiko": 4
+        },
+        {
+            "dampak": 1,
+            "kemungkinan": 4,
+            "skala_risiko": 6
+        },
+        {
+            "dampak": 1,
+            "kemungkinan": 5,
+            "skala_risiko": 9
+        },
+        {
+            "dampak": 2,
+            "kemungkinan": 1,
+            "skala_risiko": 3
+        },
+        {
+            "dampak": 2,
+            "kemungkinan": 2,
+            "skala_risiko": 7
+        },
+        {
+            "dampak": 2,
+            "kemungkinan": 3,
+            "skala_risiko": 10
+        },
+        {
+            "dampak": 2,
+            "kemungkinan": 4,
+            "skala_risiko": 12
+        },
+        {
+            "dampak": 2,
+            "kemungkinan": 5,
+            "skala_risiko": 15
+        },
+        {
+            "dampak": 3,
+            "kemungkinan": 1,
+            "skala_risiko": 5
+        },
+        {
+            "dampak": 3,
+            "kemungkinan": 2,
+            "skala_risiko": 11
+        },
+        {
+            "dampak": 3,
+            "kemungkinan": 3,
+            "skala_risiko": 14
+        },
+        {
+            "dampak": 3,
+            "kemungkinan": 4,
+            "skala_risiko": 16
+        },
+        {
+            "dampak": 3,
+            "kemungkinan": 5,
+            "skala_risiko": 18
+        },
+        {
+            "dampak": 4,
+            "kemungkinan": 1,
+            "skala_risiko": 8
+        },
+        {
+            "dampak": 4,
+            "kemungkinan": 2,
+            "skala_risiko": 13
+        },
+        {
+            "dampak": 4,
+            "kemungkinan": 3,
+            "skala_risiko": 17
+        },
+        {
+            "dampak": 4,
+            "kemungkinan": 4,
+            "skala_risiko": 19
+        },
+        {
+            "dampak": 4,
+            "kemungkinan": 5,
+            "skala_risiko": 23
+        },
+        {
+            "dampak": 5,
+            "kemungkinan": 1,
+            "skala_risiko": 20
+        },
+        {
+            "dampak": 5,
+            "kemungkinan": 2,
+            "skala_risiko": 21
+        },
+        {
+            "dampak": 5,
+            "kemungkinan": 3,
+            "skala_risiko": 22
+        },
+        {
+            "dampak": 5,
+            "kemungkinan": 4,
+            "skala_risiko": 24
+        },
+        {
+            "dampak": 5,
+            "kemungkinan": 5,
+            "skala_risiko": 25
+        }
+    ],
+    "cee_unsur": [
+        {
+            "kode": "A",
+            "nama": "Penegakan Integritas dan Nilai Etika"
+        },
+        {
+            "kode": "B",
+            "nama": "Komitmen terhadap Kompetensi"
+        },
+        {
+            "kode": "C",
+            "nama": "Kepemimpinan yang Kondusif"
+        },
+        {
+            "kode": "D",
+            "nama": "Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan"
+        },
+        {
+            "kode": "E",
+            "nama": "Pendelegasian Wewenang dan Tanggung Jawab yang Tepat"
+        },
+        {
+            "kode": "F",
+            "nama": "Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia"
+        },
+        {
+            "kode": "G",
+            "nama": "Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif"
+        },
+        {
+            "kode": "H",
+            "nama": "Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait"
+        }
+    ],
+    "cee_soal": [
+        {
+            "cee_unsur_id": 1,
+            "urutan": 1,
+            "pertanyaan": "Pegawai mendapatkan pesan integritas & nilai etika secara rutin dari pimpinan instansi (Misalnya keteladanan, pesan moral dll)"
+        },
+        {
+            "cee_unsur_id": 1,
+            "urutan": 2,
+            "pertanyaan": "Pemda telah memiliki aturan perilaku (misalnya kode etik, pakta integritas, dan aturan perilaku pegawai) yang telah dikomunikasikan kepada seluruh pegawai"
+        },
+        {
+            "cee_unsur_id": 1,
+            "urutan": 3,
+            "pertanyaan": "Telah terdapat fungsi khusus di dalam instansi yang melayani pengaduan masyarakat atas pelanggaran aturan perilaku\/kode etik"
+        },
+        {
+            "cee_unsur_id": 1,
+            "urutan": 4,
+            "pertanyaan": "Pelanggaran aturan perilaku\/kode etik telah ditindaklanjuti"
+        },
+        {
+            "cee_unsur_id": 2,
+            "urutan": 1,
+            "pertanyaan": "Standar kompetensi setiap pegawai\/posisi jabatan telah ditentukan"
+        },
+        {
+            "cee_unsur_id": 2,
+            "urutan": 2,
+            "pertanyaan": "Pegawai yang kompeten telah secara tepat mengisi posisi\/jabatan"
+        },
+        {
+            "cee_unsur_id": 2,
+            "urutan": 3,
+            "pertanyaan": "Pemda telah memiliki dan menerapkan strategi peningkatan kompetensi pegawai"
+        },
+        {
+            "cee_unsur_id": 2,
+            "urutan": 4,
+            "pertanyaan": "Terdapat pelatihan terkait pengelolaan risiko, baik pelatihan khusus maupun pelatihan terintegrasi secara berkala."
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 1,
+            "pertanyaan": "Pimpinan telah menetapkan kebijakan pengelolaan risiko yang memberikan kejelasan arah pengelolaan risiko"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 2,
+            "pertanyaan": "Pimpinan menerapkan pengelolaan risiko dan pengendalian dalam pelaksanaan tugas dan pengambilan keputusan"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 3,
+            "pertanyaan": "Pimpinan membangun komunikasi yang baik dengan anggota organisasi untuk berani mengungkapkan risiko dan secara terbuka menerima\/menggali pelaporan risiko\/masalah"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 4,
+            "pertanyaan": "Gaya pimpinan dapat mendorong pegawai untuk meningkatkan kinerja"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 5,
+            "pertanyaan": "Pimpinan menetapkan Sasaran strategis yang selaras dengan visi dan misi Pemda"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 6,
+            "pertanyaan": "Rencana\/sasaran strategis pemda telah dijabarkan ke dalam sasaran OPD dan tingkat operasional OPD"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 7,
+            "pertanyaan": "Rencana strategis dan rencana kerja pemda telah menyajikan informasi mengenai risiko"
+        },
+        {
+            "cee_unsur_id": 3,
+            "urutan": 8,
+            "pertanyaan": "Pimpinan berperan serta dan mengikutsertakan pejabat dan pegawai terkait dalam penetapan waktu pelaporan pelaksanaan peran dan tanggung jawab masing-masing dalam pengelolaan risiko"
+        },
+        {
+            "cee_unsur_id": 4,
+            "urutan": 1,
+            "pertanyaan": "Setiap Urusan telah dilaksanakan oleh OPD dan unit kerja yang tepat"
+        },
+        {
+            "cee_unsur_id": 4,
+            "urutan": 2,
+            "pertanyaan": "Masing-masing pihak dalam organisasi telah memperoleh kejelasan dan memahami peran dan tanggung jawab masing-masing dalam pengelolaan risiko"
+        },
+        {
+            "cee_unsur_id": 4,
+            "urutan": 3,
+            "pertanyaan": "Pegawai yang bertugas di OPD merupakan pegawai tetap dan bukan pegawai yang bersifat adhoc (sementara)"
+        },
+        {
+            "cee_unsur_id": 4,
+            "urutan": 4,
+            "pertanyaan": "Penetapan sasaran dan penetapan waktu pelaporan pelaksanaan peran dan tanggung jawab masing-masing dalam pengelolaan risiko"
+        },
+        {
+            "cee_unsur_id": 5,
+            "urutan": 1,
+            "pertanyaan": "Kriteria pendelegasian wewenang telah ditentukan dengan tepat"
+        },
+        {
+            "cee_unsur_id": 5,
+            "urutan": 2,
+            "pertanyaan": "Pendelegasian wewenang dan tanggung jawab dilaksanakan secara tepat"
+        },
+        {
+            "cee_unsur_id": 5,
+            "urutan": 3,
+            "pertanyaan": "Kewenangan direviu secara periodik"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 1,
+            "pertanyaan": "Pemda telah memiliki Kebijakan dan prosedur pengelolaan SDM yang lengkap (sejak rekrutmen sampai dengan pemberhentian pegawai)"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 2,
+            "pertanyaan": "Rekruitmen, retensi, mutasi, maupun promosi pemilihan SDM telah dilakukan dengan baik"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 3,
+            "pertanyaan": "Insentif pegawai telah sesuai dengan tanggung jawab dan kinerja"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 4,
+            "pertanyaan": "Pemda telah menginternalisasi budaya sadar risiko"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 5,
+            "pertanyaan": "Adanya pemberian reward dan\/atau punishment atas pengelolaan risiko (Misalnya mempertimbangkan pertanggungjawaban pengelolaan risiko dalam penilaian kinerja)"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 6,
+            "pertanyaan": "Terdapat evaluasi kinerja pegawai, dan telah dipertimbangkan dalam perhitungan penghasilan"
+        },
+        {
+            "cee_unsur_id": 6,
+            "urutan": 7,
+            "pertanyaan": "Instansi telah mengalokasikan anggaran yang memadai untuk pengembangan SDM"
+        },
+        {
+            "cee_unsur_id": 7,
+            "urutan": 1,
+            "pertanyaan": "Inspektorat Daerah melakukan reviu atas efisiensi\/efektivitas pelaksanaan setiap urusan\/program secara periodik"
+        },
+        {
+            "cee_unsur_id": 7,
+            "urutan": 2,
+            "pertanyaan": "Inspektorat Daerah melakukan reviu atas kepatuhan hukum dan aturan lainnya"
+        },
+        {
+            "cee_unsur_id": 7,
+            "urutan": 3,
+            "pertanyaan": "Inspektorat Daerah memberikan layanan fasilitasi penerapan pengelolaan risiko dan penyelenggaraan SPIP"
+        },
+        {
+            "cee_unsur_id": 7,
+            "urutan": 4,
+            "pertanyaan": "APIP telah melaksanakan pengawasan berbasis risiko."
+        },
+        {
+            "cee_unsur_id": 7,
+            "urutan": 5,
+            "pertanyaan": "Temuan dan saran\/rekomendasi pengawasan APIP telah ditindaklanjuti"
+        },
+        {
+            "cee_unsur_id": 8,
+            "urutan": 1,
+            "pertanyaan": "Hubungan kerja yang baik dengan instansi\/organisasi lain yang memiliki keterkaitan operasional telah terbangun"
+        },
+        {
+            "cee_unsur_id": 8,
+            "urutan": 2,
+            "pertanyaan": "Hubungan kerja yang baik dengan instansi yang terkait atas fungsi pengawasan\/pemeriksaan (inspektorat, BPKP, dan BPK) telah terbangun"
+        }
+    ],
+    "cee_map": [
+        {
+            "id": 1,
+            "kode": "A",
+            "nama": "Penegakan Integritas dan Nilai Etika"
+        },
+        {
+            "id": 2,
+            "kode": "B",
+            "nama": "Komitmen terhadap Kompetensi"
+        },
+        {
+            "id": 3,
+            "kode": "C",
+            "nama": "Kepemimpinan yang Kondusif"
+        },
+        {
+            "id": 4,
+            "kode": "D",
+            "nama": "Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan"
+        },
+        {
+            "id": 5,
+            "kode": "E",
+            "nama": "Pendelegasian Wewenang dan Tanggung Jawab yang Tepat"
+        },
+        {
+            "id": 6,
+            "kode": "F",
+            "nama": "Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia"
+        },
+        {
+            "id": 7,
+            "kode": "G",
+            "nama": "Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif"
+        },
+        {
+            "id": 8,
+            "kode": "H",
+            "nama": "Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait"
+        }
+    ]
+}

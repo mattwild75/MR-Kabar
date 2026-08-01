@@ -29,11 +29,23 @@ Style 12 pt, nomor dan tanggal sengaja dikosongkan untuk Bagian Hukum:
 Surat Edaran 2025 memuat sekaligus arahan lima tahunan 2025–2029, sesuai
 Perdep Lampiran 3 dan 4.
 
-**Tiga hal pada ketiga naskah itu perlu dicocokkan dengan dokumen resmi**
-sebelum ditetapkan: daftar 11 urusan pada Lampiran Surat Edaran, penyebutan
-"Dinas Pendidikan dan Kebudayaan" (di basis data hanya ada Dinas Pendidikan
-Dayah), dan rujukan Undang-Undang pembentukan Kabupaten Aceh Barat pada
-Keputusan Bupati.
+**Dua dari tiga hal yang semula perlu dicocokkan sudah tuntas 1 Agustus 2026**,
+dan keduanya ternyata ralat atas catatan ini sendiri:
+
+- ~~Penyebutan "Dinas Pendidikan dan Kebudayaan" tidak ada di basis data.~~
+  **Keliru.** Keduanya ada: `DINAS PENDIDIKAN DAN KEBUDAYAAN` dan `DINAS PENDIDIKAN
+  DAYAH` adalah dua Perangkat Daerah yang berbeda. Naskahnya sudah benar sejak awal.
+- ~~Rujukan Undang-Undang pembentukan Kabupaten Aceh Barat perlu dicocokkan.~~
+  **Sudah dicocokkan, dan yang dipakai ternyata usang.** Naskah Perbup memakai UU 7
+  (Drt) Tahun 1956, Keputusan Bupati memakai UU 4 Tahun 1968. Yang berlaku sekarang
+  **Undang-Undang Nomor 11 Tahun 2024 tentang Kabupaten Aceh Barat di Aceh** (Lembaran
+  Negara Tahun 2024 Nomor 109, Tambahan Lembaran Negara Nomor 6931), disahkan 2 Juli
+  2024. Diverifikasi dari tiga sumber: JDIH BPK RI, JDIH Aceh Barat, dan **Peraturan
+  Bupati Aceh Barat Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan** — produk Aceh
+  Barat sendiri yang sudah memakai rujukan baru itu. Kedua naskah kita sudah diperbaiki.
+
+**Satu yang masih terbuka:** daftar 11 urusan pada Lampiran Surat Edaran belum
+dicocokkan dengan dokumen resmi.
 
 Keputusan Bupati **disunting manual** bila strukturnya berubah — atas
 keputusan pemilik aplikasi, penyusunnya sengaja tidak disambungkan ke basis
@@ -77,15 +89,15 @@ gambar atau tabel baru tidak merusak penomoran berikutnya.
 ## Penyusun naskah
 
 Naskah dibangun oleh sekumpulan skrip Python yang menghasilkan berkas .docx secara
-utuh, bukan disunting tangan. Skripnya **tidak berada di repositori ini** dan
-tersimpan di direktori sementara sesi kerja. Bila naskah perlu dibangun ulang dari
-nol, skrip itu harus disalin lebih dulu ke tempat permanen; bila hanya perlu
-disunting, berkas .docx berdiri sendiri.
+utuh, bukan disunting tangan. Skripnya kini ada di
+[`naskah-hukum/`](../naskah-hukum/README.md) di dalam repositori ini —
+**dipindahkan ke sana pada 1 Agustus 2026**, sebelumnya tersimpan di direktori
+sementara sesi kerja yang bisa hilang kapan saja tanpa peringatan. Karena naskah
+Perbup masih akan direvisi beberapa kali, kehilangan penyusunnya berarti
+kehilangan kemampuan membangunnya ulang.
 
-Berkas inti: `inti.py` (pembentuk OOXML, gaya, sectPr, tabel, gambar),
-`naskah.py` (seluruh isi), `gambar.py` dan `gambar2.py` beserta `render.cjs` dan
-`render2.cjs` (ilustrasi lewat Chromium), serta `periksa.ps1` (pemeriksaan lewat
-Word COM).
+Cukup `python naskah.py` untuk membangun seluruh Perbup dari nol. Keterangan tiap
+berkas, dan yang perlu diketahui sebelum mengubahnya, ada pada README di folder itu.
 
 ## Empat isian yang tersisa
 
@@ -102,14 +114,19 @@ Semuanya wewenang Bagian Hukum pada saat penetapan, sengaja dibiarkan kosong:
 
 ## Dasar hukum yang sudah terverifikasi
 
-Enam belas butir, seluruhnya dicocokkan ke sumber resmi: UU 7 (Drt) 1956, UU 28/1999,
+Enam belas butir, seluruhnya dicocokkan ke sumber resmi: **UU 11/2024** (menggantikan
+UU 7 (Drt) 1956 yang semula dipakai — lihat ralat di atas), UU 28/1999,
 UU 11/2006, UU 11/2008 jo. UU 1/2024, UU 25/2009, UU 23/2014 jo. UU 6/2023,
 UU 27/2022, PP 60/2008, PP 18/2016 jo. PP 72/2019, PP 12/2019, PP 71/2019,
 Perpres 54/2018, Perpres 95/2018, Permendagri 77/2020, Perdep PPKD BPKP 4/2019, dan
 Qanun Aceh Barat 3/2016 jo. Qanun 2/2020.
 
 Sumber utama: peraturan.go.id, dan untuk Qanun beserta PP Perangkat Daerah memakai
-Perbup Aceh Barat Nomor 17 Tahun 2024 sebagai sumber primer.
+Perbup Aceh Barat Nomor 17 Tahun 2024 sebagai sumber primer. Untuk Undang-Undang
+pembentukan Kabupaten Aceh Barat, sumber primernya Perbup Aceh Barat Nomor 6 Tahun
+2025 — cara tercepat mengetahui rujukan mana yang sedang dipakai Bagian Hukum adalah
+membaca produk hukum Aceh Barat yang paling baru, bukan mencari di pangkalan data
+nasional.
 
 ## Rencana pembaruan — hasil pembandingan dengan Perwal Cilegon 2/2022
 
@@ -120,14 +137,24 @@ berikut. **Prasyarat aplikasi untuk ketujuhnya sudah terpenuhi per 1 Agustus 202
 keterangan "Prasyarat: A…" di bawah dipertahankan sebagai jejak alasan, bukan sebagai
 penghalang yang masih berlaku.
 
-### Tahap 0 — verifikasi  *(satu butir masih terbuka)*
+### Tahap 0 — verifikasi  *(tuntas 1 Agustus 2026)*
 
 - ~~Nomor Lembaran Negara Perpres 39/2023 tentang MRPN.~~ **Selesai** — LN Tahun 2023
   Nomor 90, ditetapkan dan diundangkan 16 Juni 2023, diverifikasi langsung dari naskah
   Perpres-nya.
-- Nomor Berita Negara Perka BPKP Nomor 25 Tahun 2013 tentang Petunjuk Pelaksanaan
-  Control Environment Evaluation. Cilegon merujuknya di lampiran; kita punya modul CEE
-  utuh tetapi belum mencantumkannya.
+- ~~Nomor Berita Negara Perka BPKP Nomor 25 Tahun 2013.~~ **Selesai, dengan hasil yang
+  tidak terduga: nomor itu tidak ada.** JDIH BPKP memuat peraturannya — *Petunjuk
+  Pelaksanaan Control Environment Evaluation*, ditetapkan 28 Juni 2013 — tetapi tanpa
+  penunjukan Berita Negara, dan penelusuran di peraturan.bpk.go.id juga tidak
+  menemukannya. Peraturan Kepala BPKP pada masa itu memang peraturan internal lembaga
+  yang tidak diundangkan dalam Berita Negara.
+
+  **Akibatnya untuk penaskahan:** Perka BPKP 25/2013 **tidak dicantumkan pada
+  Mengingat**. Bukan semata karena nomornya tidak ada, melainkan karena Mengingat hanya
+  memuat peraturan yang sederajat atau lebih tinggi, sedangkan Peraturan Kepala lembaga
+  tidak berada dalam hierarki Undang-Undang Nomor 12 Tahun 2011. Kalau memang perlu
+  disebut, tempatnya di batang tubuh atau lampiran sebagai rujukan teknis — sama seperti
+  Perdep PPKD 4/2019 diperlakukan.
 
 Yang tidak terverifikasi tidak dicantumkan.
 

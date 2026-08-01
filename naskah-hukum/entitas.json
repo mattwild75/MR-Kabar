@@ -1,0 +1,345 @@
+[
+    {
+        "id": 1,
+        "nama": "BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA",
+        "urutan": 1,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 2,
+        "nama": "BADAN KESATUAN BANGSA DAN POLITIK",
+        "urutan": 2,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 3,
+        "nama": "BADAN PENANGGULANGAN BENCANA DAERAH",
+        "urutan": 3,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 4,
+        "nama": "BADAN PENGELOLAAN KEUANGAN DAERAH",
+        "urutan": 4,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 5,
+        "nama": "BADAN PERENCANAAN PEMBANGUNAN DAERAH",
+        "urutan": 5,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 6,
+        "nama": "BLUD RSUD CUT NYAK DHIEN",
+        "urutan": 6,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 7,
+        "nama": "DINAS KELAUTAN DAN PERIKANAN",
+        "urutan": 7,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 8,
+        "nama": "DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL",
+        "urutan": 8,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 9,
+        "nama": "DINAS KESEHATAN",
+        "urutan": 9,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 10,
+        "nama": "DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN",
+        "urutan": 10,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 11,
+        "nama": "DINAS LINGKUNGAN HIDUP",
+        "urutan": 11,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 12,
+        "nama": "DINAS PANGAN",
+        "urutan": 12,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 13,
+        "nama": "DINAS PARIWISATA PEMUDA DAN OLAHRAGA",
+        "urutan": 13,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 14,
+        "nama": "DINAS PEKERJAAN UMUM DAN PENATAAN RUANG",
+        "urutan": 14,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 15,
+        "nama": "DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG",
+        "urutan": 15,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 16,
+        "nama": "DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA",
+        "urutan": 16,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 17,
+        "nama": "DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU",
+        "urutan": 17,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 18,
+        "nama": "DINAS PENDIDIKAN DAN KEBUDAYAAN",
+        "urutan": 18,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 19,
+        "nama": "DINAS PENDIDIKAN DAYAH",
+        "urutan": 19,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 20,
+        "nama": "DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH",
+        "urutan": 20,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 21,
+        "nama": "DINAS PERHUBUNGAN",
+        "urutan": 21,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 22,
+        "nama": "DINAS PERKEBUNAN DAN PETERNAKAN",
+        "urutan": 22,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 23,
+        "nama": "DINAS PERPUSTAKAAN DAN KEARSIPAN",
+        "urutan": 23,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 24,
+        "nama": "DINAS PERTANAHAN",
+        "urutan": 24,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 25,
+        "nama": "DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA",
+        "urutan": 25,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 26,
+        "nama": "DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN",
+        "urutan": 26,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 27,
+        "nama": "DINAS SOSIAL",
+        "urutan": 27,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 28,
+        "nama": "DINAS SYARIAT ISLAM",
+        "urutan": 28,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 29,
+        "nama": "DINAS TRANSMIGRASI DAN TENAGA KERJA",
+        "urutan": 29,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 30,
+        "nama": "INSPEKTORAT",
+        "urutan": 30,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 31,
+        "nama": "KECAMATAN ARONGAN LAMBALEK",
+        "urutan": 31,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 32,
+        "nama": "KECAMATAN BUBON",
+        "urutan": 32,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 33,
+        "nama": "KECAMATAN JOHAN PAHLAWAN",
+        "urutan": 33,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 34,
+        "nama": "KECAMATAN KAWAY XVI",
+        "urutan": 34,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 35,
+        "nama": "KECAMATAN MEUREUBO",
+        "urutan": 35,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 36,
+        "nama": "KECAMATAN PANTE CEUREUMEN",
+        "urutan": 36,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 37,
+        "nama": "KECAMATAN PANTON REU",
+        "urutan": 37,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 38,
+        "nama": "KECAMATAN SAMATIGA",
+        "urutan": 38,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 39,
+        "nama": "KECAMATAN SUNGAI MAS",
+        "urutan": 39,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 40,
+        "nama": "KECAMATAN WOYLA",
+        "urutan": 40,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 41,
+        "nama": "KECAMATAN WOYLA BARAT",
+        "urutan": 41,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 42,
+        "nama": "KECAMATAN WOYLA TIMUR",
+        "urutan": 42,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 43,
+        "nama": "SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH",
+        "urutan": 43,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 44,
+        "nama": "SEKRETARIAT BAITUL MAL KABUPATEN",
+        "urutan": 44,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 45,
+        "nama": "SEKRETARIAT DAERAH",
+        "urutan": 45,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 46,
+        "nama": "SEKRETARIAT DPRK",
+        "urutan": 46,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 47,
+        "nama": "SEKRETARIAT MAJELIS ADAT ACEH",
+        "urutan": 47,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 48,
+        "nama": "SEKRETARIAT MAJELIS PEMUSYAWARATAN ULAMA",
+        "urutan": 48,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    },
+    {
+        "id": 49,
+        "nama": "SEKRETARIAT MAJELIS PENDIDIKAN DAERAH",
+        "urutan": 49,
+        "created_at": "2026-07-11 03:40:04",
+        "updated_at": "2026-07-11 03:40:04"
+    }
+]

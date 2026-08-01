@@ -1,0 +1,6 @@
+# Keluaran naskah TIDAK disimpan di sini — ditulis langsung ke Desktop\MR Kabar
+# oleh skripnya, dan bisa dibangun ulang kapan saja dari isi folder ini.
+*.docx
+*.pdf
+*.png
+__pycache__/

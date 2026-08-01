@@ -1,0 +1,50 @@
+[
+    {
+        "nomor": 1,
+        "program": "Menyediakan Bantuan Dana bagi Keluarga Pasien yang Dirujuk",
+        "skpk": "BADAN PENGELOLAAN KEUANGAN DAERAH, BLUD RSUD CUT NYAK DHIEN",
+        "kode": "RSO.25.02.09.02",
+        "uraian": "Keterbatasan Anggaran Kesehatan",
+        "skala": 19
+    },
+    {
+        "nomor": 1,
+        "program": "Menyediakan Bantuan Dana bagi Keluarga Pasien yang Dirujuk",
+        "skpk": "BADAN PENGELOLAAN KEUANGAN DAERAH, BLUD RSUD CUT NYAK DHIEN",
+        "kode": "ROO.25.02.09.02",
+        "uraian": "Keterbatasan Kapasitas Fasilitas Rujukan",
+        "skala": 24
+    },
+    {
+        "nomor": 2,
+        "program": "Menyediakan Rumah Singgah",
+        "skpk": "DINAS KESEHATAN",
+        "kode": "RSO.25.02.09.05",
+        "uraian": "Rendahnya Kesadaran Masyarakat terhadap Kesehatan",
+        "skala": 16
+    },
+    {
+        "nomor": 3,
+        "program": "Menyediakan Ambulan Gratis bagi Masyarakat",
+        "skpk": "DINAS KESEHATAN",
+        "kode": "ROO.25.02.09.01",
+        "uraian": "Pelaksanaan pembangunan\/penyediaan tidak sesuai spesifikasi",
+        "skala": 22
+    },
+    {
+        "nomor": 3,
+        "program": "Menyediakan Ambulan Gratis bagi Masyarakat",
+        "skpk": "DINAS KESEHATAN",
+        "kode": "RSO.25.02.09.04",
+        "uraian": "Kerusakan Infrastruktur Kesehatan",
+        "skala": 17
+    },
+    {
+        "nomor": 4,
+        "program": "Menyediakan Sarana Prasarana dan Alat Kesehatan",
+        "skpk": "DINAS KESEHATAN",
+        "kode": "RSO.25.02.09.04",
+        "uraian": "Kerusakan Infrastruktur Kesehatan",
+        "skala": 17
+    }
+]
