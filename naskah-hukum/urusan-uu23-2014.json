@@ -1,0 +1,42 @@
+{
+ "sumber": "Undang-Undang Nomor 23 Tahun 2014 tentang Pemerintahan Daerah, Pasal 12",
+ "catatan": "Disalin dari naskah resmi UU 23/2014, Pasal 12 ayat (1), (2), dan (3). Bagian ini berlapis teks sehingga dapat diperiksa ulang kata per kata - berbeda dengan matriks pada Lampirannya yang kolomnya bercampur dan belum dapat ditarik bersih.",
+ "urusan_wajib_pelayanan_dasar": [
+  "Pendidikan",
+  "Kesehatan",
+  "Pekerjaan Umum dan Penataan Ruang",
+  "Perumahan Rakyat dan Kawasan Permukiman",
+  "Ketenteraman, Ketertiban Umum, dan Pelindungan Masyarakat",
+  "Sosial"
+ ],
+ "urusan_wajib_non_pelayanan_dasar": [
+  "Tenaga Kerja",
+  "Pemberdayaan Perempuan dan Pelindungan Anak",
+  "Pangan",
+  "Pertanahan",
+  "Lingkungan Hidup",
+  "Administrasi Kependudukan dan Pencatatan Sipil",
+  "Pemberdayaan Masyarakat dan Desa",
+  "Pengendalian Penduduk dan Keluarga Berencana",
+  "Perhubungan",
+  "Komunikasi dan Informatika",
+  "Koperasi, Usaha Kecil, dan Menengah",
+  "Penanaman Modal",
+  "Kepemudaan dan Olah Raga",
+  "Statistik",
+  "Persandian",
+  "Kebudayaan",
+  "Perpustakaan",
+  "Kearsipan"
+ ],
+ "urusan_pilihan": [
+  "Kelautan dan Perikanan",
+  "Pariwisata",
+  "Pertanian",
+  "Kehutanan",
+  "Energi dan Sumber Daya Mineral",
+  "Perdagangan",
+  "Perindustrian",
+  "Transmigrasi"
+ ]
+}
