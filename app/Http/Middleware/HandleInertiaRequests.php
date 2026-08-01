@@ -33,6 +33,18 @@ class HandleInertiaRequests extends Middleware
 
         return array_merge(parent::share($request), [
             'name' => config('app.name'),
+            // Versi aplikasi dibaca dari tag git terbaru, bukan ditulis di
+            // berkas konfigurasi. Nomor versi yang ditulis tangan pasti akan
+            // tertinggal dari tag suatu saat, dan ketika itu terjadi tidak ada
+            // yang menyadarinya. Hasilnya di-cache 1 jam supaya tidak
+            // memanggil git pada setiap permintaan.
+            'versi' => cache()->remember('versi-aplikasi', 3600, function () {
+                $hasil = \Illuminate\Support\Facades\Process::path(base_path())
+                    ->timeout(5)
+                    ->run('git describe --tags --abbrev=0');
+
+                return $hasil->successful() ? trim($hasil->output()) : null;
+            }),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user()?->load('roles:id,name'),

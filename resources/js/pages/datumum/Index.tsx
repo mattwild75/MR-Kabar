@@ -52,6 +52,18 @@ interface PageProps {
 
 // Field yg nilainya Pemda-wide (sama utk semua OPD) — hanya Admin/Super
 // Admin yg mengubahnya mengubah default global (lihat DataUmumController).
+import { DAFTAR_URUSAN, DAFTAR_SUB_URUSAN } from '@/lib/urusan-pemerintahan';
+
+/**
+ * Kolom yang diberi daftar usulan. Memakai <datalist> bawaan peramban, bukan
+ * komponen pemilih: isinya harus tetap dapat diketik bebas, sebab nomenklatur
+ * yang dipakai SKPK pada RKA bisa berbeda ejaan dari UU 23/2014.
+ */
+const USULAN: Record<string, string[]> = {
+  nama_urusan: DAFTAR_URUSAN,
+  nama_sub_urusan: DAFTAR_SUB_URUSAN,
+};
+
 const PEMDA_WIDE_FIELDS = new Set([
   'pemerintah_kabkota',
   'periode_penilaian',
@@ -295,13 +307,23 @@ function DataUmumForm({ data, isAdmin, opdOptions, opdId, tahunAktif, tahun, bel
                           disabled={isCeeSurvey}
                         />
                       ) : (
-                        <Input
-                          id={key}
-                          type={type}
-                          value={(form[key] as string) ?? ''}
-                          onChange={(e) => setData(key, e.target.value)}
-                          disabled={isCeeSurvey}
-                        />
+                        <>
+                          <Input
+                            id={key}
+                            type={type}
+                            list={USULAN[key] ? `usulan-${key}` : undefined}
+                            value={(form[key] as string) ?? ''}
+                            onChange={(e) => setData(key, e.target.value)}
+                            disabled={isCeeSurvey}
+                          />
+                          {USULAN[key] && (
+                            <datalist id={`usulan-${key}`}>
+                              {USULAN[key].map((v) => (
+                                <option key={v} value={v} />
+                              ))}
+                            </datalist>
+                          )}
+                        </>
                       )}
                       {errors[key] && <p className="text-sm text-destructive">{errors[key]}</p>}
                     </div>

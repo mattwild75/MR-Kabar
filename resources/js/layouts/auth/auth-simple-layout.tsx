@@ -26,6 +26,8 @@ const APPEARANCE_LABEL = {
 } as const;
 
 export default function AuthSimpleLayout({ children, title, description }: AuthLayoutProps) {
+    // Versi dibagikan lewat prop bersama Inertia; dibaca dari tag git terbaru.
+    const versi = (usePage().props as { versi?: string | null }).versi;
     const { props } = usePage();
     const { appearance, updateAppearance } = useAppearance();
 
@@ -421,7 +423,16 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                                     Conceptor: Irwandi, S.E., CGCAE &amp; Tim Digitalisasi MR Kabar &middot; System Architect:
                                     Nurhikmat Muhammad, A.Md.
                                 </p>
-                                <p>Inspektorat Kabupaten Aceh Barat &middot; &copy; {new Date().getFullYear()} All Rights Reserved</p>
+                                <p>
+                                    Inspektorat Kabupaten Aceh Barat &middot; &copy; {new Date().getFullYear()} All Rights
+                                    Reserved
+                                    {versi && (
+                                        <>
+                                            {' '}
+                                            &middot; <span className="font-medium">{versi}</span>
+                                        </>
+                                    )}
+                                </p>
                                 <p>Hak Cipta Republik Indonesia, Kementerian Hukum</p>
                                 <p>No. Permohonan: EC002025134971 &middot; No. Pencatatan: 000975232</p>
                             </div>
