@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { SECTIONS } from './sections';
 import EduVideoPlayer from '@/components/edu-video-player';
 import EduVideoQuiz from '@/components/edu-video-quiz';
+import RekapKuisVideo, { type RekapKuis } from '@/components/ui/rekap-kuis-video';
 import { useEduVideo } from '@/lib/edu-video';
 
 /**
@@ -16,7 +17,13 @@ import { useEduVideo } from '@/lib/edu-video';
  * sedang terlihat di viewport, pakai IntersectionObserver bawaan browser
  * (tanpa library tambahan).
  */
-export default function PanduanIndex() {
+export default function PanduanIndex({
+  bolehLihatRekap = false,
+  rekapKuis = null,
+}: {
+  bolehLihatRekap?: boolean;
+  rekapKuis?: RekapKuis | null;
+}) {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
   const video = useEduVideo();
 
@@ -120,6 +127,11 @@ export default function PanduanIndex() {
             {video.bawaan && (
               <div className="mt-6 border-t pt-5">
                 <EduVideoQuiz />
+                {bolehLihatRekap && rekapKuis && (
+                  <div className="mt-6">
+                    <RekapKuisVideo rekap={rekapKuis} />
+                  </div>
+                )}
               </div>
             )}
           </section>

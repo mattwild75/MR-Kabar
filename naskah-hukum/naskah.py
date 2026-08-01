@@ -1594,10 +1594,12 @@ CONTOH_FORMULIR = {
         "1",
         "02. Komitmen terhadap Kompetensi",
         "Kurang Memadai",
-        "Terdapat butir kuesioner dengan modus di bawah 3 dan didukung temuan kelemahan pada reviu "
-        "dokumen",
-        "(nama penyusun)",
-        "Sekretaris",
+        "Analisis kebutuhan diklat belum berdasarkan peta kompetensi jabatan",
+        "Memadai",
+        "Modus jawaban responden pada seluruh butir kuesioner sub unsur ini berada pada nilai 3",
+        "Kurang Memadai",
+        "Kedua sumber bertentangan. Ditarik melalui pendalaman: dokumen pendukung yang disebut "
+        "responden ternyata belum disusun, sehingga persepsi pegawai tidak terkonfirmasi bukti",
     ]],
     "Formulir 16": [[
         "1",
@@ -1812,11 +1814,18 @@ FORMULIR = [
     ]),
     ("Formulir 15", "Simpulan Evaluasi Lingkungan Pengendalian", [
         ("No.", "nomor urut"),
-        ("Unsur", "unsur lingkungan pengendalian yang disimpulkan"),
-        ("Simpulan", "keputusan akhir atas unsur tersebut, yaitu memadai atau kurang memadai"),
-        ("Penjelasan", "dasar pertimbangan atas simpulan yang diambil"),
-        ("Penyusun", "nama pejabat yang menyusun simpulan"),
-        ("Jabatan Penyusun", "jabatan penyusun pada SKPK yang bersangkutan"),
+        ("Sub Unsur", "sub unsur pada lingkungan pengendalian"),
+        ("Hasil Reviu Dokumen — Hasil",
+         "simpulan penilaian awal CEE berdasarkan dokumen"),
+        ("Hasil Reviu Dokumen — Uraian",
+         "uraian simpulan penilaian awal CEE berdasarkan dokumen"),
+        ("Hasil Survei Persepsi — Hasil", "simpulan hasil survei persepsi"),
+        ("Hasil Survei Persepsi — Uraian", "uraian simpulan sesuai hasil survei persepsi"),
+        ("Simpulan",
+         "simpulan sesuai hasil penilaian awal dan survei persepsi; dalam hal hasil penilaian awal "
+         "dan survei persepsi bertentangan, dilakukan pendalaman atau pertimbangan profesional untuk "
+         "menyimpulkannya"),
+        ("Penjelasan", "uraian kelemahan"),
     ]),
     ("Formulir 16", "Rencana Tindak Pengendalian atas Lingkungan Pengendalian", [
         ("No.", "nomor urut"),

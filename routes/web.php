@@ -3,6 +3,7 @@
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PanduanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MediaDownloadController;
 use App\Http\Controllers\MenuController;
@@ -96,9 +97,10 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // cara pakai MR Kabar) — tidak ada data dinamis dari DB, cukup render
     // komponen React langsung. Fail-open (permission_name null di menu)
     // krn ditujukan utk SEMUA pengguna termasuk akun CEE_Survey.
-    Route::get('panduan', function () {
-        return Inertia::render('panduan/Index');
-    })->name('panduan');
+    Route::get('panduan', [PanduanController::class, 'index'])->name('panduan');
+    // Rekap jawabannya hanya dikirim kepada yang boleh melihat seluruh OPD;
+    // pengisiannya terbuka bagi setiap pengguna yang sudah masuk.
+    Route::post('panduan/kuis', [PanduanController::class, 'simpanKuis'])->name('panduan.kuis');
 
     // Dipoll oleh SessionTimeoutWarning (frontend) untuk auto-logout 4 jam
     // sejak login (lihat MAX_SESSION_SECONDS di ForceLogoutAfterMaxDuration

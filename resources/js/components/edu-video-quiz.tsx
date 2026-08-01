@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
 
 /**
@@ -75,8 +76,30 @@ export default function EduVideoQuiz() {
     const [jawaban, setJawaban] = useState<(number | null)[]>(Array(SOAL.length).fill(null));
     const [dikoreksi, setDikoreksi] = useState(false);
 
+    const [mengirim, setMengirim] = useState(false);
+    const [terkirim, setTerkirim] = useState(false);
+
     const terjawab = jawaban.filter((j) => j !== null).length;
     const benar = jawaban.filter((j, i) => j === SOAL[i].benar).length;
+
+    /**
+     * Yang dikirim hanya pilihannya, bukan cacah benarnya. Kunci jawaban ada
+     * di server, dan di sanalah nilainya dihitung — supaya rekap yang dipakai
+     * memutuskan bagian video mana yang perlu direkam ulang tidak bergantung
+     * pada versi berkas JavaScript yang kebetulan sedang termuat di peramban.
+     */
+    const kirim = () => {
+        setMengirim(true);
+        router.post(
+            '/panduan/kuis',
+            { jawaban: jawaban.map((j) => j ?? 0) },
+            {
+                preserveScroll: true,
+                onSuccess: () => setTerkirim(true),
+                onFinish: () => setMengirim(false),
+            },
+        );
+    };
 
     return (
         <div className="space-y-5">
@@ -155,6 +178,15 @@ export default function EduVideoQuiz() {
                                 ? 'Lengkap — silakan mulai mengisi Data Umum.'
                                 : 'Tonton ulang bagian yang ditandai di atas.'}
                         </span>
+                        {terkirim ? (
+                            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
+                                Jawaban terkirim — terima kasih.
+                            </span>
+                        ) : (
+                            <Button type="button" size="sm" disabled={mengirim} onClick={kirim}>
+                                {mengirim ? 'Mengirim…' : 'Kirim jawaban'}
+                            </Button>
+                        )}
                         <Button
                             type="button"
                             variant="outline"
@@ -162,6 +194,7 @@ export default function EduVideoQuiz() {
                             onClick={() => {
                                 setJawaban(Array(SOAL.length).fill(null));
                                 setDikoreksi(false);
+                                setTerkirim(false);
                             }}
                         >
                             Ulangi
