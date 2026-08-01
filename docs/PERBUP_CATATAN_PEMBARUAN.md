@@ -39,20 +39,23 @@ Keputusan Bupati **disunting manual** bila strukturnya berubah — atas
 keputusan pemilik aplikasi, penyusunnya sengaja tidak disambungkan ke basis
 data.
 
-## Hati-hati: ada tiga rancangan, dan dua di antaranya sudah ditinggalkan
+## Satu naskah saja — dua rancangan lain sudah dihapus
 
-Ketiganya masih tersimpan dan judulnya mirip. Yang **berlaku hanya yang pertama**;
-dua lainnya memakai pendekatan hukum yang berbeda dan tidak dilanjutkan.
+Pernah ada tiga rancangan berjudul mirip dengan tiga pendekatan hukum berbeda.
+Dua di antaranya **dihapus 1 Agustus 2026** atas keputusan pemilik naskah, supaya
+tidak ada yang salah ambil berkas:
 
-| Berkas | Pendekatan | Keadaan |
-|---|---|---|
-| `Desktop\MR Kabar\Peraturan Bupati Aceh Barat - Pedoman Penerapan Manajemen Risiko (2026).docx` | Perbup baru yang **mencabut** Perbup 16/2022 | **Inilah naskah yang berlaku.** 82 halaman, 11 BAB, 55 Pasal, Lampiran I–XVIII |
-| `Desktop\MR Kabar\RANCANGAN Perbup Perubahan Manajemen Risiko 2026.docx` | **Perubahan atas** Perbup 16/2022 | Ditinggalkan. Mengubah sebagian pasal tidak cukup untuk perubahan sebesar ini |
-| `docs\RANCANGAN_PERUBAHAN_PERBUP_MANAJEMEN_RISIKO.docx` | Perbup baru bergaya Perbup Boyolali 4/2025 | Draf awal bahan diskusi internal, jauh lebih ringkas, sudah tersalip |
+- rancangan bergaya **"Perubahan atas Perbup 16/2022"** — mengubah sebagian pasal
+  tidak memadai untuk perubahan sebesar ini;
+- draf awal bergaya **Perbup Boyolali Nomor 4 Tahun 2025** yang pernah tersimpan di
+  `docs/` — jauh lebih ringkas dan sudah tersalip.
 
-Keduanya belum dihapus karena itu keputusan pemilik naskah, bukan keputusan teknis.
-Yang penting: **jangan memproses kedua berkas terakhir**, dan jangan menyalin
-rumusan darinya tanpa memeriksa apakah rumusan itu masih ada di naskah yang berlaku.
+Yang berlaku tinggal satu: `Desktop\MR Kabar\Peraturan Bupati Aceh Barat - Pedoman
+Penerapan Manajemen Risiko (2026).docx`, Perbup baru yang **mencabut** Perbup 16
+Tahun 2022 — 82 halaman, 11 BAB, 55 Pasal, Lampiran I sampai XVIII.
+
+Kalau nanti muncul rancangan lain, catat di sini mana yang berlaku sebelum
+menyimpannya berdampingan.
 
 ## Keadaan naskah sekarang
 
