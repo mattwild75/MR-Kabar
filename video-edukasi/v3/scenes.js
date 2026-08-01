@@ -43,16 +43,10 @@ const SCENE_SPECS = [
   {k:'card', x:960,y:600, sym:'warn',  cap:'Mengancam',   sm:'bukan peluang', c:'risk', at:L(7,1.8), a:'rise', out:L(11,0.0)},
   {k:'card', x:1440,y:600, sym:'target', cap:'Tujuan',    sm:'selalu terikat', c:'ok', at:L(7,2.7), a:'rise', out:L(11,0.0)},
 
-  {k:'chip', x:620,y:810, text:'Belum terjadi → RISIKO', c:'ok', at:L(8,0.8), a:'up', out:L(140,0.4)},
-  {k:'chip', x:1310,y:810, text:'Sudah terjadi → MASALAH', c:'risk', at:L(8,2.0), a:'up', out:L(140,0.4)},
+  {k:'chip', x:620,y:810, text:'Belum terjadi → RISIKO', c:'ok', at:L(8,0.8), a:'up', out:L(9,0.0)},
+  {k:'chip', x:1310,y:810, text:'Sudah terjadi → MASALAH', c:'risk', at:L(8,2.0), a:'up', out:L(9,0.0)},
 
   // Contoh sekonkret mungkin: bedanya risiko dan masalah cuma soal waktu.
-  {k:'icon', sym:'umbrella', x:220,y:812, s:112, c:'sys', at:L(140,1.2), a:'swing', idle:'sway', out:L(9,0.0)},
-  {k:'box', x:600,y:812, w:680, t:'MUNGKIN BOCOR MUSIM HUJAN NANTI', c:'sys', at:L(140,0.8), a:'left', out:L(9,0.0),
-   text:'itu RISIKO'},
-  {k:'box', x:1330,y:812, w:680, t:'SUDAH BOCOR SEKARANG', c:'risk', at:L(140,5.4), a:'right', out:L(9,0.0),
-   text:'itu bukan risiko lagi — itu EMBER'},
-  {k:'icon', sym:'flood', x:1740,y:812, s:112, c:'risk', at:L(140,6.2), a:'pop', idle:'bob', out:L(9,0.0)},
 
   {k:'chip', x:620,y:810, text:'SPIP — hanya ancaman', c:'gold', at:L(9,0.8), a:'left', out:L(10,0.0)},
   {k:'chip', x:1330,y:810, text:'ISO 31000 — ancaman + peluang', c:'neutral', at:L(9,2.4), a:'right', out:L(10,0.0)},
@@ -189,9 +183,9 @@ const SCENE_SPECS = [
   {k:'chip', x:1330,y:840, text:'Tahun Target Penyelesaian', c:'neutral', at:L(32,2.5), a:'up', out:L(150,0.2)},
 
   // Siklus saja belum cukup: tenggatnya ditetapkan Bupati lewat Surat Edaran.
-  {k:'lbl', x:960,y:260, text:'ARAHAN & KEBIJAKAN PENILAIAN RISIKO', c:'gold', at:L(150,0.5), a:'down'},
-  {k:'card', x:530,y:440, sym:'envelope', cap:'Surat Edaran Bupati', sm:'5 tahunan — mengikuti RPJMD', w:470, c:'gold', at:L(150,1.6), a:'swing'},
-  {k:'card', x:1390,y:440, sym:'envelope', cap:'Surat Edaran Bupati', sm:'1 tahunan — setiap tahun', w:470, c:'gold', at:L(150,3.6), a:'swing'},
+  {k:'lbl', x:960,y:262, text:'ARAHAN & KEBIJAKAN PENILAIAN RISIKO', c:'gold', at:L(150,0.5), a:'down'},
+  {k:'card', x:530,y:470, sym:'envelope', cap:'Surat Edaran Bupati', sm:'5 tahunan — mengikuti RPJMD', w:470, c:'gold', at:L(150,1.6), a:'swing'},
+  {k:'card', x:1390,y:470, sym:'envelope', cap:'Surat Edaran Bupati', sm:'1 tahunan — setiap tahun', w:470, c:'gold', at:L(150,3.6), a:'swing'},
 
   // Garis waktu tahapan — bentuknya sengaja meniru widget Dashboard.
   {k:'rule', x:960,y:630, w:1500, h:6, c:'sys', at:L(151,0.5), a:'grow'},
@@ -316,9 +310,6 @@ const SCENE_SPECS = [
    text:'"Opini laporan keuangan turun"'},
   {k:'icon', sym:'noentry', x:1760,y:370,s:110,c:'risk', at:L(52,1.3), a:'pop'},
 
-  {k:'cap', x:640,y:530, c:'warn', at:L(155,0.9), a:'up', out:L(53,0.0),
-   text:'Kalau ini dihitung sebagai risiko, seluruh Indonesia punya risiko\nyang sama persis — dan tidak satu pun bisa ditindaklanjuti.'},
-  {k:'icon', sym:'globe', x:180,y:560, s:104, c:'warn', at:L(155,1.8), a:'spinin', idle:'spin', out:L(53,0.0)},
 
   {k:'chip', x:430,y:590, text:'PENYEBAB', c:'warn', at:L(53,0.7), a:'left'},
   {k:'icon', sym:'arrow-r', x:640,y:590,s:52,c:'neutral', at:L(53,1.1), a:'pop'},
@@ -382,7 +373,7 @@ const SCENE_SPECS = [
   // Sumbu DAMPAK. Di v2 sumbu ini tidak pernah dicontohkan sama sekali —
   // hanya sumbu Kemungkinan yang diberi contoh, jadi separuh dasar penilaian
   // dibiarkan kosong.
-  {k:'lbl', x:960,y:280, text:'SKALA DAMPAK DIUKUR DARI LIMA SISI SEKALIGUS', c:'risk', at:L(107,0.3), a:'down', out:L(156,0.2)},
+  {k:'lbl', x:960,y:280, text:'SKALA DAMPAK DIUKUR DARI LIMA SISI SEKALIGUS', c:'risk', at:L(107,0.3), a:'down', out:L(63,0.0)},
   {k:'chip', x:330,y:385, text:'Kerugian negara', c:'risk', size:24, at:L(107,0.8), a:'pop'},
   {k:'chip', x:640,y:385, text:'Penurunan reputasi', c:'risk', size:24, at:L(107,1.4), a:'pop'},
   {k:'chip', x:960,y:385, text:'Penurunan kinerja', c:'risk', size:24, at:L(107,2.0), a:'pop'},
@@ -398,9 +389,6 @@ const SCENE_SPECS = [
   {k:'chip', x:960,y:190, text:'Tanpa kriteria baku, angka antar-OPD tidak bisa dibandingkan', c:'warn', at:L(63,0.6), a:'down'},
 
   // Akibatnya sekonkret ini: satu istilah, dua arti, dua Perangkat Daerah.
-  {k:'chip', x:590,y:280, text:'"kemungkinan besar" menurut Dinas A', c:'warn', size:24, at:L(156,0.5), a:'left'},
-  {k:'icon', sym:'exchange', x:960,y:280, s:62, c:'neutral', at:L(156,1.4), a:'pop', idle:'wobble'},
-  {k:'chip', x:1350,y:280, text:'"sepertinya sih" menurut Dinas B', c:'neutral', size:24, at:L(156,2.1), a:'right'},
 ]},
 
 /* ───────── s14 · Matriks 5x5 ───────── */
@@ -427,8 +415,6 @@ const SCENE_SPECS = [
   {k:'chip', x:1470,y:560, text:'Menu Keterangan Pendukung', c:'sys', size:24, at:L(157,4.2), a:'right'},
   {k:'chip', x:1470,y:645, text:'Aceh Barat: diterima s.d. tingkat Sedang', c:'ok', size:24, at:L(158,1.0), a:'right', idle:'bob'},
   {k:'chip', x:180,y:730, text:'Di atas garis → wajib RTP', c:'risk', size:22, at:L(158,3.4), a:'pop', idle:'pulse'},
-  {k:'cap', x:1470,y:790, c:'warn', at:L(159,0.8), a:'up', out:L(69,0.0),
-   text:'Selera Risiko mirip selera makan: yang penting tahu batasnya —\ndan batas itu tidak berubah hanya karena angkanya\nsedang tidak enak dilihat.'},
   {k:'chip', x:180,y:815, text:'Di bawah garis → cukup dipantau', c:'ok', size:22, at:L(69,0.8), a:'pop'},
   {k:'recap', x:1470,y:820, lbl:'TAHAP 2', text:'Konteks → identifikasi → analisis → Daftar Risiko Prioritas', at:L(69,2.6), a:'up'},
 ]},
@@ -461,9 +447,6 @@ const SCENE_SPECS = [
   {k:'icon', sym:'link-arrow', x:960,y:890, s:66, c:'gold', at:L(160,0.6), a:'pop', idle:'wobble'},
   {k:'box', x:960,y:640, w:1400, t:'JANGAN DUPLIKATIF', c:'warn', at:L(160,1.4), a:'unfold',
    text:'Kalau rumusan keduanya hampir sama, MR Kabar menandainya —\nsupaya satu pekerjaan tidak dipantau dua kali di dua tempat.'},
-  {k:'cap', x:960,y:770, c:'neutral', at:L(161,0.9), a:'up',
-   text:'Dua rencana yang bunyinya sama biasanya bukan berarti dikerjakan dua kali.\nBiasanya justru tidak ada yang merasa kebagian.'},
-  {k:'recap', x:960,y:280, lbl:'TAHAP 3', text:'Pilih respon A-A-M-S-A → tetapkan Penanggung Jawab → susun RTP', at:L(161,4.2), a:'down'},
 ]},
 
 /* ───────── s16 · Siklus empat skor ───────── */
@@ -603,8 +586,6 @@ const SCENE_SPECS = [
   {k:'box', x:960,y:590, w:1200, t:'BOLEH SAJA JATUH PADA ORANG YANG SAMA', c:'violet', at:L(148,0.7), a:'unfold',
    text:'Pada risiko strategis Pemda memang begitu — hanya Kepala Daerah\nyang bisa menerbitkan Peraturan Bupati.'},
   {k:'chip', x:960,y:740, text:'Yang tidak boleh: mengisinya sambil menebak', c:'risk', at:L(148,7.6), a:'up', idle:'pulse'},
-  {k:'cap', x:960,y:850, c:'gold', at:L(149,0.6), a:'up',
-   text:'Kabar baiknya, di seluruh Perdep tidak ada satu pun peran\nyang bernama "Penanggung Jawab Kalau Ada Apa-Apa".'},
 ]},
 
 /* ───────── s25 · Uji coba pengendalian (BARU v4) ─────────
@@ -621,9 +602,6 @@ const SCENE_SPECS = [
   {k:'card', x:1450,y:510, sym:'refresh', cap:'Perbaiki', sm:'Hasil uji menyempurnakan rancangan', w:420, c:'violet', at:L(166,3.4), a:'rise'},
   {k:'chip', x:960,y:700, text:'Baru sesudah itu ditetapkan berlaku', c:'ok', at:L(166,8.0), a:'up'},
 
-  {k:'icon', sym:'umbrella', x:200,y:510, s:150, c:'warn', at:L(167,0.8), a:'swing', idle:'sway'},
-  {k:'cap', x:960,y:775, c:'warn', at:L(167,1.4), a:'up',
-   text:'Pengendalian yang belum pernah diuji itu seperti payung\nyang belum pernah dibuka — meyakinkan, sampai hujan turun.'},
   {k:'chip', x:960,y:880, text:'Di MR Kabar: triwulan, tahun, hasil, dan berkas buktinya di Form 9', c:'ok', at:L(168,0.6), a:'up'},
 ]},
 
@@ -699,7 +677,6 @@ const SCENE_SPECS = [
 
   {k:'card', x:420,y:540, sym:'refresh', cap:'Data Terhapus', sm:'Risiko terhapus bisa dipulihkan kembali', w:420, c:'warn', at:L(118,0.5), a:'left', out:L(119,0.0)},
   {k:'shot', x:1260,y:540, src:'trash', url:'mrkabar.test/trash', w:960, h:340, shift:200, at:L(118,1.3), a:'right', out:L(119,0.0)},
-  {k:'chip', x:420,y:770, text:'Tombol hapus di sini tidak sekejam kelihatannya', c:'ok', at:L(170,0.3), a:'up', out:L(119,0.0)},
 
   {k:'card', x:420,y:540, sym:'eye', cap:'Log Aktivitas', sm:'Siapa mengubah apa, dan kapan', w:420, c:'violet', at:L(119,0.5), a:'left', out:L(120,0.0)},
   // shift 330: baris teratas log kebetulan berisi pembuatan & penghapusan

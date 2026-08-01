@@ -23,16 +23,23 @@ def esc(t):
     return (str(t).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
-def R(t, b=False, i=False, u=False, p=24):
+def R(t, b=False, i=False, u=False, p=24, warna=None):
+    """`warna` diisi kode heksadesimal tanpa pagar, misalnya "FF0000".
+
+    Dipakai menandai isian yang sengaja dikosongkan untuk Bagian Hukum, supaya
+    siapa pun yang membuka naskah langsung melihat mana yang masih menunggu
+    diisi tanpa perlu membaca catatan terpisah.
+    """
     r = f"<w:rPr>{FONT}{'<w:b/>' if b else ''}{'<w:i/>' if i else ''}"
     r += '<w:u w:val="single"/>' if u else ""
+    r += f'<w:color w:val="{warna}"/>' if warna else ""
     r += sz(p) + "</w:rPr>"
     return f'<w:r>{r}<w:t xml:space="preserve">{esc(t)}</w:t></w:r>'
 
 
 def P(t="", rata="both", b=False, i=False, u=False, after=0, before=0,
       kiri=0, gantung=0, line=240, tab=None, p=24, potong=False, jaga=False,
-      gaya=None):
+      gaya=None, warna=None):
     pr = "<w:pPr>"
     if gaya:
         pr += f'<w:pStyle w:val="{gaya}"/>'
@@ -48,7 +55,7 @@ def P(t="", rata="both", b=False, i=False, u=False, after=0, before=0,
     if kiri or gantung:
         pr += f'<w:ind w:left="{kiri}"' + (f' w:hanging="{gantung}"' if gantung else "") + "/>"
     pr += f'<w:jc w:val="{rata}"/><w:rPr>{FONT}{sz(p)}</w:rPr></w:pPr>'
-    return "<w:p>" + pr + (R(t, b, i, u, p) if t != "" else "") + "</w:p>"
+    return "<w:p>" + pr + (R(t, b, i, u, p, warna) if t != "" else "") + "</w:p>"
 
 
 def PM(bag, rata="both", after=0, kiri=0, gantung=0, line=240, tab=None, p=24, jaga=False):

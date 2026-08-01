@@ -36,6 +36,9 @@ KELUARAN = Path(r"C:\Users\Nurhikmat Muhammad\OneDrive\Desktop\MR Kabar") / \
 
 JUDUL = ("PEDOMAN PENERAPAN MANAJEMEN RISIKO DI LINGKUNGAN "
          "PEMERINTAH KABUPATEN ACEH BARAT")
+# Merah dipakai menandai isian yang sengaja dikosongkan untuk Bagian Hukum.
+MERAH = "C00000"
+
 TANGGAL = "30 Juli 2026"
 # Padanan Hijriah tanggal penetapan, dipakai berdampingan dengan
 # penanggalan Masehi sesuai kelaziman penaskahan peraturan di Aceh.
@@ -50,7 +53,7 @@ A(gambar("rIdLambang", str(GBR / "garuda.jpeg"), lebar_inci=1.0))
 A(P("BUPATI ACEH BARAT", rata="center", b=True, after=0))
 A(P("PROVINSI ACEH", rata="center", b=True, after=240))
 A(P("PERATURAN BUPATI ACEH BARAT", rata="center", b=True, after=0))
-A(P("NOMOR          TAHUN 2026", rata="center", b=True, after=240))
+A(P("NOMOR ......... TAHUN 2026", rata="center", b=True, after=240, warna=MERAH))
 A(P("TENTANG", rata="center", b=True, after=240))
 A(P(JUDUL, rata="center", b=True, after=240))
 A(P("DENGAN RAHMAT ALLAH YANG MAHA KUASA,", rata="center", b=True, after=240))
@@ -1013,8 +1016,10 @@ A(P(f"pada tanggal {TANGGAL} M", rata="left", after=0))
 A(P(f"{' ' * 18}{HIJRIAH} H", rata="left", after=140))
 A(P("SEKRETARIS DAERAH", rata="left", b=True, after=0))
 A(P("KABUPATEN ACEH BARAT,", rata="left", b=True, after=900))
-A(P("..........................................", rata="left", b=True, after=280))
-A(P("BERITA DAERAH KABUPATEN ACEH BARAT TAHUN 2026 NOMOR : ........", rata="left", after=0))
+A(P("(nama Sekretaris Daerah beserta sebutan jabatannya)", rata="left", b=True,
+     after=280, warna=MERAH))
+A(P("BERITA DAERAH KABUPATEN ACEH BARAT TAHUN 2026 NOMOR : .........", rata="left",
+     after=0, warna=MERAH))
 
 
 # ══════════════════ LAMPIRAN ══════════════════
@@ -1030,7 +1035,7 @@ def ttd_lampiran():
 def kepala_lampiran(nomor, judul_lampiran, potong=True):
     out = [P("LAMPIRAN " + nomor, rata="left", after=0, potong=potong, p=22),
            P("PERATURAN BUPATI ACEH BARAT", rata="left", after=0, p=22),
-           P("NOMOR          TAHUN 2026", rata="left", after=0, p=22),
+           P("NOMOR ......... TAHUN 2026", rata="left", after=0, p=22, warna=MERAH),
            P("TENTANG", rata="left", after=0, p=22),
            P(JUDUL, rata="left", after=280, p=22),
            P(judul_lampiran, rata="center", b=True, after=240, gaya="Heading1")]

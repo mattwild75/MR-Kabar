@@ -1,6 +1,6 @@
 {
-  "total_duration": 1800.32,
-  "narration_end": 1797.32,
+  "total_duration": 1725.288,
+  "narration_end": 1722.288,
   "lead_in": 1.2,
   "scenes": [
     {
@@ -19,22 +19,21 @@
     {
       "id": "s2",
       "start": 41.02,
-      "end": 118.123,
+      "end": 103.335,
       "lines": [
         6,
         7,
         8,
-        140,
         9,
         10,
         11
       ],
-      "duration": 77.103
+      "duration": 62.315
     },
     {
       "id": "s3",
-      "start": 118.528,
-      "end": 167.303,
+      "start": 103.74,
+      "end": 152.515,
       "lines": [
         12,
         13,
@@ -46,8 +45,8 @@
     },
     {
       "id": "s4",
-      "start": 167.708,
-      "end": 196.359,
+      "start": 152.92,
+      "end": 181.571,
       "lines": [
         17,
         18
@@ -56,8 +55,8 @@
     },
     {
       "id": "s5",
-      "start": 196.764,
-      "end": 268.779,
+      "start": 181.976,
+      "end": 253.991,
       "lines": [
         19,
         20,
@@ -71,8 +70,8 @@
     },
     {
       "id": "s6",
-      "start": 269.184,
-      "end": 362.631,
+      "start": 254.396,
+      "end": 342.683,
       "lines": [
         24,
         25,
@@ -82,26 +81,25 @@
         103,
         143
       ],
-      "duration": 93.447
+      "duration": 88.287
     },
     {
       "id": "s24",
-      "start": 363.036,
-      "end": 439.679,
+      "start": 343.088,
+      "end": 413.127,
       "lines": [
         144,
         145,
         146,
         147,
-        148,
-        149
+        148
       ],
-      "duration": 76.643
+      "duration": 70.039
     },
     {
       "id": "s7",
-      "start": 440.084,
-      "end": 529.027,
+      "start": 413.532,
+      "end": 502.475,
       "lines": [
         27,
         28,
@@ -117,8 +115,8 @@
     },
     {
       "id": "s8",
-      "start": 529.432,
-      "end": 571.651,
+      "start": 502.88,
+      "end": 545.099,
       "lines": [
         33,
         34,
@@ -129,8 +127,8 @@
     },
     {
       "id": "s9",
-      "start": 572.056,
-      "end": 696.743,
+      "start": 545.504,
+      "end": 670.191,
       "lines": [
         37,
         38,
@@ -148,8 +146,8 @@
     },
     {
       "id": "s10",
-      "start": 697.148,
-      "end": 755.455,
+      "start": 670.596,
+      "end": 728.903,
       "lines": [
         43,
         44,
@@ -162,23 +160,22 @@
     },
     {
       "id": "s11",
-      "start": 755.86,
-      "end": 822.067,
+      "start": 729.308,
+      "end": 784.519,
       "lines": [
         49,
         50,
         51,
-        155,
         52,
         53,
         54
       ],
-      "duration": 66.207
+      "duration": 55.211
     },
     {
       "id": "s12",
-      "start": 822.472,
-      "end": 892.607,
+      "start": 784.924,
+      "end": 855.059,
       "lines": [
         55,
         56,
@@ -190,8 +187,8 @@
     },
     {
       "id": "s13",
-      "start": 893.012,
-      "end": 973.599,
+      "start": 855.464,
+      "end": 929.039,
       "lines": [
         60,
         61,
@@ -199,15 +196,14 @@
         107,
         108,
         109,
-        63,
-        156
+        63
       ],
-      "duration": 80.587
+      "duration": 73.575
     },
     {
       "id": "s14",
-      "start": 974.004,
-      "end": 1069.307,
+      "start": 929.444,
+      "end": 1016.247,
       "lines": [
         64,
         65,
@@ -216,15 +212,14 @@
         68,
         157,
         158,
-        159,
         69
       ],
-      "duration": 95.303
+      "duration": 86.803
     },
     {
       "id": "s15",
-      "start": 1069.712,
-      "end": 1170.411,
+      "start": 1016.652,
+      "end": 1107.051,
       "lines": [
         70,
         71,
@@ -232,15 +227,14 @@
         73,
         110,
         74,
-        160,
-        161
+        160
       ],
-      "duration": 100.699
+      "duration": 90.399
     },
     {
       "id": "s16",
-      "start": 1170.816,
-      "end": 1286.783,
+      "start": 1107.456,
+      "end": 1223.423,
       "lines": [
         75,
         76,
@@ -256,20 +250,19 @@
     },
     {
       "id": "s25",
-      "start": 1287.188,
-      "end": 1324.463,
+      "start": 1223.828,
+      "end": 1253.203,
       "lines": [
         165,
         166,
-        167,
         168
       ],
-      "duration": 37.275
+      "duration": 29.375
     },
     {
       "id": "s17",
-      "start": 1324.868,
-      "end": 1363.271,
+      "start": 1253.608,
+      "end": 1292.011,
       "lines": [
         80,
         81,
@@ -280,8 +273,8 @@
     },
     {
       "id": "s18",
-      "start": 1363.676,
-      "end": 1491.139,
+      "start": 1292.416,
+      "end": 1419.879,
       "lines": [
         84,
         85,
@@ -297,24 +290,23 @@
     },
     {
       "id": "s21",
-      "start": 1491.544,
-      "end": 1571.651,
+      "start": 1420.284,
+      "end": 1496.619,
       "lines": [
         115,
         116,
         117,
         118,
-        170,
         119,
         120,
         121
       ],
-      "duration": 80.107
+      "duration": 76.335
     },
     {
       "id": "s22",
-      "start": 1572.056,
-      "end": 1615.571,
+      "start": 1497.024,
+      "end": 1540.539,
       "lines": [
         122,
         123,
@@ -325,8 +317,8 @@
     },
     {
       "id": "s23",
-      "start": 1615.976,
-      "end": 1678.619,
+      "start": 1540.944,
+      "end": 1603.587,
       "lines": [
         126,
         127,
@@ -337,8 +329,8 @@
     },
     {
       "id": "s19",
-      "start": 1679.024,
-      "end": 1732.691,
+      "start": 1603.992,
+      "end": 1657.659,
       "lines": [
         89,
         90,
@@ -349,8 +341,8 @@
     },
     {
       "id": "s20",
-      "start": 1733.096,
-      "end": 1800.32,
+      "start": 1658.064,
+      "end": 1725.288,
       "lines": [
         93,
         94,
@@ -453,24 +445,13 @@
       "audio_file": "line_008.mp3"
     },
     {
-      "id": 140,
-      "scene": "s2",
-      "voice": "gadis",
-      "text": "Bedanya sederhana. Kalau atap kantor mungkin bocor musim hujan nanti, itu risiko. Kalau atapnya sudah bocor sekarang, itu bukan risiko lagi. Itu ember.",
-      "display": "Bedanya sederhana. Kalau atap kantor mungkin bocor musim hujan nanti, itu risiko. Kalau atapnya sudah bocor sekarang, itu bukan risiko lagi. Itu ember.",
-      "start": 68.584,
-      "end": 83.032,
-      "duration": 14.448,
-      "audio_file": "line_140.mp3"
-    },
-    {
       "id": 9,
       "scene": "s2",
       "voice": "gadis",
       "text": "Mengancam, artinya definisi ini sengaja lebih sempit dari ISO tiga satu ribu yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.",
       "display": "Mengancam, artinya definisi ini sengaja lebih sempit dari ISO 31000 yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.",
-      "start": 83.372,
-      "end": 96.74,
+      "start": 68.584,
+      "end": 81.952,
       "duration": 13.368,
       "audio_file": "line_009.mp3"
     },
@@ -480,8 +461,8 @@
       "voice": "gadis",
       "text": "Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai.",
       "display": "Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai.",
-      "start": 97.08,
-      "end": 107.712,
+      "start": 82.292,
+      "end": 92.924,
       "duration": 10.632,
       "audio_file": "line_010.mp3"
     },
@@ -491,8 +472,8 @@
       "voice": "ardi",
       "text": "Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi.",
       "display": "Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi.",
-      "start": 108.052,
-      "end": 117.628,
+      "start": 93.264,
+      "end": 102.84,
       "duration": 9.576,
       "audio_file": "line_011.mp3"
     },
@@ -502,8 +483,8 @@
       "voice": "ardi",
       "text": "Perdep Pe-Pe-Ka-De Nomor 4 Tahun 2019 lahir karena Be-Pe-Ka-Pe menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.",
       "display": "Perdep PPKD Nomor 4 Tahun 2019 lahir karena BPKP menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.",
-      "start": 118.528,
-      "end": 126.064,
+      "start": 103.74,
+      "end": 111.276,
       "duration": 7.536,
       "audio_file": "line_012.mp3"
     },
@@ -513,8 +494,8 @@
       "voice": "gadis",
       "text": "Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti.",
       "display": "Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti.",
-      "start": 126.404,
-      "end": 138.044,
+      "start": 111.616,
+      "end": 123.256,
       "duration": 11.64,
       "audio_file": "line_013.mp3"
     },
@@ -524,8 +505,8 @@
       "voice": "gadis",
       "text": "Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan.",
       "display": "Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan.",
-      "start": 138.384,
-      "end": 148.416,
+      "start": 123.596,
+      "end": 133.628,
       "duration": 10.032,
       "audio_file": "line_014.mp3"
     },
@@ -535,8 +516,8 @@
       "voice": "gadis",
       "text": "Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD.",
       "display": "Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD.",
-      "start": 148.756,
-      "end": 159.892,
+      "start": 133.968,
+      "end": 145.104,
       "duration": 11.136,
       "audio_file": "line_015.mp3"
     },
@@ -546,8 +527,8 @@
       "voice": "ardi",
       "text": "Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi.",
       "display": "Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi.",
-      "start": 160.232,
-      "end": 166.808,
+      "start": 145.444,
+      "end": 152.02,
       "duration": 6.576,
       "audio_file": "line_016.mp3"
     },
@@ -557,8 +538,8 @@
       "voice": "ardi",
       "text": "Sebelum ada Em-Er Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.",
       "display": "Sebelum ada MR Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.",
-      "start": 167.708,
-      "end": 180.092,
+      "start": 152.92,
+      "end": 165.304,
       "duration": 12.384,
       "audio_file": "line_017.mp3"
     },
@@ -568,8 +549,8 @@
       "voice": "ardi",
       "text": "Em-Er Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.",
       "display": "MR Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.",
-      "start": 180.432,
-      "end": 195.864,
+      "start": 165.644,
+      "end": 181.076,
       "duration": 15.432,
       "audio_file": "line_018.mp3"
     },
@@ -579,8 +560,8 @@
       "voice": "ardi",
       "text": "Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?",
       "display": "Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?",
-      "start": 196.764,
-      "end": 203.22,
+      "start": 181.976,
+      "end": 188.432,
       "duration": 6.456,
       "audio_file": "line_019.mp3"
     },
@@ -590,8 +571,8 @@
       "voice": "gadis",
       "text": "Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat.",
       "display": "Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat.",
-      "start": 203.56,
-      "end": 209.056,
+      "start": 188.772,
+      "end": 194.268,
       "duration": 5.496,
       "audio_file": "line_020.mp3"
     },
@@ -601,8 +582,8 @@
       "voice": "ardi",
       "text": "Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko.",
       "display": "Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko.",
-      "start": 209.396,
-      "end": 219.26,
+      "start": 194.608,
+      "end": 204.472,
       "duration": 9.864,
       "audio_file": "line_021.mp3"
     },
@@ -612,8 +593,8 @@
       "voice": "ardi",
       "text": "Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD.",
       "display": "Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD.",
-      "start": 219.6,
-      "end": 226.464,
+      "start": 204.812,
+      "end": 211.676,
       "duration": 6.864,
       "audio_file": "line_022.mp3"
     },
@@ -623,8 +604,8 @@
       "voice": "ardi",
       "text": "Pelaksananya adalah Unit Pemilik Risiko, atau U-Pe-Er, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.",
       "display": "Pelaksananya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.",
-      "start": 226.804,
-      "end": 242.644,
+      "start": 212.016,
+      "end": 227.856,
       "duration": 15.84,
       "audio_file": "line_023.mp3"
     },
@@ -634,8 +615,8 @@
       "voice": "gadis",
       "text": "Dan susunan itu sekarang bukan lagi sekadar kalimat di dalam peraturan. MR Kabar merekamnya sebagai data, satu susunan untuk tiap tahun.",
       "display": "Dan susunan itu sekarang bukan lagi sekadar kalimat di dalam peraturan. MR Kabar merekamnya sebagai data, satu susunan untuk tiap tahun.",
-      "start": 242.984,
-      "end": 253.712,
+      "start": 228.196,
+      "end": 238.924,
       "duration": 10.728,
       "audio_file": "line_141.mp3"
     },
@@ -645,8 +626,8 @@
       "voice": "gadis",
       "text": "Dari data itu bagannya digambar sendiri, mengikuti Gambar dua titik enam Perdep. Berganti pejabat, cukup ubah datanya, dan bagan di Form Cetak ikut berubah tanpa ada yang perlu menggambar ulang.",
       "display": "Dari data itu bagannya digambar sendiri, mengikuti Gambar dua titik enam Perdep. Berganti pejabat, cukup ubah datanya, dan bagan di Form Cetak ikut berubah tanpa ada yang perlu menggambar ulang.",
-      "start": 254.052,
-      "end": 268.284,
+      "start": 239.264,
+      "end": 253.496,
       "duration": 14.232,
       "audio_file": "line_142.mp3"
     },
@@ -656,8 +637,8 @@
       "voice": "gadis",
       "text": "Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Tri Lains of Difens.",
       "display": "Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Three Lines of Defense.",
-      "start": 269.184,
-      "end": 275.832,
+      "start": 254.396,
+      "end": 261.044,
       "duration": 6.648,
       "audio_file": "line_024.mp3"
     },
@@ -667,8 +648,8 @@
       "voice": "gadis",
       "text": "Lini pertama, U-Pe-Er, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh U-Pe-Er. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.",
       "display": "Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh UPR. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.",
-      "start": 276.172,
-      "end": 298.06,
+      "start": 261.384,
+      "end": 283.272,
       "duration": 21.888,
       "audio_file": "line_025.mp3"
     },
@@ -678,8 +659,8 @@
       "voice": "ardi",
       "text": "Satu catatan penting. Em-Er Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.",
       "display": "Satu catatan penting. MR Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.",
-      "start": 298.4,
-      "end": 310.976,
+      "start": 283.612,
+      "end": 296.188,
       "duration": 12.576,
       "audio_file": "line_026.mp3"
     },
@@ -689,8 +670,8 @@
       "voice": "gadis",
       "text": "Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. Pi-Ai-Si Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.",
       "display": "Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. PIC Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.",
-      "start": 311.316,
-      "end": 323.052,
+      "start": 296.528,
+      "end": 308.264,
       "duration": 11.736,
       "audio_file": "line_101.mp3"
     },
@@ -700,8 +681,8 @@
       "voice": "gadis",
       "text": "Akun bersama Ce-E-E Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.",
       "display": "Akun bersama CEE Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.",
-      "start": 323.392,
-      "end": 336.832,
+      "start": 308.604,
+      "end": 322.044,
       "duration": 13.44,
       "audio_file": "line_102.mp3"
     },
@@ -711,8 +692,8 @@
       "voice": "ardi",
       "text": "Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi.",
       "display": "Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi.",
-      "start": 337.172,
-      "end": 344.348,
+      "start": 322.384,
+      "end": 329.56,
       "duration": 7.176,
       "audio_file": "line_103.mp3"
     },
@@ -720,11 +701,11 @@
       "id": 143,
       "scene": "s6",
       "voice": "gadis",
-      "text": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun. Semua pintu terbuka, tapi tidak ada satu pun pena di dalamnya.",
-      "display": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun. Semua pintu terbuka, tapi tidak ada satu pun pena di dalamnya.",
-      "start": 344.688,
-      "end": 362.136,
-      "duration": 17.448,
+      "text": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun.",
+      "display": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun.",
+      "start": 329.9,
+      "end": 342.188,
+      "duration": 12.288,
       "audio_file": "line_143.mp3"
     },
     {
@@ -733,8 +714,8 @@
       "voice": "ardi",
       "text": "Sebelum lanjut, satu hal yang paling sering tertukar di lapangan. Ada tiga peran yang namanya mirip, dan ketiganya bukan hal yang sama.",
       "display": "Sebelum lanjut, satu hal yang paling sering tertukar di lapangan. Ada tiga peran yang namanya mirip, dan ketiganya bukan hal yang sama.",
-      "start": 363.036,
-      "end": 371.148,
+      "start": 343.088,
+      "end": 351.2,
       "duration": 8.112,
       "audio_file": "line_144.mp3"
     },
@@ -744,8 +725,8 @@
       "voice": "ardi",
       "text": "Pertama, Penanggung Jawab Pengelolaan Risiko. Itu Kepala Daerah. Tunggal, tidak didelegasikan, dan tidak pernah muncul sebagai kolom di mana pun. Ia melekat pada jabatan.",
       "display": "Pertama, Penanggung Jawab Pengelolaan Risiko. Itu Kepala Daerah. Tunggal, tidak didelegasikan, dan tidak pernah muncul sebagai kolom di mana pun. Ia melekat pada jabatan.",
-      "start": 371.488,
-      "end": 384.256,
+      "start": 351.54,
+      "end": 364.308,
       "duration": 12.768,
       "audio_file": "line_145.mp3"
     },
@@ -755,8 +736,8 @@
       "voice": "gadis",
       "text": "Kedua, Pemilik Risiko. Ini kolom, ada di setiap baris risiko. Isinya Unit Pemilik Risiko: sebuah unit, bukan seseorang. Dan untuk risiko strategis tingkat Pemda, pemiliknya selalu Kepala Daerah selaku Ketua U-P-R tingkat Pemda.",
       "display": "Kedua, Pemilik Risiko. Ini kolom, ada di setiap baris risiko. Isinya Unit Pemilik Risiko: sebuah unit, bukan seseorang. Dan untuk risiko strategis tingkat Pemda, pemiliknya selalu Kepala Daerah selaku Ketua UPR tingkat Pemda.",
-      "start": 384.596,
-      "end": 405.092,
+      "start": 364.648,
+      "end": 385.144,
       "duration": 20.496,
       "audio_file": "line_146.mp3"
     },
@@ -766,8 +747,8 @@
       "voice": "gadis",
       "text": "Ketiga, Penanggung Jawab Pengendalian. Ini juga kolom, tapi melekat pada satu rencana pengendalian, bukan pada risikonya. Isinya jabatan yang berwenang membangun kontrol itu.",
       "display": "Ketiga, Penanggung Jawab Pengendalian. Ini juga kolom, tapi melekat pada satu rencana pengendalian, bukan pada risikonya. Isinya jabatan yang berwenang membangun kontrol itu.",
-      "start": 405.432,
-      "end": 420.096,
+      "start": 385.484,
+      "end": 400.148,
       "duration": 14.664,
       "audio_file": "line_147.mp3"
     },
@@ -777,21 +758,10 @@
       "voice": "ardi",
       "text": "Boleh saja ketiganya jatuh pada orang yang sama. Pada risiko strategis Pemda memang begitu, karena hanya Kepala Daerah yang bisa menerbitkan Peraturan Bupati. Yang tidak boleh adalah mengisinya sambil menebak.",
       "display": "Boleh saja ketiganya jatuh pada orang yang sama. Pada risiko strategis Pemda memang begitu, karena hanya Kepala Daerah yang bisa menerbitkan Peraturan Bupati. Yang tidak boleh adalah mengisinya sambil menebak.",
-      "start": 420.436,
-      "end": 432.58,
+      "start": 400.488,
+      "end": 412.632,
       "duration": 12.144,
       "audio_file": "line_148.mp3"
-    },
-    {
-      "id": 149,
-      "scene": "s24",
-      "voice": "ardi",
-      "text": "Dan kabar baiknya: di seluruh Perdep, tidak ada satu pun peran yang bernama Penanggung Jawab Kalau Ada Apa-Apa.",
-      "display": "Dan kabar baiknya: di seluruh Perdep, tidak ada satu pun peran yang bernama Penanggung Jawab Kalau Ada Apa-Apa.",
-      "start": 432.92,
-      "end": 439.184,
-      "duration": 6.264,
-      "audio_file": "line_149.mp3"
     },
     {
       "id": 27,
@@ -799,8 +769,8 @@
       "voice": "ardi",
       "text": "Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai.",
       "display": "Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai.",
-      "start": 440.084,
-      "end": 446.876,
+      "start": 413.532,
+      "end": 420.324,
       "duration": 6.792,
       "audio_file": "line_027.mp3"
     },
@@ -810,8 +780,8 @@
       "voice": "gadis",
       "text": "Risiko Strategis Pemda mengikuti siklus Er-Pe-Je-Em-De lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.",
       "display": "Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.",
-      "start": 447.216,
-      "end": 455.904,
+      "start": 420.664,
+      "end": 429.352,
       "duration": 8.688,
       "audio_file": "line_028.mp3"
     },
@@ -821,8 +791,8 @@
       "voice": "gadis",
       "text": "Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran.",
       "display": "Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran.",
-      "start": 456.244,
-      "end": 464.14,
+      "start": 429.692,
+      "end": 437.588,
       "duration": 7.896,
       "audio_file": "line_029.mp3"
     },
@@ -832,8 +802,8 @@
       "voice": "gadis",
       "text": "Risiko Operasional OPD mengikuti siklus Renja dan Er-Ka-A tahunan, dikerjakan pada masa penyusunan Er-Ka-A hingga penetapan De-Pe-A.",
       "display": "Risiko Operasional OPD mengikuti siklus Renja dan RKA tahunan, dikerjakan pada masa penyusunan RKA hingga penetapan DPA.",
-      "start": 464.48,
-      "end": 474.368,
+      "start": 437.928,
+      "end": 447.816,
       "duration": 9.888,
       "audio_file": "line_030.mp3"
     },
@@ -843,8 +813,8 @@
       "voice": "ardi",
       "text": "Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh U-Pe-Er dan laporan pemantauan oleh Unit Kepatuhan.",
       "display": "Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh UPR dan laporan pemantauan oleh Unit Kepatuhan.",
-      "start": 474.708,
-      "end": 482.556,
+      "start": 448.156,
+      "end": 456.004,
       "duration": 7.848,
       "audio_file": "line_031.mp3"
     },
@@ -854,8 +824,8 @@
       "voice": "ardi",
       "text": "Di Em-Er Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.",
       "display": "Di MR Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.",
-      "start": 482.896,
-      "end": 491.728,
+      "start": 456.344,
+      "end": 465.176,
       "duration": 8.832,
       "audio_file": "line_032.mp3"
     },
@@ -865,8 +835,8 @@
       "voice": "ardi",
       "text": "Tapi siklus saja belum cukup. Perdep meminta Kepala Daerah menetapkan Arahan dan Kebijakan Penilaian Risiko lewat Surat Edaran: satu yang lima tahunan mengikuti R-P-J-M-D, dan satu lagi setiap tahun.",
       "display": "Tapi siklus saja belum cukup. Perdep meminta Kepala Daerah menetapkan Arahan dan Kebijakan Penilaian Risiko lewat Surat Edaran: satu yang lima tahunan mengikuti RPJMD, dan satu lagi setiap tahun.",
-      "start": 492.068,
-      "end": 503.636,
+      "start": 465.516,
+      "end": 477.084,
       "duration": 11.568,
       "audio_file": "line_150.mp3"
     },
@@ -876,8 +846,8 @@
       "voice": "gadis",
       "text": "Arahan itu direkam di MR Kabar beserta tahapannya: kapan mulai, kapan berakhir, siapa pelaksananya, dan apa keluarannya.",
       "display": "Arahan itu direkam di MR Kabar beserta tahapannya: kapan mulai, kapan berakhir, siapa pelaksananya, dan apa keluarannya.",
-      "start": 503.976,
-      "end": 513.768,
+      "start": 477.424,
+      "end": 487.216,
       "duration": 9.792,
       "audio_file": "line_151.mp3"
     },
@@ -887,8 +857,8 @@
       "voice": "gadis",
       "text": "Hasilnya muncul di Dashboard sebagai garis waktu, lengkap dengan tanda merah untuk tahapan yang tenggatnya sudah lewat. Sejak itu, pertanyaan ini sebenarnya dikerjakan bulan apa punya jawaban tertulis.",
       "display": "Hasilnya muncul di Dashboard sebagai garis waktu, lengkap dengan tanda merah untuk tahapan yang tenggatnya sudah lewat. Sejak itu, pertanyaan ini sebenarnya dikerjakan bulan apa punya jawaban tertulis.",
-      "start": 514.108,
-      "end": 528.532,
+      "start": 487.556,
+      "end": 501.98,
       "duration": 14.424,
       "audio_file": "line_152.mp3"
     },
@@ -898,8 +868,8 @@
       "voice": "ardi",
       "text": "Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko.",
       "display": "Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko.",
-      "start": 529.432,
-      "end": 535.288,
+      "start": 502.88,
+      "end": 508.736,
       "duration": 5.856,
       "audio_file": "line_033.mp3"
     },
@@ -909,8 +879,8 @@
       "voice": "gadis",
       "text": "Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan.",
       "display": "Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan.",
-      "start": 535.628,
-      "end": 553.436,
+      "start": 509.076,
+      "end": 526.884,
       "duration": 17.808,
       "audio_file": "line_034.mp3"
     },
@@ -920,8 +890,8 @@
       "voice": "ardi",
       "text": "Kelimanya adalah adaptasi alur A-Es N-Zet-Es empat tiga enam nol yang dipetakan ke lima unsur Es-Pe-I-Pe, dengan latar belakang konseptual delapan komponen KO-SO E-Er-Em dua ribu empat, versi yang dirujuk Perdep, bukan KO-SO dua ribu tujuh belas.",
       "display": "Kelimanya adalah adaptasi alur AS/NZS 4360 yang dipetakan ke lima unsur SPIP, dengan latar belakang konseptual delapan komponen COSO ERM 2004, versi yang dirujuk Perdep, bukan COSO 2017.",
-      "start": 553.776,
-      "end": 565.896,
+      "start": 527.224,
+      "end": 539.344,
       "duration": 12.12,
       "audio_file": "line_035.mp3"
     },
@@ -931,8 +901,8 @@
       "voice": "ardi",
       "text": "Mari kita telusuri satu per satu, lengkap dengan menu Em-Er Kabar yang mengerjakannya.",
       "display": "Mari kita telusuri satu per satu, lengkap dengan menu MR Kabar yang mengerjakannya.",
-      "start": 566.236,
-      "end": 571.156,
+      "start": 539.684,
+      "end": 544.604,
       "duration": 4.92,
       "audio_file": "line_036.mp3"
     },
@@ -942,8 +912,8 @@
       "voice": "ardi",
       "text": "Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian.",
       "display": "Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian.",
-      "start": 572.056,
-      "end": 576.28,
+      "start": 545.504,
+      "end": 549.728,
       "duration": 4.224,
       "audio_file": "line_037.mp3"
     },
@@ -953,8 +923,8 @@
       "voice": "gadis",
       "text": "Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda.",
       "display": "Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda.",
-      "start": 576.62,
-      "end": 587.708,
+      "start": 550.068,
+      "end": 561.156,
       "duration": 11.088,
       "audio_file": "line_038.mp3"
     },
@@ -964,8 +934,8 @@
       "voice": "ardi",
       "text": "Metodenya Kontrol Invaironment Evaluesyen, atau Ce-E-E, dengan pendekatan Kontrol Self Esesmen. Organisasi menilai dirinya sendiri.",
       "display": "Metodenya Control Environment Evaluation, atau CEE, dengan pendekatan Control Self Assessment. Organisasi menilai dirinya sendiri.",
-      "start": 588.048,
-      "end": 597.12,
+      "start": 561.496,
+      "end": 570.568,
       "duration": 9.072,
       "audio_file": "line_039.mp3"
     },
@@ -975,8 +945,8 @@
       "voice": "ardi",
       "text": "Di Em-Er Kabar ini dikerjakan di menu Ce-E-E. Form satu A berisi kuesioner delapan unsur lingkungan pengendalian. Form satu B menilai kecukupan dokumen pendukung. Form satu C menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.",
       "display": "Di MR Kabar ini dikerjakan di menu CEE. Form 1a berisi kuesioner delapan unsur lingkungan pengendalian. Form 1b menilai kecukupan dokumen pendukung. Form 1c menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.",
-      "start": 597.46,
-      "end": 611.836,
+      "start": 570.908,
+      "end": 585.284,
       "duration": 14.376,
       "audio_file": "line_040.mp3"
     },
@@ -986,8 +956,8 @@
       "voice": "gadis",
       "text": "Satu hal penting tentang Form satu-c. Kedua sumbernya bisa saja berbeda kesimpulan: dokumennya lengkap, tapi persepsi pegawainya justru sebaliknya.",
       "display": "Satu hal penting tentang Form 1c. Kedua sumbernya bisa saja berbeda kesimpulan: dokumennya lengkap, tapi persepsi pegawainya justru sebaliknya.",
-      "start": 612.176,
-      "end": 623.72,
+      "start": 585.624,
+      "end": 597.168,
       "duration": 11.544,
       "audio_file": "line_153.mp3"
     },
@@ -997,8 +967,8 @@
       "voice": "ardi",
       "text": "Kalau itu terjadi, Perdep tidak meminta kita memilih yang paling enak dibaca. Perdep meminta pendalaman, atau profesyenal jajmen. Dan alasannya wajib ditulis. MR Kabar menandai pertentangan itu, lalu menolak menyimpan kalau penjelasannya dikosongkan.",
       "display": "Kalau itu terjadi, Perdep tidak meminta kita memilih yang paling enak dibaca. Perdep meminta pendalaman, atau professional judgement. Dan alasannya wajib ditulis. MR Kabar menandai pertentangan itu, lalu menolak menyimpan kalau penjelasannya dikosongkan.",
-      "start": 624.06,
-      "end": 640.26,
+      "start": 597.508,
+      "end": 613.708,
       "duration": 16.2,
       "audio_file": "line_154.mp3"
     },
@@ -1008,8 +978,8 @@
       "voice": "gadis",
       "text": "Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan.",
       "display": "Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan.",
-      "start": 640.6,
-      "end": 654.808,
+      "start": 614.048,
+      "end": 628.256,
       "duration": 14.208,
       "audio_file": "line_104.mp3"
     },
@@ -1019,8 +989,8 @@
       "voice": "gadis",
       "text": "Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait.",
       "display": "Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait.",
-      "start": 655.148,
-      "end": 671.492,
+      "start": 628.596,
+      "end": 644.94,
       "duration": 16.344,
       "audio_file": "line_105.mp3"
     },
@@ -1030,8 +1000,8 @@
       "voice": "ardi",
       "text": "Kedelapan unsur itu dijabarkan menjadi tiga puluh tujuh pertanyaan di Form satu A.",
       "display": "Kedelapan unsur itu dijabarkan menjadi 37 pertanyaan di Form 1a.",
-      "start": 671.832,
-      "end": 676.656,
+      "start": 645.28,
+      "end": 650.104,
       "duration": 4.824,
       "audio_file": "line_106.mp3"
     },
@@ -1041,8 +1011,8 @@
       "voice": "gadis",
       "text": "Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form satu D, dan dicetak sebagai Form enam.",
       "display": "Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form 1d, dan dicetak sebagai Form 6.",
-      "start": 676.996,
-      "end": 686.788,
+      "start": 650.444,
+      "end": 660.236,
       "duration": 9.792,
       "audio_file": "line_041.mp3"
     },
@@ -1052,8 +1022,8 @@
       "voice": "ardi",
       "text": "Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi.",
       "display": "Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi.",
-      "start": 687.128,
-      "end": 696.248,
+      "start": 660.576,
+      "end": 669.696,
       "duration": 9.12,
       "audio_file": "line_042.mp3"
     },
@@ -1063,8 +1033,8 @@
       "voice": "ardi",
       "text": "Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis.",
       "display": "Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis.",
-      "start": 697.148,
-      "end": 707.708,
+      "start": 670.596,
+      "end": 681.156,
       "duration": 10.56,
       "audio_file": "line_043.mp3"
     },
@@ -1074,8 +1044,8 @@
       "voice": "ardi",
       "text": "Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda.",
       "display": "Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda.",
-      "start": 708.048,
-      "end": 715.752,
+      "start": 681.496,
+      "end": 689.2,
       "duration": 7.704,
       "audio_file": "line_044.mp3"
     },
@@ -1085,8 +1055,8 @@
       "voice": "gadis",
       "text": "Tingkat pertama, Strategis Pemda, bersumber dari Er-Pe-Je-Em-De, disusun di menu KRS Pemda.",
       "display": "Tingkat pertama, Strategis Pemda, bersumber dari RPJMD, disusun di menu KRS Pemda.",
-      "start": 716.092,
-      "end": 724.228,
+      "start": 689.54,
+      "end": 697.676,
       "duration": 8.136,
       "audio_file": "line_045.mp3"
     },
@@ -1096,8 +1066,8 @@
       "voice": "gadis",
       "text": "Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah.",
       "display": "Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah.",
-      "start": 724.568,
-      "end": 732.656,
+      "start": 698.016,
+      "end": 706.104,
       "duration": 8.088,
       "audio_file": "line_046.mp3"
     },
@@ -1107,8 +1077,8 @@
       "voice": "gadis",
       "text": "Tingkat ketiga, Operasional OPD, bersumber dari Renja dan Er-Ka-A, disusun di menu KRO Perangkat Daerah.",
       "display": "Tingkat ketiga, Operasional OPD, bersumber dari Renja dan RKA, disusun di menu KRO Perangkat Daerah.",
-      "start": 732.996,
-      "end": 742.02,
+      "start": 706.444,
+      "end": 715.468,
       "duration": 9.024,
       "audio_file": "line_047.mp3"
     },
@@ -1118,8 +1088,8 @@
       "voice": "ardi",
       "text": "Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini.",
       "display": "Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini.",
-      "start": 742.36,
-      "end": 754.96,
+      "start": 715.808,
+      "end": 728.408,
       "duration": 12.6,
       "audio_file": "line_048.mp3"
     },
@@ -1129,8 +1099,8 @@
       "voice": "ardi",
       "text": "Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih.",
       "display": "Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih.",
-      "start": 755.86,
-      "end": 766.804,
+      "start": 729.308,
+      "end": 740.252,
       "duration": 10.944,
       "audio_file": "line_049.mp3"
     },
@@ -1140,8 +1110,8 @@
       "voice": "gadis",
       "text": "Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik.",
       "display": "Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik.",
-      "start": 767.144,
-      "end": 773.6,
+      "start": 740.592,
+      "end": 747.048,
       "duration": 6.456,
       "audio_file": "line_050.mp3"
     },
@@ -1151,21 +1121,10 @@
       "voice": "ardi",
       "text": "Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab.",
       "display": "Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab.",
-      "start": 773.94,
-      "end": 781.188,
+      "start": 747.388,
+      "end": 754.636,
       "duration": 7.248,
       "audio_file": "line_051.mp3"
-    },
-    {
-      "id": 155,
-      "scene": "s11",
-      "voice": "gadis",
-      "text": "Dan kalau anggaran tidak mencukupi dihitung sebagai risiko, maka seluruh Indonesia punya risiko yang sama persis, dan tidak satu pun bisa ditindaklanjuti.",
-      "display": "Dan kalau anggaran tidak mencukupi dihitung sebagai risiko, maka seluruh Indonesia punya risiko yang sama persis, dan tidak satu pun bisa ditindaklanjuti.",
-      "start": 781.528,
-      "end": 792.184,
-      "duration": 10.656,
-      "audio_file": "line_155.mp3"
     },
     {
       "id": 52,
@@ -1173,8 +1132,8 @@
       "voice": "ardi",
       "text": "Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak.",
       "display": "Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak.",
-      "start": 792.524,
-      "end": 800.06,
+      "start": 754.976,
+      "end": 762.512,
       "duration": 7.536,
       "audio_file": "line_052.mp3"
     },
@@ -1184,8 +1143,8 @@
       "voice": "gadis",
       "text": "Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.",
       "display": "Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.",
-      "start": 800.4,
-      "end": 812.136,
+      "start": 762.852,
+      "end": 774.588,
       "duration": 11.736,
       "audio_file": "line_053.mp3"
     },
@@ -1195,8 +1154,8 @@
       "voice": "ardi",
       "text": "Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.",
       "display": "Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.",
-      "start": 812.476,
-      "end": 821.572,
+      "start": 774.928,
+      "end": 784.024,
       "duration": 9.096,
       "audio_file": "line_054.mp3"
     },
@@ -1206,8 +1165,8 @@
       "voice": "gadis",
       "text": "Penyebab lalu diklasifikasikan. Internal memakai kerangka tujuh-M-satu-E: Maen, Mashiin, Method, Matiirial, Mani, Management, Mezyurment, dan Invaironment.",
       "display": "Penyebab lalu diklasifikasikan. Internal memakai kerangka 7M-1E: Man, Machine, Method, Material, Money, Management, Measurement, dan Environment.",
-      "start": 822.472,
-      "end": 837.928,
+      "start": 784.924,
+      "end": 800.38,
       "duration": 15.456,
       "audio_file": "line_055.mp3"
     },
@@ -1217,8 +1176,8 @@
       "voice": "gadis",
       "text": "Eksternal memakai kerangka Pestel: Poliitikel, Ikonomik, Soshel, Teknolojikel, Liigel, dan Invaironmentel.",
       "display": "Eksternal memakai kerangka PESTLE: Political, Economic, Social, Technological, Legal, dan Environmental.",
-      "start": 838.268,
-      "end": 848.372,
+      "start": 800.72,
+      "end": 810.824,
       "duration": 10.104,
       "audio_file": "line_056.mp3"
     },
@@ -1228,8 +1187,8 @@
       "voice": "ardi",
       "text": "Setiap risiko juga wajib ditandai sifatnya. Kontrolebel, artinya masih dalam kendali organisasi. Atau Ankontrolebel, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.",
       "display": "Setiap risiko juga wajib ditandai sifatnya. Controllable, artinya masih dalam kendali organisasi. Atau Uncontrollable, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.",
-      "start": 848.712,
-      "end": 862.392,
+      "start": 811.164,
+      "end": 824.844,
       "duration": 13.68,
       "audio_file": "line_057.mp3"
     },
@@ -1239,8 +1198,8 @@
       "voice": "ardi",
       "text": "Lalu Em-Er Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.",
       "display": "Lalu MR Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.",
-      "start": 862.732,
-      "end": 872.62,
+      "start": 825.184,
+      "end": 835.072,
       "duration": 9.888,
       "audio_file": "line_058.mp3"
     },
@@ -1250,8 +1209,8 @@
       "voice": "gadis",
       "text": "Contohnya, Er-Es-Pe titik dua lima titik tiga tujuh titik tiga nol titik nol satu. Artinya: Risiko Strategis Pemda, dinilai tahun dua ribu dua puluh lima, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.",
       "display": "Contohnya, RSP.25.37.30.01. Artinya: Risiko Strategis Pemda, dinilai tahun 2025, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.",
-      "start": 872.96,
-      "end": 892.112,
+      "start": 835.412,
+      "end": 854.564,
       "duration": 19.152,
       "audio_file": "line_059.mp3"
     },
@@ -1261,8 +1220,8 @@
       "voice": "ardi",
       "text": "Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.",
       "display": "Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.",
-      "start": 893.012,
-      "end": 902.732,
+      "start": 855.464,
+      "end": 865.184,
       "duration": 9.72,
       "audio_file": "line_060.mp3"
     },
@@ -1272,8 +1231,8 @@
       "voice": "gadis",
       "text": "Dan angka ini bukan tebakan. Em-Er Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.",
       "display": "Dan angka ini bukan tebakan. MR Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.",
-      "start": 903.072,
-      "end": 912.216,
+      "start": 865.524,
+      "end": 874.668,
       "duration": 9.144,
       "audio_file": "line_061.mp3"
     },
@@ -1283,8 +1242,8 @@
       "voice": "gadis",
       "text": "Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir.",
       "display": "Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir.",
-      "start": 912.556,
-      "end": 925.132,
+      "start": 875.008,
+      "end": 887.584,
       "duration": 12.576,
       "audio_file": "line_062.mp3"
     },
@@ -1294,8 +1253,8 @@
       "voice": "ardi",
       "text": "Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum.",
       "display": "Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum.",
-      "start": 925.472,
-      "end": 936.152,
+      "start": 887.924,
+      "end": 898.604,
       "duration": 10.68,
       "audio_file": "line_107.mp3"
     },
@@ -1305,8 +1264,8 @@
       "voice": "gadis",
       "text": "Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari.",
       "display": "Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari.",
-      "start": 936.492,
-      "end": 945.468,
+      "start": 898.944,
+      "end": 907.92,
       "duration": 8.976,
       "audio_file": "line_108.mp3"
     },
@@ -1316,8 +1275,8 @@
       "voice": "gadis",
       "text": "Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari.",
       "display": "Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari.",
-      "start": 945.808,
-      "end": 958.912,
+      "start": 908.26,
+      "end": 921.364,
       "duration": 13.104,
       "audio_file": "line_109.mp3"
     },
@@ -1327,21 +1286,10 @@
       "voice": "ardi",
       "text": "Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain.",
       "display": "Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain.",
-      "start": 959.252,
-      "end": 966.092,
+      "start": 921.704,
+      "end": 928.544,
       "duration": 6.84,
       "audio_file": "line_063.mp3"
-    },
-    {
-      "id": 156,
-      "scene": "s13",
-      "voice": "ardi",
-      "text": "Tanpa kriteria baku, kemungkinan besar menurut satu Perangkat Daerah bisa berarti sepertinya sih menurut Perangkat Daerah sebelah.",
-      "display": "Tanpa kriteria baku, kemungkinan besar menurut satu Perangkat Daerah bisa berarti sepertinya sih menurut Perangkat Daerah sebelah.",
-      "start": 966.432,
-      "end": 973.104,
-      "duration": 6.672,
-      "audio_file": "line_156.mp3"
     },
     {
       "id": 64,
@@ -1349,8 +1297,8 @@
       "voice": "ardi",
       "text": "Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima.",
       "display": "Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima.",
-      "start": 974.004,
-      "end": 978.588,
+      "start": 929.444,
+      "end": 934.028,
       "duration": 4.584,
       "audio_file": "line_064.mp3"
     },
@@ -1360,8 +1308,8 @@
       "voice": "gadis",
       "text": "Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak.",
       "display": "Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak.",
-      "start": 978.928,
-      "end": 991.288,
+      "start": 934.368,
+      "end": 946.728,
       "duration": 12.36,
       "audio_file": "line_065.mp3"
     },
@@ -1371,8 +1319,8 @@
       "voice": "gadis",
       "text": "Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan.",
       "display": "Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan.",
-      "start": 991.628,
-      "end": 1004.108,
+      "start": 947.068,
+      "end": 959.548,
       "duration": 12.48,
       "audio_file": "line_066.mp3"
     },
@@ -1382,8 +1330,8 @@
       "voice": "gadis",
       "text": "Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja.",
       "display": "Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja.",
-      "start": 1004.448,
-      "end": 1013.424,
+      "start": 959.888,
+      "end": 968.864,
       "duration": 8.976,
       "audio_file": "line_067.mp3"
     },
@@ -1393,8 +1341,8 @@
       "voice": "ardi",
       "text": "Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, Moderat kuning, Rendah hijau, dan Sangat Rendah biru.",
       "display": "Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, Moderat kuning, Rendah hijau, dan Sangat Rendah biru.",
-      "start": 1013.764,
-      "end": 1023.436,
+      "start": 969.204,
+      "end": 978.876,
       "duration": 9.672,
       "audio_file": "line_068.mp3"
     },
@@ -1404,8 +1352,8 @@
       "voice": "gadis",
       "text": "Lalu sampai kategori mana yang masih boleh diterima? Itu bukan diputuskan aplikasi. Pemerintah Daerah sendiri yang menetapkannya. Namanya Selera Risiko, diatur di menu Keterangan Pendukung.",
       "display": "Lalu sampai kategori mana yang masih boleh diterima? Itu bukan diputuskan aplikasi. Pemerintah Daerah sendiri yang menetapkannya. Namanya Selera Risiko, diatur di menu Keterangan Pendukung.",
-      "start": 1023.776,
-      "end": 1039.856,
+      "start": 979.216,
+      "end": 995.296,
       "duration": 16.08,
       "audio_file": "line_157.mp3"
     },
@@ -1415,21 +1363,10 @@
       "voice": "ardi",
       "text": "Di matriks, batas itu tergambar sebagai garis putus-putus. Semua yang berada di atas garis wajib punya Rencana Tindak Pengendalian. Setelan Aceh Barat saat ini: diterima sampai dengan tingkat Sedang.",
       "display": "Di matriks, batas itu tergambar sebagai garis putus-putus. Semua yang berada di atas garis wajib punya Rencana Tindak Pengendalian. Setelan Aceh Barat saat ini: diterima sampai dengan tingkat Sedang.",
-      "start": 1040.196,
-      "end": 1052.556,
+      "start": 995.636,
+      "end": 1007.996,
       "duration": 12.36,
       "audio_file": "line_158.mp3"
-    },
-    {
-      "id": 159,
-      "scene": "s14",
-      "voice": "ardi",
-      "text": "Selera Risiko memang mirip selera makan. Yang penting tahu batasnya, dan batas itu tidak berubah hanya karena angkanya sedang tidak enak dilihat.",
-      "display": "Selera Risiko memang mirip selera makan. Yang penting tahu batasnya, dan batas itu tidak berubah hanya karena angkanya sedang tidak enak dilihat.",
-      "start": 1052.896,
-      "end": 1061.056,
-      "duration": 8.16,
-      "audio_file": "line_159.mp3"
     },
     {
       "id": 69,
@@ -1437,8 +1374,8 @@
       "voice": "ardi",
       "text": "Yang berada di bawah garis itu masih bisa diterima, cukup dipantau. Yang di atasnya masuk Daftar Risiko Prioritas.",
       "display": "Yang berada di bawah garis itu masih bisa diterima, cukup dipantau. Yang di atasnya masuk Daftar Risiko Prioritas.",
-      "start": 1061.396,
-      "end": 1068.812,
+      "start": 1008.336,
+      "end": 1015.752,
       "duration": 7.416,
       "audio_file": "line_069.mp3"
     },
@@ -1448,8 +1385,8 @@
       "voice": "ardi",
       "text": "Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP.",
       "display": "Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP.",
-      "start": 1069.712,
-      "end": 1076.672,
+      "start": 1016.652,
+      "end": 1023.612,
       "duration": 6.96,
       "audio_file": "line_070.mp3"
     },
@@ -1459,8 +1396,8 @@
       "voice": "gadis",
       "text": "Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A.",
       "display": "Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A.",
-      "start": 1077.012,
-      "end": 1083.108,
+      "start": 1023.952,
+      "end": 1030.048,
       "duration": 6.096,
       "audio_file": "line_071.mp3"
     },
@@ -1470,8 +1407,8 @@
       "voice": "gadis",
       "text": "Evoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Ebeit, cegah kemungkinannya. Maitigeit, kurangi dampaknya. Syer atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Eksept, terima sisa risikonya, pilihan terakhir.",
       "display": "Avoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Abate, cegah kemungkinannya. Mitigate, kurangi dampaknya. Share atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Accept, terima sisa risikonya, pilihan terakhir.",
-      "start": 1083.448,
-      "end": 1109.632,
+      "start": 1030.388,
+      "end": 1056.572,
       "duration": 26.184,
       "audio_file": "line_072.mp3"
     },
@@ -1481,8 +1418,8 @@
       "voice": "ardi",
       "text": "Ebeit menekan sumbu kemungkinan. Maitigeit menekan sumbu dampak. Dan risiko yang tadi ditandai Ankontrolebel praktis hanya punya dua pilihan: Syer atau Eksept.",
       "display": "Abate menekan sumbu kemungkinan. Mitigate menekan sumbu dampak. Dan risiko yang tadi ditandai Uncontrollable praktis hanya punya dua pilihan: Share atau Accept.",
-      "start": 1109.972,
-      "end": 1120.508,
+      "start": 1056.912,
+      "end": 1067.448,
       "duration": 10.536,
       "audio_file": "line_073.mp3"
     },
@@ -1492,8 +1429,8 @@
       "voice": "ardi",
       "text": "Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi.",
       "display": "Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi.",
-      "start": 1120.848,
-      "end": 1134.552,
+      "start": 1067.788,
+      "end": 1081.492,
       "duration": 13.704,
       "audio_file": "line_110.mp3"
     },
@@ -1503,8 +1440,8 @@
       "voice": "ardi",
       "text": "Em-Er Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil Ce-E-E. Dan RTP atas risiko, dari hasil identifikasi.",
       "display": "MR Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil CEE. Dan RTP atas risiko, dari hasil identifikasi.",
-      "start": 1134.892,
-      "end": 1144.948,
+      "start": 1081.832,
+      "end": 1091.888,
       "duration": 10.056,
       "audio_file": "line_074.mp3"
     },
@@ -1514,21 +1451,10 @@
       "voice": "gadis",
       "text": "Keduanya harus diselaraskan. Kalau R-T-P dari CEE dan R-T-P dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat.",
       "display": "Keduanya harus diselaraskan. Kalau RTP dari CEE dan RTP dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat.",
-      "start": 1145.288,
-      "end": 1159.616,
+      "start": 1092.228,
+      "end": 1106.556,
       "duration": 14.328,
       "audio_file": "line_160.mp3"
-    },
-    {
-      "id": 161,
-      "scene": "s15",
-      "voice": "gadis",
-      "text": "Sebab dua rencana yang bunyinya sama biasanya bukan berarti dikerjakan dua kali. Biasanya justru tidak ada yang merasa kebagian.",
-      "display": "Sebab dua rencana yang bunyinya sama biasanya bukan berarti dikerjakan dua kali. Biasanya justru tidak ada yang merasa kebagian.",
-      "start": 1159.956,
-      "end": 1169.916,
-      "duration": 9.96,
-      "audio_file": "line_161.mp3"
     },
     {
       "id": 75,
@@ -1536,8 +1462,8 @@
       "voice": "gadis",
       "text": "Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko.",
       "display": "Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko.",
-      "start": 1170.816,
-      "end": 1177.104,
+      "start": 1107.456,
+      "end": 1113.744,
       "duration": 6.288,
       "audio_file": "line_075.mp3"
     },
@@ -1547,8 +1473,8 @@
       "voice": "gadis",
       "text": "Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan.",
       "display": "Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan.",
-      "start": 1177.444,
-      "end": 1189.66,
+      "start": 1114.084,
+      "end": 1126.3,
       "duration": 12.216,
       "audio_file": "line_076.mp3"
     },
@@ -1558,8 +1484,8 @@
       "voice": "gadis",
       "text": "Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan.",
       "display": "Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan.",
-      "start": 1190.0,
-      "end": 1199.84,
+      "start": 1126.64,
+      "end": 1136.48,
       "duration": 9.84,
       "audio_file": "line_077.mp3"
     },
@@ -1569,8 +1495,8 @@
       "voice": "ardi",
       "text": "Karena itu Em-Er Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.",
       "display": "Karena itu MR Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.",
-      "start": 1200.18,
-      "end": 1209.972,
+      "start": 1136.82,
+      "end": 1146.612,
       "duration": 9.792,
       "audio_file": "line_078.mp3"
     },
@@ -1580,8 +1506,8 @@
       "voice": "gadis",
       "text": "Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif.",
       "display": "Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif.",
-      "start": 1210.312,
-      "end": 1232.992,
+      "start": 1146.952,
+      "end": 1169.632,
       "duration": 22.68,
       "audio_file": "line_111.mp3"
     },
@@ -1591,8 +1517,8 @@
       "voice": "ardi",
       "text": "Dan begitu Anda memilih Tidak Efektif atau Kurang Efektif, MR Kabar bertanya lebih jauh: celahnya sebenarnya di mana?",
       "display": "Dan begitu Anda memilih Tidak Efektif atau Kurang Efektif, MR Kabar bertanya lebih jauh: celahnya sebenarnya di mana?",
-      "start": 1233.332,
-      "end": 1240.148,
+      "start": 1169.972,
+      "end": 1176.788,
       "duration": 6.816,
       "audio_file": "line_162.mp3"
     },
@@ -1602,8 +1528,8 @@
       "voice": "gadis",
       "text": "Perdep sudah menyediakan lima kriteria bakunya. Prosedur pengendalian belum dilaksanakan. Kebijakan belum diikuti prosedur baku yang jelas. Kebijakan dan prosedurnya tidak sesuai peraturan di atasnya.",
       "display": "Perdep sudah menyediakan lima kriteria bakunya. Prosedur pengendalian belum dilaksanakan. Kebijakan belum diikuti prosedur baku yang jelas. Kebijakan dan prosedurnya tidak sesuai peraturan di atasnya.",
-      "start": 1240.488,
-      "end": 1256.664,
+      "start": 1177.128,
+      "end": 1193.304,
       "duration": 16.176,
       "audio_file": "line_163.mp3"
     },
@@ -1613,8 +1539,8 @@
       "voice": "gadis",
       "text": "Lalu, kebijakan dan prosedur sudah dilakukan tapi belum mampu menangani risiko yang teridentifikasi. Dan terakhir, pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul. Tinggal dicentang, lalu ditambah keterangan seperlunya.",
       "display": "Lalu, kebijakan dan prosedur sudah dilakukan tapi belum mampu menangani risiko yang teridentifikasi. Dan terakhir, pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul. Tinggal dicentang, lalu ditambah keterangan seperlunya.",
-      "start": 1257.004,
-      "end": 1276.204,
+      "start": 1193.644,
+      "end": 1212.844,
       "duration": 19.2,
       "audio_file": "line_164.mp3"
     },
@@ -1624,8 +1550,8 @@
       "voice": "ardi",
       "text": "Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita.",
       "display": "Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita.",
-      "start": 1276.544,
-      "end": 1286.288,
+      "start": 1213.184,
+      "end": 1222.928,
       "duration": 9.744,
       "audio_file": "line_079.mp3"
     },
@@ -1635,8 +1561,8 @@
       "voice": "ardi",
       "text": "Ada satu langkah lagi yang hampir selalu terlewat. Perdep menetapkan enam langkah membangun pengendalian, dan langkah keempatnya adalah uji coba.",
       "display": "Ada satu langkah lagi yang hampir selalu terlewat. Perdep menetapkan enam langkah membangun pengendalian, dan langkah keempatnya adalah uji coba.",
-      "start": 1287.188,
-      "end": 1295.732,
+      "start": 1223.828,
+      "end": 1232.372,
       "duration": 8.544,
       "audio_file": "line_165.mp3"
     },
@@ -1646,21 +1572,10 @@
       "voice": "gadis",
       "text": "Rancangan pengendaliannya diuji dulu dalam lingkup kecil. Hasil ujinya dipakai memperbaiki rancangan itu. Baru sesudah itu ditetapkan berlaku.",
       "display": "Rancangan pengendaliannya diuji dulu dalam lingkup kecil. Hasil ujinya dipakai memperbaiki rancangan itu. Baru sesudah itu ditetapkan berlaku.",
-      "start": 1296.072,
-      "end": 1307.952,
+      "start": 1232.712,
+      "end": 1244.592,
       "duration": 11.88,
       "audio_file": "line_166.mp3"
-    },
-    {
-      "id": 167,
-      "scene": "s25",
-      "voice": "ardi",
-      "text": "Pengendalian yang belum pernah diuji itu seperti payung yang belum pernah dibuka. Kelihatan meyakinkan, sampai hujan turun.",
-      "display": "Pengendalian yang belum pernah diuji itu seperti payung yang belum pernah dibuka. Kelihatan meyakinkan, sampai hujan turun.",
-      "start": 1308.292,
-      "end": 1315.852,
-      "duration": 7.56,
-      "audio_file": "line_167.mp3"
     },
     {
       "id": 168,
@@ -1668,8 +1583,8 @@
       "voice": "ardi",
       "text": "Di MR Kabar, triwulan uji cobanya, tahunnya, dan hasilnya dicatat di Form sembilan, lengkap dengan berkas buktinya.",
       "display": "Di MR Kabar, triwulan uji cobanya, tahunnya, dan hasilnya dicatat di Form 9, lengkap dengan berkas buktinya.",
-      "start": 1316.192,
-      "end": 1323.968,
+      "start": 1244.932,
+      "end": 1252.708,
       "duration": 7.776,
       "audio_file": "line_168.mp3"
     },
@@ -1679,8 +1594,8 @@
       "voice": "ardi",
       "text": "Tahap keempat: Informasi dan Komunikasi.",
       "display": "Tahap keempat: Informasi dan Komunikasi.",
-      "start": 1324.868,
-      "end": 1328.348,
+      "start": 1253.608,
+      "end": 1257.088,
       "duration": 3.48,
       "audio_file": "line_080.mp3"
     },
@@ -1690,8 +1605,8 @@
       "voice": "gadis",
       "text": "Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di Je-De-I-Ha, dan sosialisasi internal OPD.",
       "display": "Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di JDIH, dan sosialisasi internal OPD.",
-      "start": 1328.688,
-      "end": 1343.496,
+      "start": 1257.428,
+      "end": 1272.236,
       "duration": 14.808,
       "audio_file": "line_081.mp3"
     },
@@ -1701,8 +1616,8 @@
       "voice": "ardi",
       "text": "Em-Er Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.",
       "display": "MR Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.",
-      "start": 1343.836,
-      "end": 1354.012,
+      "start": 1272.576,
+      "end": 1282.752,
       "duration": 10.176,
       "audio_file": "line_082.mp3"
     },
@@ -1712,8 +1627,8 @@
       "voice": "ardi",
       "text": "Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat.",
       "display": "Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat.",
-      "start": 1354.352,
-      "end": 1362.776,
+      "start": 1283.092,
+      "end": 1291.516,
       "duration": 8.424,
       "audio_file": "line_083.mp3"
     },
@@ -1723,8 +1638,8 @@
       "voice": "ardi",
       "text": "Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas.",
       "display": "Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas.",
-      "start": 1363.676,
-      "end": 1371.332,
+      "start": 1292.416,
+      "end": 1300.072,
       "duration": 7.656,
       "audio_file": "line_084.mp3"
     },
@@ -1734,8 +1649,8 @@
       "voice": "gadis",
       "text": "Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga.",
       "display": "Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga.",
-      "start": 1371.672,
-      "end": 1388.256,
+      "start": 1300.412,
+      "end": 1316.996,
       "duration": 16.584,
       "audio_file": "line_085.mp3"
     },
@@ -1745,8 +1660,8 @@
       "voice": "ardi",
       "text": "Di Em-Er Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form delapan mencatat rencana pengkomunikasian dan pemantauan. Form sembilan mencatat realisasinya beserta Skala Aktual. Form sepuluh mencatat kejadian risiko yang benar-benar terjadi di lapangan.",
       "display": "Di MR Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form 8 mencatat rencana pengkomunikasian dan pemantauan. Form 9 mencatat realisasinya beserta Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi di lapangan.",
-      "start": 1388.596,
-      "end": 1405.06,
+      "start": 1317.336,
+      "end": 1333.8,
       "duration": 16.464,
       "audio_file": "line_086.mp3"
     },
@@ -1756,8 +1671,8 @@
       "voice": "gadis",
       "text": "Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode Kiu-Ar, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.",
       "display": "Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode QR, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.",
-      "start": 1405.4,
-      "end": 1417.88,
+      "start": 1334.14,
+      "end": 1346.62,
       "duration": 12.48,
       "audio_file": "line_087.mp3"
     },
@@ -1767,8 +1682,8 @@
       "voice": "ardi",
       "text": "Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form sepuluh, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.",
       "display": "Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form 10, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.",
-      "start": 1418.22,
-      "end": 1431.972,
+      "start": 1346.96,
+      "end": 1360.712,
       "duration": 13.752,
       "audio_file": "line_112.mp3"
     },
@@ -1778,8 +1693,8 @@
       "voice": "gadis",
       "text": "Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun U-Pe-Er sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.",
       "display": "Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun UPR sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.",
-      "start": 1432.312,
-      "end": 1446.712,
+      "start": 1361.052,
+      "end": 1375.452,
       "duration": 14.4,
       "audio_file": "line_113.mp3"
     },
@@ -1789,8 +1704,8 @@
       "voice": "gadis",
       "text": "Laporan berkala disusun U-Pe-Er setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.",
       "display": "Laporan berkala disusun UPR setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.",
-      "start": 1447.052,
-      "end": 1462.172,
+      "start": 1375.792,
+      "end": 1390.912,
       "duration": 15.12,
       "audio_file": "line_114.mp3"
     },
@@ -1800,8 +1715,8 @@
       "voice": "ardi",
       "text": "Seluruh hasil pemantauan dirangkum ke laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh U-P-R, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form sebelas, dua belas, dan tiga belas.",
       "display": "Seluruh hasil pemantauan dirangkum ke laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh UPR, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form 11, 12, dan 13.",
-      "start": 1462.512,
-      "end": 1478.304,
+      "start": 1391.252,
+      "end": 1407.044,
       "duration": 15.792,
       "audio_file": "line_088.mp3"
     },
@@ -1811,8 +1726,8 @@
       "voice": "gadis",
       "text": "Dan ada satu lagi yang menyusul: Form empat belas, laporan pembinaan oleh Komite Pengelolaan Risiko. Yang ini semesteran dan tahunan, bukan triwulanan.",
       "display": "Dan ada satu lagi yang menyusul: Form 14, laporan pembinaan oleh Komite Pengelolaan Risiko. Yang ini semesteran dan tahunan, bukan triwulanan.",
-      "start": 1478.644,
-      "end": 1490.644,
+      "start": 1407.384,
+      "end": 1419.384,
       "duration": 12.0,
       "audio_file": "line_169.mp3"
     },
@@ -1822,8 +1737,8 @@
       "voice": "ardi",
       "text": "Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu.",
       "display": "Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu.",
-      "start": 1491.544,
-      "end": 1496.896,
+      "start": 1420.284,
+      "end": 1425.636,
       "duration": 5.352,
       "audio_file": "line_115.mp3"
     },
@@ -1833,8 +1748,8 @@
       "voice": "gadis",
       "text": "Ekspor dan Impor Eksel. Kalau OPD Anda terlanjur menyusun kertas kerja di Eksel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor-Impor KRS.",
       "display": "Ekspor dan Impor Excel. Kalau OPD Anda terlanjur menyusun kertas kerja di Excel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor/Impor KRS.",
-      "start": 1497.236,
-      "end": 1510.148,
+      "start": 1425.976,
+      "end": 1438.888,
       "duration": 12.912,
       "audio_file": "line_116.mp3"
     },
@@ -1844,8 +1759,8 @@
       "voice": "gadis",
       "text": "Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur.",
       "display": "Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur.",
-      "start": 1510.488,
-      "end": 1519.728,
+      "start": 1439.228,
+      "end": 1448.468,
       "duration": 9.24,
       "audio_file": "line_117.mp3"
     },
@@ -1855,21 +1770,10 @@
       "voice": "gadis",
       "text": "Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali.",
       "display": "Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali.",
-      "start": 1520.068,
-      "end": 1530.028,
+      "start": 1448.808,
+      "end": 1458.768,
       "duration": 9.96,
       "audio_file": "line_118.mp3"
-    },
-    {
-      "id": 170,
-      "scene": "s21",
-      "voice": "ardi",
-      "text": "Jadi tombol hapus di sini tidak sekejam kelihatannya.",
-      "display": "Jadi tombol hapus di sini tidak sekejam kelihatannya.",
-      "start": 1530.368,
-      "end": 1533.8,
-      "duration": 3.432,
-      "audio_file": "line_170.mp3"
     },
     {
       "id": 119,
@@ -1877,8 +1781,8 @@
       "voice": "gadis",
       "text": "Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Eksel.",
       "display": "Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Excel.",
-      "start": 1534.14,
-      "end": 1548.396,
+      "start": 1459.108,
+      "end": 1473.364,
       "duration": 14.256,
       "audio_file": "line_119.mp3"
     },
@@ -1888,8 +1792,8 @@
       "voice": "ardi",
       "text": "Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah.",
       "display": "Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah.",
-      "start": 1548.736,
-      "end": 1559.56,
+      "start": 1473.704,
+      "end": 1484.528,
       "duration": 10.824,
       "audio_file": "line_120.mp3"
     },
@@ -1899,8 +1803,8 @@
       "voice": "ardi",
       "text": "Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri.",
       "display": "Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri.",
-      "start": 1559.9,
-      "end": 1571.156,
+      "start": 1484.868,
+      "end": 1496.124,
       "duration": 11.256,
       "audio_file": "line_121.mp3"
     },
@@ -1910,8 +1814,8 @@
       "voice": "ardi",
       "text": "Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard.",
       "display": "Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard.",
-      "start": 1572.056,
-      "end": 1578.776,
+      "start": 1497.024,
+      "end": 1503.744,
       "duration": 6.72,
       "audio_file": "line_122.mp3"
     },
@@ -1921,8 +1825,8 @@
       "voice": "gadis",
       "text": "Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan.",
       "display": "Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan.",
-      "start": 1579.116,
-      "end": 1589.868,
+      "start": 1504.084,
+      "end": 1514.836,
       "duration": 10.752,
       "audio_file": "line_123.mp3"
     },
@@ -1932,8 +1836,8 @@
       "voice": "gadis",
       "text": "Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.",
       "display": "Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.",
-      "start": 1590.208,
-      "end": 1604.92,
+      "start": 1515.176,
+      "end": 1529.888,
       "duration": 14.712,
       "audio_file": "line_124.mp3"
     },
@@ -1943,8 +1847,8 @@
       "voice": "ardi",
       "text": "Penyebabnya diklasifikasikan eksternal, kategori Liigel. Sifatnya ditandai Ankontrolebel, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.",
       "display": "Penyebabnya diklasifikasikan eksternal, kategori Legal. Sifatnya ditandai Uncontrollable, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.",
-      "start": 1605.26,
-      "end": 1615.076,
+      "start": 1530.228,
+      "end": 1540.044,
       "duration": 9.816,
       "audio_file": "line_125.mp3"
     },
@@ -1954,8 +1858,8 @@
       "voice": "ardi",
       "text": "Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP.",
       "display": "Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP.",
-      "start": 1615.976,
-      "end": 1628.672,
+      "start": 1540.944,
+      "end": 1553.64,
       "duration": 12.696,
       "audio_file": "line_126.mp3"
     },
@@ -1965,8 +1869,8 @@
       "voice": "gadis",
       "text": "Karena Ankontrolebel, responsnya Syer: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.",
       "display": "Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.",
-      "start": 1629.012,
-      "end": 1642.836,
+      "start": 1553.98,
+      "end": 1567.804,
       "duration": 13.824,
       "audio_file": "line_127.mp3"
     },
@@ -1976,8 +1880,8 @@
       "voice": "gadis",
       "text": "Skala Target ditetapkan tiga belas, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form sembilan, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya empat belas.",
       "display": "Skala Target ditetapkan 13, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form 9, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya 14.",
-      "start": 1643.176,
-      "end": 1658.032,
+      "start": 1568.144,
+      "end": 1583.0,
       "duration": 14.856,
       "audio_file": "line_128.mp3"
     },
@@ -1987,8 +1891,8 @@
       "voice": "ardi",
       "text": "Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard.",
       "display": "Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard.",
-      "start": 1658.372,
-      "end": 1678.124,
+      "start": 1583.34,
+      "end": 1603.092,
       "duration": 19.752,
       "audio_file": "line_129.mp3"
     },
@@ -1998,8 +1902,8 @@
       "voice": "ardi",
       "text": "Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard.",
       "display": "Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard.",
-      "start": 1679.024,
-      "end": 1683.152,
+      "start": 1603.992,
+      "end": 1608.12,
       "duration": 4.128,
       "audio_file": "line_089.mp3"
     },
@@ -2009,8 +1913,8 @@
       "voice": "gadis",
       "text": "Yang pertama menyambut Anda justru jadwalnya: tahapan penilaian tahun berjalan, berikut tanda merah kalau ada yang lewat tenggat. Di bawahnya enam seksi. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per U-P-R. Distribusi risiko per tingkatan dan per kategori.",
       "display": "Yang pertama menyambut Anda justru jadwalnya: tahapan penilaian tahun berjalan, berikut tanda merah kalau ada yang lewat tenggat. Di bawahnya enam seksi. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per UPR. Distribusi risiko per tingkatan dan per kategori.",
-      "start": 1683.492,
-      "end": 1707.756,
+      "start": 1608.46,
+      "end": 1632.724,
       "duration": 24.264,
       "audio_file": "line_090.mp3"
     },
@@ -2020,8 +1924,8 @@
       "voice": "gadis",
       "text": "Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah.",
       "display": "Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah.",
-      "start": 1708.096,
-      "end": 1726.336,
+      "start": 1633.064,
+      "end": 1651.304,
       "duration": 18.24,
       "audio_file": "line_091.mp3"
     },
@@ -2031,8 +1935,8 @@
       "voice": "ardi",
       "text": "Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda.",
       "display": "Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda.",
-      "start": 1726.676,
-      "end": 1732.196,
+      "start": 1651.644,
+      "end": 1657.164,
       "duration": 5.52,
       "audio_file": "line_092.mp3"
     },
@@ -2042,8 +1946,8 @@
       "voice": "ardi",
       "text": "Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam Er-Pe-Je-Em-De benar-benar bisa ditepati.",
       "display": "Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam RPJMD benar-benar bisa ditepati.",
-      "start": 1733.096,
-      "end": 1744.016,
+      "start": 1658.064,
+      "end": 1668.984,
       "duration": 10.92,
       "audio_file": "line_093.mp3"
     },
@@ -2053,8 +1957,8 @@
       "voice": "gadis",
       "text": "Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan.",
       "display": "Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan.",
-      "start": 1744.356,
-      "end": 1754.868,
+      "start": 1669.324,
+      "end": 1679.836,
       "duration": 10.512,
       "audio_file": "line_094.mp3"
     },
@@ -2064,8 +1968,8 @@
       "voice": "ardi",
       "text": "Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak.",
       "display": "Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak.",
-      "start": 1755.208,
-      "end": 1765.696,
+      "start": 1680.176,
+      "end": 1690.664,
       "duration": 10.488,
       "audio_file": "line_095.mp3"
     },
@@ -2075,8 +1979,8 @@
       "voice": "ardi",
       "text": "Setelah itu, isi kuesioner Ce-E-E, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.",
       "display": "Setelah itu, isi kuesioner CEE, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.",
-      "start": 1766.036,
-      "end": 1773.164,
+      "start": 1691.004,
+      "end": 1698.132,
       "duration": 7.128,
       "audio_file": "line_096.mp3"
     },
@@ -2086,8 +1990,8 @@
       "voice": "gadis",
       "text": "Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi.",
       "display": "Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi.",
-      "start": 1773.504,
-      "end": 1779.744,
+      "start": 1698.472,
+      "end": 1704.712,
       "duration": 6.24,
       "audio_file": "line_097.mp3"
     },
@@ -2097,8 +2001,8 @@
       "voice": "ardi",
       "text": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019.",
       "display": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019.",
-      "start": 1780.084,
-      "end": 1790.716,
+      "start": 1705.052,
+      "end": 1715.684,
       "duration": 10.632,
       "audio_file": "line_130.mp3"
     },
@@ -2108,8 +2012,8 @@
       "voice": "gadis",
       "text": "Itulah Em-Er Kabar. Risiko TerKabar, Daerah Terjaga.",
       "display": "Itulah MR Kabar. Risiko TerKabar, Daerah Terjaga.",
-      "start": 1791.056,
-      "end": 1797.32,
+      "start": 1716.024,
+      "end": 1722.288,
       "duration": 6.264,
       "audio_file": "line_098.mp3"
     }

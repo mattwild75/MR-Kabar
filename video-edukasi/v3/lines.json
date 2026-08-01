@@ -50,12 +50,6 @@
     "text": "Kemungkinan, artinya belum terjadi. Kalau sudah terjadi, itu bukan lagi risiko. Itu masalah."
   },
   {
-    "id": 140,
-    "scene": "s2",
-    "voice": "gadis",
-    "text": "Bedanya sederhana. Kalau atap kantor mungkin bocor musim hujan nanti, itu risiko. Kalau atapnya sudah bocor sekarang, itu bukan risiko lagi. Itu ember."
-  },
-  {
     "id": 9,
     "scene": "s2",
     "voice": "gadis",
@@ -207,7 +201,7 @@
     "id": 143,
     "scene": "s6",
     "voice": "gadis",
-    "text": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun. Semua pintu terbuka, tapi tidak ada satu pun pena di dalamnya."
+    "text": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun."
   },
   {
     "id": 144,
@@ -239,12 +233,6 @@
     "scene": "s24",
     "voice": "ardi",
     "text": "Boleh saja ketiganya jatuh pada orang yang sama. Pada risiko strategis Pemda memang begitu, karena hanya Kepala Daerah yang bisa menerbitkan Peraturan Bupati. Yang tidak boleh adalah mengisinya sambil menebak."
-  },
-  {
-    "id": 149,
-    "scene": "s24",
-    "voice": "ardi",
-    "text": "Dan kabar baiknya: di seluruh Perdep, tidak ada satu pun peran yang bernama Penanggung Jawab Kalau Ada Apa-Apa."
   },
   {
     "id": 27,
@@ -460,12 +448,6 @@
     "text": "Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab."
   },
   {
-    "id": 155,
-    "scene": "s11",
-    "voice": "gadis",
-    "text": "Dan kalau anggaran tidak mencukupi dihitung sebagai risiko, maka seluruh Indonesia punya risiko yang sama persis, dan tidak satu pun bisa ditindaklanjuti."
-  },
-  {
     "id": 52,
     "scene": "s11",
     "voice": "ardi",
@@ -562,12 +544,6 @@
     "text": "Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain."
   },
   {
-    "id": 156,
-    "scene": "s13",
-    "voice": "ardi",
-    "text": "Tanpa kriteria baku, kemungkinan besar menurut satu Perangkat Daerah bisa berarti sepertinya sih menurut Perangkat Daerah sebelah."
-  },
-  {
     "id": 64,
     "scene": "s14",
     "voice": "ardi",
@@ -608,12 +584,6 @@
     "scene": "s14",
     "voice": "ardi",
     "text": "Di matriks, batas itu tergambar sebagai garis putus-putus. Semua yang berada di atas garis wajib punya Rencana Tindak Pengendalian. Setelan Aceh Barat saat ini: diterima sampai dengan tingkat Sedang."
-  },
-  {
-    "id": 159,
-    "scene": "s14",
-    "voice": "ardi",
-    "text": "Selera Risiko memang mirip selera makan. Yang penting tahu batasnya, dan batas itu tidak berubah hanya karena angkanya sedang tidak enak dilihat."
   },
   {
     "id": 69,
@@ -666,12 +636,6 @@
     "voice": "gadis",
     "text": "Keduanya harus diselaraskan. Kalau R-T-P dari CEE dan R-T-P dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat.",
     "display": "Keduanya harus diselaraskan. Kalau RTP dari CEE dan RTP dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat."
-  },
-  {
-    "id": 161,
-    "scene": "s15",
-    "voice": "gadis",
-    "text": "Sebab dua rencana yang bunyinya sama biasanya bukan berarti dikerjakan dua kali. Biasanya justru tidak ada yang merasa kebagian."
   },
   {
     "id": 75,
@@ -739,12 +703,6 @@
     "scene": "s25",
     "voice": "gadis",
     "text": "Rancangan pengendaliannya diuji dulu dalam lingkup kecil. Hasil ujinya dipakai memperbaiki rancangan itu. Baru sesudah itu ditetapkan berlaku."
-  },
-  {
-    "id": 167,
-    "scene": "s25",
-    "voice": "ardi",
-    "text": "Pengendalian yang belum pernah diuji itu seperti payung yang belum pernah dibuka. Kelihatan meyakinkan, sampai hujan turun."
   },
   {
     "id": 168,
@@ -864,12 +822,6 @@
     "scene": "s21",
     "voice": "gadis",
     "text": "Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali."
-  },
-  {
-    "id": 170,
-    "scene": "s21",
-    "voice": "ardi",
-    "text": "Jadi tombol hapus di sini tidak sekejam kelihatannya."
   },
   {
     "id": 119,
