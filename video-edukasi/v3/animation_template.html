@@ -319,6 +319,15 @@ function transformFor(anim,p,s){
     case'tilt':  return'perspective(1200px) rotateX('+lerp(-70,0,e)+'deg)';
     case'grow':  return'scaleX('+e+')';
     case'rise':  return'translateY('+lerp(120,0,e)+'px) scale('+lerp(.8,1,e)+')';
+    /* ── ragam tambahan v4 ── dipakai supaya segmen panjang tidak terasa
+       memakai efek yang itu-itu saja. Semua tetap fungsi murni dari p. */
+    case'swing': return'rotate('+lerp(-13,0,easeBack(p))+'deg) translateY('+lerp(-46,0,e)+'px)';
+    case'stamp': return'scale('+lerp(2.3,1,easeOut(Math.min(1,p*1.7)))+') rotate('+lerp(-7,0,e)+'deg)';
+    case'spinin':return'rotate('+lerp(-200,0,easeBack(p))+'deg) scale('+lerp(.3,1,e)+')';
+    case'unfold':return'perspective(1200px) rotateX('+lerp(84,0,easeBack(p))+'deg)';
+    case'bounce':{const b=easeBack(p);return'translateY('+lerp(-150,0,b)+'px)';}
+    case'diag':  return'translate('+lerp(-96,0,e)+'px,'+lerp(-74,0,e)+'px) scale('+lerp(.72,1,e)+')';
+    case'wipe':  return'scaleY('+lerp(.04,1,easeBack(p))+')';
     default:     return'';
   }
 }
@@ -330,6 +339,16 @@ function idleFor(idle,t,ph){
     case'pulse': return' scale('+(1+.028*Math.sin(t*2.4+ph)).toFixed(4)+')';
     case'spin':  return' rotate('+((t*22)%360).toFixed(2)+'deg)';
     case'sway':  return' rotate('+(Math.sin(t*1.1+ph)*2.2).toFixed(2)+'deg)';
+    /* ── ragam tambahan v4 ── */
+    case'breathe':return' scale('+(1+.055*Math.sin(t*.85+ph)).toFixed(4)+')';
+    case'drift': return' translate('+(Math.sin(t*.73+ph)*9).toFixed(2)+'px,'
+                       +(Math.cos(t*1.02+ph)*6).toFixed(2)+'px)';
+    case'wobble':return' rotate('+(Math.sin(t*1.7+ph)*3.4).toFixed(2)+'deg) translateY('
+                       +(Math.cos(t*1.7+ph)*3).toFixed(2)+'px)';
+    /* detik yang berdetak: sengaja melangkah, bukan mengalir */
+    case'tick':  return' rotate('+(Math.floor(t*2)%2?4.5:-4.5)+'deg)';
+    case'shake': {const q=Math.max(0,Math.sin(t*.7+ph));
+                  return' translateX('+(Math.sin(t*17)*2.4*q*q).toFixed(2)+'px)';}
     default:     return'';
   }
 }

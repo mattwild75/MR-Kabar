@@ -1,821 +1,1014 @@
 [
- {
-  "id": 1,
-  "scene": "s1",
-  "voice": "ardi",
-  "text": "Setiap tahun, pemerintah daerah menyusun rencana. Dan setiap tahun, sebagian dari rencana itu gagal tercapai."
- },
- {
-  "id": 2,
-  "scene": "s1",
-  "voice": "ardi",
-  "text": "Bukan karena tidak ada yang bekerja, tapi karena ada hal-hal yang tidak diperhitungkan sejak awal."
- },
- {
-  "id": 3,
-  "scene": "s1",
-  "voice": "gadis",
-  "text": "Hal-hal yang tidak diperhitungkan itu punya nama: risiko."
- },
- {
-  "id": 4,
-  "scene": "s1",
-  "voice": "ardi",
-  "text": "Selamat datang di Em-Er Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat.",
-  "display": "Selamat datang di MR Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat."
- },
- {
-  "id": 5,
-  "scene": "s1",
-  "voice": "gadis",
-  "text": "Dalam video ini Anda akan memahami empat hal: apa itu manajemen risiko, siapa yang bertanggung jawab, kapan dikerjakan, dan bagaimana seluruh prosesnya berjalan di dalam aplikasi."
- },
- {
-  "id": 6,
-  "scene": "s2",
-  "voice": "ardi",
-  "text": "Mari mulai dari definisinya. Dalam Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Es-Pe-I-Pe, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.",
-  "display": "Mari mulai dari definisinya. Dalam Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah."
- },
- {
-  "id": 7,
-  "scene": "s2",
-  "voice": "ardi",
-  "text": "Perhatikan tiga kata kuncinya: kemungkinan, mengancam, dan tujuan."
- },
- {
-  "id": 8,
-  "scene": "s2",
-  "voice": "gadis",
-  "text": "Kemungkinan, artinya belum terjadi. Kalau sudah terjadi, itu bukan lagi risiko. Itu masalah."
- },
- {
-  "id": 9,
-  "scene": "s2",
-  "voice": "gadis",
-  "text": "Mengancam, artinya definisi ini sengaja lebih sempit dari ISO tiga satu ribu yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.",
-  "display": "Mengancam, artinya definisi ini sengaja lebih sempit dari ISO 31000 yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan."
- },
- {
-  "id": 10,
-  "scene": "s2",
-  "voice": "gadis",
-  "text": "Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai."
- },
- {
-  "id": 11,
-  "scene": "s2",
-  "voice": "ardi",
-  "text": "Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi."
- },
- {
-  "id": 12,
-  "scene": "s3",
-  "voice": "ardi",
-  "text": "Perdep Pe-Pe-Ka-De Nomor 4 Tahun 2019 lahir karena Be-Pe-Ka-Pe menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.",
-  "display": "Perdep PPKD Nomor 4 Tahun 2019 lahir karena BPKP menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah."
- },
- {
-  "id": 13,
-  "scene": "s3",
-  "voice": "gadis",
-  "text": "Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti."
- },
- {
-  "id": 14,
-  "scene": "s3",
-  "voice": "gadis",
-  "text": "Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan."
- },
- {
-  "id": 15,
-  "scene": "s3",
-  "voice": "gadis",
-  "text": "Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD."
- },
- {
-  "id": 16,
-  "scene": "s3",
-  "voice": "ardi",
-  "text": "Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi."
- },
- {
-  "id": 17,
-  "scene": "s4",
-  "voice": "ardi",
-  "text": "Sebelum ada Em-Er Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.",
-  "display": "Sebelum ada MR Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan."
- },
- {
-  "id": 18,
-  "scene": "s4",
-  "voice": "ardi",
-  "text": "Em-Er Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.",
-  "display": "MR Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten."
- },
- {
-  "id": 19,
-  "scene": "s5",
-  "voice": "ardi",
-  "text": "Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?"
- },
- {
-  "id": 20,
-  "scene": "s5",
-  "voice": "gadis",
-  "text": "Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat."
- },
- {
-  "id": 21,
-  "scene": "s5",
-  "voice": "ardi",
-  "text": "Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko."
- },
- {
-  "id": 22,
-  "scene": "s5",
-  "voice": "ardi",
-  "text": "Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD."
- },
- {
-  "id": 23,
-  "scene": "s5",
-  "voice": "ardi",
-  "text": "Pelaksananya adalah Unit Pemilik Risiko, atau U-Pe-Er, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.",
-  "display": "Pelaksananya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat."
- },
- {
-  "id": 24,
-  "scene": "s6",
-  "voice": "gadis",
-  "text": "Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Tri Lains of Difens.",
-  "display": "Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Three Lines of Defense."
- },
- {
-  "id": 25,
-  "scene": "s6",
-  "voice": "gadis",
-  "text": "Lini pertama, U-Pe-Er, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh U-Pe-Er. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.",
-  "display": "Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh UPR. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri."
- },
- {
-  "id": 26,
-  "scene": "s6",
-  "voice": "ardi",
-  "text": "Satu catatan penting. Em-Er Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.",
-  "display": "Satu catatan penting. MR Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi."
- },
- {
-  "id": 101,
-  "scene": "s6",
-  "voice": "gadis",
-  "text": "Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. Pi-Ai-Si Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.",
-  "display": "Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. PIC Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri."
- },
- {
-  "id": 102,
-  "scene": "s6",
-  "voice": "gadis",
-  "text": "Akun bersama Ce-E-E Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.",
-  "display": "Akun bersama CEE Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali."
- },
- {
-  "id": 103,
-  "scene": "s6",
-  "voice": "ardi",
-  "text": "Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi."
- },
- {
-  "id": 27,
-  "scene": "s7",
-  "voice": "ardi",
-  "text": "Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai."
- },
- {
-  "id": 28,
-  "scene": "s7",
-  "voice": "gadis",
-  "text": "Risiko Strategis Pemda mengikuti siklus Er-Pe-Je-Em-De lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.",
-  "display": "Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan, dengan penyusunan risiko di setiap tahun berjalan."
- },
- {
-  "id": 29,
-  "scene": "s7",
-  "voice": "gadis",
-  "text": "Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran."
- },
- {
-  "id": 30,
-  "scene": "s7",
-  "voice": "gadis",
-  "text": "Risiko Operasional OPD mengikuti siklus Renja dan Er-Ka-A tahunan, dikerjakan pada masa penyusunan Er-Ka-A hingga penetapan De-Pe-A.",
-  "display": "Risiko Operasional OPD mengikuti siklus Renja dan RKA tahunan, dikerjakan pada masa penyusunan RKA hingga penetapan DPA."
- },
- {
-  "id": 31,
-  "scene": "s7",
-  "voice": "ardi",
-  "text": "Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh U-Pe-Er dan laporan pemantauan oleh Unit Kepatuhan.",
-  "display": "Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh UPR dan laporan pemantauan oleh Unit Kepatuhan."
- },
- {
-  "id": 32,
-  "scene": "s7",
-  "voice": "ardi",
-  "text": "Di Em-Er Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.",
-  "display": "Di MR Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko."
- },
- {
-  "id": 33,
-  "scene": "s8",
-  "voice": "ardi",
-  "text": "Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko."
- },
- {
-  "id": 34,
-  "scene": "s8",
-  "voice": "gadis",
-  "text": "Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan."
- },
- {
-  "id": 35,
-  "scene": "s8",
-  "voice": "ardi",
-  "text": "Kelimanya adalah adaptasi alur A-Es N-Zet-Es empat tiga enam nol yang dipetakan ke lima unsur Es-Pe-I-Pe, dengan latar belakang konseptual delapan komponen KO-SO E-Er-Em dua ribu empat, versi yang dirujuk Perdep, bukan KO-SO dua ribu tujuh belas.",
-  "display": "Kelimanya adalah adaptasi alur AS/NZS 4360 yang dipetakan ke lima unsur SPIP, dengan latar belakang konseptual delapan komponen COSO ERM 2004, versi yang dirujuk Perdep, bukan COSO 2017."
- },
- {
-  "id": 36,
-  "scene": "s8",
-  "voice": "ardi",
-  "text": "Mari kita telusuri satu per satu, lengkap dengan menu Em-Er Kabar yang mengerjakannya.",
-  "display": "Mari kita telusuri satu per satu, lengkap dengan menu MR Kabar yang mengerjakannya."
- },
- {
-  "id": 37,
-  "scene": "s9",
-  "voice": "ardi",
-  "text": "Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian."
- },
- {
-  "id": 38,
-  "scene": "s9",
-  "voice": "gadis",
-  "text": "Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda."
- },
- {
-  "id": 39,
-  "scene": "s9",
-  "voice": "ardi",
-  "text": "Metodenya Kontrol Invaironment Evaluesyen, atau Ce-E-E, dengan pendekatan Kontrol Self Esesmen. Organisasi menilai dirinya sendiri.",
-  "display": "Metodenya Control Environment Evaluation, atau CEE, dengan pendekatan Control Self Assessment. Organisasi menilai dirinya sendiri."
- },
- {
-  "id": 40,
-  "scene": "s9",
-  "voice": "ardi",
-  "text": "Di Em-Er Kabar ini dikerjakan di menu Ce-E-E. Form satu A berisi kuesioner delapan unsur lingkungan pengendalian. Form satu B menilai kecukupan dokumen pendukung. Form satu C menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.",
-  "display": "Di MR Kabar ini dikerjakan di menu CEE. Form 1a berisi kuesioner delapan unsur lingkungan pengendalian. Form 1b menilai kecukupan dokumen pendukung. Form 1c menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur."
- },
- {
-  "id": 104,
-  "scene": "s9",
-  "voice": "gadis",
-  "text": "Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan."
- },
- {
-  "id": 105,
-  "scene": "s9",
-  "voice": "gadis",
-  "text": "Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait."
- },
- {
-  "id": 106,
-  "scene": "s9",
-  "voice": "ardi",
-  "text": "Kedelapan unsur itu dijabarkan menjadi tiga puluh tujuh pertanyaan di Form satu A.",
-  "display": "Kedelapan unsur itu dijabarkan menjadi 37 pertanyaan di Form 1a."
- },
- {
-  "id": 41,
-  "scene": "s9",
-  "voice": "gadis",
-  "text": "Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form satu D, dan dicetak sebagai Form enam.",
-  "display": "Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form 1d, dan dicetak sebagai Form 6."
- },
- {
-  "id": 42,
-  "scene": "s9",
-  "voice": "ardi",
-  "text": "Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi."
- },
- {
-  "id": 43,
-  "scene": "s10",
-  "voice": "ardi",
-  "text": "Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis."
- },
- {
-  "id": 44,
-  "scene": "s10",
-  "voice": "ardi",
-  "text": "Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda."
- },
- {
-  "id": 45,
-  "scene": "s10",
-  "voice": "gadis",
-  "text": "Tingkat pertama, Strategis Pemda, bersumber dari Er-Pe-Je-Em-De, disusun di menu KRS Pemda.",
-  "display": "Tingkat pertama, Strategis Pemda, bersumber dari RPJMD, disusun di menu KRS Pemda."
- },
- {
-  "id": 46,
-  "scene": "s10",
-  "voice": "gadis",
-  "text": "Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah."
- },
- {
-  "id": 47,
-  "scene": "s10",
-  "voice": "gadis",
-  "text": "Tingkat ketiga, Operasional OPD, bersumber dari Renja dan Er-Ka-A, disusun di menu KRO Perangkat Daerah.",
-  "display": "Tingkat ketiga, Operasional OPD, bersumber dari Renja dan RKA, disusun di menu KRO Perangkat Daerah."
- },
- {
-  "id": 48,
-  "scene": "s10",
-  "voice": "ardi",
-  "text": "Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini."
- },
- {
-  "id": 49,
-  "scene": "s11",
-  "voice": "ardi",
-  "text": "Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih."
- },
- {
-  "id": 50,
-  "scene": "s11",
-  "voice": "gadis",
-  "text": "Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik."
- },
- {
-  "id": 51,
-  "scene": "s11",
-  "voice": "ardi",
-  "text": "Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab."
- },
- {
-  "id": 52,
-  "scene": "s11",
-  "voice": "ardi",
-  "text": "Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak."
- },
- {
-  "id": 53,
-  "scene": "s11",
-  "voice": "gadis",
-  "text": "Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak."
- },
- {
-  "id": 54,
-  "scene": "s11",
-  "voice": "ardi",
-  "text": "Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun."
- },
- {
-  "id": 55,
-  "scene": "s12",
-  "voice": "gadis",
-  "text": "Penyebab lalu diklasifikasikan. Internal memakai kerangka tujuh-M-satu-E: Maen, Mashiin, Method, Matiirial, Mani, Management, Mezyurment, dan Invaironment.",
-  "display": "Penyebab lalu diklasifikasikan. Internal memakai kerangka 7M-1E: Man, Machine, Method, Material, Money, Management, Measurement, dan Environment."
- },
- {
-  "id": 56,
-  "scene": "s12",
-  "voice": "gadis",
-  "text": "Eksternal memakai kerangka Pestel: Poliitikel, Ikonomik, Soshel, Teknolojikel, Liigel, dan Invaironmentel.",
-  "display": "Eksternal memakai kerangka PESTLE: Political, Economic, Social, Technological, Legal, dan Environmental."
- },
- {
-  "id": 57,
-  "scene": "s12",
-  "voice": "ardi",
-  "text": "Setiap risiko juga wajib ditandai sifatnya. Kontrolebel, artinya masih dalam kendali organisasi. Atau Ankontrolebel, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.",
-  "display": "Setiap risiko juga wajib ditandai sifatnya. Controllable, artinya masih dalam kendali organisasi. Atau Uncontrollable, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti."
- },
- {
-  "id": 58,
-  "scene": "s12",
-  "voice": "ardi",
-  "text": "Lalu Em-Er Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.",
-  "display": "Lalu MR Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut."
- },
- {
-  "id": 59,
-  "scene": "s12",
-  "voice": "gadis",
-  "text": "Contohnya, Er-Es-Pe titik dua lima titik tiga tujuh titik tiga nol titik nol satu. Artinya: Risiko Strategis Pemda, dinilai tahun dua ribu dua puluh lima, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.",
-  "display": "Contohnya, RSP.25.37.30.01. Artinya: Risiko Strategis Pemda, dinilai tahun 2025, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu."
- },
- {
-  "id": 60,
-  "scene": "s13",
-  "voice": "ardi",
-  "text": "Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima."
- },
- {
-  "id": 61,
-  "scene": "s13",
-  "voice": "gadis",
-  "text": "Dan angka ini bukan tebakan. Em-Er Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.",
-  "display": "Dan angka ini bukan tebakan. MR Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung."
- },
- {
-  "id": 62,
-  "scene": "s13",
-  "voice": "gadis",
-  "text": "Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir."
- },
- {
-  "id": 107,
-  "scene": "s13",
-  "voice": "ardi",
-  "text": "Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum."
- },
- {
-  "id": 108,
-  "scene": "s13",
-  "voice": "gadis",
-  "text": "Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari."
- },
- {
-  "id": 109,
-  "scene": "s13",
-  "voice": "gadis",
-  "text": "Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari."
- },
- {
-  "id": 63,
-  "scene": "s13",
-  "voice": "ardi",
-  "text": "Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain."
- },
- {
-  "id": 64,
-  "scene": "s14",
-  "voice": "ardi",
-  "text": "Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima."
- },
- {
-  "id": 65,
-  "scene": "s14",
-  "voice": "gadis",
-  "text": "Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak."
- },
- {
-  "id": 66,
-  "scene": "s14",
-  "voice": "gadis",
-  "text": "Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan."
- },
- {
-  "id": 67,
-  "scene": "s14",
-  "voice": "gadis",
-  "text": "Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja."
- },
- {
-  "id": 68,
-  "scene": "s14",
-  "voice": "ardi",
-  "text": "Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, dan Moderat kuning, ketiganya tidak bisa diterima dan wajib punya Rencana Tindak Pengendalian."
- },
- {
-  "id": 69,
-  "scene": "s14",
-  "voice": "ardi",
-  "text": "Sementara Rendah hijau dan Sangat Rendah biru masih bisa diterima, cukup dipantau. Dari sinilah Daftar Risiko Prioritas terbentuk."
- },
- {
-  "id": 70,
-  "scene": "s15",
-  "voice": "ardi",
-  "text": "Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP."
- },
- {
-  "id": 71,
-  "scene": "s15",
-  "voice": "gadis",
-  "text": "Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A."
- },
- {
-  "id": 72,
-  "scene": "s15",
-  "voice": "gadis",
-  "text": "Evoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Ebeit, cegah kemungkinannya. Maitigeit, kurangi dampaknya. Syer atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Eksept, terima sisa risikonya, pilihan terakhir.",
-  "display": "Avoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Abate, cegah kemungkinannya. Mitigate, kurangi dampaknya. Share atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Accept, terima sisa risikonya, pilihan terakhir."
- },
- {
-  "id": 73,
-  "scene": "s15",
-  "voice": "ardi",
-  "text": "Ebeit menekan sumbu kemungkinan. Maitigeit menekan sumbu dampak. Dan risiko yang tadi ditandai Ankontrolebel praktis hanya punya dua pilihan: Syer atau Eksept.",
-  "display": "Abate menekan sumbu kemungkinan. Mitigate menekan sumbu dampak. Dan risiko yang tadi ditandai Uncontrollable praktis hanya punya dua pilihan: Share atau Accept."
- },
- {
-  "id": 110,
-  "scene": "s15",
-  "voice": "ardi",
-  "text": "Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi."
- },
- {
-  "id": 74,
-  "scene": "s15",
-  "voice": "ardi",
-  "text": "Em-Er Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil Ce-E-E. Dan RTP atas risiko, dari hasil identifikasi.",
-  "display": "MR Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil CEE. Dan RTP atas risiko, dari hasil identifikasi."
- },
- {
-  "id": 75,
-  "scene": "s16",
-  "voice": "gadis",
-  "text": "Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko."
- },
- {
-  "id": 76,
-  "scene": "s16",
-  "voice": "gadis",
-  "text": "Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan."
- },
- {
-  "id": 77,
-  "scene": "s16",
-  "voice": "gadis",
-  "text": "Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan."
- },
- {
-  "id": 78,
-  "scene": "s16",
-  "voice": "ardi",
-  "text": "Karena itu Em-Er Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.",
-  "display": "Karena itu MR Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif."
- },
- {
-  "id": 111,
-  "scene": "s16",
-  "voice": "gadis",
-  "text": "Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif."
- },
- {
-  "id": 79,
-  "scene": "s16",
-  "voice": "ardi",
-  "text": "Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita."
- },
- {
-  "id": 80,
-  "scene": "s17",
-  "voice": "ardi",
-  "text": "Tahap keempat: Informasi dan Komunikasi."
- },
- {
-  "id": 81,
-  "scene": "s17",
-  "voice": "gadis",
-  "text": "Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di Je-De-I-Ha, dan sosialisasi internal OPD.",
-  "display": "Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di JDIH, dan sosialisasi internal OPD."
- },
- {
-  "id": 82,
-  "scene": "s17",
-  "voice": "ardi",
-  "text": "Em-Er Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.",
-  "display": "MR Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan."
- },
- {
-  "id": 83,
-  "scene": "s17",
-  "voice": "ardi",
-  "text": "Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat."
- },
- {
-  "id": 84,
-  "scene": "s18",
-  "voice": "ardi",
-  "text": "Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas."
- },
- {
-  "id": 85,
-  "scene": "s18",
-  "voice": "gadis",
-  "text": "Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga."
- },
- {
-  "id": 86,
-  "scene": "s18",
-  "voice": "ardi",
-  "text": "Di Em-Er Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form delapan mencatat rencana pengkomunikasian dan pemantauan. Form sembilan mencatat realisasinya beserta Skala Aktual. Form sepuluh mencatat kejadian risiko yang benar-benar terjadi di lapangan.",
-  "display": "Di MR Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form 8 mencatat rencana pengkomunikasian dan pemantauan. Form 9 mencatat realisasinya beserta Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi di lapangan."
- },
- {
-  "id": 87,
-  "scene": "s18",
-  "voice": "gadis",
-  "text": "Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode Kiu-Ar, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.",
-  "display": "Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode QR, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri."
- },
- {
-  "id": 112,
-  "scene": "s18",
-  "voice": "ardi",
-  "text": "Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form sepuluh, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.",
-  "display": "Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form 10, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya."
- },
- {
-  "id": 113,
-  "scene": "s18",
-  "voice": "gadis",
-  "text": "Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun U-Pe-Er sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.",
-  "display": "Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun UPR sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan."
- },
- {
-  "id": 114,
-  "scene": "s18",
-  "voice": "gadis",
-  "text": "Laporan berkala disusun U-Pe-Er setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.",
-  "display": "Laporan berkala disusun UPR setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah."
- },
- {
-  "id": 88,
-  "scene": "s18",
-  "voice": "ardi",
-  "text": "Seluruh hasil pemantauan dirangkum ke tiga laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh U-Pe-Er, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form sebelas, dua belas, dan tiga belas.",
-  "display": "Seluruh hasil pemantauan dirangkum ke tiga laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh UPR, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form 11, 12, dan 13."
- },
- {
-  "id": 115,
-  "scene": "s21",
-  "voice": "ardi",
-  "text": "Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu."
- },
- {
-  "id": 116,
-  "scene": "s21",
-  "voice": "gadis",
-  "text": "Ekspor dan Impor Eksel. Kalau OPD Anda terlanjur menyusun kertas kerja di Eksel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor-Impor KRS.",
-  "display": "Ekspor dan Impor Excel. Kalau OPD Anda terlanjur menyusun kertas kerja di Excel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor/Impor KRS."
- },
- {
-  "id": 117,
-  "scene": "s21",
-  "voice": "gadis",
-  "text": "Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur."
- },
- {
-  "id": 118,
-  "scene": "s21",
-  "voice": "gadis",
-  "text": "Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali."
- },
- {
-  "id": 119,
-  "scene": "s21",
-  "voice": "gadis",
-  "text": "Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Eksel.",
-  "display": "Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Excel."
- },
- {
-  "id": 120,
-  "scene": "s21",
-  "voice": "ardi",
-  "text": "Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah."
- },
- {
-  "id": 121,
-  "scene": "s21",
-  "voice": "ardi",
-  "text": "Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri."
- },
- {
-  "id": 122,
-  "scene": "s22",
-  "voice": "ardi",
-  "text": "Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard."
- },
- {
-  "id": 123,
-  "scene": "s22",
-  "voice": "gadis",
-  "text": "Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan."
- },
- {
-  "id": 124,
-  "scene": "s22",
-  "voice": "gadis",
-  "text": "Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai."
- },
- {
-  "id": 125,
-  "scene": "s22",
-  "voice": "ardi",
-  "text": "Penyebabnya diklasifikasikan eksternal, kategori Liigel. Sifatnya ditandai Ankontrolebel, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.",
-  "display": "Penyebabnya diklasifikasikan eksternal, kategori Legal. Sifatnya ditandai Uncontrollable, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri."
- },
- {
-  "id": 126,
-  "scene": "s23",
-  "voice": "ardi",
-  "text": "Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP."
- },
- {
-  "id": 127,
-  "scene": "s23",
-  "voice": "gadis",
-  "text": "Karena Ankontrolebel, responsnya Syer: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.",
-  "display": "Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas."
- },
- {
-  "id": 128,
-  "scene": "s23",
-  "voice": "gadis",
-  "text": "Skala Target ditetapkan tiga belas, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form sembilan, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya empat belas.",
-  "display": "Skala Target ditetapkan 13, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form 9, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya 14."
- },
- {
-  "id": 129,
-  "scene": "s23",
-  "voice": "ardi",
-  "text": "Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard."
- },
- {
-  "id": 89,
-  "scene": "s19",
-  "voice": "ardi",
-  "text": "Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard."
- },
- {
-  "id": 90,
-  "scene": "s19",
-  "voice": "gadis",
-  "text": "Enam seksi, enam belas panel. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per U-Pe-Er. Distribusi risiko per tingkatan dan per kategori.",
-  "display": "Enam seksi, enam belas panel. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per UPR. Distribusi risiko per tingkatan dan per kategori."
- },
- {
-  "id": 91,
-  "scene": "s19",
-  "voice": "gadis",
-  "text": "Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah."
- },
- {
-  "id": 92,
-  "scene": "s19",
-  "voice": "ardi",
-  "text": "Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda."
- },
- {
-  "id": 93,
-  "scene": "s20",
-  "voice": "ardi",
-  "text": "Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam Er-Pe-Je-Em-De benar-benar bisa ditepati.",
-  "display": "Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam RPJMD benar-benar bisa ditepati."
- },
- {
-  "id": 94,
-  "scene": "s20",
-  "voice": "gadis",
-  "text": "Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan."
- },
- {
-  "id": 95,
-  "scene": "s20",
-  "voice": "ardi",
-  "text": "Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak."
- },
- {
-  "id": 96,
-  "scene": "s20",
-  "voice": "ardi",
-  "text": "Setelah itu, isi kuesioner Ce-E-E, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.",
-  "display": "Setelah itu, isi kuesioner CEE, susun konteks di KRS, lalu catat risiko pertama Anda di IRS."
- },
- {
-  "id": 97,
-  "scene": "s20",
-  "voice": "gadis",
-  "text": "Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi."
- },
- {
-  "id": 130,
-  "scene": "s20",
-  "voice": "ardi",
-  "text": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019."
- },
- {
-  "id": 98,
-  "scene": "s20",
-  "voice": "gadis",
-  "text": "Itulah Em-Er Kabar. Risiko TerKabar, Daerah Terjaga.",
-  "display": "Itulah MR Kabar. Risiko TerKabar, Daerah Terjaga."
- }
+  {
+    "id": 1,
+    "scene": "s1",
+    "voice": "ardi",
+    "text": "Setiap tahun, pemerintah daerah menyusun rencana. Dan setiap tahun, sebagian dari rencana itu gagal tercapai."
+  },
+  {
+    "id": 2,
+    "scene": "s1",
+    "voice": "ardi",
+    "text": "Bukan karena tidak ada yang bekerja, tapi karena ada hal-hal yang tidak diperhitungkan sejak awal."
+  },
+  {
+    "id": 3,
+    "scene": "s1",
+    "voice": "gadis",
+    "text": "Hal-hal yang tidak diperhitungkan itu punya nama: risiko."
+  },
+  {
+    "id": 4,
+    "scene": "s1",
+    "voice": "ardi",
+    "text": "Selamat datang di Em-Er Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat.",
+    "display": "Selamat datang di MR Kabar, digitalisasi manajemen risiko sektor publik untuk Pemerintah Kabupaten Aceh Barat."
+  },
+  {
+    "id": 5,
+    "scene": "s1",
+    "voice": "gadis",
+    "text": "Dalam video ini Anda akan memahami empat hal: apa itu manajemen risiko, siapa yang bertanggung jawab, kapan dikerjakan, dan bagaimana seluruh prosesnya berjalan di dalam aplikasi."
+  },
+  {
+    "id": 6,
+    "scene": "s2",
+    "voice": "ardi",
+    "text": "Mari mulai dari definisinya. Dalam Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Es-Pe-I-Pe, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.",
+    "display": "Mari mulai dari definisinya. Dalam Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah."
+  },
+  {
+    "id": 7,
+    "scene": "s2",
+    "voice": "ardi",
+    "text": "Perhatikan tiga kata kuncinya: kemungkinan, mengancam, dan tujuan."
+  },
+  {
+    "id": 8,
+    "scene": "s2",
+    "voice": "gadis",
+    "text": "Kemungkinan, artinya belum terjadi. Kalau sudah terjadi, itu bukan lagi risiko. Itu masalah."
+  },
+  {
+    "id": 140,
+    "scene": "s2",
+    "voice": "gadis",
+    "text": "Bedanya sederhana. Kalau atap kantor mungkin bocor musim hujan nanti, itu risiko. Kalau atapnya sudah bocor sekarang, itu bukan risiko lagi. Itu ember."
+  },
+  {
+    "id": 9,
+    "scene": "s2",
+    "voice": "gadis",
+    "text": "Mengancam, artinya definisi ini sengaja lebih sempit dari ISO tiga satu ribu yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.",
+    "display": "Mengancam, artinya definisi ini sengaja lebih sempit dari ISO 31000 yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan."
+  },
+  {
+    "id": 10,
+    "scene": "s2",
+    "voice": "gadis",
+    "text": "Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai."
+  },
+  {
+    "id": 11,
+    "scene": "s2",
+    "voice": "ardi",
+    "text": "Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi."
+  },
+  {
+    "id": 12,
+    "scene": "s3",
+    "voice": "ardi",
+    "text": "Perdep Pe-Pe-Ka-De Nomor 4 Tahun 2019 lahir karena Be-Pe-Ka-Pe menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.",
+    "display": "Perdep PPKD Nomor 4 Tahun 2019 lahir karena BPKP menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah."
+  },
+  {
+    "id": 13,
+    "scene": "s3",
+    "voice": "gadis",
+    "text": "Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti."
+  },
+  {
+    "id": 14,
+    "scene": "s3",
+    "voice": "gadis",
+    "text": "Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan."
+  },
+  {
+    "id": 15,
+    "scene": "s3",
+    "voice": "gadis",
+    "text": "Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD."
+  },
+  {
+    "id": 16,
+    "scene": "s3",
+    "voice": "ardi",
+    "text": "Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi."
+  },
+  {
+    "id": 17,
+    "scene": "s4",
+    "voice": "ardi",
+    "text": "Sebelum ada Em-Er Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.",
+    "display": "Sebelum ada MR Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan."
+  },
+  {
+    "id": 18,
+    "scene": "s4",
+    "voice": "ardi",
+    "text": "Em-Er Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.",
+    "display": "MR Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten."
+  },
+  {
+    "id": 19,
+    "scene": "s5",
+    "voice": "ardi",
+    "text": "Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?"
+  },
+  {
+    "id": 20,
+    "scene": "s5",
+    "voice": "gadis",
+    "text": "Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat."
+  },
+  {
+    "id": 21,
+    "scene": "s5",
+    "voice": "ardi",
+    "text": "Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko."
+  },
+  {
+    "id": 22,
+    "scene": "s5",
+    "voice": "ardi",
+    "text": "Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD."
+  },
+  {
+    "id": 23,
+    "scene": "s5",
+    "voice": "ardi",
+    "text": "Pelaksananya adalah Unit Pemilik Risiko, atau U-Pe-Er, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.",
+    "display": "Pelaksananya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat."
+  },
+  {
+    "id": 141,
+    "scene": "s5",
+    "voice": "gadis",
+    "text": "Dan susunan itu sekarang bukan lagi sekadar kalimat di dalam peraturan. MR Kabar merekamnya sebagai data, satu susunan untuk tiap tahun."
+  },
+  {
+    "id": 142,
+    "scene": "s5",
+    "voice": "gadis",
+    "text": "Dari data itu bagannya digambar sendiri, mengikuti Gambar dua titik enam Perdep. Berganti pejabat, cukup ubah datanya, dan bagan di Form Cetak ikut berubah tanpa ada yang perlu menggambar ulang."
+  },
+  {
+    "id": 24,
+    "scene": "s6",
+    "voice": "gadis",
+    "text": "Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Tri Lains of Difens.",
+    "display": "Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Three Lines of Defense."
+  },
+  {
+    "id": 25,
+    "scene": "s6",
+    "voice": "gadis",
+    "text": "Lini pertama, U-Pe-Er, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh U-Pe-Er. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.",
+    "display": "Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh UPR. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri."
+  },
+  {
+    "id": 26,
+    "scene": "s6",
+    "voice": "ardi",
+    "text": "Satu catatan penting. Em-Er Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.",
+    "display": "Satu catatan penting. MR Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi."
+  },
+  {
+    "id": 101,
+    "scene": "s6",
+    "voice": "gadis",
+    "text": "Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. Pi-Ai-Si Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.",
+    "display": "Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. PIC Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri."
+  },
+  {
+    "id": 102,
+    "scene": "s6",
+    "voice": "gadis",
+    "text": "Akun bersama Ce-E-E Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.",
+    "display": "Akun bersama CEE Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali."
+  },
+  {
+    "id": 103,
+    "scene": "s6",
+    "voice": "ardi",
+    "text": "Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi."
+  },
+  {
+    "id": 143,
+    "scene": "s6",
+    "voice": "gadis",
+    "text": "Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun. Semua pintu terbuka, tapi tidak ada satu pun pena di dalamnya."
+  },
+  {
+    "id": 144,
+    "scene": "s24",
+    "voice": "ardi",
+    "text": "Sebelum lanjut, satu hal yang paling sering tertukar di lapangan. Ada tiga peran yang namanya mirip, dan ketiganya bukan hal yang sama."
+  },
+  {
+    "id": 145,
+    "scene": "s24",
+    "voice": "ardi",
+    "text": "Pertama, Penanggung Jawab Pengelolaan Risiko. Itu Kepala Daerah. Tunggal, tidak didelegasikan, dan tidak pernah muncul sebagai kolom di mana pun. Ia melekat pada jabatan."
+  },
+  {
+    "id": 146,
+    "scene": "s24",
+    "voice": "gadis",
+    "text": "Kedua, Pemilik Risiko. Ini kolom, ada di setiap baris risiko. Isinya Unit Pemilik Risiko: sebuah unit, bukan seseorang. Dan untuk risiko strategis tingkat Pemda, pemiliknya selalu Kepala Daerah selaku Ketua U-P-R tingkat Pemda.",
+    "display": "Kedua, Pemilik Risiko. Ini kolom, ada di setiap baris risiko. Isinya Unit Pemilik Risiko: sebuah unit, bukan seseorang. Dan untuk risiko strategis tingkat Pemda, pemiliknya selalu Kepala Daerah selaku Ketua UPR tingkat Pemda."
+  },
+  {
+    "id": 147,
+    "scene": "s24",
+    "voice": "gadis",
+    "text": "Ketiga, Penanggung Jawab Pengendalian. Ini juga kolom, tapi melekat pada satu rencana pengendalian, bukan pada risikonya. Isinya jabatan yang berwenang membangun kontrol itu."
+  },
+  {
+    "id": 148,
+    "scene": "s24",
+    "voice": "ardi",
+    "text": "Boleh saja ketiganya jatuh pada orang yang sama. Pada risiko strategis Pemda memang begitu, karena hanya Kepala Daerah yang bisa menerbitkan Peraturan Bupati. Yang tidak boleh adalah mengisinya sambil menebak."
+  },
+  {
+    "id": 149,
+    "scene": "s24",
+    "voice": "ardi",
+    "text": "Dan kabar baiknya: di seluruh Perdep, tidak ada satu pun peran yang bernama Penanggung Jawab Kalau Ada Apa-Apa."
+  },
+  {
+    "id": 27,
+    "scene": "s7",
+    "voice": "ardi",
+    "text": "Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai."
+  },
+  {
+    "id": 28,
+    "scene": "s7",
+    "voice": "gadis",
+    "text": "Risiko Strategis Pemda mengikuti siklus Er-Pe-Je-Em-De lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.",
+    "display": "Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan, dengan penyusunan risiko di setiap tahun berjalan."
+  },
+  {
+    "id": 29,
+    "scene": "s7",
+    "voice": "gadis",
+    "text": "Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran."
+  },
+  {
+    "id": 30,
+    "scene": "s7",
+    "voice": "gadis",
+    "text": "Risiko Operasional OPD mengikuti siklus Renja dan Er-Ka-A tahunan, dikerjakan pada masa penyusunan Er-Ka-A hingga penetapan De-Pe-A.",
+    "display": "Risiko Operasional OPD mengikuti siklus Renja dan RKA tahunan, dikerjakan pada masa penyusunan RKA hingga penetapan DPA."
+  },
+  {
+    "id": 31,
+    "scene": "s7",
+    "voice": "ardi",
+    "text": "Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh U-Pe-Er dan laporan pemantauan oleh Unit Kepatuhan.",
+    "display": "Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh UPR dan laporan pemantauan oleh Unit Kepatuhan."
+  },
+  {
+    "id": 32,
+    "scene": "s7",
+    "voice": "ardi",
+    "text": "Di Em-Er Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.",
+    "display": "Di MR Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko."
+  },
+  {
+    "id": 150,
+    "scene": "s7",
+    "voice": "ardi",
+    "text": "Tapi siklus saja belum cukup. Perdep meminta Kepala Daerah menetapkan Arahan dan Kebijakan Penilaian Risiko lewat Surat Edaran: satu yang lima tahunan mengikuti R-P-J-M-D, dan satu lagi setiap tahun.",
+    "display": "Tapi siklus saja belum cukup. Perdep meminta Kepala Daerah menetapkan Arahan dan Kebijakan Penilaian Risiko lewat Surat Edaran: satu yang lima tahunan mengikuti RPJMD, dan satu lagi setiap tahun."
+  },
+  {
+    "id": 151,
+    "scene": "s7",
+    "voice": "gadis",
+    "text": "Arahan itu direkam di MR Kabar beserta tahapannya: kapan mulai, kapan berakhir, siapa pelaksananya, dan apa keluarannya."
+  },
+  {
+    "id": 152,
+    "scene": "s7",
+    "voice": "gadis",
+    "text": "Hasilnya muncul di Dashboard sebagai garis waktu, lengkap dengan tanda merah untuk tahapan yang tenggatnya sudah lewat. Sejak itu, pertanyaan ini sebenarnya dikerjakan bulan apa punya jawaban tertulis."
+  },
+  {
+    "id": 33,
+    "scene": "s8",
+    "voice": "ardi",
+    "text": "Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko."
+  },
+  {
+    "id": 34,
+    "scene": "s8",
+    "voice": "gadis",
+    "text": "Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan."
+  },
+  {
+    "id": 35,
+    "scene": "s8",
+    "voice": "ardi",
+    "text": "Kelimanya adalah adaptasi alur A-Es N-Zet-Es empat tiga enam nol yang dipetakan ke lima unsur Es-Pe-I-Pe, dengan latar belakang konseptual delapan komponen KO-SO E-Er-Em dua ribu empat, versi yang dirujuk Perdep, bukan KO-SO dua ribu tujuh belas.",
+    "display": "Kelimanya adalah adaptasi alur AS/NZS 4360 yang dipetakan ke lima unsur SPIP, dengan latar belakang konseptual delapan komponen COSO ERM 2004, versi yang dirujuk Perdep, bukan COSO 2017."
+  },
+  {
+    "id": 36,
+    "scene": "s8",
+    "voice": "ardi",
+    "text": "Mari kita telusuri satu per satu, lengkap dengan menu Em-Er Kabar yang mengerjakannya.",
+    "display": "Mari kita telusuri satu per satu, lengkap dengan menu MR Kabar yang mengerjakannya."
+  },
+  {
+    "id": 37,
+    "scene": "s9",
+    "voice": "ardi",
+    "text": "Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian."
+  },
+  {
+    "id": 38,
+    "scene": "s9",
+    "voice": "gadis",
+    "text": "Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda."
+  },
+  {
+    "id": 39,
+    "scene": "s9",
+    "voice": "ardi",
+    "text": "Metodenya Kontrol Invaironment Evaluesyen, atau Ce-E-E, dengan pendekatan Kontrol Self Esesmen. Organisasi menilai dirinya sendiri.",
+    "display": "Metodenya Control Environment Evaluation, atau CEE, dengan pendekatan Control Self Assessment. Organisasi menilai dirinya sendiri."
+  },
+  {
+    "id": 40,
+    "scene": "s9",
+    "voice": "ardi",
+    "text": "Di Em-Er Kabar ini dikerjakan di menu Ce-E-E. Form satu A berisi kuesioner delapan unsur lingkungan pengendalian. Form satu B menilai kecukupan dokumen pendukung. Form satu C menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.",
+    "display": "Di MR Kabar ini dikerjakan di menu CEE. Form 1a berisi kuesioner delapan unsur lingkungan pengendalian. Form 1b menilai kecukupan dokumen pendukung. Form 1c menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur."
+  },
+  {
+    "id": 153,
+    "scene": "s9",
+    "voice": "gadis",
+    "text": "Satu hal penting tentang Form satu-c. Kedua sumbernya bisa saja berbeda kesimpulan: dokumennya lengkap, tapi persepsi pegawainya justru sebaliknya.",
+    "display": "Satu hal penting tentang Form 1c. Kedua sumbernya bisa saja berbeda kesimpulan: dokumennya lengkap, tapi persepsi pegawainya justru sebaliknya."
+  },
+  {
+    "id": 154,
+    "scene": "s9",
+    "voice": "ardi",
+    "text": "Kalau itu terjadi, Perdep tidak meminta kita memilih yang paling enak dibaca. Perdep meminta pendalaman, atau profesyenal jajmen. Dan alasannya wajib ditulis. MR Kabar menandai pertentangan itu, lalu menolak menyimpan kalau penjelasannya dikosongkan.",
+    "display": "Kalau itu terjadi, Perdep tidak meminta kita memilih yang paling enak dibaca. Perdep meminta pendalaman, atau professional judgement. Dan alasannya wajib ditulis. MR Kabar menandai pertentangan itu, lalu menolak menyimpan kalau penjelasannya dikosongkan."
+  },
+  {
+    "id": 104,
+    "scene": "s9",
+    "voice": "gadis",
+    "text": "Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan."
+  },
+  {
+    "id": 105,
+    "scene": "s9",
+    "voice": "gadis",
+    "text": "Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait."
+  },
+  {
+    "id": 106,
+    "scene": "s9",
+    "voice": "ardi",
+    "text": "Kedelapan unsur itu dijabarkan menjadi tiga puluh tujuh pertanyaan di Form satu A.",
+    "display": "Kedelapan unsur itu dijabarkan menjadi 37 pertanyaan di Form 1a."
+  },
+  {
+    "id": 41,
+    "scene": "s9",
+    "voice": "gadis",
+    "text": "Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form satu D, dan dicetak sebagai Form enam.",
+    "display": "Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form 1d, dan dicetak sebagai Form 6."
+  },
+  {
+    "id": 42,
+    "scene": "s9",
+    "voice": "ardi",
+    "text": "Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi."
+  },
+  {
+    "id": 43,
+    "scene": "s10",
+    "voice": "ardi",
+    "text": "Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis."
+  },
+  {
+    "id": 44,
+    "scene": "s10",
+    "voice": "ardi",
+    "text": "Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda."
+  },
+  {
+    "id": 45,
+    "scene": "s10",
+    "voice": "gadis",
+    "text": "Tingkat pertama, Strategis Pemda, bersumber dari Er-Pe-Je-Em-De, disusun di menu KRS Pemda.",
+    "display": "Tingkat pertama, Strategis Pemda, bersumber dari RPJMD, disusun di menu KRS Pemda."
+  },
+  {
+    "id": 46,
+    "scene": "s10",
+    "voice": "gadis",
+    "text": "Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah."
+  },
+  {
+    "id": 47,
+    "scene": "s10",
+    "voice": "gadis",
+    "text": "Tingkat ketiga, Operasional OPD, bersumber dari Renja dan Er-Ka-A, disusun di menu KRO Perangkat Daerah.",
+    "display": "Tingkat ketiga, Operasional OPD, bersumber dari Renja dan RKA, disusun di menu KRO Perangkat Daerah."
+  },
+  {
+    "id": 48,
+    "scene": "s10",
+    "voice": "ardi",
+    "text": "Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini."
+  },
+  {
+    "id": 49,
+    "scene": "s11",
+    "voice": "ardi",
+    "text": "Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih."
+  },
+  {
+    "id": 50,
+    "scene": "s11",
+    "voice": "gadis",
+    "text": "Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik."
+  },
+  {
+    "id": 51,
+    "scene": "s11",
+    "voice": "ardi",
+    "text": "Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab."
+  },
+  {
+    "id": 155,
+    "scene": "s11",
+    "voice": "gadis",
+    "text": "Dan kalau anggaran tidak mencukupi dihitung sebagai risiko, maka seluruh Indonesia punya risiko yang sama persis, dan tidak satu pun bisa ditindaklanjuti."
+  },
+  {
+    "id": 52,
+    "scene": "s11",
+    "voice": "ardi",
+    "text": "Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak."
+  },
+  {
+    "id": 53,
+    "scene": "s11",
+    "voice": "gadis",
+    "text": "Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak."
+  },
+  {
+    "id": 54,
+    "scene": "s11",
+    "voice": "ardi",
+    "text": "Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun."
+  },
+  {
+    "id": 55,
+    "scene": "s12",
+    "voice": "gadis",
+    "text": "Penyebab lalu diklasifikasikan. Internal memakai kerangka tujuh-M-satu-E: Maen, Mashiin, Method, Matiirial, Mani, Management, Mezyurment, dan Invaironment.",
+    "display": "Penyebab lalu diklasifikasikan. Internal memakai kerangka 7M-1E: Man, Machine, Method, Material, Money, Management, Measurement, dan Environment."
+  },
+  {
+    "id": 56,
+    "scene": "s12",
+    "voice": "gadis",
+    "text": "Eksternal memakai kerangka Pestel: Poliitikel, Ikonomik, Soshel, Teknolojikel, Liigel, dan Invaironmentel.",
+    "display": "Eksternal memakai kerangka PESTLE: Political, Economic, Social, Technological, Legal, dan Environmental."
+  },
+  {
+    "id": 57,
+    "scene": "s12",
+    "voice": "ardi",
+    "text": "Setiap risiko juga wajib ditandai sifatnya. Kontrolebel, artinya masih dalam kendali organisasi. Atau Ankontrolebel, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.",
+    "display": "Setiap risiko juga wajib ditandai sifatnya. Controllable, artinya masih dalam kendali organisasi. Atau Uncontrollable, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti."
+  },
+  {
+    "id": 58,
+    "scene": "s12",
+    "voice": "ardi",
+    "text": "Lalu Em-Er Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.",
+    "display": "Lalu MR Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut."
+  },
+  {
+    "id": 59,
+    "scene": "s12",
+    "voice": "gadis",
+    "text": "Contohnya, Er-Es-Pe titik dua lima titik tiga tujuh titik tiga nol titik nol satu. Artinya: Risiko Strategis Pemda, dinilai tahun dua ribu dua puluh lima, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.",
+    "display": "Contohnya, RSP.25.37.30.01. Artinya: Risiko Strategis Pemda, dinilai tahun 2025, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu."
+  },
+  {
+    "id": 60,
+    "scene": "s13",
+    "voice": "ardi",
+    "text": "Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima."
+  },
+  {
+    "id": 61,
+    "scene": "s13",
+    "voice": "gadis",
+    "text": "Dan angka ini bukan tebakan. Em-Er Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.",
+    "display": "Dan angka ini bukan tebakan. MR Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung."
+  },
+  {
+    "id": 62,
+    "scene": "s13",
+    "voice": "gadis",
+    "text": "Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir."
+  },
+  {
+    "id": 107,
+    "scene": "s13",
+    "voice": "ardi",
+    "text": "Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum."
+  },
+  {
+    "id": 108,
+    "scene": "s13",
+    "voice": "gadis",
+    "text": "Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari."
+  },
+  {
+    "id": 109,
+    "scene": "s13",
+    "voice": "gadis",
+    "text": "Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari."
+  },
+  {
+    "id": 63,
+    "scene": "s13",
+    "voice": "ardi",
+    "text": "Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain."
+  },
+  {
+    "id": 156,
+    "scene": "s13",
+    "voice": "ardi",
+    "text": "Tanpa kriteria baku, kemungkinan besar menurut satu Perangkat Daerah bisa berarti sepertinya sih menurut Perangkat Daerah sebelah."
+  },
+  {
+    "id": 64,
+    "scene": "s14",
+    "voice": "ardi",
+    "text": "Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima."
+  },
+  {
+    "id": 65,
+    "scene": "s14",
+    "voice": "gadis",
+    "text": "Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak."
+  },
+  {
+    "id": 66,
+    "scene": "s14",
+    "voice": "gadis",
+    "text": "Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan."
+  },
+  {
+    "id": 67,
+    "scene": "s14",
+    "voice": "gadis",
+    "text": "Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja."
+  },
+  {
+    "id": 68,
+    "scene": "s14",
+    "voice": "ardi",
+    "text": "Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, Moderat kuning, Rendah hijau, dan Sangat Rendah biru."
+  },
+  {
+    "id": 157,
+    "scene": "s14",
+    "voice": "gadis",
+    "text": "Lalu sampai kategori mana yang masih boleh diterima? Itu bukan diputuskan aplikasi. Pemerintah Daerah sendiri yang menetapkannya. Namanya Selera Risiko, diatur di menu Keterangan Pendukung."
+  },
+  {
+    "id": 158,
+    "scene": "s14",
+    "voice": "ardi",
+    "text": "Di matriks, batas itu tergambar sebagai garis putus-putus. Semua yang berada di atas garis wajib punya Rencana Tindak Pengendalian. Setelan Aceh Barat saat ini: diterima sampai dengan tingkat Sedang."
+  },
+  {
+    "id": 159,
+    "scene": "s14",
+    "voice": "ardi",
+    "text": "Selera Risiko memang mirip selera makan. Yang penting tahu batasnya, dan batas itu tidak berubah hanya karena angkanya sedang tidak enak dilihat."
+  },
+  {
+    "id": 69,
+    "scene": "s14",
+    "voice": "ardi",
+    "text": "Yang berada di bawah garis itu masih bisa diterima, cukup dipantau. Yang di atasnya masuk Daftar Risiko Prioritas."
+  },
+  {
+    "id": 70,
+    "scene": "s15",
+    "voice": "ardi",
+    "text": "Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP."
+  },
+  {
+    "id": 71,
+    "scene": "s15",
+    "voice": "gadis",
+    "text": "Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A."
+  },
+  {
+    "id": 72,
+    "scene": "s15",
+    "voice": "gadis",
+    "text": "Evoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Ebeit, cegah kemungkinannya. Maitigeit, kurangi dampaknya. Syer atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Eksept, terima sisa risikonya, pilihan terakhir.",
+    "display": "Avoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Abate, cegah kemungkinannya. Mitigate, kurangi dampaknya. Share atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Accept, terima sisa risikonya, pilihan terakhir."
+  },
+  {
+    "id": 73,
+    "scene": "s15",
+    "voice": "ardi",
+    "text": "Ebeit menekan sumbu kemungkinan. Maitigeit menekan sumbu dampak. Dan risiko yang tadi ditandai Ankontrolebel praktis hanya punya dua pilihan: Syer atau Eksept.",
+    "display": "Abate menekan sumbu kemungkinan. Mitigate menekan sumbu dampak. Dan risiko yang tadi ditandai Uncontrollable praktis hanya punya dua pilihan: Share atau Accept."
+  },
+  {
+    "id": 110,
+    "scene": "s15",
+    "voice": "ardi",
+    "text": "Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi."
+  },
+  {
+    "id": 74,
+    "scene": "s15",
+    "voice": "ardi",
+    "text": "Em-Er Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil Ce-E-E. Dan RTP atas risiko, dari hasil identifikasi.",
+    "display": "MR Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil CEE. Dan RTP atas risiko, dari hasil identifikasi."
+  },
+  {
+    "id": 160,
+    "scene": "s15",
+    "voice": "gadis",
+    "text": "Keduanya harus diselaraskan. Kalau R-T-P dari CEE dan R-T-P dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat.",
+    "display": "Keduanya harus diselaraskan. Kalau RTP dari CEE dan RTP dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat."
+  },
+  {
+    "id": 161,
+    "scene": "s15",
+    "voice": "gadis",
+    "text": "Sebab dua rencana yang bunyinya sama biasanya bukan berarti dikerjakan dua kali. Biasanya justru tidak ada yang merasa kebagian."
+  },
+  {
+    "id": 75,
+    "scene": "s16",
+    "voice": "gadis",
+    "text": "Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko."
+  },
+  {
+    "id": 76,
+    "scene": "s16",
+    "voice": "gadis",
+    "text": "Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan."
+  },
+  {
+    "id": 77,
+    "scene": "s16",
+    "voice": "gadis",
+    "text": "Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan."
+  },
+  {
+    "id": 78,
+    "scene": "s16",
+    "voice": "ardi",
+    "text": "Karena itu Em-Er Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.",
+    "display": "Karena itu MR Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif."
+  },
+  {
+    "id": 111,
+    "scene": "s16",
+    "voice": "gadis",
+    "text": "Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif."
+  },
+  {
+    "id": 162,
+    "scene": "s16",
+    "voice": "ardi",
+    "text": "Dan begitu Anda memilih Tidak Efektif atau Kurang Efektif, MR Kabar bertanya lebih jauh: celahnya sebenarnya di mana?"
+  },
+  {
+    "id": 163,
+    "scene": "s16",
+    "voice": "gadis",
+    "text": "Perdep sudah menyediakan lima kriteria bakunya. Prosedur pengendalian belum dilaksanakan. Kebijakan belum diikuti prosedur baku yang jelas. Kebijakan dan prosedurnya tidak sesuai peraturan di atasnya."
+  },
+  {
+    "id": 164,
+    "scene": "s16",
+    "voice": "gadis",
+    "text": "Lalu, kebijakan dan prosedur sudah dilakukan tapi belum mampu menangani risiko yang teridentifikasi. Dan terakhir, pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul. Tinggal dicentang, lalu ditambah keterangan seperlunya."
+  },
+  {
+    "id": 79,
+    "scene": "s16",
+    "voice": "ardi",
+    "text": "Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita."
+  },
+  {
+    "id": 165,
+    "scene": "s25",
+    "voice": "ardi",
+    "text": "Ada satu langkah lagi yang hampir selalu terlewat. Perdep menetapkan enam langkah membangun pengendalian, dan langkah keempatnya adalah uji coba."
+  },
+  {
+    "id": 166,
+    "scene": "s25",
+    "voice": "gadis",
+    "text": "Rancangan pengendaliannya diuji dulu dalam lingkup kecil. Hasil ujinya dipakai memperbaiki rancangan itu. Baru sesudah itu ditetapkan berlaku."
+  },
+  {
+    "id": 167,
+    "scene": "s25",
+    "voice": "ardi",
+    "text": "Pengendalian yang belum pernah diuji itu seperti payung yang belum pernah dibuka. Kelihatan meyakinkan, sampai hujan turun."
+  },
+  {
+    "id": 168,
+    "scene": "s25",
+    "voice": "ardi",
+    "text": "Di MR Kabar, triwulan uji cobanya, tahunnya, dan hasilnya dicatat di Form sembilan, lengkap dengan berkas buktinya.",
+    "display": "Di MR Kabar, triwulan uji cobanya, tahunnya, dan hasilnya dicatat di Form 9, lengkap dengan berkas buktinya."
+  },
+  {
+    "id": 80,
+    "scene": "s17",
+    "voice": "ardi",
+    "text": "Tahap keempat: Informasi dan Komunikasi."
+  },
+  {
+    "id": 81,
+    "scene": "s17",
+    "voice": "gadis",
+    "text": "Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di Je-De-I-Ha, dan sosialisasi internal OPD.",
+    "display": "Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di JDIH, dan sosialisasi internal OPD."
+  },
+  {
+    "id": 82,
+    "scene": "s17",
+    "voice": "ardi",
+    "text": "Em-Er Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.",
+    "display": "MR Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan."
+  },
+  {
+    "id": 83,
+    "scene": "s17",
+    "voice": "ardi",
+    "text": "Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat."
+  },
+  {
+    "id": 84,
+    "scene": "s18",
+    "voice": "ardi",
+    "text": "Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas."
+  },
+  {
+    "id": 85,
+    "scene": "s18",
+    "voice": "gadis",
+    "text": "Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga."
+  },
+  {
+    "id": 86,
+    "scene": "s18",
+    "voice": "ardi",
+    "text": "Di Em-Er Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form delapan mencatat rencana pengkomunikasian dan pemantauan. Form sembilan mencatat realisasinya beserta Skala Aktual. Form sepuluh mencatat kejadian risiko yang benar-benar terjadi di lapangan.",
+    "display": "Di MR Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form 8 mencatat rencana pengkomunikasian dan pemantauan. Form 9 mencatat realisasinya beserta Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi di lapangan."
+  },
+  {
+    "id": 87,
+    "scene": "s18",
+    "voice": "gadis",
+    "text": "Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode Kiu-Ar, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.",
+    "display": "Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode QR, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri."
+  },
+  {
+    "id": 112,
+    "scene": "s18",
+    "voice": "ardi",
+    "text": "Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form sepuluh, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.",
+    "display": "Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form 10, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya."
+  },
+  {
+    "id": 113,
+    "scene": "s18",
+    "voice": "gadis",
+    "text": "Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun U-Pe-Er sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.",
+    "display": "Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun UPR sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan."
+  },
+  {
+    "id": 114,
+    "scene": "s18",
+    "voice": "gadis",
+    "text": "Laporan berkala disusun U-Pe-Er setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.",
+    "display": "Laporan berkala disusun UPR setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah."
+  },
+  {
+    "id": 88,
+    "scene": "s18",
+    "voice": "ardi",
+    "text": "Seluruh hasil pemantauan dirangkum ke laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh U-P-R, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form sebelas, dua belas, dan tiga belas.",
+    "display": "Seluruh hasil pemantauan dirangkum ke laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh UPR, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form 11, 12, dan 13."
+  },
+  {
+    "id": 169,
+    "scene": "s18",
+    "voice": "gadis",
+    "text": "Dan ada satu lagi yang menyusul: Form empat belas, laporan pembinaan oleh Komite Pengelolaan Risiko. Yang ini semesteran dan tahunan, bukan triwulanan.",
+    "display": "Dan ada satu lagi yang menyusul: Form 14, laporan pembinaan oleh Komite Pengelolaan Risiko. Yang ini semesteran dan tahunan, bukan triwulanan."
+  },
+  {
+    "id": 115,
+    "scene": "s21",
+    "voice": "ardi",
+    "text": "Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu."
+  },
+  {
+    "id": 116,
+    "scene": "s21",
+    "voice": "gadis",
+    "text": "Ekspor dan Impor Eksel. Kalau OPD Anda terlanjur menyusun kertas kerja di Eksel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor-Impor KRS.",
+    "display": "Ekspor dan Impor Excel. Kalau OPD Anda terlanjur menyusun kertas kerja di Excel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor/Impor KRS."
+  },
+  {
+    "id": 117,
+    "scene": "s21",
+    "voice": "gadis",
+    "text": "Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur."
+  },
+  {
+    "id": 118,
+    "scene": "s21",
+    "voice": "gadis",
+    "text": "Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali."
+  },
+  {
+    "id": 170,
+    "scene": "s21",
+    "voice": "ardi",
+    "text": "Jadi tombol hapus di sini tidak sekejam kelihatannya."
+  },
+  {
+    "id": 119,
+    "scene": "s21",
+    "voice": "gadis",
+    "text": "Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Eksel.",
+    "display": "Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Excel."
+  },
+  {
+    "id": 120,
+    "scene": "s21",
+    "voice": "ardi",
+    "text": "Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah."
+  },
+  {
+    "id": 121,
+    "scene": "s21",
+    "voice": "ardi",
+    "text": "Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri."
+  },
+  {
+    "id": 122,
+    "scene": "s22",
+    "voice": "ardi",
+    "text": "Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard."
+  },
+  {
+    "id": 123,
+    "scene": "s22",
+    "voice": "gadis",
+    "text": "Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan."
+  },
+  {
+    "id": 124,
+    "scene": "s22",
+    "voice": "gadis",
+    "text": "Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai."
+  },
+  {
+    "id": 125,
+    "scene": "s22",
+    "voice": "ardi",
+    "text": "Penyebabnya diklasifikasikan eksternal, kategori Liigel. Sifatnya ditandai Ankontrolebel, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.",
+    "display": "Penyebabnya diklasifikasikan eksternal, kategori Legal. Sifatnya ditandai Uncontrollable, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri."
+  },
+  {
+    "id": 126,
+    "scene": "s23",
+    "voice": "ardi",
+    "text": "Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP."
+  },
+  {
+    "id": 127,
+    "scene": "s23",
+    "voice": "gadis",
+    "text": "Karena Ankontrolebel, responsnya Syer: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.",
+    "display": "Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas."
+  },
+  {
+    "id": 128,
+    "scene": "s23",
+    "voice": "gadis",
+    "text": "Skala Target ditetapkan tiga belas, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form sembilan, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya empat belas.",
+    "display": "Skala Target ditetapkan 13, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form 9, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya 14."
+  },
+  {
+    "id": 129,
+    "scene": "s23",
+    "voice": "ardi",
+    "text": "Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard."
+  },
+  {
+    "id": 89,
+    "scene": "s19",
+    "voice": "ardi",
+    "text": "Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard."
+  },
+  {
+    "id": 90,
+    "scene": "s19",
+    "voice": "gadis",
+    "text": "Yang pertama menyambut Anda justru jadwalnya: tahapan penilaian tahun berjalan, berikut tanda merah kalau ada yang lewat tenggat. Di bawahnya enam seksi. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per U-P-R. Distribusi risiko per tingkatan dan per kategori.",
+    "display": "Yang pertama menyambut Anda justru jadwalnya: tahapan penilaian tahun berjalan, berikut tanda merah kalau ada yang lewat tenggat. Di bawahnya enam seksi. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per UPR. Distribusi risiko per tingkatan dan per kategori."
+  },
+  {
+    "id": 91,
+    "scene": "s19",
+    "voice": "gadis",
+    "text": "Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah."
+  },
+  {
+    "id": 92,
+    "scene": "s19",
+    "voice": "ardi",
+    "text": "Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda."
+  },
+  {
+    "id": 93,
+    "scene": "s20",
+    "voice": "ardi",
+    "text": "Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam Er-Pe-Je-Em-De benar-benar bisa ditepati.",
+    "display": "Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam RPJMD benar-benar bisa ditepati."
+  },
+  {
+    "id": 94,
+    "scene": "s20",
+    "voice": "gadis",
+    "text": "Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan."
+  },
+  {
+    "id": 95,
+    "scene": "s20",
+    "voice": "ardi",
+    "text": "Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak."
+  },
+  {
+    "id": 96,
+    "scene": "s20",
+    "voice": "ardi",
+    "text": "Setelah itu, isi kuesioner Ce-E-E, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.",
+    "display": "Setelah itu, isi kuesioner CEE, susun konteks di KRS, lalu catat risiko pertama Anda di IRS."
+  },
+  {
+    "id": 97,
+    "scene": "s20",
+    "voice": "gadis",
+    "text": "Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi."
+  },
+  {
+    "id": 130,
+    "scene": "s20",
+    "voice": "ardi",
+    "text": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019."
+  },
+  {
+    "id": 98,
+    "scene": "s20",
+    "voice": "gadis",
+    "text": "Itulah Em-Er Kabar. Risiko TerKabar, Daerah Terjaga.",
+    "display": "Itulah MR Kabar. Risiko TerKabar, Daerah Terjaga."
+  }
 ]

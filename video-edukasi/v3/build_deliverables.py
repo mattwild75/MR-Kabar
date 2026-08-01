@@ -24,6 +24,7 @@ BAB = [
     ("s2",  "Apa itu risiko"),
     ("s3",  "Mengapa diperlukan"),
     ("s5",  "Siapa yang bertanggung jawab"),
+    ("s24", "Tiga peran yang sering tertukar"),
     ("s7",  "Kapan dikerjakan"),
     ("s8",  "Lima tahap Perdep"),
     ("s9",  "Tahap 1 — Lingkungan Pengendalian (CEE)"),
@@ -34,6 +35,7 @@ BAB = [
     ("s14", "Tahap 2 — Matriks 5×5 & prioritas"),
     ("s15", "Tahap 3 — Kegiatan Pengendalian (RTP)"),
     ("s16", "Tahap 3 — Empat titik skor"),
+    ("s25", "Tahap 3 — Uji coba pengendalian"),
     ("s17", "Tahap 4 — Informasi & Komunikasi"),
     ("s18", "Tahap 5 — Pemantauan & pelaporan"),
     ("s21", "Fitur pendukung"),
@@ -47,6 +49,7 @@ SASARAN = {
     "s5": "Pimpinan", "s7": "Pimpinan", "s8": "Semua",
     "s9": "PIC OPD", "s10": "PIC OPD", "s11": "PIC OPD", "s12": "PIC OPD",
     "s13": "PIC OPD", "s14": "PIC OPD", "s15": "PIC OPD", "s16": "PIC OPD",
+    "s24": "Semua", "s25": "PIC OPD",
     "s17": "Semua", "s18": "PIC OPD", "s21": "Admin", "s22": "Semua",
     "s19": "Pimpinan", "s20": "Semua",
 }

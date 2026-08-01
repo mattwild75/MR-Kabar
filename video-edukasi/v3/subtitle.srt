@@ -31,482 +31,606 @@ Perhatikan tiga kata kuncinya: kemungkinan, mengancam, dan tujuan.
 Kemungkinan, artinya belum terjadi. Kalau sudah terjadi, itu bukan lagi risiko. Itu masalah.
 
 9
-00:01:08,584 --> 00:01:21,952
-Mengancam, artinya definisi ini sengaja lebih sempit dari ISO 31000 yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.
+00:01:08,584 --> 00:01:23,032
+Bedanya sederhana. Kalau atap kantor mungkin bocor musim hujan nanti, itu risiko. Kalau atapnya sudah bocor sekarang, itu bukan risiko lagi. Itu ember.
 
 10
-00:01:22,292 --> 00:01:32,924
-Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai.
+00:01:23,372 --> 00:01:36,740
+Mengancam, artinya definisi ini sengaja lebih sempit dari ISO 31000 yang juga mencakup peluang. Di sektor publik, fokusnya pada ancaman terhadap pencapaian tujuan.
 
 11
-00:01:33,264 --> 00:01:42,840
-Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi.
+00:01:37,080 --> 00:01:47,712
+Dan tujuan, artinya risiko selalu terikat pada satu tujuan tertentu. Tanpa tujuan yang jelas, tidak ada risiko yang bisa dinilai.
 
 12
-00:01:43,740 --> 00:01:51,276
-Perdep PPKD Nomor 4 Tahun 2019 lahir karena BPKP menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.
+00:01:48,052 --> 00:01:57,628
+Maka manajemen risiko adalah proses sistematis untuk mengidentifikasi, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi.
 
 13
-00:01:51,616 --> 00:02:03,256
-Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti.
+00:01:58,528 --> 00:02:06,064
+Perdep PPKD Nomor 4 Tahun 2019 lahir karena BPKP menemukan sebelas persoalan dalam praktik penilaian risiko pemerintah daerah.
 
 14
-00:02:03,596 --> 00:02:13,628
-Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan.
+00:02:06,404 --> 00:02:18,044
+Penilaian dikerjakan sekadar formalitas, belum jadi pertimbangan perencanaan. Rencana Tindak Pengendalian disusun, lalu tidak pernah ditindaklanjuti.
 
 15
-00:02:13,968 --> 00:02:25,104
-Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD.
+00:02:18,384 --> 00:02:28,416
+Waktu pelaksanaannya tidak terstandar. Penanggung jawabnya tidak jelas. Pejabat strategis belum dilibatkan.
 
 16
-00:02:25,444 --> 00:02:32,020
-Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi.
+00:02:28,756 --> 00:02:39,892
+Fokusnya baru risiko operasional, belum menyentuh risiko strategis. Dan dikerjakan sendiri-sendiri per OPD, belum lintas OPD.
 
 17
-00:02:32,920 --> 00:02:45,304
-Sebelum ada MR Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.
+00:02:40,232 --> 00:02:46,808
+Satu persoalan lagi yang paling langsung dijawab aplikasi ini: prosesnya masih manual, belum menggunakan aplikasi.
 
 18
-00:02:45,644 --> 00:03:01,076
-MR Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.
+00:02:47,708 --> 00:03:00,092
+Sebelum ada MR Kabar, seluruh kertas kerja dikerjakan lewat berkas Excel dan Word yang terpisah-pisah di setiap Perangkat Daerah. Rawan hilang, sulit direkap, dan tidak meninggalkan jejak siapa mengisi apa dan kapan.
 
 19
-00:03:01,976 --> 00:03:08,432
-Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?
+00:03:00,432 --> 00:03:15,864
+MR Kabar menggantikannya dengan satu aplikasi web terpusat: struktur data baku sesuai Perdep, keterkaitan otomatis dari Visi sampai ke satu baris risiko, setiap perubahan tercatat di log aktivitas, dan setiap OPD hanya melihat datanya sendiri, sementara pimpinan melihat rekap seluruh kabupaten.
 
 20
-00:03:08,772 --> 00:03:14,268
-Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat.
+00:03:16,764 --> 00:03:23,220
+Sekarang pertanyaan yang paling sering keliru dijawab. Siapa yang bertanggung jawab atas manajemen risiko?
 
 21
-00:03:14,608 --> 00:03:24,472
-Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko.
+00:03:23,560 --> 00:03:29,056
+Jawabannya bukan operator aplikasi, dan bukan hanya Inspektorat.
 
 22
-00:03:24,812 --> 00:03:31,676
-Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD.
+00:03:29,396 --> 00:03:39,260
+Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, tidak didelegasikan. Beliau yang menetapkan arah kebijakan pengelolaan risiko.
 
 23
-00:03:32,016 --> 00:03:47,856
-Pelaksananya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.
+00:03:39,600 --> 00:03:46,464
+Koordinator Penyelenggaraan melekat pada Sekretaris Daerah, di semua konteks risiko, baik tingkat Pemda maupun OPD.
 
 24
-00:03:48,756 --> 00:03:55,404
-Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Three Lines of Defense.
+00:03:46,804 --> 00:04:02,644
+Pelaksananya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah, dikoordinasikan Kepala Bappeda, beranggotakan seluruh Kepala OPD. Lalu turun ke tingkat Eselon Dua, hingga Eselon Tiga dan Empat.
 
 25
-00:03:55,744 --> 00:04:17,632
-Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh UPR. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.
+00:04:02,984 --> 00:04:13,712
+Dan susunan itu sekarang bukan lagi sekadar kalimat di dalam peraturan. MR Kabar merekamnya sebagai data, satu susunan untuk tiap tahun.
 
 26
-00:04:17,972 --> 00:04:30,548
-Satu catatan penting. MR Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.
+00:04:14,052 --> 00:04:28,284
+Dari data itu bagannya digambar sendiri, mengikuti Gambar dua titik enam Perdep. Berganti pejabat, cukup ubah datanya, dan bagan di Form Cetak ikut berubah tanpa ada yang perlu menggambar ulang.
 
 27
-00:04:30,888 --> 00:04:42,624
-Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. PIC Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.
+00:04:29,184 --> 00:04:35,832
+Di atas itu semua ada pengawasan berlapis, yang dikenal sebagai Three Lines of Defense.
 
 28
-00:04:42,964 --> 00:04:56,404
-Akun bersama CEE Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.
+00:04:36,172 --> 00:04:58,060
+Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau pelaksanaan seluruh UPR. Lini ketiga, Inspektorat Daerah, mengevaluasi secara independen, terpisah dari proses pengelolaannya sendiri.
 
 29
-00:04:56,744 --> 00:05:03,920
-Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi.
+00:04:58,400 --> 00:05:10,976
+Satu catatan penting. MR Kabar tidak menegakkan pemisahan ini secara teknis. Aplikasi mencatat siapa mengisi apa, tapi pemisahan peran tetap bergantung pada penugasan jabatan yang nyata di organisasi.
 
 30
-00:05:04,820 --> 00:05:11,612
-Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai.
+00:05:11,316 --> 00:05:23,052
+Di dalam aplikasi, pemisahan peran itu diterjemahkan jadi tiga jenis akun. PIC Perangkat Daerah hanya melihat dan mengelola data OPD-nya sendiri.
 
 31
-00:05:11,952 --> 00:05:20,640
-Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.
+00:05:23,392 --> 00:05:36,832
+Akun bersama CEE Survey dipakai bergantian lintas-OPD khusus untuk mengisi kuesioner. Akun ini tidak bisa menyentuh data KRS, IRS, maupun IRO sama sekali.
 
 32
-00:05:20,980 --> 00:05:28,876
-Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran.
+00:05:37,172 --> 00:05:44,348
+Sedangkan Admin dan Super Admin melihat seluruh OPD, serta mengatur pengguna, menu, dan pengaturan aplikasi.
 
 33
-00:05:29,216 --> 00:05:39,104
-Risiko Operasional OPD mengikuti siklus Renja dan RKA tahunan, dikerjakan pada masa penyusunan RKA hingga penetapan DPA.
+00:05:44,688 --> 00:06:02,136
+Ada satu jenis akun lagi yang sering terlupa: akun peninjau. Dipakai pimpinan untuk melihat seluruh Perangkat Daerah sekaligus, tanpa bisa mengubah satu huruf pun. Semua pintu terbuka, tapi tidak ada satu pun pena di dalamnya.
 
 34
-00:05:39,444 --> 00:05:47,292
-Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh UPR dan laporan pemantauan oleh Unit Kepatuhan.
+00:06:03,036 --> 00:06:11,148
+Sebelum lanjut, satu hal yang paling sering tertukar di lapangan. Ada tiga peran yang namanya mirip, dan ketiganya bukan hal yang sama.
 
 35
-00:05:47,632 --> 00:05:56,464
-Di MR Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.
+00:06:11,488 --> 00:06:24,256
+Pertama, Penanggung Jawab Pengelolaan Risiko. Itu Kepala Daerah. Tunggal, tidak didelegasikan, dan tidak pernah muncul sebagai kolom di mana pun. Ia melekat pada jabatan.
 
 36
-00:05:57,364 --> 00:06:03,220
-Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko.
+00:06:24,596 --> 00:06:45,092
+Kedua, Pemilik Risiko. Ini kolom, ada di setiap baris risiko. Isinya Unit Pemilik Risiko: sebuah unit, bukan seseorang. Dan untuk risiko strategis tingkat Pemda, pemiliknya selalu Kepala Daerah selaku Ketua UPR tingkat Pemda.
 
 37
-00:06:03,560 --> 00:06:21,368
-Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan.
+00:06:45,432 --> 00:07:00,096
+Ketiga, Penanggung Jawab Pengendalian. Ini juga kolom, tapi melekat pada satu rencana pengendalian, bukan pada risikonya. Isinya jabatan yang berwenang membangun kontrol itu.
 
 38
-00:06:21,708 --> 00:06:33,828
-Kelimanya adalah adaptasi alur AS/NZS 4360 yang dipetakan ke lima unsur SPIP, dengan latar belakang konseptual delapan komponen COSO ERM 2004, versi yang dirujuk Perdep, bukan COSO 2017.
+00:07:00,436 --> 00:07:12,580
+Boleh saja ketiganya jatuh pada orang yang sama. Pada risiko strategis Pemda memang begitu, karena hanya Kepala Daerah yang bisa menerbitkan Peraturan Bupati. Yang tidak boleh adalah mengisinya sambil menebak.
 
 39
-00:06:34,168 --> 00:06:39,088
-Mari kita telusuri satu per satu, lengkap dengan menu MR Kabar yang mengerjakannya.
+00:07:12,920 --> 00:07:19,184
+Dan kabar baiknya: di seluruh Perdep, tidak ada satu pun peran yang bernama Penanggung Jawab Kalau Ada Apa-Apa.
 
 40
-00:06:39,988 --> 00:06:44,212
-Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian.
+00:07:20,084 --> 00:07:26,876
+Berikutnya: kapan manajemen risiko dikerjakan? Jawabannya, bukan sekali lalu selesai.
 
 41
-00:06:44,552 --> 00:06:55,640
-Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda.
+00:07:27,216 --> 00:07:35,904
+Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan, dengan penyusunan risiko di setiap tahun berjalan.
 
 42
-00:06:55,980 --> 00:07:05,052
-Metodenya Control Environment Evaluation, atau CEE, dengan pendekatan Control Self Assessment. Organisasi menilai dirinya sendiri.
+00:07:36,244 --> 00:07:44,140
+Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan penyusunan Renja dan penetapan pagu anggaran.
 
 43
-00:07:05,392 --> 00:07:19,768
-Di MR Kabar ini dikerjakan di menu CEE. Form 1a berisi kuesioner delapan unsur lingkungan pengendalian. Form 1b menilai kecukupan dokumen pendukung. Form 1c menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.
+00:07:44,480 --> 00:07:54,368
+Risiko Operasional OPD mengikuti siklus Renja dan RKA tahunan, dikerjakan pada masa penyusunan RKA hingga penetapan DPA.
 
 44
-00:07:20,108 --> 00:07:34,316
-Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan.
+00:07:54,708 --> 00:08:02,556
+Lalu setiap triwulan, dan sekali lagi setiap akhir tahun, disusun laporan berkala oleh UPR dan laporan pemantauan oleh Unit Kepatuhan.
 
 45
-00:07:34,656 --> 00:07:51,000
-Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait.
+00:08:02,896 --> 00:08:11,728
+Di MR Kabar, dimensi waktu ini terekam eksplisit lewat kolom Tahun Dinilai Risiko, Triwulan, dan Tahun Target Penyelesaian pada setiap baris risiko.
 
 46
-00:07:51,340 --> 00:07:56,164
-Kedelapan unsur itu dijabarkan menjadi 37 pertanyaan di Form 1a.
+00:08:12,068 --> 00:08:23,636
+Tapi siklus saja belum cukup. Perdep meminta Kepala Daerah menetapkan Arahan dan Kebijakan Penilaian Risiko lewat Surat Edaran: satu yang lima tahunan mengikuti RPJMD, dan satu lagi setiap tahun.
 
 47
-00:07:56,504 --> 00:08:06,296
-Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form 1d, dan dicetak sebagai Form 6.
+00:08:23,976 --> 00:08:33,768
+Arahan itu direkam di MR Kabar beserta tahapannya: kapan mulai, kapan berakhir, siapa pelaksananya, dan apa keluarannya.
 
 48
-00:08:06,636 --> 00:08:15,756
-Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi.
+00:08:34,108 --> 00:08:48,532
+Hasilnya muncul di Dashboard sebagai garis waktu, lengkap dengan tanda merah untuk tahapan yang tenggatnya sudah lewat. Sejak itu, pertanyaan ini sebenarnya dikerjakan bulan apa punya jawaban tertulis.
 
 49
-00:08:16,656 --> 00:08:27,216
-Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis.
+00:08:49,432 --> 00:08:55,288
+Sekarang kita masuk ke inti Perdep: Bab Tiga, yang menetapkan lima tahap proses pengelolaan risiko.
 
 50
-00:08:27,556 --> 00:08:35,260
-Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda.
+00:08:55,628 --> 00:09:13,436
+Satu: Identifikasi Kelemahan Lingkungan Pengendalian. Dua: Penilaian Risiko. Tiga: Kegiatan Pengendalian. Empat: Informasi dan Komunikasi. Lima: Pemantauan.
 
 51
-00:08:35,600 --> 00:08:43,736
-Tingkat pertama, Strategis Pemda, bersumber dari RPJMD, disusun di menu KRS Pemda.
+00:09:13,776 --> 00:09:25,896
+Kelimanya adalah adaptasi alur AS/NZS 4360 yang dipetakan ke lima unsur SPIP, dengan latar belakang konseptual delapan komponen COSO ERM 2004, versi yang dirujuk Perdep, bukan COSO 2017.
 
 52
-00:08:44,076 --> 00:08:52,164
-Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah.
+00:09:26,236 --> 00:09:31,156
+Mari kita telusuri satu per satu, lengkap dengan menu MR Kabar yang mengerjakannya.
 
 53
-00:08:52,504 --> 00:09:01,528
-Tingkat ketiga, Operasional OPD, bersumber dari Renja dan RKA, disusun di menu KRO Perangkat Daerah.
+00:09:32,056 --> 00:09:36,280
+Tahap pertama: Identifikasi Kelemahan Lingkungan Pengendalian.
 
 54
-00:09:01,868 --> 00:09:14,468
-Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini.
+00:09:36,620 --> 00:09:47,708
+Sebelum menilai risiko satu per satu, Perdep meminta kita menilai dulu tanahnya. Seberapa kondusif lingkungan pengendalian internal di OPD Anda.
 
 55
-00:09:15,368 --> 00:09:26,312
-Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih.
+00:09:48,048 --> 00:09:57,120
+Metodenya Control Environment Evaluation, atau CEE, dengan pendekatan Control Self Assessment. Organisasi menilai dirinya sendiri.
 
 56
-00:09:26,652 --> 00:09:33,108
-Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik.
+00:09:57,460 --> 00:10:11,836
+Di MR Kabar ini dikerjakan di menu CEE. Form 1a berisi kuesioner delapan unsur lingkungan pengendalian. Form 1b menilai kecukupan dokumen pendukung. Form 1c menggabungkan keduanya jadi simpulan Memadai atau Kurang Memadai per unsur.
 
 57
-00:09:33,448 --> 00:09:40,696
-Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab.
+00:10:12,176 --> 00:10:23,720
+Satu hal penting tentang Form 1c. Kedua sumbernya bisa saja berbeda kesimpulan: dokumennya lengkap, tapi persepsi pegawainya justru sebaliknya.
 
 58
-00:09:41,036 --> 00:09:48,572
-Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak.
+00:10:24,060 --> 00:10:40,260
+Kalau itu terjadi, Perdep tidak meminta kita memilih yang paling enak dibaca. Perdep meminta pendalaman, atau professional judgement. Dan alasannya wajib ditulis. MR Kabar menandai pertentangan itu, lalu menolak menyimpan kalau penjelasannya dikosongkan.
 
 59
-00:09:48,912 --> 00:10:00,648
-Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.
+00:10:40,600 --> 00:10:54,808
+Delapan unsur yang dinilai itu adalah: Penegakan Integritas dan Nilai Etika; Komitmen terhadap Kompetensi; Kepemimpinan yang Kondusif; dan Pembentukan Struktur Organisasi yang Sesuai dengan Kebutuhan.
 
 60
-00:10:00,988 --> 00:10:10,084
-Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.
+00:10:55,148 --> 00:11:11,492
+Lalu Pendelegasian Wewenang dan Tanggung Jawab yang Tepat; Penyusunan dan Penerapan Kebijakan yang Sehat tentang Pembinaan Sumber Daya Manusia; Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif; dan Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait.
 
 61
-00:10:10,984 --> 00:10:26,440
-Penyebab lalu diklasifikasikan. Internal memakai kerangka 7M-1E: Man, Machine, Method, Material, Money, Management, Measurement, dan Environment.
+00:11:11,832 --> 00:11:16,656
+Kedelapan unsur itu dijabarkan menjadi 37 pertanyaan di Form 1a.
 
 62
-00:10:26,780 --> 00:10:36,884
-Eksternal memakai kerangka PESTLE: Political, Economic, Social, Technological, Legal, dan Environmental.
+00:11:16,996 --> 00:11:26,788
+Setiap unsur yang disimpulkan Kurang Memadai wajib punya rencana perbaikan sendiri, disusun di Form 1d, dan dicetak sebagai Form 6.
 
 63
-00:10:37,224 --> 00:10:50,904
-Setiap risiko juga wajib ditandai sifatnya. Controllable, artinya masih dalam kendali organisasi. Atau Uncontrollable, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.
+00:11:27,128 --> 00:11:36,248
+Melewatkan tahap ini adalah kesalahan paling umum. Menilai risiko tanpa tahu kondisi lingkungan pengendaliannya sama seperti memasang atap sebelum memeriksa pondasi.
 
 64
-00:10:51,244 --> 00:11:01,132
-Lalu MR Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.
+00:11:37,148 --> 00:11:47,708
+Tahap kedua: Penilaian Risiko. Ini tahap paling kompleks, dan terdiri dari tiga langkah berurutan: penetapan konteks, identifikasi, lalu analisis.
 
 65
-00:11:01,472 --> 00:11:20,624
-Contohnya, RSP.25.37.30.01. Artinya: Risiko Strategis Pemda, dinilai tahun 2025, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.
+00:11:48,048 --> 00:11:55,752
+Langkah pertama, penetapan konteks. Menentukan tujuan mana yang sedang kita lindungi, pada tiga tingkat berbeda.
 
 66
-00:11:21,524 --> 00:11:31,244
-Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.
+00:11:56,092 --> 00:12:04,228
+Tingkat pertama, Strategis Pemda, bersumber dari RPJMD, disusun di menu KRS Pemda.
 
 67
-00:11:31,584 --> 00:11:40,728
-Dan angka ini bukan tebakan. MR Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.
+00:12:04,568 --> 00:12:12,656
+Tingkat kedua, Strategis OPD, bersumber dari Renstra, disusun di menu KRS Perangkat Daerah.
 
 68
-00:11:41,068 --> 00:11:53,644
-Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir.
+00:12:12,996 --> 00:12:22,020
+Tingkat ketiga, Operasional OPD, bersumber dari Renja dan RKA, disusun di menu KRO Perangkat Daerah.
 
 69
-00:11:53,984 --> 00:12:04,664
-Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum.
+00:12:22,360 --> 00:12:34,960
+Ketiganya mengikuti hierarki yang sama: Visi, Misi, Tujuan, Sasaran, hingga Program dan Kegiatan. Dan setiap risiko yang nanti dicatat akan selalu tertaut ke salah satu simpul hierarki ini.
 
 70
-00:12:05,004 --> 00:12:13,980
-Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari.
+00:12:35,860 --> 00:12:46,804
+Langkah kedua, identifikasi risiko. Dikerjakan di menu IRS Pemda, IRS Perangkat Daerah, dan IRO Perangkat Daerah, mengikuti tingkat konteks yang sudah dipilih.
 
 71
-00:12:14,320 --> 00:12:27,424
-Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari.
+00:12:47,144 --> 00:12:53,600
+Dan di sinilah kesalahan terbesar biasanya terjadi. Perhatikan baik-baik.
 
 72
-00:12:27,764 --> 00:12:34,604
-Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain.
+00:12:53,940 --> 00:13:01,188
+Risiko bukan penyebab. Anggaran tidak mencukupi, itu bukan risiko. Itu penyebab.
 
 73
-00:12:35,504 --> 00:12:40,088
-Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima.
+00:13:01,528 --> 00:13:12,184
+Dan kalau anggaran tidak mencukupi dihitung sebagai risiko, maka seluruh Indonesia punya risiko yang sama persis, dan tidak satu pun bisa ditindaklanjuti.
 
 74
-00:12:40,428 --> 00:12:52,788
-Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak.
+00:13:12,524 --> 00:13:20,060
+Risiko juga bukan dampak. Opini laporan keuangan turun, itu bukan risiko. Itu dampak.
 
 75
-00:12:53,128 --> 00:13:05,608
-Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan.
+00:13:20,400 --> 00:13:32,136
+Risiko adalah kejadian yang mungkin terjadi di antara keduanya. Rumusnya: karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.
 
 76
-00:13:05,948 --> 00:13:14,924
-Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja.
+00:13:32,476 --> 00:13:41,572
+Contoh yang benar. Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.
 
 77
-00:13:15,264 --> 00:13:26,016
-Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, dan Moderat kuning, ketiganya tidak bisa diterima dan wajib punya Rencana Tindak Pengendalian.
+00:13:42,472 --> 00:13:57,928
+Penyebab lalu diklasifikasikan. Internal memakai kerangka 7M-1E: Man, Machine, Method, Material, Money, Management, Measurement, dan Environment.
 
 78
-00:13:26,356 --> 00:13:34,468
-Sementara Rendah hijau dan Sangat Rendah biru masih bisa diterima, cukup dipantau. Dari sinilah Daftar Risiko Prioritas terbentuk.
+00:13:58,268 --> 00:14:08,372
+Eksternal memakai kerangka PESTLE: Political, Economic, Social, Technological, Legal, dan Environmental.
 
 79
-00:13:35,368 --> 00:13:42,328
-Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP.
+00:14:08,712 --> 00:14:22,392
+Setiap risiko juga wajib ditandai sifatnya. Controllable, artinya masih dalam kendali organisasi. Atau Uncontrollable, di luar kendali. Penandaan ini menentukan respon apa yang masuk akal nanti.
 
 80
-00:13:42,668 --> 00:13:48,764
-Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A.
+00:14:22,732 --> 00:14:32,620
+Lalu MR Kabar memberi setiap risiko kode identitas lima bagian: prefix tingkat risiko, tahun penilaian, jenis risiko, entitas penilai, dan nomor urut.
 
 81
-00:13:49,104 --> 00:14:15,288
-Avoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Abate, cegah kemungkinannya. Mitigate, kurangi dampaknya. Share atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Accept, terima sisa risikonya, pilihan terakhir.
+00:14:32,960 --> 00:14:52,112
+Contohnya, RSP.25.37.30.01. Artinya: Risiko Strategis Pemda, dinilai tahun 2025, jenis Keuangan dan Pendapatan, entitas penilai Inspektorat, nomor urut satu.
 
 82
-00:14:15,628 --> 00:14:26,164
-Abate menekan sumbu kemungkinan. Mitigate menekan sumbu dampak. Dan risiko yang tadi ditandai Uncontrollable praktis hanya punya dua pilihan: Share atau Accept.
+00:14:53,012 --> 00:15:02,732
+Langkah ketiga, analisis risiko. Setiap risiko dinilai pada dua sumbu: Skala Dampak dan Skala Kemungkinan, masing-masing dari satu sampai lima.
 
 83
-00:14:26,504 --> 00:14:40,208
-Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi.
+00:15:03,072 --> 00:15:12,216
+Dan angka ini bukan tebakan. MR Kabar menyediakan kriteria baku untuk keduanya, di menu Keterangan Pendukung.
 
 84
-00:14:40,548 --> 00:14:50,604
-MR Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil CEE. Dan RTP atas risiko, dari hasil identifikasi.
+00:15:12,556 --> 00:15:25,132
+Contohnya Skala Kemungkinan level tiga, Terjadi, berarti terjadi antara sepuluh sampai dua puluh persen dari kejadian transaksi, atau sekitar satu kejadian dalam tiga tahun terakhir.
 
 85
-00:14:51,504 --> 00:14:57,792
-Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko.
+00:15:25,472 --> 00:15:36,152
+Skala Dampak punya kriterianya sendiri, diukur dari lima sisi sekaligus: kerugian negara, penurunan reputasi, penurunan kinerja, gangguan pelayanan, dan tuntutan hukum.
 
 86
-00:14:58,132 --> 00:15:10,348
-Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan.
+00:15:36,492 --> 00:15:45,468
+Level satu, Tidak Signifikan, berarti kerugian di bawah sepuluh juta rupiah dan pelayanan tertunda paling lama satu hari.
 
 87
-00:15:10,688 --> 00:15:20,528
-Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan.
+00:15:45,808 --> 00:15:58,912
+Sedangkan level lima, Sangat Signifikan, berarti kerugian di atas lima ratus juta rupiah, pemberitaan negatif di media internasional, dan pelayanan tertunda lebih dari tiga puluh hari.
 
 88
-00:15:20,868 --> 00:15:30,660
-Karena itu MR Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.
+00:15:59,252 --> 00:16:06,092
+Tanpa kriteria baku, penilaian jadi subjektif, dan angka dari satu OPD tidak bisa dibandingkan dengan OPD lain.
 
 89
-00:15:31,000 --> 00:15:53,680
-Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif.
+00:16:06,432 --> 00:16:13,104
+Tanpa kriteria baku, kemungkinan besar menurut satu Perangkat Daerah bisa berarti sepertinya sih menurut Perangkat Daerah sebelah.
 
 90
-00:15:54,020 --> 00:16:03,764
-Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita.
+00:16:14,004 --> 00:16:18,588
+Kedua nilai itu lalu dipertemukan dalam Matriks Analisis Risiko lima kali lima.
 
 91
-00:16:04,664 --> 00:16:08,144
-Tahap keempat: Informasi dan Komunikasi.
+00:16:18,928 --> 00:16:31,288
+Ini penting: angka di dalam matriks bukan hasil perkalian. Matriks ini adalah peringkat satu sampai dua puluh lima, dan sengaja memberi bobot lebih besar pada dampak.
 
 92
-00:16:08,484 --> 00:16:23,292
-Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di JDIH, dan sosialisasi internal OPD.
+00:16:31,628 --> 00:16:44,108
+Lihat contohnya. Dampak lima dengan kemungkinan satu menghasilkan skala dua puluh. Sedangkan dampak satu dengan kemungkinan lima hanya menghasilkan sembilan.
 
 93
-00:16:23,632 --> 00:16:33,808
-MR Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.
+00:16:44,448 --> 00:16:53,424
+Artinya kejadian langka yang berdampak besar tetap diperlakukan sebagai risiko serius. Itu keputusan yang disengaja.
 
 94
-00:16:34,148 --> 00:16:42,572
-Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat.
+00:16:53,764 --> 00:17:03,436
+Hasilnya dikelompokkan dalam lima kategori warna. Sangat Tinggi merah, Tinggi oranye, Moderat kuning, Rendah hijau, dan Sangat Rendah biru.
 
 95
-00:16:43,472 --> 00:16:51,128
-Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas.
+00:17:03,776 --> 00:17:19,856
+Lalu sampai kategori mana yang masih boleh diterima? Itu bukan diputuskan aplikasi. Pemerintah Daerah sendiri yang menetapkannya. Namanya Selera Risiko, diatur di menu Keterangan Pendukung.
 
 96
-00:16:51,468 --> 00:17:08,052
-Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga.
+00:17:20,196 --> 00:17:32,556
+Di matriks, batas itu tergambar sebagai garis putus-putus. Semua yang berada di atas garis wajib punya Rencana Tindak Pengendalian. Setelan Aceh Barat saat ini: diterima sampai dengan tingkat Sedang.
 
 97
-00:17:08,392 --> 00:17:24,856
-Di MR Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form 8 mencatat rencana pengkomunikasian dan pemantauan. Form 9 mencatat realisasinya beserta Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi di lapangan.
+00:17:32,896 --> 00:17:41,056
+Selera Risiko memang mirip selera makan. Yang penting tahu batasnya, dan batas itu tidak berubah hanya karena angkanya sedang tidak enak dilihat.
 
 98
-00:17:25,196 --> 00:17:37,676
-Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode QR, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.
+00:17:41,396 --> 00:17:48,812
+Yang berada di bawah garis itu masih bisa diterima, cukup dipantau. Yang di atasnya masuk Daftar Risiko Prioritas.
 
 99
-00:17:38,016 --> 00:17:51,768
-Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form 10, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.
+00:17:49,712 --> 00:17:56,672
+Tahap ketiga: Kegiatan Pengendalian. Menyusun Rencana Tindak Pengendalian, atau RTP.
 
 100
-00:17:52,108 --> 00:18:06,508
-Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun UPR sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.
+00:17:57,012 --> 00:18:03,108
+Ada lima pilihan respon risiko, dikenal dengan mnemonik A-A-M-S-A.
 
 101
-00:18:06,848 --> 00:18:21,968
-Laporan berkala disusun UPR setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.
+00:18:03,448 --> 00:18:29,632
+Avoid, hindari, tidak memulai atau melanjutkan kegiatan berisiko. Abate, cegah kemungkinannya. Mitigate, kurangi dampaknya. Share atau Transfer, bagi risikonya lewat asuransi atau kemitraan, dengan catatan ini bisa memunculkan risiko baru. Dan Accept, terima sisa risikonya, pilihan terakhir.
 
 102
-00:18:22,308 --> 00:18:38,244
-Seluruh hasil pemantauan dirangkum ke tiga laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh UPR, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form 11, 12, dan 13.
+00:18:29,972 --> 00:18:40,508
+Abate menekan sumbu kemungkinan. Mitigate menekan sumbu dampak. Dan risiko yang tadi ditandai Uncontrollable praktis hanya punya dua pilihan: Share atau Accept.
 
 103
-00:18:39,144 --> 00:18:44,496
-Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu.
+00:18:40,848 --> 00:18:54,552
+Setiap rencana pengendalian juga wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang membangun kontrol itu. Levelnya menyesuaikan kewenangan yang dibutuhkan — kontrol berupa Peraturan Bupati jelas tidak bisa dibebankan kepada Kepala Seksi.
 
 104
-00:18:44,836 --> 00:18:57,748
-Ekspor dan Impor Excel. Kalau OPD Anda terlanjur menyusun kertas kerja di Excel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor/Impor KRS.
+00:18:54,892 --> 00:19:04,948
+MR Kabar mencatat dua jenis RTP. RTP atas kelemahan lingkungan pengendalian, dari hasil CEE. Dan RTP atas risiko, dari hasil identifikasi.
 
 105
-00:18:58,088 --> 00:19:07,328
-Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur.
+00:19:05,288 --> 00:19:19,616
+Keduanya harus diselaraskan. Kalau RTP dari CEE dan RTP dari risiko berbunyi hampir sama, MR Kabar menandainya, supaya satu pekerjaan tidak dipantau dua kali di dua tempat.
 
 106
-00:19:07,668 --> 00:19:17,628
-Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali.
+00:19:19,956 --> 00:19:29,916
+Sebab dua rencana yang bunyinya sama biasanya bukan berarti dikerjakan dua kali. Biasanya justru tidak ada yang merasa kebagian.
 
 107
-00:19:17,968 --> 00:19:32,224
-Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Excel.
+00:19:30,816 --> 00:19:37,104
+Dan di sini ada konsep yang paling sering terlewat: empat titik skor untuk setiap risiko.
 
 108
-00:19:32,564 --> 00:19:43,388
-Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah.
+00:19:37,444 --> 00:19:49,660
+Skala Inheren, risiko sebelum ada pengendalian apa pun. Skala Residual, atau sisa risiko, setelah memperhitungkan pengendalian yang sudah berjalan.
 
 109
-00:19:43,728 --> 00:19:54,984
-Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri.
+00:19:50,000 --> 00:19:59,840
+Skala Target, sasaran yang ingin dicapai RTP. Dan Skala Aktual, hasil nyatanya setelah dipantau di lapangan.
 
 110
-00:19:55,884 --> 00:20:02,604
-Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard.
+00:20:00,180 --> 00:20:09,972
+Karena itu MR Kabar meminta Anda menilai efektivitas pengendalian yang sudah ada, dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif.
 
 111
-00:20:02,944 --> 00:20:13,696
-Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan.
+00:20:10,312 --> 00:20:32,992
+Cara memilihnya sederhana. Belum ada pengendaliannya, atau ada tapi tidak dijalankan: Tidak Efektif. Sudah ada tapi belum rutin: Kurang Efektif. Rutin tapi masih ada celah: Cukup Efektif. Rutin dan terbukti menekan kejadian: barulah Efektif.
 
 112
-00:20:14,036 --> 00:20:28,748
-Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.
+00:20:33,332 --> 00:20:40,148
+Dan begitu Anda memilih Tidak Efektif atau Kurang Efektif, MR Kabar bertanya lebih jauh: celahnya sebenarnya di mana?
 
 113
-00:20:29,088 --> 00:20:38,904
-Penyebabnya diklasifikasikan eksternal, kategori Legal. Sifatnya ditandai Uncontrollable, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.
+00:20:40,488 --> 00:20:56,664
+Perdep sudah menyediakan lima kriteria bakunya. Prosedur pengendalian belum dilaksanakan. Kebijakan belum diikuti prosedur baku yang jelas. Kebijakan dan prosedurnya tidak sesuai peraturan di atasnya.
 
 114
-00:20:39,804 --> 00:20:52,500
-Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP.
+00:20:57,004 --> 00:21:16,204
+Lalu, kebijakan dan prosedur sudah dilakukan tapi belum mampu menangani risiko yang teridentifikasi. Dan terakhir, pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul. Tinggal dicentang, lalu ditambah keterangan seperlunya.
 
 115
-00:20:52,840 --> 00:21:06,664
-Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.
+00:21:16,544 --> 00:21:26,288
+Jarak antara Inheren dan Residual menunjukkan seberapa banyak kerja pengendalian yang sudah berhasil. Jarak antara Target dan Aktual menunjukkan seberapa realistis rencana kita.
 
 116
-00:21:07,004 --> 00:21:21,860
-Skala Target ditetapkan 13, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form 9, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya 14.
+00:21:27,188 --> 00:21:35,732
+Ada satu langkah lagi yang hampir selalu terlewat. Perdep menetapkan enam langkah membangun pengendalian, dan langkah keempatnya adalah uji coba.
 
 117
-00:21:22,200 --> 00:21:41,952
-Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard.
+00:21:36,072 --> 00:21:47,952
+Rancangan pengendaliannya diuji dulu dalam lingkup kecil. Hasil ujinya dipakai memperbaiki rancangan itu. Baru sesudah itu ditetapkan berlaku.
 
 118
-00:21:42,852 --> 00:21:46,980
-Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard.
+00:21:48,292 --> 00:21:55,852
+Pengendalian yang belum pernah diuji itu seperti payung yang belum pernah dibuka. Kelihatan meyakinkan, sampai hujan turun.
 
 119
-00:21:47,320 --> 00:22:04,816
-Enam seksi, enam belas panel. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per UPR. Distribusi risiko per tingkatan dan per kategori.
+00:21:56,192 --> 00:22:03,968
+Di MR Kabar, triwulan uji cobanya, tahunnya, dan hasilnya dicatat di Form 9, lengkap dengan berkas buktinya.
 
 120
-00:22:05,156 --> 00:22:23,396
-Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah.
+00:22:04,868 --> 00:22:08,348
+Tahap keempat: Informasi dan Komunikasi.
 
 121
-00:22:23,736 --> 00:22:29,256
-Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda.
+00:22:08,688 --> 00:22:23,496
+Hasil penilaian risiko tidak boleh berhenti di dalam folder. Perdep mewajibkan hasilnya dikomunikasikan, lewat Surat Edaran pimpinan, publikasi di JDIH, dan sosialisasi internal OPD.
 
 122
-00:22:30,156 --> 00:22:41,076
-Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam RPJMD benar-benar bisa ditepati.
+00:22:23,836 --> 00:22:34,012
+MR Kabar mendukung tahap ini lewat menu Data Umum, yang menyimpan identitas kertas kerja dan penanda tangan setiap OPD, lalu Form Cetak yang menghasilkan tiga belas dokumen resmi siap tanda tangan.
 
 123
-00:22:41,416 --> 00:22:51,928
-Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan.
+00:22:34,352 --> 00:22:42,776
+Ditambah Visualisasi Hirarki, yang memperlihatkan seluruh keterkaitan dari Visi hingga risiko dalam satu pohon, dan bisa langsung ditunjukkan di dalam rapat.
 
 124
-00:22:52,268 --> 00:23:02,756
-Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak.
+00:22:43,676 --> 00:22:51,332
+Tahap kelima: Pemantauan. Memastikan RTP benar-benar dijalankan, bukan hanya tersusun di atas kertas.
 
 125
-00:23:03,096 --> 00:23:10,224
-Setelah itu, isi kuesioner CEE, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.
+00:22:51,672 --> 00:23:08,256
+Pemantauan dilakukan berjenjang. Dari Kasi dan Kasubbag, ke Kepala Bidang, ke Kepala OPD, ke Unit Kepatuhan, hingga Kepala Daerah. Ditambah evaluasi terpisah oleh Inspektorat sebagai lini ketiga.
 
 126
-00:23:10,564 --> 00:23:16,804
-Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi.
+00:23:08,596 --> 00:23:25,060
+Di MR Kabar, tahap ini dikerjakan di Form Monitoring dan Evaluasi. Form 8 mencatat rencana pengkomunikasian dan pemantauan. Form 9 mencatat realisasinya beserta Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi di lapangan.
 
 127
-00:23:17,144 --> 00:23:27,776
-Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019.
+00:23:25,400 --> 00:23:37,880
+Ada juga kanal pelaporan cepat: Lapor Kejadian Risiko. Cukup pindai kode QR, dan pegawai mana pun bisa melaporkan kejadian nyata tanpa perlu akun sendiri.
 
 128
-00:23:28,116 --> 00:23:34,380
+00:23:38,220 --> 00:23:51,972
+Lalu bagaimana kalau risikonya benar-benar terjadi? Risikonya tidak dihapus dari register. Kejadiannya dicatat di Form 10, penyebab sesungguhnya dianalisis, lalu Rencana Tindak Pengendaliannya diperbaiki untuk periode berikutnya.
+
+129
+00:23:52,312 --> 00:24:06,712
+Soal pelaporan, ini alurnya. Laporan pelaksanaan penilaian risiko disusun UPR sesuai jadwal penilaian, dikirim kepada Kepala Daerah dengan tembusan Sekretaris Daerah dan Unit Kepatuhan.
+
+130
+00:24:07,052 --> 00:24:22,172
+Laporan berkala disusun UPR setiap triwulan dan sekali lagi di akhir tahun. Laporan pemantauan disusun Unit Kepatuhan, juga triwulanan dan tahunan, kepada Kepala Daerah dengan tembusan Sekretaris Daerah.
+
+131
+00:24:22,512 --> 00:24:38,304
+Seluruh hasil pemantauan dirangkum ke laporan wajib Bab Empat Perdep: laporan pelaksanaan penilaian risiko, laporan berkala triwulanan dan tahunan oleh UPR, serta laporan pemantauan oleh Unit Kepatuhan. Di aplikasi tersedia sebagai Form 11, 12, dan 13.
+
+132
+00:24:38,644 --> 00:24:50,644
+Dan ada satu lagi yang menyusul: Form 14, laporan pembinaan oleh Komite Pengelolaan Risiko. Yang ini semesteran dan tahunan, bukan triwulanan.
+
+133
+00:24:51,544 --> 00:24:56,896
+Sebelum kita ke Dashboard, ada beberapa fitur pendukung yang sering terlewat padahal sangat membantu.
+
+134
+00:24:57,236 --> 00:25:10,148
+Ekspor dan Impor Excel. Kalau OPD Anda terlanjur menyusun kertas kerja di Excel, datanya tidak perlu diketik ulang — cukup diunggah lewat menu Ekspor/Impor KRS.
+
+135
+00:25:10,488 --> 00:25:19,728
+Tahun Aktif. Seluruh form mengikuti tahun penilaian yang sedang dipilih, jadi data antar-tahun tidak pernah tercampur.
+
+136
+00:25:20,068 --> 00:25:30,028
+Data Terhapus. Risiko yang dihapus tidak langsung lenyap — masuk dulu ke menu Data Terhapus, dan bisa dipulihkan kembali.
+
+137
+00:25:30,368 --> 00:25:33,800
+Jadi tombol hapus di sini tidak sekejam kelihatannya.
+
+138
+00:25:34,140 --> 00:25:48,396
+Log Aktivitas. Setiap penambahan, perubahan, dan penghapusan tercatat lengkap: siapa pelakunya dan kapan. Inilah jejak yang dulu tidak pernah ada di era Excel.
+
+139
+00:25:48,736 --> 00:25:59,560
+Data Risiko Gabungan menyatukan risiko seluruh tingkatan dalam satu tabel yang bisa dicari dan disaring. Sementara menu Risiko Seratus Program Bupati menautkan risiko ke program prioritas kepala daerah.
+
+140
+00:25:59,900 --> 00:26:11,156
+Dan di Keterangan Pendukung, Admin bisa menyesuaikan daftar empat puluh satu Jenis Risiko, daftar Entitas Penilai, serta seluruh kriteria dampak dan kemungkinan — termasuk isi matriks lima kali lima itu sendiri.
+
+141
+00:26:12,056 --> 00:26:18,776
+Sekarang mari kita satukan semuanya. Kita ikuti satu risiko, dari awal sampai muncul di Dashboard.
+
+142
+00:26:19,116 --> 00:26:29,868
+Mulai dari konteks. Di KRO Perangkat Daerah, Dinas Kelautan dan Perikanan mencatat satu Kegiatan: pembangunan tempat pendaratan ikan.
+
+143
+00:26:30,208 --> 00:26:44,920
+Lalu di IRO Perangkat Daerah dicatat risikonya. Karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.
+
+144
+00:26:45,260 --> 00:26:55,076
+Penyebabnya diklasifikasikan eksternal, kategori Legal. Sifatnya ditandai Uncontrollable, karena pembebasan lahan memang bukan kewenangan dinas itu sendiri.
+
+145
+00:26:55,976 --> 00:27:08,672
+Analisisnya: Skala Dampak empat, Skala Kemungkinan tiga. Dipertemukan di matriks, hasilnya Skala Risiko tujuh belas — kategori Tinggi. Tidak bisa diterima, wajib punya RTP.
+
+146
+00:27:09,012 --> 00:27:22,836
+Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.
+
+147
+00:27:23,176 --> 00:27:38,032
+Skala Target ditetapkan 13, turun ke kategori Moderat. Setiap triwulan realisasinya dicatat di Form 9, lalu Skala Aktual diisi sesuai kondisi nyata di lapangan — misalnya 14.
+
+148
+00:27:38,372 --> 00:27:58,124
+Selisih satu angka antara target dan aktual itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat. Dan satu baris ini — satu risiko, dari satu kegiatan, di satu dinas — ikut menyusun angka Total Risiko, Peta Risiko, Ranking Eksposur, dan Kepatuhan Pelaporan yang Anda lihat di Dashboard.
+
+149
+00:27:59,024 --> 00:28:03,152
+Semua yang tadi Anda lihat bermuara di satu tempat: Dashboard.
+
+150
+00:28:03,492 --> 00:28:27,756
+Yang pertama menyambut Anda justru jadwalnya: tahapan penilaian tahun berjalan, berikut tanda merah kalau ada yang lewat tenggat. Di bawahnya enam seksi. Ringkasan jumlah risiko dan risiko prioritas. Peta risiko lima kali lima. Progres tahapan per UPR. Distribusi risiko per tingkatan dan per kategori.
+
+151
+00:28:28,096 --> 00:28:46,336
+Siklus empat skor dalam satu grafik. Tren level risiko lima tahun terakhir. Ranking eksposur risiko antar-OPD. Log kejadian risiko yang benar-benar terjadi. Dan status kepatuhan pelaporan seluruh Perangkat Daerah.
+
+152
+00:28:46,676 --> 00:28:52,196
+Inilah yang dulu tidak mungkin dilakukan dengan berkas Excel yang terpisah-pisah di puluhan komputer berbeda.
+
+153
+00:28:53,096 --> 00:29:04,016
+Mari kita rangkum. Manajemen risiko bukan pekerjaan administratif tahunan. Ia adalah cara pemerintah daerah memastikan janji dalam RPJMD benar-benar bisa ditepati.
+
+154
+00:29:04,356 --> 00:29:14,868
+Lima tahap Perdep, satu alur data. Dari Visi Pemerintah Kabupaten, sampai ke satu baris risiko yang dipantau setiap triwulan.
+
+155
+00:29:15,208 --> 00:29:25,696
+Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda. Tanpa itu, form-form berikutnya tidak bisa dicetak.
+
+156
+00:29:26,036 --> 00:29:33,164
+Setelah itu, isi kuesioner CEE, susun konteks di KRS, lalu catat risiko pertama Anda di IRS.
+
+157
+00:29:33,504 --> 00:29:39,744
+Detail setiap langkah pengisian tersedia lengkap di menu Panduan, di dalam aplikasi.
+
+158
+00:29:40,084 --> 00:29:50,716
+Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019.
+
+159
+00:29:51,056 --> 00:29:57,320
 Itulah MR Kabar. Risiko TerKabar, Daerah Terjaga.
 

@@ -1,4 +1,47 @@
-# Video Edukasi MR Kabar — v3 (video tunggal, ±23 menit)
+# Video Edukasi MR Kabar — v4 (video tunggal, ±30 menit)
+
+> **Folder ini bernama `v3` tetapi isinya sudah v4.** Nama folder dan nama
+> berkas keluaran (`MR_Kabar_Video_Edukasi_v3.mp4`) sengaja tidak diganti:
+> `deploy.sh`, `mux_final.sh`, dan `remux_audio.sh` merujuknya sebagai teks
+> tetap, dan berkas yang dipasang di `public/video/` toh bernama
+> `video-edukasi-mr-kabar.mp4` tanpa nomor versi. Mengganti namanya hanya
+> memindahkan tempat kekeliruan bisa terjadi.
+
+## Yang berubah pada v4 (1 Agustus 2026)
+
+Ditinjau ulang setelah seluruh butir A revisi aplikasi selesai. Hasil
+peninjauan: **satu bagian video menjadi salah**, delapan bagian lain tidak
+salah tetapi tidak lagi lengkap.
+
+Yang salah, dan sudah direkam ulang: menit 13:15 versi lama menyebut Sangat
+Tinggi, Tinggi, dan Moderat "ketiganya tidak bisa diterima". Itu benar ketika
+ambangnya masih tertanam di dalam kode. Sesudah Selera Risiko menjadi data
+yang ditetapkan Pemda sendiri, kalimat itu bertentangan dengan aplikasi.
+
+Dua segmen baru: **s24 Tiga peran yang sering tertukar** (Penanggung Jawab
+Pengelolaan Risiko ≠ Pemilik Risiko ≠ Penanggung Jawab Pengendalian) dan
+**s25 Uji coba pengendalian** (langkah ke-4 dari enam langkah Perdep).
+
+Sepuluh sisipan pada segmen yang sudah ada: Arahan & jadwal penilaian, lima
+kriteria celah pengendalian, pertentangan dua sumber simpulan CEE, Form 14
+sebagai laporan wajib keempat, RTP yang tidak boleh duplikatif, struktur
+pengelola sebagai data, akun peninjau, dan panel jadwal pada Dashboard.
+
+Ditambah beberapa selingan ringan supaya segmen padat tidak terasa
+menjemukan, serta delapan efek masuk dan lima gerak diam baru di
+`animation_template.html` (`swing`, `stamp`, `spinin`, `unfold`, `bounce`,
+`diag`, `wipe`; `breathe`, `drift`, `wobble`, `tick`, `shake`).
+
+Naskah: 128 → 159 kalimat. Scene: 23 → 25. Bab: 20 → 22. Durasi 23:37 → 30:00.
+
+Skrip penambalnya disimpan agar jejak perubahannya terbaca: `revisi_v4.py`
+(naskah), `koreografi_v4.py` dan `koreografi_v4b.py` (koreografi),
+`koreografi_v4c.py` dan `koreografi_v4d.py` (perbaikan tata letak sesudah
+`cek_tumpang.cjs` melaporkan 39 pasangan beririsan). Semuanya menolak berjalan
+dua kali. Dua alat bantu baru: `_kotak.cjs` mencetak kotak-batas tiap item pada
+detik tertentu, `_sambung.py` menyambung literal yang terpotong baris baru.
+
+## Latar belakang v3
 
 Versi ini **menggantikan** v1 dan v2 sepenuhnya. Keduanya sudah dihapus dari
 `public/video/` dan pemilih "Video 1 / Video 2" di `/settingsapp` ikut dibuang,
@@ -86,6 +129,26 @@ memeriksa tata letak sebelum render penuh.
 - **Jangan menganimasikan `#bg`.** Men-scale/rotate lapisan 1920×1080 berisi
   tiga radial-gradient memaksa raster ulang penuh tiap frame dan membuat render
   melar dari ~50 menit jadi ~7 jam.
+- **Satu `card` setinggi 250–290 piksel, bukan ~150.** Diukur pada v4 lewat
+  `_kotak.cjs`, yang mencetak kotak-batas tiap item pada detik tertentu.
+  Menaruh dua baris kartu berjarak 150 piksel dijamin bertumpuk. Kalau
+  `cek_tumpang.cjs` mengeluh, pakai `_kotak.cjs` untuk melihat angkanya
+  daripada menebak.
+- **Efek masuk yang MEMBESAR dulu menutupi tetangganya.** `stamp` berangkat
+  dari skala 2,3 dan `zoom` dari 1,7; sesaat keduanya jauh lebih besar
+  daripada ukuran akhirnya. Pakai hanya di tempat yang sekelilingnya lapang;
+  di baris yang rapat pakai `pop` atau `rise`. Hal yang sama berlaku untuk
+  `rise` pada item besar: ia berangkat 120 piksel lebih rendah, jadi sempat
+  melintasi apa pun yang ada di bawahnya.
+- **Lupa memberi `out` adalah kesalahan tersering.** Kalimat berikutnya
+  memasang isi baru, tetapi isi lama tidak pernah diperintahkan pergi. Pada
+  v4 inilah penyebab 30 dari 39 tumpang tindih yang pertama kali dilaporkan.
+- **Kalau menambal lewat skrip Python, tulis `\\n` bukan `\n`.** Di dalam
+  string Python biasa, `\n` berubah jadi baris baru sungguhan sehingga
+  literal JavaScript-nya terpotong dan seluruh `animation.html` gagal
+  dimuat — gejalanya cuma `window.setVideoTime is not a function`, yang
+  sama sekali tidak menunjuk ke penyebabnya. `_sambung.py` menyatukan
+  kembali baris yang sudah terlanjur terpotong.
 - **Tangkapan layar** di `shots/` diambil ulang lewat skrip dengan akun
   sementara yang langsung dihapus. Keduanya (`shots/`, `img/`) di-gitignore
   karena bisa diambil ulang dan totalnya belasan MB.
