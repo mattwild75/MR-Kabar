@@ -33,6 +33,11 @@ cp stem-music.mp3                     "$PUB/edu-music.mp3"
 cp stem-sfx.mp3                       "$PUB/edu-sfx.mp3"
 cp subtitle.vtt                       "$PUB/edu-subtitle.vtt"
 cp transkrip.txt                      "$PUB/edu-transkrip.txt"
+# Daftar bab TIDAK ikut ke public/: ia di-import langsung oleh berkas TSX,
+# jadi tempatnya di resources/. Sempat terlewat pada v4 — akibatnya daftar
+# bab di aplikasi masih memakai waktu video lama, dan setiap lompatan bab
+# mendarat di tempat yang salah tanpa ada yang tampak rusak.
+cp chapters.json                      "../../resources/js/data/edu-video-chapters.json"
 
 mkdir -p "$PUB/klip"
 cp klip/*.mp4 "$PUB/klip/" 2>/dev/null || true

@@ -88,7 +88,7 @@ export default function PanduanIndex() {
           </nav>
 
           {/* Video edukasi versi LENGKAP ditaruh di sini, bukan cuma di halaman
-              login: 23 menit terlalu panjang untuk ditonton orang yang sedang
+              login: 30 menit terlalu panjang untuk ditonton orang yang sedang
               berdiri di pintu masuk. Di sini penonton bisa melompat per bab,
               menyaring bagian sesuai perannya, dan menguji pemahamannya. */}
           {video.enabled && (
@@ -96,7 +96,7 @@ export default function PanduanIndex() {
             <h2 className="mb-1 text-lg font-semibold">Video Edukasi (versi lengkap)</h2>
             <p className="mb-4 text-sm text-muted-foreground">
               {video.bawaan
-                ? 'Seluruh isi panduan ini dalam bentuk video 23 menit — lima tahap Perdep PPKD No.4/2019, cara menulis pernyataan risiko, membaca matriks 5×5, sampai satu contoh risiko yang ditelusuri dari awal hingga muncul di Dashboard. Klik judul bab untuk melompat langsung ke bagiannya.'
+                ? 'Seluruh isi panduan ini dalam bentuk video 30 menit — lima tahap Perdep PPKD No.4/2019, cara menulis pernyataan risiko, membaca matriks 5×5, sampai satu contoh risiko yang ditelusuri dari awal hingga muncul di Dashboard. Klik judul bab untuk melompat langsung ke bagiannya.'
                 : 'Video edukasi yang dipasang oleh admin aplikasi.'}
             </p>
             <EduVideoPlayer

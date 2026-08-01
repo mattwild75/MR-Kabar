@@ -565,7 +565,7 @@ export default function EduVideoPlayer({
 
                 {/* Daftar isi di DALAM pemutar. Daftar di bawah pemutar tidak
                     terjangkau saat layar penuh, padahal di sanalah melompat
-                    antar-bab paling dibutuhkan pada video 23 menit. */}
+                    antar-bab paling dibutuhkan pada video 30 menit. */}
                 {chapterNav && daftarBuka && (
                     <div
                         className={`absolute right-3 z-10 flex w-72 max-w-[85%] flex-col overflow-hidden rounded-md bg-black/85 text-white shadow-lg backdrop-blur-sm ${
@@ -601,7 +601,7 @@ export default function EduVideoPlayer({
                 )}
 
                 {/* Judul bab yang sedang berjalan. Di layar penuh tidak ada
-                    petunjuk lain soal posisi kita di dalam video 23 menit. */}
+                    petunjuk lain soal posisi kita di dalam video 30 menit. */}
                 {chapterNav && judulBab && tampilTombolPenuh && (
                     <div className="pointer-events-none absolute top-3 left-3 rounded bg-black/60 px-2 py-1 text-xs text-white/90">
                         {judulBab}

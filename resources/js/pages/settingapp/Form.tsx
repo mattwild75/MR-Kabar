@@ -375,7 +375,7 @@ export default function SettingForm({ setting }: Props) {
               <Separator />
               <h3 className="text-lg font-semibold">Video Edukasi</h3>
               <p className="text-muted-foreground text-sm">
-                Video pengenalan manajemen risiko &amp; MR Kabar (23 menit). Bisa ditonton lewat tombol
+                Video pengenalan manajemen risiko &amp; MR Kabar (30 menit). Bisa ditonton lewat tombol
                 "Tonton video" di halaman login, dan versi lengkap dengan daftar bab, penyaring peran, serta uji
                 pemahaman ada di menu Panduan.
               </p>
