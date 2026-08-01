@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ArahanPenilaianRisiko;
 use App\Models\CeeJawaban;
 use App\Models\CeeKelemahanDokumen;
 use App\Models\CeeRtp;
@@ -14,6 +15,7 @@ use App\Models\KrsPd;
 use App\Models\KrsPemda;
 use App\Models\LaporanKejadianRisiko;
 use App\Models\ProgramBupatiRisiko;
+use App\Models\StrukturPengelolaRisiko;
 use App\Services\KroIroPdSyncService;
 use App\Services\KrsIrsPdSyncService;
 use App\Services\KrsIrsSyncService;
@@ -87,6 +89,32 @@ class TrashController extends Controller
                 'subtitle_fields' => ['rencana_tindak_pengendalian', 'penanggung_jawab'],
                 'owned' => false,
                 'opd_scoped' => true,
+                'sync' => null,
+            ],
+            // Ditemukan 1 Agustus 2026 dengan cara yang sama seperti CEE 1d di
+            // atas: keduanya punya tombol Hapus di UI dan memakai SoftDeletes,
+            // tetapi tidak pernah didaftarkan di sini sehingga datanya tidak
+            // dapat dipulihkan lewat aplikasi sama sekali. Keduanya lahir pada
+            // hari yang sama dengan modulnya (butir A5 dan A11) dan luput
+            // didaftarkan saat itu.
+            //
+            // Keduanya berskala Pemerintah Daerah, bukan per-SKPK, sehingga
+            // `opd_scoped` bernilai false — yang boleh memulihkannya hanya
+            // pengguna yang berwenang atas seluruh SKPK.
+            'arahan_penilaian' => [
+                'model' => ArahanPenilaianRisiko::class,
+                'label' => 'Arahan & Kebijakan Penilaian Risiko',
+                'title_field' => 'nomor_se',
+                'subtitle_fields' => ['jenis', 'tahun_mulai', 'tahun_selesai'],
+                'owned' => false,
+                'sync' => null,
+            ],
+            'struktur_pengelola' => [
+                'model' => StrukturPengelolaRisiko::class,
+                'label' => 'Struktur Pengelola Risiko',
+                'title_field' => 'jabatan',
+                'subtitle_fields' => ['nama', 'peran', 'tahun'],
+                'owned' => false,
                 'sync' => null,
             ],
             'krs_pemda' => [
