@@ -70,6 +70,28 @@ php artisan db:seed --force      # HANYA pada pemasangan baru
 php artisan storage:link
 ```
 
+**`db:seed` mengisi izin, menu, dan satu akun admin — beserta data referensi
+Risiko bila tabelnya masih kosong.** Enam tabel referensi (matriks 5×5, level
+Risiko berikut Selera Risiko, kriteria dampak, kriteria kemungkinan, 41 Jenis
+Risiko, Entitas Penilai) **tidak dibentuk berisi oleh migrasi mana pun** —
+migrasinya hanya membuat tabel kosong. Tanpa isinya, matriks analisis kosong
+dan seluruh penilaian Risiko mati tanpa pesan galat yang menjelaskan kenapa.
+
+`DatabaseSeeder` memanggil `RiskReferenceDataSeeder` **hanya ketika
+`risk_levels` masih kosong**. Penjagaan itu disengaja: seeder-nya memakai
+`updateOrCreate`, sehingga menjalankannya di basis data yang matriks atau
+Selera Risikonya sudah disesuaikan Admin akan mengembalikan nilai awalnya
+diam-diam.
+
+**Jangan pernah menjalankan seeder data contoh di produksi.** Yang berikut ini
+membuat data Tahun Penilaian 2025 buatan, bukan pengisian SKPK sungguhan:
+`Set2025Seeder` (dan ketujuh yang dipanggilnya), `RegisterRisiko2025Seeder`,
+`CeeContoh*Seeder`, `DataUmumContohSeeder`, `LaporanKejadianSeeder`,
+`KrsKroPdVariasiSeeder`, `ProgramNonPrioritasSeeder`,
+`PencatatanKejadianRisikoDinkesSeeder`, dan
+`PenanggungJawabPengendalianContohSeeder`. Tidak satu pun dipanggil
+`DatabaseSeeder`; semuanya harus diketik sendiri lewat `--class=`.
+
 Beri hak tulis pada pengguna web server (`www-data` atau setara):
 
 ```bash
@@ -131,6 +153,13 @@ dan pengaturan Node — diam-diam.)
 Kalau nanti queue worker diaktifkan, worker perlu di-restart tiap deploy —
 lihat [PANDUAN_LIVE_WORKER.md](PANDUAN_LIVE_WORKER.md).
 
+**Menandai versi dilakukan lewat halaman Backup, bukan `git tag` di terminal.**
+Tiap versi terdiri atas dua hal yang tidak boleh terpisah: tag git dan salinan
+basis data pada saat tag itu dibuat. Tag tanpa snapshot tidak bisa dimundurkan
+dengan aman — kode lama akan memanggil kolom yang belum dikenalnya, dan
+aplikasi gagal terbuka tanpa petunjuk. Caranya di
+[VERSI_DAN_SNAPSHOT.md](VERSI_DAN_SNAPSHOT.md).
+
 ---
 
 ## C. Lima pemeriksaan sesudah deploy
@@ -144,6 +173,13 @@ Lakukan berurutan; masing-masing membuktikan satu hal yang berbeda.
 | 3 | `/login/cee-survey` dan `/login/lapor-kejadian` | Langsung masuk ke formulir | Sandi di `.env` tidak cocok dengan yang di basis data (A3) |
 | 4 | Form Cetak mana saja → **Unduh PDF** | Berkas PDF turun | Node/Chromium belum siap (A6) |
 | 5 | Menu **Panduan** | Video edukasi bisa diputar | Berkas LFS belum ditarik (A1) |
+| 6 | Form Input mana saja → kotak **Skala Dampak** | Kriteria 1–5 muncul, bukan daftar kosong | Data referensi Risiko belum terisi (A4) |
+
+Satu hal yang **bukan** kegagalan: widget **Jadwal Penilaian Risiko** pada
+Dasbor tampil kosong sampai Arahan dan Kebijakan Penilaian Risiko tahun
+berjalan direkam di Keterangan Pendukung. Isinya berasal dari Surat Edaran
+Bupati, dan aplikasi sengaja tidak mengarang tenggat yang tidak pernah
+diperintahkan siapa pun.
 
 ---
 

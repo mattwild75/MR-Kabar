@@ -1,8 +1,43 @@
 # Rancangan Perbup Manajemen Risiko — Catatan Keadaan dan Rencana Pembaruan
 
-Catatan keadaan naskah per 30 Juli 2026, beserta yang masih harus dikerjakan.
+Catatan keadaan naskah per 30 Juli 2026, diperbarui 1 Agustus 2026.
 Naskahnya bukan bagian dari repositori ini; berkasnya ada di Desktop\MR Kabar,
 `Peraturan Bupati Aceh Barat - Pedoman Penerapan Manajemen Risiko (2026).docx`.
+
+> **Keadaan per 1 Agustus 2026 — seluruh prasyarat aplikasi sudah tuntas.**
+> Ketujuh tahap pembaruan di bawah ditulis ketika masing-masing masih menunggu
+> sesuatu dibangun di aplikasi. Penantian itu berakhir: butir A1 sampai A12
+> pada [REVISI_APLIKASI.md](REVISI_APLIKASI.md) selesai seluruhnya, begitu pula
+> B1 sampai B3.
+>
+> **Yang tersisa bukan lagi pekerjaan aplikasi, melainkan pekerjaan naskah.**
+> Batang tubuh Perbup belum diubah sama sekali — masih 55 Pasal, belum memuat
+> satu pun Bagian baru yang direncanakan di bawah. Ketujuh tahap itu kini
+> boleh dikerjakan kapan saja.
+
+## Tiga naskah pendamping yang sudah jadi
+
+Disusun 1 Agustus 2026, seluruhnya di Desktop\MR Kabar, kertas F4 Bookman Old
+Style 12 pt, nomor dan tanggal sengaja dikosongkan untuk Bagian Hukum:
+
+| Naskah | Menjawab |
+|---|---|
+| Keputusan Bupati tentang Struktur Pengelola Risiko Tahun 2025 dan 2026 | Tahap 5 |
+| Surat Edaran Arahan dan Kebijakan Penilaian Risiko Tahun 2025 | Tahap 4 |
+| Surat Edaran Arahan dan Kebijakan Penilaian Risiko Tahun 2026 | Tahap 4 |
+
+Surat Edaran 2025 memuat sekaligus arahan lima tahunan 2025–2029, sesuai
+Perdep Lampiran 3 dan 4.
+
+**Tiga hal pada ketiga naskah itu perlu dicocokkan dengan dokumen resmi**
+sebelum ditetapkan: daftar 11 urusan pada Lampiran Surat Edaran, penyebutan
+"Dinas Pendidikan dan Kebudayaan" (di basis data hanya ada Dinas Pendidikan
+Dayah), dan rujukan Undang-Undang pembentukan Kabupaten Aceh Barat pada
+Keputusan Bupati.
+
+Keputusan Bupati **disunting manual** bila strukturnya berubah — atas
+keputusan pemilik aplikasi, penyusunnya sengaja tidak disambungkan ke basis
+data.
 
 ## Keadaan naskah sekarang
 
@@ -63,10 +98,11 @@ Perbup Aceh Barat Nomor 17 Tahun 2024 sebagai sumber primer.
 Perwal Kota Cilegon Nomor 2 Tahun 2022 dipakai sebagai pembanding karena praktik
 pengelolaan Risikonya dinilai konsisten dan menjadi salah satu perintis MRPN.
 Naskah kita lebih maju di banyak hal, tetapi Cilegon lebih operasional di tujuh titik
-berikut. **Seluruh tahap di bawah ditunda sampai prasyarat aplikasinya selesai** —
-lihat [REVISI_APLIKASI.md](REVISI_APLIKASI.md).
+berikut. **Prasyarat aplikasi untuk ketujuhnya sudah terpenuhi per 1 Agustus 2026**;
+keterangan "Prasyarat: A…" di bawah dipertahankan sebagai jejak alasan, bukan sebagai
+penghalang yang masih berlaku.
 
-### Tahap 0 — verifikasi
+### Tahap 0 — verifikasi  *(satu butir masih terbuka)*
 
 - ~~Nomor Lembaran Negara Perpres 39/2023 tentang MRPN.~~ **Selesai** — LN Tahun 2023
   Nomor 90, ditetapkan dan diundangkan 16 Juni 2023, diverifikasi langsung dari naskah
@@ -87,20 +123,28 @@ Formulir 7 tanpa pernah merumuskannya — cacat yang sejenis dengan Toleransi Ri
 dan SPIP yang sudah diperbaiki. Tambahkan pula Perka BPKP 25/2013 dan Perpres 39/2023
 pada Mengingat bila Tahap 0 berhasil.
 
-### Tahap 2 — Bagian baru "Pengembangan Budaya Sadar Risiko" pada BAB III
+### Tahap 2 — Bagian baru "Pengembangan Budaya Sadar Risiko" pada BAB III  *(prasyarat A8 terpenuhi)*
 
 Sekarang budaya sadar Risiko hanya muncul sebagai tujuan pada Pasal 3, tanpa satu
 pasal pun yang mengatur caranya. Cilegon mengaturnya operasional: sosialisasi
 pemahaman Risiko, internalisasi dalam pengambilan keputusan, perbaikan lingkungan
 pengendalian, serta empat bentuknya termasuk penghargaan atas pengelolaan Risiko yang
-baik. Perkiraan 2 Pasal. Prasyarat aplikasi: A8.
+baik. Perkiraan 2 Pasal. Prasyarat aplikasi A8 **sudah terpenuhi**: peringkat ketaatan
+per SKPK ternyata sudah ada sejak semula sebagai widget Kepatuhan Pelaporan pada
+Seksi 6 Dasbor, jadi tidak ada modul baru yang perlu dibangun untuk butir ini.
 
-### Tahap 3 — penguatan BAB V
+### Tahap 3 — penguatan BAB V  *(prasyarat A2, A3, A4, A9 terpenuhi)*
 
-- Kriteria kapan pengendalian dinyatakan tidak efektif, empat butir. Prasyarat: A2.
-- Kewajiban uji coba sebelum pengendalian diberlakukan. Prasyarat: A4.
+- Kriteria kapan pengendalian dinyatakan tidak efektif. Prasyarat A2 terpenuhi —
+  aplikasi kini menuntun **lima** kriteria baku Perdep sebagai centang wajib saat
+  efektivitas dinilai Tidak Efektif atau Kurang Efektif. Lima, bukan empat seperti
+  dugaan semula; rumusannya ada di `resources/js/lib/irs-reference-data.ts`
+  konstanta `CELAH_PENGENDALIAN_KRITERIA` dan sebaiknya dikutip persis.
+- Kewajiban uji coba sebelum pengendalian diberlakukan. Prasyarat A4 terpenuhi —
+  Form 9 kini merekam triwulan uji coba, tahunnya, hasilnya, dan berkas buktinya.
 - Kewajiban menyelaraskan RTP lingkungan pengendalian dengan RTP Risiko agar tidak
-  duplikatif. Prasyarat: A3.
+  duplikatif. Prasyarat A3 terpenuhi — aplikasi menandai rumusan yang mirip dan
+  penandanya dapat ditutup permanen bila memang berbeda.
 
 Perkiraan 3 Pasal, disisipkan pada Bagian Rencana Tindak Pengendalian dan Bagian
 Pemantauan.
@@ -108,7 +152,13 @@ Pemantauan.
 Ditambah perubahan **Formulir 15 pada Lampiran XII**: sekarang hanya memuat Unsur,
 Simpulan, Penjelasan, Penyusun, dan Jabatan Penyusun. Perlu ditambah kolom hasil
 reviu dokumen dan hasil survei persepsi beserta uraiannya, serta ketentuan bahwa
-bila kedua sumber bertentangan dilakukan pendalaman. Prasyarat: A9.
+bila kedua sumber bertentangan dilakukan pendalaman. Prasyarat A9 terpenuhi —
+dan di sini ada **ralat atas catatan ini sendiri**: penyandingan dua sumber itu
+SUDAH ADA sejak semula, baik di form maupun di Form Cetak delapan kolom. Yang
+kurang justru perintah pada kolom (g) ketika keduanya bertentangan. Sambil
+membangunnya ditemukan dua cacat lama: kotak Penjelasan dimatikan justru ketika
+simpulannya "Memadai", dan kolom (g) Form Cetak menghitung ulang alih-alih
+mencetak keputusan penyusun. Keduanya sudah diperbaiki.
 
 ### Tahap 4 — Bagian baru "Jadwal Penyelenggaraan" dan Lampiran jadwal
 
@@ -120,20 +170,32 @@ sampai Februari, dan reviu APIP Februari sampai Maret.
 
 Bentuknya: satu Bagian pada BAB V ditambah satu Lampiran berisi tabel jadwal (waktu,
 tahapan perencanaan, tahapan Manajemen Risiko, pelaksana, keluaran) dan satu
-ilustrasi berwarna. Prasyarat: A1.
+ilustrasi berwarna. Prasyarat A1 terpenuhi — jadwalnya kini berupa data
+(Arahan dan Kebijakan Penilaian Risiko berikut tahapannya) dan tampil sebagai
+garis waktu di Dasbor lengkap dengan penanda tenggat terlampaui. Kedua Surat
+Edaran yang menjadi sumbernya juga sudah disusun, jadi tabel Lampiran jadwal
+dapat disalin langsung dari sana alih-alih dikarang ulang.
 
 ### Tahap 5 — susunan Komite dan UPR
 
 Naskah menyebut siapa yang menjabat tetapi tidak susunan internalnya, sehingga belum
 bisa langsung dijadikan dasar Keputusan Bupati. Tambahkan susunan ketua, koordinator
 teknis, dan anggota untuk Komite dan tiga tingkatan UPR, serta kewenangan membentuk
-tim teknis. Prasyarat: A5.
+tim teknis. Prasyarat A5 terpenuhi — struktur pengelola Risiko kini berupa data per
+tahun dengan kedudukan ketua, koordinator merangkap anggota, dan anggota, berikut
+bagan yang digambar sendiri mengikuti Gambar 2.6 Perdep. Keputusan Bupati untuk
+2025 dan 2026 sudah disusun dari susunan itu.
 
-### Tahap 6 — laporan Komite sebagai jenis laporan keempat
+### Tahap 6 — laporan Komite sebagai jenis laporan keempat  *(prasyarat A6 terpenuhi)*
 
 Sekarang tiga jenis laporan. Komite diberi tugas memantau efektivitas tetapi tanpa
 kewajiban melaporkan. Tambahkan jenis keempat berikut sistematikanya pada Lampiran
-sistematika laporan. Prasyarat: A6.
+sistematika laporan.
+
+**Ralat atas catatan ini sendiri:** periodenya **semesteran dan tahunan**, bukan
+triwulanan seperti yang semula diduga. Aplikasi merekamnya sebagai S1, S2, dan
+TAHUNAN pada Form 14. Naskah Perbup harus mengikuti periode itu, bukan menyamakannya
+dengan laporan berkala UPR yang memang triwulanan.
 
 ### Tahap 7 — bangun ulang dan verifikasi
 
@@ -168,5 +230,9 @@ Bukan soal penaskahan, memerlukan keputusan Bupati dan Bagian Hukum:
    realistis bagi 49 SKPK.
 2. Apakah pembagian tugas Komite dan Unit Kepatuhan cocok dengan kebiasaan kerja di
    Aceh Barat.
-3. Apakah istilah "Administrator" perlu diganti nama agar tidak berbenturan dengan
-   jenjang jabatan administrator ASN.
+3. ~~Apakah istilah "Administrator" perlu diganti nama agar tidak berbenturan dengan
+   jenjang jabatan administrator ASN.~~ **Sudah diputuskan 1 Agustus 2026:** nama
+   peran di aplikasi **tidak diganti**. Super Admin tetap pemilik aplikasi, Admin
+   adalah pengelola data selain pemilik. Yang perlu dijaga hanya satu: **naskah
+   Perbup jangan memakai kata "Administrator"**, supaya tidak terbaca sebagai jenjang
+   jabatan administrator ASN.

@@ -96,8 +96,13 @@ Tiga hal yang sudah kita punya justru menjadi pijakan yang baik:
 
 ## Tahapan yang disarankan
 
-Roadmap ini **tidak** untuk dikerjakan sekarang. Prioritasnya tetap menuntaskan
-prasyarat Perbup lebih dulu — lihat [REVISI_APLIKASI.md](REVISI_APLIKASI.md).
+Roadmap ini **tidak** untuk dikerjakan sekarang, tetapi alasannya sudah berubah.
+Sampai 31 Juli 2026 penghalangnya adalah prasyarat Perbup yang belum selesai;
+per 1 Agustus 2026 seluruh prasyarat itu **sudah tuntas**
+(lihat [REVISI_APLIKASI.md](REVISI_APLIKASI.md)). Yang menahan sekarang tinggal
+Tahap 1 di bawah: keputusan apakah Aceh Barat memang akan ikut MRPN. Itu keputusan
+Bupati, bukan keputusan teknis, dan tidak ada gunanya membangun Tahap 3 ke atas
+sebelum keputusan itu diambil.
 
 ### Tahap 1 — membaca dan memutuskan
 
@@ -130,8 +135,14 @@ dikerjakan sebelum Tahap 1 memutuskan.
 
 Unit Pemilik Risiko Lintas Sektor dan Pengawas Intern Lintas Sektor sebagai peran
 tersendiri, dengan kewenangan membaca risiko beberapa SKPK sekaligus. Menumpang modul
-struktur pengelola Risiko (butir A5 pada REVISI_APLIKASI.md), jadi modul itu sebaiknya
-dirancang sejak awal agar bisa memuat peran lintas sektor.
+struktur pengelola Risiko, yang **sudah dibangun 1 Agustus 2026** (butir A5).
+
+Kabar baiknya, modul itu memang menampung peran sebagai data per tahun berikut
+kedudukan ketua, koordinator, dan anggota — bentuk yang sama dengan yang dibutuhkan
+peran lintas sektor. Yang perlu diubah nanti hanya satu: daftar perannya masih
+konstanta tetap `StrukturPengelolaRisiko::PERAN_LABEL`, tujuh peran menurut
+Gambar 2.6 Perdep. Menambah peran lintas sektor berarti menambah entri di sana dan
+menambahkan kotaknya pada bagan — bukan merombak modulnya.
 
 ### Tahap 5 — pemerintah gampong
 
