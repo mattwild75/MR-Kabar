@@ -105,16 +105,32 @@ selera risiko atau preferensi manajemen pemerintah daerah**", dan tabelnya
 berjudul "Contoh". Tetapi penyimpangan yang dibolehkan tetap harus **disengaja
 dan tercatat**, bukan terjadi begitu saja.
 
-### Yang perlu diputuskan
+### Sudah diputuskan — 1 Agustus 2026
 
-Satu pilihan, dan pilihan itu milik Bupati selaku penetap Selera Risiko:
+**Selera Risiko Kabupaten Aceh Barat ditetapkan sampai dengan peringkat
+Sedang.** Risiko berperingkat Tinggi dan Sangat Tinggi berada di luar Selera
+Risiko dan wajib disusun RTP-nya; Sedang, Rendah, dan Sangat Rendah berada di
+dalamnya dan cukup dipantau.
 
-1. **Ikuti bawaan Perdep** — tandai Sedang sebagai melampaui selera, sehingga
-   Sangat Tinggi, Tinggi, dan Sedang wajib punya RTP. Cukup satu centang pada
-   Keterangan Pendukung; tidak ada kode yang perlu diubah.
-2. **Pertahankan setelan sekarang** — Sedang dapat diterima. Sah, tetapi
-   sebaiknya dituangkan sebagai keputusan Selera Risiko yang tertulis, bukan
-   dibiarkan sebagai setelan bawaan aplikasi.
+Ini **penyimpangan yang disengaja** dari contoh Perdep, dan Perdep sendiri yang
+membukanya: penetapan prioritas "dipengaruhi oleh selera risiko atau preferensi
+manajemen pemerintah daerah". Sejak keputusan ini, penyimpangannya tidak lagi
+berupa setelan bawaan aplikasi melainkan ketetapan tertulis.
+
+Tempat keputusan itu tercatat, dan semuanya sudah berbunyi sama:
+
+| Tempat | Bentuk |
+|---|---|
+| Lampiran VII Perbup | tabel peringkat Risiko berkolom kedudukan terhadap Selera Risiko, ditambah pernyataan penetapannya |
+| Pasal 7 Perbup | kewenangan Bupati menggeser batas itu, tanpa perlu mengubah Perbup |
+| `risk_levels.melampaui_selera` | Tinggi dan Sangat Tinggi bernilai benar |
+| Keterangan Pendukung | garis putus-putus bertangga pada matriks 5×5 |
+| Video edukasi dan kuis | dijelaskan sebagai batas yang ditetapkan Pemda, berikut setelan yang berlaku |
+
+Konsekuensi yang perlu disadari: dengan batas ini, Risiko berperingkat Sedang
+**tidak** masuk Daftar Risiko Prioritas. Kalau suatu saat Bupati menggesernya ke
+Rendah, jumlah Risiko Prioritas akan naik dan seluruh angka Dasbor ikut berubah
+tanpa satu baris kode pun disentuh — memang begitu rancangannya.
 
 ## 4. Ralat atas kesimpulan saya sendiri
 

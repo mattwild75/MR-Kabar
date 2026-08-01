@@ -1266,15 +1266,25 @@ A(ttd_lampiran())
 
 # ── LAMPIRAN VI: peringkat risiko ──
 A(kepala_lampiran("VII", "PERINGKAT RISIKO"))
-baris = [["No.", "Peringkat Risiko", "Rentang Skala Risiko"]]
+baris = [["No.", "Peringkat Risiko", "Rentang Skala Risiko", "Kedudukan terhadap Selera Risiko"]]
 for i, lv in enumerate(REF["level"], 1):
-    baris.append([str(i), lv["label"], f"{lv['skala_min']} sampai dengan {lv['skala_max']}"])
-A(keterangan_tabel("Peringkat Risiko dan perlakuan yang diperlukan"))
-A(tabel([800, 3200, 4000], baris, p=20, rata_sel=["center", "left", "center"]))
+    baris.append([
+        str(i), lv["label"], f"{lv['skala_min']} sampai dengan {lv['skala_max']}",
+        "Di luar Selera Risiko - wajib disusun RTP" if lv.get("melampaui_selera")
+        else "Dalam Selera Risiko - cukup dipantau",
+    ])
+A(keterangan_tabel("Peringkat Risiko dan kedudukannya terhadap Selera Risiko"))
+A(tabel([600, 2100, 2300, 3000], baris, p=20,
+        rata_sel=["center", "left", "center", "left"]))
 A(P("", after=200))
-A(par("Risiko dengan peringkat tinggi dan sangat tinggi wajib ditetapkan sebagai Risiko Prioritas "
-      "dan disusun RTP-nya, kecuali ditentukan lain berdasarkan Selera Risiko yang telah "
-      "ditetapkan.", after=160))
+A(par("Selera Risiko Pemerintah Kabupaten Aceh Barat ditetapkan sampai dengan peringkat Sedang. "
+      "Dengan demikian Risiko berperingkat Tinggi dan Sangat Tinggi berada di luar Selera Risiko, "
+      "ditetapkan sebagai Risiko Prioritas, dan wajib disusun RTP-nya. Risiko berperingkat Sedang, "
+      "Rendah, dan Sangat Rendah berada dalam Selera Risiko dan cukup dipantau.", after=140))
+A(par("Penetapan sebagaimana dimaksud pada paragraf di atas merupakan Selera Risiko yang berlaku "
+      "saat Peraturan Bupati ini ditetapkan. Bupati dapat menggeser batas tersebut sesuai Pasal 7, "
+      "dan pergeserannya direkam pada MR KABAR sehingga penentuan Risiko Prioritas menyesuaikan "
+      "dengan sendirinya tanpa mengubah Peraturan Bupati ini.", after=160))
 A(par("Seluruh Risiko yang telah dinilai disebar pada matriks sehingga terbentuk peta Risiko. "
       "Gambar berikut merupakan peta Risiko Pemerintah Kabupaten Aceh Barat tahun 2025 sebagai "
       "contoh pembacaan.", after=140))
