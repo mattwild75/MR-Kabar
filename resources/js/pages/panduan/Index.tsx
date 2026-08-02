@@ -6,6 +6,7 @@ import EduVideoPlayer from '@/components/edu-video-player';
 import EduVideoQuiz from '@/components/edu-video-quiz';
 import RekapKuisVideo, { type RekapKuis } from '@/components/ui/rekap-kuis-video';
 import { useEduVideo } from '@/lib/edu-video';
+import BAB_TUTORIAL from '@/data/tutorial-video-chapters.json';
 
 /**
  * Halaman panduan/dokumentasi statis "Apa itu Manajemen Risiko / MR Kabar".
@@ -145,6 +146,41 @@ export default function PanduanIndex({
               </div>
             </section>
           ))}
+
+          {/* Video tutorial pengisian — SELALU di paling bawah halaman, sesudah
+              seluruh bagian panduan. Letaknya disengaja: video edukasi di atas
+              menjelaskan KONSEPNYA, video ini menunjukkan CARA MENGISINYA, dan
+              yang kedua baru berguna setelah yang pertama dipahami. Orang yang
+              sedang mengisi aplikasi pun terbiasa menggulir ke bawah mencari
+              contoh, bukan ke atas. */}
+          <section id="video-tutorial" className="scroll-mt-20 rounded-md border bg-card p-5">
+            <h2 className="mb-1 text-lg font-semibold">Video Tutorial Pengisian (dari awal sampai laporan)</h2>
+            <p className="mb-3 text-sm text-muted-foreground">
+              Satu perangkat daerah mengisi satu tahun penuh — dari Data Umum, CEE, penetapan konteks,
+              identifikasi dan analisis risiko, rencana tindak, monitoring, sampai formulir cetaknya siap
+              ditandatangani. Setiap isian dan setiap pilihan dijelaskan alasannya. Klik judul bab untuk
+              melompat ke bagiannya.
+            </p>
+            <p className="mb-4 rounded-md border border-amber-500/60 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+              <strong>Seluruh isian dalam video ini adalah data contoh.</strong> Isinya disusun agar masuk akal
+              dan mendekati keadaan sebenarnya, tetapi tetap contoh. Untuk pengisian yang sesungguhnya, setiap
+              pernyataan risiko, penyebab, dan angka skala dikembalikan kepada pertimbangan penilai risiko
+              masing-masing melalui PIC atau unit pemilik risiko di perangkat daerahnya sendiri.
+            </p>
+            <EduVideoPlayer
+              src="/video/tutorial-mr-kabar.mp4"
+              vtt="/video/tutorial-subtitle.vtt"
+              subtitleEnabled={video.subtitleEnabled}
+              subtitleSize={video.subtitleSize}
+              chapters={BAB_TUTORIAL}
+              chapterNav
+              showChapters
+              downloads={[
+                { label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)', href: '/video/tutorial-mr-kabar-720p.mp4' },
+                { label: 'Unduh transkrip (.txt)', href: '/video/tutorial-transkrip.txt' },
+              ]}
+            />
+          </section>
         </div>
       </div>
     </AppLayout>

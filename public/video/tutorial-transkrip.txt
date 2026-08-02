@@ -1,0 +1,309 @@
+Transkrip Video Tutorial Pengisian MR Kabar
+Seluruh isian dalam video ini adalah DATA CONTOH.
+
+
+== Bagian I. Sebelum mulai
+
+[00:00] Selamat datang di MR Kabar, aplikasi manajemen risiko Pemerintah Kabupaten Aceh Barat.
+[00:06] Video ini mengikuti satu perangkat daerah mengisi satu tahun penuh — dari halaman yang masih kosong sampai laporannya tercetak dan siap ditandatangani.
+[00:16] Satu hal perlu disampaikan lebih dulu, dan ini penting. Seluruh isian dalam video ini adalah data contoh.
+[00:23] Isinya memang disusun supaya masuk akal dan mendekati keadaan sebenarnya, tetapi ia tetap contoh — dibuat untuk menunjukkan caranya, bukan untuk disalin.
+[00:34] Pada pengisian yang sesungguhnya, setiap pernyataan risiko, setiap penyebab, dan setiap angka skala dikembalikan kepada pertimbangan penilai risikonya sendiri — melalui PIC atau unit pemilik risiko di perangkat daerah masing-masing.
+[00:47] Kita mulai dari halaman masuk. Nama pengguna diisi sesuai akun yang diberikan admin aplikasi.
+[00:55] Ada tiga jenis akun di aplikasi ini, dan bedanya perlu diketahui sejak awal.
+[01:00] Akun PIC mengisi data perangkat daerahnya sendiri. Akun Admin melihat dan mengelola seluruh perangkat daerah. Dan akun peninjau hanya bisa membaca, tidak bisa mengubah apa pun.
+[01:14] Yang kita pakai hari ini akun PIC — karena akun inilah yang dipegang sebagian besar penonton video ini.
+[01:20] Halaman pertama yang terbuka adalah Dasbor.
+[01:24] Perhatikan, hampir seluruhnya masih kosong. Itu memang wajar — tahun dua ribu dua puluh enam belum diisi apa-apa.
+[01:31] Dan ini yang lebih penting: tidak ada satu pun angka di halaman ini yang diketik langsung. Semuanya dihitung sendiri dari formulir yang sebentar lagi kita isi.
+[01:43] Sekarang lihat menu di sebelah kiri, dan ingat satu hal ini baik-baik.
+[01:47] Urutan menu di sidebar bukan urutan yang asal. Ia adalah urutan kerjanya. Form Input lebih dulu, lalu Form Monitoring dan Evaluasi, baru Form Cetak.
+[02:00] Kalau Anda mengerjakannya dari atas ke bawah, tidak akan ada satu langkah pun yang terlewat. Mari kita mulai dari yang paling atas.
+
+== Bagian II. Data Umum
+
+[02:09] Menu pertama di bawah Form Input adalah Data Umum.
+[02:14] Halaman ini diisi paling awal, dan alasannya sederhana. Isinya menjadi kepala setiap formulir cetak dan blok tanda tangan di bawahnya.
+[02:22] Kalau ia diisi belakangan, formulir yang tercetak keluar tanpa identitas — dan itu baru ketahuan saat berkasnya sudah mau ditandatangani.
+[02:32] Empat kolom pertama menerangkan siapa yang mengisi.
+[02:35] Nama urusan dan sub-urusan punya daftar usulan yang muncul saat diketik. Daftar itu hanya membantu — Anda tetap boleh mengetik sendiri mengikuti dokumen resmi perangkat daerah Anda.
+[02:48] Nama dinas ditulis lengkap, karena persis kalimat inilah yang nanti tercetak di kepala formulir.
+[02:56] Kolom berikutnya, Periode Penilaian, adalah kolom yang paling sering diisi keliru.
+[03:03] Yang diminta di sini periode Renstra — dua ribu dua puluh lima sampai dua ribu dua puluh sembilan — bukan tahun berjalan.
+[03:09] Yang tahunan bukan kolom ini, melainkan penunjuk Tahun Penilaian di atas. Itulah yang menyekat data satu tahun dari tahun berikutnya.
+[03:20] Berikutnya nama kepala daerah dan kepala perangkat daerah, lengkap dengan jabatan dan NIP.
+[03:25] Kepala daerah dipakai pada laporan tingkat pemerintah daerah; kepala perangkat daerah menjadi penanda tangan formulir milik perangkat daerah.
+[03:51] Lalu PIC penilai risiko — orang yang mengisi kertas kerja ini.
+[03:55] Perhatikan bedanya. Yang mengisi dan yang menandatangani adalah dua hal berbeda, dan aplikasi ini memang memisahkannya.
+[04:05] Sekarang bagian yang paling perlu dipahami dari seluruh halaman ini: tiga kolom dokumen sumber.
+[04:10] Ketiganya bukan pengulangan. Masing-masing menandai satu tingkatan risiko yang berbeda.
+[04:17] Dokumen sumber RSP untuk risiko strategis pemerintah daerah — sumbernya RPJMD.
+[04:23] Dokumen sumber RSO untuk risiko strategis perangkat daerah — sumbernya Renstra, bukan RPJMD.
+[04:31] Dan dokumen sumber ROO untuk risiko operasional — sumbernya Renja dan DPA tahun berjalan, karena risiko operasional melekat pada kegiatan yang ada anggarannya.
+[04:40] Kalau tiga kolom ini diisi dengan dokumen yang sama semua, itu tanda tingkatan risikonya belum dibedakan — dan kekeliruannya akan menjalar sampai ke formulir cetak.
+[04:51] Tempat dan tanggal pembuatan kertas kerja tercetak tepat di atas blok tanda tangan.
+[05:00] Terakhir, daftar penanda tangan.
+[05:04] Daftar ini milik masing-masing perangkat daerah, bukan satu daftar untuk seluruh pemerintah daerah. Urutan barisnya menentukan urutan tampil dari kiri ke kanan pada formulir cetak.
+[05:14] Kita isi enam baris sesuai struktur Inspektorat: Sekretaris, lalu Inspektur Pembantu Wilayah satu sampai empat, dan Inspektur Pembantu Khusus.
+[05:24] Tiap baris minta tiga hal — jabatan, nama lengkap beserta gelarnya, dan NIP. Ketiganya tercetak apa adanya, jadi tulis persis seperti yang dikehendaki muncul di berkas.
+[05:35] Ada satu perilaku yang perlu diketahui supaya nanti tidak mengagetkan. Daftar ini tersambung dua arah dengan kolom Penyusun pada Form 1c CEE.
+[05:47] Artinya, kalau Anda menambah penyusun di Form 1c, barisnya ikut muncul di sini — dan sebaliknya. Pencocokannya lewat jabatan, jadi tulislah jabatan dengan sebutan yang tetap sama di kedua tempat.
+[05:59] Kalau jabatan yang sama ditulis dengan dua cara berbeda, aplikasi akan menganggapnya dua orang, dan yang tercetak jadi ada dua baris untuk satu orang.
+[06:34] Simpan.
+[06:35] Data Umum selesai, dan mulai sekarang setiap formulir cetak yang kita buka sudah punya kepala dan blok tanda tangannya sendiri.
+
+== Bagian III. CEE — mengenali kelemahan lingkungan pengendalian
+
+[06:47] Menu berikutnya adalah CEE, singkatan dari Control Environment Evaluation — evaluasi lingkungan pengendalian.
+[06:54] Letaknya sebelum penilaian risiko, dan itu bukan kebetulan. Perdep menempatkan pengenalan kelemahan lingkungan pengendalian sebagai tahap pertama, baru sesudahnya risiko dinilai.
+[07:07] Alasannya masuk akal. Kalau lingkungan pengendaliannya sendiri lemah, penilaian risiko yang disusun di atasnya ikut rapuh.
+[07:14] CEE punya empat formulir yang berurutan: 1a, 1b, 1c, dan 1d. Kita kerjakan satu per satu.
+[07:26] Formulir 1a adalah kuesioner persepsi. Tiga puluh tujuh pertanyaan, tersebar pada delapan unsur lingkungan pengendalian.
+[07:34] Yang pertama diisi identitas responden. Perhatikan syaratnya: jabatan minimal eselon empat.
+[07:42] Dan ini penting — kuesioner ini tidak diisi satu orang. Ia diisi banyak responden, dan hasilnya baru bermakna setelah jawaban mereka dirata-ratakan.
+[07:51] Kalau hanya satu orang yang mengisi, yang Anda dapatkan bukan persepsi organisasi, melainkan pendapat satu orang.
+[08:00] Pertanyaan pertama ada di unsur Penegakan Integritas dan Nilai Etika.
+[08:04] Pilihan jawabannya empat. Satu berarti belum ada atau belum dibangun. Dua, sudah ada tetapi belum konsisten. Tiga, sudah baik dan masih bisa ditingkatkan. Empat, sudah baik dan bahkan bisa ditularkan ke perangkat daerah lain.
+[08:25] Di sinilah letak salah kaprah yang paling sering. Banyak yang menjawab empat begitu aturannya ada.
+[08:31] Padahal yang ditanyakan bukan apakah aturannya ada, melainkan apakah ia dijalankan. Aturan yang tersimpan rapi di lemari tetap bernilai satu.
+[08:42] Kita jawab tiga: kode etik sudah ada dan dipakai, tetapi penerapannya masih bisa diperkuat.
+[08:48] Butir-butir berikutnya kita jawab lebih cepat, tetapi cara berpikirnya tetap sama.
+[08:54] Perhatikan bahwa tidak semuanya bernilai tiga. Beberapa butir dijawab dua, dan itu memang disengaja.
+[09:01] Jawaban dua nanti harus punya pasangannya di Formulir 1b — kelemahan yang sama harus bisa ditunjukkan buktinya di dokumen. Kalau tidak, salah satu dari keduanya pasti keliru.
+[09:15] Sekarang unsur ketiga, Kepemimpinan yang Kondusif.
+[09:19] Unsur ini punya delapan butir — paling banyak di antara delapan unsur. Itu bukan kebetulan.
+[09:27] Lingkungan pengendalian berdiri atau runtuh pada sikap pimpinan. Kalau pimpinan menganggap pengendalian sebagai penghambat, seluruh unsur lain ikut melemah betapapun rapi dokumennya.
+[09:37] Kita lanjutkan sampai unsur keenam.
+[09:40] Sepanjang mengisi, satu pegangan saja: jawablah keadaan yang sebenarnya, bukan keadaan yang ingin dilaporkan.
+[09:47] Kuesioner ini bukan penilaian kinerja. Ia alat untuk menemukan yang perlu diperbaiki, dan nilai tinggi yang tidak benar hanya menyembunyikan pekerjaan yang seharusnya dikerjakan.
+[10:00] Unsur ketujuh, Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif.
+[10:05] Kita perlu jujur di sini. Yang sedang mengisi adalah Inspektorat, dan yang sedang dinilai adalah peran Inspektorat sendiri.
+[10:14] Justru karena itu bagian ini harus diisi paling hati-hati. Menilai diri sendiri terlalu tinggi adalah kecenderungan yang wajar, dan di sinilah ia paling mudah terjadi.
+[10:24] Bagi perangkat daerah selain Inspektorat, unsur ini menanyakan hal lain: seberapa efektif pengawasan intern dirasakan di tempat Anda.
+[10:33] Unsur terakhir, Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait. Hanya dua butir.
+[10:40] Sedikit bukan berarti tidak penting. Unsur ini justru yang paling sering terlupakan karena isinya hubungan keluar, bukan urusan dalam kantor sendiri.
+[10:51] Simpan jawaban.
+[10:53] Aplikasi menghitung sendiri simpulan tiap unsur — memadai atau kurang memadai — dari rata-rata jawaban seluruh responden. Tidak ada yang perlu dihitung tangan.
+[11:05] Formulir 1b, CEE Berdasarkan Dokumen.
+[11:10] Ini bukan pengulangan 1a. Bedanya mendasar: 1a menanyakan persepsi orang, 1b memeriksa berkas.
+[11:17] Keduanya sengaja dipisah supaya pertentangannya kelihatan. Orang bisa merasa segalanya baik-baik saja sementara dokumennya bercerita lain — dan justru pertentangan itulah yang paling berguna ditemukan.
+[11:32] Kelemahan pertama, pada unsur Penegakan Integritas dan Nilai Etika.
+[11:36] Perhatikan kolom Sumber Data. Inilah yang membedakan 1b dari 1a — setiap kelemahan harus bisa ditunjuk berkasnya.
+[11:46] Kalau sebuah kelemahan tidak bisa disebutkan sumbernya, ia bukan temuan dokumen melainkan pendapat, dan tempatnya di 1a.
+[11:58] Kelemahan kedua, pada unsur Penyusunan dan Penerapan Kebijakan tentang Pembinaan Sumber Daya Manusia.
+[12:05] Ingat butir yang tadi kita jawab dua di kuesioner. Inilah pasangannya — keluhan yang sama, tetapi sekarang disertai berkasnya.
+[12:25] Kelemahan ketiga, pada unsur Perwujudan Peran APIP yang Efektif.
+[12:30] Yang satu ini akan kita temui lagi nanti sebagai penyebab risiko strategis. Itu bukan pengulangan yang sia-sia — memang begitu seharusnya.
+[12:41] Kelemahan lingkungan pengendalian yang dibiarkan akan muncul kembali sebagai penyebab risiko. Kalau di aplikasi Anda keduanya tidak pernah bertemu, kemungkinan besar salah satunya belum digali cukup dalam.
+[12:57] Formulir 1c, Simpulan Survei Persepsi.
+[13:01] Di sinilah dua sumber tadi dipertemukan, dan simpulannya ditarik per unsur: memadai, atau kurang memadai.
+[13:08] Kolom penyusun dan kepala perangkat daerah di bagian atas tersambung dua arah dengan daftar penanda tangan di Data Umum — yang tadi sudah kita isi.
+[13:18] Sekarang bagian yang paling perlu diperhatikan dari seluruh CEE.
+[13:22] Bayangkan sebuah unsur yang kuesionernya menjawab baik, tetapi dokumennya menunjukkan lemah. Mana yang diambil?
+[13:30] Jawabannya: yang bisa dibuktikan. Bukti dokumen menang atas persepsi.
+[13:36] Tetapi tidak berhenti di situ. Alasan memilihnya harus ditulis di kolom dasar simpulan — supaya penilai tahun berikutnya tahu mengapa keputusannya begitu, dan tidak mengulang pertimbangan yang sama dari nol.
+[13:50] Kolom dasar simpulan itu bukan formalitas. Ia satu-satunya tempat di seluruh aplikasi yang merekam pertimbangan manusia di balik sebuah keputusan.
+[15:50] Simpan simpulannya.
+[15:53] Perlu diingat, aplikasi sudah menghitung simpulan awal dari rata-rata kuesioner. Yang Anda lakukan di sini bukan menghitung ulang, melainkan menimbang — dan kalau perlu, menolak angka itu dengan alasan tertulis.
+[16:05] Formulir terakhir dalam CEE: 1d, Rencana Tindak Pengendalian atas CEE.
+[16:10] Setiap unsur yang disimpulkan kurang memadai harus punya rencana perbaikannya di sini. Menemukan kelemahan tanpa merencanakan perbaikannya berarti pekerjaannya berhenti di tengah.
+[16:23] Satu hal yang perlu dibedakan sejak sekarang. RTP di formulir ini memperbaiki lingkungan pengendalian — hal-hal mendasar seperti kode etik, kompetensi, atau kepemimpinan.
+[16:33] Nanti ada RTP yang lain, di Formulir 7, yang menangani risiko tertentu. Keduanya tidak boleh berisi kalimat yang sama.
+[16:44] Kalau isinya sama persis, salah satu di antaranya pasti salah tempat.
+[16:48] Rencana pertama, atas kelemahan pada unsur Penegakan Integritas dan Nilai Etika.
+[16:55] Perhatikan bentuk kalimatnya. Ia menyebut apa yang dikerjakan, oleh siapa, dan kapan selesai.
+[17:02] Rencana yang berbunyi meningkatkan integritas tidak bisa dipantau, karena tidak ada satu pun hal yang bisa dilaporkan sudah selesai atau belum.
+[17:35] Rencana kedua, atas kelemahan pemantauan tindak lanjut hasil pengawasan.
+[17:40] Yang ini akan kita temui lagi nanti. Simpan dulu dalam ingatan — kita akan melihat bagaimana satu kelemahan lingkungan pengendalian berubah menjadi penyebab sebuah risiko strategis.
+
+== Bagian IV. Risiko Strategis Pemerintah Daerah
+
+[18:25] Sekarang kita masuk ke inti aplikasi ini: penilaian risiko.
+[18:29] Ada tiga tingkatan, dan urutannya di menu sudah menuntun. Risiko Strategis Pemda, Risiko Strategis Perangkat Daerah, lalu Risiko Operasional Perangkat Daerah.
+[18:42] Tiap tingkatan punya dua formulir. Yang berhuruf a menetapkan konteksnya, yang berhuruf b mengisi risikonya.
+[18:49] Konteks lebih dulu, selalu. Risiko tidak bisa dinilai tanpa tahu sasaran apa yang sedang diancamnya.
+[18:58] Ini Formulir 1a, Konteks Risiko Strategis Pemerintah Daerah. Isinya tujuan dan sasaran RPJMD.
+[19:05] Perhatikan, kita hanya membacanya. Tingkat ini tidak diisi PIC perangkat daerah, melainkan Admin — karena isinya lintas perangkat daerah dan harus satu untuk seluruh kabupaten.
+[19:19] Yang perlu Anda lakukan di sini cuma satu: membacanya sebagai acuan. Sasaran RPJMD di halaman inilah yang nanti muncul sebagai pilihan di formulir berikutnya.
+[19:29] Sekarang Formulir 1b, Identifikasi Risiko Strategis Pemerintah Daerah.
+[19:35] Di sini perangkat daerah boleh mengisi — dan memang seharusnya. Risiko tingkat pemerintah daerah bukan milik satu instansi; ia dipikul bersama.
+[19:44] Sasaran RPJMD diambil dari Formulir 1a tadi, lalu risikonya dirumuskan.
+[19:51] Perhatikan bentuk kalimat risikonya. Ia menyebut sesuatu yang BISA TERJADI dan mengancam sasaran — bukan keluhan, bukan penyebab, dan bukan keadaan yang sudah pasti.
+[20:01] Tiga rumusan yang sering dipakai dan ketiganya keliru: kurangnya anggaran, itu penyebab. SDM terbatas, itu juga penyebab. Pelayanan buruk, itu keluhan.
+[20:15] Yang benar menyebut peristiwanya: maturitas SPIP tidak naik ke tingkat yang ditargetkan. Itu peristiwa, bisa terjadi atau tidak, dan langsung mengancam sasaran.
+[20:25] Kolom Pemilik Risiko. Di sinilah tiga peran yang paling sering tertukar perlu dibedakan.
+[20:31] Pemilik Risiko adalah pihak yang sasarannya terancam. Untuk risiko tingkat pemerintah daerah, itu Sekretaris Daerah — bukan Inspektorat.
+[20:42] Penanggung Jawab Pengendalian, yang kolomnya ada di bawah nanti, adalah yang mengerjakan penanganannya. Itu bisa Inspektorat.
+[20:50] Dan Penanggung Jawab Pengelolaan Risiko adalah yang mengurus prosesnya secara keseluruhan. Tiga peran, tiga orang atau unit yang bisa berbeda.
+[21:01] Kalau ketiganya selalu Anda isi dengan nama yang sama, hampir pasti ada yang belum dipilah.
+[21:06] Penyebab risiko dikelompokkan — internal delapan kategori, eksternal enam.
+[21:13] Pengelompokan ini bukan hiasan. Ia memaksa penyebab dicari dari beberapa sisi, bukan berhenti di yang pertama terpikir.
+[21:20] Kita pilih dua: Men untuk pemahaman yang belum merata, dan Method untuk penilaian mandiri yang belum berkala.
+[21:31] Dampak ditulis pada sasarannya, bukan pada pekerjaan sehari-hari.
+[21:35] Bedanya begini. Kalau dampaknya ditulis pekerjaan jadi menumpuk, itu dampak pada kesibukan. Yang diminta dampak pada apa yang mau dicapai.
+[21:47] Aplikasi bertanya apakah risiko ini sudah punya pengendalian. Kita jawab ya.
+[21:54] Jawaban ini menentukan bentuk formulir selanjutnya — kalau belum ada pengendalian, skala inheren dan skala sekarang tidak perlu dibedakan.
+[22:04] Sekarang penilaian skalanya, lewat matriks lima kali lima.
+[22:08] Tiga titik diisi. Inheren — seandainya tidak ada pengendalian sama sekali. Residual atau sekarang — dengan pengendalian yang ada hari ini. Dan target — setelah rencana tindak dijalankan.
+[22:25] Kita mulai dari inheren: dampak empat, kemungkinan lima.
+[22:29] Lalu sekarang: dampak empat, kemungkinan empat.
+[22:34] Selisih antara keduanya itulah nilai pengendalian yang sudah ada. Kalau tidak ada selisihnya sama sekali, pengendalian itu memang tidak bekerja — dan menilainya Efektif jadi tidak masuk akal.
+[22:44] Rencana tindak pengendalian. Ada lima pilihan respons risiko.
+[22:51] Avoid berarti kegiatannya dihentikan. Abate atau mitigate menurunkan risikonya. Share atau transfer mengalihkannya ke pihak lain. Accept berarti diterima apa adanya.
+[23:02] Kita pilih Abate, karena penyebabnya masih bisa dikendalikan sendiri.
+[23:13] Terakhir, proyeksi setelah rencana tindak dijalankan.
+[23:17] Kita nilai Cukup Efektif, bukan Efektif. Alasannya jujur: kenaikan maturitas SPIP tidak sepenuhnya berada dalam kendali satu instansi.
+[23:28] Lalu skala target: dampak empat, kemungkinan tiga.
+[23:33] Perhatikan baik-baik — dampaknya TIDAK turun. Yang turun kemungkinannya.
+[23:39] Inilah salah kaprah yang paling sering. Rencana tindak biasanya menurunkan peluang kejadiannya, bukan akibatnya kalau kejadian itu tetap terjadi. Menurunkan keduanya sekaligus perlu alasan yang kuat.
+
+== Bagian V. Risiko Strategis Perangkat Daerah
+
+[23:53] Tingkat kedua: Risiko Strategis Perangkat Daerah. Konteksnya lebih dulu, Formulir 2a.
+[24:00] Halaman ini menurunkan sasaran RPJMD sampai ke subkegiatan, mengikuti Renstra perangkat daerah.
+[24:08] Enam tingkat: sasaran RPJMD, tujuan strategis, sasaran strategis, program, kegiatan, subkegiatan. Masing-masing punya indikator, baseline, target, dan satuan.
+[24:22] Tujuan strategis dan indikatornya.
+[24:25] Satu hal yang perlu diperhatikan tentang baseline. Baseline tahun dua ribu dua puluh enam BUKAN baseline tahun sebelumnya — ia realisasi tahun dua ribu dua puluh lima.
+[24:34] Menyalin baseline lama adalah kekeliruan yang paling sering lolos, karena tidak ada satu pun yang menolaknya. Aplikasi menerima angka apa saja.
+[24:45] Sasaran strategis, program, kegiatan, dan subkegiatan diisi dengan cara yang sama.
+[24:51] Sumbernya Renstra dan DPA — jangan dikarang. Kalau rumusannya berbeda dari dokumen resmi, formulir cetaknya nanti tidak cocok dengan dokumen perencanaan, dan itu jadi temuan.
+[25:15] Kegiatan dan subkegiatan menutup hierarkinya.
+[25:18] Perhatikan bahwa halaman konteks ini tidak punya kolom tahun. Memang begitu — yang berganti tiap tahun adalah risikonya, bukan hierarki Renstra-nya.
+[25:50] Sekarang bagian terpenting dari seluruh video ini: Formulir 2b, Identifikasi Risiko Strategis Perangkat Daerah.
+[25:57] Kita akan mengisi satu risiko pelan-pelan, dari kolom pertama sampai skala target, dan menjelaskan alasan setiap kolomnya.
+[26:06] Risiko yang kita pakai nyata: rendahnya kepatuhan perangkat daerah menindaklanjuti rekomendasi hasil pengawasan.
+[26:12] Ingat kelemahan yang tadi kita catat di CEE tentang pemantauan tindak lanjut? Inilah kelanjutannya. Kelemahan lingkungan pengendalian yang dibiarkan muncul lagi sebagai penyebab risiko.
+[26:26] Penyebabnya dua, dan keduanya internal.
+[26:29] Men, untuk komitmen pimpinan perangkat daerah yang belum merata. Method, untuk pemantauan yang belum terjadwal dan tidak adanya konsekuensi atas keterlambatan.
+[26:41] Satu ukuran untuk menguji apakah penyebab sudah cukup dalam: bisakah ia dikendalikan? Kalau penyebabnya sesuatu yang di luar kuasa Anda sepenuhnya, rencana tindaknya tidak akan pernah menyentuhnya.
+[26:52] Karena kedua penyebab ini masih bisa dikendalikan, kita tandai C — controllable.
+[26:58] Dampak dan pihak yang terkena.
+[27:01] Daftar pihak yang terkena dampak ini bukan formalitas. Ia yang nanti membantu menimbang skala dampaknya — makin luas dan makin penting pihak yang terkena, makin besar skalanya.
+[27:14] Pengendalian yang sudah ada ditulis apa adanya.
+[27:17] Godaan terbesar di kolom ini adalah melebih-lebihkan. Jangan. Kalau pengendalian yang ada ditulis lebih baik daripada kenyataannya, seluruh analisis di bawahnya ikut meleset.
+[27:30] Kategorinya kita nilai KE, Kurang Efektif. Sudah ada pemantauan, tetapi tidak semua perangkat daerah menindaklanjuti tepat waktu.
+[27:39] Perhatikan: sudah ada prosedurnya tidak otomatis berarti Efektif. Yang dinilai hasilnya, bukan keberadaannya.
+[27:49] Matriks lima kali lima. Kita mulai dari inheren.
+[27:54] Bayangkan tidak ada satu pun pengendalian. Tidak ada pemantauan, tidak ada laporan yang dikirim. Dalam keadaan itu, dampaknya empat dan kemungkinannya lima — hampir pasti terjadi.
+[28:08] Lalu keadaan sekarang, dengan pemantauan yang sudah ada: dampak tiga, kemungkinan empat.
+[28:14] Angka di dalam sel bukan hasil perkalian. Ia peringkat satu sampai dua puluh lima yang sengaja membobot dampak lebih besar daripada kemungkinan.
+[28:25] Karena itu risiko berdampak sangat besar tetapi jarang terjadi tetap dinilai tinggi di aplikasi ini. Itu keputusan yang disengaja.
+[28:33] Sekarang titik ketiga: target.
+[28:36] Dampak tetap tiga, kemungkinan turun jadi tiga.
+[28:40] Sekali lagi, karena ini yang paling sering keliru — rencana tindak kita menurunkan peluang perangkat daerah terlambat menindaklanjuti. Ia tidak mengubah seberapa buruk akibatnya kalau keterlambatan itu tetap terjadi.
+[28:52] Ketiga titik kini terlihat berjajar di matriks. Itulah gambaran seluruh perjalanan risiko ini: dari seandainya tidak ditangani, ke keadaan sekarang, sampai ke yang dituju.
+[29:05] Rencana tindak pengendaliannya.
+[29:08] Abate, karena penyebabnya bisa dikendalikan. Isinya tiga hal yang konkret: menyusun pemantauan terjadwal, mengeksposnya kepada Bupati, dan memasukkan tindak lanjut ke dalam penilaian kinerja perangkat daerah.
+[29:23] Ketiganya bisa dilaporkan sudah dikerjakan atau belum. Itu syaratnya. Rencana tindak yang berbunyi meningkatkan koordinasi tidak akan pernah bisa dilaporkan realisasinya.
+[29:34] Dan perhatikan Penanggung Jawab Pengendaliannya: Inspektur Pembantu Wilayah — bukan Inspektur. Inspektur tadi Pemilik Risikonya. Dua kolom, dua peran.
+[29:56] Barisnya muncul di daftar, lengkap dengan warna peringkatnya.
+[30:01] Sekarang satu risiko lagi, kali ini lebih cepat. Setelah polanya dipahami, pengisian berikutnya memang jauh lebih ringan.
+[30:08] Risiko kedua: belum optimalnya pemanfaatan teknologi informasi dalam pengawasan. Penyebabnya campuran — internal dan eksternal sekaligus.
+[30:20] Perhatikan bahwa penyebab eksternal tetap boleh dicatat, tetapi ia biasanya membawa tanda UC: tidak terkendali. Dan itu mengubah bentuk rencana tindaknya.
+[30:53] Untuk risiko ini pengendaliannya belum ada sama sekali, jadi kita jawab tidak.
+[30:57] Perhatikan formulirnya berubah. Kalau belum ada pengendalian, membedakan skala inheren dan skala sekarang tidak ada gunanya — keduanya sama.
+[31:08] Kategorinya otomatis Tidak Efektif, dan itu memang jujur: tidak ada yang bisa dinilai efektivitasnya.
+[31:15] Skalanya kita isi, lalu rencana tindaknya, lalu simpan.
+[31:20] Dua risiko strategis perangkat daerah sudah tercatat. Dalam keadaan sebenarnya, jumlahnya bisa lima sampai sepuluh — sebanyak yang benar-benar mengancam sasaran, tidak perlu dipaksa banyak.
+
+== Bagian VI. Risiko Operasional Perangkat Daerah
+
+[32:11] Tingkat ketiga: Risiko Operasional Perangkat Daerah. Konteksnya dulu, Formulir 3a.
+[32:18] Bedanya dengan Formulir 2a bisa diringkas satu kalimat. Konteks strategis berhenti di sasaran; konteks operasional turun sampai kegiatan yang ada anggarannya di DPA.
+[32:31] Karena itulah sumber dokumennya juga berbeda — Renja dan DPA, bukan Renstra.
+[32:36] Kegiatan pertama: Penyelenggaraan Pengawasan Internal.
+[32:41] Indikator dan targetnya diambil apa adanya dari DPA tahun berjalan.
+[32:46] Isian konteks operasional memang mirip dengan konteks strategis tadi, dan itu bukan kebetulan.
+[32:51] Program dan indikatornya sama karena berasal dari dokumen yang sama. Yang berbeda ujungnya: konteks strategis berhenti pada apa yang mau dicapai, konteks operasional turun ke pekerjaan yang mengerjakannya.
+[33:06] Satu perangkat daerah biasanya punya beberapa baris di sini, sebanyak kegiatan yang benar-benar dijalankan tahun itu.
+[33:12] Tidak semua kegiatan wajib dinilai risikonya. Yang dipilih kegiatan yang kalau gagal, sasaran perangkat daerah ikut terancam.
+[33:25] Sekarang Formulir 3b, Identifikasi Risiko Operasional.
+[33:29] Ada satu kolom di sini yang tidak ada di dua tingkat sebelumnya: Tahap.
+[33:34] Alasannya masuk akal. Risiko operasional melekat pada langkah kegiatan, jadi perlu diketahui langkah mana — perencanaan, pelaksanaan, pengawasan, atau pelaporan.
+[33:45] Risiko pertama: pelaksanaan pengawasan internal tidak sesuai dengan PKPT. Tahapnya pengawasan.
+[33:59] Sekarang pembeda yang paling berguna sekaligus paling sering diisi asal: C dan UC.
+[34:04] Penyebab risiko ini jumlah auditor yang terbatas dan jadwal penugasan yang padat.
+[34:10] Bisakah Inspektorat menambah auditor sendiri? Tidak. Penambahan pegawai bukan keputusan Inspektorat.
+[34:18] Karena itu kita tandai UC — tidak terkendali. Dan konsekuensinya langsung terasa pada rencana tindaknya.
+[34:27] Rencana tindak untuk penyebab yang tidak terkendali bukan menambah auditor, melainkan menyusun prioritas berbasis risiko dengan auditor yang ada. Menulis rencana tindak yang tidak berada dalam kuasa Anda hanya memindahkan masalah ke laporan.
+[34:39] Pengendalian yang sudah ada, skalanya, dan rencana tindaknya.
+[34:45] Skala inheren dampak lima kemungkinan lima — peringkat tertinggi. Sekarang dampak lima kemungkinan empat.
+[34:52] Dampaknya tidak turun sedikit pun oleh pengendalian yang ada, dan itu memang jujur: PKPT tahunan mengurangi peluang kegiatan terlewat, tetapi tidak mengurangi akibatnya kalau satu perangkat daerah benar-benar tidak terawasi.
+[35:06] Pengendalian yang sudah ada untuk risiko ini Program Kerja Pengawasan Tahunan dan surat tugas penugasan auditor.
+[35:12] Kategorinya kurang efektif, dan celahnya kita pilih kriteria a: kebijakan dan prosedurnya sudah dilakukan, tetapi belum mampu menangani risiko yang teridentifikasi.
+[35:24] Perhatikan bahwa kelima kriteria celah ini bukan karangan aplikasi. Kelimanya datang dari Perdep, dan disediakan sebagai pilihan supaya tidak perlu diketik ulang setiap kali.
+[35:34] Memilih kriteria yang tepat itu penting, karena kriteria itulah yang menerangkan mengapa pengendalian yang sudah ada belum cukup, dan dari situlah rencana tindaknya diturunkan.
+[36:00] Satu risiko operasional lagi, lebih cepat: dokumentasi hasil pengawasan tidak lengkap. Tahapnya pelaporan.
+[36:08] Perhatikan bahwa risiko ini tampak kecil, tetapi akibatnya tidak. Rekomendasi yang tidak terdokumentasi rapi tidak bisa ditindaklanjuti — dan itu langsung menyambung ke risiko strategis yang tadi kita isi.
+[36:23] Risiko kedua ini kita isi lebih cepat, karena polanya sudah sama.
+[36:27] Tetapi perhatikan tahapnya berbeda. Yang pertama tadi tahap pengawasan, yang ini tahap pertanggungjawaban dan pelaporan.
+[36:36] Satu kegiatan bisa punya risiko di beberapa tahap sekaligus, dan itu justru tanda kegiatannya sudah ditelusuri dengan cermat.
+[36:43] Kalau seluruh risiko operasional Anda menumpuk di satu tahap saja, biasanya tahap yang lain belum sempat dipikirkan.
+[36:51] Celahnya kita pilih kriteria c: kebijakannya ada, tetapi belum diikuti prosedur baku yang jelas. Itu keadaan yang paling sering ditemui di lapangan.
+[37:00] Dan rencana tindaknya menyesuaikan, yaitu memperkuat reviu berjenjang sebelum laporan terbit, bukan membuat kebijakan baru yang sudah ada.
+
+== Bagian VII. Monitoring dan Evaluasi
+
+[38:09] Sampai di sini seluruh risiko sudah dinilai dan setiap rencana tindak sudah punya penanggung jawab dan tenggatnya.
+[38:15] Yang tersisa satu hal: membuktikan bahwa rencana itu benar-benar dijalankan. Itulah isi menu Form Monitoring dan Evaluasi.
+[38:25] Buka Formulir 8 dan 9, Monitoring Rencana Tindak Pengendalian.
+[38:30] Perhatikan satu hal penting: daftar di halaman ini tidak diketik ulang.
+[38:36] Seluruh rencana tindak yang tadi kita susun muncul sendiri di sini — dari Formulir 1b, 2b, dan 3b sekaligus.
+[38:43] Inilah sebabnya rencana tindak tidak boleh ditulis sebagai kalimat niat yang kabur.
+[38:49] Kalau rencana tindaknya berbunyi meningkatkan koordinasi, tidak ada satu pun hal yang bisa dilaporkan realisasinya di halaman ini. Yang bisa dilaporkan hanya yang punya wujud.
+[38:59] Formulir 8 mencatat pengkomunikasiannya — kepada siapa rencana ini disampaikan, dan dengan cara apa. Formulir 9 mencatat pemantauannya.
+[39:10] Keduanya punya kolom rencana dan kolom realisasi. Yang diisi di awal tahun kolom rencananya; realisasinya diisi setelah dikerjakan.
+[39:19] Sekarang Formulir 10, Pencatatan Kejadian Risiko.
+[39:24] Bedanya dengan seluruh formulir sebelumnya mendasar. Semua yang tadi kita isi berbicara tentang sesuatu yang BELUM terjadi. Formulir ini mencatat yang SUDAH terjadi.
+[39:34] Risiko yang benar-benar terjadi disebut kejadian risiko. Ia dicatat lengkap dengan tanggal, kerugian kalau ada, dan penanganan yang dilakukan.
+[39:45] Catatan ini bukan sekadar arsip. Ia yang menjadi bukti tahun depan bahwa penilaian kemungkinan yang kita buat tahun ini masuk akal atau tidak.
+[39:53] Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat lima kali setahun, penilaian tahun berikutnya harus berubah — dan Formulir 10 inilah dasarnya.
+[40:05] Ada satu jalur lagi yang perlu diketahui, di menu Utilities: Lapor Kejadian Risiko.
+[40:10] Halaman itu untuk pegawai yang tidak punya akun PIC. Mereka tetap bisa melaporkan kejadian risiko lewat tautan atau kode QR, tanpa perlu masuk aplikasi.
+[40:23] Laporan yang masuk lewat jalur itu direkap dan bisa ditarik menjadi catatan resmi di Formulir 10.
+
+== Bagian VIII. Form Cetak
+
+[40:30] Sekarang bagian yang paling menyenangkan, karena tidak ada satu pun yang perlu diketik.
+[40:35] Menu Form Cetak menghasilkan seluruh kertas kerja penilaian risiko dalam bentuk siap ditandatangani.
+[40:42] Dan ini yang perlu dipegang: tidak ada satu kolom pun di menu ini yang bisa diisi. Semuanya berasal dari formulir yang tadi kita kerjakan.
+[40:50] Kalau ada yang kosong di sini, yang diperbaiki formulir asalnya — bukan halaman cetaknya.
+[40:57] Ini Formulir 2b, Konteks Risiko Strategis Perangkat Daerah.
+[41:02] Perhatikan kepala halamannya — nama perangkat daerah, periode, tahun penilaian. Semuanya datang dari Data Umum yang kita isi paling awal tadi.
+[41:12] Sekarang Anda melihat mengapa halaman itu dikerjakan pertama.
+[41:17] Formulir 3b, Identifikasi Risiko Strategis Perangkat Daerah.
+[41:21] Seluruh kolom yang tadi kita isi satu per satu kini berjajar dalam satu tabel — pernyataan risiko, penyebab, dampak, pengendalian yang ada, sampai celah pengendaliannya.
+[41:34] Formulir 4, Hasil Analisis Risiko. Dan Formulir 5, Daftar Risiko Prioritas.
+[41:41] Di Formulir 5 ada satu hal yang perlu dijelaskan, karena sering ditanyakan.
+[41:47] Tidak semua risiko yang kita isi muncul di daftar prioritas. Yang muncul hanya yang berada di luar Selera Risiko.
+[41:54] Selera Risiko Kabupaten Aceh Barat ditetapkan sampai dengan peringkat Sedang. Artinya risiko berperingkat Tinggi dan Sangat Tinggi wajib ditangani; Sedang, Rendah, dan Sangat Rendah cukup dipantau.
+[42:09] Batas itu ketetapan pemerintah daerah, bukan bawaan aplikasi. Kalau suatu saat digeser, isi daftar ini berubah sendiri tanpa satu baris pun disentuh.
+[42:18] Formulir 7, Rencana Tindak Pengendalian atas Hasil Identifikasi Risiko.
+[42:25] Bandingkan dengan Formulir 6 yang berisi rencana tindak atas CEE. Isinya harus berbeda — yang satu memperbaiki lingkungan pengendalian, yang satu menangani risiko tertentu.
+[42:34] Setiap formulir ini bisa diunduh sebagai PDF, lengkap dengan blok tanda tangan yang namanya kita isi di Data Umum.
+
+== Bagian IX. Laporan
+
+[42:44] Empat laporan menutup seluruh rangkaian ini, dan yang membedakannya bukan isinya melainkan siapa yang menyusunnya.
+[42:50] Laporan 11, Pelaksanaan Penilaian Risiko. Disusun perangkat daerah, sesudah penilaian risiko selesai.
+[43:00] Laporan 12, Laporan Berkala Pengelolaan Risiko. Juga disusun perangkat daerah, tetapi berkala sepanjang tahun.
+[43:08] Laporan 13, Pemantauan oleh Unit Kepatuhan.
+[43:13] Dan Laporan 14, Pembinaan oleh Komite Pengelolaan Risiko.
+[43:17] Dua yang terakhir ini paling sering terlewat, dan alasannya sederhana: penyusunnya bukan perangkat daerah, melainkan unit kepatuhan dan komite di tingkat pemerintah daerah.
+[43:29] Kalau di perangkat daerah Anda keduanya belum pernah ada, itu bukan berarti tidak wajib. Itu berarti strukturnya yang belum berjalan.
+
+== Bagian X. Penutup
+
+[43:39] Kita kembali ke Dasbor, tempat kita mulai tadi.
+[43:42] Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
+[43:54] Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
+[44:01] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
+[44:07] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
+[44:15] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
+[44:20] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
+[44:34] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
+[44:41] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
+[44:48] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+[45:00] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
+[45:14] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+[45:24] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.

@@ -46,6 +46,12 @@ interface Props {
     showChapters?: boolean;
     /** Tautan unduhan (berkas ringan bersubtitle, transkrip). */
     downloads?: { label: string; href: string }[];
+    /**
+     * Daftar bab. Kalau tidak diisi, dipakai daftar bab video edukasi bawaan.
+     * Diisi ketika pemutar ini memutar video LAIN yang punya babnya sendiri,
+     * seperti video tutorial pengisian di kaki halaman Panduan.
+     */
+    chapters?: Chapter[];
 }
 
 // Level dasar tiap jalur pada posisi slider 100%. Angka ini sengaja SAMA
@@ -58,7 +64,7 @@ const BASE = { narration: 1.0, music: 1.15, sfx: 0.62 };
 // dikoreksi terlalu agresif justru terdengar seperti audio yang tersendat.
 const DRIFT_TOLERANCE = 0.2;
 
-const CHAPTERS = chaptersData as Chapter[];
+const CHAPTERS_BAWAAN = chaptersData as Chapter[];
 const SASARAN = ['Semua', 'PIC OPD', 'Pimpinan', 'Admin'] as const;
 
 const jam = (d: number) => `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`;
@@ -78,7 +84,9 @@ export default function EduVideoPlayer({
     chapterNav = false,
     showChapters = false,
     downloads,
+    chapters,
 }: Props) {
+    const CHAPTERS = chapters ?? CHAPTERS_BAWAAN;
     const videoRef = useRef<HTMLVideoElement>(null);
     const narrationRef = useRef<HTMLAudioElement>(null);
     const musicRef = useRef<HTMLAudioElement>(null);

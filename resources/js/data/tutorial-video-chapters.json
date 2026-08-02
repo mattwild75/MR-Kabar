@@ -1,0 +1,82 @@
+[
+ {
+  "id": "bagian-i",
+  "judul": "I. Sebelum mulai",
+  "mulai": 0.0,
+  "selesai": 129.07,
+  "durasi": 129.07,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "bagian-ii",
+  "judul": "II. Data Umum",
+  "mulai": 129.07,
+  "selesai": 406.73,
+  "durasi": 277.67,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-iii",
+  "judul": "III. CEE — mengenali kelemahan lingkungan pengendalian",
+  "mulai": 406.73,
+  "selesai": 1104.2,
+  "durasi": 697.47,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-iv",
+  "judul": "IV. Risiko Strategis Pemerintah Daerah",
+  "mulai": 1104.2,
+  "selesai": 1432.97,
+  "durasi": 328.77,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-v",
+  "judul": "V. Risiko Strategis Perangkat Daerah",
+  "mulai": 1432.97,
+  "selesai": 1930.63,
+  "durasi": 497.67,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-vi",
+  "judul": "VI. Risiko Operasional Perangkat Daerah",
+  "mulai": 1930.63,
+  "selesai": 2288.57,
+  "durasi": 357.93,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-vii",
+  "judul": "VII. Monitoring dan Evaluasi",
+  "mulai": 2288.57,
+  "selesai": 2429.67,
+  "durasi": 141.1,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-viii",
+  "judul": "VIII. Form Cetak",
+  "mulai": 2429.67,
+  "selesai": 2563.97,
+  "durasi": 134.3,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-ix",
+  "judul": "IX. Laporan",
+  "mulai": 2563.97,
+  "selesai": 2618.43,
+  "durasi": 54.47,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-x",
+  "judul": "X. Penutup",
+  "mulai": 2618.43,
+  "selesai": 2735.13,
+  "durasi": 116.7,
+  "sasaran": "Semua"
+ }
+]

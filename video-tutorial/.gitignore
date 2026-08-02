@@ -1,0 +1,11 @@
+alat/
+*.mid
+*.wav
+rekam/
+keluaran/
+audio/
+.sandi-lama
+.mulai-rekam
+_cek_*
+_sub.srt
+__pycache__/
