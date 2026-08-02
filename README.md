@@ -31,7 +31,10 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 - **Data Risiko (IRS dan IRO) — Gabungan** — satu halaman read-only yang menampilkan ketiga tabel Identifikasi Risiko (Strategis Pemda/PD, Operasional PD) sekaligus, dengan pencarian lintas-tabel dan tombol "Lihat Data" langsung ke Form Input aslinya.
 - **Klasifikasi Sumber Penyebab Risiko** — kategori Internal (7M+1E: Man/Machine/Method/Material/Money/Management/Measurement/Environment) dan Eksternal (PESTLE: Political/Economic/Social/Technological/Legal/Environmental), dengan badge warna berbeda per kategori di form input maupun laporan cetak.
 - **Visualisasi Hierarki** — diagram pohon interaktif yang menggabungkan struktur rencana strategis dengan risiko yang tertaut di setiap levelnya.
-- **Perhitungan otomatis** Skala Risiko dan Prioritas dari matriks analisis risiko 5×5 (dampak × kemungkinan), termasuk siklus 4-skor (Inheren → Residual → Target → Aktual).
+- **Perhitungan otomatis** Skala Risiko dan Prioritas dari matriks analisis risiko 5×5. Skala dibaca dari tabel peringkat 1–25, **bukan hasil perkalian** kedua sumbu — mengikuti Perdep yang membobot Dampak lebih berat daripada Kemungkinan (Dampak 5 × Kemungkinan 1 = 20, sedangkan Dampak 1 × Kemungkinan 5 = 9). Termasuk siklus 4-skor (Inheren → Residual → Target → Aktual).
+- **Batas Selera Risiko pada Peta Risiko** — garis putus-putus bertangga yang memisahkan sel di dalam dan di luar selera. Letaknya diturunkan dari penanda level risiko di Keterangan Pendukung, sehingga bergeser sendiri saat seleranya diubah; bentuknya bertangga, bukan lurus, karena mengikuti peringkat 1–25 yang tidak simetris.
+- **Penyaring Periode dan Tahun Penilaian** — KRS Pemda dan KRS PD disekat **Periode Penilaian** (mengikuti RPJMD/Renstra yang lima tahunan), KRO PD dan seluruh formulir risiko disekat **Tahun Penilaian** (mengikuti Renja/DPA yang tahunan). Keduanya terpisah dari Tahun Aktif, sehingga membaca tahun lalu tidak mengubah tahun berjalan bagi perangkat daerah lain.
+- **Penyaring Perangkat Daerah** pada seluruh halaman konteks dan risiko, disaring di server berdasarkan pemilik barisnya — bukan pencocokan teks, yang ejaannya berbeda-beda antar pengisi.
 - **Struktur kode risiko otomatis** mengikuti format `[JENIS].[TAHUN].[URUSAN].[OPD].[NOMOR URUT]`.
 - **Form Monitoring & Evaluasi** — pencatatan rencana/realisasi pengkomunikasian dan pemantauan atas Rencana Tindak Pengendalian (Form 8/9), serta pencatatan kejadian risiko nyata di lapangan (Form 10).
 - **Form Cetak Laporan Berjenjang** — Laporan Pelaksanaan Penilaian Risiko, Laporan Berkala Pengelolaan Risiko per triwulan, dan Laporan Pemantauan Unit Kepatuhan (Form 11/12/13), sesuai Bab IV Pelaporan Perdep.
@@ -71,9 +74,11 @@ Aplikasi ini mencakup tiga tingkatan risiko sesuai Perdep PPKD: **Risiko Strateg
 
 ## Tampilan Aplikasi
 
-| Dashboard (Light) | Dashboard (Dark) |
+| Dashboard — ringkasan & jadwal penilaian | Dashboard — Peta Risiko & batas Selera Risiko |
 | --- | --- |
 | ![Dashboard Light](screenshots/dashboard-light.png) | ![Dashboard Dark](screenshots/dashboard-dark.png) |
+
+Sebagian besar widget Dasbor dapat ditelusuri: sel Peta Risiko membuka daftar risiko di dalamnya lalu rincian tiap risiko, batang Progres Tahapan membuka rincian tujuh tahap sampai tautan ke formulir yang belum terisi, dan baris Ranking Eksposur membuka Data Risiko gabungan milik perangkat daerah tersebut.
 
 | Identifikasi Risiko (IRS Pemda) | Panduan Aplikasi |
 | --- | --- |
