@@ -84,12 +84,20 @@ def utama():
     lama_narasi = json.load(io.open(os.path.join(AUDIO, "waktu.json"), encoding="utf-8"))
 
     # Kalimat narasi per langkah, menurut urutan naskah.
+    #
+    # Kuncinya WAJIB pasangan (bagian, langkah) — bukan id langkah saja. Id
+    # langkah hanya unik di dalam bagiannya sendiri: bab X dan bab XI sama-sama
+    # memakai X-01 sampai X-05. Dengan kunci id saja, bagian yang belakangan
+    # menimpa yang terdahulu tanpa suara apa pun, dan seluruh narasi bab X
+    # digantikan narasi bab XI — terdengar sebagai kalimat yang tidak
+    # nyambung disusul sunyi puluhan detik, karena slot langkahnya jauh lebih
+    # panjang daripada narasi pengganti yang kebetulan menempatinya.
     per_langkah = {}
     judul_bagian = {}
     for b in naskah["bagian"]:
         judul_bagian[b["nomor"]] = b["judul"]
         for l in b["langkah"]:
-            per_langkah[l["id"]] = l.get("narasi", [])
+            per_langkah[(b["nomor"], l["id"])] = l.get("narasi", [])
 
     # ── 1: tiap bagian di-encode LEBIH DULU, satu per satu ───────────────────
     #
@@ -144,7 +152,7 @@ def utama():
 
         for langkah in json.load(io.open(wkt, encoding="utf-8")):
             t = geser + langkah["mulai"]
-            for n in per_langkah.get(langkah["id"], []):
+            for n in per_langkah.get((nomor, langkah["id"]), []):
                 panjang = lama_narasi.get(n["id"], 0)
                 if panjang <= 0:
                     continue
@@ -156,6 +164,26 @@ def utama():
     total = geser
     print(f"{len(potongan)} bagian, total {int(total // 60)}m {int(total % 60):02d}d")
     print(f"{len(garis)} kalimat narasi ditempatkan")
+
+    # Tiap kalimat yang punya audio HARUS masuk garis waktu. Kalau ada yang
+    # tertinggal, video jadi sunyi di tempat itu dan kalimat lain menempati
+    # slot yang bukan miliknya — persis yang terjadi saat kunci per_langkah
+    # masih memakai id langkah saja. Diperiksa di sini supaya ketahuan
+    # sekarang, bukan sesudah satu jam mengodekan ulang.
+    ditempatkan = {g["id"] for g in garis}
+    tertinggal = [
+        n["id"]
+        for b in naskah["bagian"] if b["nomor"] in URUTAN
+        for l in b["langkah"]
+        for n in l.get("narasi", [])
+        if lama_narasi.get(n["id"], 0) > 0 and n["id"] not in ditempatkan
+    ]
+    if tertinggal:
+        raise SystemExit(
+            f"{len(tertinggal)} kalimat narasi TIDAK ditempatkan: "
+            + ", ".join(tertinggal[:12])
+            + ("..." if len(tertinggal) > 12 else "")
+        )
 
     # ── 3: jalur narasi ──────────────────────────────────────────────────────
     jalur = np.zeros(int(total * SR) + SR, dtype=np.float32)

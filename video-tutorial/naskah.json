@@ -4207,24 +4207,29 @@
      "id": "X-01",
      "narasi": [
       {
-       "id": "n801",
+       "id": "v01",
        "suara": "L",
        "teks": "Sampai di sini kita selalu memakai kacamata orang yang mengisi. Sekarang kacamatanya diganti."
       },
       {
-       "id": "n802",
+       "id": "v02",
        "suara": "P",
-       "teks": "Bagian ini untuk pimpinan dan pemangku kepentingan — orang yang tidak mengisi apa pun, tetapi harus mengambil keputusan dari apa yang sudah diisi."
+       "teks": "Bab ini untuk yang tidak mengisi apa pun, tetapi harus mengambil keputusan dari apa yang sudah diisi. Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, dan pemangku kepentingan lain yang perlu membaca data manajemen risiko."
       },
       {
-       "id": "n803",
+       "id": "v03",
        "suara": "L",
-       "teks": "Akun yang dipakai berbeda. Namanya akun peninjau, dan ia hanya bisa membaca. Seluruh perintah penulisan ditolak aplikasi, jadi pimpinan bisa menjelajah sebebas-bebasnya tanpa khawatir mengubah sesuatu."
+       "teks": "Akunnya berbeda. Namanya akun peninjau, dan ia hanya bisa membaca. Seluruh perintah penulisan ditolak di sisi server, bukan sekadar tombolnya disembunyikan."
       },
       {
-       "id": "n804",
+       "id": "v04",
        "suara": "P",
-       "teks": "Perhatikan juga penyaring tahun di Dasbor. Ia terpisah dari Tahun Aktif — Anda bisa membaca tahun mana pun tanpa mengganggu perangkat daerah yang sedang mengisi tahun berjalan."
+       "teks": "Artinya akun ini aman diberikan kepada siapa pun yang perlu melihat. Sebebas apa pun ia menjelajah, tidak ada satu pun data perangkat daerah yang bisa berubah karenanya."
+      },
+      {
+       "id": "v05",
+       "suara": "L",
+       "teks": "Yang akan kita kerjakan di bab ini bukan membaca angka satu per satu. Hampir setiap widget di Dasbor bisa diklik, dan di balik kliknya ada nama risiko, nama perangkat daerah, dan formulir yang belum terisi. Itulah yang membuat Dasbor ini berguna untuk rapat."
       }
      ],
      "aksi": [
@@ -4235,12 +4240,79 @@
        "ms": 5400
       },
       {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
        "t": "buka",
        "url": "/dashboard?tahun=2025"
       },
       {
        "t": "jeda",
-       "ms": 2200
+       "ms": 3764
+      },
+      {
+       "t": "sorot",
+       "teks": "Dashboard MR Kabar",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "gulir",
+       "px": 300
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "gulir",
+       "px": 320
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "gulir",
+       "px": 340
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "gulir",
+       "px": -480
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "gulir",
+       "px": -480
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "sorot",
+       "teks": "Dashboard MR Kabar",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3764
+      },
+      {
+       "t": "sorot",
+       "teks": "Total Risiko Teridentifikasi",
+       "ms": 2600
       }
      ]
     },
@@ -4248,42 +4320,105 @@
      "id": "X-02",
      "narasi": [
       {
-       "id": "n805",
-       "suara": "L",
-       "teks": "Tiga angka teratas sebaiknya dibaca bersama-sama, jangan satu per satu."
-      },
-      {
-       "id": "n806",
+       "id": "v06",
        "suara": "P",
-       "teks": "Total Risiko Teridentifikasi menunjukkan seberapa luas penilaiannya. Risiko Prioritas menunjukkan berapa yang berada di luar Selera Risiko. RTP Selesai Disusun menunjukkan berapa yang sudah punya rencana penanganan."
+       "teks": "Mulai dari dua penyaring di kanan atas, karena keduanya menentukan arti seluruh angka di bawahnya."
       },
       {
-       "id": "n807",
+       "id": "v07",
        "suara": "L",
-       "teks": "Pertanyaan pimpinan bukan berapa angkanya, melainkan bagaimana ketiganya berhubungan."
+       "teks": "Yang kiri memilih perangkat daerah, yang kanan memilih tahun. Saya pilih Dinas Kesehatan."
       },
       {
-       "id": "n808",
+       "id": "v08",
        "suara": "P",
-       "teks": "Kalau Risiko Prioritas banyak tetapi RTP yang tersusun sedikit, itu bukan soal pengisian yang belum rampung. Itu berarti ada risiko yang sudah diakui berbahaya tetapi belum ada yang menanganinya."
+       "teks": "Seluruh Dasbor langsung menyempit. Sekarang setiap angka di halaman ini hanya bicara tentang Dinas Kesehatan."
       },
       {
-       "id": "n809",
+       "id": "v09",
        "suara": "L",
-       "teks": "Sebaliknya, kalau Total Risiko sangat sedikit untuk perangkat daerah sebesar itu, yang patut ditanyakan justru kejujuran penilaiannya — bukan disyukuri."
+       "teks": "Inilah cara menyiapkan rapat dengan satu perangkat daerah. Buka penyaringnya di nama mereka, dan Anda masuk rapat dengan angka mereka sendiri, bukan angka gabungan yang tidak bisa mereka jawab."
+      },
+      {
+       "id": "v10",
+       "suara": "P",
+       "teks": "Saya kembalikan ke Semua OPD, karena sisa bab ini membaca keadaan seluruh kabupaten."
+      },
+      {
+       "id": "v11",
+       "suara": "L",
+       "teks": "Satu hal penting soal penyaring tahun: ia terpisah dari Tahun Aktif. Pimpinan bisa membaca tahun mana pun tanpa mengganggu perangkat daerah yang sedang mengisi tahun berjalan."
       }
      ],
      "aksi": [
       {
+       "t": "sorot",
+       "teks": "Total Risiko Teridentifikasi",
+       "ms": 1800
+      },
+      {
        "t": "jeda",
-       "ms": 2600
+       "ms": 2875
+      },
+      {
+       "t": "sorot",
+       "sel": "button[role=\"combobox\"]",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 2875
+      },
+      {
+       "t": "pilih",
+       "sel": "button[role=\"combobox\"]",
+       "nilai": "DINAS KESEHATAN",
+       "lewatKetik": true,
+       "tunggu": 3200
+      },
+      {
+       "t": "jeda",
+       "ms": 2875
       },
       {
        "t": "gulir",
-       "px": 260
+       "px": 240
       },
       {
        "t": "jeda",
+       "ms": 2875
+      },
+      {
+       "t": "gulir",
+       "px": -240
+      },
+      {
+       "t": "jeda",
+       "ms": 2875
+      },
+      {
+       "t": "pilih",
+       "sel": "button[role=\"combobox\"]",
+       "nilai": "Semua OPD",
+       "lewatKetik": true,
+       "tunggu": 3200
+      },
+      {
+       "t": "jeda",
+       "ms": 2875
+      },
+      {
+       "t": "sorot",
+       "sel": "button[role=\"combobox\"]",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 2875
+      },
+      {
+       "t": "sorot",
+       "teks": "Total Risiko Teridentifikasi",
        "ms": 2600
       }
      ]
@@ -4292,29 +4427,178 @@
      "id": "X-03",
      "narasi": [
       {
-       "id": "n810",
+       "id": "v12",
+       "suara": "L",
+       "teks": "Empat kartu ringkasan. Jangan dibaca satu per satu — artinya justru muncul dari hubungan antar keempatnya."
+      },
+      {
+       "id": "v13",
        "suara": "P",
+       "teks": "Total Risiko Teridentifikasi dua ratus lima puluh delapan. Risiko Prioritas seratus dua puluh sembilan. RTP Selesai Disusun seratus dua puluh sembilan dari seratus dua puluh sembilan, seratus persen."
+      },
+      {
+       "id": "v14",
+       "suara": "L",
+       "teks": "Kalau berhenti membaca di sini, kesimpulannya: sempurna. Seluruh risiko prioritas sudah punya rencana penanganan."
+      },
+      {
+       "id": "v15",
+       "suara": "P",
+       "teks": "Sekarang lihat kartu keempat. Kepatuhan Pelaporan tiga persen. Satu dari empat puluh sembilan perangkat daerah."
+      },
+      {
+       "id": "v16",
+       "suara": "L",
+       "teks": "Dua angka itu berdampingan menceritakan satu hal yang tidak enak didengar tetapi harus didengar. Rencananya seratus persen tersusun, tetapi buktinya bahwa rencana itu dikerjakan hampir tidak ada."
+      },
+      {
+       "id": "v17",
+       "suara": "P",
+       "teks": "Keputusan yang bisa diambil dari sini: jangan merayakan angka seratus persen itu. Yang seratus persen adalah niat, bukan hasil. Arahan yang tepat justru menuntut Formulir delapan, sembilan, dan sepuluh diisi — karena tanpa itu seluruh Dasbor ini menampilkan rencana, bukan kenyataan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": 240
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoom",
+       "teks": "Total Risiko Teridentifikasi",
+       "skala": 1.2,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoom",
+       "teks": "Risiko Prioritas",
+       "skala": 1.2,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoom",
+       "teks": "RTP Selesai Disusun",
+       "skala": 1.2,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoom",
+       "teks": "Kepatuhan Pelaporan",
+       "skala": 1.24,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "sorot",
+       "teks": "Kepatuhan Pelaporan",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "sorot",
+       "teks": "Kepatuhan Pelaporan",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "sorot",
+       "teks": "RTP Selesai Disusun",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3749
+      },
+      {
+       "t": "sorot",
+       "teks": "Risiko Prioritas",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "X-04",
+     "narasi": [
+      {
+       "id": "v18",
+       "suara": "L",
        "teks": "Peta Risiko menempatkan seluruh risiko pada matriks lima kali lima."
       },
       {
-       "id": "n811",
-       "suara": "L",
-       "teks": "Yang dilihat pimpinan di sini bukan titik satu per satu, melainkan ke mana massanya condong."
-      },
-      {
-       "id": "n812",
+       "id": "v19",
        "suara": "P",
-       "teks": "Menumpuk di kanan atas berarti banyak risiko berdampak besar dan sering terjadi. Itu tampak buruk, tetapi belum tentu berarti daerahnya buruk — bisa juga berarti penilaiannya jujur, dan itu justru awal yang sehat."
+       "teks": "Yang dilihat pimpinan bukan titik satu per satu, melainkan ke mana massanya condong."
       },
       {
-       "id": "n813",
+       "id": "v20",
        "suara": "L",
-       "teks": "Yang benar-benar mengkhawatirkan kebalikannya: seluruh titik menumpuk di kiri bawah. Tidak ada organisasi yang risikonya serendah itu. Sebaran seperti itu hampir selalu tanda penilaian yang menahan diri."
+       "teks": "Menumpuk di kanan atas berarti banyak risiko berdampak besar dan sering terjadi. Itu tampak buruk, tetapi belum tentu berarti daerahnya buruk — bisa juga berarti penilaiannya jujur, dan itu awal yang sehat."
       },
       {
-       "id": "n814",
+       "id": "v21",
        "suara": "P",
-       "teks": "Garis putus-putus bertangga pada matriks adalah batas Selera Risiko. Segala yang berada di luarnya wajib punya rencana tindak."
+       "teks": "Yang benar-benar mengkhawatirkan justru kebalikannya: seluruh titik menumpuk di kiri bawah. Tidak ada organisasi yang risikonya serendah itu. Sebaran seperti itu hampir selalu tanda penilaian yang menahan diri."
+      },
+      {
+       "id": "v22",
+       "suara": "L",
+       "teks": "Garis putus-putus bertangga adalah batas Selera Risiko. Segala yang berada di luarnya wajib punya rencana tindak."
       }
      ],
      "aksi": [
@@ -4324,61 +4608,66 @@
       },
       {
        "t": "jeda",
-       "ms": 3200
+       "ms": 3691
       },
       {
        "t": "zoom",
        "teks": "Peta Risiko (Matriks Analisis Risiko 5×5)",
-       "skala": 1.22,
-       "ms": 800
+       "skala": 1.2,
+       "ms": 900
       },
       {
        "t": "jeda",
-       "ms": 3000
+       "ms": 3691
+      },
+      {
+       "t": "sorot",
+       "teks": "Peta Risiko (Matriks Analisis Risiko 5×5)",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 3691
       },
       {
        "t": "zoomKeluar",
-       "ms": 650
-      }
-     ]
-    },
-    {
-     "id": "X-04",
-     "narasi": [
-      {
-       "id": "n815",
-       "suara": "L",
-       "teks": "Berikutnya Ranking Eksposur Risiko per perangkat daerah."
-      },
-      {
-       "id": "n816",
-       "suara": "P",
-       "teks": "Widget ini paling sering disalahpahami. Ia bukan daftar perangkat daerah terburuk."
-      },
-      {
-       "id": "n817",
-       "suara": "L",
-       "teks": "Perangkat daerah yang berada di atas biasanya justru yang paling teliti menilai dirinya, atau yang memang mengurus urusan berisiko tinggi — pekerjaan konstruksi, pelayanan kesehatan, penyaluran bantuan."
-      },
-      {
-       "id": "n818",
-       "suara": "P",
-       "teks": "Cara membacanya: ini daftar tempat perhatian pimpinan paling berdampak, bukan daftar yang perlu ditegur."
-      },
-      {
-       "id": "n819",
-       "suara": "L",
-       "teks": "Kalau daftar ini dipakai untuk menegur, akibatnya bisa ditebak — tahun berikutnya semua perangkat daerah akan menilai dirinya rendah, dan seluruh sistem ini kehilangan gunanya."
-      }
-     ],
-     "aksi": [
-      {
-       "t": "gulir",
-       "px": 460
+       "ms": 700
       },
       {
        "t": "jeda",
-       "ms": 3400
+       "ms": 3691
+      },
+      {
+       "t": "zoom",
+       "teks": "Peta Risiko (Matriks Analisis Risiko 5×5)",
+       "skala": 1.28,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3691
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3691
+      },
+      {
+       "t": "sorot",
+       "teks": "Peta Risiko (Matriks Analisis Risiko 5×5)",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3691
+      },
+      {
+       "t": "sorot",
+       "teks": "Peta Risiko (Matriks Analisis Risiko 5×5)",
+       "ms": 2600
       }
      ]
     },
@@ -4386,44 +4675,113 @@
      "id": "X-05",
      "narasi": [
       {
-       "id": "n820",
+       "id": "v23",
        "suara": "P",
-       "teks": "Siklus empat skor risiko — Inheren, Residual, Target, dan Aktual."
+       "teks": "Sekarang bagian yang sering tidak diketahui: angka di dalam sel matriks ini bisa diklik."
       },
       {
-       "id": "n821",
+       "id": "v24",
        "suara": "L",
-       "teks": "Inilah widget yang paling jujur di seluruh Dasbor, dan yang paling layak dibawa ke rapat."
+       "teks": "Saya klik sel paling ujung — Dampak lima kali Kemungkinan lima, skala dua puluh lima. Sel paling berbahaya di seluruh matriks."
       },
       {
-       "id": "n822",
+       "id": "v25",
        "suara": "P",
-       "teks": "Inheren adalah keadaan seandainya tidak ada pengendalian. Residual keadaan sekarang. Target yang dituju setelah rencana tindak dijalankan. Aktual adalah kenyataannya di ujung tahun."
+       "teks": "Yang terbuka bukan angka lagi, melainkan nama risikonya. Lima risiko, lengkap dengan perangkat daerah pemiliknya."
       },
       {
-       "id": "n823",
+       "id": "v26",
        "suara": "L",
-       "teks": "Pertanyaan yang menentukan cuma satu: apakah Aktual bergerak mendekati Target?"
+       "teks": "Perhatikan tanda kecil di sebelah kanan tiap baris. Centang hijau berarti rencana tindaknya sudah tersusun, silang kuning berarti belum."
       },
       {
-       "id": "n824",
+       "id": "v27",
        "suara": "P",
-       "teks": "Kalau tidak bergerak, rencana tindaknya tidak bekerja. Bisa karena rencananya keliru, bisa karena tidak dijalankan, bisa karena penyebabnya ternyata bukan yang diduga."
+       "teks": "Di sinilah Dasbor berhenti jadi hiasan. Sel merah dengan silang kuning di dalamnya adalah risiko yang sudah diakui paling berbahaya, tetapi belum ada yang menanganinya."
       },
       {
-       "id": "n825",
+       "id": "v28",
        "suara": "L",
-       "teks": "Ketiganya keputusan yang berbeda, dan tidak satu pun bisa diambil tanpa melihat widget ini."
+       "teks": "Keputusan yang bisa diambil: daftar inilah agenda rapat, bukan daftar seluruh dua ratus lima puluh delapan risiko. Lima baris ini yang ditanyakan satu per satu, kepada nama perangkat daerah yang tertulis di sebelahnya."
       }
      ],
      "aksi": [
       {
-       "t": "gulir",
-       "px": 440
+       "t": "klik",
+       "sel": "[title^=\"Dampak 5 x Kemungkinan 5\"]",
+       "tunggu": 1800,
+       "bukaDialog": true
       },
       {
        "t": "jeda",
-       "ms": 3600
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "gulir",
+       "px": 0
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3362
+      },
+      {
+       "t": "sorot",
+       "teks": "skala 25",
+       "ms": 2600
       }
      ]
     },
@@ -4431,34 +4789,91 @@
      "id": "X-06",
      "narasi": [
       {
-       "id": "n826",
-       "suara": "L",
-       "teks": "Kepatuhan Pelaporan menunjukkan berapa perangkat daerah yang sudah mengisi Formulir 8, 9, dan 10."
-      },
-      {
-       "id": "n827",
+       "id": "v29",
        "suara": "P",
-       "teks": "Ini kelihatan seperti urusan administrasi, dan justru karena itu sering diabaikan pimpinan."
+       "teks": "Nama risikonya pun masih bisa diklik lagi."
       },
       {
-       "id": "n828",
+       "id": "v30",
        "suara": "L",
-       "teks": "Padahal tanpa Formulir 8, 9, dan 10, seluruh angka yang tadi kita baca tidak bisa diverifikasi. Kita hanya tahu apa yang direncanakan, tidak tahu apa yang dikerjakan."
+       "teks": "Terbuka rincian risikonya: uraian lengkap, tingkatannya, perangkat daerah pemiliknya, dan status rencana tindaknya."
       },
       {
-       "id": "n829",
+       "id": "v31",
        "suara": "P",
-       "teks": "Angka kepatuhan yang rendah berarti Dasbor ini sedang menampilkan rencana, bukan kenyataan. Itu perlu diketahui sebelum keputusan apa pun diambil darinya."
+       "teks": "Tombol Buka Daftar di bawah membawa langsung ke baris aslinya di formulir register risiko — jadi pimpinan bisa menelusuri sampai ke dasar tanpa perlu tahu formulir mana yang harus dibuka."
+      },
+      {
+       "id": "v32",
+       "suara": "L",
+       "teks": "Tiga klik dari angka ringkasan sampai ke satu baris risiko milik satu perangkat daerah. Itu yang memungkinkan pertanyaan rapat berubah dari umum jadi spesifik."
+      },
+      {
+       "id": "v33",
+       "suara": "P",
+       "teks": "Bukan lagi bertanya bagaimana manajemen risikonya. Melainkan menyebut risiko ini, milik dinas ini, kenapa belum ada rencana tindaknya."
       }
      ],
      "aksi": [
       {
-       "t": "gulir",
-       "px": 440
+       "t": "klik",
+       "sel": "[data-radix-popper-content-wrapper] button",
+       "tunggu": 1800,
+       "bukaDialog": true
       },
       {
        "t": "jeda",
-       "ms": 3000
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Rincian Risiko",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "RTP sudah tersusun",
+       "ms": 2200
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Buka Daftar",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Rincian Risiko",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Buka Daftar",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Rincian Risiko",
+       "ms": 2600
       }
      ]
     },
@@ -4466,24 +4881,208 @@
      "id": "X-07",
      "narasi": [
       {
-       "id": "n830",
-       "suara": "P",
-       "teks": "Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi."
-      },
-      {
-       "id": "n831",
+       "id": "v34",
        "suara": "L",
-       "teks": "Bandingkan dengan penilaian kemungkinan yang ada di atas. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah."
+       "teks": "Widget berikutnya menjawab pertanyaan yang paling sering ditanyakan pimpinan: siapa yang belum selesai."
       },
       {
-       "id": "n832",
+       "id": "v35",
        "suara": "P",
-       "teks": "Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya."
+       "teks": "Progres Tahapan per UPR. Tiap perangkat daerah punya satu batang, dengan angka tahapan yang sudah dilewati dari tujuh tahap."
       },
       {
-       "id": "n833",
+       "id": "v36",
        "suara": "L",
-       "teks": "Dua tren lima tahun di bawahnya menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang."
+       "teks": "Dinas Kesehatan tujuh dari tujuh — selesai. Sebagian besar yang lain empat dari tujuh."
+      },
+      {
+       "id": "v37",
+       "suara": "P",
+       "teks": "Tetapi batang ini juga bisa diklik, dan justru di baliknya keterangan yang berguna."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "tekan",
+       "kunci": "Escape",
+       "tunggu": 1200
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "gulir",
+       "px": 380
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "zoom",
+       "teks": "Progres Tahapan per UPR",
+       "skala": 1.16,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Progres Tahapan per UPR",
+       "ms": 2200
+      },
+      {
+       "t": "jeda",
+       "ms": 2799
+      },
+      {
+       "t": "sorot",
+       "teks": "Progres Tahapan per UPR",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "X-08",
+     "narasi": [
+      {
+       "id": "v38",
+       "suara": "L",
+       "teks": "Saya klik salah satu perangkat daerah yang belum selesai."
+      },
+      {
+       "id": "v39",
+       "suara": "P",
+       "teks": "Terbuka rincian tujuh tahapnya satu per satu. Centang hijau untuk yang sudah, silang kuning untuk yang belum."
+      },
+      {
+       "id": "v40",
+       "suara": "L",
+       "teks": "Jadi bukan hanya tahu bahwa mereka tersendat, tetapi tersendat persis di tahap mana."
+      },
+      {
+       "id": "v41",
+       "suara": "P",
+       "teks": "Dan tahap yang belum selesai masih bisa diklik lagi — ia membuka tombol yang langsung menuju formulir yang belum terisi itu."
+      },
+      {
+       "id": "v42",
+       "suara": "L",
+       "teks": "Keputusan yang bisa diambil dari widget ini paling langsung di antara semuanya. Arahan rapat berubah dari segera lengkapi manajemen risikonya, menjadi kalimat yang bisa dikerjakan: selesaikan Formulir satu a sampai satu c minggu ini."
+      },
+      {
+       "id": "v43",
+       "suara": "P",
+       "teks": "Perbedaan dua kalimat itu menentukan apakah rapatnya menghasilkan sesuatu atau tidak."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "klik",
+       "teks": "BADAN KESATUAN BANGSA DAN POLITIK",
+       "tunggu": 1800,
+       "bukaDialog": true
+      },
+      {
+       "t": "jeda",
+       "ms": 3446
+      },
+      {
+       "t": "sorot",
+       "teks": "CEE",
+       "ms": 2200
+      },
+      {
+       "t": "jeda",
+       "ms": 3446
+      },
+      {
+       "t": "klik",
+       "teks": "CEE",
+       "tunggu": 1800,
+       "bukaDialog": true
+      },
+      {
+       "t": "jeda",
+       "ms": 3446
+      },
+      {
+       "t": "sorot",
+       "teks": "Buka Form",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3446
+      },
+      {
+       "t": "sorot",
+       "teks": "Buka Form",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3446
+      },
+      {
+       "t": "sorot",
+       "teks": "Buka Form",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3446
+      },
+      {
+       "t": "tekan",
+       "kunci": "Escape",
+       "tunggu": 1200
+      }
+     ]
+    },
+    {
+     "id": "X-09",
+     "narasi": [
+      {
+       "id": "v44",
+       "suara": "P",
+       "teks": "Dua widget distribusi. Yang kiri membagi risiko menurut tingkatannya — Strategis Pemda, Strategis Perangkat Daerah, dan Operasional."
+      },
+      {
+       "id": "v45",
+       "suara": "L",
+       "teks": "Yang kanan membaginya menurut kategori urusan. Batang di widget kanan bisa diklik."
+      },
+      {
+       "id": "v46",
+       "suara": "P",
+       "teks": "Saya klik salah satunya. Terbuka daftar risiko dalam kategori itu, dan tiap barisnya masih bisa diklik lagi ke rincian risikonya."
+      },
+      {
+       "id": "v47",
+       "suara": "L",
+       "teks": "Cara membacanya begini. Kalau satu kategori urusan menumpuk jauh di atas yang lain, itu belum tentu berarti urusan itu paling bermasalah."
+      },
+      {
+       "id": "v48",
+       "suara": "P",
+       "teks": "Bisa juga berarti perangkat daerah pengampu urusan itu yang paling serius menilai dirinya, sementara yang lain belum. Bedanya baru ketahuan setelah dibuka isinya — dan sekarang bisa dibuka."
+      },
+      {
+       "id": "v49",
+       "suara": "L",
+       "teks": "Keputusan yang bisa diambil: kalau kategori yang menumpuk ternyata dimiliki banyak perangkat daerah sekaligus, masalahnya sistemik dan penanganannya harus lintas dinas. Kalau ternyata milik satu dinas saja, penanganannya cukup di situ."
       }
      ],
      "aksi": [
@@ -4493,34 +5092,614 @@
       },
       {
        "t": "jeda",
-       "ms": 3200
+       "ms": 1272
       },
       {
-       "t": "gulir",
-       "px": 460
+       "t": "zoom",
+       "teks": "Distribusi per Tingkatan",
+       "skala": 1.18,
+       "ms": 900
       },
       {
        "t": "jeda",
-       "ms": 3000
+       "ms": 1272
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "zoom",
+       "teks": "Distribusi per Kategori Risiko",
+       "skala": 1.18,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "klik",
+       "sel": ".recharts-bar-rectangle",
+       "tunggu": 2200,
+       "bukaDialog": true
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "klik",
+       "sel": "[role=\"dialog\"] .max-h-96 button",
+       "tunggu": 2200,
+       "bukaDialog": true
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "sorot",
+       "teks": "Distribusi per Kategori Risiko",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "sorot",
+       "teks": "Distribusi per Tingkatan",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "sorot",
+       "teks": "Distribusi per Kategori Risiko",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 1272
+      },
+      {
+       "t": "tekan",
+       "kunci": "Escape",
+       "tunggu": 1200
       }
      ]
     },
     {
-     "id": "X-08",
+     "id": "X-10",
      "narasi": [
       {
-       "id": "n834",
+       "id": "v50",
        "suara": "L",
+       "teks": "Siklus empat skor risiko. Inilah widget paling jujur di seluruh Dasbor, dan yang paling layak dibawa ke rapat."
+      },
+      {
+       "id": "v51",
+       "suara": "P",
+       "teks": "Inheren adalah keadaan seandainya tidak ada pengendalian sama sekali. Residual keadaan sekarang. Target yang dituju setelah rencana tindak dijalankan. Aktual adalah kenyataannya di ujung tahun."
+      },
+      {
+       "id": "v52",
+       "suara": "L",
+       "teks": "Batang biru dan merah, berlian hijau, segitiga oranye. Semuanya bisa diklik ke rincian risikonya."
+      },
+      {
+       "id": "v53",
+       "suara": "P",
+       "teks": "Pertanyaan yang menentukan cuma satu: apakah segitiga oranye bergerak mendekati berlian hijau?"
+      },
+      {
+       "id": "v54",
+       "suara": "L",
+       "teks": "Kalau tidak bergerak, rencana tindaknya tidak bekerja. Bisa karena rencananya keliru, bisa karena tidak dijalankan, bisa karena penyebabnya ternyata bukan yang diduga."
+      },
+      {
+       "id": "v55",
+       "suara": "P",
+       "teks": "Ketiganya keputusan yang sama sekali berbeda — mengganti rencana, menegur pelaksanaan, atau menilai ulang penyebabnya. Dan tidak satu pun bisa dipilih tanpa melihat widget ini."
+      },
+      {
+       "id": "v56",
+       "suara": "L",
+       "teks": "Yang perlu diperhatikan: kalau segitiga oranyenya tidak ada sama sekali, itu bukan berarti tidak membaik. Itu berarti Formulir sembilan belum diisi, dan kita memang belum tahu apa-apa."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": 520
+      },
+      {
+       "t": "jeda",
+       "ms": 672
+      },
+      {
+       "t": "zoom",
+       "teks": "Siklus 4-Skor Risiko (Inheren → Residual → Target → Aktual)",
+       "skala": 1.14,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 672
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 672
+      },
+      {
+       "t": "klik",
+       "sel": ".max-h-\\[400px\\] .recharts-bar-rectangle",
+       "tunggu": 2400,
+       "bukaDialog": true
+      },
+      {
+       "t": "jeda",
+       "ms": 672
+      },
+      {
+       "t": "tekan",
+       "kunci": "Escape",
+       "tunggu": 1200
+      }
+     ]
+    },
+    {
+     "id": "X-11",
+     "narasi": [
+      {
+       "id": "v57",
+       "suara": "P",
+       "teks": "Daftar Risiko Prioritas. Isinya risiko yang berada di luar Selera Risiko — yang wajib punya rencana tindak."
+      },
+      {
+       "id": "v58",
+       "suara": "L",
+       "teks": "Tiap barisnya menampilkan skala risikonya dan status rencana tindaknya, dan seluruh barisnya bisa diklik ke rincian."
+      },
+      {
+       "id": "v59",
+       "suara": "P",
+       "teks": "Yang perlu dicari mata pimpinan di sini cuma satu: baris berlabel merah, yaitu RTP belum tersusun."
+      },
+      {
+       "id": "v60",
+       "suara": "L",
+       "teks": "Keputusan yang bisa diambil: baris merah di daftar ini adalah satu-satunya hal di Dasbor yang menuntut tindakan sebelum rapat berikutnya. Sisanya bisa menunggu."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": 500
+      },
+      {
+       "t": "jeda",
+       "ms": 1665
+      },
+      {
+       "t": "zoom",
+       "teks": "Daftar Risiko Prioritas",
+       "skala": 1.16,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 1665
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 1665
+      },
+      {
+       "t": "klik",
+       "sel": ".max-h-\\[420px\\] button",
+       "tunggu": 2200,
+       "bukaDialog": true
+      },
+      {
+       "t": "jeda",
+       "ms": 1665
+      },
+      {
+       "t": "sorot",
+       "teks": "Daftar Risiko Prioritas",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 1665
+      },
+      {
+       "t": "tekan",
+       "kunci": "Escape",
+       "tunggu": 1200
+      }
+     ]
+    },
+    {
+     "id": "X-12",
+     "narasi": [
+      {
+       "id": "v61",
+       "suara": "L",
+       "teks": "Ranking Eksposur Risiko per perangkat daerah. Widget ini paling sering disalahpahami."
+      },
+      {
+       "id": "v62",
+       "suara": "P",
+       "teks": "Ia bukan daftar perangkat daerah terburuk."
+      },
+      {
+       "id": "v63",
+       "suara": "L",
+       "teks": "Yang berada di atas biasanya justru yang paling teliti menilai dirinya, atau yang memang mengurus urusan berisiko tinggi — pekerjaan konstruksi, pelayanan kesehatan, penyaluran bantuan."
+      },
+      {
+       "id": "v64",
+       "suara": "P",
+       "teks": "Cara membacanya: ini daftar tempat perhatian pimpinan paling berdampak, bukan daftar yang perlu ditegur."
+      },
+      {
+       "id": "v65",
+       "suara": "L",
+       "teks": "Kalau daftar ini dipakai untuk menegur, akibatnya bisa ditebak. Tahun berikutnya semua perangkat daerah akan menilai dirinya rendah, dan seluruh sistem ini kehilangan gunanya."
+      },
+      {
+       "id": "v66",
+       "suara": "P",
+       "teks": "Keputusan yang tepat dari widget ini bukan sanksi, melainkan alokasi. Ke mana pengawasan, pendampingan, dan anggaran pengendalian diarahkan lebih dulu."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": 520
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "zoom",
+       "teks": "Ranking Eksposur Risiko per OPD",
+       "skala": 1.16,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "sorot",
+       "teks": "Ranking Eksposur Risiko per OPD",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "gulir",
+       "px": 120
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "gulir",
+       "px": -120
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "sorot",
+       "teks": "Ranking Eksposur Risiko per OPD",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "sorot",
+       "teks": "Ranking Eksposur Risiko per OPD",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3368
+      },
+      {
+       "t": "sorot",
+       "teks": "Ranking Eksposur Risiko per OPD",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "X-13",
+     "narasi": [
+      {
+       "id": "v67",
+       "suara": "L",
+       "teks": "Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi, bukan yang diperkirakan."
+      },
+      {
+       "id": "v68",
+       "suara": "P",
+       "teks": "Tiga tombol penyaring di sudut kanannya bisa diklik. Semua, Laporan Warga, dan Pencatatan Internal."
+      },
+      {
+       "id": "v69",
+       "suara": "L",
+       "teks": "Laporan Warga datang dari luar, lewat kode QR tanpa perlu punya akun. Pencatatan Internal ditulis sendiri oleh perangkat daerah."
+      },
+      {
+       "id": "v70",
+       "suara": "P",
+       "teks": "Membandingkan dua penyaring ini menjawab pertanyaan yang tidak muncul di widget mana pun: apakah kita mengetahui masalah sendiri, atau selalu diberi tahu warga."
+      },
+      {
+       "id": "v71",
+       "suara": "L",
+       "teks": "Kalau Laporan Warga jauh lebih banyak daripada Pencatatan Internal, kesimpulannya bukan bahwa warganya rajin. Kesimpulannya deteksi internal kita lemah."
+      },
+      {
+       "id": "v72",
+       "suara": "P",
+       "teks": "Dan bandingkan seluruh log ini dengan penilaian kemungkinan di atas tadi. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah."
+      },
+      {
+       "id": "v73",
+       "suara": "L",
+       "teks": "Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": 560
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "zoom",
+       "teks": "Log Kejadian Risiko Terealisasi",
+       "skala": 1.14,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "klik",
+       "teks": "Laporan Warga",
+       "tunggu": 2000
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "klik",
+       "teks": "Pencatatan Internal",
+       "tunggu": 2000
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "klik",
+       "teks": "Semua",
+       "tunggu": 1600
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "sorot",
+       "teks": "Log Kejadian Risiko Terealisasi",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "sorot",
+       "teks": "Laporan Warga",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "sorot",
+       "teks": "Pencatatan Internal",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3713
+      },
+      {
+       "t": "sorot",
+       "teks": "Log Kejadian Risiko Terealisasi",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "X-14",
+     "narasi": [
+      {
+       "id": "v74",
+       "suara": "P",
+       "teks": "Dua tren lima tahun menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang."
+      },
+      {
+       "id": "v75",
+       "suara": "L",
+       "teks": "Tren Level Risiko memperlihatkan berapa banyak risiko Tinggi dan Sangat Tinggi tiap tahun. Tren Efektivitas Pengendalian memperlihatkan seberapa lebar jarak antara Inheren dan Residual — makin lebar, makin bekerja pengendaliannya."
+      },
+      {
+       "id": "v76",
+       "suara": "P",
+       "teks": "Di bawahnya, Kepatuhan Pelaporan per perangkat daerah untuk Formulir delapan, sembilan, dan sepuluh, dan Aktivitas Terbaru yang mencatat siapa mengubah apa dan kapan."
+      },
+      {
+       "id": "v77",
+       "suara": "L",
+       "teks": "Aktivitas Terbaru sering diabaikan, padahal ia menjawab satu pertanyaan yang penting: apakah datanya hidup, atau terakhir disentuh delapan bulan lalu menjelang pemeriksaan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": -420
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "zoom",
+       "teks": "Tren Level Risiko (5 Tahun Terakhir)",
+       "skala": 1.16,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "zoom",
+       "teks": "Tren Efektivitas Pengendalian (5 Tahun Terakhir)",
+       "skala": 1.16,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "gulir",
+       "px": 560
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "zoom",
+       "teks": "Aktivitas Terbaru",
+       "skala": 1.16,
+       "ms": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "zoomKeluar",
+       "ms": 700
+      },
+      {
+       "t": "jeda",
+       "ms": 3506
+      },
+      {
+       "t": "sorot",
+       "teks": "Aktivitas Terbaru",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "X-15",
+     "narasi": [
+      {
+       "id": "v78",
+       "suara": "P",
        "teks": "Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya."
       },
       {
-       "id": "n835",
-       "suara": "P",
-       "teks": "Daftar Risiko Prioritas pada Formulir 5, hasil analisis pada Formulir 4, dan laporan Bab Empat pada Formulir 11 sampai 14 — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi."
+       "id": "v79",
+       "suara": "L",
+       "teks": "Daftar Risiko Prioritas pada Formulir lima, hasil analisis pada Formulir empat, dan laporan Bab Empat pada Formulir sebelas sampai empat belas — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi."
       },
       {
-       "id": "n836",
-       "suara": "L",
+       "id": "v80",
+       "suara": "P",
        "teks": "Akun peninjau bisa membuka dan mengunduh semuanya."
       }
      ],
@@ -4529,47 +5708,63 @@
        "t": "menu",
        "jalur": [
         "Form Cetak",
-        "Risiko",
-        "Hasil Analisis Risiko",
-        "5_Daftar Risiko Prioritas"
-       ]
+        "Risiko"
+       ],
+       "tunggu": 3000
       },
       {
        "t": "jeda",
-       "ms": 3000
+       "ms": 3007
       },
       {
        "t": "gulir",
-       "px": 420
+       "px": 320
       },
       {
        "t": "jeda",
-       "ms": 2400
+       "ms": 3007
+      },
+      {
+       "t": "gulir",
+       "px": 300
+      },
+      {
+       "t": "jeda",
+       "ms": 3007
+      },
+      {
+       "t": "gulir",
+       "px": -620
       }
      ]
     },
     {
-     "id": "X-09",
+     "id": "X-16",
      "narasi": [
       {
-       "id": "n837",
-       "suara": "P",
-       "teks": "Terakhir, satu hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca."
-      },
-      {
-       "id": "n838",
+       "id": "v81",
        "suara": "L",
-       "teks": "Akun peninjau tidak bisa mengubah apa pun. Bukan karena tombolnya disembunyikan, melainkan karena aplikasi menolak seluruh perintah penulisan di sisi server."
+       "teks": "Terakhir, kembali ke hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca."
       },
       {
-       "id": "n839",
+       "id": "v82",
        "suara": "P",
-       "teks": "Jadi pimpinan bisa membuka formulir mana pun, menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya."
+       "teks": "Perhatikan formulir ini. Barisnya bisa dibaca lengkap sampai kolom terakhir, tetapi tidak ada tombol tambah, tidak ada tombol ubah, tidak ada tombol hapus."
       },
       {
-       "id": "n840",
+       "id": "v83",
        "suara": "L",
-       "teks": "Perhatikan formulir ini: barisnya bisa dibaca lengkap, tetapi tidak ada tombol tambah maupun ubah."
+       "teks": "Dan itu bukan sekadar tombol yang disembunyikan. Seandainya alamat penyimpanan dipanggil langsung, aplikasi tetap menolaknya di sisi server."
+      },
+      {
+       "id": "v84",
+       "suara": "P",
+       "teks": "Jadi Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, atau pemangku kepentingan mana pun bisa menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya."
+      },
+      {
+       "id": "v85",
+       "suara": "L",
+       "teks": "Itulah cara membaca Dasbor ini. Bukan mengumpulkan angka, melainkan mengubah angka jadi pertanyaan yang punya nama, punya pemilik, dan punya batas waktu."
       }
      ],
      "aksi": [
@@ -4578,19 +5773,69 @@
        "jalur": [
         "Form Input",
         "Risiko",
-        "Data Risiko (IRS dan IRO)"
-       ]
+        "Risiko Operasional PD",
+        "III_b_IRO_PD"
+       ],
+       "tunggu": 3200
       },
       {
        "t": "jeda",
-       "ms": 3200
+       "ms": 3553
       },
       {
        "t": "gulir",
-       "px": 400
+       "px": 300
       },
       {
        "t": "jeda",
+       "ms": 3553
+      },
+      {
+       "t": "gulir",
+       "px": 280
+      },
+      {
+       "t": "jeda",
+       "ms": 3553
+      },
+      {
+       "t": "gulir",
+       "px": -580
+      },
+      {
+       "t": "jeda",
+       "ms": 3553
+      },
+      {
+       "t": "sorot",
+       "teks": "III_b_IRO_PD",
+       "ms": 2400
+      },
+      {
+       "t": "jeda",
+       "ms": 3553
+      },
+      {
+       "t": "sorot",
+       "teks": "III_b_IRO_PD",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3553
+      },
+      {
+       "t": "sorot",
+       "teks": "III_b_IRO_PD",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 3553
+      },
+      {
+       "t": "sorot",
+       "teks": "III_b_IRO_PD",
        "ms": 2600
       }
      ]
@@ -4602,7 +5847,7 @@
    "judul": "Penutup",
    "langkah": [
     {
-     "id": "X-01",
+     "id": "XI-01",
      "narasi": [
       {
        "id": "n442",
@@ -4660,7 +5905,7 @@
      ]
     },
     {
-     "id": "X-02",
+     "id": "XI-02",
      "narasi": [
       {
        "id": "n445",
@@ -4697,7 +5942,7 @@
      ]
     },
     {
-     "id": "X-03",
+     "id": "XI-03",
      "narasi": [
       {
        "id": "n447",
@@ -4734,7 +5979,7 @@
      ]
     },
     {
-     "id": "X-04",
+     "id": "XI-04",
      "narasi": [
       {
        "id": "n449",
@@ -4762,7 +6007,7 @@
      ]
     },
     {
-     "id": "X-05",
+     "id": "XI-05",
      "narasi": [
       {
        "id": "n451",

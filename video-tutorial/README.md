@@ -5,7 +5,7 @@ di bawah video edukasi:
 
 | Video | Isi | Naskah |
 |---|---|---|
-| **Tutorial Pengisian** (52 menit, 11 bab) | satu perangkat daerah mengisi satu tahun penuh, dari Data Umum sampai laporan; bab X memperlihatkan cara pimpinan membaca datanya lewat akun peninjau | `naskah.json` |
+| **Tutorial Pengisian** (59 menit, 11 bab) | satu perangkat daerah mengisi satu tahun penuh, dari Data Umum sampai laporan; bab X memperagakan cara pimpinan membaca datanya lewat akun peninjau — tiap widget Dasbor yang bisa diklik memang diklik | `naskah.json` |
 | **Tutorial Lapor Kejadian Risiko** (13 menit, 6 bab) | dari sisi pelapor yang masuk lewat kode QR tanpa punya akun, dan sisi PIC yang menelaahnya sampai masuk Formulir 10 — dua kasus: risiko yang sudah terdaftar dan yang belum | `naskah-lapor.json` |
 
 Bedanya dengan video edukasi di `video-edukasi/v3/`: yang itu animasi yang
@@ -146,6 +146,19 @@ dikembalikan persis seperti semula.
 - **Zoom pada dialog harus menyasar dialognya**, bukan `#app` — dialog Radix
   digambar lewat portal di luar `#app`, jadi memperbesar `#app` tidak
   menyentuhnya sama sekali.
+- **Menggulung wadah dalam saja tidak cukup.** `__bawaKeTengah` menggulung
+  penggulir terdekat LALU jendelanya. Tanpa langkah kedua, elemen yang berada
+  di dalam wadah bergulir sendiri — grafik Siklus 4-Skor di Dasbor punya
+  penggulir setinggi 400 piksel — memang jadi di tengah wadahnya, tetapi
+  wadahnya sendiri masih di luar layar, dan kliknya mendarat entah di mana
+  tanpa galat apa pun.
+- **Tutup dialog dengan `{"t": "tekan", "kunci": "Escape"}`,** bukan dengan
+  mencari tombol "Close". Tulisan tombolnya tak terlihat, letaknya berbeda
+  antar komponen, dan popover memang tidak punya tombol itu sama sekali.
+- **Tandai klik yang seharusnya membuka sesuatu dengan `"bukaDialog": true`.**
+  Pengendali lalu memastikan dialog atau popover benar-benar muncul. Tanpa itu,
+  narasi bisa menjelaskan rincian risiko yang sebenarnya tidak terbuka di layar
+  — cacat yang jauh lebih buruk daripada rekaman yang berhenti.
 
 ## Pengaturannya di aplikasi
 
@@ -178,6 +191,20 @@ skala target dampaknya tidak turun sementara kemungkinannya turun.
 Bagian X dikerjakan dengan akun peninjau yang hanya-baca, dan membaca data
 2025 yang sungguhan lewat penyaring tahun Dasbor — terpisah dari Tahun Aktif,
 jadi tidak ada setelan global yang perlu diubah demi merekam.
+
+Bagian itu **memperagakan**, bukan sekadar menerangkan. Tiap widget Dasbor yang
+bisa diklik memang diklik sambil dijelaskan: penyaring perangkat daerah,
+sel Peta Risiko yang membuka daftar risiko di dalamnya lalu rincian tiap
+risikonya, batang Progres Tahapan yang membuka rincian tujuh tahap sampai
+tombol menuju formulir yang belum terisi, batang Distribusi per Kategori,
+batang Siklus 4-Skor, baris Daftar Risiko Prioritas, dan tiga penyaring Log
+Kejadian. Tiap widget ditutup dengan contoh keputusan yang bisa diambil
+darinya — sasarannya pimpinan yang membaca, bukan petugas yang mengisi.
+
+Pasangan angka yang paling banyak diajarkan di bagian ini nyata adanya pada
+data 2025: RTP tersusun seratus persen, sementara kepatuhan pelaporan Formulir
+8/9/10 hanya tiga persen. Dua angka itu berdampingan menunjukkan bahwa yang
+seratus persen adalah rencana, bukan hasil.
 
 **Tutorial Lapor**, enam bagian. Yang paling perlu dipahami bagian V: Formulir
 10 menolak dicatat tanpa risiko terdaftar, sehingga kejadian yang risikonya

@@ -503,8 +503,19 @@ class Perekam {
         break;
 
       case 'sorot': {
+        // Sorot itu HIASAN — kursor bergerak, cincin menyala. Kalau sasarannya
+        // tidak ketemu, yang hilang cuma sedikit gerak; membatalkan rekaman
+        // tiga belas menit karenanya jelas tidak sepadan. Bandingkan dengan
+        // `klik` dan `simpan`, yang memang wajib menghentikan rekaman karena
+        // kegagalannya mengubah ISI video, bukan sekadar hiasnya.
         const spek = aksi.sel ? { sel: aksi.sel } : { teks: aksi.teks };
-        await this._dekatkan(spek);
+        try {
+          await this._dekatkan(spek);
+        } catch (e) {
+          console.log(`  (sorot dilewati, sasaran tidak ada: ${JSON.stringify(spek)})`);
+          await tidur(aksi.ms || 2000);
+          break;
+        }
         const ok = await p.evaluate((s, ms) => {
           const el = document.querySelector(s);
           return el ? window.__sorot(el, ms) : false;
@@ -547,6 +558,31 @@ class Perekam {
             throw new Error('formulir menolak disimpan: ' + galat.join(' | '));
           }
         }
+
+        // `bukaDialog: true` untuk klik yang SEHARUSNYA membuka dialog atau
+        // popover — widget Dasbor yang bisa ditelusuri, misalnya. Kalau tidak
+        // terbuka, narasinya akan menjelaskan sesuatu yang tidak ada di layar,
+        // dan itu jauh lebih buruk daripada rekaman yang berhenti. Sama
+        // alasannya dengan pemeriksaan `simpan` di atas.
+        if (aksi.bukaDialog) {
+          await tidur(600);
+          const terbuka = await p.evaluate(() => !!document.querySelector(
+            '[role="dialog"], [data-radix-popper-content-wrapper]',
+          ));
+          if (!terbuka) {
+            throw new Error('klik tidak membuka dialog/popover apa pun: ' + JSON.stringify(spek));
+          }
+        }
+        break;
+      }
+
+      // Menutup dialog atau popover. Dipakai daripada mencari tombol "Close":
+      // tombolnya bertulisan tak terlihat, letaknya berbeda antar komponen,
+      // dan pada popover memang tidak ada sama sekali. Escape menutup keduanya
+      // dan tidak menimbulkan galat kalau kebetulan tidak ada yang terbuka.
+      case 'tekan': {
+        await t.tekan(aksi.kunci || 'Escape');
+        await tidur(aksi.tunggu ?? 700);
         break;
       }
 
@@ -780,6 +816,16 @@ class Perekam {
         await p.evaluate(() => document.querySelector('select[data-tutorial-select="1"]')
           ?.removeAttribute('data-tutorial-select'));
         await tidur(aksi.tunggu ?? 500);
+        break;
+      }
+
+      case 'unggah': {
+        // Melampirkan berkas dari cakram ke kolom unggah. Dipakai menguji
+        // bukti dukung; input berkas tidak bisa diisi lewat ketikan.
+        const el = await p.$(aksi.sel || 'input[type=file]');
+        if (!el) throw new Error('kolom unggah tidak ketemu');
+        await el.uploadFile(path.resolve(DIR, aksi.berkas));
+        await tidur(aksi.tunggu ?? 1500);
         break;
       }
 

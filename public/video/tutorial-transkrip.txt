@@ -294,49 +294,105 @@ Seluruh isian dalam video ini adalah DATA CONTOH.
 
 == Bagian X. Membaca data dan mengambil keputusan
 
-[43:39] Kita kembali ke Dasbor, tempat kita mulai tadi.
-[43:42] Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
-[43:54] Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
-[44:21] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
-[44:26] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
-[45:09] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
-[45:13] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
-[45:57] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
-[46:03] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
-[46:34] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
-[46:46] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
-[47:00] Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
-[47:10] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
-[47:21] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
-[47:25] Kepatuhan Pelaporan menunjukkan berapa perangkat daerah yang sudah mengisi Formulir 8, 9, dan 10.
-[47:31] Ini kelihatan seperti urusan administrasi, dan justru karena itu sering diabaikan pimpinan.
-[47:38] Padahal tanpa Formulir 8, 9, dan 10, seluruh angka yang tadi kita baca tidak bisa diverifikasi. Kita hanya tahu apa yang direncanakan, tidak tahu apa yang dikerjakan.
-[47:50] Angka kepatuhan yang rendah berarti Dasbor ini sedang menampilkan rencana, bukan kenyataan. Itu perlu diketahui sebelum keputusan apa pun diambil darinya.
-[48:02] Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi.
-[48:07] Bandingkan dengan penilaian kemungkinan yang ada di atas. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
-[48:18] Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya.
-[48:28] Dua tren lima tahun di bawahnya menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
-[48:37] Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya.
-[48:41] Daftar Risiko Prioritas pada Formulir 5, hasil analisis pada Formulir 4, dan laporan Bab Empat pada Formulir 11 sampai 14 — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
-[48:56] Akun peninjau bisa membuka dan mengunduh semuanya.
-[49:00] Terakhir, satu hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
-[49:07] Akun peninjau tidak bisa mengubah apa pun. Bukan karena tombolnya disembunyikan, melainkan karena aplikasi menolak seluruh perintah penulisan di sisi server.
-[49:16] Jadi pimpinan bisa membuka formulir mana pun, menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
-[49:26] Perhatikan formulir ini: barisnya bisa dibaca lengkap, tetapi tidak ada tombol tambah maupun ubah.
+[43:39] Sampai di sini kita selalu memakai kacamata orang yang mengisi. Sekarang kacamatanya diganti.
+[43:45] Bab ini untuk yang tidak mengisi apa pun, tetapi harus mengambil keputusan dari apa yang sudah diisi. Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, dan pemangku kepentingan lain yang perlu membaca data manajemen risiko.
+[44:02] Akunnya berbeda. Namanya akun peninjau, dan ia hanya bisa membaca. Seluruh perintah penulisan ditolak di sisi server, bukan sekadar tombolnya disembunyikan.
+[44:12] Artinya akun ini aman diberikan kepada siapa pun yang perlu melihat. Sebebas apa pun ia menjelajah, tidak ada satu pun data perangkat daerah yang bisa berubah karenanya.
+[44:24] Yang akan kita kerjakan di bab ini bukan membaca angka satu per satu. Hampir setiap widget di Dasbor bisa diklik, dan di balik kliknya ada nama risiko, nama perangkat daerah, dan formulir yang belum terisi. Itulah yang membuat Dasbor ini berguna untuk rapat.
+[44:39] Mulai dari dua penyaring di kanan atas, karena keduanya menentukan arti seluruh angka di bawahnya.
+[44:47] Yang kiri memilih perangkat daerah, yang kanan memilih tahun. Saya pilih Dinas Kesehatan.
+[44:53] Seluruh Dasbor langsung menyempit. Sekarang setiap angka di halaman ini hanya bicara tentang Dinas Kesehatan.
+[45:01] Inilah cara menyiapkan rapat dengan satu perangkat daerah. Buka penyaringnya di nama mereka, dan Anda masuk rapat dengan angka mereka sendiri, bukan angka gabungan yang tidak bisa mereka jawab.
+[45:12] Saya kembalikan ke Semua OPD, karena sisa bab ini membaca keadaan seluruh kabupaten.
+[45:19] Satu hal penting soal penyaring tahun: ia terpisah dari Tahun Aktif. Pimpinan bisa membaca tahun mana pun tanpa mengganggu perangkat daerah yang sedang mengisi tahun berjalan.
+[45:29] Empat kartu ringkasan. Jangan dibaca satu per satu — artinya justru muncul dari hubungan antar keempatnya.
+[45:36] Total Risiko Teridentifikasi dua ratus lima puluh delapan. Risiko Prioritas seratus dua puluh sembilan. RTP Selesai Disusun seratus dua puluh sembilan dari seratus dua puluh sembilan, seratus persen.
+[45:52] Kalau berhenti membaca di sini, kesimpulannya: sempurna. Seluruh risiko prioritas sudah punya rencana penanganan.
+[46:00] Sekarang lihat kartu keempat. Kepatuhan Pelaporan tiga persen. Satu dari empat puluh sembilan perangkat daerah.
+[46:09] Dua angka itu berdampingan menceritakan satu hal yang tidak enak didengar tetapi harus didengar. Rencananya seratus persen tersusun, tetapi buktinya bahwa rencana itu dikerjakan hampir tidak ada.
+[46:20] Keputusan yang bisa diambil dari sini: jangan merayakan angka seratus persen itu. Yang seratus persen adalah niat, bukan hasil. Arahan yang tepat justru menuntut Formulir delapan, sembilan, dan sepuluh diisi — karena tanpa itu seluruh Dasbor ini menampilkan rencana, bukan kenyataan.
+[46:42] Peta Risiko menempatkan seluruh risiko pada matriks lima kali lima.
+[46:45] Yang dilihat pimpinan bukan titik satu per satu, melainkan ke mana massanya condong.
+[46:52] Menumpuk di kanan atas berarti banyak risiko berdampak besar dan sering terjadi. Itu tampak buruk, tetapi belum tentu berarti daerahnya buruk — bisa juga berarti penilaiannya jujur, dan itu awal yang sehat.
+[47:04] Yang benar-benar mengkhawatirkan justru kebalikannya: seluruh titik menumpuk di kiri bawah. Tidak ada organisasi yang risikonya serendah itu. Sebaran seperti itu hampir selalu tanda penilaian yang menahan diri.
+[47:19] Garis putus-putus bertangga adalah batas Selera Risiko. Segala yang berada di luarnya wajib punya rencana tindak.
+[47:26] Sekarang bagian yang sering tidak diketahui: angka di dalam sel matriks ini bisa diklik.
+[47:33] Saya klik sel paling ujung — Dampak lima kali Kemungkinan lima, skala dua puluh lima. Sel paling berbahaya di seluruh matriks.
+[47:41] Yang terbuka bukan angka lagi, melainkan nama risikonya. Lima risiko, lengkap dengan perangkat daerah pemiliknya.
+[47:50] Perhatikan tanda kecil di sebelah kanan tiap baris. Centang hijau berarti rencana tindaknya sudah tersusun, silang kuning berarti belum.
+[47:59] Di sinilah Dasbor berhenti jadi hiasan. Sel merah dengan silang kuning di dalamnya adalah risiko yang sudah diakui paling berbahaya, tetapi belum ada yang menanganinya.
+[48:11] Keputusan yang bisa diambil: daftar inilah agenda rapat, bukan daftar seluruh dua ratus lima puluh delapan risiko. Lima baris ini yang ditanyakan satu per satu, kepada nama perangkat daerah yang tertulis di sebelahnya.
+[48:23] Nama risikonya pun masih bisa diklik lagi.
+[48:27] Terbuka rincian risikonya: uraian lengkap, tingkatannya, perangkat daerah pemiliknya, dan status rencana tindaknya.
+[48:35] Tombol Buka Daftar di bawah membawa langsung ke baris aslinya di formulir register risiko — jadi pimpinan bisa menelusuri sampai ke dasar tanpa perlu tahu formulir mana yang harus dibuka.
+[48:47] Tiga klik dari angka ringkasan sampai ke satu baris risiko milik satu perangkat daerah. Itu yang memungkinkan pertanyaan rapat berubah dari umum jadi spesifik.
+[48:56] Bukan lagi bertanya bagaimana manajemen risikonya. Melainkan menyebut risiko ini, milik dinas ini, kenapa belum ada rencana tindaknya.
+[49:07] Widget berikutnya menjawab pertanyaan yang paling sering ditanyakan pimpinan: siapa yang belum selesai.
+[49:13] Progres Tahapan per UPR. Tiap perangkat daerah punya satu batang, dengan angka tahapan yang sudah dilewati dari tujuh tahap.
+[49:22] Dinas Kesehatan tujuh dari tujuh — selesai. Sebagian besar yang lain empat dari tujuh.
+[49:29] Tetapi batang ini juga bisa diklik, dan justru di baliknya keterangan yang berguna.
+[49:35] Saya klik salah satu perangkat daerah yang belum selesai.
+[49:38] Terbuka rincian tujuh tahapnya satu per satu. Centang hijau untuk yang sudah, silang kuning untuk yang belum.
+[49:47] Jadi bukan hanya tahu bahwa mereka tersendat, tetapi tersendat persis di tahap mana.
+[49:52] Dan tahap yang belum selesai masih bisa diklik lagi — ia membuka tombol yang langsung menuju formulir yang belum terisi itu.
+[50:00] Keputusan yang bisa diambil dari widget ini paling langsung di antara semuanya. Arahan rapat berubah dari segera lengkapi manajemen risikonya, menjadi kalimat yang bisa dikerjakan: selesaikan Formulir satu a sampai satu c minggu ini.
+[50:13] Perbedaan dua kalimat itu menentukan apakah rapatnya menghasilkan sesuatu atau tidak.
+[50:20] Dua widget distribusi. Yang kiri membagi risiko menurut tingkatannya — Strategis Pemda, Strategis Perangkat Daerah, dan Operasional.
+[50:31] Yang kanan membaginya menurut kategori urusan. Batang di widget kanan bisa diklik.
+[50:37] Saya klik salah satunya. Terbuka daftar risiko dalam kategori itu, dan tiap barisnya masih bisa diklik lagi ke rincian risikonya.
+[50:47] Cara membacanya begini. Kalau satu kategori urusan menumpuk jauh di atas yang lain, itu belum tentu berarti urusan itu paling bermasalah.
+[50:55] Bisa juga berarti perangkat daerah pengampu urusan itu yang paling serius menilai dirinya, sementara yang lain belum. Bedanya baru ketahuan setelah dibuka isinya — dan sekarang bisa dibuka.
+[51:09] Keputusan yang bisa diambil: kalau kategori yang menumpuk ternyata dimiliki banyak perangkat daerah sekaligus, masalahnya sistemik dan penanganannya harus lintas dinas. Kalau ternyata milik satu dinas saja, penanganannya cukup di situ.
+[51:22] Siklus empat skor risiko. Inilah widget paling jujur di seluruh Dasbor, dan yang paling layak dibawa ke rapat.
+[51:29] Inheren adalah keadaan seandainya tidak ada pengendalian sama sekali. Residual keadaan sekarang. Target yang dituju setelah rencana tindak dijalankan. Aktual adalah kenyataannya di ujung tahun.
+[51:45] Batang biru dan merah, berlian hijau, segitiga oranye. Semuanya bisa diklik ke rincian risikonya.
+[51:52] Pertanyaan yang menentukan cuma satu: apakah segitiga oranye bergerak mendekati berlian hijau?
+[51:59] Kalau tidak bergerak, rencana tindaknya tidak bekerja. Bisa karena rencananya keliru, bisa karena tidak dijalankan, bisa karena penyebabnya ternyata bukan yang diduga.
+[52:09] Ketiganya keputusan yang sama sekali berbeda — mengganti rencana, menegur pelaksanaan, atau menilai ulang penyebabnya. Dan tidak satu pun bisa dipilih tanpa melihat widget ini.
+[52:23] Yang perlu diperhatikan: kalau segitiga oranyenya tidak ada sama sekali, itu bukan berarti tidak membaik. Itu berarti Formulir sembilan belum diisi, dan kita memang belum tahu apa-apa.
+[52:34] Daftar Risiko Prioritas. Isinya risiko yang berada di luar Selera Risiko — yang wajib punya rencana tindak.
+[52:43] Tiap barisnya menampilkan skala risikonya dan status rencana tindaknya, dan seluruh barisnya bisa diklik ke rincian.
+[52:49] Yang perlu dicari mata pimpinan di sini cuma satu: baris berlabel merah, yaitu RTP belum tersusun.
+[52:57] Keputusan yang bisa diambil: baris merah di daftar ini adalah satu-satunya hal di Dasbor yang menuntut tindakan sebelum rapat berikutnya. Sisanya bisa menunggu.
+[53:06] Ranking Eksposur Risiko per perangkat daerah. Widget ini paling sering disalahpahami.
+[53:12] Ia bukan daftar perangkat daerah terburuk.
+[53:16] Yang berada di atas biasanya justru yang paling teliti menilai dirinya, atau yang memang mengurus urusan berisiko tinggi — pekerjaan konstruksi, pelayanan kesehatan, penyaluran bantuan.
+[53:26] Cara membacanya: ini daftar tempat perhatian pimpinan paling berdampak, bukan daftar yang perlu ditegur.
+[53:33] Kalau daftar ini dipakai untuk menegur, akibatnya bisa ditebak. Tahun berikutnya semua perangkat daerah akan menilai dirinya rendah, dan seluruh sistem ini kehilangan gunanya.
+[53:43] Keputusan yang tepat dari widget ini bukan sanksi, melainkan alokasi. Ke mana pengawasan, pendampingan, dan anggaran pengendalian diarahkan lebih dulu.
+[53:56] Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi, bukan yang diperkirakan.
+[54:01] Tiga tombol penyaring di sudut kanannya bisa diklik. Semua, Laporan Warga, dan Pencatatan Internal.
+[54:10] Laporan Warga datang dari luar, lewat kode QR tanpa perlu punya akun. Pencatatan Internal ditulis sendiri oleh perangkat daerah.
+[54:18] Membandingkan dua penyaring ini menjawab pertanyaan yang tidak muncul di widget mana pun: apakah kita mengetahui masalah sendiri, atau selalu diberi tahu warga.
+[54:29] Kalau Laporan Warga jauh lebih banyak daripada Pencatatan Internal, kesimpulannya bukan bahwa warganya rajin. Kesimpulannya deteksi internal kita lemah.
+[54:38] Dan bandingkan seluruh log ini dengan penilaian kemungkinan di atas tadi. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
+[54:52] Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya.
+[55:00] Dua tren lima tahun menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
+[55:11] Tren Level Risiko memperlihatkan berapa banyak risiko Tinggi dan Sangat Tinggi tiap tahun. Tren Efektivitas Pengendalian memperlihatkan seberapa lebar jarak antara Inheren dan Residual — makin lebar, makin bekerja pengendaliannya.
+[55:24] Di bawahnya, Kepatuhan Pelaporan per perangkat daerah untuk Formulir delapan, sembilan, dan sepuluh, dan Aktivitas Terbaru yang mencatat siapa mengubah apa dan kapan.
+[55:35] Aktivitas Terbaru sering diabaikan, padahal ia menjawab satu pertanyaan yang penting: apakah datanya hidup, atau terakhir disentuh delapan bulan lalu menjelang pemeriksaan.
+[55:45] Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya.
+[55:50] Daftar Risiko Prioritas pada Formulir lima, hasil analisis pada Formulir empat, dan laporan Bab Empat pada Formulir sebelas sampai empat belas — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
+[56:02] Akun peninjau bisa membuka dan mengunduh semuanya.
+[56:06] Terakhir, kembali ke hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
+[56:12] Perhatikan formulir ini. Barisnya bisa dibaca lengkap sampai kolom terakhir, tetapi tidak ada tombol tambah, tidak ada tombol ubah, tidak ada tombol hapus.
+[56:24] Dan itu bukan sekadar tombol yang disembunyikan. Seandainya alamat penyimpanan dipanggil langsung, aplikasi tetap menolaknya di sisi server.
+[56:33] Jadi Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, atau pemangku kepentingan mana pun bisa menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
+[56:47] Itulah cara membaca Dasbor ini. Bukan mengumpulkan angka, melainkan mengubah angka jadi pertanyaan yang punya nama, punya pemilik, dan punya batas waktu.
 
 == Bagian XI. Penutup
 
-[49:34] Kita kembali ke Dasbor, tempat kita mulai tadi.
-[49:38] Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
-[49:49] Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
-[49:57] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
-[50:02] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
-[50:11] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
-[50:15] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
-[50:30] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
-[50:37] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
-[50:44] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
-[50:56] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
-[51:10] Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
-[51:20] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
-[51:31] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
+[56:58] Kita kembali ke Dasbor, tempat kita mulai tadi.
+[57:02] Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
+[57:14] Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
+[57:21] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
+[57:26] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
+[57:35] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
+[57:40] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
+[57:54] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
+[58:01] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
+[58:08] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+[58:20] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
+[58:34] Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+[58:44] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+[58:55] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.

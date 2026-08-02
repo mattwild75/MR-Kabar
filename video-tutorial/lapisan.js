@@ -196,9 +196,24 @@
    * sedang diisi hilang begitu saja. Karena itu di sini dicari dulu wadah
    * bergulir terdekat, baru wadah itu yang digerakkan.
    */
-  window.__bawaKeTengah = (sel, ms) => new Promise((selesai) => {
+  window.__bawaKeTengah = (sel, ms) => {
     const el = typeof sel === 'string' ? document.querySelector(sel) : sel;
-    if (!el) return selesai(false);
+    if (!el) return Promise.resolve(false);
+
+    // Satu gulungan beranimasi, pada wadah mana pun.
+    const gulung = (dariY, keY, gerak) => new Promise((selesai) => {
+      const jarak = keY - dariY;
+      if (Math.abs(jarak) < 3) return selesai(true);
+      const durasi = ms || Math.min(1300, 300 + Math.abs(jarak) * 0.6);
+      const mulai = performance.now();
+      const langkah = (t) => {
+        const p = Math.min(1, (t - mulai) / durasi);
+        const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        gerak(dariY + jarak * e);
+        if (p < 1) requestAnimationFrame(langkah); else selesai(true);
+      };
+      requestAnimationFrame(langkah);
+    });
 
     let wadah = el.parentElement;
     while (wadah && wadah !== document.body) {
@@ -208,35 +223,43 @@
       wadah = wadah.parentElement;
     }
 
-    const pakaiJendela = !wadah || wadah === document.body;
-    const kotak = el.getBoundingClientRect();
-    let dariY, keY, gerak;
-    if (pakaiJendela) {
-      dariY = window.scrollY;
-      keY = Math.max(0, dariY + kotak.top - (window.innerHeight / 2 - kotak.height / 2));
-      gerak = (y) => window.scrollTo(0, y);
-    } else {
-      const kw = wadah.getBoundingClientRect();
-      dariY = wadah.scrollTop;
-      keY = Math.max(0, Math.min(
-        wadah.scrollHeight - wadah.clientHeight,
-        dariY + (kotak.top - kw.top) - (wadah.clientHeight / 2 - kotak.height / 2),
-      ));
-      gerak = (y) => { wadah.scrollTop = y; };
-    }
-
-    const jarak = keY - dariY;
-    if (Math.abs(jarak) < 3) return selesai(true);
-    const durasi = ms || Math.min(1300, 300 + Math.abs(jarak) * 0.6);
-    const mulai = performance.now();
-    const langkah = (t) => {
-      const p = Math.min(1, (t - mulai) / durasi);
-      const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-      gerak(dariY + jarak * e);
-      if (p < 1) requestAnimationFrame(langkah); else selesai(true);
+    const keJendela = () => {
+      const k = el.getBoundingClientRect();
+      // Sudah nyaman di tengah layar? Jangan digeser lagi tanpa perlu.
+      if (k.top >= window.innerHeight * 0.15 && k.bottom <= window.innerHeight * 0.85) {
+        return Promise.resolve(true);
+      }
+      return gulung(
+        window.scrollY,
+        Math.max(0, window.scrollY + k.top - (window.innerHeight / 2 - k.height / 2)),
+        (y) => window.scrollTo(0, y),
+      );
     };
-    requestAnimationFrame(langkah);
-  });
+
+    if (!wadah || wadah === document.body) return keJendela();
+
+    // Dua gulungan berurutan, dan urutannya penting.
+    //
+    // Menggulung wadah dalamnya saja TIDAK cukup: elemennya memang jadi
+    // berada di tengah wadah, tetapi wadahnya sendiri bisa seluruhnya di luar
+    // layar — persis yang terjadi pada grafik Siklus 4-Skor, yang punya
+    // penggulir sendiri setinggi 400 piksel jauh di bawah lipatan halaman.
+    // Kliknya lalu mendarat di tempat lain tanpa galat apa pun. Jadi sesudah
+    // wadahnya digulung, jendelanya menyusul supaya elemennya betul-betul
+    // terlihat. Kalau dialog sedang terbuka, gulungan jendela ini tidak
+    // berpengaruh karena Radix mengunci gulungan badan halaman — dan itu
+    // memang yang diinginkan.
+    const kw = wadah.getBoundingClientRect();
+    const kotak = el.getBoundingClientRect();
+    return gulung(
+      wadah.scrollTop,
+      Math.max(0, Math.min(
+        wadah.scrollHeight - wadah.clientHeight,
+        wadah.scrollTop + (kotak.top - kw.top) - (wadah.clientHeight / 2 - kotak.height / 2),
+      )),
+      (y) => { wadah.scrollTop = y; },
+    ).then(keJendela);
+  };
 
   /**
    * Zoom ke sebuah elemen — DIKERJAKAN SAAT MEREKAM, bukan saat menyunting.

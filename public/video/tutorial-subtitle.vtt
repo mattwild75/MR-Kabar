@@ -789,132 +789,300 @@ Dua yang terakhir ini paling sering terlewat, dan alasannya sederhana: penyusunn
 00:43:29.444 --> 00:43:37.268
 Kalau di perangkat daerah Anda keduanya belum pernah ada, itu bukan berarti tidak wajib. Itu berarti strukturnya yang belum berjalan.
 
-00:43:39.248 --> 00:43:42.632
-Kita kembali ke Dasbor, tempat kita mulai tadi.
+00:43:39.249 --> 00:43:45.513
+Sampai di sini kita selalu memakai kacamata orang yang mengisi. Sekarang kacamatanya diganti.
 
-00:43:42.632 --> 00:43:54.488
-Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
+00:43:45.513 --> 00:44:02.073
+Bab ini untuk yang tidak mengisi apa pun, tetapi harus mengambil keputusan dari apa yang sudah diisi. Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, dan pemangku kepentingan lain yang perlu membaca data manajemen risiko.
 
-00:43:54.488 --> 00:44:01.520
-Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
+00:44:02.073 --> 00:44:12.729
+Akunnya berbeda. Namanya akun peninjau, dan ia hanya bisa membaca. Seluruh perintah penulisan ditolak di sisi server, bukan sekadar tombolnya disembunyikan.
 
-00:44:21.236 --> 00:44:26.564
-Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
+00:44:12.729 --> 00:44:24.825
+Artinya akun ini aman diberikan kepada siapa pun yang perlu melihat. Sebebas apa pun ia menjelajah, tidak ada satu pun data perangkat daerah yang bisa berubah karenanya.
 
-00:44:26.564 --> 00:44:35.060
-Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
+00:44:24.825 --> 00:44:39.729
+Yang akan kita kerjakan di bab ini bukan membaca angka satu per satu. Hampir setiap widget di Dasbor bisa diklik, dan di balik kliknya ada nama risiko, nama perangkat daerah, dan formulir yang belum terisi. Itulah yang membuat Dasbor ini berguna untuk rapat.
 
-00:45:09.554 --> 00:45:13.754
-Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
+00:44:39.999 --> 00:44:47.247
+Mulai dari dua penyaring di kanan atas, karena keduanya menentukan arti seluruh angka di bawahnya.
 
-00:45:13.754 --> 00:45:28.274
-Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
+00:44:47.247 --> 00:44:53.463
+Yang kiri memilih perangkat daerah, yang kanan memilih tahun. Saya pilih Dinas Kesehatan.
 
-00:45:57.218 --> 00:46:03.770
-Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
+00:44:53.463 --> 00:45:01.983
+Seluruh Dasbor langsung menyempit. Sekarang setiap angka di halaman ini hanya bicara tentang Dinas Kesehatan.
 
-00:46:03.770 --> 00:46:10.850
-Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
+00:45:01.983 --> 00:45:12.399
+Inilah cara menyiapkan rapat dengan satu perangkat daerah. Buka penyaringnya di nama mereka, dan Anda masuk rapat dengan angka mereka sendiri, bukan angka gabungan yang tidak bisa mereka jawab.
 
-00:46:34.852 --> 00:46:46.612
-Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+00:45:12.399 --> 00:45:19.503
+Saya kembalikan ke Semua OPD, karena sisa bab ini membaca keadaan seluruh kabupaten.
 
-00:46:46.612 --> 00:47:00.340
-Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
+00:45:19.503 --> 00:45:29.199
+Satu hal penting soal penyaring tahun: ia terpisah dari Tahun Aktif. Pimpinan bisa membaca tahun mana pun tanpa mengganggu perangkat daerah yang sedang mengisi tahun berjalan.
 
-00:47:00.340 --> 00:47:10.804
-Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+00:45:29.475 --> 00:45:36.651
+Empat kartu ringkasan. Jangan dibaca satu per satu — artinya justru muncul dari hubungan antar keempatnya.
 
-00:47:10.804 --> 00:47:21.532
-Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+00:45:36.651 --> 00:45:52.395
+Total Risiko Teridentifikasi dua ratus lima puluh delapan. Risiko Prioritas seratus dua puluh sembilan. RTP Selesai Disusun seratus dua puluh sembilan dari seratus dua puluh sembilan, seratus persen.
 
-00:47:21.532 --> 00:47:30.532
-Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
+00:45:52.395 --> 00:46:00.027
+Kalau berhenti membaca di sini, kesimpulannya: sempurna. Seluruh risiko prioritas sudah punya rencana penanganan.
 
-00:47:25.321 --> 00:47:31.777
-Kepatuhan Pelaporan menunjukkan berapa perangkat daerah yang sudah mengisi Formulir 8, 9, dan 10.
+00:46:00.027 --> 00:46:09.555
+Sekarang lihat kartu keempat. Kepatuhan Pelaporan tiga persen. Satu dari empat puluh sembilan perangkat daerah.
 
-00:47:31.777 --> 00:47:38.857
-Ini kelihatan seperti urusan administrasi, dan justru karena itu sering diabaikan pimpinan.
+00:46:09.555 --> 00:46:20.235
+Dua angka itu berdampingan menceritakan satu hal yang tidak enak didengar tetapi harus didengar. Rencananya seratus persen tersusun, tetapi buktinya bahwa rencana itu dikerjakan hampir tidak ada.
 
-00:47:38.857 --> 00:47:50.305
-Padahal tanpa Formulir 8, 9, dan 10, seluruh angka yang tadi kita baca tidak bisa diverifikasi. Kita hanya tahu apa yang direncanakan, tidak tahu apa yang dikerjakan.
+00:46:20.235 --> 00:46:41.739
+Keputusan yang bisa diambil dari sini: jangan merayakan angka seratus persen itu. Yang seratus persen adalah niat, bukan hasil. Arahan yang tepat justru menuntut Formulir delapan, sembilan, dan sepuluh diisi — karena tanpa itu seluruh Dasbor ini menampilkan rencana, bukan kenyataan.
 
-00:47:50.305 --> 00:48:01.897
-Angka kepatuhan yang rendah berarti Dasbor ini sedang menampilkan rencana, bukan kenyataan. Itu perlu diketahui sebelum keputusan apa pun diambil darinya.
+00:46:42.012 --> 00:46:45.972
+Peta Risiko menempatkan seluruh risiko pada matriks lima kali lima.
 
-00:48:02.151 --> 00:48:07.503
-Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi.
+00:46:45.972 --> 00:46:52.236
+Yang dilihat pimpinan bukan titik satu per satu, melainkan ke mana massanya condong.
 
-00:48:07.503 --> 00:48:18.111
-Bandingkan dengan penilaian kemungkinan yang ada di atas. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
+00:46:52.236 --> 00:47:04.044
+Menumpuk di kanan atas berarti banyak risiko berdampak besar dan sering terjadi. Itu tampak buruk, tetapi belum tentu berarti daerahnya buruk — bisa juga berarti penilaiannya jujur, dan itu awal yang sehat.
 
-00:48:18.111 --> 00:48:28.047
+00:47:04.044 --> 00:47:19.524
+Yang benar-benar mengkhawatirkan justru kebalikannya: seluruh titik menumpuk di kiri bawah. Tidak ada organisasi yang risikonya serendah itu. Sebaran seperti itu hampir selalu tanda penilaian yang menahan diri.
+
+00:47:19.524 --> 00:47:26.508
+Garis putus-putus bertangga adalah batas Selera Risiko. Segala yang berada di luarnya wajib punya rencana tindak.
+
+00:47:26.774 --> 00:47:33.134
+Sekarang bagian yang sering tidak diketahui: angka di dalam sel matriks ini bisa diklik.
+
+00:47:33.134 --> 00:47:41.342
+Saya klik sel paling ujung — Dampak lima kali Kemungkinan lima, skala dua puluh lima. Sel paling berbahaya di seluruh matriks.
+
+00:47:41.342 --> 00:47:50.894
+Yang terbuka bukan angka lagi, melainkan nama risikonya. Lima risiko, lengkap dengan perangkat daerah pemiliknya.
+
+00:47:50.894 --> 00:47:59.150
+Perhatikan tanda kecil di sebelah kanan tiap baris. Centang hijau berarti rencana tindaknya sudah tersusun, silang kuning berarti belum.
+
+00:47:59.150 --> 00:48:11.462
+Di sinilah Dasbor berhenti jadi hiasan. Sel merah dengan silang kuning di dalamnya adalah risiko yang sudah diakui paling berbahaya, tetapi belum ada yang menanganinya.
+
+00:48:11.462 --> 00:48:23.534
+Keputusan yang bisa diambil: daftar inilah agenda rapat, bukan daftar seluruh dua ratus lima puluh delapan risiko. Lima baris ini yang ditanyakan satu per satu, kepada nama perangkat daerah yang tertulis di sebelahnya.
+
+00:48:23.803 --> 00:48:27.715
+Nama risikonya pun masih bisa diklik lagi.
+
+00:48:27.715 --> 00:48:35.227
+Terbuka rincian risikonya: uraian lengkap, tingkatannya, perangkat daerah pemiliknya, dan status rencana tindaknya.
+
+00:48:35.227 --> 00:48:47.299
+Tombol Buka Daftar di bawah membawa langsung ke baris aslinya di formulir register risiko — jadi pimpinan bisa menelusuri sampai ke dasar tanpa perlu tahu formulir mana yang harus dibuka.
+
+00:48:47.299 --> 00:48:56.083
+Tiga klik dari angka ringkasan sampai ke satu baris risiko milik satu perangkat daerah. Itu yang memungkinkan pertanyaan rapat berubah dari umum jadi spesifik.
+
+00:48:56.083 --> 00:49:07.147
+Bukan lagi bertanya bagaimana manajemen risikonya. Melainkan menyebut risiko ini, milik dinas ini, kenapa belum ada rencana tindaknya.
+
+00:49:07.413 --> 00:49:13.029
+Widget berikutnya menjawab pertanyaan yang paling sering ditanyakan pimpinan: siapa yang belum selesai.
+
+00:49:13.029 --> 00:49:22.797
+Progres Tahapan per UPR. Tiap perangkat daerah punya satu batang, dengan angka tahapan yang sudah dilewati dari tujuh tahap.
+
+00:49:22.797 --> 00:49:29.205
+Dinas Kesehatan tujuh dari tujuh — selesai. Sebagian besar yang lain empat dari tujuh.
+
+00:49:29.205 --> 00:49:35.277
+Tetapi batang ini juga bisa diklik, dan justru di baliknya keterangan yang berguna.
+
+00:49:35.533 --> 00:49:38.917
+Saya klik salah satu perangkat daerah yang belum selesai.
+
+00:49:38.917 --> 00:49:47.941
+Terbuka rincian tujuh tahapnya satu per satu. Centang hijau untuk yang sudah, silang kuning untuk yang belum.
+
+00:49:47.941 --> 00:49:52.885
+Jadi bukan hanya tahu bahwa mereka tersendat, tetapi tersendat persis di tahap mana.
+
+00:49:52.885 --> 00:50:00.709
+Dan tahap yang belum selesai masih bisa diklik lagi — ia membuka tombol yang langsung menuju formulir yang belum terisi itu.
+
+00:50:00.709 --> 00:50:13.549
+Keputusan yang bisa diambil dari widget ini paling langsung di antara semuanya. Arahan rapat berubah dari segera lengkapi manajemen risikonya, menjadi kalimat yang bisa dikerjakan: selesaikan Formulir satu a sampai satu c minggu ini.
+
+00:50:13.549 --> 00:50:19.789
+Perbedaan dua kalimat itu menentukan apakah rapatnya menghasilkan sesuatu atau tidak.
+
+00:50:20.055 --> 00:50:31.263
+Dua widget distribusi. Yang kiri membagi risiko menurut tingkatannya — Strategis Pemda, Strategis Perangkat Daerah, dan Operasional.
+
+00:50:31.263 --> 00:50:37.023
+Yang kanan membaginya menurut kategori urusan. Batang di widget kanan bisa diklik.
+
+00:50:37.023 --> 00:50:47.583
+Saya klik salah satunya. Terbuka daftar risiko dalam kategori itu, dan tiap barisnya masih bisa diklik lagi ke rincian risikonya.
+
+00:50:47.583 --> 00:50:55.791
+Cara membacanya begini. Kalau satu kategori urusan menumpuk jauh di atas yang lain, itu belum tentu berarti urusan itu paling bermasalah.
+
+00:50:55.791 --> 00:51:09.447
+Bisa juga berarti perangkat daerah pengampu urusan itu yang paling serius menilai dirinya, sementara yang lain belum. Bedanya baru ketahuan setelah dibuka isinya — dan sekarang bisa dibuka.
+
+00:51:09.447 --> 00:51:22.119
+Keputusan yang bisa diambil: kalau kategori yang menumpuk ternyata dimiliki banyak perangkat daerah sekaligus, masalahnya sistemik dan penanganannya harus lintas dinas. Kalau ternyata milik satu dinas saja, penanganannya cukup di situ.
+
+00:51:22.377 --> 00:51:29.529
+Siklus empat skor risiko. Inilah widget paling jujur di seluruh Dasbor, dan yang paling layak dibawa ke rapat.
+
+00:51:29.529 --> 00:51:45.465
+Inheren adalah keadaan seandainya tidak ada pengendalian sama sekali. Residual keadaan sekarang. Target yang dituju setelah rencana tindak dijalankan. Aktual adalah kenyataannya di ujung tahun.
+
+00:51:45.465 --> 00:51:52.785
+Batang biru dan merah, berlian hijau, segitiga oranye. Semuanya bisa diklik ke rincian risikonya.
+
+00:51:52.785 --> 00:51:59.625
+Pertanyaan yang menentukan cuma satu: apakah segitiga oranye bergerak mendekati berlian hijau?
+
+00:51:59.625 --> 00:52:09.825
+Kalau tidak bergerak, rencana tindaknya tidak bekerja. Bisa karena rencananya keliru, bisa karena tidak dijalankan, bisa karena penyebabnya ternyata bukan yang diduga.
+
+00:52:09.825 --> 00:52:23.361
+Ketiganya keputusan yang sama sekali berbeda — mengganti rencana, menegur pelaksanaan, atau menilai ulang penyebabnya. Dan tidak satu pun bisa dipilih tanpa melihat widget ini.
+
+00:52:23.361 --> 00:52:34.065
+Yang perlu diperhatikan: kalau segitiga oranyenya tidak ada sama sekali, itu bukan berarti tidak membaik. Itu berarti Formulir sembilan belum diisi, dan kita memang belum tahu apa-apa.
+
+00:52:34.331 --> 00:52:43.163
+Daftar Risiko Prioritas. Isinya risiko yang berada di luar Selera Risiko — yang wajib punya rencana tindak.
+
+00:52:43.163 --> 00:52:49.571
+Tiap barisnya menampilkan skala risikonya dan status rencana tindaknya, dan seluruh barisnya bisa diklik ke rincian.
+
+00:52:49.571 --> 00:52:57.587
+Yang perlu dicari mata pimpinan di sini cuma satu: baris berlabel merah, yaitu RTP belum tersusun.
+
+00:52:57.587 --> 00:53:06.683
+Keputusan yang bisa diambil: baris merah di daftar ini adalah satu-satunya hal di Dasbor yang menuntut tindakan sebelum rapat berikutnya. Sisanya bisa menunggu.
+
+00:53:06.949 --> 00:53:12.853
+Ranking Eksposur Risiko per perangkat daerah. Widget ini paling sering disalahpahami.
+
+00:53:12.853 --> 00:53:16.261
+Ia bukan daftar perangkat daerah terburuk.
+
+00:53:16.261 --> 00:53:26.293
+Yang berada di atas biasanya justru yang paling teliti menilai dirinya, atau yang memang mengurus urusan berisiko tinggi — pekerjaan konstruksi, pelayanan kesehatan, penyaluran bantuan.
+
+00:53:26.293 --> 00:53:33.829
+Cara membacanya: ini daftar tempat perhatian pimpinan paling berdampak, bukan daftar yang perlu ditegur.
+
+00:53:33.829 --> 00:53:43.741
+Kalau daftar ini dipakai untuk menegur, akibatnya bisa ditebak. Tahun berikutnya semua perangkat daerah akan menilai dirinya rendah, dan seluruh sistem ini kehilangan gunanya.
+
+00:53:43.741 --> 00:53:55.765
+Keputusan yang tepat dari widget ini bukan sanksi, melainkan alokasi. Ke mana pengawasan, pendampingan, dan anggaran pengendalian diarahkan lebih dulu.
+
+00:53:56.034 --> 00:54:01.698
+Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi, bukan yang diperkirakan.
+
+00:54:01.698 --> 00:54:10.626
+Tiga tombol penyaring di sudut kanannya bisa diklik. Semua, Laporan Warga, dan Pencatatan Internal.
+
+00:54:10.626 --> 00:54:18.450
+Laporan Warga datang dari luar, lewat kode QR tanpa perlu punya akun. Pencatatan Internal ditulis sendiri oleh perangkat daerah.
+
+00:54:18.450 --> 00:54:29.010
+Membandingkan dua penyaring ini menjawab pertanyaan yang tidak muncul di widget mana pun: apakah kita mengetahui masalah sendiri, atau selalu diberi tahu warga.
+
+00:54:29.010 --> 00:54:38.034
+Kalau Laporan Warga jauh lebih banyak daripada Pencatatan Internal, kesimpulannya bukan bahwa warganya rajin. Kesimpulannya deteksi internal kita lemah.
+
+00:54:38.034 --> 00:54:52.194
+Dan bandingkan seluruh log ini dengan penilaian kemungkinan di atas tadi. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
+
+00:54:52.194 --> 00:55:00.330
 Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya.
 
-00:48:28.047 --> 00:48:36.999
-Dua tren lima tahun di bawahnya menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
+00:55:00.605 --> 00:55:11.621
+Dua tren lima tahun menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
 
-00:48:37.266 --> 00:48:41.610
+00:55:11.621 --> 00:55:24.053
+Tren Level Risiko memperlihatkan berapa banyak risiko Tinggi dan Sangat Tinggi tiap tahun. Tren Efektivitas Pengendalian memperlihatkan seberapa lebar jarak antara Inheren dan Residual — makin lebar, makin bekerja pengendaliannya.
+
+00:55:24.053 --> 00:55:35.909
+Di bawahnya, Kepatuhan Pelaporan per perangkat daerah untuk Formulir delapan, sembilan, dan sepuluh, dan Aktivitas Terbaru yang mencatat siapa mengubah apa dan kapan.
+
+00:55:35.909 --> 00:55:45.029
+Aktivitas Terbaru sering diabaikan, padahal ia menjawab satu pertanyaan yang penting: apakah datanya hidup, atau terakhir disentuh delapan bulan lalu menjelang pemeriksaan.
+
+00:55:45.299 --> 00:55:50.699
 Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya.
 
-00:48:41.610 --> 00:48:56.898
-Daftar Risiko Prioritas pada Formulir 5, hasil analisis pada Formulir 4, dan laporan Bab Empat pada Formulir 11 sampai 14 — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
+00:55:50.699 --> 00:56:02.483
+Daftar Risiko Prioritas pada Formulir lima, hasil analisis pada Formulir empat, dan laporan Bab Empat pada Formulir sebelas sampai empat belas — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
 
-00:48:56.898 --> 00:49:00.258
+00:56:02.483 --> 00:56:06.683
 Akun peninjau bisa membuka dan mengunduh semuanya.
 
-00:49:00.522 --> 00:49:07.074
-Terakhir, satu hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
+00:56:06.957 --> 00:56:12.285
+Terakhir, kembali ke hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
 
-00:49:07.074 --> 00:49:16.050
-Akun peninjau tidak bisa mengubah apa pun. Bukan karena tombolnya disembunyikan, melainkan karena aplikasi menolak seluruh perintah penulisan di sisi server.
+00:56:12.285 --> 00:56:24.669
+Perhatikan formulir ini. Barisnya bisa dibaca lengkap sampai kolom terakhir, tetapi tidak ada tombol tambah, tidak ada tombol ubah, tidak ada tombol hapus.
 
-00:49:16.050 --> 00:49:26.754
-Jadi pimpinan bisa membuka formulir mana pun, menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
+00:56:24.669 --> 00:56:33.045
+Dan itu bukan sekadar tombol yang disembunyikan. Seandainya alamat penyimpanan dipanggil langsung, aplikasi tetap menolaknya di sisi server.
 
-00:49:26.754 --> 00:49:32.778
-Perhatikan formulir ini: barisnya bisa dibaca lengkap, tetapi tidak ada tombol tambah maupun ubah.
+00:56:33.045 --> 00:56:47.205
+Jadi Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, atau pemangku kepentingan mana pun bisa menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
 
-00:49:34.714 --> 00:49:38.098
+00:56:47.205 --> 00:56:56.901
+Itulah cara membaca Dasbor ini. Bukan mengumpulkan angka, melainkan mengubah angka jadi pertanyaan yang punya nama, punya pemilik, dan punya batas waktu.
+
+00:56:58.914 --> 00:57:02.298
 Kita kembali ke Dasbor, tempat kita mulai tadi.
 
-00:49:38.098 --> 00:49:49.954
+00:57:02.298 --> 00:57:14.154
 Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
 
-00:49:49.954 --> 00:49:56.986
+00:57:14.154 --> 00:57:21.186
 Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
 
-00:49:57.254 --> 00:50:02.582
+00:57:21.454 --> 00:57:26.782
 Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
 
-00:50:02.582 --> 00:50:11.078
+00:57:26.782 --> 00:57:35.278
 Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
 
-00:50:11.745 --> 00:50:15.945
+00:57:35.945 --> 00:57:40.145
 Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
 
-00:50:15.945 --> 00:50:30.465
+00:57:40.145 --> 00:57:54.665
 Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
 
-00:50:30.731 --> 00:50:37.283
+00:57:54.931 --> 00:58:01.483
 Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
 
-00:50:37.283 --> 00:50:44.363
+00:58:01.483 --> 00:58:08.563
 Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
 
-00:50:44.624 --> 00:50:56.384
+00:58:08.824 --> 00:58:20.584
 Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
 
-00:50:56.384 --> 00:51:10.112
+00:58:20.584 --> 00:58:34.312
 Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
 
-00:51:10.112 --> 00:51:20.576
+00:58:34.312 --> 00:58:44.776
 Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
 
-00:51:20.576 --> 00:51:31.304
+00:58:44.776 --> 00:58:55.504
 Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
 
-00:51:31.304 --> 00:51:40.304
+00:58:55.504 --> 00:59:04.504
 Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
 
