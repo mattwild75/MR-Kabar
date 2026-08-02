@@ -32,6 +32,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { unggahTertunda } from '@/lib/bukti-tertunda';
 import { IRO_PD_FIELD_INFO } from '@/lib/iro-pd-field-info';
 import { C_UC_OPTIONS, PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS, RESPON_RISIKO_KATEGORI, penyebabKategoriSuffix, computeSumberSebabRisiko } from '@/lib/irs-reference-data';
 import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
@@ -42,6 +43,8 @@ import RiskCascadeInfo from '@/components/ui/risk-cascade-info';
 import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
 import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
 import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
+import OpdPicker, { type OpdOption } from '@/components/ui/opd-picker';
+import PeriodeTahunPicker from '@/components/ui/periode-tahun-picker';
 import { canManageRow } from '@/lib/ownership';
 import { riskLevelClassNameWithHover } from '@/lib/risk-level';
 import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown, Grid3x3 } from 'lucide-react';
@@ -146,6 +149,10 @@ interface PageProps {
   isAdmin: boolean;
   currentUserOpdNama: string | null;
   tahunAktif: string | number;
+  tahun: number | null;
+  tahunOptions: number[];
+  opdId: number | null;
+  opdSaringanOptions: OpdOption[];
 }
 
 const EXTRA_SCALE_FIELDS = [
@@ -171,7 +178,7 @@ const emptyForm = (): FormData => {
 // diduplikasi persis di ~10 file — irs/irs_pd/dashboard/dst).
 const skalaBadgeClass = riskLevelClassNameWithHover;
 
-export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, tahapOptions, triwulanOptions, triwulanLabels, kegiatanKodes, currentUserId, isAdmin, currentUserOpdNama, tahunAktif }: PageProps) {
+export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, tahapOptions, triwulanOptions, triwulanLabels, kegiatanKodes, currentUserId, isAdmin, currentUserOpdNama, tahunAktif, tahun, tahunOptions, opdId, opdSaringanOptions }: PageProps) {
   const isViewer = useIsViewer();
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<IroRow | null>(null);
@@ -281,9 +288,13 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
       });
     } else {
       post('/iro_pd', {
-        onSuccess: () => {
+        onSuccess: (halaman) => {
           toast.success('Data berhasil ditambahkan.');
           setDialogOpen(false);
+          // Bukti dukung yang tadi dipilih sebelum barisnya ada, kini punya
+          // nomor baris untuk ditempelkan - jadi terunggah sendiri, tanpa
+          // pengisinya perlu membuka barisnya lagi.
+          unggahTertunda('iro_pd', (halaman?.props as { flash?: { createdRiskId?: number } })?.flash?.createdRiskId);
         },
         onError: () => toast.error('Gagal menambahkan data.'),
       });
@@ -310,6 +321,23 @@ export default function IroPdIndex({ rows, fieldOptions, opdOptions, opdList, op
             </p>
             <div className="mt-2">
               <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
+              {/* Penunjuk di kiri menetapkan tahun BAWAAN untuk baris baru;
+                  pemilih di kanan menentukan tahun mana yang sedang DILIHAT.
+                  Keduanya sengaja terpisah: melihat tahun lalu tidak boleh
+                  ikut mengubah tahun aktif seluruh Pemda. */}
+              <OpdPicker
+                routeName="/iro_pd"
+                options={opdSaringanOptions}
+                nilai={opdId}
+                tambahan={{ tahun: tahun ?? 'semua' }}
+              />
+              <PeriodeTahunPicker
+                routeName="/iro_pd"
+                jenis="tahun"
+                options={tahunOptions}
+                nilai={tahun}
+                tambahan={{ opd_id: opdId ?? 'semua' }}
+              />
             </div>
           </div>
           <Button onClick={openCreate}>

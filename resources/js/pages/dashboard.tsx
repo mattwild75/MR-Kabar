@@ -7,7 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import JadwalPenilaianWidget, { type JadwalArahan } from '@/components/ui/jadwal-penilaian-widget';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type CSSProperties } from 'react';
 import {
   Activity as ActivityIcon,
   AlertTriangle,
@@ -207,6 +207,8 @@ interface PageProps {
   matriksDetail: Record<string, MatriksDetailRisiko[]>;
   matrixCells: MatrixCellItem[];
   riskLevels: RiskLevelBand[];
+  /** Skala terkecil yang sudah di luar Selera Risiko; null = belum ditetapkan. */
+  seleraAmbang: number | null;
   progresTahapan: ProgresTahapanItem[];
   distribusiTingkat: DistribusiItem[];
   distribusiKategori: DistribusiKategoriItem[];
@@ -343,6 +345,8 @@ function MatrixCell({
   cell,
   daftarRisiko,
   onPilihRisiko,
+  gayaBatas,
+  diLuar,
 }: {
   dampak: number;
   kemungkinan: number;
@@ -350,11 +354,21 @@ function MatrixCell({
   cell: MatrixCellItem | undefined;
   daftarRisiko: MatriksDetailRisiko[];
   onPilihRisiko: (risiko: MatriksDetailRisiko) => void;
+  /** Tepi bergaris putus-putus bila sel ini berbatasan dengan Selera Risiko. */
+  gayaBatas: CSSProperties;
+  /**
+   * Sel ini di luar Selera Risiko. Dikirim terpisah dan TIDAK disimpulkan dari
+   * `gayaBatas`: yang bergaris hanyalah sel di tepi daerah itu, sedangkan sel
+   * di belakangnya sama-sama di luar selera walau tidak bergaris.
+   */
+  diLuar: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const content = (
     <div
-      title={`Dampak ${dampak} x Kemungkinan ${kemungkinan} = ${jumlah} risiko (skala ${cell?.skala_risiko ?? '-'})`}
+      title={`Dampak ${dampak} x Kemungkinan ${kemungkinan} = ${jumlah} risiko (skala ${cell?.skala_risiko ?? '-'})`
+        + (diLuar ? ' — di luar Selera Risiko, wajib punya RTP' : '')}
+      style={gayaBatas}
       className={`flex h-14 items-center justify-center rounded-md text-sm font-semibold transition-transform hover:scale-105 ${cell?.warna_class ?? 'bg-muted text-muted-foreground'}`}
     >
       {jumlah > 0 ? jumlah : ''}
@@ -420,6 +434,7 @@ export default function Dashboard({
   matriksDetail,
   matrixCells,
   riskLevels,
+  seleraAmbang,
   progresTahapan,
   distribusiTingkat,
   distribusiKategori,
@@ -435,6 +450,42 @@ export default function Dashboard({
   const kepatuhanTrend = ringkasan.total_opd_wajib > 0 ? Math.round((ringkasan.opd_patuh / ringkasan.total_opd_wajib) * 100) : 0;
   const rtpTrend = ringkasan.rtp_dibutuhkan > 0 ? Math.round((ringkasan.rtp_tersusun / ringkasan.rtp_dibutuhkan) * 100) : 0;
   const matrixCellByPos = new Map(matrixCells.map((c) => [`${c.dampak}-${c.kemungkinan}`, c]));
+
+  /** Sel ini sudah di luar Selera Risiko? */
+  const diLuarSelera = (dampak: number, kemungkinan: number) => {
+    if (seleraAmbang === null) return false;
+    const c = matrixCellByPos.get(`${dampak}-${kemungkinan}`);
+    return c !== undefined && c.skala_risiko >= seleraAmbang;
+  };
+
+  /**
+   * Garis batas Selera Risiko, digambar pada tepi antara sel yang melampaui
+   * selera dan tetangganya yang belum.
+   *
+   * Dihitung per tepi, bukan sebagai satu garis lurus, karena batas selera
+   * pada matriks memang BERTANGGA — skala risiko tiap sel dibaca dari tabel
+   * peringkat 1-25 yang membobot Dampak lebih berat, sehingga daerah di luar
+   * selera tidak berbentuk segitiga rapi. Cara ini juga membuat garisnya
+   * bergeser sendiri begitu Admin memindahkan penanda level, tanpa ada angka
+   * yang perlu diubah di sini.
+   *
+   * Perhitungannya sengaja SAMA PERSIS dengan halaman Keterangan Pendukung
+   * supaya kedua halaman tidak pernah menggambarkan batas yang berbeda.
+   */
+  const gayaBatas = (dampak: number, kemungkinan: number): CSSProperties => {
+    if (!diLuarSelera(dampak, kemungkinan)) return {};
+    // Tebalnya sengaja mencolok: garis ini harus terbaca sekilas dari jarak
+    // ruang rapat, di atas sel yang warnanya sudah kuat. Angkanya disamakan
+    // dengan halaman Keterangan Pendukung.
+    const garis = '9px dashed var(--batas-selera)';
+    const gaya: CSSProperties = {};
+    // Tetangga kiri = dampak satu tingkat lebih rendah.
+    if (!diLuarSelera(dampak - 1, kemungkinan)) gaya.borderLeft = garis;
+    // Tetangga bawah = kemungkinan satu tingkat lebih rendah, karena barisnya
+    // digambar dari Kemungkinan 5 di atas sampai 1 di bawah.
+    if (!diLuarSelera(dampak, kemungkinan - 1)) gaya.borderBottom = garis;
+    return gaya;
+  };
   const [tahapDetail, setTahapDetail] = useState<{ opdNama: string; tahap: TahapDetailItem } | null>(null);
   const [risikoDetail, setRisikoDetail] = useState<MatriksDetailRisiko | null>(null);
   const [kategoriOpen, setKategoriOpen] = useState<DistribusiKategoriItem | null>(null);
@@ -617,7 +668,12 @@ export default function Dashboard({
                   salah paham yang sama seperti sebelumnya. */}
               <CardTitle className="text-base">Peta Risiko (Matriks Analisis Risiko 5×5)</CardTitle>
             </CardHeader>
-            <CardContent>
+            {/* Warna garis batas lewat custom property, bukan kelas Tailwind
+                langsung: gaya tepinya dihitung di JavaScript sebagai style
+                sebaris, dan hanya dengan cara ini ia tetap terbaca di latar
+                terang maupun gelap tanpa menduplikasi seluruh perhitungannya.
+                Sama persis dengan halaman Keterangan Pendukung. */}
+            <CardContent className="[--batas-selera:#b91c1c] dark:[--batas-selera:#fca5a5]">
               <div className="flex gap-2">
                 <div className="flex flex-col justify-between py-1 text-xs text-muted-foreground">
                   {[5, 4, 3, 2, 1].map((k) => (
@@ -637,6 +693,8 @@ export default function Dashboard({
                         cell={matrixCellByPos.get(`${dampak}-${kemungkinan}`)}
                         daftarRisiko={matriksDetail[`${kemungkinan}-${dampak}`] ?? []}
                         onPilihRisiko={setRisikoDetail}
+                        gayaBatas={gayaBatas(dampak, kemungkinan)}
+                        diLuar={diLuarSelera(dampak, kemungkinan)}
                       />
                     )),
                   )}
@@ -646,13 +704,27 @@ export default function Dashboard({
                 Dampak (sumbu horizontal) &amp; Kemungkinan (sumbu vertikal) — Skala Risiko dibaca dari tabel
                 peringkat 1–25, bukan hasil perkalian kedua sumbu
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex flex-wrap items-center gap-2">
                 {riskLevels.map((b) => (
                   <Badge key={b.label} className={b.warna_class}>
                     {b.label}
                   </Badge>
                 ))}
               </div>
+              {seleraAmbang !== null && (
+                <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                  <span
+                    aria-hidden
+                    className="inline-block h-0 w-12 border-t-[9px] border-dashed"
+                    style={{ borderColor: 'var(--batas-selera)' }}
+                  />
+                  <span className="font-medium text-foreground">Batas Selera Risiko</span>
+                  <span>
+                    Skala Risiko {seleraAmbang} ke atas berada di luar selera dan wajib punya Rencana
+                    Tindak Pengendalian
+                  </span>
+                </div>
+              )}
             </CardContent>
           </Card>
 
@@ -953,7 +1025,20 @@ export default function Dashboard({
                     const barColor = rata === null ? 'bg-muted-foreground/30' : rata >= 16 ? 'bg-red-500' : rata >= 8 ? 'bg-amber-500' : 'bg-green-500';
                     const widthPct = Math.round((r.skor_total / skorMax) * 100);
                     return (
-                      <div key={r.opd_id} className="space-y-1">
+                      // Seluruh baris — nama maupun batangnya — membuka Data
+                      // Risiko gabungan yang sudah tersaring ke perangkat
+                      // daerah ini. Peringkat tanpa jalan menuju datanya cuma
+                      // memberi tahu SIAPA yang paling terpapar, bukan APA
+                      // risikonya; padahal pertanyaan berikutnya selalu itu.
+                      <button
+                        key={r.opd_id}
+                        type="button"
+                        onClick={() =>
+                          router.get('/data-risiko-gabungan', { opd: r.opd_nama }, { preserveScroll: false })
+                        }
+                        title={`Lihat data risiko ${r.opd_nama}`}
+                        className="w-full space-y-1 rounded-md p-1 -m-1 text-left transition-colors hover:bg-muted"
+                      >
                         <div className="flex items-center justify-between text-sm">
                           <span className="flex items-center gap-1.5 font-medium">
                             #{i + 1} {r.opd_nama}
@@ -973,13 +1058,14 @@ export default function Dashboard({
                             {r.skor_total}
                           </span>
                         </div>
-                      </div>
+                      </button>
                     );
                   });
                 })()}
                 <p className="pt-1 text-xs text-muted-foreground">
                   Diurutkan berdasar skor total eksposur (Σ skala risiko seluruh risiko OPD) — bukan rata-rata,
                   supaya OPD dengan banyak risiko sedang tidak kalah prioritas dari OPD ber-1-2 risiko tinggi saja.
+                  Klik salah satu baris untuk membuka daftar risikonya.
                 </p>
               </CardContent>
             </Card>

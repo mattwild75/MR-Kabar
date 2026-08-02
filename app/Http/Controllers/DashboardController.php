@@ -123,6 +123,17 @@ class DashboardController extends Controller
             'matriksDetail' => $this->buildMatriksDetail($riskRows),
             'matrixCells' => $this->buildMatrixCells(),
             'riskLevels' => $riskLevels,
+            // Skala terkecil yang sudah di luar Selera Risiko, dipakai widget
+            // Peta Risiko menggambar garis batasnya. Null berarti belum ada
+            // level yang ditandai melampaui selera — garisnya lalu tidak
+            // digambar sama sekali, alih-alih digambar di tempat yang
+            // menyesatkan. Sengaja TIDAK memakai ambangSeleraRisiko(), yang
+            // jatuh ke 16 supaya penetapan Risiko Prioritas tetap jalan;
+            // untuk sebuah garis, menebak letaknya lebih buruk daripada
+            // tidak menggambarnya. Nilainya diturunkan dari sumber yang sama
+            // dengan halaman Keterangan Pendukung supaya kedua halaman
+            // menggambarkan batas yang persis sama.
+            'seleraAmbang' => $riskLevels->where('melampaui_selera', true)->min('skala_min'),
             'progresTahapan' => $this->buildProgresTahapan($tahun, $opdId, $ambangTinggi),
             'distribusiTingkat' => $this->buildDistribusiTingkat($riskRows),
             'distribusiKategori' => $this->buildDistribusiKategori($riskRows),

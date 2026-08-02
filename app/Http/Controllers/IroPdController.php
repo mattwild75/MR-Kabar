@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\IroPd;
 use App\Models\KroPd;
 use App\Models\Opd;
@@ -19,6 +20,10 @@ use Inertia\Inertia;
 
 class IroPdController extends Controller
 {
+    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
+
+    use MenyaringPeriodePenilaian;
+
     use HasOpdFillStatus;
     use GeneratesKodeRisiko;
     use AppendsProgramBupatiTag;
@@ -127,9 +132,13 @@ class IroPdController extends Controller
         return $rows;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
+        // Daftar disekat Tahun Penilaian. Sebelumnya seluruh tahun tampil
+        // berdampingan padahal kepala halaman menulis satu tahun saja, dan itu
+        // menyesatkan siapa pun yang mengira daftarnya sudah tersaring.
+        $tahun = $this->tahunTerpilih($request);
 
         // Baris hanya ditampilkan ke pemiliknya sendiri, kecuali admin/
         // super-admin yang melihat semua — konsisten dengan pembatasan
@@ -138,6 +147,13 @@ class IroPdController extends Controller
         if (!$isAdmin) {
             $query->where('user_id', auth()->id());
         }
+        $this->saringTahun($query, $tahun, 'TAHUN DINILAI RISIKO');
+        // Perangkat daerah sebuah baris diambil dari AKUN pemiliknya, bukan
+        // dari kolom teks di dalam barisnya. Kolom seperti "ENTITAS PD YANG
+        // MENILAI" diisi bebas dan ejaannya berbeda-beda antar pengisi,
+        // sehingga tidak bisa dipercaya sebagai dasar penyaringan.
+        $opdId = $this->opdTerpilih($request);
+        $this->saringOpdPemilik($query, $opdId);
         $rows = $this->withNomorUrut($query->get());
 
         // Penanda "(P{nomor})" utk risiko yg dikaitkan ke salah satu 100
@@ -198,6 +214,10 @@ class IroPdController extends Controller
             'currentUserOpdNama' => $isAdmin ? null : auth()->user()?->opd?->nama,
             'isAdmin' => $isAdmin,
             'tahunAktif' => PengaturanPemda::current()->tahun_penilaian,
+            'tahun' => $tahun,
+            'opdId' => $opdId,
+            'opdSaringanOptions' => $this->opdOptions($request),
+            'tahunOptions' => $this->tahunOptions(IroPd::class, 'TAHUN DINILAI RISIKO'),
         ]);
     }
 
@@ -209,7 +229,7 @@ class IroPdController extends Controller
      */
     private function kegiatanKodes(): array
     {
-        if (!Schema::hasTable('tbl_kro_iro_pd')) {
+        if (!$this->tabelTersedia('tbl_kro_iro_pd')) {
             return [];
         }
 
@@ -269,10 +289,11 @@ class IroPdController extends Controller
             $data['TAHUN DINILAI RISIKO'] = PengaturanPemda::current()->tahun_penilaian;
         }
         $data['user_id'] = $request->user()->id;
-        IroPd::create($data);
+        $baris = IroPd::create($data);
         $sync->sync();
 
-        return redirect()->route('iro_pd.index')->with('success', 'Data berhasil ditambahkan.');
+        return redirect()->route('iro_pd.index')->with('success', 'Data berhasil ditambahkan.')
+            ->with('createdRiskId', $baris->id);
     }
 
     public function update(Request $request, IroPd $iro_pd, KroIroPdSyncService $sync)

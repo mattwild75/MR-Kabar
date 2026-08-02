@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\KrsPd;
 use App\Models\Opd;
 use App\Models\KrsPemda;
@@ -15,6 +16,10 @@ use Inertia\Inertia;
 
 class KrsPdController extends Controller
 {
+    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
+
+    use MenyaringPeriodePenilaian;
+
     use HasOpdFillStatus;
 
     private const FIELDS = [
@@ -418,9 +423,12 @@ class KrsPdController extends Controller
         return $nodes;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
+        // KRS PD menurunkan Renstra, yang berlaku lima tahunan - jadi yang
+        // menyekatnya Periode Penilaian, bukan tahun.
+        $periode = $this->periodeTerpilih($request);
 
         // Baris hanya ditampilkan ke pemiliknya sendiri, kecuali admin/
         // super-admin yang melihat semua — konsisten dengan pembatasan
@@ -432,6 +440,13 @@ class KrsPdController extends Controller
         if (!$isAdmin) {
             $query->where('user_id', auth()->id());
         }
+        $this->saringPeriode($query, $periode);
+        // Perangkat daerah sebuah baris diambil dari AKUN pemiliknya, bukan
+        // dari kolom teks di dalam barisnya. Kolom seperti "ENTITAS PD YANG
+        // MENILAI" diisi bebas dan ejaannya berbeda-beda antar pengisi,
+        // sehingga tidak bisa dipercaya sebagai dasar penyaringan.
+        $opdId = $this->opdTerpilih($request);
+        $this->saringOpdPemilik($query, $opdId);
         $rows = $query->get();
 
         // Daftar Sasaran RPJMD yang sudah ada di tbl_krs_pemda,
@@ -468,6 +483,10 @@ class KrsPdController extends Controller
             'program1aMap' => $program1a,
             'currentUserId' => auth()->id(),
             'isAdmin' => $isAdmin,
+            'periode' => $periode,
+            'opdId' => $opdId,
+            'opdSaringanOptions' => $this->opdOptions($request),
+            'periodeOptions' => $this->periodeOptions(KrsPd::class),
         ]);
     }
 
@@ -506,7 +525,7 @@ class KrsPdController extends Controller
      */
     private function sasaranRpjmdKodes(): array
     {
-        if (!Schema::hasTable('tbl_krs_irs_pemda')) {
+        if (!$this->tabelTersedia('tbl_krs_irs_pemda')) {
             return [];
         }
 
@@ -571,6 +590,10 @@ class KrsPdController extends Controller
     {
         $data = $this->fillBlanks($this->validated($request));
         $data['user_id'] = $request->user()->id;
+        // Baris baru masuk ke periode yang sedang dilihat; kalau sedang
+        // melihat seluruh periode, dipakai periode milik pengisinya sendiri.
+        $data['PERIODE PENILAIAN'] = $this->periodeTerpilih($request)
+            ?: $this->periodeBawaan($request);
         KrsPd::create($data);
         $sync->sync();
 

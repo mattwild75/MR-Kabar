@@ -63,6 +63,11 @@ class HandleInertiaRequests extends Middleware
                 'warning' => session('warning'),
                 'justLoggedIn' => session('just_logged_in'),
                 'importResult' => session('importResult'),
+                // Nomor baris risiko yang baru saja dibuat. Dipakai halaman
+                // untuk mengunggah bukti dukung yang tadi dipilih sebelum
+                // barisnya ada - tanpa ini, berkasnya tidak tahu harus
+                // ditempelkan ke mana.
+                'createdRiskId' => session('createdRiskId'),
             ],
             'setting' => fn() => SettingApp::cached(),
             // Penanda versi berkas video edukasi bawaan, ditempelkan sebagai

@@ -12,10 +12,20 @@ class KroPd extends Model
 
     protected $table = 'tbl_kro_pd';
 
-    public $timestamps = false;
+    /**
+     * Jejak waktu DINYALAKAN sejak Agustus 2026.
+     *
+     * Sebelumnya $timestamps = false, sehingga tidak ada satu pun cara
+     * mengetahui kapan sebuah baris konteks dibuat atau terakhir diubah —
+     * padahal ia dipakai lintas tahun dan lintas OPD. Baris lama tetap kosong
+     * waktunya, dan memang dibiarkan begitu: menuliskan waktu yang bukan
+     * sebenarnya lebih buruk daripada mengaku tidak tahu.
+     */
+    public $timestamps = true;
 
     protected $fillable = [
         'user_id',
+        'TAHUN PENILAIAN',
         'SASARAN RENSTRA',
         'PROGRAM PD',
         'IK PROGRAM PD',

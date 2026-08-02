@@ -451,7 +451,10 @@ function MatriksTab({ cells, selera }: { cells: MatrixCellRow[]; selera: SeleraR
   const gayaBatas = (dampak: number, kemungkinan: number): React.CSSProperties => {
     if (!diLuarSelera(dampak, kemungkinan)) return {};
 
-    const garis = '3px dashed var(--batas-selera)';
+    // Tebalnya sengaja mencolok: garis ini harus terbaca sekilas di atas sel
+    // yang warnanya sudah kuat. Angkanya disamakan dengan widget Peta Risiko
+    // di Dasbor supaya kedua matriks terlihat sebagai batas yang sama.
+    const garis = '9px dashed var(--batas-selera)';
     const gaya: React.CSSProperties = {};
 
     // Tetangga kiri = dampak satu tingkat lebih rendah.
@@ -491,7 +494,7 @@ function MatriksTab({ cells, selera }: { cells: MatrixCellRow[]; selera: SeleraR
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span
             aria-hidden
-            className="inline-block h-0 w-10 border-t-[3px] border-dashed"
+            className="inline-block h-0 w-12 border-t-[9px] border-dashed"
             style={{ borderColor: 'var(--batas-selera)' }}
           />
           <span className="font-medium">Batas Selera Risiko</span>

@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
-import { useMemo, useState } from 'react';
+import OpdPicker from '@/components/ui/opd-picker';
+import { useEffect, useMemo, useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -54,6 +55,10 @@ interface PageProps {
   isScopedToOwnOpd: boolean;
   riskLevels: RiskLevelBand[];
   opdList: OpdOption[];
+  /** Nama OPD dari `?opd=`, dikirim widget Ranking Eksposur Risiko di Dasbor. */
+  opdTerpilih: string | null;
+  /** Perangkat daerah yang sedang dipilih di penyaring; null = semua. */
+  opdId: number | null;
   opdFillStatus: {
     irsPemda: Record<number, OpdFillStatusEntry>;
     irsPd: Record<number, OpdFillStatusEntry>;
@@ -219,7 +224,7 @@ function TabelRisiko({
   );
 }
 
-export default function DataRisikoGabungan({ irsPemda, irsPd, iroPd, isScopedToOwnOpd, riskLevels, opdList, opdFillStatus }: PageProps) {
+export default function DataRisikoGabungan({ irsPemda, irsPd, iroPd, isScopedToOwnOpd, riskLevels, opdList, opdFillStatus, opdTerpilih, opdId }: PageProps) {
   // Nama OPD yg TERAKHIR diklik lewat panel "Lihat status pengisian seluruh
   // OPD" — TERPISAH dari searchInput biasa (search box global), supaya
   // panel HANYA auto-terbuka (details open=) saat user memang mengklik
@@ -274,6 +279,30 @@ export default function DataRisikoGabungan({ irsPemda, irsPd, iroPd, isScopedToO
     searchFor(opdNama);
   };
 
+  // Datang dari widget Ranking Eksposur Risiko di Dasbor: nama perangkat
+  // daerahnya tiba sebagai prop `opdTerpilih` dan langsung dipakai menyaring
+  // tabel. Dengan begini pimpinan yang melihat siapa paling terpapar bisa
+  // langsung membaca risiko apa saja yang membuatnya begitu, tanpa mengetik
+  // sendiri namanya di kotak pencarian.
+  //
+  // Dipakai searchFor(), BUKAN selectOpd(): panel "Lihat status pengisian
+  // seluruh OPD" sengaja dibiarkan tertutup. Yang datang lewat jalur ini sudah
+  // tahu perangkat daerah mana yang diklik, jadi membuka panel berisi 49 nama
+  // hanya menambah kebisingan. Itu juga mengembalikan maksud asli
+  // selectedOpdNama — menandai pilihan yang datang DARI panel, bukan dari
+  // pencarian mana pun.
+  //
+  // Sengaja TIDAK membaca window.location: perpindahan dari Dasbor memakai
+  // Inertia, dan saat komponen ini terpasang alamat peramban kadang masih
+  // yang lama, sehingga saringannya diam-diam tidak jalan.
+  //
+  // Dijalankan sekali saja saat halaman terbuka; pencarian yang diketik
+  // sesudahnya tidak boleh ditimpa lagi.
+  useEffect(() => {
+    if (opdTerpilih) searchFor(opdTerpilih);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Mengetik/menjalankan pencarian bebas via search box global harus
   // membatalkan status "sedang memilih OPD" supaya panel tidak nyangkut
   // terbuka dari pilihan OPD sebelumnya.
@@ -294,6 +323,15 @@ export default function DataRisikoGabungan({ irsPemda, irsPd, iroPd, isScopedToO
             klik &quot;Lihat Data&quot; untuk membuka halaman Form Input aslinya.
             {isScopedToOwnOpd && ' Data yang ditampilkan hanya milik OPD Anda.'}
           </p>
+        </div>
+
+        {/* Penyaring perangkat daerah, terpisah dari kotak pencarian.
+            Pencarian mencocokkan teks di seluruh kolom sehingga nama yang
+            kebetulan tersebut di kolom lain ikut terbawa; penyaring ini
+            bekerja di server berdasarkan pemilik barisnya, jadi hasilnya
+            benar-benar hanya milik perangkat daerah itu. */}
+        <div className="flex flex-wrap items-end gap-3">
+          <OpdPicker routeName="/data-risiko-gabungan" options={opdList} nilai={opdId} />
         </div>
 
         <div className="flex items-center gap-2">

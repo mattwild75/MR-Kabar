@@ -1,3 +1,6 @@
+import OpdChecklist from '@/components/ui/opd-checklist';
+import OpdPicker, { type OpdOption } from '@/components/ui/opd-picker';
+import PeriodeTahunPicker from '@/components/ui/periode-tahun-picker';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -111,7 +114,14 @@ interface ProgramItem {
   baseline_ik_program: string | null;
   target_ik_program: string | null;
   satuan_ik_program: string | null;
+  /**
+   * Perangkat daerah pengampu, disusun SEJAJAR-INDIKATOR: satu baris per
+   * indikator, tiap baris memuat seluruh pengampunya dipisah koma. Dipakai
+   * kolom OPD pada tabel IK, yang menggambarnya dengan `whitespace-pre-line`.
+   */
   opd_penanggungjawab: string | null;
+  /** Daftar perangkat daerah tanpa pengulangan, untuk lencana kepala kartu. */
+  opd_daftar?: string[];
   raw: RawRow;
 }
 
@@ -170,6 +180,10 @@ interface PageProps {
   opdOptions: string[];
   fieldOptions: Record<string, string[]>;
   isAdmin: boolean;
+  periode: string | null;
+  periodeOptions: string[];
+  opdId: number | null;
+  opdSaringanOptions: OpdOption[];
 }
 
 const keyOf = (level: string, id: string | number) => `${level}:${id}`;
@@ -997,10 +1011,11 @@ function NonPrioritasCard({
   const open = expanded.has(key);
   const isCurrent = currentMatchKey === key;
   const isAdmin = useContext(IsAdminContext);
-  const opds = (program.opd_penanggungjawab ?? '')
-    .split('\n')
-    .map((o) => o.trim())
-    .filter((o) => o !== '');
+  // Lencana di kepala kartu memakai `opd_daftar` — daftar perangkat daerah
+  // yang sudah dibuang pengulangannya. Kolom `opd_penanggungjawab` tidak
+  // dipakai di sini karena isinya sengaja disusun sejajar-indikator (satu
+  // baris per indikator, berisi seluruh pengampunya) untuk tabel IK di bawah.
+  const opds = program.opd_daftar ?? [];
 
   return (
     // Warna & aksen AMBER yang tegas + border kiri tebal supaya program
@@ -1022,13 +1037,23 @@ function NonPrioritasCard({
             </p>
           </CollapsibleTrigger>
 
+          {/* Satu program non-prioritas bisa diampu puluhan perangkat daerah —
+              Program Penunjang Urusan tercatat pada 50. Menumpuk lima puluh
+              lencana membuat kartunya lebih tinggi daripada isinya, jadi di
+              kepala kartu hanya tiga yang tampil; daftar lengkapnya ada di
+              kolom OPD pada tabel indikator di bawah. */}
           {opds.length > 0 && (
-            <div className="flex shrink-0 flex-col items-end gap-1">
-              {opds.map((opd) => (
+            <div className="flex max-w-[24rem] shrink-0 flex-wrap items-center justify-end gap-1">
+              {opds.slice(0, 3).map((opd) => (
                 <Badge key={opd} variant="outline">
                   {opd}
                 </Badge>
               ))}
+              {opds.length > 3 && (
+                <Badge variant="secondary" title={opds.join(', ')}>
+                  +{opds.length - 3} perangkat daerah lain
+                </Badge>
+              )}
             </div>
           )}
 
@@ -1153,7 +1178,7 @@ function NonPrioritasGroup({
   );
 }
 
-export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: PageProps) {
+export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin, periode, periodeOptions, opdId, opdSaringanOptions }: PageProps) {
   const isViewer = useIsViewer();
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
@@ -1329,7 +1354,12 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
     setEditing(program);
     const values = emptyForm();
     FIELDS.forEach((f) => (values[f] = program.raw[f] ?? ''));
-    values[OPD_FIELD] = program.raw[OPD_FIELD] ?? '';
+    // Kartu program non-prioritas menggabungkan banyak baris — satu per
+    // pasangan indikator dan perangkat daerah. `raw` hanya membawa baris
+    // PERTAMA, sehingga memakainya di sini membuat dialog ubah menampilkan
+    // satu perangkat daerah saja padahal programnya diampu puluhan. Yang benar
+    // adalah daftar gabungan yang dipakai kartunya sendiri.
+    values[OPD_FIELD] = (program.opd_daftar?.length ? program.opd_daftar.join('\n') : program.raw[OPD_FIELD]) ?? '';
     setData(values);
     const sasaran = (program.raw['SASARAN RPJMD'] ?? '').trim();
     setNonPrioritas(sasaran === '' || sasaran === '-' || sasaran === 'Tidak Ada Data');
@@ -1369,6 +1399,10 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
     <IsAdminContext.Provider value={isAdmin}>
     <AppLayout>
       <Head title="I_a_KRS_Pemda" />
+      {/* Sekat waktu halaman ini. KRS mengikuti Periode Penilaian karena
+          menurunkan dokumen lima tahunan; KRO mengikuti Tahun Penilaian
+          karena menempel pada kegiatan beranggaran tahunan. Keduanya
+          mengikuti Data Umum, dan punya pilihan "Semua". */}
       <div className="space-y-4 p-4">
         <div className="flex items-center justify-between">
           <div>
@@ -1383,6 +1417,22 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
               Tambah Data
             </Button>
           )}
+        </div>
+
+        <div className="flex flex-wrap items-end gap-3">
+          <OpdPicker
+            routeName="/krs_pemda"
+            options={opdSaringanOptions}
+            nilai={opdId}
+            tambahan={{ periode: periode ?? 'semua' }}
+          />
+          <PeriodeTahunPicker
+            routeName="/krs_pemda"
+            jenis="periode"
+            options={periodeOptions}
+            nilai={periode}
+            tambahan={{ opd_id: opdId ?? 'semua' }}
+          />
         </div>
 
         <div className="flex items-center gap-2">
@@ -1468,14 +1518,22 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+        {/* Dialognya sendiri TIDAK bergulir; yang bergulir isi formulirnya.
+            Sebelumnya seluruh dialog yang bergulir, dan begitu kolom OPD
+            berganti dari kotak teks menjadi daftar kotak centang, tinggi
+            gulirnya melar seribu tiga ratus piksel melebihi isinya sehingga
+            tombol Simpan terkubur di ruang kosong yang tidak bisa dicapai.
+            Dengan kepala dan kaki dipatok dan hanya badannya yang bergulir,
+            tombolnya selalu terlihat berapa pun panjang isinya. */}
+        <DialogContent className="flex max-h-[90vh] max-w-2xl flex-col overflow-hidden">
           <DialogHeader>
             <DialogTitle>
               {isViewer ? 'Detail Data' : editing ? 'Edit Data' : 'Tambah Data'}
             </DialogTitle>
           </DialogHeader>
 
-          <form onSubmit={handleSubmit} className="space-y-4 [&>div]:border-b [&>div]:border-border/50 [&>div]:pb-4 [&>div:last-child]:border-b-0 [&>div:last-child]:pb-0">
+          <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto pr-1 [&>div]:border-b [&>div]:border-border/50 [&>div]:pb-4 [&>div:last-child]:border-b-0 [&>div:last-child]:pb-0">
             {/* Toggle Prioritas vs Non-Prioritas — auto-detect dari Sasaran
                 RPJMD, bisa juga di-toggle manual. Saat ON, field rantai-atas
                 (Visi→Sasaran RPJMD) disembunyikan. */}
@@ -1532,8 +1590,15 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
                 <Label>{OPD_FIELD}</Label>
                 {KRS_FIELD_INFO[OPD_FIELD] && <FieldInfoPopover text={KRS_FIELD_INFO[OPD_FIELD]} />}
               </div>
-              <AutocompleteMultiline id={OPD_FIELD} value={data[OPD_FIELD]} onChange={(val) => setData(OPD_FIELD, val)} options={opdOptions} rows={3} />
+              <OpdChecklist
+                id={OPD_FIELD}
+                value={data[OPD_FIELD]}
+                onChange={(val) => setData(OPD_FIELD, val)}
+                options={opdOptions}
+              />
               {errors[OPD_FIELD] && <p className="text-sm text-destructive">{errors[OPD_FIELD]}</p>}
+            </div>
+
             </div>
 
             <DialogFooter>
@@ -1553,14 +1618,22 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
       {/* Dialog EDIT NODE non-leaf (Visi/Misi/Tujuan/Sasaran). Hanya field
           milik level itu; perubahan diterapkan ke SEMUA baris node sekaligus. */}
       <Dialog open={nodeDialogOpen} onOpenChange={setNodeDialogOpen}>
-        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+        {/* Dialognya sendiri TIDAK bergulir; yang bergulir isi formulirnya.
+            Sebelumnya seluruh dialog yang bergulir, dan begitu kolom OPD
+            berganti dari kotak teks menjadi daftar kotak centang, tinggi
+            gulirnya melar seribu tiga ratus piksel melebihi isinya sehingga
+            tombol Simpan terkubur di ruang kosong yang tidak bisa dicapai.
+            Dengan kepala dan kaki dipatok dan hanya badannya yang bergulir,
+            tombolnya selalu terlihat berapa pun panjang isinya. */}
+        <DialogContent className="flex max-h-[90vh] max-w-2xl flex-col overflow-hidden">
           <DialogHeader>
             <DialogTitle>
               {nodeTarget ? `Edit ${NODE_LEVEL_LABEL[nodeTarget.level]} — ${nodeTarget.title}` : 'Edit Node'}
             </DialogTitle>
           </DialogHeader>
           {nodeTarget && (
-            <form onSubmit={handleNodeSubmit} className="space-y-3">
+            <form onSubmit={handleNodeSubmit} className="flex min-h-0 flex-1 flex-col">
+              <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
               <p className="rounded-md border border-dashed bg-muted/30 p-3 text-xs text-muted-foreground">
                 Perubahan pada node ini otomatis diterapkan ke <b>seluruh baris/anak</b> di
                 bawahnya (node tidak akan terpecah menjadi dua).
@@ -1581,6 +1654,8 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin }: P
                   {nodeForm.errors[field] && <p className="text-sm text-destructive">{nodeForm.errors[field]}</p>}
                 </div>
               ))}
+              </div>
+
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setNodeDialogOpen(false)}>
                   Batal

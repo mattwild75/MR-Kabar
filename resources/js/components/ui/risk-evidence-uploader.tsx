@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   AlertDialog,
@@ -14,6 +14,12 @@ import {
 import { FileUp, FileText, Image as ImageIcon, Trash2, Download } from 'lucide-react';
 import { router } from '@inertiajs/react';
 import { toast } from 'sonner';
+import {
+  ambilTertunda,
+  buangTertunda,
+  dengarkanTertunda,
+  tambahTertunda,
+} from '@/lib/bukti-tertunda';
 
 interface EvidenceFile {
   id: number;
@@ -36,11 +42,25 @@ interface RiskEvidenceUploaderProps {
  * Pengendalian yang Sudah Ada". File tersimpan lewat media milik user yg
  * sama dgn Utilities > File Manager (RiskEvidenceController). Hard delete
  * — bukti bukan data risiko inti, tidak perlu bisa dipulihkan dari Trash.
+ *
+ * Punya DUA keadaan. Kalau barisnya sudah tersimpan, berkas langsung dikirim
+ * ke server. Kalau belum — yaitu saat menambah risiko baru — berkasnya
+ * ditahan di peramban dan terunggah sendiri begitu barisnya tersimpan.
+ * Sebelumnya keadaan kedua ini cuma berisi kalimat "simpan dulu", sehingga
+ * melampirkan bukti selalu menuntut dua kali kerja: simpan, buka lagi, baru
+ * unggah. Banyak yang berhenti di langkah pertama.
  */
 export default function RiskEvidenceUploader({ type, rowId }: RiskEvidenceUploaderProps) {
   const [files, setFiles] = useState<EvidenceFile[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  // Berkas yang menunggu barisnya tersimpan. Dibaca dari penyimpan modul
+  // supaya halaman di luar bisa mengunggahnya begitu nomor barisnya diketahui.
+  const tertunda = useSyncExternalStore(
+    dengarkanTertunda,
+    () => ambilTertunda(type),
+    () => ambilTertunda(type),
+  );
 
   const loadFiles = () => {
     if (!rowId) return;
@@ -58,7 +78,13 @@ export default function RiskEvidenceUploader({ type, rowId }: RiskEvidenceUpload
   }, [rowId, type]);
 
   const handleUpload = (fileList: FileList | null) => {
-    if (!fileList || fileList.length === 0 || !rowId) return;
+    if (!fileList || fileList.length === 0) return;
+
+    // Barisnya belum ada: berkasnya ditahan dulu, bukan ditolak.
+    if (!rowId) {
+      tambahTertunda(type, Array.from(fileList));
+      return;
+    }
 
     const formData = new FormData();
     Array.from(fileList).forEach((f) => formData.append('files[]', f));
@@ -88,11 +114,74 @@ export default function RiskEvidenceUploader({ type, rowId }: RiskEvidenceUpload
     });
   };
 
+  const pilihBerkas = (
+    <label>
+      <input
+        type="file"
+        accept="image/jpeg,image/png,image/jpg,application/pdf"
+        multiple
+        className="hidden"
+        disabled={uploading}
+        onChange={(e) => {
+          handleUpload(e.target.files);
+          e.target.value = '';
+        }}
+      />
+      <Button type="button" size="sm" variant="outline" disabled={uploading} asChild>
+        <span className="cursor-pointer">
+          <FileUp className="mr-1.5 h-3.5 w-3.5" />
+          {uploading ? 'Mengunggah...' : 'Unggah'}
+        </span>
+      </Button>
+    </label>
+  );
+
+  // Baris belum tersimpan: berkasnya ditahan dan diperlihatkan apa adanya,
+  // lengkap dengan keterangan kapan ia akan terunggah.
   if (!rowId) {
     return (
-      <p className="rounded-md border border-dashed p-3 text-xs text-muted-foreground">
-        Simpan data risiko ini terlebih dahulu untuk bisa mengunggah bukti dukung.
-      </p>
+      <div className="space-y-2 rounded-md border p-3">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-medium text-muted-foreground">
+            Bukti Dukung (SS/JPG/PNG/PDF, opsional)
+          </p>
+          {pilihBerkas}
+        </div>
+        {tertunda.length === 0 ? (
+          <p className="text-xs text-muted-foreground">
+            Boleh dipilih sekarang — berkasnya terunggah sendiri begitu data risiko ini disimpan.
+          </p>
+        ) : (
+          <>
+            <ul className="space-y-1">
+              {tertunda.map((f, i) => (
+                <li key={`${f.name}-${i}`} className="flex items-center gap-2 text-xs">
+                  {f.type === 'application/pdf' ? (
+                    <FileText className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                  ) : (
+                    <ImageIcon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                  )}
+                  <span className="min-w-0 flex-1 truncate">{f.name}</span>
+                  <span className="shrink-0 text-muted-foreground">
+                    {(f.size / 1024).toFixed(0)} KB
+                  </span>
+                  <button
+                    type="button"
+                    className="shrink-0 text-muted-foreground hover:text-destructive"
+                    onClick={() => buangTertunda(type, i)}
+                    title="Buang dari daftar"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="text-xs text-amber-600">
+              {tertunda.length} berkas menunggu — akan terunggah otomatis saat data risiko disimpan.
+            </p>
+          </>
+        )}
+      </div>
     );
   }
 

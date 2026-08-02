@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\Opd;
@@ -15,6 +16,10 @@ use Inertia\Inertia;
 
 class KroPdController extends Controller
 {
+    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
+
+    use MenyaringPeriodePenilaian;
+
     use HasOpdFillStatus;
 
     private const FIELDS = [
@@ -338,9 +343,12 @@ class KroPdController extends Controller
         return $nodes;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
+        // KRO PD turun sampai kegiatan yang anggarannya ditetapkan tahunan
+        // lewat Renja dan DPA - jadi yang menyekatnya Tahun Penilaian.
+        $tahun = $this->tahunTerpilih($request);
 
         // Baris hanya ditampilkan ke pemiliknya sendiri, kecuali admin/
         // super-admin yang melihat semua — konsisten dengan pembatasan
@@ -349,6 +357,13 @@ class KroPdController extends Controller
         if (!$isAdmin) {
             $query->where('user_id', auth()->id());
         }
+        $this->saringTahun($query, $tahun, 'TAHUN PENILAIAN');
+        // Perangkat daerah sebuah baris diambil dari AKUN pemiliknya, bukan
+        // dari kolom teks di dalam barisnya. Kolom seperti "ENTITAS PD YANG
+        // MENILAI" diisi bebas dan ejaannya berbeda-beda antar pengisi,
+        // sehingga tidak bisa dipercaya sebagai dasar penyaringan.
+        $opdId = $this->opdTerpilih($request);
+        $this->saringOpdPemilik($query, $opdId);
         $rows = $query->get();
 
         // Daftar Sasaran Renstra yang sudah ada di tbl_krs_pd, dipakai
@@ -389,6 +404,10 @@ class KroPdController extends Controller
             'program1aMap' => $program2a,
             'currentUserId' => auth()->id(),
             'isAdmin' => $isAdmin,
+            'tahun' => $tahun,
+            'opdId' => $opdId,
+            'opdSaringanOptions' => $this->opdOptions($request),
+            'tahunOptions' => $this->tahunOptions(KroPd::class, 'TAHUN PENILAIAN'),
         ]);
     }
 
@@ -434,7 +453,7 @@ class KroPdController extends Controller
      */
     private function sasaranRenstraKodes(): array
     {
-        if (!Schema::hasTable('tbl_krs_irs_pd')) {
+        if (!$this->tabelTersedia('tbl_krs_irs_pd')) {
             return [];
         }
 
@@ -498,6 +517,10 @@ class KroPdController extends Controller
     {
         $data = $this->fillBlanks($this->validated($request));
         $data['user_id'] = $request->user()->id;
+        // Baris baru masuk ke tahun yang sedang dilihat; kalau sedang melihat
+        // seluruh tahun, dipakai Tahun Aktif Pemda.
+        $data['TAHUN PENILAIAN'] = $this->tahunTerpilih($request)
+            ?: (int) \App\Models\PengaturanPemda::current()->tahun_penilaian;
         KroPd::create($data);
         $sync->sync();
 

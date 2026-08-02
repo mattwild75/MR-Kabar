@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\IroPd;
 use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\Opd;
 use App\Models\RiskLevel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Inertia\Inertia;
 
@@ -31,6 +33,7 @@ class DataRisikoGabunganController extends Controller
     use GeneratesKodeRisiko;
     use HasOpdFillStatus;
     use AppendsProgramBupatiTag;
+    use MenyaringPeriodePenilaian;
 
     /** Field `risiko_tipe` (program_bupati_risiko) per model — dipakai buildSection() utk penanda "(P{nomor})". */
     private const RISIKO_TIPE_BY_MODEL = [
@@ -76,6 +79,20 @@ class DataRisikoGabunganController extends Controller
      * angka lain krn basis penghitungan beda) dan kolom pengelompokan
      * ($groupField: "SASARAN RPJMD"/"SASARAN RENSTRA"/"KEGIATAN PD").
      */
+    /**
+     * Perangkat daerah yang SEDANG DIPILIH lewat penyaring di halaman —
+     * berbeda dari scopedOpdId(), yang membatasi apa yang boleh dilihat.
+     *
+     * Keduanya bekerja berlapis: yang berhak melihat lintas perangkat daerah
+     * boleh menyempitkan pandangannya sendiri, sedangkan PIC biasa sudah
+     * terkunci pada perangkat daerahnya dan penyaring ini tidak pernah
+     * dikirimkan kepadanya.
+     */
+    private function opdSaringan(Request $request): ?int
+    {
+        return $this->opdTerpilih($request) ?? $this->scopedOpdId();
+    }
+
     private function buildSection(string $modelClass, string $groupField, ?int $opdId): Collection
     {
         $rows = $modelClass::whereHas('user')
@@ -114,16 +131,35 @@ class DataRisikoGabunganController extends Controller
             ->values();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $isAdmin = auth()->user()?->canViewAllOpd() ?? false;
-        $opdId = $this->scopedOpdId();
+        $opdDipilih = $this->opdTerpilih($request);
+        $opdId = $this->opdSaringan($request);
 
         return Inertia::render('risiko/DataRisikoGabungan', [
+            // Perangkat daerah yang sedang dipilih di penyaring. Daftar
+            // pilihannya tidak dikirim ulang di sini — halaman ini sudah
+            // menerima `opdList` untuk panel status pengisian, dan mengirim
+            // 49 baris yang sama dua kali hanya menambah muatan.
+            'opdId' => $opdDipilih,
+            // Nama perangkat daerah yang dibawa widget Ranking Eksposur Risiko
+            // dari Dasbor lewat `?opd=`.
+            //
+            // Dikirim sebagai prop, BUKAN dibaca frontend dari
+            // window.location: perpindahannya lewat Inertia, dan pada saat
+            // komponen ini terpasang alamat peramban kadang masih alamat yang
+            // lama, sehingga saringannya diam-diam tidak jalan. Prop selalu
+            // tiba bersama halamannya, baik lewat kunjungan Inertia maupun
+            // saat alamatnya dibuka langsung.
+            'opdTerpilih' => $request->query('opd'),
             'irsPemda' => $this->buildSection(IrsPemda::class, 'SASARAN RPJMD', $opdId),
             'irsPd' => $this->buildSection(IrsPd::class, 'SASARAN RENSTRA', $opdId),
             'iroPd' => $this->buildSection(IroPd::class, 'KEGIATAN PD', $opdId),
-            'isScopedToOwnOpd' => $opdId !== null,
+            // Terkunci pada perangkat daerahnya sendiri — DIHITUNG DARI HAK
+            // AKSES, bukan dari $opdId, yang kini juga bisa terisi karena
+            // admin menyempitkan pandangannya sendiri lewat penyaring.
+            'isScopedToOwnOpd' => $this->scopedOpdId() !== null,
             'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
             // Panel "Lihat status pengisian seluruh OPD" — sama pola dgn
             // Index() masing2 controller asli (IrsPemdaController dkk),

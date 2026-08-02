@@ -29,10 +29,13 @@ class ProgramNonPrioritasSeeder extends Seeder
 
     public function run(): void
     {
-        // Snapshot program prioritas yang SUDAH ADA (punya Sasaran RPJMD terisi).
+        // Snapshot program prioritas yang SUDAH ADA (punya Sasaran RPJMD
+        // terisi), dikunci per program DAN perangkat daerahnya — lihat alasan
+        // lengkapnya di addNonPrioritas().
         $this->prioritasSet = KrsPemda::all()
             ->filter(fn ($r) => $this->isPrioritasRow($r))
-            ->map(fn ($r) => $this->norm((string) $r->{'PROGRAM PRIORITAS'}))
+            ->map(fn ($r) => $this->norm((string) $r->{'PROGRAM PRIORITAS'})
+                . '||' . $this->norm((string) $r->{'OPD PENANGGUNGJAWAB PROGRAM'}))
             ->filter()
             ->flip()
             ->all();
@@ -520,11 +523,21 @@ class ProgramNonPrioritasSeeder extends Seeder
      */
     private function addNonPrioritas(string $program, string $opd, array $ik = []): void
     {
-        $key = $this->norm($program);
+        $key = $this->norm($program) . '||' . $this->norm($opd);
 
-        // Jangan tambahkan bila ini justru program prioritas (ada di 3.5).
+        // Jangan tambahkan bila PERANGKAT DAERAH INI memang menurunkan program
+        // tersebut dari sebuah Sasaran (ada di 3.5).
+        //
+        // Kuncinya program + perangkat daerah, BUKAN nama program saja. Satu
+        // nama program bisa berstatus berbeda antar instansi: "Program
+        // Penunjang Urusan" prioritas bagi Sekretariat Daerah tetapi
+        // non-prioritas bagi 48 perangkat daerah lain, dan "Program Pemenuhan
+        // Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat" prioritas
+        // bagi Dinas Kesehatan tetapi non-prioritas bagi BLUD RSUD. Dengan
+        // kunci nama program saja, seluruh instansi lain ikut terlewat tanpa
+        // ada tanda apa pun selain satu baris peringatan.
         if (isset($this->prioritasSet[$key])) {
-            $this->command?->warn("  SKIP (prioritas): {$program}");
+            $this->command?->warn("  SKIP (prioritas): {$program} [{$opd}]");
             return;
         }
 

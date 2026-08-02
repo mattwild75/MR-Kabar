@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\Opd;
 use App\Models\KrsPemda;
 use App\Services\KrsIrsSyncService;
@@ -11,6 +12,8 @@ use Inertia\Inertia;
 
 class KrsPemdaController extends Controller
 {
+    use MenyaringPeriodePenilaian;
+
     private const FIELDS = [
         'VISI',
         'MISI',
@@ -271,46 +274,132 @@ class KrsPemdaController extends Controller
         $programIndex = [];
         $nextNo = 1;
 
+        // Satu node = SATU PROGRAM UNIK, bukan satu baris dan bukan pula satu
+        // pasangan program-perangkat-daerah.
+        //
+        // Program non-prioritas lazim dipakai bersama oleh puluhan perangkat
+        // daerah: "Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota"
+        // saja tercatat pada 50 perangkat daerah dengan dua indikator yang
+        // sama. Menampilkannya sebagai lima puluh kartu berjudul sama hanya
+        // membuat daftarnya panjang tanpa menambah keterangan apa pun.
+        //
+        // Jadi yang digabung adalah PERANGKAT DAERAHNYA, dikumpulkan per
+        // indikator. Aman digabung karena sudah diperiksa: dari 98 pasangan
+        // program+indikator, TIDAK ADA SATU PUN yang baseline, target, atau
+        // satuannya berbeda antar perangkat daerah — jadi tidak ada keterangan
+        // yang hilang. Kalau kelak ada yang berbeda, indikatornya otomatis
+        // dipecah jadi baris tersendiri, karena kuncinya memuat ketiga nilai
+        // itu.
+        $indikator = [];   // program => [kunci indikator => data + daftar OPD]
+
         foreach ($rows as $row) {
             $programVal = $this->removeLabel((string) $row->{'PROGRAM PRIORITAS'});
+            $opdVal = trim((string) $row->{'OPD PENANGGUNGJAWAB PROGRAM'});
 
-            // Dedup per teks program: satu program non-prioritas = satu node,
-            // walau muncul di beberapa baris. Kalau sama, pakai baris pertama.
-            if (isset($programIndex[$programVal])) {
-                continue;
+            if (! isset($programIndex[$programVal])) {
+                $no = $nextNo++;
+                $programIndex[$programVal] = count($nodes);
+                $indikator[$programVal] = [];
+
+                $nodes[] = [
+                    'id' => $row->id,
+                    'kode' => "NP.{$no}",
+                    'nama' => $programVal,
+                    'is_prioritas' => false,
+                    'is_non_prioritas' => true,
+                    'outcome' => $this->removeLabel((string) $row->{'OUTCOME PROGRAM PRIORITAS'}),
+                    'ik_program' => '',
+                    'baseline_ik_program' => '',
+                    'target_ik_program' => '',
+                    'satuan_ik_program' => '',
+                    'opd_penanggungjawab' => '',
+                    'raw' => (object) array_combine(
+                        self::FIELDS,
+                        array_map(fn ($f) => in_array($f, ['OPD PENANGGUNGJAWAB PROGRAM', 'OPD IK TUJUAN RPJMD', 'OPD IK SASARAN RPJMD', 'OPD IK PROGRAM'], true)
+                            ? trim((string) $row->{$f})
+                            : $this->removeLabel((string) $row->{$f}), self::FIELDS)
+                    ),
+                ];
             }
-            $no = $nextNo++;
-            $programIndex[$programVal] = $no;
 
-            $nodes[] = [
-                'id' => $row->id,
-                'kode' => "NP.{$no}",
-                'nama' => $programVal,
-                'is_prioritas' => false,
-                'is_non_prioritas' => true,
-                'outcome' => $this->removeLabel((string) $row->{'OUTCOME PROGRAM PRIORITAS'}),
-                'ik_program' => $this->removeLabel((string) $row->{'IK PROGRAM'}),
-                'baseline_ik_program' => $this->removeLabel((string) $row->{'BASELINE IK PROGRAM'}),
-                'target_ik_program' => $this->removeLabel((string) $row->{'TARGET IK PROGRAM'}),
-                'satuan_ik_program' => $this->removeLabel((string) $row->{'SATUAN IK PROGRAM'}),
-                'opd_penanggungjawab' => trim((string) $row->{'OPD PENANGGUNGJAWAB PROGRAM'}),
-                'raw' => (object) array_combine(
-                    self::FIELDS,
-                    array_map(fn ($f) => in_array($f, ['OPD PENANGGUNGJAWAB PROGRAM', 'OPD IK TUJUAN RPJMD', 'OPD IK SASARAN RPJMD', 'OPD IK PROGRAM'], true)
-                        ? trim((string) $row->{$f})
-                        : $this->removeLabel((string) $row->{$f}), self::FIELDS)
-                ),
-            ];
+            $ik = $this->removeLabel((string) $row->{'IK PROGRAM'});
+            $baseline = $this->removeLabel((string) $row->{'BASELINE IK PROGRAM'});
+            $target = $this->removeLabel((string) $row->{'TARGET IK PROGRAM'});
+            $satuan = $this->removeLabel((string) $row->{'SATUAN IK PROGRAM'});
+            $kunci = $ik . '|' . $baseline . '|' . $target . '|' . $satuan;
+
+            if (! isset($indikator[$programVal][$kunci])) {
+                $indikator[$programVal][$kunci] = [
+                    'ik' => $ik,
+                    'baseline' => $baseline,
+                    'target' => $target,
+                    'satuan' => $satuan,
+                    'opd' => [],
+                ];
+            }
+            if ($opdVal !== '' && ! in_array($opdVal, $indikator[$programVal][$kunci]['opd'], true)) {
+                $indikator[$programVal][$kunci]['opd'][] = $opdVal;
+            }
+        }
+
+        // Rakit isinya: tiap indikator jadi satu baris pada tabel IK, dan
+        // perangkat daerah pengampunya ditulis pada baris yang sama, dipisah
+        // koma. Antar indikator dipisah baris baru — komponen IkInfo
+        // menggambarnya dengan `whitespace-pre-line` sehingga baseline,
+        // target, satuan, dan daftar perangkat daerahnya tetap sejajar.
+        foreach ($indikator as $programVal => $daftar) {
+            $i = $programIndex[$programVal];
+            $semuaOpd = [];
+            foreach (['ik', 'baseline', 'target', 'satuan'] as $bagian) {
+                $nodes[$i][
+                    $bagian === 'ik' ? 'ik_program' : "{$bagian}_ik_program"
+                ] = implode("\n", array_column($daftar, $bagian));
+            }
+            $nodes[$i]['opd_penanggungjawab'] = implode("\n", array_map(
+                fn ($d) => implode(', ', $d['opd']),
+                $daftar,
+            ));
+            foreach ($daftar as $d) {
+                foreach ($d['opd'] as $o) {
+                    $semuaOpd[$o] = true;
+                }
+            }
+            // Daftar ringkas tanpa pengulangan, dipakai lencana di kepala
+            // kartu. Dipisahkan dari `opd_penanggungjawab` yang sengaja
+            // sejajar-indikator dan karena itu bisa memuat nama yang sama
+            // berkali-kali.
+            $nodes[$i]['opd_daftar'] = array_keys($semuaOpd);
         }
 
         return $nodes;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $rows = KrsPemda::orderBy('id')->get();
+        // KRS Pemda menurunkan RPJMD, yang berlaku lima tahunan - jadi yang
+        // menyekatnya Periode Penilaian, bukan tahun.
+        $periode = $this->periodeTerpilih($request);
+
+        // I_a TIDAK punya user_id: ia satu kertas kerja tingkat Pemda yang
+        // sama bagi semua, diturunkan dari RPJMD. Jadi penyaring perangkat
+        // daerahnya bekerja pada kolom nama penanggung jawab indikator dan
+        // program - satu baris bisa menyebut beberapa perangkat daerah
+        // sekaligus, dan barisnya tampil kalau salah satunya cocok.
+        $opdId = $this->opdTerpilih($request);
+        $query = $this->saringPeriode(KrsPemda::orderBy('id'), $periode);
+        $this->saringOpdLewatNama($query, $opdId, [
+            'OPD IK TUJUAN RPJMD',
+            'OPD IK SASARAN RPJMD',
+            'OPD IK PROGRAM',
+            'OPD PENANGGUNGJAWAB PROGRAM',
+        ]);
+        $rows = $query->get();
 
         return Inertia::render('krs/Index', [
+            'periode' => $periode,
+            'opdId' => $opdId,
+            'opdSaringanOptions' => $this->opdOptions($request),
+            'periodeOptions' => $this->periodeOptions(KrsPemda::class),
             'visis' => $this->buildHierarchy($rows),
             'opdOptions' => Opd::orderBy('nama')->pluck('nama'),
             'fieldOptions' => $this->distinctFieldOptions($rows),
@@ -388,6 +477,10 @@ class KrsPemdaController extends Controller
         $this->ensureCanManage($request);
 
         $data = $this->fillBlanks($this->validated($request));
+        // Baris baru masuk ke periode yang sedang dilihat; kalau sedang
+        // melihat seluruh periode, dipakai periode dari Data Umum.
+        $data['PERIODE PENILAIAN'] = $this->periodeTerpilih($request)
+            ?: $this->periodeBawaan($request);
         KrsPemda::create($data);
         $sync->sync();
 

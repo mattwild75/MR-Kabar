@@ -1,3 +1,6 @@
+import OpdChecklist from '@/components/ui/opd-checklist';
+import OpdPicker, { type OpdOption } from '@/components/ui/opd-picker';
+import PeriodeTahunPicker from '@/components/ui/periode-tahun-picker';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -521,6 +524,10 @@ interface TreeCallbacks {
   registerRef: (key: string, el: HTMLElement | null) => void;
   currentUserId: number | null;
   isAdmin: boolean;
+  tahun: number | null;
+  tahunOptions: number[];
+  opdId: number | null;
+  opdSaringanOptions: OpdOption[];
 }
 
 function SubKegiatanRow({ sk, cb }: { sk: SubKegiatanItem; cb: TreeCallbacks }) {
@@ -923,7 +930,7 @@ function NonPrioritasCard({ program, cb }: { program: NonPrioritasProgramItem; c
   );
 }
 
-export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFillStatus, fieldOptions, program1aMap, currentUserId, isAdmin }: PageProps) {
+export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFillStatus, fieldOptions, program1aMap, currentUserId, isAdmin, tahun, tahunOptions, opdId, opdSaringanOptions }: PageProps) {
   const isViewer = useIsViewer();
   const [searchInput, setSearchInput] = useState('');
   const [activeQuery, setActiveQuery] = useState('');
@@ -1186,6 +1193,10 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFi
   return (
     <AppLayout>
       <Head title="III_a_KRO_PD" />
+      {/* Sekat waktu halaman ini. KRS mengikuti Periode Penilaian karena
+          menurunkan dokumen lima tahunan; KRO mengikuti Tahun Penilaian
+          karena menempel pada kegiatan beranggaran tahunan. Keduanya
+          mengikuti Data Umum, dan punya pilihan "Semua". */}
       <div className="space-y-4 p-4">
         <div className="flex items-center justify-between">
           <div>
@@ -1214,6 +1225,22 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFi
             selectedOpdNama={searchInput}
           />
         )}
+
+        <div className="flex flex-wrap items-end gap-3">
+          <OpdPicker
+            routeName="/kro_pd"
+            options={opdSaringanOptions}
+            nilai={opdId}
+            tambahan={{ tahun: tahun ?? 'semua' }}
+          />
+          <PeriodeTahunPicker
+            routeName="/kro_pd"
+            jenis="tahun"
+            options={tahunOptions}
+            nilai={tahun}
+            tambahan={{ opd_id: opdId ?? 'semua' }}
+          />
+        </div>
 
         <div className="flex items-center gap-2">
           <div className="relative max-w-md flex-1">
@@ -1344,7 +1371,12 @@ export default function KroPdIndex({ sasaranRenstras, opdOptions, opdList, opdFi
                 <Label>{OPD_FIELD}</Label>
                 {KRO_PD_FIELD_INFO[OPD_FIELD] && <FieldInfoPopover text={KRO_PD_FIELD_INFO[OPD_FIELD]} />}
               </div>
-              <AutocompleteMultiline id={OPD_FIELD} value={data[OPD_FIELD]} onChange={(val) => setData(OPD_FIELD, val)} options={opdOptions} rows={3} />
+              <OpdChecklist
+                id={OPD_FIELD}
+                value={data[OPD_FIELD]}
+                onChange={(val) => setData(OPD_FIELD, val)}
+                options={opdOptions}
+              />
               {errors[OPD_FIELD] && <p className="text-sm text-destructive">{errors[OPD_FIELD]}</p>}
             </div>
 
