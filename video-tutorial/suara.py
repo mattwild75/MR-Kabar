@@ -11,8 +11,9 @@ edge-tts membaca singkatan huruf demi huruf dengan cara yang sering keliru,
 dan tag SSML tidak bisa dipakai karena seluruh masukan di-escape jadi XML.
 Cara yang sama sudah dipakai video edukasi.
 
-    python suara.py           semua kalimat yang belum ada
-    python suara.py --ulang   paksa buat ulang semuanya
+    python suara.py                          semua kalimat yang belum ada
+    python suara.py --ulang                  paksa buat ulang semuanya
+    python suara.py --naskah naskah-lapor.json   naskah video yang lain
 """
 import asyncio
 import io
@@ -122,7 +123,11 @@ async def buat(b: dict, ulang: bool) -> None:
 async def utama() -> None:
     ulang = "--ulang" in sys.argv
     os.makedirs(AUDIO, exist_ok=True)
-    naskah = json.load(io.open(os.path.join(DIR, "naskah.json"), encoding="utf-8"))
+    berkas = "naskah.json"
+    if "--naskah" in sys.argv:
+        berkas = sys.argv[sys.argv.index("--naskah") + 1]
+    naskah = json.load(io.open(os.path.join(DIR, berkas), encoding="utf-8"))
+    print(f"naskah: {berkas}")
     baris = kumpulkan(naskah)
 
     ganda = [b["id"] for b in baris]
@@ -136,9 +141,13 @@ async def utama() -> None:
         if i % 10 == 0 or i == len(baris):
             print(f"  {i}/{len(baris)}")
 
-    waktu = {b["id"]: durasi(os.path.join(AUDIO, f"{b['id']}.mp3")) for b in baris}
-    io.open(os.path.join(AUDIO, "waktu.json"), "w", encoding="utf-8").write(
-        json.dumps(waktu, indent=1, ensure_ascii=False))
+    # Durasi DIGABUNG dengan yang sudah ada, bukan ditimpa: dua video berbagi
+    # satu berkas ini, dan menimpanya membuat video yang lain kehilangan
+    # seluruh waktunya tanpa ada tanda apa pun.
+    pwaktu = os.path.join(AUDIO, "waktu.json")
+    waktu = json.load(io.open(pwaktu, encoding="utf-8")) if os.path.exists(pwaktu) else {}
+    waktu.update({b["id"]: durasi(os.path.join(AUDIO, f"{b['id']}.mp3")) for b in baris})
+    io.open(pwaktu, "w", encoding="utf-8").write(json.dumps(waktu, indent=1, ensure_ascii=False))
 
     # Lama tiap bagian, supaya panjang video bisa diperkirakan sebelum merekam.
     per_bagian: dict[str, float] = {}

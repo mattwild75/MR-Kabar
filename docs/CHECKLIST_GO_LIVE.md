@@ -15,8 +15,8 @@ Dua dokumen pendamping, supaya isinya tidak diulang di sini:
 
 ### A1. Ambil berkasnya — pasang git-lfs DULU
 
-`public/video` berisi **499 MB** video & audio — edukasi dan tutorial
-pengisian — yang dilacak lewat Git LFS. Kalau `git clone`/`git pull` dijalankan di server yang belum
+`public/video` berisi **622 MB** video & audio — edukasi, tutorial pengisian,
+dan tutorial lapor kejadian risiko — yang dilacak lewat Git LFS. Kalau `git clone`/`git pull` dijalankan di server yang belum
 punya git-lfs, yang turun bukan videonya melainkan berkas teks penunjuk
 beberapa baris — dan video edukasi di halaman Panduan serta di kartu login
 tidak akan jalan, tanpa pesan galat yang menjelaskan kenapa.

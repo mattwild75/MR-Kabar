@@ -14,7 +14,8 @@ Susunannya sengaja tenang dan tidak menuntut perhatian — video ini ditonton
 sambil mengisi aplikasi, jadi musiknya melatari, bukan menemani. Perubahan
 nuansa mengikuti bagian video, supaya pergantian topik terdengar.
 
-    python musik.py 3600        buat musik selama 3600 detik
+    python musik.py 3600              buat musik selama 3600 detik
+    python musik.py 770 lapor         beri nama berkasnya musik-lapor.wav
     python musik.py --dari-waktu   panjangnya mengikuti rekam/waktu-*.json
 """
 import glob
@@ -138,8 +139,15 @@ def utama() -> None:
         raise SystemExit(f"soundfont tidak ada: {SF2}")
 
     trek, panjang = susun(total)
-    mid = os.path.join(DIR, "musik.mid")
-    wav = os.path.join(DIR, "musik.wav")
+    # Nama berkas boleh diberi akhiran, supaya musik dua video tidak saling
+    # menimpa di direktori yang sama.
+    akhiran = ""
+    for a in sys.argv[2:]:
+        if not a.startswith("--"):
+            akhiran = "-" + a
+            break
+    mid = os.path.join(DIR, f"musik{akhiran}.mid")
+    wav = os.path.join(DIR, f"musik{akhiran}.wav")
     midi.tulis(mid, trek, BPM, TPQ)
     print(f"musik.mid: {panjang / 60:.1f} menit, {len(trek)} instrumen bersampel")
 

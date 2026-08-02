@@ -1,0 +1,50 @@
+[
+ {
+  "id": "bagian-i",
+  "judul": "I. Sebelum mulai",
+  "mulai": 0.0,
+  "selesai": 110.73,
+  "durasi": 110.73,
+  "sasaran": "Semua"
+ },
+ {
+  "id": "bagian-ii",
+  "judul": "II. Pelapor: kejadian dari risiko yang sudah terdaftar",
+  "mulai": 110.73,
+  "selesai": 274.0,
+  "durasi": 163.27,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-iii",
+  "judul": "III. PIC menelaah laporan pertama",
+  "mulai": 274.0,
+  "selesai": 370.13,
+  "durasi": 96.13,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-iv",
+  "judul": "IV. Pelapor: kejadian yang risikonya belum terdaftar",
+  "mulai": 370.13,
+  "selesai": 445.37,
+  "durasi": 75.23,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-v",
+  "judul": "V. PIC membuat risiko yang belum terdaftar",
+  "mulai": 445.37,
+  "selesai": 686.47,
+  "durasi": 241.1,
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "bagian-vi",
+  "judul": "VI. Sesudahnya",
+  "mulai": 686.47,
+  "selesai": 765.57,
+  "durasi": 79.1,
+  "sasaran": "Semua"
+ }
+]

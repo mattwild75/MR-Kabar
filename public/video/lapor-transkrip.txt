@@ -1,0 +1,112 @@
+Transkrip Video Tutorial Pengisian MR Kabar
+Seluruh isian dalam video ini adalah DATA CONTOH.
+
+
+== Bagian I. Sebelum mulai
+
+[00:00] Video ini tentang satu hal yang sering terlewat: apa yang terjadi setelah risiko benar-benar terjadi.
+[00:06] Semua formulir yang lain berbicara tentang sesuatu yang belum terjadi. Yang ini tentang yang sudah.
+[00:13] Dan ia punya dua sisi. Sisi pelapor — siapa pun yang melihat kejadiannya, termasuk pegawai yang tidak punya akun aplikasi. Lalu sisi PIC, yang menelaah laporan itu dan menindaklanjutinya.
+[00:26] Kita akan menempuh dua kasus, karena aplikasinya memang memperlakukannya berbeda.
+[00:32] Kasus pertama: kejadian yang risikonya sudah terdaftar di kertas kerja. Ini yang paling sering, dan paling cepat diselesaikan.
+[00:41] Kasus kedua: kejadian yang risikonya belum pernah terdaftar sama sekali. Ini yang paling penting dipahami, karena penanganannya berbeda dan tidak bisa dilompati.
+[00:53] Seperti video tutorial sebelumnya, seluruh isian di sini data contoh. Untuk laporan yang sesungguhnya, isinya kembali kepada kejadian yang benar-benar Anda lihat.
+[01:03] Kita mulai dari sisi pelapor, dan perhatikan bagaimana ia masuk.
+[01:08] Pelapor tidak mengetik nama pengguna dan kata sandi. Ia memindai kode QR yang ditempel di kantor atau dibagikan lewat pesan, dan kode itu langsung membawanya ke formulir lapor.
+[01:18] Ini disengaja. Orang yang baru melihat kejadian tidak boleh dihalangi urusan akun.
+[01:25] Perhatikan menu di sebelah kiri. Isinya cuma tiga.
+[01:29] Akun ini akun bersama yang dipakai banyak orang, jadi jangkauannya sengaja dibuat sesempit mungkin. Ia tidak bisa membuka data risiko perangkat daerah mana pun, tidak bisa mengubah apa pun, dan tidak bisa melihat laporan orang lain.
+[01:46] Yang bisa dilakukannya hanya satu: melapor.
+
+== Bagian II. Pelapor: kejadian dari risiko yang sudah terdaftar
+
+[01:51] Di bagian atas formulir ada dua mode pelaporan, dan pilihan inilah yang menentukan seluruh sisanya.
+[01:58] Cek Risiko yang Sudah Terjadi dipakai kalau pelapor tahu kejadian ini berasal dari risiko yang memang sudah terdaftar. Lapor Kejadian Baru dipakai kalau tidak.
+[02:07] Kalau pelapor ragu, pilih saja Lapor Kejadian Baru. Menautkannya nanti adalah pekerjaan PIC, bukan pekerjaan pelapor.
+[02:17] Untuk kasus pertama ini kita pilih yang kiri.
+[02:21] Muncul kolom pencarian risiko terdaftar. Ia menelusuri ketiga tingkatan sekaligus — risiko strategis pemerintah daerah, strategis perangkat daerah, dan operasional.
+[02:31] Kita cari risiko tentang pengawasan yang tidak sesuai program kerja pengawasan tahunan.
+[02:37] Begitu risikonya dipilih, laporan ini otomatis tertaut ke sana. Itu menghemat satu langkah telaah PIC nanti.
+[02:45] Sekarang identitas pelapor dan isi kejadiannya.
+[02:49] Nama wajib. Surel dan nomor telepon boleh dikosongkan — banyak pelapor tidak ingin dihubungi, dan aplikasi tidak memaksanya.
+[02:57] Perangkat daerah terkait juga boleh dikosongkan. Pelapor awam belum tentu tahu perangkat daerah mana yang mengurusnya, dan Admin bisa melengkapinya belakangan.
+[03:09] Kolom Kejadian adalah inti laporan ini, dan ada satu hal yang membedakannya dari pernyataan risiko.
+[03:14] Pernyataan risiko ditulis sebagai sesuatu yang bisa terjadi. Kejadian ditulis sebagai sesuatu yang sudah terjadi — dengan waktu, tempat, dan angka kalau ada.
+[03:27] Makin jelas kejadiannya ditulis, makin sedikit PIC harus menebak.
+[03:32] Waktu kejadian diisi lewat pemilih tanggal dan jam.
+[03:36] Kalau kejadiannya berlangsung berhari-hari, isikan saat pertama kali diketahui — itu yang berguna untuk menelusuri kembali.
+[03:43] Terakhir, Pemicu. Bentuknya sama persis dengan kolom penyebab risiko yang dipakai PIC — internal delapan kategori, eksternal enam.
+[03:52] Pelapor tidak wajib mengisinya, dan tidak perlu merasa harus tahu penggolongannya. Satu saja sudah sangat membantu.
+[04:02] Kita tandai Method, karena persoalannya pada penjadwalan — bukan pada orangnya.
+[04:07] Inilah bahan yang nanti dipakai PIC menilai apakah risikonya perlu dinilai ulang, atau bahkan didaftarkan kalau memang belum ada.
+[04:16] Kirim laporannya.
+[04:18] Begitu terkirim, PIC perangkat daerah terkait langsung menerima pemberitahuan. Pelapor tidak perlu menelepon siapa pun.
+[04:26] Dan pekerjaan pelapor selesai sampai di sini. Sisanya bukan urusannya.
+
+== Bagian III. PIC menelaah laporan pertama
+
+[04:34] Sekarang kita berpindah ke sisi PIC, dengan akun yang berbeda.
+[04:39] Laporan yang masuk berkumpul di menu Utilities, Rekap Lapor Kejadian Risiko.
+[04:45] Perhatikan statusnya: baru. Ada empat status yang berjalan berurutan — baru, diverifikasi, ditindaklanjuti, dan selesai.
+[04:55] Langkah pertama PIC bukan langsung menindaklanjuti, melainkan memverifikasi.
+[05:01] Yang diperiksa tiga hal: benarkah kejadiannya, benarkah ini urusan perangkat daerah kita, dan benarkah risikonya yang tertaut itu.
+[05:09] Laporan ini sudah tertaut ke risiko terdaftar karena pelapornya memilihnya sendiri. PIC tinggal memastikan tautannya memang tepat.
+[05:18] Kalau ternyata keliru, tautannya bisa diganti dari sini juga.
+[05:23] Karena risikonya sudah terdaftar dan tautannya benar, tombol Catat ke Formulir 10 tersedia.
+[05:28] Inilah yang mengubah laporan menjadi catatan resmi. Sebelum dicatat, ia baru laporan; sesudah dicatat, ia menjadi kejadian risiko yang masuk ke kertas kerja dan ikut terbaca di Dasbor.
+[05:42] Perhatikan satu hal penting: tombol ini hanya muncul kalau laporannya sudah tertaut ke risiko terdaftar. Alasannya akan sangat jelas di kasus kedua nanti.
+[05:51] Sesudah dicatat, statusnya dinaikkan menjadi ditindaklanjuti, lalu selesai setelah penanganannya rampung.
+[05:59] Catatan tindak lanjut sebaiknya diisi. Ia yang menjelaskan kepada penilai berikutnya apa yang benar-benar dikerjakan, bukan sekadar bahwa laporannya sudah ditutup.
+
+== Bagian IV. Pelapor: kejadian yang risikonya belum terdaftar
+
+[06:10] Sekarang kasus kedua, dan inilah yang paling perlu dipahami.
+[06:14] Kali ini kejadiannya tidak berasal dari risiko mana pun yang terdaftar. Sesuatu terjadi yang memang belum pernah terpikirkan saat penilaian risiko disusun.
+[06:25] Itu bukan kegagalan. Justru begitulah manajemen risiko bekerja — daftar risiko tidak pernah lengkap, dan kejadian nyata yang melengkapinya.
+[06:34] Perhatikan, kolom pencarian risiko tidak muncul. Memang tidak ada yang bisa dicari.
+[06:42] Kejadiannya: surat tugas pemeriksaan terbit setelah kegiatan dimulai.
+[06:46] Ini tidak ada di daftar risiko mana pun. Ia bukan soal jumlah auditor, bukan soal tindak lanjut, bukan soal sistem informasi.
+[07:04] Pemicunya kita tandai Method, karena persoalannya ada pada urutan prosedur — bukan pada orangnya.
+[07:10] Lalu dikirim. Sampai di sini pekerjaan pelapor sama saja dengan kasus pertama.
+
+== Bagian V. PIC membuat risiko yang belum terdaftar
+
+[07:26] Kembali ke sisi PIC. Laporan kedua sudah masuk.
+[07:30] Perhatikan bedanya dengan yang pertama: tombol Catat ke Formulir 10 tidak ada.
+[07:36] Ini bukan kekurangan aplikasi, melainkan pembatasan yang disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi ia selalu butuh risiko yang sudah terdaftar. Tanpa itu, kejadiannya akan menggantung tanpa induk.
+[07:51] Artinya PIC harus mengerjakan satu hal dulu: mendaftarkan risikonya.
+[07:57] Kita buka Formulir 3b, Identifikasi Risiko Operasional Perangkat Daerah.
+[08:02] Dalam keadaan sebenarnya ini dibuka di tab baru, supaya rekap laporannya tidak perlu ditinggalkan.
+[08:09] Kejadiannya ada di tahap perencanaan penugasan, jadi tahapnya Perencanaan — bukan Pelaksanaan, walaupun akibatnya terasa saat pelaksanaan.
+[08:18] Sekarang perhatikan cara merumuskan risikonya, karena ini yang paling sering keliru.
+[08:24] Yang kita punya adalah kejadian: surat tugas terbit terlambat. Tetapi yang dicatat di sini bukan kejadiannya, melainkan risikonya.
+[08:32] Kejadian adalah satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi.
+[08:41] Jadi rumusannya bukan surat tugas terbit tiga hari terlambat, melainkan penerbitan surat tugas terlambat sehingga penugasan dimulai tanpa dasar administratif yang lengkap.
+[08:49] Penyebabnya kita ambil langsung dari pemicu yang ditulis pelapor. Itu gunanya kolom pemicu tadi.
+[08:55] Method, karena urutan prosedurnya yang belum diatur. Terkendali, karena penerbitan surat tugas sepenuhnya di dalam kuasa Inspektorat sendiri.
+[09:20] Pengendalian yang sudah ada, dan di sinilah kejujuran diuji.
+[09:26] Prosedur penugasannya memang ada, tetapi belum mengatur urutan waktunya. Jadi kategorinya Kurang Efektif, dan celahnya kriteria c — kebijakan sudah ada tetapi belum diikuti prosedur baku yang jelas.
+[09:37] Satu hal yang perlu disadari: skala kemungkinan risiko ini tidak boleh dinilai rendah. Kita tahu ia sudah terjadi sekali, dan itu bukan dugaan melainkan catatan.
+[09:50] Inilah sumbangan terbesar laporan kejadian terhadap penilaian risiko — ia mengoreksi tebakan dengan kenyataan.
+[09:56] Skalanya kita isi lewat matriks.
+[09:59] Inheren dampak tiga kemungkinan empat. Sekarang dampak tiga kemungkinan tiga — pengendalian yang ada sedikit menurunkan peluangnya, tetapi tidak menghilangkannya.
+[10:11] Target dampak tiga kemungkinan dua, setelah rencana tindaknya dijalankan.
+[10:20] Rencana tindak pengendaliannya, dan inilah tujuan seluruh perjalanan ini.
+[10:26] Laporan seorang pegawai tentang satu surat tugas yang terlambat, berakhir menjadi rencana perbaikan yang punya penanggung jawab dan tenggat.
+[10:33] Isinya konkret: menetapkan bahwa surat tugas terbit paling lambat satu hari sebelum kegiatan dimulai, dan memasukkannya ke dalam prosedur baku penugasan.
+[10:43] Lalu disimpan.
+[11:05] Sekarang kembali ke rekap laporan, dan tautkan laporannya ke risiko yang baru saja dibuat.
+[11:10] Begitu tertaut, tombol Catat ke Formulir 10 muncul — sama seperti kasus pertama tadi.
+[11:17] Perhatikan urutannya, karena tidak bisa dibalik: risikonya dulu, baru kejadiannya dicatat. Bukan sebaliknya.
+
+== Bagian VI. Sesudahnya
+
+[11:27] Mari lihat ke mana semuanya bermuara.
+[11:30] Formulir 10 sekarang memuat kedua kejadian tadi, lengkap dengan risikonya masing-masing.
+[11:39] Dan rencana tindak yang tadi kita susun sudah menunggu di Formulir 8 dan 9, siap dilaporkan realisasinya.
+[11:46] Perjalanannya utuh: seorang pegawai melihat sesuatu, melapor lewat kode QR tanpa punya akun, PIC menelaahnya, risikonya didaftarkan, rencana perbaikannya disusun, dan sekarang pelaksanaannya dipantau.
+[12:01] Itu manajemen risiko yang bekerja — bukan dokumen yang disusun sekali setahun lalu disimpan.
+[12:07] Dua hal untuk diingat dari video ini.
+[12:10] Pertama, pelapor tidak perlu tahu apa pun tentang manajemen risiko. Ia cukup menceritakan apa yang dilihatnya. Sisanya pekerjaan PIC.
+[12:20] Kedua, kejadian yang risikonya belum terdaftar bukan masalah — ia justru cara daftar risiko diperbaiki. Yang jadi masalah kalau laporan seperti itu dibiarkan menggantung tanpa pernah didaftarkan.
+[12:34] Dan sekali lagi, seluruh isian dalam video ini data contoh. Untuk laporan yang sesungguhnya, isinya kembali kepada kejadian yang benar-benar terjadi di tempat Anda.

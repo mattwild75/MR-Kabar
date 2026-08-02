@@ -1,12 +1,20 @@
-# Video Tutorial Pengisian MR Kabar
+# Video Tutorial MR Kabar
 
-Video yang menunjukkan satu perangkat daerah mengisi satu tahun penuh, dari
-Data Umum sampai formulir cetak siap ditandatangani. Terpasang di **kaki
-halaman `/panduan`**, di bawah seluruh bagian panduan.
+Dua video rekaman aplikasi sungguhan, keduanya di **kaki halaman `/panduan`**
+di bawah video edukasi:
+
+| Video | Isi | Naskah |
+|---|---|---|
+| **Tutorial Pengisian** (52 menit, 11 bab) | satu perangkat daerah mengisi satu tahun penuh, dari Data Umum sampai laporan; bab X memperlihatkan cara pimpinan membaca datanya lewat akun peninjau | `naskah.json` |
+| **Tutorial Lapor Kejadian Risiko** (13 menit, 6 bab) | dari sisi pelapor yang masuk lewat kode QR tanpa punya akun, dan sisi PIC yang menelaahnya sampai masuk Formulir 10 — dua kasus: risiko yang sudah terdaftar dan yang belum | `naskah-lapor.json` |
 
 Bedanya dengan video edukasi di `video-edukasi/v3/`: yang itu animasi yang
-menjelaskan **konsepnya**, yang ini rekaman aplikasi sungguhan yang
-menunjukkan **cara mengisinya**.
+menjelaskan **konsepnya**, kedua video ini rekaman aplikasi sungguhan yang
+menunjukkan **cara memakainya**.
+
+Perkakas di folder ini melayani keduanya. Naskahnya ditunjuk lewat `--naskah`,
+dan tiap bagian menyebut sendiri akun mana yang dipakai merekamnya — video
+Lapor berganti empat kali antara akun bersama pelapor dan akun PIC.
 
 ## Cara kerjanya, dan mengapa begitu
 
@@ -45,17 +53,31 @@ rekaman musisi; frasa dan dinamikanya tetap ditulis di `musik.py`.
 ## Urutan build
 
 ```bash
-php    akun.php pasang           # pinjam akun perekam dengan sandi acak
-python suara.py                  # 276 kalimat -> audio/*.mp3 + waktu.json
+php    akun.php pasang PIC_INSPEKTORAT    # pinjam akun, sandinya dibuat acak
+php    akun.php pasang mrkabarvip         # akun peninjau, untuk bab pembacaan data
+python suara.py                           # narasi -> audio/*.mp3 + waktu.json
+python suara.py --naskah naskah-lapor.json
 node   pengendali.cjs --uji --bagian II   # uji satu bagian tanpa merekam
-powershell -File rekam.ps1       # rekam kesepuluh bagian (~1 jam)
+powershell -File rekam.ps1                # rekam seluruh bagian (~1 jam)
 powershell -File rekam.ps1 -Mulai V       # atau lanjutkan dari bagian tertentu
-python rakit.py                  # sambung gambar, susun narasi, subtitle, bab
-python musik.py --dari-waktu     # musik sepanjang video
-bash   campur.sh                 # campur audio + mux + berkas 720p
-bash   pasang.sh                 # pasang ke public/video + build ulang bundel
-php    bersihkan.php hapus       # BUANG seluruh data 2026 hasil rekaman
-php    akun.php pulihkan         # kembalikan sandi asli akun perekam
+python rakit.py                           # sambung gambar, narasi, subtitle, bab
+python rakit.py --naskah naskah-lapor.json
+python musik.py 3110                      # musik sepanjang video
+python musik.py 775 lapor
+bash   campur.sh tutorial                 # campur audio + mux + berkas 720p
+bash   campur.sh lapor
+bash   pasang.sh semua                    # pasang keduanya + build ulang bundel
+php    bersihkan.php hapus                # BUANG seluruh data contoh
+php    akun.php pulihkan                  # kembalikan sandi asli semua akun
+```
+
+Merekam video Lapor per bagian dari PowerShell (daftar bagiannya disebut di
+luar skrip, karena PowerShell menggabungkan argumen larik jadi satu untai):
+
+```powershell
+foreach ($b in @('I','II','III','IV','V','VI')) {
+  node pengendali.cjs --naskah naskah-lapor.json --bagian $b
+}
 ```
 
 Dua langkah terakhir **wajib**. Data yang dibuat saat merekam adalah data
@@ -105,8 +127,25 @@ dikembalikan persis seperti semula.
   `bersihkan.php` memakai nomor baris tertinggi sebelum rekaman sebagai batas,
   bukan waktu pembuatan.
 - **PowerShell 5.1 membaca `.ps1` sebagai ANSI**, jadi `rekam.ps1` ditulis
-  tanpa huruf non-ASCII; dan `2>&1` pada program native membuat keluaran biasa
-  dianggap galat.
+  tanpa huruf non-ASCII; `2>&1` pada program native membuat keluaran biasa
+  dianggap galat; dan argumen larik seperti `-Bagian I,II,III` digabung jadi
+  satu untai berspasi.
+- **Radix menyembunyikan input kotak centang aslinya di luar layar** dengan
+  `transform: translateX(-100%)`, tetapi input itu MASIH BERUKURAN. Uji
+  "terlihat" apa pun akan meloloskannya, dan klik ke koordinatnya mendarat
+  entah di mana. Yang dicari harus `[role=checkbox]` lebih dulu.
+- **Daftar pilihan yang panjang bergulir sendiri saat kursor melintasinya.**
+  Pemilih perangkat daerah punya 50 butir; butir yang koordinatnya sudah
+  dihitung sudah bergeser saat kursornya tiba. Untuk daftar seperti itu dipakai
+  pencarian papan ketik (`lewatKetik`), bukan kursor.
+- **Nama menu berulang di grup berbeda.** "Risiko" ada di Form Input dan di
+  Form Cetak. Penelusuran menu karena itu dikurung ke dalam `<li>` grup yang
+  sedang dibuka; grupnya ditandai LEBIH DULU, baru anaknya diperiksa.
+- **Akun bersama LAPOR tidak bisa lewat formulir masuk biasa.** Jalur masuknya
+  alamat kode QR, ditulis sebagai `masukLewat` pada bagiannya.
+- **Zoom pada dialog harus menyasar dialognya**, bukan `#app` — dialog Radix
+  digambar lewat portal di luar `#app`, jadi memperbesar `#app` tidak
+  menyentuhnya sama sekali.
 
 ## Pengaturannya di aplikasi
 
@@ -127,10 +166,20 @@ Kolomnya terpisah dari kolom video edukasi (`tutorial_video_*` vs
 
 ## Isi videonya
 
-Sepuluh bagian: sebelum mulai, Data Umum, CEE (1a-1d), Risiko Strategis Pemda,
-Risiko Strategis PD, Risiko Operasional PD, monitoring dan evaluasi, form
-cetak, laporan, penutup.
+**Tutorial Pengisian**, sebelas bagian: sebelum mulai, Data Umum, CEE (1a-1d),
+Risiko Strategis Pemda, Risiko Strategis PD, Risiko Operasional PD, monitoring
+dan evaluasi, form cetak, laporan, membaca data dan mengambil keputusan,
+penutup.
 
 Bagian V.2 adalah intinya — satu risiko dikerjakan pelan dari kolom pertama
 sampai skala target, setiap kolom dijelaskan alasannya, termasuk mengapa pada
 skala target dampaknya tidak turun sementara kemungkinannya turun.
+
+Bagian X dikerjakan dengan akun peninjau yang hanya-baca, dan membaca data
+2025 yang sungguhan lewat penyaring tahun Dasbor — terpisah dari Tahun Aktif,
+jadi tidak ada setelan global yang perlu diubah demi merekam.
+
+**Tutorial Lapor**, enam bagian. Yang paling perlu dipahami bagian V: Formulir
+10 menolak dicatat tanpa risiko terdaftar, sehingga kejadian yang risikonya
+belum pernah didaftarkan memaksa PIC membuat risikonya dulu lengkap dengan
+rencana tindaknya. Urutannya tidak bisa dibalik.

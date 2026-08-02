@@ -717,31 +717,31 @@ Halaman itu untuk pegawai yang tidak punya akun PIC. Mereka tetap bisa melaporka
 00:40:23.068 --> 00:40:28.420
 Laporan yang masuk lewat jalur itu direkap dan bisa ditarik menjadi catatan resmi di Formulir 10.
 
-00:40:30.476 --> 00:40:35.060
+00:40:30.470 --> 00:40:35.054
 Sekarang bagian yang paling menyenangkan, karena tidak ada satu pun yang perlu diketik.
 
-00:40:35.060 --> 00:40:42.044
+00:40:35.054 --> 00:40:42.038
 Menu Form Cetak menghasilkan seluruh kertas kerja penilaian risiko dalam bentuk siap ditandatangani.
 
-00:40:42.044 --> 00:40:50.108
+00:40:42.038 --> 00:40:50.102
 Dan ini yang perlu dipegang: tidak ada satu kolom pun di menu ini yang bisa diisi. Semuanya berasal dari formulir yang tadi kita kerjakan.
 
-00:40:50.108 --> 00:40:57.020
+00:40:50.102 --> 00:40:57.014
 Kalau ada yang kosong di sini, yang diperbaiki formulir asalnya — bukan halaman cetaknya.
 
-00:40:57.288 --> 00:41:02.856
+00:40:57.289 --> 00:41:02.857
 Ini Formulir 2b, Konteks Risiko Strategis Perangkat Daerah.
 
-00:41:02.856 --> 00:41:12.144
+00:41:02.857 --> 00:41:12.145
 Perhatikan kepala halamannya — nama perangkat daerah, periode, tahun penilaian. Semuanya datang dari Data Umum yang kita isi paling awal tadi.
 
-00:41:12.144 --> 00:41:16.968
+00:41:12.145 --> 00:41:16.969
 Sekarang Anda melihat mengapa halaman itu dikerjakan pertama.
 
-00:41:17.243 --> 00:41:21.851
+00:41:17.234 --> 00:41:21.842
 Formulir 3b, Identifikasi Risiko Strategis Perangkat Daerah.
 
-00:41:21.851 --> 00:41:34.451
+00:41:21.842 --> 00:41:34.442
 Seluruh kolom yang tadi kita isi satu per satu kini berjajar dalam satu tabel — pernyataan risiko, penyebab, dampak, pengendalian yang ada, sampai celah pengendaliannya.
 
 00:41:34.723 --> 00:41:41.707
@@ -759,72 +759,162 @@ Selera Risiko Kabupaten Aceh Barat ditetapkan sampai dengan peringkat Sedang. Ar
 00:42:09.115 --> 00:42:18.499
 Batas itu ketetapan pemerintah daerah, bukan bawaan aplikasi. Kalau suatu saat digeser, isi daftar ini berubah sendiri tanpa satu baris pun disentuh.
 
-00:42:18.766 --> 00:42:25.150
+00:42:18.778 --> 00:42:25.162
 Formulir 7, Rencana Tindak Pengendalian atas Hasil Identifikasi Risiko.
 
-00:42:25.150 --> 00:42:34.414
+00:42:25.162 --> 00:42:34.426
 Bandingkan dengan Formulir 6 yang berisi rencana tindak atas CEE. Isinya harus berbeda — yang satu memperbaiki lingkungan pengendalian, yang satu menangani risiko tertentu.
 
-00:42:34.414 --> 00:42:42.718
+00:42:34.426 --> 00:42:42.730
 Setiap formulir ini bisa diunduh sebagai PDF, lengkap dengan blok tanda tangan yang namanya kita isi di Data Umum.
 
-00:42:44.775 --> 00:42:50.823
+00:42:44.771 --> 00:42:50.819
 Empat laporan menutup seluruh rangkaian ini, dan yang membedakannya bukan isinya melainkan siapa yang menyusunnya.
 
-00:42:50.823 --> 00:43:00.375
+00:42:50.819 --> 00:43:00.371
 Laporan 11, Pelaksanaan Penilaian Risiko. Disusun perangkat daerah, sesudah penilaian risiko selesai.
 
-00:43:00.375 --> 00:43:08.319
+00:43:00.371 --> 00:43:08.315
 Laporan 12, Laporan Berkala Pengelolaan Risiko. Juga disusun perangkat daerah, tetapi berkala sepanjang tahun.
 
-00:43:08.586 --> 00:43:13.458
+00:43:08.588 --> 00:43:13.460
 Laporan 13, Pemantauan oleh Unit Kepatuhan.
 
-00:43:13.458 --> 00:43:17.778
+00:43:13.460 --> 00:43:17.780
 Dan Laporan 14, Pembinaan oleh Komite Pengelolaan Risiko.
 
-00:43:17.778 --> 00:43:29.442
+00:43:17.780 --> 00:43:29.444
 Dua yang terakhir ini paling sering terlewat, dan alasannya sederhana: penyusunnya bukan perangkat daerah, melainkan unit kepatuhan dan komite di tingkat pemerintah daerah.
 
-00:43:29.442 --> 00:43:37.266
+00:43:29.444 --> 00:43:37.268
 Kalau di perangkat daerah Anda keduanya belum pernah ada, itu bukan berarti tidak wajib. Itu berarti strukturnya yang belum berjalan.
 
-00:43:39.249 --> 00:43:42.633
+00:43:39.248 --> 00:43:42.632
 Kita kembali ke Dasbor, tempat kita mulai tadi.
 
-00:43:42.633 --> 00:43:54.489
+00:43:42.632 --> 00:43:54.488
 Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
 
-00:43:54.489 --> 00:44:01.521
+00:43:54.488 --> 00:44:01.520
 Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
 
-00:44:01.787 --> 00:44:07.115
+00:44:21.236 --> 00:44:26.564
 Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
 
-00:44:07.115 --> 00:44:15.611
+00:44:26.564 --> 00:44:35.060
 Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
 
-00:44:15.875 --> 00:44:20.075
+00:45:09.554 --> 00:45:13.754
 Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
 
-00:44:20.075 --> 00:44:34.595
+00:45:13.754 --> 00:45:28.274
 Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
 
-00:44:34.850 --> 00:44:41.402
+00:45:57.218 --> 00:46:03.770
 Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
 
-00:44:41.402 --> 00:44:48.482
+00:46:03.770 --> 00:46:10.850
 Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
 
-00:44:48.748 --> 00:45:00.508
+00:46:34.852 --> 00:46:46.612
 Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
 
-00:45:00.508 --> 00:45:14.236
+00:46:46.612 --> 00:47:00.340
 Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
 
-00:45:14.236 --> 00:45:24.964
+00:47:00.340 --> 00:47:10.804
+Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+
+00:47:10.804 --> 00:47:21.532
 Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
 
-00:45:24.964 --> 00:45:33.964
+00:47:21.532 --> 00:47:30.532
+Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
+
+00:47:25.321 --> 00:47:31.777
+Kepatuhan Pelaporan menunjukkan berapa perangkat daerah yang sudah mengisi Formulir 8, 9, dan 10.
+
+00:47:31.777 --> 00:47:38.857
+Ini kelihatan seperti urusan administrasi, dan justru karena itu sering diabaikan pimpinan.
+
+00:47:38.857 --> 00:47:50.305
+Padahal tanpa Formulir 8, 9, dan 10, seluruh angka yang tadi kita baca tidak bisa diverifikasi. Kita hanya tahu apa yang direncanakan, tidak tahu apa yang dikerjakan.
+
+00:47:50.305 --> 00:48:01.897
+Angka kepatuhan yang rendah berarti Dasbor ini sedang menampilkan rencana, bukan kenyataan. Itu perlu diketahui sebelum keputusan apa pun diambil darinya.
+
+00:48:02.151 --> 00:48:07.503
+Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi.
+
+00:48:07.503 --> 00:48:18.111
+Bandingkan dengan penilaian kemungkinan yang ada di atas. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
+
+00:48:18.111 --> 00:48:28.047
+Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya.
+
+00:48:28.047 --> 00:48:36.999
+Dua tren lima tahun di bawahnya menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
+
+00:48:37.266 --> 00:48:41.610
+Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya.
+
+00:48:41.610 --> 00:48:56.898
+Daftar Risiko Prioritas pada Formulir 5, hasil analisis pada Formulir 4, dan laporan Bab Empat pada Formulir 11 sampai 14 — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
+
+00:48:56.898 --> 00:49:00.258
+Akun peninjau bisa membuka dan mengunduh semuanya.
+
+00:49:00.522 --> 00:49:07.074
+Terakhir, satu hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
+
+00:49:07.074 --> 00:49:16.050
+Akun peninjau tidak bisa mengubah apa pun. Bukan karena tombolnya disembunyikan, melainkan karena aplikasi menolak seluruh perintah penulisan di sisi server.
+
+00:49:16.050 --> 00:49:26.754
+Jadi pimpinan bisa membuka formulir mana pun, menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
+
+00:49:26.754 --> 00:49:32.778
+Perhatikan formulir ini: barisnya bisa dibaca lengkap, tetapi tidak ada tombol tambah maupun ubah.
+
+00:49:34.714 --> 00:49:38.098
+Kita kembali ke Dasbor, tempat kita mulai tadi.
+
+00:49:38.098 --> 00:49:49.954
+Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
+
+00:49:49.954 --> 00:49:56.986
+Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
+
+00:49:57.254 --> 00:50:02.582
+Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
+
+00:50:02.582 --> 00:50:11.078
+Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
+
+00:50:11.745 --> 00:50:15.945
+Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
+
+00:50:15.945 --> 00:50:30.465
+Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
+
+00:50:30.731 --> 00:50:37.283
+Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
+
+00:50:37.283 --> 00:50:44.363
+Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
+
+00:50:44.624 --> 00:50:56.384
+Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+
+00:50:56.384 --> 00:51:10.112
+Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
+
+00:51:10.112 --> 00:51:20.576
+Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+
+00:51:20.576 --> 00:51:31.304
+Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+
+00:51:31.304 --> 00:51:40.304
 Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
 

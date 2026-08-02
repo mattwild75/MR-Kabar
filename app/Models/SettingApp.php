@@ -32,6 +32,13 @@ class SettingApp extends Model
         'tutorial_video_gain_music',
         'tutorial_video_subtitle_enabled',
         'tutorial_video_subtitle_size',
+        'lapor_video_enabled',
+        'lapor_video_path',
+        'lapor_video_subtitle_path',
+        'lapor_video_gain_narration',
+        'lapor_video_gain_music',
+        'lapor_video_subtitle_enabled',
+        'lapor_video_subtitle_size',
         'warna',
         'seo',
         'contact_email',
@@ -56,6 +63,11 @@ class SettingApp extends Model
         'tutorial_video_gain_music' => 'integer',
         'tutorial_video_subtitle_enabled' => 'boolean',
         'tutorial_video_subtitle_size' => 'integer',
+        'lapor_video_enabled' => 'boolean',
+        'lapor_video_gain_narration' => 'integer',
+        'lapor_video_gain_music' => 'integer',
+        'lapor_video_subtitle_enabled' => 'boolean',
+        'lapor_video_subtitle_size' => 'integer',
     ];
 
     /** Cache per-request agar baris setting tidak diquery berulang kali. */

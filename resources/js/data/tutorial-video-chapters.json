@@ -73,10 +73,18 @@
  },
  {
   "id": "bagian-x",
-  "judul": "X. Penutup",
+  "judul": "X. Membaca data dan mengambil keputusan",
   "mulai": 2618.43,
-  "selesai": 2735.13,
-  "durasi": 116.7,
+  "selesai": 2973.9,
+  "durasi": 355.47,
+  "sasaran": "Pimpinan"
+ },
+ {
+  "id": "bagian-xi",
+  "judul": "XI. Penutup",
+  "mulai": 2973.9,
+  "selesai": 3101.47,
+  "durasi": 127.57,
   "sasaran": "Semua"
  }
 ]

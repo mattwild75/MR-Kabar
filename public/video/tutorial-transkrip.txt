@@ -292,18 +292,51 @@ Seluruh isian dalam video ini adalah DATA CONTOH.
 [43:17] Dua yang terakhir ini paling sering terlewat, dan alasannya sederhana: penyusunnya bukan perangkat daerah, melainkan unit kepatuhan dan komite di tingkat pemerintah daerah.
 [43:29] Kalau di perangkat daerah Anda keduanya belum pernah ada, itu bukan berarti tidak wajib. Itu berarti strukturnya yang belum berjalan.
 
-== Bagian X. Penutup
+== Bagian X. Membaca data dan mengambil keputusan
 
 [43:39] Kita kembali ke Dasbor, tempat kita mulai tadi.
 [43:42] Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
 [43:54] Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
-[44:01] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
-[44:07] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
-[44:15] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
-[44:20] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
-[44:34] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
-[44:41] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
-[44:48] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
-[45:00] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
-[45:14] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
-[45:24] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
+[44:21] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
+[44:26] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
+[45:09] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
+[45:13] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
+[45:57] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
+[46:03] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
+[46:34] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+[46:46] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
+[47:00] Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+[47:10] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+[47:21] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
+[47:25] Kepatuhan Pelaporan menunjukkan berapa perangkat daerah yang sudah mengisi Formulir 8, 9, dan 10.
+[47:31] Ini kelihatan seperti urusan administrasi, dan justru karena itu sering diabaikan pimpinan.
+[47:38] Padahal tanpa Formulir 8, 9, dan 10, seluruh angka yang tadi kita baca tidak bisa diverifikasi. Kita hanya tahu apa yang direncanakan, tidak tahu apa yang dikerjakan.
+[47:50] Angka kepatuhan yang rendah berarti Dasbor ini sedang menampilkan rencana, bukan kenyataan. Itu perlu diketahui sebelum keputusan apa pun diambil darinya.
+[48:02] Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi.
+[48:07] Bandingkan dengan penilaian kemungkinan yang ada di atas. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
+[48:18] Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya.
+[48:28] Dua tren lima tahun di bawahnya menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
+[48:37] Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya.
+[48:41] Daftar Risiko Prioritas pada Formulir 5, hasil analisis pada Formulir 4, dan laporan Bab Empat pada Formulir 11 sampai 14 — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
+[48:56] Akun peninjau bisa membuka dan mengunduh semuanya.
+[49:00] Terakhir, satu hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
+[49:07] Akun peninjau tidak bisa mengubah apa pun. Bukan karena tombolnya disembunyikan, melainkan karena aplikasi menolak seluruh perintah penulisan di sisi server.
+[49:16] Jadi pimpinan bisa membuka formulir mana pun, menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
+[49:26] Perhatikan formulir ini: barisnya bisa dibaca lengkap, tetapi tidak ada tombol tambah maupun ubah.
+
+== Bagian XI. Penutup
+
+[49:34] Kita kembali ke Dasbor, tempat kita mulai tadi.
+[49:38] Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
+[49:49] Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
+[49:57] Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
+[50:02] Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
+[50:11] Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
+[50:15] Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
+[50:30] Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
+[50:37] Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
+[50:44] Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+[50:56] Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
+[51:10] Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+[51:20] Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+[51:31] Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.

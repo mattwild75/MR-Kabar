@@ -27,7 +27,10 @@ REKAM = os.path.join(DIR, "rekam")
 AUDIO = os.path.join(DIR, "audio")
 KELUAR = os.path.join(DIR, "keluaran")
 SR = 44100
-URUTAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+URUTAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI"]
+NASKAH = "naskah.json"
+AWALAN = ""          # awalan berkas rekaman, mengikuti nama naskah
+NAMA = "tutorial"    # awalan berkas keluaran
 
 
 def jalankan(perintah, **kw):
@@ -66,11 +69,18 @@ def utama():
     os.makedirs(KELUAR, exist_ok=True)
     # Bisa dibatasi ke sebagian bagian, untuk menguji seluruh pipa perakitan
     # tanpa menunggu kesepuluh bagian selesai direkam.
-    global URUTAN
+    global URUTAN, NASKAH, AWALAN, NAMA
+    if "--naskah" in sys.argv:
+        NASKAH = sys.argv[sys.argv.index("--naskah") + 1]
+        AWALAN = NASKAH.replace("naskah-", "").replace(".json", "") + "-"
+        NAMA = AWALAN.rstrip("-")
+        # Bagiannya diambil dari naskah itu sendiri, bukan dari daftar tetap.
+        URUTAN = [b["nomor"] for b in json.load(
+            io.open(os.path.join(DIR, NASKAH), encoding="utf-8"))["bagian"]]
     if "--bagian" in sys.argv:
         URUTAN = sys.argv[sys.argv.index("--bagian") + 1].split(",")
-        print("hanya merakit bagian:", ", ".join(URUTAN))
-    naskah = json.load(io.open(os.path.join(DIR, "naskah.json"), encoding="utf-8"))
+    print(f"naskah: {NASKAH}  bagian: {', '.join(URUTAN)}")
+    naskah = json.load(io.open(os.path.join(DIR, NASKAH), encoding="utf-8"))
     lama_narasi = json.load(io.open(os.path.join(AUDIO, "waktu.json"), encoding="utf-8"))
 
     # Kalimat narasi per langkah, menurut urutan naskah.
@@ -91,10 +101,10 @@ def utama():
     # gambarnya. Karena itu yang diukur hasil encode-nya, bukan rekamannya.
     print("meng-encode tiap bagian (butuh waktu)...")
     for nomor in URUTAN:
-        vid = os.path.join(REKAM, f"bagian-{nomor}.webm")
+        vid = os.path.join(REKAM, f"{AWALAN}bagian-{nomor}.webm")
         if not os.path.exists(vid):
             raise SystemExit(f"belum ada rekaman bagian {nomor}: {vid}")
-        mp4 = os.path.join(KELUAR, f"bagian-{nomor}.mp4")
+        mp4 = os.path.join(KELUAR, f"{NAMA}-bagian-{nomor}.mp4")
         # Hasil encode dipakai ulang, KECUALI kalau rekamannya lebih baru.
         # Tanpa syarat kedua, satu bagian yang direkam ulang akan diam-diam
         # dirakit dari hasil encode lama, dan tidak ada tanda apa pun bahwa
@@ -111,8 +121,8 @@ def utama():
     potongan, garis, bab = [], [], []
     geser = 0.0
     for nomor in URUTAN:
-        vid = os.path.join(KELUAR, f"bagian-{nomor}.mp4")
-        wkt = os.path.join(REKAM, f"waktu-{nomor}.json")
+        vid = os.path.join(KELUAR, f"{NAMA}-bagian-{nomor}.mp4")
+        wkt = os.path.join(REKAM, f"{AWALAN}waktu-{nomor}.json")
         d = durasi(vid)
         potongan.append(vid)
         bab.append({
@@ -122,7 +132,14 @@ def utama():
             "selesai": round(geser + d, 2),
             "durasi": round(d, 2),
             # Sasaran penonton per bab, dipakai penyaring di dalam pemutar.
-            "sasaran": "Semua" if nomor in ("I", "X") else "PIC OPD",
+            # Bab pembuka dan penutup untuk semua orang; bab pembacaan data
+            # untuk pimpinan; sisanya untuk yang mengisi. Dihitung dari posisi,
+            # bukan dari nomor tetap - nomor bagian bergeser saat ada yang
+            # disisipkan, dan pernah membuat penandanya menempel di bab yang
+            # salah.
+            "sasaran": ("Semua" if nomor in (URUTAN[0], URUTAN[-1])
+                        else "Pimpinan" if 'keputusan' in judul_bagian[nomor].lower()
+                        else "PIC OPD"),
         })
 
         for langkah in json.load(io.open(wkt, encoding="utf-8")):
@@ -148,7 +165,7 @@ def utama():
         j = min(i + len(pcm), len(jalur))
         jalur[i:j] += pcm[: j - i]
     np.clip(jalur, -1.0, 1.0, out=jalur)
-    narasi_wav = os.path.join(KELUAR, "narasi.wav")
+    narasi_wav = os.path.join(KELUAR, f"{NAMA}-narasi.wav")
     subprocess.run(
         ["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1",
          "-i", "-", "-c:a", "pcm_s16le", narasi_wav],
@@ -157,17 +174,17 @@ def utama():
     print(f"narasi.wav: {os.path.getsize(narasi_wav) / 1024 / 1024:.1f} MB")
 
     # ── 4: subtitle dan daftar bab ───────────────────────────────────────────
-    with io.open(os.path.join(KELUAR, "subtitle.srt"), "w", encoding="utf-8") as f:
+    with io.open(os.path.join(KELUAR, f"{NAMA}-subtitle.srt"), "w", encoding="utf-8") as f:
         for i, g in enumerate(garis, 1):
             f.write(f"{i}\n{waktu_srt(g['mulai'])} --> {waktu_srt(g['selesai'])}\n{g['teks']}\n\n")
-    with io.open(os.path.join(KELUAR, "subtitle.vtt"), "w", encoding="utf-8") as f:
+    with io.open(os.path.join(KELUAR, f"{NAMA}-subtitle.vtt"), "w", encoding="utf-8") as f:
         f.write("WEBVTT\n\n")
         for g in garis:
             f.write(f"{waktu_vtt(g['mulai'])} --> {waktu_vtt(g['selesai'])}\n{g['teks']}\n\n")
-    io.open(os.path.join(KELUAR, "bab.json"), "w", encoding="utf-8").write(
+    io.open(os.path.join(KELUAR, f"{NAMA}-bab.json"), "w", encoding="utf-8").write(
         json.dumps(bab, indent=1, ensure_ascii=False))
 
-    with io.open(os.path.join(KELUAR, "transkrip.txt"), "w", encoding="utf-8") as f:
+    with io.open(os.path.join(KELUAR, f"{NAMA}-transkrip.txt"), "w", encoding="utf-8") as f:
         f.write("Transkrip Video Tutorial Pengisian MR Kabar\n")
         f.write("Seluruh isian dalam video ini adalah DATA CONTOH.\n\n")
         nomor_bab = 0
@@ -182,7 +199,7 @@ def utama():
     print("subtitle, daftar bab, dan transkrip ditulis")
 
     # ── 5: video ─────────────────────────────────────────────────────────────
-    daftar = os.path.join(KELUAR, "potongan.txt")
+    daftar = os.path.join(KELUAR, f"{NAMA}-potongan.txt")
     with io.open(daftar, "w", encoding="utf-8") as f:
         for p in potongan:
             f.write(f"file '{p.replace(chr(92), '/')}'\n")
@@ -190,7 +207,7 @@ def utama():
     # Disambung tanpa encode ulang. Semua potongan sudah punya parameter yang
     # sama, dan menyalin apa adanya memastikan durasi gabungannya persis sama
     # dengan jumlah durasi yang tadi dipakai menyusun garis waktu.
-    gabung = os.path.join(KELUAR, "gambar.mp4")
+    gabung = os.path.join(KELUAR, f"{NAMA}-gambar.mp4")
     print("menyambung potongan...")
     jalankan(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0",
               "-i", daftar, "-c", "copy", gabung])

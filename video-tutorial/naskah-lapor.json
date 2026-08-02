@@ -1,0 +1,1179 @@
+{
+ "judul": "Tutorial Lapor Kejadian Risiko",
+ "keterangan": "Naskah video kedua: alur laporan kejadian risiko dari sisi pelapor sampai masuk rencana tindak pengendalian.",
+ "suara": {
+  "L": "id-ID-ArdiNeural",
+  "P": "id-ID-GadisNeural"
+ },
+ "bagian": [
+  {
+   "nomor": "I",
+   "judul": "Sebelum mulai",
+   "akun": "LAPOR",
+   "dariLogin": true,
+   "langkah": [
+    {
+     "id": "I-01",
+     "narasi": [
+      {
+       "id": "L001",
+       "suara": "L",
+       "teks": "Video ini tentang satu hal yang sering terlewat: apa yang terjadi setelah risiko benar-benar terjadi."
+      },
+      {
+       "id": "L002",
+       "suara": "P",
+       "teks": "Semua formulir yang lain berbicara tentang sesuatu yang belum terjadi. Yang ini tentang yang sudah."
+      },
+      {
+       "id": "L003",
+       "suara": "L",
+       "teks": "Dan ia punya dua sisi. Sisi pelapor — siapa pun yang melihat kejadiannya, termasuk pegawai yang tidak punya akun aplikasi. Lalu sisi PIC, yang menelaah laporan itu dan menindaklanjutinya."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "nomor": "1",
+       "teks": "Sebelum mulai",
+       "ms": 5000
+      },
+      {
+       "t": "jeda",
+       "ms": 700
+      }
+     ]
+    },
+    {
+     "id": "I-02",
+     "narasi": [
+      {
+       "id": "L004",
+       "suara": "P",
+       "teks": "Kita akan menempuh dua kasus, karena aplikasinya memang memperlakukannya berbeda."
+      },
+      {
+       "id": "L005",
+       "suara": "L",
+       "teks": "Kasus pertama: kejadian yang risikonya sudah terdaftar di kertas kerja. Ini yang paling sering, dan paling cepat diselesaikan."
+      },
+      {
+       "id": "L006",
+       "suara": "P",
+       "teks": "Kasus kedua: kejadian yang risikonya belum pernah terdaftar sama sekali. Ini yang paling penting dipahami, karena penanganannya berbeda dan tidak bisa dilompati."
+      },
+      {
+       "id": "L007",
+       "suara": "L",
+       "teks": "Seperti video tutorial sebelumnya, seluruh isian di sini data contoh. Untuk laporan yang sesungguhnya, isinya kembali kepada kejadian yang benar-benar Anda lihat."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "teks": "Seluruh isian dalam video ini adalah DATA CONTOH",
+       "ms": 8000
+      },
+      {
+       "t": "jeda",
+       "ms": 800
+      }
+     ]
+    },
+    {
+     "id": "I-03",
+     "narasi": [
+      {
+       "id": "L008",
+       "suara": "P",
+       "teks": "Kita mulai dari sisi pelapor, dan perhatikan bagaimana ia masuk."
+      },
+      {
+       "id": "L009",
+       "suara": "L",
+       "teks": "Pelapor tidak mengetik nama pengguna dan kata sandi. Ia memindai kode QR yang ditempel di kantor atau dibagikan lewat pesan, dan kode itu langsung membawanya ke formulir lapor."
+      },
+      {
+       "id": "L010",
+       "suara": "P",
+       "teks": "Ini disengaja. Orang yang baru melihat kejadian tidak boleh dihalangi urusan akun."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "buka",
+       "url": "/login/lapor-kejadian"
+      },
+      {
+       "t": "jeda",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "I-04",
+     "narasi": [
+      {
+       "id": "L011",
+       "suara": "L",
+       "teks": "Perhatikan menu di sebelah kiri. Isinya cuma tiga."
+      },
+      {
+       "id": "L012",
+       "suara": "P",
+       "teks": "Akun ini akun bersama yang dipakai banyak orang, jadi jangkauannya sengaja dibuat sesempit mungkin. Ia tidak bisa membuka data risiko perangkat daerah mana pun, tidak bisa mengubah apa pun, dan tidak bisa melihat laporan orang lain."
+      },
+      {
+       "id": "L013",
+       "suara": "L",
+       "teks": "Yang bisa dilakukannya hanya satu: melapor."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "sorot",
+       "teks": "Lapor Kejadian Risiko",
+       "ms": 2600
+      },
+      {
+       "t": "jeda",
+       "ms": 1200
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nomor": "II",
+   "judul": "Pelapor: kejadian dari risiko yang sudah terdaftar",
+   "akun": "LAPOR",
+   "langkah": [
+    {
+     "id": "II-01",
+     "narasi": [
+      {
+       "id": "L014",
+       "suara": "P",
+       "teks": "Di bagian atas formulir ada dua mode pelaporan, dan pilihan inilah yang menentukan seluruh sisanya."
+      },
+      {
+       "id": "L015",
+       "suara": "L",
+       "teks": "Cek Risiko yang Sudah Terjadi dipakai kalau pelapor tahu kejadian ini berasal dari risiko yang memang sudah terdaftar. Lapor Kejadian Baru dipakai kalau tidak."
+      },
+      {
+       "id": "L016",
+       "suara": "P",
+       "teks": "Kalau pelapor ragu, pilih saja Lapor Kejadian Baru. Menautkannya nanti adalah pekerjaan PIC, bukan pekerjaan pelapor."
+      },
+      {
+       "id": "L017",
+       "suara": "L",
+       "teks": "Untuk kasus pertama ini kita pilih yang kiri."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "buka",
+       "url": "/lapor-kejadian"
+      },
+      {
+       "t": "jeda",
+       "ms": 1400
+      },
+      {
+       "t": "klik",
+       "teks": "Cek Risiko yang Sudah Terjadi",
+       "tunggu": 1400
+      }
+     ]
+    },
+    {
+     "id": "II-02",
+     "narasi": [
+      {
+       "id": "L018",
+       "suara": "L",
+       "teks": "Muncul kolom pencarian risiko terdaftar. Ia menelusuri ketiga tingkatan sekaligus — risiko strategis pemerintah daerah, strategis perangkat daerah, dan operasional."
+      },
+      {
+       "id": "L019",
+       "suara": "P",
+       "teks": "Kita cari risiko tentang pengawasan yang tidak sesuai program kerja pengawasan tahunan."
+      },
+      {
+       "id": "L020",
+       "suara": "L",
+       "teks": "Begitu risikonya dipilih, laporan ini otomatis tertaut ke sana. Itu menghemat satu langkah telaah PIC nanti."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "pilih",
+       "ph": "Ketik uraian risiko",
+       "cari": "pengawasan internal tidak sesuai",
+       "nilai": "Pengawasan internal tidak sesuai dengan PKPT",
+       "tunggu": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 1800
+      }
+     ]
+    },
+    {
+     "id": "II-03",
+     "narasi": [
+      {
+       "id": "L021",
+       "suara": "P",
+       "teks": "Sekarang identitas pelapor dan isi kejadiannya."
+      },
+      {
+       "id": "L022",
+       "suara": "L",
+       "teks": "Nama wajib. Surel dan nomor telepon boleh dikosongkan — banyak pelapor tidak ingin dihubungi, dan aplikasi tidak memaksanya."
+      },
+      {
+       "id": "L023",
+       "suara": "P",
+       "teks": "Perangkat daerah terkait juga boleh dikosongkan. Pelapor awam belum tentu tahu perangkat daerah mana yang mengurusnya, dan Admin bisa melengkapinya belakangan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "ketik",
+       "kolomLabel": "Nama Lengkap",
+       "teks": "Rahmat Hidayat",
+       "laju": 1.3
+      },
+      {
+       "t": "ketik",
+       "kolomLabel": "Email",
+       "teks": "rahmat.hidayat@contoh.go.id",
+       "laju": 1.8
+      },
+      {
+       "t": "pilih",
+       "pemicu": "Tidak ada OPD",
+       "nilai": "INSPEKTORAT",
+       "lewatKetik": true
+      }
+     ]
+    },
+    {
+     "id": "II-04",
+     "narasi": [
+      {
+       "id": "L024",
+       "suara": "L",
+       "teks": "Kolom Kejadian adalah inti laporan ini, dan ada satu hal yang membedakannya dari pernyataan risiko."
+      },
+      {
+       "id": "L025",
+       "suara": "P",
+       "teks": "Pernyataan risiko ditulis sebagai sesuatu yang bisa terjadi. Kejadian ditulis sebagai sesuatu yang sudah terjadi — dengan waktu, tempat, dan angka kalau ada."
+      },
+      {
+       "id": "L026",
+       "suara": "L",
+       "teks": "Makin jelas kejadiannya ditulis, makin sedikit PIC harus menebak."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "ketik",
+       "ph": "Jelaskan kejadian risiko",
+       "teks": "Dua penugasan pengawasan pada Triwulan III tidak dapat dilaksanakan sesuai jadwal Program Kerja Pengawasan Tahunan karena auditor yang ditugaskan sedang menangani pemeriksaan khusus.",
+       "laju": 1.5
+      },
+      {
+       "t": "ketik",
+       "kolomLabel": "Tempat",
+       "teks": "Kantor Inspektorat Kabupaten Aceh Barat",
+       "laju": 1.8
+      }
+     ]
+    },
+    {
+     "id": "II-05",
+     "narasi": [
+      {
+       "id": "L027",
+       "suara": "P",
+       "teks": "Waktu kejadian diisi lewat pemilih tanggal dan jam."
+      },
+      {
+       "id": "L028",
+       "suara": "L",
+       "teks": "Kalau kejadiannya berlangsung berhari-hari, isikan saat pertama kali diketahui — itu yang berguna untuk menelusuri kembali."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "klik",
+       "teks": "Pilih tanggal",
+       "tunggu": 1200
+      },
+      {
+       "t": "klik",
+       "teks": "15",
+       "tunggu": 900
+      },
+      {
+       "t": "jeda",
+       "ms": 800
+      }
+     ]
+    },
+    {
+     "id": "II-06",
+     "narasi": [
+      {
+       "id": "L029",
+       "suara": "L",
+       "teks": "Terakhir, Pemicu. Bentuknya sama persis dengan kolom penyebab risiko yang dipakai PIC — internal delapan kategori, eksternal enam."
+      },
+      {
+       "id": "L030",
+       "suara": "P",
+       "teks": "Pelapor tidak wajib mengisinya, dan tidak perlu merasa harus tahu penggolongannya. Satu saja sudah sangat membantu."
+      },
+      {
+       "id": "L031",
+       "suara": "L",
+       "teks": "Kita tandai Method, karena persoalannya pada penjadwalan — bukan pada orangnya."
+      },
+      {
+       "id": "L032",
+       "suara": "P",
+       "teks": "Inilah bahan yang nanti dipakai PIC menilai apakah risikonya perlu dinilai ulang, atau bahkan didaftarkan kalau memang belum ada."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "centang",
+       "label": "Method",
+       "teks": "Penjadwalan ulang penugasan belum diatur ketika ada permintaan pemeriksaan di luar rencana",
+       "laju": 1.6
+      }
+     ]
+    },
+    {
+     "id": "II-07",
+     "narasi": [
+      {
+       "id": "L033",
+       "suara": "P",
+       "teks": "Kirim laporannya."
+      },
+      {
+       "id": "L034",
+       "suara": "L",
+       "teks": "Begitu terkirim, PIC perangkat daerah terkait langsung menerima pemberitahuan. Pelapor tidak perlu menelepon siapa pun."
+      },
+      {
+       "id": "L035",
+       "suara": "P",
+       "teks": "Dan pekerjaan pelapor selesai sampai di sini. Sisanya bukan urusannya."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "klik",
+       "teks": "Lapor",
+       "tunggu": 3000,
+       "simpan": true
+      },
+      {
+       "t": "jeda",
+       "ms": 1800
+      }
+     ]
+    }
+   ],
+   "masukLewat": "/login/lapor-kejadian"
+  },
+  {
+   "nomor": "III",
+   "judul": "PIC menelaah laporan pertama",
+   "akun": "PIC_INSPEKTORAT",
+   "langkah": [
+    {
+     "id": "III-01",
+     "narasi": [
+      {
+       "id": "L036",
+       "suara": "L",
+       "teks": "Sekarang kita berpindah ke sisi PIC, dengan akun yang berbeda."
+      },
+      {
+       "id": "L037",
+       "suara": "P",
+       "teks": "Laporan yang masuk berkumpul di menu Utilities, Rekap Lapor Kejadian Risiko."
+      },
+      {
+       "id": "L038",
+       "suara": "L",
+       "teks": "Perhatikan statusnya: baru. Ada empat status yang berjalan berurutan — baru, diverifikasi, ditindaklanjuti, dan selesai."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "nomor": "3",
+       "teks": "PIC menelaah laporan",
+       "ms": 5000
+      },
+      {
+       "t": "menu",
+       "jalur": [
+        "Utilities",
+        "Rekap Lapor Kejadian Risiko"
+       ]
+      },
+      {
+       "t": "jeda",
+       "ms": 2600
+      }
+     ]
+    },
+    {
+     "id": "III-02",
+     "narasi": [
+      {
+       "id": "L039",
+       "suara": "P",
+       "teks": "Langkah pertama PIC bukan langsung menindaklanjuti, melainkan memverifikasi."
+      },
+      {
+       "id": "L040",
+       "suara": "L",
+       "teks": "Yang diperiksa tiga hal: benarkah kejadiannya, benarkah ini urusan perangkat daerah kita, dan benarkah risikonya yang tertaut itu."
+      },
+      {
+       "id": "L041",
+       "suara": "P",
+       "teks": "Laporan ini sudah tertaut ke risiko terdaftar karena pelapornya memilihnya sendiri. PIC tinggal memastikan tautannya memang tepat."
+      },
+      {
+       "id": "L042",
+       "suara": "L",
+       "teks": "Kalau ternyata keliru, tautannya bisa diganti dari sini juga."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "gulir",
+       "px": 320
+      },
+      {
+       "t": "jeda",
+       "ms": 3000
+      }
+     ]
+    },
+    {
+     "id": "III-03",
+     "narasi": [
+      {
+       "id": "L043",
+       "suara": "L",
+       "teks": "Karena risikonya sudah terdaftar dan tautannya benar, tombol Catat ke Formulir 10 tersedia."
+      },
+      {
+       "id": "L044",
+       "suara": "P",
+       "teks": "Inilah yang mengubah laporan menjadi catatan resmi. Sebelum dicatat, ia baru laporan; sesudah dicatat, ia menjadi kejadian risiko yang masuk ke kertas kerja dan ikut terbaca di Dasbor."
+      },
+      {
+       "id": "L045",
+       "suara": "L",
+       "teks": "Perhatikan satu hal penting: tombol ini hanya muncul kalau laporannya sudah tertaut ke risiko terdaftar. Alasannya akan sangat jelas di kasus kedua nanti."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "jeda",
+       "ms": 3200
+      }
+     ]
+    },
+    {
+     "id": "III-04",
+     "narasi": [
+      {
+       "id": "L046",
+       "suara": "P",
+       "teks": "Sesudah dicatat, statusnya dinaikkan menjadi ditindaklanjuti, lalu selesai setelah penanganannya rampung."
+      },
+      {
+       "id": "L047",
+       "suara": "L",
+       "teks": "Catatan tindak lanjut sebaiknya diisi. Ia yang menjelaskan kepada penilai berikutnya apa yang benar-benar dikerjakan, bukan sekadar bahwa laporannya sudah ditutup."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "jeda",
+       "ms": 2600
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nomor": "IV",
+   "judul": "Pelapor: kejadian yang risikonya belum terdaftar",
+   "akun": "LAPOR",
+   "langkah": [
+    {
+     "id": "IV-01",
+     "narasi": [
+      {
+       "id": "L048",
+       "suara": "L",
+       "teks": "Sekarang kasus kedua, dan inilah yang paling perlu dipahami."
+      },
+      {
+       "id": "L049",
+       "suara": "P",
+       "teks": "Kali ini kejadiannya tidak berasal dari risiko mana pun yang terdaftar. Sesuatu terjadi yang memang belum pernah terpikirkan saat penilaian risiko disusun."
+      },
+      {
+       "id": "L050",
+       "suara": "L",
+       "teks": "Itu bukan kegagalan. Justru begitulah manajemen risiko bekerja — daftar risiko tidak pernah lengkap, dan kejadian nyata yang melengkapinya."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "nomor": "4",
+       "teks": "Kejadian yang risikonya belum terdaftar",
+       "ms": 5400
+      },
+      {
+       "t": "buka",
+       "url": "/lapor-kejadian"
+      },
+      {
+       "t": "jeda",
+       "ms": 1400
+      },
+      {
+       "t": "klik",
+       "teks": "Lapor Kejadian Baru",
+       "tunggu": 1400
+      }
+     ]
+    },
+    {
+     "id": "IV-02",
+     "narasi": [
+      {
+       "id": "L051",
+       "suara": "P",
+       "teks": "Perhatikan, kolom pencarian risiko tidak muncul. Memang tidak ada yang bisa dicari."
+      },
+      {
+       "id": "L052",
+       "suara": "L",
+       "teks": "Kejadiannya: surat tugas pemeriksaan terbit setelah kegiatan dimulai."
+      },
+      {
+       "id": "L053",
+       "suara": "P",
+       "teks": "Ini tidak ada di daftar risiko mana pun. Ia bukan soal jumlah auditor, bukan soal tindak lanjut, bukan soal sistem informasi."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "ketik",
+       "kolomLabel": "Nama Lengkap",
+       "teks": "Rahmat Hidayat",
+       "laju": 1.6
+      },
+      {
+       "t": "pilih",
+       "pemicu": "Tidak ada OPD",
+       "nilai": "INSPEKTORAT",
+       "lewatKetik": true
+      },
+      {
+       "t": "ketik",
+       "ph": "Jelaskan kejadian risiko",
+       "teks": "Surat tugas untuk satu penugasan pemeriksaan terbit tiga hari setelah kegiatan pemeriksaan dimulai, sehingga sebagian kegiatan berjalan tanpa dasar administratif yang lengkap.",
+       "laju": 1.5
+      },
+      {
+       "t": "ketik",
+       "kolomLabel": "Tempat",
+       "teks": "Kantor Inspektorat Kabupaten Aceh Barat",
+       "laju": 2.0
+      },
+      {
+       "t": "klik",
+       "teks": "Pilih tanggal",
+       "tunggu": 1200
+      },
+      {
+       "t": "klik",
+       "teks": "18",
+       "tunggu": 900
+      }
+     ]
+    },
+    {
+     "id": "IV-03",
+     "narasi": [
+      {
+       "id": "L054",
+       "suara": "L",
+       "teks": "Pemicunya kita tandai Method, karena persoalannya ada pada urutan prosedur — bukan pada orangnya."
+      },
+      {
+       "id": "L055",
+       "suara": "P",
+       "teks": "Lalu dikirim. Sampai di sini pekerjaan pelapor sama saja dengan kasus pertama."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "centang",
+       "label": "Method",
+       "teks": "Penerbitan surat tugas belum diatur harus selesai sebelum kegiatan dimulai",
+       "laju": 1.6
+      },
+      {
+       "t": "klik",
+       "teks": "Lapor",
+       "tunggu": 3000,
+       "simpan": true
+      },
+      {
+       "t": "jeda",
+       "ms": 1600
+      }
+     ]
+    }
+   ],
+   "masukLewat": "/login/lapor-kejadian"
+  },
+  {
+   "nomor": "V",
+   "judul": "PIC membuat risiko yang belum terdaftar",
+   "akun": "PIC_INSPEKTORAT",
+   "langkah": [
+    {
+     "id": "V-01",
+     "narasi": [
+      {
+       "id": "L056",
+       "suara": "L",
+       "teks": "Kembali ke sisi PIC. Laporan kedua sudah masuk."
+      },
+      {
+       "id": "L057",
+       "suara": "P",
+       "teks": "Perhatikan bedanya dengan yang pertama: tombol Catat ke Formulir 10 tidak ada."
+      },
+      {
+       "id": "L058",
+       "suara": "L",
+       "teks": "Ini bukan kekurangan aplikasi, melainkan pembatasan yang disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi ia selalu butuh risiko yang sudah terdaftar. Tanpa itu, kejadiannya akan menggantung tanpa induk."
+      },
+      {
+       "id": "L059",
+       "suara": "P",
+       "teks": "Artinya PIC harus mengerjakan satu hal dulu: mendaftarkan risikonya."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "nomor": "5",
+       "teks": "PIC membuat risikonya lebih dulu",
+       "ms": 5400
+      },
+      {
+       "t": "menu",
+       "jalur": [
+        "Utilities",
+        "Rekap Lapor Kejadian Risiko"
+       ]
+      },
+      {
+       "t": "jeda",
+       "ms": 3200
+      }
+     ]
+    },
+    {
+     "id": "V-02",
+     "narasi": [
+      {
+       "id": "L060",
+       "suara": "L",
+       "teks": "Kita buka Formulir 3b, Identifikasi Risiko Operasional Perangkat Daerah."
+      },
+      {
+       "id": "L061",
+       "suara": "P",
+       "teks": "Dalam keadaan sebenarnya ini dibuka di tab baru, supaya rekap laporannya tidak perlu ditinggalkan."
+      },
+      {
+       "id": "L062",
+       "suara": "L",
+       "teks": "Kejadiannya ada di tahap perencanaan penugasan, jadi tahapnya Perencanaan — bukan Pelaksanaan, walaupun akibatnya terasa saat pelaksanaan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "menu",
+       "jalur": [
+        "Form Input",
+        "Risiko",
+        "Risiko Operasional PD",
+        "III_b_IRO_PD"
+       ]
+      },
+      {
+       "t": "klik",
+       "teks": "Tambah Data",
+       "tunggu": 1600
+      },
+      {
+       "t": "pilih",
+       "ph": "Pilih Kegiatan PD",
+       "nilai": "Penyelenggaraan Pengawasan Internal"
+      }
+     ]
+    },
+    {
+     "id": "V-03",
+     "narasi": [
+      {
+       "id": "L063",
+       "suara": "P",
+       "teks": "Sekarang perhatikan cara merumuskan risikonya, karena ini yang paling sering keliru."
+      },
+      {
+       "id": "L064",
+       "suara": "L",
+       "teks": "Yang kita punya adalah kejadian: surat tugas terbit terlambat. Tetapi yang dicatat di sini bukan kejadiannya, melainkan risikonya."
+      },
+      {
+       "id": "L065",
+       "suara": "P",
+       "teks": "Kejadian adalah satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi."
+      },
+      {
+       "id": "L066",
+       "suara": "L",
+       "teks": "Jadi rumusannya bukan surat tugas terbit tiga hari terlambat, melainkan penerbitan surat tugas terlambat sehingga penugasan dimulai tanpa dasar administratif yang lengkap."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "ketik",
+       "sel": "[id='URAIAN RISIKO']",
+       "teks": "Penerbitan surat tugas terlambat sehingga penugasan pengawasan dimulai tanpa dasar administratif yang lengkap",
+       "laju": 1.4
+      },
+      {
+       "t": "pilih",
+       "ph": "Pilih Jenis Risiko",
+       "cari": "Pembinaan",
+       "nilai": "35 - Pembinaan dan Pengawasan"
+      },
+      {
+       "t": "pilih",
+       "ph": "Pilih Tahap",
+       "nilai": "Perencanaan"
+      },
+      {
+       "t": "ketik",
+       "sel": "[id='PEMILIK RISIKO']",
+       "teks": "Sekretaris Inspektorat",
+       "laju": 1.7
+      }
+     ]
+    },
+    {
+     "id": "V-04",
+     "narasi": [
+      {
+       "id": "L067",
+       "suara": "L",
+       "teks": "Penyebabnya kita ambil langsung dari pemicu yang ditulis pelapor. Itu gunanya kolom pemicu tadi."
+      },
+      {
+       "id": "L068",
+       "suara": "P",
+       "teks": "Method, karena urutan prosedurnya yang belum diatur. Terkendali, karena penerbitan surat tugas sepenuhnya di dalam kuasa Inspektorat sendiri."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "centang",
+       "label": "Method",
+       "teks": "Belum ada ketentuan bahwa surat tugas harus terbit sebelum kegiatan pemeriksaan dimulai",
+       "laju": 1.5
+      },
+      {
+       "t": "klik",
+       "teks": "C",
+       "tunggu": 700
+      },
+      {
+       "t": "ketik",
+       "sel": "[id='URAIAN DAMPAK RISIKO']",
+       "teks": "Sebagian kegiatan pemeriksaan berjalan tanpa dasar administratif yang lengkap sehingga hasilnya berpotensi dipersoalkan",
+       "laju": 1.5
+      },
+      {
+       "t": "ketik",
+       "sel": "[id='PIHAK YANG TERKENA DAMPAK RISIKO']",
+       "teks": "Inspektorat dan Perangkat Daerah yang diperiksa",
+       "laju": 1.8
+      }
+     ]
+    },
+    {
+     "id": "V-05",
+     "narasi": [
+      {
+       "id": "L069",
+       "suara": "P",
+       "teks": "Pengendalian yang sudah ada, dan di sinilah kejujuran diuji."
+      },
+      {
+       "id": "L070",
+       "suara": "L",
+       "teks": "Prosedur penugasannya memang ada, tetapi belum mengatur urutan waktunya. Jadi kategorinya Kurang Efektif, dan celahnya kriteria c — kebijakan sudah ada tetapi belum diikuti prosedur baku yang jelas."
+      },
+      {
+       "id": "L071",
+       "suara": "P",
+       "teks": "Satu hal yang perlu disadari: skala kemungkinan risiko ini tidak boleh dinilai rendah. Kita tahu ia sudah terjadi sekali, dan itu bukan dugaan melainkan catatan."
+      },
+      {
+       "id": "L072",
+       "suara": "L",
+       "teks": "Inilah sumbangan terbesar laporan kejadian terhadap penilaian risiko — ia mengoreksi tebakan dengan kenyataan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "klik",
+       "teks": "Ya",
+       "tunggu": 900
+      },
+      {
+       "t": "ketik",
+       "sel": "[id='URAIAN PENGENDALIAN YANG SUDAH ADA']",
+       "teks": "Prosedur penugasan pengawasan dan penerbitan surat tugas oleh Sekretariat",
+       "laju": 1.7
+      },
+      {
+       "t": "klik",
+       "teks": "KE",
+       "tunggu": 700
+      },
+      {
+       "t": "centang",
+       "label": "c.Kebijakan belum diikuti dengan prosedur baku",
+       "tunggu": 600
+      }
+     ]
+    },
+    {
+     "id": "V-06",
+     "narasi": [
+      {
+       "id": "L073",
+       "suara": "L",
+       "teks": "Skalanya kita isi lewat matriks."
+      },
+      {
+       "id": "L074",
+       "suara": "P",
+       "teks": "Inheren dampak tiga kemungkinan empat. Sekarang dampak tiga kemungkinan tiga — pengendalian yang ada sedikit menurunkan peluangnya, tetapi tidak menghilangkannya."
+      },
+      {
+       "id": "L075",
+       "suara": "L",
+       "teks": "Target dampak tiga kemungkinan dua, setelah rencana tindaknya dijalankan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "klik",
+       "teks": "Isi Nilai Risiko",
+       "tunggu": 1600
+      },
+      {
+       "t": "matriks",
+       "titik": "IInheren",
+       "d": 3,
+       "k": 4
+      },
+      {
+       "t": "matriks",
+       "titik": "RResidual/Current",
+       "d": 3,
+       "k": 3
+      },
+      {
+       "t": "matriks",
+       "titik": "TTarget",
+       "d": 3,
+       "k": 2
+      },
+      {
+       "t": "jeda",
+       "ms": 1600
+      },
+      {
+       "t": "klik",
+       "teks": "Selesai",
+       "tunggu": 1400
+      }
+     ]
+    },
+    {
+     "id": "V-07",
+     "narasi": [
+      {
+       "id": "L076",
+       "suara": "P",
+       "teks": "Rencana tindak pengendaliannya, dan inilah tujuan seluruh perjalanan ini."
+      },
+      {
+       "id": "L077",
+       "suara": "L",
+       "teks": "Laporan seorang pegawai tentang satu surat tugas yang terlambat, berakhir menjadi rencana perbaikan yang punya penanggung jawab dan tenggat."
+      },
+      {
+       "id": "L078",
+       "suara": "P",
+       "teks": "Isinya konkret: menetapkan bahwa surat tugas terbit paling lambat satu hari sebelum kegiatan dimulai, dan memasukkannya ke dalam prosedur baku penugasan."
+      },
+      {
+       "id": "L079",
+       "suara": "L",
+       "teks": "Lalu disimpan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "centang",
+       "label": "Abate",
+       "teks": "Menetapkan dalam prosedur baku bahwa surat tugas pemeriksaan terbit paling lambat satu hari sebelum kegiatan dimulai, dan menjadikannya syarat pembukaan penugasan",
+       "laju": 1.5
+      },
+      {
+       "t": "pilih",
+       "ph": "Pilih OPD",
+       "cari": "INSPEK",
+       "nilai": "INSPEKTORAT"
+      },
+      {
+       "t": "ketik",
+       "sel": "[id='PENANGGUNG JAWAB PENGENDALIAN']",
+       "teks": "Sekretaris Inspektorat",
+       "laju": 1.8
+      },
+      {
+       "t": "pilih",
+       "ph": "Pilih Triwulan",
+       "nilai": "Triwulan IV (Oktober/November/Desember)"
+      },
+      {
+       "t": "ketik",
+       "sel": "[id='TAHUN TARGET PENYELESAIAN']",
+       "teks": "2026",
+       "bersihkan": true,
+       "laju": 1.2
+      },
+      {
+       "t": "klik",
+       "teks": "CE",
+       "tunggu": 600
+      },
+      {
+       "t": "klik",
+       "teks": "Simpan",
+       "tunggu": 3200,
+       "simpan": true
+      },
+      {
+       "t": "jeda",
+       "ms": 1600
+      }
+     ]
+    },
+    {
+     "id": "V-08",
+     "narasi": [
+      {
+       "id": "L080",
+       "suara": "L",
+       "teks": "Sekarang kembali ke rekap laporan, dan tautkan laporannya ke risiko yang baru saja dibuat."
+      },
+      {
+       "id": "L081",
+       "suara": "P",
+       "teks": "Begitu tertaut, tombol Catat ke Formulir 10 muncul — sama seperti kasus pertama tadi."
+      },
+      {
+       "id": "L082",
+       "suara": "L",
+       "teks": "Perhatikan urutannya, karena tidak bisa dibalik: risikonya dulu, baru kejadiannya dicatat. Bukan sebaliknya."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "menu",
+       "jalur": [
+        "Utilities",
+        "Rekap Lapor Kejadian Risiko"
+       ]
+      },
+      {
+       "t": "jeda",
+       "ms": 3400
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "nomor": "VI",
+   "judul": "Sesudahnya",
+   "akun": "PIC_INSPEKTORAT",
+   "langkah": [
+    {
+     "id": "VI-01",
+     "narasi": [
+      {
+       "id": "L083",
+       "suara": "P",
+       "teks": "Mari lihat ke mana semuanya bermuara."
+      },
+      {
+       "id": "L084",
+       "suara": "L",
+       "teks": "Formulir 10 sekarang memuat kedua kejadian tadi, lengkap dengan risikonya masing-masing."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "nomor": "6",
+       "teks": "Sesudahnya",
+       "ms": 5000
+      },
+      {
+       "t": "menu",
+       "jalur": [
+        "Form Monitoring dan Evaluasi",
+        "10_Pencatatan Kejadian Risiko"
+       ]
+      },
+      {
+       "t": "jeda",
+       "ms": 3000
+      },
+      {
+       "t": "gulir",
+       "px": 380
+      },
+      {
+       "t": "jeda",
+       "ms": 2200
+      }
+     ]
+    },
+    {
+     "id": "VI-02",
+     "narasi": [
+      {
+       "id": "L085",
+       "suara": "L",
+       "teks": "Dan rencana tindak yang tadi kita susun sudah menunggu di Formulir 8 dan 9, siap dilaporkan realisasinya."
+      },
+      {
+       "id": "L086",
+       "suara": "P",
+       "teks": "Perjalanannya utuh: seorang pegawai melihat sesuatu, melapor lewat kode QR tanpa punya akun, PIC menelaahnya, risikonya didaftarkan, rencana perbaikannya disusun, dan sekarang pelaksanaannya dipantau."
+      },
+      {
+       "id": "L087",
+       "suara": "L",
+       "teks": "Itu manajemen risiko yang bekerja — bukan dokumen yang disusun sekali setahun lalu disimpan."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "menu",
+       "jalur": [
+        "Form Monitoring dan Evaluasi",
+        "8-9_Monitoring RTP"
+       ]
+      },
+      {
+       "t": "jeda",
+       "ms": 3200
+      },
+      {
+       "t": "gulir",
+       "px": 400
+      },
+      {
+       "t": "jeda",
+       "ms": 2400
+      }
+     ]
+    },
+    {
+     "id": "VI-03",
+     "narasi": [
+      {
+       "id": "L088",
+       "suara": "P",
+       "teks": "Dua hal untuk diingat dari video ini."
+      },
+      {
+       "id": "L089",
+       "suara": "L",
+       "teks": "Pertama, pelapor tidak perlu tahu apa pun tentang manajemen risiko. Ia cukup menceritakan apa yang dilihatnya. Sisanya pekerjaan PIC."
+      },
+      {
+       "id": "L090",
+       "suara": "P",
+       "teks": "Kedua, kejadian yang risikonya belum terdaftar bukan masalah — ia justru cara daftar risiko diperbaiki. Yang jadi masalah kalau laporan seperti itu dibiarkan menggantung tanpa pernah didaftarkan."
+      },
+      {
+       "id": "L091",
+       "suara": "L",
+       "teks": "Dan sekali lagi, seluruh isian dalam video ini data contoh. Untuk laporan yang sesungguhnya, isinya kembali kepada kejadian yang benar-benar terjadi di tempat Anda."
+      }
+     ],
+     "aksi": [
+      {
+       "t": "judul",
+       "teks": "Seluruh isian dalam video ini adalah DATA CONTOH",
+       "ms": 8000
+      },
+      {
+       "t": "jeda",
+       "ms": 2600
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

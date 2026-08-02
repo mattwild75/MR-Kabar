@@ -36,7 +36,9 @@ $opd = DB::table('users')->where('id', $uid)->value('opd_id');
 $TANPA_TAHUN = ['tbl_krs_pd', 'tbl_kro_pd'];
 
 if ($aksi === 'tandai') {
-    $batas = [];
+    // Selain nomor baris tertinggi, waktu mulai rekam ikut dicatat — dipakai
+    // menyaring laporan kejadian, yang tabelnya memang mengisi created_at.
+    $batas = ['_waktu' => now()->toDateTimeString()];
     foreach ($TANPA_TAHUN as $t) {
         $batas[$t] = (int) DB::table($t)->max('id');
     }
@@ -45,6 +47,7 @@ if ($aksi === 'tandai') {
 }
 
 $batas = file_exists(PENANDA) ? json_decode(trim(file_get_contents(PENANDA)), true) : null;
+$sejakRekam = $batas['_waktu'] ?? null;
 
 // [tabel, penyaring tahun, keterangan]
 $bertahun = [
@@ -97,6 +100,24 @@ foreach (['cee_jawaban', 'cee_kelemahan_dokumen', 'cee_simpulan', 'cee_rtp'] as 
     if ($aksi === 'hapus' && $n) {
         $q->delete();
     }
+}
+
+// Laporan kejadian yang dibuat saat merekam video Lapor, berikut catatan
+// Formulir 10 yang menunjuk kepadanya. Disaring dari WAKTU pembuatannya:
+// laporan sungguhan milik warga tidak boleh ikut terhapus, dan laporan lama
+// memang dibuat jauh sebelum penanda ini dipasang.
+if ($sejakRekam) {
+    $q = DB::table('laporan_kejadian_risiko')->where('created_at', '>=', $sejakRekam);
+    $n = (clone $q)->count();
+    $total += $n;
+    printf("  %-16s %d baris (dibuat sejak %s)\n", 'laporan_kejadian', $n, $sejakRekam);
+    if ($aksi === 'hapus' && $n) {
+        $ids = (clone $q)->pluck('id');
+        DB::table('pencatatan_kejadian_risiko')->whereIn('laporan_kejadian_id', $ids)->delete();
+        $q->delete();
+    }
+} else {
+    echo "  (laporan_kejadian dilewati: penanda waktu belum dibuat)\n";
 }
 
 echo "\ntotal: $total baris";

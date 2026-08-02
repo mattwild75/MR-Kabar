@@ -24,9 +24,10 @@ const { Tangan, tidur } = require('./gerak.cjs');
 
 const DIR = __dirname;
 const ASAL = process.env.MRKABAR_URL || 'https://mrkabar.test';
-const sandiSementara = require('./sandi.cjs');
-// Sandinya dibaca dari berkas simpanan, tidak pernah ditulis di sini.
-const AKUN = { user: 'PIC_INSPEKTORAT', get sandi() { return sandiSementara(); } };
+const kredensial = require('./sandi.cjs');
+// Kredensial yang sedang dipakai, disimpan di ruang lingkup modul karena
+// aksi `ketik` menggantikan {AKUN} dan {SANDI} di dalam naskah dengannya.
+let AKUN_AKTIF = { user: '', sandi: '' };
 const LEBAR = 1920, TINGGI = 1080;
 
 const arg = (n) => {
@@ -35,6 +36,12 @@ const arg = (n) => {
 };
 const UJI = process.argv.includes('--uji');
 const BAGIAN = arg('--bagian');
+// Satu pengendali melayani beberapa video. Naskahnya bisa ditunjuk supaya
+// video Lapor tidak perlu menyalin seluruh perkakas ini.
+const NASKAH = arg('--naskah') || 'naskah.json';
+// Berkas rekaman diberi awalan sesuai naskahnya, supaya rekaman dua video
+// tidak saling menimpa di dalam folder yang sama.
+const AWALAN = NASKAH === 'naskah.json' ? '' : NASKAH.replace(/^naskah-|\.json$/g, '') + '-';
 
 /* ── pencari elemen di dalam halaman ─────────────────────────────────────── */
 
@@ -64,8 +71,15 @@ const CARI = (spek) => {
     // yang mendarat di sel tabel bernama sama tidak menimbulkan galat apa pun,
     // ia hanya tidak membuka menunya.
     if (spek.dalam === 'sidebar') {
-      return document.querySelector('[data-sidebar="sidebar"]')
+      const sidebar = document.querySelector('[data-sidebar="sidebar"]')
         || document.querySelector('aside') || document;
+      // Kalau ada grup yang sedang ditandai dan pencarian ini memang untuk
+      // isinya, jangan keluar dari grup itu.
+      if (spek.dalamGrup) {
+        const grup = sidebar.querySelector?.('[data-tutorial-menu]');
+        if (grup) return grup;
+      }
+      return sidebar;
     }
     const d = [...document.querySelectorAll('[role="dialog"]')].filter(tampak);
     return d.length ? d[d.length - 1] : document;
@@ -82,8 +96,15 @@ const CARI = (spek) => {
     el = ambil([...ruang().querySelectorAll(spek.sel)].filter(tampak))
       || ambil([...document.querySelectorAll(spek.sel)].filter(tampak));
   } else if (spek.teks) {
-    const kandidat = [...ruang().querySelectorAll('button,a,[role=button],[role=option],[role=tab],td,th')]
-      .filter(tampak);
+    // Judul kartu di aplikasi ini bukan <h3> melainkan <div> biasa, jadi
+    // pencarian lewat teks harus ikut melihat elemen daun — elemen yang tidak
+    // punya anak, sehingga teksnya memang miliknya sendiri dan bukan gabungan
+    // teks seluruh isi halaman. Tanpa itu, menyorot atau memperbesar sebuah
+    // judul widget mustahil dilakukan.
+    const kandidat = [
+      ...ruang().querySelectorAll('button,a,[role=button],[role=option],[role=tab],td,th,h1,h2,h3,h4'),
+      ...[...ruang().querySelectorAll('div,span,p,legend')].filter((e) => e.children.length === 0),
+    ].filter(tampak);
     // `persis` mematikan pencocokan sebagian. WAJIB untuk nama menu: mencari
     // "Risiko" dengan cocok-sebagian justru mengenai "Apa itu Manajemen Risiko
     // / MR Kabar", dan yang terjadi bukan menu terbuka melainkan pindah
@@ -96,24 +117,54 @@ const CARI = (spek) => {
   } else if (spek.ph) {
     el = ambil([...ruang().querySelectorAll('input,textarea')]
       .filter(tampak).filter((e) => (e.placeholder || '').includes(spek.ph)));
+  } else if (spek.kolomLabel) {
+    // Kolom isian yang TIDAK punya id maupun placeholder — banyak di form
+    // lapor. Dikenali dari label di atasnya, lalu diambil kolom pertama di
+    // dalam pembungkus yang sama.
+    const semuaLab = [...ruang().querySelectorAll('label')].filter(tampak);
+    const lab = semuaLab.find((e) => bersih(e) === spek.kolomLabel)
+      || semuaLab.find((e) => bersih(e).startsWith(spek.kolomLabel));
+    if (lab) {
+      let bungkus = lab.parentElement;
+      for (let i = 0; i < 4 && bungkus; i++) {
+        const isian = [...bungkus.querySelectorAll('input,textarea,select')].filter(tampak)[0];
+        if (isian) { el = isian; break; }
+        bungkus = bungkus.parentElement;
+      }
+    }
   } else if (spek.label) {
     // Kotak centang penyebab & RTP: labelnya bersebelahan, bukan membungkus.
     const semuaLab = [...ruang().querySelectorAll('label')].filter(tampak);
     const lab = semuaLab.find((e) => bersih(e) === spek.label)
       || semuaLab.find((e) => bersih(e).startsWith(spek.label));
     if (lab) {
-      const bungkus = lab.closest('div');
-      el = bungkus?.querySelector('input[type=checkbox]')
-        || lab.previousElementSibling?.querySelector?.('input[type=checkbox]')
-        || (lab.previousElementSibling?.matches?.('input[type=checkbox]') ? lab.previousElementSibling : null)
-        || bungkus?.parentElement?.querySelector('input[type=checkbox]');
-      if (el && el.getAttribute('role') === null && !tampak(el)) {
-        // Radix menyembunyikan input aslinya dan menampilkan tombol.
-        el = bungkus?.querySelector('[role=checkbox]') || el;
-      }
+      const bungkus = lab.closest('div') || lab.parentElement;
+      // Tombol Radix DULU, baru input asli.
+      //
+      // Radix tetap merender <input type=checkbox> yang sesungguhnya, tetapi
+      // menggesernya keluar layar dengan transform: translateX(-100%). Input
+      // itu MASIH BERUKURAN, jadi uji "terlihat" apa pun akan meloloskannya —
+      // dan klik ke koordinatnya mendarat entah di mana. Gejalanya: kotak
+      // centangnya tidak pernah tercentang, tanpa galat apa pun.
+      el = bungkus?.querySelector('[role=checkbox]')
+        || bungkus?.parentElement?.querySelector('[role=checkbox]')
+        || [...(bungkus?.querySelectorAll('input[type=checkbox]') || [])]
+          .find((c) => getComputedStyle(c).position !== 'absolute')
+        || null;
     }
   }
   if (!el) return null;
+  if (spek.tandai) {
+    document.querySelectorAll('[data-tutorial-menu]')
+      .forEach((e) => e.removeAttribute('data-tutorial-menu'));
+    // Wadah grup adalah <li> menu itu sendiri. JANGAN naik mencari elemen
+    // yang memuat <ul>: saat grupnya masih tertutup, submenu-nya belum ada di
+    // DOM sama sekali, sehingga pencarian itu naik terus sampai ke daftar
+    // menu teratas — dan menandai SELURUH sidebar sebagai "grup ini". Anak
+    // milik grup lain lalu dikira sudah terbuka, dan grup yang dituju tidak
+    // pernah diklik.
+    (el.closest('li') || el.parentElement)?.setAttribute('data-tutorial-menu', '1');
+  }
   const b = el.getBoundingClientRect();
   return { x: b.left + b.width / 2, y: b.top + b.height / 2, atas: b.top, bawah: b.bottom, tinggi: b.height };
 };
@@ -238,10 +289,26 @@ class Perekam {
       return { x: b.left + b.width / 2, y: b.top + b.height / 2 };
     }, nilai);
 
+    // Sesudah kursor sampai, posisi pilihannya DIPERIKSA ULANG sebelum diklik.
+    // Daftar yang panjang — pemilih OPD punya 50 butir — bergulir sendiri saat
+    // kursor melintasinya, sehingga butir yang tadi dihitung koordinatnya sudah
+    // bergeser saat kursornya tiba. Akibatnya yang terpilih perangkat daerah
+    // yang sama sekali lain, dan tidak ada galat apa pun.
+    const klikTepat = async (r, v) => {
+      await this.t.ke(r.x, r.y);
+      for (let i = 0; i < 4; i++) {
+        const ulang = await cari();
+        if (!ulang) break;
+        if (Math.abs(ulang.y - this.t.y) < 12 && Math.abs(ulang.x - this.t.x) < 40) break;
+        await this.t.ke(ulang.x, ulang.y);
+      }
+      await this.t.klikDiSini();
+    };
+
     const habis = Date.now() + sabar;
     for (;;) {
       const r = await cari();
-      if (r) { await this.t.klikTitik(r.x, r.y); return; }
+      if (r) { await klikTepat(r, nilai); return; }
       if (Date.now() > habis) {
         const ada = await this.page.evaluate(() => [
           ...document.querySelectorAll('[role="option"]'),
@@ -281,6 +348,26 @@ class Perekam {
           .filter(tampak).find((e) => (e.placeholder || '').includes(s.ph));
         else if (s.teks) el = [...document.querySelectorAll('button,a,[role=button],td,th')]
           .filter(tampak).find((e) => e.textContent.trim().replace(/\s+/g, ' ') === s.teks);
+        else if (s.label) {
+          // Kotak centang penyebab/pemicu berada jauh di bawah garis layar.
+          // Tanpa cabang ini, penggulirnya tidak pernah dipanggil dan klik
+          // mendarat di luar viewport - tanpa galat, kotaknya sekadar tidak
+          // pernah tercentang.
+          const lab = [...document.querySelectorAll('label')].filter(tampak)
+            .find((e) => e.textContent.trim().replace(/\s+/g, ' ') === s.label
+              || e.textContent.trim().replace(/\s+/g, ' ').startsWith(s.label));
+          const bungkus = lab?.closest('div') || lab?.parentElement;
+          el = bungkus?.querySelector('[role=checkbox]') || lab || null;
+        }
+        else if (s.kolomLabel) {
+          const lab = [...document.querySelectorAll('label')].filter(tampak)
+            .find((e) => e.textContent.trim().replace(/\s+/g, ' ').startsWith(s.kolomLabel));
+          let bungkus = lab?.parentElement;
+          for (let i = 0; i < 4 && bungkus && !el; i++) {
+            el = [...bungkus.querySelectorAll('input,textarea,select')].filter(tampak)[0];
+            bungkus = bungkus.parentElement;
+          }
+        }
         if (el) await window.__bawaKeTengah(el);
       }, spek);
       await tidur(260);
@@ -316,29 +403,49 @@ class Perekam {
         // terbuka, mengkliknya justru menutupnya dan anaknya jadi tidak
         // ketemu. Jadi sebelum sebuah grup diklik, dilihat dulu: kalau anak
         // yang dituju sudah kelihatan, grupnya tidak usah disentuh.
+        // Penelusuran dibatasi ke dalam grup yang sedang dibuka, bukan ke
+        // seluruh sidebar. Nama menu berulang di grup yang berbeda — "Risiko"
+        // ada di Form Input DAN di Form Cetak, "CEE" juga — sehingga
+        // pemeriksaan "anaknya sudah terlihat" bisa tertipu oleh anak milik
+        // grup lain, lalu klik berikutnya justru menutup grup yang salah.
+        // Penandanya ditempel pada wadah grup dan dibersihkan di akhir.
+        await p.evaluate(() => document.querySelectorAll('[data-tutorial-menu]')
+          .forEach((e) => e.removeAttribute('data-tutorial-menu')));
+
         for (let i = 0; i < aksi.jalur.length; i++) {
           const nama = aksi.jalur[i];
           const berikut = aksi.jalur[i + 1];
-          if (berikut) {
-            const sudahTampak = await p.evaluate(CARI, { teks: berikut, dalam: 'sidebar', persis: true });
-            if (sudahTampak) continue;
+          const spek = { teks: nama, dalam: 'sidebar', persis: true, dalamGrup: i > 0 };
+          const spekAnak = berikut
+            ? { teks: berikut, dalam: 'sidebar', persis: true, dalamGrup: true }
+            : null;
+
+          // Grup ditandai LEBIH DULU, baru anaknya diperiksa. Kalau urutannya
+          // dibalik, pemeriksaan pertama berjalan tanpa penanda apa pun dan
+          // kembali mencari ke seluruh sidebar — persis kekeliruan yang mau
+          // dihindari: "Risiko" milik Form Cetak dikira anak Form Input,
+          // sehingga Form Input tidak pernah dibuka sama sekali.
+          const r = await this._dekatkan(spek);
+          await p.evaluate(CARI, { ...spek, tandai: true });
+
+          if (spekAnak && await p.evaluate(CARI, spekAnak)) {
+            continue;   // anaknya memang sudah terbuka, di grup yang benar
           }
-          const r = await this._dekatkan({ teks: nama, dalam: 'sidebar', persis: true });
+
           await t.klikTitik(r.x, r.y);
-          // Menunggu sampai anaknya benar-benar muncul, bukan menunggu sekian
-          // milidetik. Grup bersarang punya animasi buka yang lamanya berbeda
-          // dari grup teratas, dan tenggat tetap membuatnya kadang lolos
-          // kadang tidak.
-          if (berikut) {
+
+          if (spekAnak) {
             const batas = Date.now() + 6000;
             for (;;) {
-              if (await p.evaluate(CARI, { teks: berikut, dalam: 'sidebar', persis: true })) break;
+              if (await p.evaluate(CARI, spekAnak)) break;
               if (Date.now() > batas) break;
               await tidur(200);
             }
           }
           await tidur(400);
         }
+        await p.evaluate(() => document.querySelectorAll('[data-tutorial-menu]')
+          .forEach((e) => e.removeAttribute('data-tutorial-menu')));
         await p.waitForNetworkIdle({ idleTime: 500, timeout: 15000 }).catch(() => {});
         await tidur(500);
         break;
@@ -371,9 +478,18 @@ class Perekam {
         const spek = aksi.sel ? { sel: aksi.sel } : { teks: aksi.teks };
         await this._dekatkan(spek);
         const ok = await p.evaluate(async (s, sk, ms) => {
-          const el = s.sel ? document.querySelector(s.sel)
-            : [...document.querySelectorAll('button,a,label,td,th,h1,h2')]
-              .find((e) => e.textContent.trim().replace(/\s+/g, ' ') === s.teks);
+          // Daftar kandidatnya disamakan dengan CARI, termasuk elemen daun,
+          // supaya judul kartu yang berupa <div> biasa ikut terjangkau.
+          const kandidat = [
+            ...document.querySelectorAll('button,a,label,td,th,h1,h2,h3,h4'),
+            ...[...document.querySelectorAll('div,span,p')].filter((e) => e.children.length === 0),
+          ];
+          let el = s.sel ? document.querySelector(s.sel)
+            : kandidat.find((e) => e.textContent.trim().replace(/\s+/g, ' ') === s.teks);
+          // Judul kartu diperbesar bersama kartunya, bukan sendirian —
+          // memperbesar judulnya saja membuat isi yang mau dilihat justru
+          // terdorong keluar layar.
+          if (el && s.teks) el = el.closest('[class*="rounded-xl"], [class*="rounded-lg"]') || el;
           return el ? await window.__zoom(el, sk, ms) : false;
         }, spek, aksi.skala || 1.45, aksi.ms || 700);
         if (!ok) throw new Error('zoom gagal: ' + JSON.stringify(spek));
@@ -435,7 +551,8 @@ class Perekam {
       }
 
       case 'ketik': {
-        const spek = aksi.sel ? { sel: aksi.sel } : { ph: aksi.ph };
+        const spek = aksi.sel ? { sel: aksi.sel }
+          : aksi.ph ? { ph: aksi.ph } : { kolomLabel: aksi.kolomLabel };
         const r = await this._dekatkan(spek);
         await t.klikTitik(r.x, r.y);
         if (aksi.bersihkan) {
@@ -444,7 +561,7 @@ class Perekam {
         }
         // {AKUN} dan {SANDI} tidak ditulis di naskah supaya naskahnya tetap
         // aman dibaca siapa pun dan disimpan di dalam repositori.
-        const isi = aksi.teks.replace('{AKUN}', AKUN.user).replace('{SANDI}', AKUN.sandi);
+        const isi = aksi.teks.replace('{AKUN}', AKUN_AKTIF.user).replace('{SANDI}', AKUN_AKTIF.sandi);
         await t.ketik(isi, { laju: aksi.laju || 1 });
         await tidur(aksi.tunggu ?? 260);
         break;
@@ -455,11 +572,28 @@ class Perekam {
         // Pemicunya kadang <input> ber-placeholder, kadang <button> berteks —
         // keduanya dipakai di aplikasi ini, jadi keduanya didukung.
         const r = await this._dekatkan(
-          aksi.sel ? { sel: aksi.sel } : aksi.ph ? { ph: aksi.ph } : { teks: aksi.pemicu },
+          aksi.sel ? { sel: aksi.sel }
+            : aksi.ph ? { ph: aksi.ph }
+              : aksi.kolomLabel ? { kolomLabel: aksi.kolomLabel }
+                : { teks: aksi.pemicu },
         );
         await t.klikTitik(r.x, r.y);
         await tidur(520);
         if (aksi.cari) { await t.ketik(aksi.cari, { laju: 1.6, salahKetik: false }); await tidur(450); }
+        if (aksi.lewatKetik) {
+          // Daftar yang sangat panjang - pemilih perangkat daerah punya 50
+          // butir - bergulir sendiri begitu kursor melintasinya, sehingga
+          // butir yang sudah dihitung koordinatnya bergeser sebelum kursornya
+          // tiba dan yang terklik selalu butir lain. Radix menerima pencarian
+          // lewat papan ketik: huruf yang diketik beruntun dikumpulkan jadi
+          // satu kata, butirnya disorot, lalu dipilih dengan Enter. Kursor
+          // tidak perlu menyeberangi daftarnya sama sekali.
+          await t.ketik(aksi.nilai, { laju: 2.2, salahKetik: false });
+          await tidur(500);
+          await t.tekan('Enter');
+          await tidur(aksi.tunggu ?? 450);
+          break;
+        }
         await this.pilihOpsi(aksi.nilai, r);
         await tidur(aksi.tunggu ?? 450);
         break;
@@ -762,7 +896,7 @@ class Perekam {
 /* ── jalan ───────────────────────────────────────────────────────────────── */
 
 (async () => {
-  const naskah = JSON.parse(fs.readFileSync(path.join(DIR, 'naskah.json'), 'utf8'));
+  const naskah = JSON.parse(fs.readFileSync(path.join(DIR, NASKAH), 'utf8'));
   const berkasWaktu = path.join(DIR, 'audio', 'waktu.json');
   const lamaNarasi = fs.existsSync(berkasWaktu)
     ? JSON.parse(fs.readFileSync(berkasWaktu, 'utf8'))
@@ -799,17 +933,31 @@ class Perekam {
   // ditandai `dariLogin`, jangan masuk lebih dulu di sini; biarkan naskahnya
   // yang mengerjakan. Kalau menjalankan satu bagian di tengah, barulah perlu
   // masuk lebih dulu supaya halamannya bisa dibuka.
-  if (bagian[0].dariLogin) {
-    await page.goto(`${ASAL}/login`, { waitUntil: 'networkidle2' });
-    await page.waitForSelector('#username');
+  // Akun ditentukan PER BAGIAN. Video tutorial dikerjakan akun PIC, bagian
+  // pembacaan data oleh akun VIP yang hanya-baca, dan video Lapor berganti
+  // dua kali antara akun bersama pelapor dan akun PIC yang menelaah.
+  const AKUN = kredensial(bagian[0].akun || naskah.akun || 'PIC_INSPEKTORAT');
+  AKUN_AKTIF = AKUN;
+  console.log('akun perekam:', AKUN.user);
+
+  // Sebagian akun tidak masuk lewat formulir biasa. Akun bersama LAPOR
+  // dipakai publik lewat kode QR, dan jalur masuknya memang alamat QR itu —
+  // bukan halaman login. Ditulis sebagai `masukLewat` pada bagiannya.
+  const masukLewat = bagian[0].masukLewat;
+  if (masukLewat) {
+    await page.goto(ASAL + masukLewat, { waitUntil: 'networkidle2' });
+    await tidur(3000);
+    if (/\/login$/.test(page.url())) { console.log('GAGAL MASUK lewat', masukLewat); await browser.close(); process.exit(1); }
   } else {
     await page.goto(`${ASAL}/login`, { waitUntil: 'networkidle2' });
     await page.waitForSelector('#username');
-    await page.type('#username', AKUN.user, { delay: 10 });
-    await page.type('#password', AKUN.sandi, { delay: 10 });
-    await page.click('button[type="submit"]');
-    await tidur(3000);
-    if (/\/login/.test(page.url())) { console.log('GAGAL MASUK'); await browser.close(); process.exit(1); }
+    if (!bagian[0].dariLogin) {
+      await page.type('#username', AKUN.user, { delay: 10 });
+      await page.type('#password', AKUN.sandi, { delay: 10 });
+      await page.click('button[type="submit"]');
+      await tidur(3000);
+      if (/\/login/.test(page.url())) { console.log('GAGAL MASUK'); await browser.close(); process.exit(1); }
+    }
   }
 
   const tangan = new Tangan(page);
@@ -819,7 +967,7 @@ class Perekam {
   fs.mkdirSync(path.join(DIR, 'rekam'), { recursive: true });
   let screencast = null;
   if (!UJI) {
-    const berkas = path.join(DIR, 'rekam', `bagian-${BAGIAN || 'semua'}.webm`);
+    const berkas = path.join(DIR, 'rekam', `${AWALAN}bagian-${BAGIAN || 'semua'}.webm`);
     screencast = await page.screencast({ path: berkas, fps: 30 });
     console.log('merekam ke', berkas);
   }
@@ -842,7 +990,7 @@ class Perekam {
   await tidur(900);
   if (screencast) await screencast.stop();
   fs.writeFileSync(
-    path.join(DIR, 'rekam', `waktu-${BAGIAN || 'semua'}.json`),
+    path.join(DIR, 'rekam', `${AWALAN}waktu-${BAGIAN || 'semua'}.json`),
     JSON.stringify(rec.waktu, null, 1),
   );
   await browser.close();

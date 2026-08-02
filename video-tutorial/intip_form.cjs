@@ -12,9 +12,10 @@
 const puppeteer = require('puppeteer');
 
 const ASAL = process.env.MRKABAR_URL || 'https://mrkabar.test';
-const sandiSementara = require('./sandi.cjs');
-// Sandinya dibaca dari berkas simpanan, tidak pernah ditulis di sini.
-const AKUN = { user: 'PIC_INSPEKTORAT', get sandi() { return sandiSementara(); } };
+const kredensial = require('./sandi.cjs');
+// Akun bisa diganti lewat AKUN_PEREKAM, mis. saat memetakan halaman yang
+// hanya terlihat oleh akun pelapor atau akun hanya-baca.
+const AKUN = kredensial(process.env.AKUN_PEREKAM || 'PIC_INSPEKTORAT');
 
 const GARIS_BESAR = () => {
   // Dialog terakhir yang terbuka — kalau ada dialog di atas dialog (pemilih
