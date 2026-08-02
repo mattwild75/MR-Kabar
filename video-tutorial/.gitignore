@@ -5,7 +5,12 @@ rekam/
 keluaran/
 audio/
 .sandi-lama
+.sandi-uji
 .mulai-rekam
 _cek_*
+_periksa*
+_uji_*
+_akun_uji.php
+_sekali.php
 _sub.srt
 __pycache__/

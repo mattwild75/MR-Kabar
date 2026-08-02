@@ -6,7 +6,7 @@ import EduVideoPlayer from '@/components/edu-video-player';
 import EduVideoQuiz from '@/components/edu-video-quiz';
 import RekapKuisVideo, { type RekapKuis } from '@/components/ui/rekap-kuis-video';
 import { useEduVideo } from '@/lib/edu-video';
-import BAB_TUTORIAL from '@/data/tutorial-video-chapters.json';
+import { useTutorialVideo } from '@/lib/tutorial-video';
 
 /**
  * Halaman panduan/dokumentasi statis "Apa itu Manajemen Risiko / MR Kabar".
@@ -27,6 +27,7 @@ export default function PanduanIndex({
 }) {
   const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
   const video = useEduVideo();
+  const tutorial = useTutorialVideo();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -153,6 +154,7 @@ export default function PanduanIndex({
               yang kedua baru berguna setelah yang pertama dipahami. Orang yang
               sedang mengisi aplikasi pun terbiasa menggulir ke bawah mencari
               contoh, bukan ke atas. */}
+          {tutorial.enabled && (
           <section id="video-tutorial" className="scroll-mt-20 rounded-md border bg-card p-5">
             <h2 className="mb-1 text-lg font-semibold">Video Tutorial Pengisian (dari awal sampai laporan)</h2>
             <p className="mb-3 text-sm text-muted-foreground">
@@ -168,19 +170,26 @@ export default function PanduanIndex({
               masing-masing melalui PIC atau unit pemilik risiko di perangkat daerahnya sendiri.
             </p>
             <EduVideoPlayer
-              src="/video/tutorial-mr-kabar.mp4"
-              vtt="/video/tutorial-subtitle.vtt"
-              subtitleEnabled={video.subtitleEnabled}
-              subtitleSize={video.subtitleSize}
-              chapters={BAB_TUTORIAL}
-              chapterNav
-              showChapters
-              downloads={[
-                { label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)', href: '/video/tutorial-mr-kabar-720p.mp4' },
-                { label: 'Unduh transkrip (.txt)', href: '/video/tutorial-transkrip.txt' },
-              ]}
+              src={tutorial.src}
+              stems={tutorial.stems}
+              gains={tutorial.gains}
+              vtt={tutorial.vtt}
+              subtitleEnabled={tutorial.subtitleEnabled}
+              subtitleSize={tutorial.subtitleSize}
+              chapters={tutorial.chapters}
+              chapterNav={tutorial.bawaan}
+              showChapters={tutorial.bawaan}
+              downloads={
+                tutorial.bawaan
+                  ? [
+                      { label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)', href: '/video/tutorial-mr-kabar-720p.mp4' },
+                      { label: 'Unduh transkrip (.txt)', href: '/video/tutorial-transkrip.txt' },
+                    ]
+                  : undefined
+              }
             />
           </section>
+          )}
         </div>
       </div>
     </AppLayout>

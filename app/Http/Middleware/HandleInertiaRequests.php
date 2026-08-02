@@ -71,6 +71,8 @@ class HandleInertiaRequests extends Middleware
             // peramban akan terus memakai salinan lamanya dari cache — berkas
             // 70MB tidak akan diminta ulang hanya karena isinya berubah.
             'eduVideoVersion' => fn() => @filemtime(public_path('video/video-edukasi-mr-kabar.mp4')) ?: null,
+            // Penanda versi video tutorial pengisian, alasannya sama persis.
+            'tutorialVideoVersion' => fn() => @filemtime(public_path('video/tutorial-mr-kabar.mp4')) ?: null,
             'unreadNotificationsCount' => fn() => $request->user()?->unreadNotifications()->count() ?? 0,
         ]);
     }

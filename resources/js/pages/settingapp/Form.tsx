@@ -12,6 +12,13 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { type BreadcrumbItem } from '@/types';
 import EduVideoPlayer from '@/components/edu-video-player';
 import { VIDEO_BAWAAN, VTT_BAWAAN, STEM_BAWAAN, useVersiVideo } from '@/lib/edu-video';
+import {
+  TUTORIAL_BAWAAN,
+  TUTORIAL_VTT_BAWAAN,
+  TUTORIAL_STEM_BAWAAN,
+  useVersiTutorial,
+} from '@/lib/tutorial-video';
+import BAB_TUTORIAL from '@/data/tutorial-video-chapters.json';
 
 const DEFAULT_WARNA = '#181818';
 const DEFAULT_LOGO_BG = '#ffffff';
@@ -34,6 +41,13 @@ interface SettingApp {
   edu_video_gain_sfx: number;
   edu_video_subtitle_enabled: boolean;
   edu_video_subtitle_size: number;
+  tutorial_video_enabled: boolean;
+  tutorial_video_path: string | null;
+  tutorial_video_subtitle_path: string | null;
+  tutorial_video_gain_narration: number;
+  tutorial_video_gain_music: number;
+  tutorial_video_subtitle_enabled: boolean;
+  tutorial_video_subtitle_size: number;
   seo: {
     title?: string;
     description?: string;
@@ -73,6 +87,17 @@ export default function SettingForm({ setting }: Props) {
   const versiVideo = useVersiVideo();
   const [hapusSubtitle, setHapusSubtitle] = useState(false);
 
+  // Video tutorial pengisian. Setelannya sejajar dengan video edukasi di atas,
+  // hanya tanpa jalur efek suara: video tutorial cuma punya narasi dan musik.
+  const [tutEnabled, setTutEnabled] = useState(setting?.tutorial_video_enabled ?? true);
+  const [tutRemove, setTutRemove] = useState(false);
+  const [tutGainNarration, setTutGainNarration] = useState(setting?.tutorial_video_gain_narration ?? 100);
+  const [tutGainMusic, setTutGainMusic] = useState(setting?.tutorial_video_gain_music ?? 100);
+  const [tutSubtitleEnabled, setTutSubtitleEnabled] = useState(setting?.tutorial_video_subtitle_enabled ?? true);
+  const [tutSubtitleSize, setTutSubtitleSize] = useState(setting?.tutorial_video_subtitle_size ?? 70);
+  const [tutHapusSubtitle, setTutHapusSubtitle] = useState(false);
+  const versiTutorial = useVersiTutorial();
+
   const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
     deskripsi: setting?.deskripsi || '',
@@ -91,6 +116,8 @@ export default function SettingForm({ setting }: Props) {
     login_splash_video: null as File | null,
     edu_video_path: null as File | null,
     edu_video_subtitle_path: null as File | null,
+    tutorial_video_path: null as File | null,
+    tutorial_video_subtitle_path: null as File | null,
   });
 
   const logoPreview = useRef<string | null>(setting?.logo ? `/storage/${setting.logo}` : null);
@@ -100,6 +127,9 @@ export default function SettingForm({ setting }: Props) {
   );
   const [eduVideoPreview, setEduVideoPreview] = useState<string | null>(
     setting?.edu_video_path ? `/storage/${setting.edu_video_path}` : VIDEO_BAWAAN,
+  );
+  const [tutVideoPreview, setTutVideoPreview] = useState<string | null>(
+    setting?.tutorial_video_path ? `/storage/${setting.tutorial_video_path}` : TUTORIAL_BAWAAN,
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -121,6 +151,13 @@ export default function SettingForm({ setting }: Props) {
       edu_video_gain_sfx: gainSfx,
       edu_video_subtitle_enabled: subtitleEnabled,
       edu_video_subtitle_size: subtitleSize,
+      tutorial_video_enabled: tutEnabled,
+      tutorial_video_remove: tutRemove,
+      tutorial_video_subtitle_remove: tutHapusSubtitle,
+      tutorial_video_gain_narration: tutGainNarration,
+      tutorial_video_gain_music: tutGainMusic,
+      tutorial_video_subtitle_enabled: tutSubtitleEnabled,
+      tutorial_video_subtitle_size: tutSubtitleSize,
     }));
     post('/settingsapp', {
       forceFormData: true,
@@ -129,6 +166,8 @@ export default function SettingForm({ setting }: Props) {
         setRemoveSplashVideo(false);
         setRemoveEduVideo(false);
         setHapusSubtitle(false);
+        setTutRemove(false);
+        setTutHapusSubtitle(false);
       },
     });
   };
@@ -625,6 +664,256 @@ export default function SettingForm({ setting }: Props) {
                       }}
                     >
                       Kembalikan ke bawaan (100% / 100% / 100%)
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* Video Tutorial Pengisian Section */}
+              <Separator />
+              <h3 className="text-lg font-semibold">Video Tutorial Pengisian</h3>
+              <p className="text-muted-foreground text-sm">
+                Rekaman aplikasi sungguhan yang mengikuti satu perangkat daerah mengisi satu tahun penuh
+                (46 menit) &mdash; dari Data Umum sampai formulir cetak siap ditandatangani. Tampil di
+                paling bawah halaman Panduan, di bawah video edukasi. Seluruh isian di dalamnya data
+                contoh, dan itu disampaikan di dalam videonya sendiri.
+              </p>
+
+              <div className="flex items-center gap-3 rounded-md border p-3">
+                <Checkbox
+                  id="tutorial_video_enabled"
+                  checked={tutEnabled}
+                  onCheckedChange={(checked) => setTutEnabled(checked === true)}
+                />
+                <Label htmlFor="tutorial_video_enabled" className="flex-1 text-sm font-normal">
+                  Tampilkan video tutorial di halaman Panduan
+                </Label>
+              </div>
+
+              {tutEnabled && (
+                <div className="space-y-6">
+                  {/* Berkas kustom (opsional) */}
+                  <div className="space-y-1">
+                    <Label htmlFor="tutorial_video_path">Ganti berkas video (MP4/WebM/MOV, maks 50MB)</Label>
+                    <Input
+                      id="tutorial_video_path"
+                      type="file"
+                      accept="video/mp4,video/webm,video/quicktime"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        setData('tutorial_video_path', file);
+                        if (file) {
+                          setTutVideoPreview(URL.createObjectURL(file));
+                          setTutRemove(false);
+                        }
+                      }}
+                      className={errors.tutorial_video_path ? 'border-red-500' : ''}
+                    />
+                    {errors.tutorial_video_path && (
+                      <p className="text-sm text-red-500">{errors.tutorial_video_path}</p>
+                    )}
+                    <p className="text-muted-foreground text-xs">
+                      Kosongkan kalau tidak ingin mengganti &mdash; video bawaan yang dipakai. Berkas
+                      unggahan sendiri audionya menyatu di dalam video, sehingga setelan volume di bawah
+                      tidak berlaku untuknya; daftar bab juga disembunyikan karena menit-detiknya milik
+                      video yang berbeda.
+                    </p>
+
+                    {tutVideoPreview && !tutRemove && (
+                      <div className="mt-2 space-y-2">
+                        {tutVideoPreview === TUTORIAL_BAWAAN ? (
+                          <div>
+                            <EduVideoPlayer
+                              src={TUTORIAL_BAWAAN + versiTutorial}
+                              stems={{
+                                narration: TUTORIAL_STEM_BAWAAN.narration + versiTutorial,
+                                music: TUTORIAL_STEM_BAWAAN.music + versiTutorial,
+                                sfx: TUTORIAL_STEM_BAWAAN.sfx + versiTutorial,
+                              }}
+                              vtt={TUTORIAL_VTT_BAWAAN + versiTutorial}
+                              gains={{ narration: tutGainNarration, music: tutGainMusic, sfx: 100 }}
+                              subtitleEnabled={tutSubtitleEnabled}
+                              subtitleSize={tutSubtitleSize}
+                              chapters={BAB_TUTORIAL}
+                              chapterNav
+                            />
+                            <p className="text-muted-foreground mt-1.5 text-xs">
+                              Pratinjau ini langsung mengikuti setelan di bawah &mdash; geser slider sambil
+                              video berjalan untuk mendengar dan melihat hasilnya sebelum disimpan.
+                            </p>
+                          </div>
+                        ) : (
+                          <video src={tutVideoPreview} controls preload="none" className="max-h-48 rounded border" />
+                        )}
+                        {setting?.tutorial_video_path && (
+                          <div>
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              onClick={() => {
+                                setTutRemove(true);
+                                setTutVideoPreview(null);
+                                setData('tutorial_video_path', null);
+                              }}
+                            >
+                              Hapus berkas kustom (kembali ke video bawaan)
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {tutRemove && (
+                      <p className="text-sm text-amber-600">
+                        Berkas kustom akan dihapus saat disimpan &mdash; kembali memakai video bawaan.
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Subtitle */}
+                  <div className="space-y-3 rounded-md border p-4">
+                    <div>
+                      <Label>Subtitle</Label>
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        Sama seperti video edukasi, subtitle dikirim sebagai berkas terpisah &mdash; bisa
+                        dimatikan dan diubah ukurannya tanpa me-render ulang videonya.
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label htmlFor="tutorial_video_subtitle_path">
+                        Ganti berkas subtitle (.vtt atau .srt, maks 2MB)
+                      </Label>
+                      <Input
+                        id="tutorial_video_subtitle_path"
+                        type="file"
+                        accept=".vtt,.srt,text/vtt"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0] || null;
+                          setData('tutorial_video_subtitle_path', file);
+                          if (file) setTutHapusSubtitle(false);
+                        }}
+                        className={errors.tutorial_video_subtitle_path ? 'border-red-500' : ''}
+                      />
+                      {errors.tutorial_video_subtitle_path && (
+                        <p className="text-sm text-red-500">{errors.tutorial_video_subtitle_path}</p>
+                      )}
+                      <p className="text-muted-foreground text-xs">
+                        Kosongkan kalau tidak ingin mengganti. Berkas .srt otomatis dikonversi ke .vtt saat
+                        disimpan. Wajib diisi kalau Anda memasang video sendiri di atas.
+                      </p>
+
+                      {setting?.tutorial_video_subtitle_path && !tutHapusSubtitle && (
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          <a
+                            href={`/storage/${setting.tutorial_video_subtitle_path}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-primary text-sm underline underline-offset-4 hover:no-underline"
+                          >
+                            Lihat berkas subtitle terpasang
+                          </a>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={() => {
+                              setTutHapusSubtitle(true);
+                              setData('tutorial_video_subtitle_path', null);
+                            }}
+                          >
+                            Hapus (kembali ke subtitle bawaan)
+                          </Button>
+                        </div>
+                      )}
+
+                      {tutHapusSubtitle && (
+                        <p className="text-sm text-amber-600">
+                          Berkas subtitle akan dihapus saat disimpan &mdash; kembali memakai subtitle bawaan.
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <Checkbox
+                        id="tutorial_video_subtitle_enabled"
+                        checked={tutSubtitleEnabled}
+                        onCheckedChange={(checked) => setTutSubtitleEnabled(checked === true)}
+                      />
+                      <Label htmlFor="tutorial_video_subtitle_enabled" className="flex-1 text-sm font-normal">
+                        Tampilkan subtitle saat video diputar
+                      </Label>
+                    </div>
+
+                    {tutSubtitleEnabled && (
+                      <>
+                        <div className="flex items-center gap-4">
+                          <span className="w-36 shrink-0 text-sm">Ukuran teks</span>
+                          <input
+                            type="range"
+                            min={50}
+                            max={200}
+                            step={5}
+                            value={tutSubtitleSize}
+                            onChange={(e) => setTutSubtitleSize(Number(e.target.value))}
+                            className="accent-primary h-2 flex-1 cursor-pointer"
+                          />
+                          <span className="w-28 shrink-0 text-right font-mono text-sm tabular-nums">
+                            {tutSubtitleSize}%
+                            <span className="text-muted-foreground ml-1 text-xs">
+                              ~{Math.round((1080 * 0.028 * tutSubtitleSize) / 100)}px
+                            </span>
+                          </span>
+                        </div>
+                        <p className="text-muted-foreground text-xs">
+                          Ukuran mengikuti besar gambar, jadi porsinya sama baik di pemutar kecil maupun
+                          layar penuh. Angka px di samping slider adalah perkiraan pada layar 1080p.
+                        </p>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Balance audio */}
+                  <div className="space-y-3 rounded-md border p-4">
+                    <div>
+                      <Label>Volume mix audio</Label>
+                      <p className="text-muted-foreground mt-1 text-xs">
+                        Video tutorial dikirim ke pemutar sebagai dua jalur audio terpisah &mdash; narasi
+                        dan musik. Perubahan di sini langsung terdengar tanpa render ulang. Tidak ada
+                        jalur efek suara karena video ini memang tidak memakainya.
+                      </p>
+                    </div>
+                    {[
+                      { label: 'Narasi', value: tutGainNarration, set: setTutGainNarration },
+                      { label: 'Musik', value: tutGainMusic, set: setTutGainMusic },
+                    ].map((row) => (
+                      <div key={row.label} className="flex items-center gap-4">
+                        <span className="w-36 shrink-0 text-sm">{row.label}</span>
+                        <input
+                          type="range"
+                          min={0}
+                          max={200}
+                          step={5}
+                          value={row.value}
+                          onChange={(e) => row.set(Number(e.target.value))}
+                          className="accent-primary h-2 flex-1 cursor-pointer"
+                        />
+                        <span className="w-14 shrink-0 text-right font-mono text-sm tabular-nums">
+                          {row.value}%
+                        </span>
+                      </div>
+                    ))}
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setTutGainNarration(100);
+                        setTutGainMusic(100);
+                      }}
+                    >
+                      Kembalikan ke bawaan (100% / 100%)
                     </Button>
                   </div>
                 </div>

@@ -25,6 +25,13 @@ class SettingApp extends Model
         'edu_video_gain_sfx',
         'edu_video_subtitle_enabled',
         'edu_video_subtitle_size',
+        'tutorial_video_enabled',
+        'tutorial_video_path',
+        'tutorial_video_subtitle_path',
+        'tutorial_video_gain_narration',
+        'tutorial_video_gain_music',
+        'tutorial_video_subtitle_enabled',
+        'tutorial_video_subtitle_size',
         'warna',
         'seo',
         'contact_email',
@@ -44,6 +51,11 @@ class SettingApp extends Model
         'edu_video_gain_sfx' => 'integer',
         'edu_video_subtitle_enabled' => 'boolean',
         'edu_video_subtitle_size' => 'integer',
+        'tutorial_video_enabled' => 'boolean',
+        'tutorial_video_gain_narration' => 'integer',
+        'tutorial_video_gain_music' => 'integer',
+        'tutorial_video_subtitle_enabled' => 'boolean',
+        'tutorial_video_subtitle_size' => 'integer',
     ];
 
     /** Cache per-request agar baris setting tidak diquery berulang kali. */

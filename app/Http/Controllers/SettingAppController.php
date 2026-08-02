@@ -65,6 +65,22 @@ class SettingAppController extends Controller
             'edu_video_gain_sfx'      => 'nullable|integer|min:0|max:200',
             'edu_video_subtitle_enabled' => 'nullable|boolean',
             'edu_video_subtitle_size' => 'nullable|integer|min:50|max:200',
+            // Video tutorial pengisian - aturannya disamakan dengan video
+            // edukasi, kecuali gain efek suara: video tutorial hanya punya
+            // dua lapisan audio, narasi dan musik.
+            'tutorial_video_enabled'  => 'nullable|boolean',
+            'tutorial_video_path'     => 'nullable|file|mimes:mp4,webm,mov|max:51200',
+            'tutorial_video_remove'   => 'nullable|boolean',
+            'tutorial_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
+                if (!in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
+                    $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
+                }
+            }],
+            'tutorial_video_subtitle_remove' => 'nullable|boolean',
+            'tutorial_video_gain_narration' => 'nullable|integer|min:0|max:200',
+            'tutorial_video_gain_music' => 'nullable|integer|min:0|max:200',
+            'tutorial_video_subtitle_enabled' => 'nullable|boolean',
+            'tutorial_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             'warna'                   => 'nullable|string|max:20',
             'seo'                     => 'nullable|array',
             'contact_email'           => 'nullable|email|max:255',
@@ -88,6 +104,8 @@ class SettingAppController extends Controller
         $data['login_splash_muted'] = $request->boolean('login_splash_muted');
         $data['edu_video_enabled'] = $request->boolean('edu_video_enabled');
         $data['edu_video_subtitle_enabled'] = $request->boolean('edu_video_subtitle_enabled');
+        $data['tutorial_video_enabled'] = $request->boolean('tutorial_video_enabled');
+        $data['tutorial_video_subtitle_enabled'] = $request->boolean('tutorial_video_subtitle_enabled');
 
         $removeSplashVideo = (bool) ($data['login_splash_video_remove'] ?? false);
         unset($data['login_splash_video_remove']);
@@ -151,6 +169,38 @@ class SettingAppController extends Controller
             unset($data['edu_video_subtitle_path']);
         }
 
+
+        $hapusVideoTutorial = (bool) ($data['tutorial_video_remove'] ?? false);
+        unset($data['tutorial_video_remove']);
+
+        if ($request->hasFile('tutorial_video_path')) {
+            $data['tutorial_video_path'] = $request->file('tutorial_video_path')->store('tutorial-video', 'public');
+        } elseif ($hapusVideoTutorial) {
+            // Kembali ke "tanpa video kustom" - halaman Panduan memakai video
+            // tutorial bawaan kalau kolom ini kosong, BUKAN menyembunyikan
+            // bagiannya sama sekali (itu tugas toggle tutorial_video_enabled).
+            $data['tutorial_video_path'] = null;
+        } else {
+            unset($data['tutorial_video_path']);
+        }
+
+        $hapusSubtitleTutorial = (bool) ($data['tutorial_video_subtitle_remove'] ?? false);
+        unset($data['tutorial_video_subtitle_remove']);
+
+        if ($request->hasFile('tutorial_video_subtitle_path')) {
+            $berkas = $request->file('tutorial_video_subtitle_path');
+            $isi = (string) file_get_contents($berkas->getRealPath());
+            if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
+                $isi = $this->srtKeVtt($isi);
+            }
+            $nama = 'tutorial-video/subtitle-' . now()->format('YmdHis') . '-' . Str::random(6) . '.vtt';
+            Storage::disk('public')->put($nama, $isi);
+            $data['tutorial_video_subtitle_path'] = $nama;
+        } elseif ($hapusSubtitleTutorial) {
+            $data['tutorial_video_subtitle_path'] = null;
+        } else {
+            unset($data['tutorial_video_subtitle_path']);
+        }
 
         $setting->fill($data)->save();
 

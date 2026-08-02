@@ -28,6 +28,14 @@ terlanjur direkam dan hurufnya kabur. Di sini halamannya sendiri yang
 diperbesar lewat `transform`, sehingga peramban menggambar ulang teksnya pada
 ukuran yang lebih besar dan hasilnya tetap tajam.
 
+**Audionya dikirim sebagai jalur terpisah, bukan menyatu di dalam video.**
+Berkas yang diputar di aplikasi trek audionya SENYAP; suaranya datang dari
+`tutorial-narration.mp3` dan `tutorial-music.mp3` yang dibunyikan berdampingan
+oleh pemutar. Itulah yang membuat slider volume di `/settingsapp` berpengaruh
+langsung tanpa perlu me-render ulang videonya. Berkas 720p untuk diunduh justru
+audionya menyatu, karena ditonton luring tanpa pemutar itu. Pola yang sama
+dipakai video edukasi.
+
 **Musiknya dari rekaman instrumen, bukan sintesis.** Nada ditulis sebagai MIDI
 lalu dibunyikan FluidSynth memakai soundfont MuseScore General — pustaka berisi
 contoh bunyi yang direkam dari piano, gitar, dawai, dan bas sungguhan. Perlu
@@ -68,7 +76,7 @@ dikembalikan persis seperti semula.
 | `midi.py`, `musik.py` | menulis nada dan membunyikannya lewat instrumen tersampel |
 | `rakit.py` | garis waktu mutlak, jalur narasi, subtitle, daftar bab, sambung video |
 | `campur.sh` | campur narasi + musik berperedam otomatis, mux, buat 720p |
-| `pasang.sh` | pasang ke `public/video` dan `resources/js/data`, bangun ulang bundel |
+| `pasang.sh` | pasang video, tiga jalur audio, subtitle, dan daftar bab; bangun ulang bundel |
 | `akun.php` | pinjam-kembalikan sandi akun perekam |
 | `bersihkan.php` | buang data 2026 hasil rekaman, jaga data 2025 tak tersentuh |
 
@@ -99,6 +107,23 @@ dikembalikan persis seperti semula.
 - **PowerShell 5.1 membaca `.ps1` sebagai ANSI**, jadi `rekam.ps1` ditulis
   tanpa huruf non-ASCII; dan `2>&1` pada program native membuat keluaran biasa
   dianggap galat.
+
+## Pengaturannya di aplikasi
+
+Admin mengaturnya di `/settingsapp`, pada bagian **Video Tutorial Pengisian**
+tepat di bawah bagian Video Edukasi. Isinya sejajar: sakelar tampil/sembunyi,
+ganti berkas video sendiri, ganti berkas subtitle, sakelar dan ukuran subtitle,
+serta volume mix — dengan pratinjau yang langsung mengikuti setelan sebelum
+disimpan.
+
+Satu perbedaan yang disengaja: **tidak ada slider efek suara.** Video tutorial
+hanya punya dua lapisan audio, narasi dan musik. Jalur ketiga tetap dikirim
+karena pemutar mengharapkan tiga, tetapi isinya senyap dan slidernya tidak
+ditampilkan — menyediakan pengatur untuk lapisan yang tidak ada hanya
+membingungkan.
+
+Kolomnya terpisah dari kolom video edukasi (`tutorial_video_*` vs
+`edu_video_*`) supaya mematikan salah satunya tidak ikut mematikan yang lain.
 
 ## Isi videonya
 
