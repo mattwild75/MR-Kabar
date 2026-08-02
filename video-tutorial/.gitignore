@@ -22,3 +22,8 @@ _ukur_*
 _lihat_*
 _potret*
 _intip_uji*
+
+# Skrip sekali-pakai. Ditulis menyeluruh, bukan per nama: penandaan versi
+# memakai `git add -A`, jadi apa pun yang tertinggal akan ikut ter-commit.
+_*
+!_.gitkeep
