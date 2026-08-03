@@ -228,7 +228,7 @@ function badgeForSkala(skala: number, riskLevels: RiskLevelBand[]): string {
   return riskLevels.find((b) => skala >= b.skala_min && skala <= b.skala_max)?.warna_class ?? 'bg-muted text-muted-foreground';
 }
 
-/** Adaptasi item widget "Risiko Inheren vs Sisa Risiko" ke bentuk dialog rincian risiko yg sama dipakai widget Peta Risiko & Distribusi Kategori. */
+/** Adaptasi item widget "Siklus 4-Skor Risiko" ke bentuk dialog rincian risiko yg sama dipakai widget Peta Risiko & Distribusi Kategori. */
 function toMatriksDetailRisiko(r: InherenResidualItem): MatriksDetailRisiko {
   return {
     id: r.id,

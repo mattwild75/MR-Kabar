@@ -259,7 +259,7 @@ Contoh: Risiko "keterlambatan pencairan dana akibat perubahan regulasi pusat" ja
 
   'SKALA DAMPAK INHEREN': `Definisi: Skala Dampak & Kemungkinan SEBELUM mempertimbangkan pengendalian yang sudah ada (existing control) — berbeda dari Skala Dampak/Kemungkinan di atas yang SELALU dinilai SETELAH mempertimbangkan pengendalian (itulah Sisa Risiko/Skala Residual). Perdep PPKD No.4/2019 Pasal 1 angka 10 mendefinisikan "Sisa Risiko" sebagai risiko setelah pengendalian — secara implisit membedakannya dari risiko inheren.
 
-Fungsi: Kalau diisi, menjadi dasar widget Dashboard "Risiko Inheren vs Sisa Risiko" — membandingkan seberapa besar pengendalian yang ada berhasil menurunkan level risiko (Skala Risiko Inheren yang tinggi tapi Skala Risiko residual jadi rendah = pengendalian efektif).
+Fungsi: Kalau diisi, menjadi dasar widget Dashboard "Siklus 4-Skor Risiko" — membandingkan seberapa besar pengendalian yang ada berhasil menurunkan level risiko (Skala Risiko Inheren yang tinggi tapi Skala Risiko residual jadi rendah = pengendalian efektif).
 
 Cara mengisi: OPSIONAL — bayangkan seandainya "Uraian Pengendalian yang Sudah Ada" TIDAK PERNAH ada, seberapa besar Dampak & Kemungkinan risiko ini? Boleh dikosongkan kalau Anda tidak ingin mengisi perbandingan inheren-residual untuk baris ini (Skala Risiko yang wajib tetap dihitung dari Skala Dampak/Kemungkinan residual di atas).
 
