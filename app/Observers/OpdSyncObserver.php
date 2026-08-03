@@ -23,16 +23,33 @@ class OpdSyncObserver
     {
         $column = $model instanceof KrsPemda ? 'OPD PENANGGUNGJAWAB PROGRAM' : 'OPD PENANGGUNG JAWAB KEGIATAN';
 
-        $nama = trim((string) $model->{$column});
+        // Satu sel memuat BANYAK nama, dipisah baris baru — satu program
+        // non-prioritas lazim diampu puluhan perangkat daerah sekaligus.
+        //
+        // Sebelumnya isi sel diambil apa adanya sebagai SATU nama. Selama
+        // kolomnya diketik bebas dan biasanya berisi satu nama, itu tidak
+        // pernah ketahuan; begitu kolomnya berganti menjadi kotak centang,
+        // menyimpan satu baris berisi 49 perangkat daerah langsung menabrak
+        // batas panjang `opd.nama` dan MENGGAGALKAN penyimpanan baris
+        // risikonya — observer ikut satu transaksi dengan penyimpanan itu.
+        foreach (preg_split('/\r?\n/', (string) $model->{$column}) as $nama) {
+            $nama = trim($nama);
+            if ($nama === '' || $nama === '-' || mb_strtolower($nama) === 'tidak ada data') {
+                continue;
+            }
 
-        if ($nama === '' || $nama === '-') {
-            return;
+            // Nilai sepanjang ini hampir pasti bukan nama perangkat daerah,
+            // melainkan sesuatu yang salah masuk. Melewatinya lebih baik
+            // daripada menggagalkan penyimpanan data risiko yang sudah benar.
+            if (mb_strlen($nama) > 255) {
+                continue;
+            }
+
+            // Kolom opd.nama unik. Dua baris risiko yang disimpan bersamaan dan
+            // sama-sama menyebut OPD yang belum terdaftar akan membuat salah
+            // satunya gagal — dan yang gagal bukan cuma sync ini, tapi
+            // penyimpanan baris risikonya, karena observer ikut satu transaksi.
+            SafeUpsert::run(fn () => Opd::firstOrCreate(['nama' => $nama]));
         }
-
-        // Kolom opd.nama unik. Dua baris risiko yang disimpan bersamaan dan
-        // sama-sama menyebut OPD yang belum terdaftar akan membuat salah
-        // satunya gagal — dan yang gagal bukan cuma sync ini, tapi
-        // penyimpanan baris risikonya, karena observer ikut satu transaksi.
-        SafeUpsert::run(fn () => Opd::firstOrCreate(['nama' => $nama]));
     }
 }
