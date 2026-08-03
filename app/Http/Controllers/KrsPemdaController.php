@@ -337,8 +337,19 @@ class KrsPemdaController extends Controller
                     'opd' => [],
                 ];
             }
-            if ($opdVal !== '' && ! in_array($opdVal, $indikator[$programVal][$kunci]['opd'], true)) {
-                $indikator[$programVal][$kunci]['opd'][] = $opdVal;
+            // Satu sel bisa memuat BANYAK nama, dipisah baris baru — begitulah
+            // pemilih kotak centang menyimpannya sejak kolom ini tidak lagi
+            // diketik bebas. Kalau selnya diambil apa adanya sebagai satu
+            // nama, seluruh isinya tampil sebagai satu lencana raksasa berisi
+            // 49 nama beruntun.
+            foreach (preg_split('/\r?\n/', $opdVal) as $satu) {
+                $satu = trim($satu);
+                if ($satu === '' || $satu === '-' || mb_strtolower($satu) === 'tidak ada data') {
+                    continue;
+                }
+                if (! in_array($satu, $indikator[$programVal][$kunci]['opd'], true)) {
+                    $indikator[$programVal][$kunci]['opd'][] = $satu;
+                }
             }
         }
 
