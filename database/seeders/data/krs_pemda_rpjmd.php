@@ -8,12 +8,15 @@
  *   Tabel 3.5  Cascading Program Prioritas
  *   Tabel 4.1  Program Perangkat Daerah
  *
- * Berkas ini DIHASILKAN dari basis data yang isinya sudah dicocokkan
- * dengan ketiga tabel tersebut. Sengaja tidak diurai ulang dari PDF:
- * sel tabelnya terpecah antar baris sehingga penguraian otomatis
- * kehilangan sebagian besar nama program, dan hasil yang salah pada
- * kertas kerja tingkat Pemda jauh lebih mahal daripada satu berkas data
- * yang besar.
+ * Berkas ini DIHASILKAN dari basis data yang isinya sudah dicocokkan dengan
+ * ketiga tabel tersebut. Sengaja tidak diurai ulang dari PDF: sel tabelnya
+ * terpecah antar baris sehingga penguraian otomatis kehilangan sebagian besar
+ * nama program, dan hasil yang salah pada kertas kerja tingkat Pemda jauh
+ * lebih mahal daripada satu berkas data yang besar.
+ *
+ * Satu baris di sini = satu pasangan indikator dan perangkat daerah. Program
+ * yang diampu banyak perangkat daerah karena itu menempati banyak baris, dan
+ * kolom OPD tiap baris hanya memuat SATU nama.
  *
  * Jangan disunting dengan tangan. Perbaiki datanya lewat aplikasi, lalu
  * hasilkan ulang berkas ini.
@@ -56,10 +59,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Pendidikan yang Berkualitas dan Inklusif',
@@ -92,20 +95,20 @@ Persen
 Persen
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Perpustakaan dan Kearsipan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PERPUSTAKAAN DAN KEARSIPAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Pendidikan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Partisipasi Anak Usia Sekolah',
     'IK PROGRAM' => 'Angka Partisipasi Sekolah (7-15 Tahun)',
     'BASELINE IK PROGRAM' => '98,64',
     'TARGET IK PROGRAM' => '99,60',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   1 => 
   array (
@@ -141,10 +144,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Pendidikan yang Berkualitas dan Inklusif',
@@ -177,20 +180,20 @@ Persen
 Persen
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Perpustakaan dan Kearsipan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PERPUSTAKAAN DAN KEARSIPAN',
     'PROGRAM PRIORITAS' => 'Program Pendidik dan Tenaga Kependidikan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Mutu dan Distribusi Pendidik dan Tenaga Kependidikan',
     'IK PROGRAM' => 'Indeks Pemerataan Guru',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '67',
     'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   2 => 
   array (
@@ -226,10 +229,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Pendidikan yang Berkualitas dan Inklusif',
@@ -262,20 +265,20 @@ Persen
 Persen
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
-Dinas Perpustakaan dan Kearsipan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PERPUSTAKAAN DAN KEARSIPAN',
     'PROGRAM PRIORITAS' => 'Program Penyelenggaraan Lalu Lintas dan Angkutan Jalan (LLAJ)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Transportasi Darat',
     'IK PROGRAM' => 'Cakupan Trayek Angkutan',
     'BASELINE IK PROGRAM' => '2',
     'TARGET IK PROGRAM' => '3',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perhubungan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERHUBUNGAN',
   ),
   3 => 
   array (
@@ -311,10 +314,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Memperluas Perlindungan Sosial bagi Masyarakat',
@@ -328,7 +331,7 @@ Persentase Belanja CSR untuk Perlindungan Sosial',
 Persen',
     'PERIODE PENILAIAN' => '2025-2029',
     'OPD IK SASARAN RPJMD' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA
-Badan Perencanaan Pembangunan Daerah',
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Hubungan Industrial',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Pekerja Indonesia yang Terindungi',
     'IK PROGRAM' => 'Persentase Penyelesaian Masalah Ketenagakerjaan',
@@ -371,10 +374,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Memperluas Perlindungan Sosial bagi Masyarakat',
@@ -388,14 +391,14 @@ Persentase Belanja CSR untuk Perlindungan Sosial',
 Persen',
     'PERIODE PENILAIAN' => '2025-2029',
     'OPD IK SASARAN RPJMD' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA
-Badan Perencanaan Pembangunan Daerah',
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Perlindungan dan Jaminan Sosial',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Perlindungan dan Jaminan Sosial',
     'IK PROGRAM' => 'Persentase Penerima Manfaat yang Terpenuhi kebutuhan Dasarnya',
     'BASELINE IK PROGRAM' => '10,79254373',
     'TARGET IK PROGRAM' => '90',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   5 => 
   array (
@@ -431,10 +434,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Memperluas Perlindungan Sosial bagi Masyarakat',
@@ -448,14 +451,14 @@ Persentase Belanja CSR untuk Perlindungan Sosial',
 Persen',
     'PERIODE PENILAIAN' => '2025-2029',
     'OPD IK SASARAN RPJMD' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA
-Badan Perencanaan Pembangunan Daerah',
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Peningkatan Prasarana, Sarana dan Utilitas Umum (PSU)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penyediaan PSU Permukiman',
     'IK PROGRAM' => 'Persentase Permukiman dengan PSU Baik',
     'BASELINE IK PROGRAM' => '45',
     'TARGET IK PROGRAM' => '49',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   6 => 
   array (
@@ -491,10 +494,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -507,15 +510,15 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Penyediaan dan Pengembangan Sarana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Distribusi dan Kualitas Sarana Pertanian',
     'IK PROGRAM' => 'Produktivitas Padi',
     'BASELINE IK PROGRAM' => '6,3',
     'TARGET IK PROGRAM' => '7,1',
     'SATUAN IK PROGRAM' => 'Ton/Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   7 => 
   array (
@@ -551,10 +554,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -567,15 +570,15 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Perikanan Budidaya',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Produksi Perikanan Budidaya',
     'IK PROGRAM' => 'Produksi Perikanan Kelompok Pembudidaya Ikan',
     'BASELINE IK PROGRAM' => '802,39',
     'TARGET IK PROGRAM' => '840',
     'SATUAN IK PROGRAM' => 'Ton',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   8 => 
   array (
@@ -611,10 +614,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -627,15 +630,15 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Pengolahan dan Pemasaran Hasil Perikanan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Konsumsi Ikan Oleh Masyarakat',
     'IK PROGRAM' => 'Jumlah Industri Perikanan yang Mendapatkan Kerjasama Pemasaran',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '6',
     'SATUAN IK PROGRAM' => 'unit usaha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   9 => 
   array (
@@ -671,10 +674,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -687,15 +690,15 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Peningkatan Diversifikasi dan Ketahanan Pangan Masyarakat',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Diversifikasi dan Ketahanan Pangan Masyarakat',
     'IK PROGRAM' => 'Ketersediaan Pangan Utama',
     'BASELINE IK PROGRAM' => '71920',
     'TARGET IK PROGRAM' => '35050',
     'SATUAN IK PROGRAM' => 'Ton',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pangan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PANGAN',
   ),
   10 => 
   array (
@@ -731,10 +734,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -747,8 +750,8 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Perencanaan dan Pembangunan Industri',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Realisasi Pembangunan Industri',
     'IK PROGRAM' => 'Rata-rata Peningkatan Pendapatan IKM Hilir',
@@ -791,10 +794,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -807,8 +810,8 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Pengembangan UMKM',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Daya Saing UMKM',
     'IK PROGRAM' => 'Persentase Usaha Mikro Menjadi Usaha kecil dan Menengah',
@@ -851,10 +854,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -867,15 +870,15 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Perlindungan dan Jaminan Sosial',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Perlindungan dan Jaminan Sosial',
     'IK PROGRAM' => 'Persentase Penerima Manfaat yang Terpenuhi kebutuhan Dasarnya',
     'BASELINE IK PROGRAM' => '10,79254373',
     'TARGET IK PROGRAM' => '90',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   13 => 
   array (
@@ -911,10 +914,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Mewujudkan Pemenuhan Hak-hak Anak',
@@ -931,9 +934,9 @@ N/A',
 Orang
 Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Sosial
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS SOSIAL
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   14 => 
   array (
@@ -948,8 +951,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -968,7 +971,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '802,39',
     'TARGET IK PROGRAM' => '840',
     'SATUAN IK PROGRAM' => 'Ton',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   15 => 
   array (
@@ -983,8 +986,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1003,7 +1006,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '20105201',
     'TARGET IK PROGRAM' => '20450',
     'SATUAN IK PROGRAM' => 'Ton',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   16 => 
   array (
@@ -1018,8 +1021,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1038,7 +1041,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '6',
     'SATUAN IK PROGRAM' => 'unit usaha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   17 => 
   array (
@@ -1053,8 +1056,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1088,8 +1091,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1108,7 +1111,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '6,3',
     'TARGET IK PROGRAM' => '7,1',
     'SATUAN IK PROGRAM' => 'Ton/Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   19 => 
   array (
@@ -1123,8 +1126,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1143,7 +1146,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '82298,22',
     'TARGET IK PROGRAM' => '82900',
     'SATUAN IK PROGRAM' => 'Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   20 => 
   array (
@@ -1158,8 +1161,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1178,7 +1181,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '14026,16',
     'TARGET IK PROGRAM' => '16500',
     'SATUAN IK PROGRAM' => 'Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   21 => 
   array (
@@ -1193,8 +1196,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1228,8 +1231,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1263,8 +1266,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -1298,8 +1301,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1333,8 +1336,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1353,7 +1356,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '1616',
     'TARGET IK PROGRAM' => '530',
     'SATUAN IK PROGRAM' => 'Rupiah (Milyar)',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   26 => 
   array (
@@ -1368,8 +1371,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1388,7 +1391,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '4',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Perusahaan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   27 => 
   array (
@@ -1403,8 +1406,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1423,7 +1426,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   28 => 
   array (
@@ -1438,8 +1441,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1471,8 +1474,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1501,8 +1504,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1536,8 +1539,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Produksi serta Nilai Tambah Produk/Komoditi',
     'IK SASARAN RPJMD' => 'Jumlah Pelaku Ekonomi Kreatif
 Kontribusi PDRB Industri Pengolahan',
@@ -1571,8 +1574,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Mewujudkan Stabilitas Ekonomi',
     'IK SASARAN RPJMD' => 'Inflasi',
     'BASELINE IK SASARAN RPJMD' => '3,29',
@@ -1602,10 +1605,10 @@ A',
 Indeks
 Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah
-Inspektorat
-Sekretariat Daerah
-Sekretariat Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH
+INSPEKTORAT
+SEKRETARIAT DAERAH
+SEKRETARIAT DAERAH',
     'SASARAN RPJMD' => 'Meningkatnya Tranparansi Pengelolaan Anggaran',
     'IK SASARAN RPJMD' => 'Opini BPK
 Indeks Pencegahan Korupsi MCP',
@@ -1616,12 +1619,12 @@ Indeks Pencegahan Korupsi MCP',
     'SATUAN IK SASARAN RPJMD' => 'Opini
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah
-Inspektorat',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH
+INSPEKTORAT',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'BASELINE IK PROGRAM' => 'B',
     'TARGET IK PROGRAM' => 'B',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DAERAH',
   ),
   34 => 
   array (
@@ -1644,17 +1647,17 @@ A',
 Indeks
 Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah
-Inspektorat
-Sekretariat Daerah
-Sekretariat Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH
+INSPEKTORAT
+SEKRETARIAT DAERAH
+SEKRETARIAT DAERAH',
     'SASARAN RPJMD' => 'Meningkatnya Kualitas Perencanaan Pembangunan',
     'IK SASARAN RPJMD' => 'Tingkat Partisipasi Masyarakat dalam Pembangunan',
     'BASELINE IK SASARAN RPJMD' => '100',
     'TARGET IK SASARAN RPJMD' => '100',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Penyelenggaraan Statistik Sektoral',
     'OUTCOME PROGRAM PRIORITAS' => 'Tercapainya Kolaborasi, Integrasi, dan Standardisasi Dalam Penyelenggaraan Sistem Statistik Nasional (SSN)',
     'IK PROGRAM' => 'Indeks Pembangunan Statistik',
@@ -1676,22 +1679,22 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas ASN',
     'IK SASARAN RPJMD' => 'Indeks Profesionalitas ASN',
     'BASELINE IK SASARAN RPJMD' => '71,93',
     'TARGET IK SASARAN RPJMD' => '72,95',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD IK SASARAN RPJMD' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
     'PROGRAM PRIORITAS' => 'Program Pengembangan Sumber Daya Manusia',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Layanan Pengembangan Kompetensi Dasar, Kader, Manajerial dan Fungsional',
     'IK PROGRAM' => 'Persentase ASN yang Mendapatkan Pengembangan Kompetensi Dasar, Manajerial dan Fungsional',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '25',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   36 => 
   array (
@@ -1706,22 +1709,22 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas ASN',
     'IK SASARAN RPJMD' => 'Indeks Profesionalitas ASN',
     'BASELINE IK SASARAN RPJMD' => '71,93',
     'TARGET IK SASARAN RPJMD' => '72,95',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD IK SASARAN RPJMD' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Administrasi Kepegawaian',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   37 => 
   array (
@@ -1736,20 +1739,20 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas ASN',
     'IK SASARAN RPJMD' => 'Indeks Profesionalitas ASN',
     'BASELINE IK SASARAN RPJMD' => '71,93',
     'TARGET IK SASARAN RPJMD' => '72,95',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD IK SASARAN RPJMD' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Pengembamngan Kompetensi ASN',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   38 => 
   array (
@@ -1764,20 +1767,20 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas ASN',
     'IK SASARAN RPJMD' => 'Indeks Profesionalitas ASN',
     'BASELINE IK SASARAN RPJMD' => '71,93',
     'TARGET IK SASARAN RPJMD' => '72,95',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD IK SASARAN RPJMD' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Pengembangan Karir ASN',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   39 => 
   array (
@@ -1792,20 +1795,20 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas ASN',
     'IK SASARAN RPJMD' => 'Indeks Profesionalitas ASN',
     'BASELINE IK SASARAN RPJMD' => '71,93',
     'TARGET IK SASARAN RPJMD' => '72,95',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD IK SASARAN RPJMD' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Penilaian Kinerja ASN',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   40 => 
   array (
@@ -1820,8 +1823,8 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Layanan Pemeriintah',
     'IK SASARAN RPJMD' => 'Indeks Kepuasan Masyarakat (IKM)
 Indeks SPBE',
@@ -1832,13 +1835,13 @@ Indeks SPBE',
     'SATUAN IK SASARAN RPJMD' => 'Indeks
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Sekretariat Daerah
+    'OPD IK SASARAN RPJMD' => 'SEKRETARIAT DAERAH
 DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'BASELINE IK PROGRAM' => 'B',
     'TARGET IK PROGRAM' => 'B',
     'SATUAN IK PROGRAM' => 'Nilai',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DAERAH',
   ),
   41 => 
   array (
@@ -1853,8 +1856,8 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Layanan Pemeriintah',
     'IK SASARAN RPJMD' => 'Indeks Kepuasan Masyarakat (IKM)
 Indeks SPBE',
@@ -1865,7 +1868,7 @@ Indeks SPBE',
     'SATUAN IK SASARAN RPJMD' => 'Indeks
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Sekretariat Daerah
+    'OPD IK SASARAN RPJMD' => 'SEKRETARIAT DAERAH
 DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Aplikasi Informatika',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pengelolaan Aplikasi Informatika',
@@ -1888,8 +1891,8 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Layanan Pemeriintah',
     'IK SASARAN RPJMD' => 'Indeks Kepuasan Masyarakat (IKM)
 Indeks SPBE',
@@ -1900,7 +1903,7 @@ Indeks SPBE',
     'SATUAN IK SASARAN RPJMD' => 'Indeks
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Sekretariat Daerah
+    'OPD IK SASARAN RPJMD' => 'SEKRETARIAT DAERAH
 DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Keuangan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Anggaran',
@@ -1908,7 +1911,7 @@ DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
     'BASELINE IK PROGRAM' => '32,66',
     'TARGET IK PROGRAM' => '30',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   43 => 
   array (
@@ -1923,8 +1926,8 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Layanan Pemeriintah',
     'IK SASARAN RPJMD' => 'Indeks Kepuasan Masyarakat (IKM)
 Indeks SPBE',
@@ -1935,14 +1938,14 @@ Indeks SPBE',
     'SATUAN IK SASARAN RPJMD' => 'Indeks
 Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Sekretariat Daerah
+    'OPD IK SASARAN RPJMD' => 'SEKRETARIAT DAERAH
 DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
     'PROGRAM PRIORITAS' => 'Program Pemerintahan dan Kesejahteraan Rakyat',
     'IK PROGRAM' => 'Kategori Hasil Evaluasi LPPD',
     'BASELINE IK PROGRAM' => '2,66',
     'TARGET IK PROGRAM' => '3,3',
     'SATUAN IK PROGRAM' => 'Kategori',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DAERAH',
   ),
   44 => 
   array (
@@ -1957,15 +1960,15 @@ Indeks Daya Saing Daerah (IDSD)',
 3,54',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Sekretariat Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'SEKRETARIAT DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Inovasi Pelayanan bagi Masyarakat',
     'IK SASARAN RPJMD' => 'Indeks Inovasi Daerah',
     'BASELINE IK SASARAN RPJMD' => '59,19',
     'TARGET IK SASARAN RPJMD' => '70',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   45 => 
   array (
@@ -1976,21 +1979,21 @@ Badan Perencanaan Pembangunan Daerah',
     'BASELINE IK TUJUAN RPJMD' => '12',
     'TARGET IK TUJUAN RPJMD' => '17',
     'SATUAN IK TUJUAN RPJMD' => 'Perusahaan',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatnya Anggaran Swasta dalam Pembangunan',
     'IK SASARAN RPJMD' => 'Jumlah Anggaran CSR',
     'BASELINE IK SASARAN RPJMD' => '55,33',
     'TARGET IK SASARAN RPJMD' => '53',
     'SATUAN IK SASARAN RPJMD' => 'Milyar Rupiah',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Koordinasi dan Sinkronisasi Perencanaan Pembangunan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Perencanaan Pembangunan Bidang Pemerintahan dan Pembangunan Manusia',
     'IK PROGRAM' => 'Persentase Keselarasan RKPD dengan Renja PD pada Bidang Pemerintahan dan Pembangunan Manusia',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   46 => 
   array (
@@ -2001,20 +2004,20 @@ Badan Perencanaan Pembangunan Daerah',
     'BASELINE IK TUJUAN RPJMD' => '12',
     'TARGET IK TUJUAN RPJMD' => '17',
     'SATUAN IK TUJUAN RPJMD' => 'Perusahaan',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatnya Anggaran Swasta dalam Pembangunan',
     'IK SASARAN RPJMD' => 'Jumlah Anggaran CSR',
     'BASELINE IK SASARAN RPJMD' => '55,33',
     'TARGET IK SASARAN RPJMD' => '53',
     'SATUAN IK SASARAN RPJMD' => 'Milyar Rupiah',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Koordinasi dan Sinkronisasi Perencanaan Pembangunan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Perencanaan Pembangunan Bidang Infrastruktur dan Kewilayahan',
     'IK PROGRAM' => 'Persentase Keselarasan RKPD dengan Renja PD pada Bidang Pemerintahan dan Pembangunan Manusia',
     'BASELINE IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   47 => 
   array (
@@ -2025,20 +2028,20 @@ Badan Perencanaan Pembangunan Daerah',
     'BASELINE IK TUJUAN RPJMD' => '12',
     'TARGET IK TUJUAN RPJMD' => '17',
     'SATUAN IK TUJUAN RPJMD' => 'Perusahaan',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatnya Anggaran Swasta dalam Pembangunan',
     'IK SASARAN RPJMD' => 'Jumlah Anggaran CSR',
     'BASELINE IK SASARAN RPJMD' => '55,33',
     'TARGET IK SASARAN RPJMD' => '53',
     'SATUAN IK SASARAN RPJMD' => 'Milyar Rupiah',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Koordinasi dan Sinkronisasi Perencanaan Pembangunan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Perencanaan Pembangunan Bidang Perekonomian dan SDA',
     'IK PROGRAM' => 'Persentase Keselarasan RKPD dengan Renja PD pada Bidang Pemerintahan dan Pembangunan Manusia',
     'BASELINE IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   48 => 
   array (
@@ -2053,18 +2056,18 @@ Persentase Desa Mandiri',
 12,42',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong
-Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG
+DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'SASARAN RPJMD' => 'Meningkatkan Kesetaraan RKPG dan RKPD',
     'IK SASARAN RPJMD' => 'Persentase Keselarasan Prioritas Pembangunan di Gampong dan di Kabupaten',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '85',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'PROGRAM PRIORITAS' => 'Program Peningkatan Kerja Sama Desa',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Efektivitas Kerja Sama Desa',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   49 => 
   array (
@@ -2079,22 +2082,22 @@ Persentase Desa Mandiri',
 12,42',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong
-Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG
+DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'SASARAN RPJMD' => 'Meningkatkan Kesetaraan RKPG dan RKPD',
     'IK SASARAN RPJMD' => 'Persentase Keselarasan Prioritas Pembangunan di Gampong dan di Kabupaten',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '85',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'PROGRAM PRIORITAS' => 'Program Administrasi Pemerintahan Desa',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pembinaan dan Pengawasan Pemerintahan Desa',
     'IK PROGRAM' => 'Persentase Aparatur Desa dan Anggota BPD yang ditingkatkan Kapasitasnya',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   50 => 
   array (
@@ -2109,22 +2112,22 @@ Persentase Desa Mandiri',
 12,42',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong
-Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG
+DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'SASARAN RPJMD' => 'Meningkatkan Kesetaraan RKPG dan RKPD',
     'IK SASARAN RPJMD' => 'Persentase Keselarasan Prioritas Pembangunan di Gampong dan di Kabupaten',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '85',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Keuangan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Anggaran',
     'IK PROGRAM' => 'Persentase Belanja Pegawai di Luar Tunjangan Guru yang Dialokasikan Melalui TKD',
     'BASELINE IK PROGRAM' => '32,66',
     'TARGET IK PROGRAM' => '30',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   51 => 
   array (
@@ -2139,22 +2142,22 @@ Persentase Desa Mandiri',
 12,42',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong
-Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG
+DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'SASARAN RPJMD' => 'Meningkatkan Kesetaraan RKPG dan RKPD',
     'IK SASARAN RPJMD' => 'Persentase Keselarasan Prioritas Pembangunan di Gampong dan di Kabupaten',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '85',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
     'PROGRAM PRIORITAS' => 'Program Pemberdayaan Lembaga Kemasyarakatan, Lembaga Adat dan Masyarakat Hukum Adat',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kapasitas Lembaga Kemasyarakatan, Lembaga Adat dan Masyarakat Hukum Adat Dalam Pembangunan',
     'IK PROGRAM' => 'Persentase Fasilitasi Pemberdayaan Lembaga kemasyarakatan Desa',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   52 => 
   array (
@@ -2165,21 +2168,21 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '0,936',
     'TARGET IK TUJUAN RPJMD' => '1,036',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Pendapatan Asli Daerah',
     'IK SASARAN RPJMD' => 'Persentase PAD terhadap Total Pendapatan',
     'BASELINE IK SASARAN RPJMD' => '10,85',
     'TARGET IK SASARAN RPJMD' => '17,9',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Pendapatan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Upaya Ekstensifikasi dan Intensifikasi Pendapatan',
     'IK PROGRAM' => 'Cakupan Pembinaan dan Pengawasan Pengelolaan Pendapatan',
     'BASELINE IK PROGRAM' => '10,8',
     'TARGET IK PROGRAM' => '13,5',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   53 => 
   array (
@@ -2190,20 +2193,20 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '0,936',
     'TARGET IK TUJUAN RPJMD' => '1,036',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Pendapatan Asli Daerah',
     'IK SASARAN RPJMD' => 'Persentase PAD terhadap Total Pendapatan',
     'BASELINE IK SASARAN RPJMD' => '10,85',
     'TARGET IK SASARAN RPJMD' => '17,9',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Pendapatan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pengawasan dan Pelaporan',
     'IK PROGRAM' => 'Cakupan Pembinaan dan Pengawasan Pengelolaan Pendapatan',
     'BASELINE IK PROGRAM' => '4',
     'SATUAN IK PROGRAM' => 'Kali',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   54 => 
   array (
@@ -2214,20 +2217,20 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '0,936',
     'TARGET IK TUJUAN RPJMD' => '1,036',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Pendapatan Asli Daerah',
     'IK SASARAN RPJMD' => 'Persentase PAD terhadap Total Pendapatan',
     'BASELINE IK SASARAN RPJMD' => '10,85',
     'TARGET IK SASARAN RPJMD' => '17,9',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Pendapatan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penerapan Sistem Informasi Keuangan Berbasis Digital',
     'IK PROGRAM' => 'Cakupan Pembinaan dan Pengawasan Pengelolaan Pendapatan',
     'BASELINE IK PROGRAM' => '4',
     'SATUAN IK PROGRAM' => 'Kali',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   55 => 
   array (
@@ -2250,7 +2253,7 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK PROGRAM' => '65',
     'TARGET IK PROGRAM' => '76',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Syariat Islam',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SYARIAT ISLAM',
   ),
   56 => 
   array (
@@ -2261,21 +2264,21 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '83,47',
     'TARGET IK TUJUAN RPJMD' => '87,94',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Meningkatkan Fungsi Masjid sebagai Tempat Ibadah dan Kegiatan Keagamaan Lainnya',
     'IK SASARAN RPJMD' => 'Persentase Masjid yang Aktif sesuai dengan Fungsi Masjid',
     'BASELINE IK SASARAN RPJMD' => '75',
     'TARGET IK SASARAN RPJMD' => '85',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK SASARAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'PROGRAM PRIORITAS' => 'Program Administrasi Pemerintahan Desa',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pembinaan dan Pengawasan Pemerintahan Desa',
     'IK PROGRAM' => 'Persentase Aparatur Desa dan Anggota BPD yang ditingkatkan Kapasitasnya',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   57 => 
   array (
@@ -2286,21 +2289,21 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '83,47',
     'TARGET IK TUJUAN RPJMD' => '87,94',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Meningkatkan Fungsi Masjid sebagai Tempat Ibadah dan Kegiatan Keagamaan Lainnya',
     'IK SASARAN RPJMD' => 'Persentase Masjid yang Aktif sesuai dengan Fungsi Masjid',
     'BASELINE IK SASARAN RPJMD' => '75',
     'TARGET IK SASARAN RPJMD' => '85',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK SASARAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'PROGRAM PRIORITAS' => 'Program Pendidikan Dayah',
     'OUTCOME PROGRAM PRIORITAS' => 'Peningkatan Manajemen dan Tata Kelola Dayah',
     'IK PROGRAM' => 'Cakupan Dayah Terakreditasi',
     'BASELINE IK PROGRAM' => '56',
     'TARGET IK PROGRAM' => '81,914894',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan Dayah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAYAH',
   ),
   58 => 
   array (
@@ -2311,14 +2314,14 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '83,47',
     'TARGET IK TUJUAN RPJMD' => '87,94',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Meningkatkan Pemahaman Masyarakat',
     'IK SASARAN RPJMD' => 'Persentase Majelis Taklim Gampong yang Aktif',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '90',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK SASARAN RPJMD' => 'DINAS SYARIAT ISLAM',
   ),
   59 => 
   array (
@@ -2329,21 +2332,21 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '83,47',
     'TARGET IK TUJUAN RPJMD' => '87,94',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Meningkatkan Pemahaman Masyarakat tentang Nilai-nilai Syariat Islam',
     'IK SASARAN RPJMD' => 'Persentase Majelis Taklim Gampong yang Aktif',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '90',
     'SATUAN IK SASARAN RPJMD' => 'Persen',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK SASARAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'PROGRAM PRIORITAS' => 'Program Syariat Islam Aceh',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatkatnya Partisipasi Aktif Masyarakat dalam Kegiatan Keagamaan, Dakwah, dan Pembinaan Syariat Islam',
     'IK PROGRAM' => 'Persentase Masjid yang Melaksanakan Shalat Berjamaah Lima Waktu Secara Rutin',
     'BASELINE IK PROGRAM' => '65',
     'TARGET IK PROGRAM' => '76',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Syariat Islam',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SYARIAT ISLAM',
   ),
   60 => 
   array (
@@ -2354,7 +2357,7 @@ Dinas Pemberdayaan Masyarakat dan Gampong',
     'BASELINE IK TUJUAN RPJMD' => '48',
     'TARGET IK TUJUAN RPJMD' => '73',
     'SATUAN IK TUJUAN RPJMD' => 'Jumlah Gampong',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas dan Peran Dayah',
     'IK SASARAN RPJMD' => 'Jumlah Dayah yang Terakreditasi
 Jumlah Dayah yang Aktif dalam Kehidupan Sosial Masyarakat',
@@ -2365,15 +2368,15 @@ N/A',
     'SATUAN IK SASARAN RPJMD' => 'Unit
 Dayah',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pendidikan Dayah
-Dinas Pendidikan Dayah',
+    'OPD IK SASARAN RPJMD' => 'DINAS PENDIDIKAN DAYAH
+DINAS PENDIDIKAN DAYAH',
     'PROGRAM PRIORITAS' => 'Program Pendidikan Dayah',
     'OUTCOME PROGRAM PRIORITAS' => 'Peningkatan Manajemen dan Tata Kelola Dayah',
     'IK PROGRAM' => 'Cakupan Dayah Terakreditasi',
     'BASELINE IK PROGRAM' => '56',
     'TARGET IK PROGRAM' => '81,914894',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan Dayah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAYAH',
   ),
   61 => 
   array (
@@ -2384,21 +2387,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '48',
     'TARGET IK TUJUAN RPJMD' => '73',
     'SATUAN IK TUJUAN RPJMD' => 'Jumlah Gampong',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Menciptakan Lingkungan Sosial Kehidupan Masyarakat yang Islami',
     'IK SASARAN RPJMD' => 'Jumlah Pelanggaran Syariat Islam',
     'BASELINE IK SASARAN RPJMD' => '79',
     'TARGET IK SASARAN RPJMD' => '54',
     'SATUAN IK SASARAN RPJMD' => 'Kasus',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Satuan Polisi Pamong Praja dan Wilayatul Hisbah',
+    'OPD IK SASARAN RPJMD' => 'SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH',
     'PROGRAM PRIORITAS' => 'Program Pemberdayaan Lembaga Kemasyarakatan, Lembaga Adat dan Masyarakat Hukum Adat',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kapasitas Lembaga Kemasyarakatan, Lembaga Adat dan Masyarakat Hukum Adat Dalam Pembangunan',
     'IK PROGRAM' => 'Persentase Fasilitasi Pemberdayaan Lembaga kemasyarakatan Desa',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   62 => 
   array (
@@ -2409,21 +2412,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '48',
     'TARGET IK TUJUAN RPJMD' => '73',
     'SATUAN IK TUJUAN RPJMD' => 'Jumlah Gampong',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK TUJUAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'SASARAN RPJMD' => 'Mewujudkan Sumber Daya Manusia di Bidang Keagamaan yang Berdaya Saing',
     'IK SASARAN RPJMD' => 'Jumlah Qori Internasional',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '1',
     'SATUAN IK SASARAN RPJMD' => 'Orang',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Syariat Islam',
+    'OPD IK SASARAN RPJMD' => 'DINAS SYARIAT ISLAM',
     'PROGRAM PRIORITAS' => 'Program Syariat Islam Aceh',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatkatnya Partisipasi Aktif Masyarakat dalam Kegiatan Keagamaan, Dakwah, dan Pembinaan Syariat Islam',
     'IK PROGRAM' => 'Persentase Masjid yang Melaksanakan Shalat Berjamaah Lima Waktu Secara Rutin',
     'BASELINE IK PROGRAM' => '65',
     'TARGET IK PROGRAM' => '76',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Syariat Islam',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SYARIAT ISLAM',
   ),
   63 => 
   array (
@@ -2434,21 +2437,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Mengurangi Kawasan Permukiman Kumuh',
     'IK SASARAN RPJMD' => 'Jumlah Kawasan Permukiman Kumuh',
     'BASELINE IK SASARAN RPJMD' => '9',
     'TARGET IK SASARAN RPJMD' => '8',
     'SATUAN IK SASARAN RPJMD' => 'Kawasan',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
     'PROGRAM PRIORITAS' => 'Program Penyelenggaraan Jalan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Aksesibilitas Masyarakat yang Nyaman dan Aman',
     'IK PROGRAM' => 'Persentase Jalan Kabupaten dalam Kondisi Mantap ( > 40 Km/Jam)',
     'BASELINE IK PROGRAM' => '57,83',
     'TARGET IK PROGRAM' => '59,3',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   64 => 
   array (
@@ -2459,21 +2462,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Mengurangi Kawasan Permukiman Kumuh',
     'IK SASARAN RPJMD' => 'Jumlah Kawasan Permukiman Kumuh',
     'BASELINE IK SASARAN RPJMD' => '9',
     'TARGET IK SASARAN RPJMD' => '8',
     'SATUAN IK SASARAN RPJMD' => 'Kawasan',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan dan Pengembangan Sistem Penyediaan Air Minum',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Akses Masyarakat Terhadap Sistem Penyediaan Air Minum',
     'IK PROGRAM' => 'Proporsi Rumah Tangga dengan Akses Berkelanjutan Terhadap Air Minum Layak, Perkotaan dan Perdesaan',
     'BASELINE IK PROGRAM' => '68,14',
     'TARGET IK PROGRAM' => '73',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   65 => 
   array (
@@ -2484,21 +2487,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Mengurangi Kawasan Permukiman Kumuh',
     'IK SASARAN RPJMD' => 'Jumlah Kawasan Permukiman Kumuh',
     'BASELINE IK SASARAN RPJMD' => '9',
     'TARGET IK SASARAN RPJMD' => '8',
     'SATUAN IK SASARAN RPJMD' => 'Kawasan',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan dan Pengembangan Sistem Air Limbah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Akses Masyarakat Terhadap Sistem Pengelolaan Air Limbah',
     'IK PROGRAM' => 'Persentase Rumah Tinggal Bersanitasi',
     'BASELINE IK PROGRAM' => '90,36',
     'TARGET IK PROGRAM' => '95',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   66 => 
   array (
@@ -2509,21 +2512,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Meningkatkan kemitraan dalam Pemenuhan Layanan Dasar',
     'IK SASARAN RPJMD' => 'Jumlah Kerjasama Pemerintah dengan Badan Usaha (KPBU)',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '1',
     'SATUAN IK SASARAN RPJMD' => 'KPBU',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Sekretariat Daerah',
+    'OPD IK SASARAN RPJMD' => 'SEKRETARIAT DAERAH',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan dan Pengembangan Sistem Drainase',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Sistem Drainase Perkotaan',
     'IK PROGRAM' => 'Persentase Drainase Perkotaan dalam Kondisi Baik/ Pembuangan Aliran Air Tidak Tersumbat',
     'BASELINE IK PROGRAM' => '87',
     'TARGET IK PROGRAM' => '91',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   67 => 
   array (
@@ -2534,21 +2537,21 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Meningkatkan kemitraan dalam Pemenuhan Layanan Dasar',
     'IK SASARAN RPJMD' => 'Jumlah Kerjasama Pemerintah dengan Badan Usaha (KPBU)',
     'BASELINE IK SASARAN RPJMD' => 'N/A',
     'TARGET IK SASARAN RPJMD' => '1',
     'SATUAN IK SASARAN RPJMD' => 'KPBU',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Sekretariat Daerah',
+    'OPD IK SASARAN RPJMD' => 'SEKRETARIAT DAERAH',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Sumber Daya Air (SDA)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Perlindungan Masyarakat Terhadap Banjir dan Meningkatnya Akses Masyarakat Terhadap Irigasi',
     'IK PROGRAM' => 'Persentase Irigasi Kabupaten dalam Kondisi Baik',
     'BASELINE IK PROGRAM' => '0',
     'TARGET IK PROGRAM' => '0',
     'SATUAN IK PROGRAM' => 'Hektar',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   68 => 
   array (
@@ -2559,7 +2562,7 @@ Dinas Pendidikan Dayah',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Tersedianya Infrastruktur Layanan Perkotaan',
     'IK SASARAN RPJMD' => 'Jumlah Panjang Ruas Jalan yang Memiliki Lampu Penerangan
 Jumlah Panjang Ruas Jalan yang Memiliki Pedestrian',
@@ -2570,15 +2573,15 @@ Jumlah Panjang Ruas Jalan yang Memiliki Pedestrian',
     'SATUAN IK SASARAN RPJMD' => 'KM
 KM',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman
-Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN
+DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan dan Pengembangan Sistem Penyediaan Air Minum',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Akses Masyarakat Terhadap Sistem Penyediaan Air Minum',
     'IK PROGRAM' => 'Proporsi Rumah Tangga dengan Akses Berkelanjutan Terhadap Air Minum Layak, Perkotaan dan Perdesaan',
     'BASELINE IK PROGRAM' => '68,14',
     'TARGET IK PROGRAM' => '73',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   69 => 
   array (
@@ -2589,7 +2592,7 @@ Dinas Pekerjaan Umum dan Penataan Ruang',
     'BASELINE IK TUJUAN RPJMD' => '66,23',
     'TARGET IK TUJUAN RPJMD' => '66,7',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Tersedianya Infrastruktur Layanan Perkotaan',
     'IK SASARAN RPJMD' => 'Jumlah Panjang Ruas Jalan yang Memiliki Lampu Penerangan
 Jumlah Panjang Ruas Jalan yang Memiliki Pedestrian',
@@ -2600,15 +2603,15 @@ Jumlah Panjang Ruas Jalan yang Memiliki Pedestrian',
     'SATUAN IK SASARAN RPJMD' => 'KM
 KM',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman
-Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN
+DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'PROGRAM PRIORITAS' => 'Program Peningkatan Prasarana, Sarana dan Utilitas Umum (PSU)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penyediaan PSU Permukiman',
     'IK PROGRAM' => 'Persentase Permukiman dengan PSU Baik',
     'BASELINE IK PROGRAM' => '45',
     'TARGET IK PROGRAM' => '49',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   70 => 
   array (
@@ -2619,21 +2622,21 @@ Dinas Pekerjaan Umum dan Penataan Ruang',
     'BASELINE IK TUJUAN RPJMD' => '14',
     'TARGET IK TUJUAN RPJMD' => '15',
     'SATUAN IK TUJUAN RPJMD' => 'Persen',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'SASARAN RPJMD' => 'Meningkatkan Jaringan irigasi untuk Sumber Daya Air Pertanian',
     'IK SASARAN RPJMD' => 'Indeks Luas Areal (IA)',
     'BASELINE IK SASARAN RPJMD' => '0,291',
     'TARGET IK SASARAN RPJMD' => '0,299',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Sumber Daya Air (SDA)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Perlindungan Masyarakat Terhadap Banjir dan Meningkatnya Akses Masyarakat Terhadap Irigasi',
     'IK PROGRAM' => 'Persentase Irigasi Kabupaten dalam Kondisi Baik',
     'BASELINE IK PROGRAM' => '0',
     'TARGET IK PROGRAM' => '0',
     'SATUAN IK PROGRAM' => 'Hektar',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   71 => 
   array (
@@ -2652,23 +2655,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Pemanfaatan Lahan untuk Pengembangan Sumber Daya Alam yang Mendukung Perekonomian Masyarakat',
     'IK SASARAN RPJMD' => 'Jumlah Lahan yang Dimanfaatkan untuk Persawahan/Perkebunan/Pengembalaan/Budidaya Perairan',
     'BASELINE IK SASARAN RPJMD' => '82298,22',
     'TARGET IK SASARAN RPJMD' => '82800',
     'SATUAN IK SASARAN RPJMD' => 'Ha',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'PROGRAM PRIORITAS' => 'Program Penyuluhan Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kapasitas SDM Bidang Penyuluhan Pertanian',
     'IK PROGRAM' => 'Jumlah Variasi Komoditi Pertanian',
     'BASELINE IK PROGRAM' => '19',
     'TARGET IK PROGRAM' => '23',
     'SATUAN IK PROGRAM' => 'Komoditi',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   72 => 
   array (
@@ -2687,23 +2690,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Diversifikasi Produk Pertanian',
     'IK SASARAN RPJMD' => 'Jumlah Variasi Komoditi Pertanian',
     'BASELINE IK SASARAN RPJMD' => '19',
     'TARGET IK SASARAN RPJMD' => '24',
     'SATUAN IK SASARAN RPJMD' => 'Komoditi',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'PROGRAM PRIORITAS' => 'Program Penyuluhan Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kapasitas SDM Bidang Penyuluhan Pertanian',
     'IK PROGRAM' => 'Jumlah Variasi Komoditi Pertanian',
     'BASELINE IK PROGRAM' => '19',
     'TARGET IK PROGRAM' => '23',
     'SATUAN IK PROGRAM' => 'Komoditi',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   73 => 
   array (
@@ -2722,9 +2725,9 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Kesejahteraan Petani dan Nelayan serta Mendorong Hilirisasi Komoditi Pertanian',
     'IK SASARAN RPJMD' => 'NTP
 NTN
@@ -2739,8 +2742,8 @@ N/A',
 Indeks
 Produk',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
 DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'PROGRAM PRIORITAS' => 'Program Pengolahan dan Pemasaran Hasil Perikanan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Konsumsi Ikan oleh Masyarakat',
@@ -2748,7 +2751,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '6',
     'SATUAN IK PROGRAM' => 'unit usaha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   74 => 
   array (
@@ -2767,9 +2770,9 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Kesejahteraan Petani dan Nelayan serta Mendorong Hilirisasi Komoditi Pertanian',
     'IK SASARAN RPJMD' => 'NTP
 NTN
@@ -2784,8 +2787,8 @@ N/A',
 Indeks
 Produk',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
 DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'PROGRAM PRIORITAS' => 'Program Perencanaan dan Pembangunan Industri',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Realisasi Pembangunan Industri',
@@ -2812,9 +2815,9 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Kesejahteraan Petani dan Nelayan serta Mendorong Hilirisasi Komoditi Pertanian',
     'IK SASARAN RPJMD' => 'NTP
 NTN
@@ -2829,8 +2832,8 @@ N/A',
 Indeks
 Produk',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
 DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Perikanan Tangkap',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Produksi Perikanan Tangkap',
@@ -2838,7 +2841,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '20105201',
     'TARGET IK PROGRAM' => '20450',
     'SATUAN IK PROGRAM' => 'Ton',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   76 => 
   array (
@@ -2857,23 +2860,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Penyediaan dan Pengembangan Sarana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Distribusi dan Kualitas Sarana Pertanian',
     'IK PROGRAM' => 'Produktivitas Padi',
     'BASELINE IK PROGRAM' => '6,3',
     'TARGET IK PROGRAM' => '7,1',
     'SATUAN IK PROGRAM' => 'Ton/Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   77 => 
   array (
@@ -2892,23 +2895,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Penyediaan dan Pengembangan Prasarana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Distribusi dan Kualitas Prasarana Pertanian',
     'IK PROGRAM' => 'Jumlah Lahan yang Dimanfaatkan untuk Persawahan',
     'BASELINE IK PROGRAM' => '82298,22',
     'TARGET IK PROGRAM' => '82900',
     'SATUAN IK PROGRAM' => 'Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   78 => 
   array (
@@ -2927,23 +2930,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pengendalian dan Penanggulangan Bencana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Pengendalian dan Penanggulangan Bencana Pertanian',
     'IK PROGRAM' => 'Luas Panen Pertanian',
     'BASELINE IK PROGRAM' => '14026,16',
     'TARGET IK PROGRAM' => '16500',
     'SATUAN IK PROGRAM' => 'Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   79 => 
   array (
@@ -2962,23 +2965,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Perikanan Tangkap',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Produksi Perikanan Tangkap',
     'IK PROGRAM' => 'Produksi Perikanan Kelompok Nelayan',
     'BASELINE IK PROGRAM' => '20105201',
     'TARGET IK PROGRAM' => '20450',
     'SATUAN IK PROGRAM' => 'Ton',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   80 => 
   array (
@@ -2997,23 +3000,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pengolahan dan Pemasaran Hasil Perikanan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Konsumsi Ikan oleh Masyarakat',
     'IK PROGRAM' => 'Jumlah Industri Perikanan yang Mendapatkan Kerjasama Pemasaran',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '6',
     'SATUAN IK PROGRAM' => 'unit usaha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   81 => 
   array (
@@ -3032,16 +3035,16 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Perencanaan dan Pembangunan Industri',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Realisasi Pembangunan Industri',
     'IK PROGRAM' => 'Rata-rata Peningkatan Pendapatan IKM Hilir',
@@ -3067,16 +3070,16 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pengembangan UMKM',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Daya Saing UMKM',
     'IK PROGRAM' => 'Persentase Usaha Mikro Menjadi Usaha kecil dan Menengah',
@@ -3102,16 +3105,16 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pelayanan Izin Usaha Simpan Pinjam',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Izin Usaha Simpan Pinjam',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
@@ -3133,16 +3136,16 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pendidikan dan Latihan Perkoperasian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas SDM Perkoperasian',
     'IK PROGRAM' => 'Persentase yang Melaksanakan Rapat Anggota Tahunan (RAT) Tepat Waktu',
@@ -3168,16 +3171,16 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Pemberdayaan dan Perlindungan Koperasi',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Daya Saing UMKM',
     'IK PROGRAM' => 'Persentase Rumah Tangga Miskin yang Bergabung dalam Koperasi',
@@ -3195,7 +3198,7 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3214,17 +3217,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Perencanaan Lingkungan Hidup',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Evektifitas Kajian Lingkungan Hdiup Memitigasi Dampak KRP',
     'IK PROGRAM' => 'Persentase Implementasi kebijakan Lingkungan Hidup',
     'BASELINE IK PROGRAM' => '63',
     'TARGET IK PROGRAM' => '71',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   87 => 
   array (
@@ -3235,7 +3238,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3254,17 +3257,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pengendalian Pencemaran dan/Atau Kerusakan Lingkungan Hidup',
     'OUTCOME PROGRAM PRIORITAS' => 'Menurunnya Pencemaran dan/atau Kerusakan Lingkungan Hidup',
     'IK PROGRAM' => 'Persentase Penanganan Pencemaran Lingkungan',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   88 => 
   array (
@@ -3275,7 +3278,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3294,17 +3297,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Keanekaragaman Hayati (Kehati)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pengelolaan Keanekaragaman Hayati',
     'IK PROGRAM' => 'Jumlah Kawasan kehati yang Terkelola',
     'BASELINE IK PROGRAM' => '1',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kawasan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   89 => 
   array (
@@ -3315,7 +3318,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3334,13 +3337,13 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pengendalian Bahan Berbahaya dan Beracun (B3) dan Limbah Bahan Berbahaya dan Beracun (Limbah B3)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penanganan Bahan Berbahaya dan Beracun (B3) dan Limbah Bahan Berbahaya dan Beracun (Limbah B3)',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   90 => 
   array (
@@ -3351,7 +3354,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3370,17 +3373,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pembinaan dan Pengawasan Terhadap Izin Lingkungan dan Izin Perlindungan dan Pengelolaan Lingkungan Hidup (PPLH)',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kepatuhan Usaha dan/atau Kegiatan Terhadap Persetujuan Lingkungan yang Ditertibkan',
     'IK PROGRAM' => 'Persentase Pemegang Izin Usaha yang Taat Terhadap Peraturan Terkait Pengelolaan Lingkungan Hidup',
     'BASELINE IK PROGRAM' => '28',
     'TARGET IK PROGRAM' => '45',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   91 => 
   array (
@@ -3391,7 +3394,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3410,17 +3413,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Penanganan Pengaduan Lingkungan Hidup',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penyelesaian Sengketa dan/Kasus Tindak Pidana Lingkungan Hidup',
     'IK PROGRAM' => 'Persentase Kasus yang diselesaikan',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   92 => 
   array (
@@ -3431,7 +3434,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3450,17 +3453,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Persampahan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Persampahan',
     'IK PROGRAM' => 'Persentase Timbulan Sampah Perkotaan yang ditangani',
     'BASELINE IK PROGRAM' => '86',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   93 => 
   array (
@@ -3471,7 +3474,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3490,17 +3493,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Administrasi Pemerintahan Desa',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pembinaan dan Pengawasan Pemerintahan Desa',
     'IK PROGRAM' => 'Persentase Aparatur Desa dan Anggota BPD yang ditingkatkan Kapasitasnya',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   94 => 
   array (
@@ -3511,7 +3514,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3530,17 +3533,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Penghargaan Lingkungan Hidup Untuk Masyarakat',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kinerja Pemangku Kepentingan dalam Perlindungan dan Pengelolaan Lingkungan Hidup',
     'IK PROGRAM' => 'Partisipasi Masyarakat dalam Peningkatan kepedulian Lingkungan Hidup',
     'BASELINE IK PROGRAM' => '1',
     'TARGET IK PROGRAM' => '5',
     'SATUAN IK PROGRAM' => 'Desa',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   95 => 
   array (
@@ -3551,7 +3554,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3570,17 +3573,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Penanggulangan Bencana',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pencegahan dan Kesiapsiagaan Terhadap Bencana',
     'IK PROGRAM' => 'Tingkat Waktu Tanggap (Response Time rate) Daerah Layanan Wilayah Manajemen kebakaran (WMK)',
     'BASELINE IK PROGRAM' => '85',
     'TARGET IK PROGRAM' => '90',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   96 => 
   array (
@@ -3591,7 +3594,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3610,16 +3613,16 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Penanggulangan Bencana',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penanganan Bencana pada Saatn Tanggap Darurat',
     'IK PROGRAM' => 'Tingkat Waktu Tanggap (Response Time rate) Daerah Layanan Wilayah Manajemen kebakaran (WMK)',
     'BASELINE IK PROGRAM' => '85,00',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   97 => 
   array (
@@ -3630,7 +3633,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3649,16 +3652,16 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Penanggulangan Bencana',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Penanganan Bencana pada saat Bencana',
     'IK PROGRAM' => 'Tingkat Waktu Tanggap (Response Time rate) Daerah Layanan Wilayah Manajemen kebakaran (WMK)',
     'BASELINE IK PROGRAM' => '85,00',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   98 => 
   array (
@@ -3669,7 +3672,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3688,17 +3691,17 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pencegahan, Penanggulangan, Penyelamatan Kebakaran dan Penyelamatan Non Kebakaran',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Layanan Pencegahan Kebakaran',
     'IK PROGRAM' => 'Persentase Bencana Kebakaran Kabupaten/Kota yang Tertangani',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   99 => 
   array (
@@ -3709,7 +3712,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '76,72',
     'TARGET IK TUJUAN RPJMD' => '77,8',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Lingkungan Hidup',
+    'OPD IK TUJUAN RPJMD' => 'DINAS LINGKUNGAN HIDUP',
     'SASARAN RPJMD' => 'Meningkatkan Kualitas Lingkungan dan Ketahanan terhadap Bencana',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Daerah
 Indeks Kualitas Lahan
@@ -3728,16 +3731,16 @@ Indeks
 Indeks
 Desa',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup
-Badan Penanggulangan Bencana Daerah
-Dinas Lingkungan Hidup',
+    'OPD IK SASARAN RPJMD' => 'BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP
+BADAN PENANGGULANGAN BENCANA DAERAH
+DINAS LINGKUNGAN HIDUP',
     'PROGRAM PRIORITAS' => 'Program Pencegahan, Penanggulangan, Penyelamatan Kebakaran dan Penyelamatan Non Kebakaran',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Pelayanan Penyelamatan dan Evakuasi Korban Kebakaran',
     'IK PROGRAM' => 'Persentase Bencana Kebakaran Kabupaten/Kota yang Tertangani',
     'BASELINE IK PROGRAM' => '100,00',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   100 => 
   array (
@@ -3748,7 +3751,7 @@ Dinas Lingkungan Hidup',
     'BASELINE IK TUJUAN RPJMD' => '52,91',
     'TARGET IK TUJUAN RPJMD' => '75,3',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
     'SASARAN RPJMD' => 'Meningkatkan Keberdayaan Pelaku Seni dan Budaya',
     'IK SASARAN RPJMD' => 'Jumlah Event yang Diikuti Pelaku Seni dan Budaya
 Jumlah Sanggar Seni yang Representatif dan Aktif',
@@ -3767,7 +3770,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '70',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   101 => 
   array (
@@ -3778,7 +3781,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK TUJUAN RPJMD' => '52,91',
     'TARGET IK TUJUAN RPJMD' => '75,3',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
     'SASARAN RPJMD' => 'Meningkatkan Keberdayaan Pelaku Seni dan Budaya',
     'IK SASARAN RPJMD' => 'Jumlah Event yang Diikuti Pelaku Seni dan Budaya
 Jumlah Sanggar Seni yang Representatif dan Aktif',
@@ -3797,7 +3800,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '70',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   102 => 
   array (
@@ -3808,21 +3811,21 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK TUJUAN RPJMD' => '52,91',
     'TARGET IK TUJUAN RPJMD' => '75,3',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
     'SASARAN RPJMD' => 'Mengoptimalkan Peran Kelembagaan dan Meningkatkan Kolaborasi Pengembangan Kebudayaan',
     'IK SASARAN RPJMD' => 'Jumlah Lembaga yang Bekerjasama dalam Pengembangan Kebudayaan',
     'BASELINE IK SASARAN RPJMD' => '28',
     'TARGET IK SASARAN RPJMD' => '33',
     'SATUAN IK SASARAN RPJMD' => 'Lembaga',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
     'PROGRAM PRIORITAS' => 'Program Pengembangan Kebudayaan',
     'OUTCOME PROGRAM PRIORITAS' => 'Menngkatnya Peran Serta Masyarakat dalam Pengembangan Kebudayaan',
     'IK PROGRAM' => 'Tingkat Partisipasi Masyarakat Terhadap Pengembangan kebudayaan',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '70',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   103 => 
   array (
@@ -3833,7 +3836,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK TUJUAN RPJMD' => '52,91',
     'TARGET IK TUJUAN RPJMD' => '75,3',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
     'SASARAN RPJMD' => 'Melindungi Adat Istiadat dan Cagar Budaya',
     'IK SASARAN RPJMD' => 'Jumlah Cagar Budaya yang Terdaftar',
     'BASELINE IK SASARAN RPJMD' => '5',
@@ -3843,7 +3846,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'OPD IK SASARAN RPJMD' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Permuseuman',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Museum',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   104 => 
   array (
@@ -3893,7 +3896,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '60',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   106 => 
   array (
@@ -3918,7 +3921,7 @@ DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'BASELINE IK PROGRAM' => '6,3',
     'TARGET IK PROGRAM' => '7,3',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   107 => 
   array (
@@ -3962,7 +3965,7 @@ N/A',
 82',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Pendidikan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS PENDIDIKAN DAERAH',
   ),
   109 => 
   array (
@@ -3972,7 +3975,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '70',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   110 => 
   array (
@@ -3982,7 +3985,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '75',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   111 => 
   array (
@@ -3992,7 +3995,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '75',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   112 => 
   array (
@@ -4002,7 +4005,7 @@ Persen',
     'BASELINE IK PROGRAM' => '55',
     'TARGET IK PROGRAM' => '85',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kesehatan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KESEHATAN',
   ),
   113 => 
   array (
@@ -4012,7 +4015,7 @@ Persen',
     'BASELINE IK PROGRAM' => '70,00',
     'TARGET IK PROGRAM' => '95',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kesehatan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KESEHATAN',
   ),
   114 => 
   array (
@@ -4026,7 +4029,7 @@ Persentase Bangunan yang Memiliki PBG Per Satuan Bangunan',
 0,035',
     'SATUAN IK PROGRAM' => 'Persen
 Rasio',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   115 => 
   array (
@@ -4036,7 +4039,7 @@ Rasio',
     'BASELINE IK PROGRAM' => '0',
     'TARGET IK PROGRAM' => '0',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   116 => 
   array (
@@ -4046,7 +4049,7 @@ Rasio',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '87,00',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   117 => 
   array (
@@ -4056,7 +4059,7 @@ Rasio',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '3,50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   118 => 
   array (
@@ -4066,7 +4069,7 @@ Rasio',
     'BASELINE IK PROGRAM' => '32,00',
     'TARGET IK PROGRAM' => '32,3',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   119 => 
   array (
@@ -4076,7 +4079,7 @@ Rasio',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '84',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   120 => 
   array (
@@ -4086,7 +4089,7 @@ Rasio',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '84',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   121 => 
   array (
@@ -4108,7 +4111,7 @@ Persentase PPNS yang ditingkatkan Kompetensinya',
 Persen
 Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Satuan Polisi Pamong Praja dan Wilayatul Hisbah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH',
   ),
   122 => 
   array (
@@ -4118,7 +4121,7 @@ Persen',
     'BASELINE IK PROGRAM' => '250',
     'TARGET IK PROGRAM' => '220',
     'SATUAN IK PROGRAM' => 'Keluarga',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   123 => 
   array (
@@ -4140,7 +4143,7 @@ Persentase Gelandangan dan Pengemis Terlantar yang Terpenuhi Kebutuhan Dasarnya'
 Persen
 Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   124 => 
   array (
@@ -4154,7 +4157,7 @@ Persentase Korban Bencana yang Mendapatkan Layanan Pemulihan Sosial',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   125 => 
   array (
@@ -4164,7 +4167,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   126 => 
   array (
@@ -4174,7 +4177,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '80',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   127 => 
   array (
@@ -4184,7 +4187,7 @@ Persen',
     'BASELINE IK PROGRAM' => '543,00',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Hak Alas',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   128 => 
   array (
@@ -4194,7 +4197,7 @@ Persen',
     'BASELINE IK PROGRAM' => '543,00',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Hak Alas',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   129 => 
   array (
@@ -4204,7 +4207,7 @@ Persen',
     'BASELINE IK PROGRAM' => '41,67',
     'TARGET IK PROGRAM' => '81',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   130 => 
   array (
@@ -4214,7 +4217,7 @@ Persen',
     'BASELINE IK PROGRAM' => '80,36',
     'TARGET IK PROGRAM' => '85',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   131 => 
   array (
@@ -4224,7 +4227,7 @@ Persen',
     'BASELINE IK PROGRAM' => '2',
     'TARGET IK PROGRAM' => '5',
     'SATUAN IK PROGRAM' => 'Kelompok',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   132 => 
   array (
@@ -4238,7 +4241,7 @@ Persentase Kepemilikan Kartu Identitas Anak',
 85',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
   ),
   133 => 
   array (
@@ -4260,7 +4263,7 @@ Persentase Akta Perceraian yang diterbitkan Bagi yang Melaporkan',
 Persen
 Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
   ),
   134 => 
   array (
@@ -4270,7 +4273,7 @@ Persen',
     'BASELINE IK PROGRAM' => '11,53',
     'TARGET IK PROGRAM' => '30,77',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
   ),
   135 => 
   array (
@@ -4280,7 +4283,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'Ada',
     'TARGET IK PROGRAM' => 'Ada',
     'SATUAN IK PROGRAM' => 'Nilai',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
   ),
   136 => 
   array (
@@ -4290,7 +4293,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '60',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   137 => 
   array (
@@ -4300,7 +4303,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perhubungan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERHUBUNGAN',
   ),
   138 => 
   array (
@@ -4330,7 +4333,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pangan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PANGAN',
   ),
   141 => 
   array (
@@ -4340,7 +4343,7 @@ Persen',
     'BASELINE IK PROGRAM' => '8,70',
     'TARGET IK PROGRAM' => '6,5',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pangan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PANGAN',
   ),
   142 => 
   array (
@@ -4350,7 +4353,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '96',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pangan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PANGAN',
   ),
   143 => 
   array (
@@ -4364,7 +4367,7 @@ Indeks Ketimpangan Gender (IKG)',
 0,227',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   144 => 
   array (
@@ -4374,7 +4377,7 @@ Persen',
     'BASELINE IK PROGRAM' => '0,333',
     'TARGET IK PROGRAM' => '0,095',
     'SATUAN IK PROGRAM' => 'Rasio',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   145 => 
   array (
@@ -4384,7 +4387,7 @@ Persen',
     'BASELINE IK PROGRAM' => '49,55',
     'TARGET IK PROGRAM' => '52,80',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   146 => 
   array (
@@ -4394,7 +4397,7 @@ Persen',
     'BASELINE IK PROGRAM' => '-',
     'TARGET IK PROGRAM' => '5',
     'SATUAN IK PROGRAM' => 'Dokumen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   147 => 
   array (
@@ -4404,7 +4407,7 @@ Persen',
     'BASELINE IK PROGRAM' => '50,00',
     'TARGET IK PROGRAM' => '75,00',
     'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   148 => 
   array (
@@ -4414,7 +4417,7 @@ Persen',
     'BASELINE IK PROGRAM' => '69,32',
     'TARGET IK PROGRAM' => '69,37',
     'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   149 => 
   array (
@@ -4428,7 +4431,7 @@ Angka Kelahiran Total (Total Fertility Rate/TFR)',
 2,17',
     'SATUAN IK PROGRAM' => 'Persen
 Nilai',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   150 => 
   array (
@@ -4438,7 +4441,7 @@ Nilai',
     'BASELINE IK PROGRAM' => '87,77',
     'TARGET IK PROGRAM' => '89,85',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   151 => 
   array (
@@ -4452,7 +4455,7 @@ Indeks Lansia Berdaya',
 63,69',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   152 => 
   array (
@@ -4560,7 +4563,7 @@ Jumlah UMKM',
     'BASELINE IK PROGRAM' => '94,46',
     'TARGET IK PROGRAM' => 'A',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   162 => 
   array (
@@ -4570,7 +4573,7 @@ Jumlah UMKM',
     'BASELINE IK PROGRAM' => '1613,76',
     'TARGET IK PROGRAM' => '2900',
     'SATUAN IK PROGRAM' => 'Milyar',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   163 => 
   array (
@@ -4580,7 +4583,7 @@ Jumlah UMKM',
     'BASELINE IK PROGRAM' => '95,00',
     'TARGET IK PROGRAM' => '95',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   164 => 
   array (
@@ -4638,7 +4641,7 @@ Persentase Kasus Penyakit Ternak yang Ditangani',
 100',
     'SATUAN IK PROGRAM' => 'Ekor
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   169 => 
   array (
@@ -4648,7 +4651,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '4,68',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   170 => 
   array (
@@ -4658,7 +4661,7 @@ Persen',
     'BASELINE IK PROGRAM' => '4',
     'TARGET IK PROGRAM' => '4',
     'SATUAN IK PROGRAM' => 'Kecamatan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   171 => 
   array (
@@ -4708,7 +4711,7 @@ Persen',
     'BASELINE IK PROGRAM' => '60,00',
     'TARGET IK PROGRAM' => '90',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DAERAH',
   ),
   176 => 
   array (
@@ -4722,7 +4725,7 @@ Persentase Penetapan Rancangan Peraturan Daerah Tahun Berjalan',
 90',
     'SATUAN IK PROGRAM' => 'Tepat Waktu
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat DPRK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DPRK',
   ),
   177 => 
   array (
@@ -4736,7 +4739,7 @@ Persentase Keselarasan RPJMD dengan Renstra PD',
 65',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   178 => 
   array (
@@ -4746,7 +4749,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   179 => 
   array (
@@ -4756,7 +4759,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   180 => 
   array (
@@ -4766,7 +4769,7 @@ Persen',
     'BASELINE IK PROGRAM' => '3,17',
     'TARGET IK PROGRAM' => '3',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   181 => 
   array (
@@ -4776,7 +4779,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '80',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Inspektorat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'INSPEKTORAT',
   ),
   182 => 
   array (
@@ -4790,7 +4793,7 @@ Indeks Persepsi Korupsi',
 2,74',
     'SATUAN IK PROGRAM' => 'Persen
 Indeks',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Inspektorat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'INSPEKTORAT',
   ),
   183 => 
   array (
@@ -4800,7 +4803,7 @@ Indeks',
     'BASELINE IK PROGRAM' => '60',
     'TARGET IK PROGRAM' => '90',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   184 => 
   array (
@@ -4810,7 +4813,7 @@ Indeks',
     'BASELINE IK PROGRAM' => '50',
     'TARGET IK PROGRAM' => '80',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   185 => 
   array (
@@ -4820,7 +4823,7 @@ Indeks',
     'BASELINE IK PROGRAM' => '60',
     'TARGET IK PROGRAM' => '90',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   186 => 
   array (
@@ -4830,7 +4833,7 @@ Indeks',
     'BASELINE IK PROGRAM' => '50',
     'TARGET IK PROGRAM' => '70',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   187 => 
   array (
@@ -4840,7 +4843,7 @@ Indeks',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   188 => 
   array (
@@ -4850,7 +4853,7 @@ Indeks',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '50',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Pemusyawaratan Ulama',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS PEMUSYAWARATAN ULAMA',
   ),
   189 => 
   array (
@@ -4860,7 +4863,7 @@ Indeks',
     'BASELINE IK PROGRAM' => '2,35',
     'TARGET IK PROGRAM' => '2,95',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Baitul Mal Kabupaten',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT BAITUL MAL KABUPATEN',
   ),
   190 => 
   array (
@@ -4874,7 +4877,7 @@ Persentase Gampong yang Telah Menerapkan Hukum Adat',
 99',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Adat Aceh',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS ADAT ACEH',
   ),
   191 => 
   array (
@@ -4888,7 +4891,7 @@ Rasio Ketercukupan Koleksi Perpustakaan dengan Penduduk',
 0,57',
     'SATUAN IK PROGRAM' => 'Persen
 Rasio',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
   ),
   192 => 
   array (
@@ -4898,7 +4901,7 @@ Rasio',
     'BASELINE IK PROGRAM' => '5',
     'TARGET IK PROGRAM' => '10',
     'SATUAN IK PROGRAM' => 'Naskah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
   ),
   193 => 
   array (
@@ -4916,7 +4919,7 @@ N/A
     'SATUAN IK PROGRAM' => 'Persen
 Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
   ),
   194 => 
   array (
@@ -4930,7 +4933,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   195 => 
   array (
@@ -4940,7 +4943,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   196 => 
   array (
@@ -4950,7 +4953,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   197 => 
   array (
@@ -4960,7 +4963,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   198 => 
   array (
@@ -4970,7 +4973,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   199 => 
   array (
@@ -4984,7 +4987,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   200 => 
   array (
@@ -4994,7 +4997,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   201 => 
   array (
@@ -5004,7 +5007,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   202 => 
   array (
@@ -5014,7 +5017,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   203 => 
   array (
@@ -5024,7 +5027,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   204 => 
   array (
@@ -5038,7 +5041,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   205 => 
   array (
@@ -5048,7 +5051,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   206 => 
   array (
@@ -5058,7 +5061,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   207 => 
   array (
@@ -5068,7 +5071,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   208 => 
   array (
@@ -5078,7 +5081,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   209 => 
   array (
@@ -5092,7 +5095,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   210 => 
   array (
@@ -5102,7 +5105,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   211 => 
   array (
@@ -5112,7 +5115,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   212 => 
   array (
@@ -5122,7 +5125,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   213 => 
   array (
@@ -5132,7 +5135,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   214 => 
   array (
@@ -5146,7 +5149,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   215 => 
   array (
@@ -5156,7 +5159,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   216 => 
   array (
@@ -5166,7 +5169,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   217 => 
   array (
@@ -5176,7 +5179,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   218 => 
   array (
@@ -5186,7 +5189,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   219 => 
   array (
@@ -5200,7 +5203,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   220 => 
   array (
@@ -5210,7 +5213,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   221 => 
   array (
@@ -5220,7 +5223,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   222 => 
   array (
@@ -5230,7 +5233,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   223 => 
   array (
@@ -5240,7 +5243,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   224 => 
   array (
@@ -5254,7 +5257,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   225 => 
   array (
@@ -5264,7 +5267,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   226 => 
   array (
@@ -5274,7 +5277,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   227 => 
   array (
@@ -5284,7 +5287,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   228 => 
   array (
@@ -5294,7 +5297,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   229 => 
   array (
@@ -5308,7 +5311,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   230 => 
   array (
@@ -5318,7 +5321,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   231 => 
   array (
@@ -5328,7 +5331,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   232 => 
   array (
@@ -5338,7 +5341,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   233 => 
   array (
@@ -5348,7 +5351,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   234 => 
   array (
@@ -5362,7 +5365,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   235 => 
   array (
@@ -5372,7 +5375,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   236 => 
   array (
@@ -5382,7 +5385,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   237 => 
   array (
@@ -5392,7 +5395,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   238 => 
   array (
@@ -5402,7 +5405,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   239 => 
   array (
@@ -5416,7 +5419,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   240 => 
   array (
@@ -5426,7 +5429,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   241 => 
   array (
@@ -5436,7 +5439,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   242 => 
   array (
@@ -5446,7 +5449,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   243 => 
   array (
@@ -5456,7 +5459,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   244 => 
   array (
@@ -5470,7 +5473,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   245 => 
   array (
@@ -5480,7 +5483,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   246 => 
   array (
@@ -5490,7 +5493,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   247 => 
   array (
@@ -5500,7 +5503,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   248 => 
   array (
@@ -5510,7 +5513,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   249 => 
   array (
@@ -5524,7 +5527,7 @@ N/A',
 100',
     'SATUAN IK PROGRAM' => 'Persen
 Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   250 => 
   array (
@@ -5534,7 +5537,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   251 => 
   array (
@@ -5544,7 +5547,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   252 => 
   array (
@@ -5554,7 +5557,7 @@ Persen',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Kasus',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   253 => 
   array (
@@ -5564,7 +5567,7 @@ Persen',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   254 => 
   array (
@@ -5600,10 +5603,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -5628,18 +5631,18 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Pengelolaan Keuangan Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Anggaran',
     'IK PROGRAM' => 'Persentase Belanja Pegawai di Luar Tunjangan Guru yang Dialokasikan Melalui TKD',
     'BASELINE IK PROGRAM' => '32,66',
     'TARGET IK PROGRAM' => '30',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   255 => 
   array (
@@ -5675,10 +5678,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -5703,18 +5706,18 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Pemenuhan Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
     'IK PROGRAM' => 'Prevalensi Stunting (Pendek dan Sangat Pendek pada Balita)',
     'BASELINE IK PROGRAM' => '20,2',
     'TARGET IK PROGRAM' => '10',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kesehatan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KESEHATAN',
   ),
   256 => 
   array (
@@ -5750,10 +5753,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -5778,18 +5781,18 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Pemberdayaan Masyarakat Bidang Kesehatan',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Pemberdayaan Masyarakat Bidang Kesehatan',
     'IK PROGRAM' => 'Persentase Masyarakat Bidang Kesehatan yang Diberdayakan',
     'BASELINE IK PROGRAM' => '50',
     'TARGET IK PROGRAM' => '77',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kesehatan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KESEHATAN',
   ),
   257 => 
   array (
@@ -5825,10 +5828,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -5853,18 +5856,18 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Administrasi Kepegawaian',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'BASELINE IK PROGRAM' => 'NA',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   258 => 
   array (
@@ -5900,10 +5903,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -5928,16 +5931,16 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Pengembangan Kompetensi ASN',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   259 => 
   array (
@@ -5973,10 +5976,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -6001,16 +6004,16 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Tata Kelola Pengembangan Karir ASN',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   260 => 
   array (
@@ -6046,10 +6049,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Kesehatan Masyarakat',
@@ -6074,16 +6077,16 @@ Kasus
 Persen
 Angka',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan
-Dinas Kesehatan',
+    'OPD IK SASARAN RPJMD' => 'DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN
+DINAS KESEHATAN',
     'PROGRAM PRIORITAS' => 'Program Kepegawaian Daerah',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Penilaian Kinerja ASN',
     'IK PROGRAM' => 'Persentase Perencanaan Kebutuhan yang Sesuai dengan Formasi',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   261 => 
   array (
@@ -6119,10 +6122,10 @@ Tahun
 Persen
 Persen',
     'OPD IK TUJUAN RPJMD' => 'Tidak Ada Data
-Dinas Pendidikan dan Kebudayaan
-Dinas Kesehatan
-Dinas Pendidikan dan Kebudayaan
-Dinas Pendidikan dan Kebudayaan
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS KESEHATAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
+DINAS PENDIDIKAN DAN KEBUDAYAAN
 DINAS TRANSMIGRASI DAN TENAGA KERJA
 DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'SASARAN RPJMD' => 'Meningkatkan Aksesibilitas dan Partisipasi Perempuan dalam Pembangunan',
@@ -6135,15 +6138,15 @@ Jumlah Kelompok Usaha Perempuan yang Berhasil',
     'SATUAN IK SASARAN RPJMD' => 'Persen
 Kelompok',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana
-Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'OPD IK SASARAN RPJMD' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA
+DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
     'PROGRAM PRIORITAS' => 'Program Penyediaan dan Pengembangan Sarana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Distribusi dan Kualitas Sarana Pertanian',
     'IK PROGRAM' => 'Jumlah Populasi Ternak Sapi',
     'BASELINE IK PROGRAM' => '9611',
     'TARGET IK PROGRAM' => '10817',
     'SATUAN IK PROGRAM' => 'Ton/Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   262 => 
   array (
@@ -6158,8 +6161,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -6178,7 +6181,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '9611',
     'TARGET IK PROGRAM' => '10817',
     'SATUAN IK PROGRAM' => 'Ton/Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   263 => 
   array (
@@ -6193,8 +6196,8 @@ PDRB/kapita',
 81,34 (ADHB) / 47 (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Persen
 Juta Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Badan Perencanaan Pembangunan Daerah
-Badan Perencanaan Pembangunan Daerah',
+    'OPD IK TUJUAN RPJMD' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH
+BADAN PERENCANAAN PEMBANGUNAN DAERAH',
     'SASARAN RPJMD' => 'Meningkatkan Ketersediaan Lapangan Pekerjaan',
     'IK SASARAN RPJMD' => 'Tingkat Pengangguran Terbuka
 Pertumbuhan UMKM/IKM',
@@ -6213,7 +6216,7 @@ DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'BASELINE IK PROGRAM' => '16518,16',
     'TARGET IK PROGRAM' => '18591,335',
     'SATUAN IK PROGRAM' => 'Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   264 => 
   array (
@@ -6232,23 +6235,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Pemanfaatan Lahan untuk Pengembangan Sumber Daya Alam yang Mendukung Perekonomian Masyarakat',
     'IK SASARAN RPJMD' => 'Jumlah Lahan yang Dimanfaatkan untuk Persawahan/Perkebunan/Pengembalaan/Budidaya Perairan',
     'BASELINE IK SASARAN RPJMD' => '82298,22',
     'TARGET IK SASARAN RPJMD' => '82800',
     'SATUAN IK SASARAN RPJMD' => 'Ha',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'PROGRAM PRIORITAS' => 'Program Penyuluhan Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kapasitas SDM Bidang Penyuluhan Pertanian',
     'IK PROGRAM' => 'Persentase Kelompok Tani Perkebunan dan Peternakan yang Aktif Dibina',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Komoditi',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   265 => 
   array (
@@ -6267,23 +6270,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Diversifikasi Produk Pertanian',
     'IK SASARAN RPJMD' => 'Jumlah Variasi Komoditi Pertanian',
     'BASELINE IK SASARAN RPJMD' => '19',
     'TARGET IK SASARAN RPJMD' => '24',
     'SATUAN IK SASARAN RPJMD' => 'Komoditi',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK SASARAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'PROGRAM PRIORITAS' => 'Program Penyuluhan Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kapasitas SDM Bidang Penyuluhan Pertanian',
     'IK PROGRAM' => 'Persentase Kelompok Tani Perkebunan dan Peternakan yang Aktif Dibina',
     'BASELINE IK PROGRAM' => '100',
     'TARGET IK PROGRAM' => '100',
     'SATUAN IK PROGRAM' => 'Komoditi',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   266 => 
   array (
@@ -6302,23 +6305,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Penyediaan dan Pengembangan Sarana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Distribusi dan Kualitas Sarana Pertanian',
     'IK PROGRAM' => 'Jumlah Populasi Ternak Sapi',
     'BASELINE IK PROGRAM' => '9611',
     'TARGET IK PROGRAM' => '10817',
     'SATUAN IK PROGRAM' => 'Ton/Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   267 => 
   array (
@@ -6337,23 +6340,23 @@ PDRB Pertanian, Perikanan dan Kehutanan (ADHK)',
     'SATUAN IK TUJUAN RPJMD' => 'Indeks
 Indeks
 Milyar Rupiah',
-    'OPD IK TUJUAN RPJMD' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura
-Dinas Kelautan dan Perikanan
-Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'OPD IK TUJUAN RPJMD' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA
+DINAS KELAUTAN DAN PERIKANAN
+DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
     'SASARAN RPJMD' => 'Meningkatkan Ketahanan Pangan Daerah',
     'IK SASARAN RPJMD' => 'Indeks Ketahanan Pangan (IKP)',
     'BASELINE IK SASARAN RPJMD' => '78,27',
     'TARGET IK SASARAN RPJMD' => '79,7',
     'SATUAN IK SASARAN RPJMD' => 'Indeks',
     'PERIODE PENILAIAN' => '2025-2029',
-    'OPD IK SASARAN RPJMD' => 'Dinas Pangan',
+    'OPD IK SASARAN RPJMD' => 'DINAS PANGAN',
     'PROGRAM PRIORITAS' => 'Program Penyediaan dan Pengembangan Prasarana Pertanian',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Distribusi dan Kualitas Prasarana Pertanian',
     'IK PROGRAM' => 'Produksi Sektor Perkebunan (Sawit)',
     'BASELINE IK PROGRAM' => '16518,16',
     'TARGET IK PROGRAM' => '18591,335',
     'SATUAN IK PROGRAM' => 'Ha',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   268 => 
   array (
@@ -6378,50 +6381,37 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => '9611',
     'TARGET IK PROGRAM' => '11142',
     'SATUAN IK PROGRAM' => 'Persen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   269 => 
   array (
-    'MISI' => 'Misi 6 : Mengembangkan dan Melestarikan Budaya Aceh',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
   270 => 
   array (
-    'MISI' => 'Misi 6 : Mengembangkan dan Melestarikan Budaya Aceh',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan dan Kebudayaan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERHUBUNGAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERHUBUNGAN',
   ),
   271 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Perhubungan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perhubungan',
-  ),
-  272 => 
-  array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6429,12 +6419,12 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '2',
     'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Perhubungan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perhubungan',
+    'OPD IK PROGRAM' => 'DINAS PERHUBUNGAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERHUBUNGAN',
   ),
-  273 => 
+  272 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6442,142 +6432,142 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => '1',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA',
+  ),
+  273 => 
+  array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
+    'PERIODE PENILAIAN' => '2025-2029',
+    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
+    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
     'OPD IK PROGRAM' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA',
   ),
   274 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS TRANSMIGRASI DAN TENAGA KERJA',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS SOSIAL',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   275 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Sosial',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS SOSIAL',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SOSIAL',
   ),
   276 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Sosial',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Sosial',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   277 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERUMAHAN RAKYAT DAN KAWASAN PERMUKIMAN',
   ),
   278 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perumahan Rakyat dan Kawasan Permukiman',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   279 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANIAN TANAMAN PANGAN DAN HORTIKULTURA',
   ),
   280 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanian Tanaman Pangan dan Hortikultura',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   281 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Kelautan dan Perikanan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KELAUTAN DAN PERIKANAN',
   ),
   282 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Kelautan dan Perikanan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kelautan dan Perikanan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PANGAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PANGAN',
   ),
   283 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pangan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pangan',
-  ),
-  284 => 
-  array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6585,12 +6575,12 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '2',
     'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pangan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pangan',
+    'OPD IK PROGRAM' => 'DINAS PANGAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PANGAN',
   ),
-  285 => 
+  284 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6598,25 +6588,25 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => '1',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
+  ),
+  285 => 
+  array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
+    'PERIODE PENILAIAN' => '2025-2029',
+    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
+    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
     'OPD IK PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
   ),
   286 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERDAGANGAN PERINDUSTRIAN KOPERASI DAN USAHA KECIL DAN MENENGAH',
-  ),
-  287 => 
-  array (
-    'MISI' => 'Misi 7 : Meningkatkan Peran Pemuda dalam Upaya Mewujudkan Percepatan Pembangunan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6624,64 +6614,64 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => '1',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
+  ),
+  287 => 
+  array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
+    'PERIODE PENILAIAN' => '2025-2029',
+    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
+    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
     'OPD IK PROGRAM' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
   ),
   288 => 
   array (
-    'MISI' => 'Misi 7 : Meningkatkan Peran Pemuda dalam Upaya Mewujudkan Percepatan Pembangunan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PARIWISATA PEMUDA DAN OLAHRAGA',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   289 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENANAMAN MODAL DAN PELAYANAN TERPADU SATU PINTU',
   ),
   290 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Penanaman Modal dan Pelayanan Terpadu Satu Pintu',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
   291 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
-  ),
-  292 => 
-  array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6689,12 +6679,12 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => 'N/A',
     'TARGET IK PROGRAM' => '2',
     'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Masyarakat dan Gampong',
+    'OPD IK PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN MASYARAKAT DAN GAMPONG',
   ),
-  293 => 
+  292 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
@@ -6702,933 +6692,959 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'BASELINE IK PROGRAM' => '1',
     'TARGET IK PROGRAM' => '1',
     'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
+  ),
+  293 => 
+  array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
+    'PERIODE PENILAIAN' => '2025-2029',
+    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
+    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
     'OPD IK PROGRAM' => 'DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
   ),
   294 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KOMUNIKASI INFORMATIKA DAN PERSANDIAN',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   295 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KEPEGAWAIAN DAN PENGEMBANGAN SUMBER DAYA MANUSIA',
   ),
   296 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kepegawaian dan Pengembangan Sumber Daya Manusia',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   297 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENGELOLAAN KEUANGAN DAERAH',
   ),
   298 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Pengelolaan Keuangan Daerah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SEKRETARIAT DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DAERAH',
   ),
   299 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SEKRETARIAT DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DAERAH',
   ),
   300 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   301 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PERENCANAAN PEMBANGUNAN DAERAH',
   ),
   302 => 
   array (
-    'MISI' => 'Misi 2 : Transformasi Tata Kelola Pemerintahan guna Mewujudkan Pemerintahan yang Bersih, Akuntabel, dan Transparan',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Perencanaan Pembangunan Daerah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS SYARIAT ISLAM',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SYARIAT ISLAM',
   ),
   303 => 
   array (
-    'MISI' => 'Misi 3 : Meningkatkan Implementasi Nilai-nilai Syariat Islam dalam Seluruh Aspek Kehidupan Masyarakat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Syariat Islam',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Syariat Islam',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS SYARIAT ISLAM',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS SYARIAT ISLAM',
   ),
   304 => 
   array (
-    'MISI' => 'Misi 3 : Meningkatkan Implementasi Nilai-nilai Syariat Islam dalam Seluruh Aspek Kehidupan Masyarakat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Syariat Islam',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Syariat Islam',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PENDIDIKAN DAYAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAYAH',
   ),
   305 => 
   array (
-    'MISI' => 'Misi 3 : Meningkatkan Implementasi Nilai-nilai Syariat Islam dalam Seluruh Aspek Kehidupan Masyarakat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pendidikan Dayah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan Dayah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PENDIDIKAN DAYAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAYAH',
   ),
   306 => 
   array (
-    'MISI' => 'Misi 3 : Meningkatkan Implementasi Nilai-nilai Syariat Islam dalam Seluruh Aspek Kehidupan Masyarakat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pendidikan Dayah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pendidikan Dayah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   307 => 
   array (
-    'MISI' => 'Misi 4 : Meningkatkan Pemerataan Pembangunan di Seluruh Wilayah Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEKERJAAN UMUM DAN PENATAAN RUANG',
   ),
   308 => 
   array (
-    'MISI' => 'Misi 4 : Meningkatkan Pemerataan Pembangunan di Seluruh Wilayah Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pekerjaan Umum dan Penataan Ruang',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   309 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Lingkungan Hidup',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS LINGKUNGAN HIDUP',
   ),
   310 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Lingkungan Hidup',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Lingkungan Hidup',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   311 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN PENANGGULANGAN BENCANA DAERAH',
   ),
   312 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Penanggulangan Bencana Daerah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SEKRETARIAT MAJELIS PENDIDIKAN DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS PENDIDIKAN DAERAH',
   ),
   313 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat Majelis Pendidikan Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Pendidikan Daerah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SEKRETARIAT MAJELIS PENDIDIKAN DAERAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS PENDIDIKAN DAERAH',
   ),
   314 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat Majelis Pendidikan Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Pendidikan Daerah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS KESEHATAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KESEHATAN',
   ),
   315 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Kesehatan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kesehatan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS KESEHATAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KESEHATAN',
   ),
   316 => 
   array (
-    'MISI' => 'Misi 1 : Mewujudkan Transformasi Sosial dan Ekonomi Guna Meningkatkan Daya Saing Kabupaten Aceh Barat',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Kesehatan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kesehatan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH',
   ),
   317 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Satuan Polisi Pamong Praja dan Wilayatul Hisbah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Satuan Polisi Pamong Praja dan Wilayatul Hisbah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SATUAN POLISI PAMONG PRAJA DAN WILAYATUL HISBAH',
   ),
   318 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Satuan Polisi Pamong Praja dan Wilayatul Hisbah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Satuan Polisi Pamong Praja dan Wilayatul Hisbah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERTANAHAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   319 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pertanahan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PERTANAHAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERTANAHAN',
   ),
   320 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pertanahan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pertanahan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
   ),
   321 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL',
   ),
   322 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Kependudukan dan Pencatatan Sipil',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   323 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN KELUARGA BERENCANA',
   ),
   324 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Pemberdayaan Perempuan Perlindungan Anak dan Keluarga Berencana',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   325 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Perkebunan dan Peternakan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERKEBUNAN DAN PETERNAKAN',
   ),
   326 => 
   array (
-    'MISI' => 'Misi 5 : Optimalisasi Pemanfaatan Sumber Daya Alam dengan Memperhatikan Ketahanan Bencana dan Kelestarian Lingkungan Hidup',
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Perkebunan dan Peternakan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perkebunan dan Peternakan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SEKRETARIAT DPRK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DPRK',
   ),
   327 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SEKRETARIAT DPRK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT DPRK',
   ),
   328 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat Daerah',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Daerah',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'INSPEKTORAT',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'INSPEKTORAT',
   ),
   329 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat DPRK',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat DPRK',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'INSPEKTORAT',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'INSPEKTORAT',
   ),
   330 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat DPRK',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat DPRK',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   331 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Inspektorat',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Inspektorat',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BADAN KESATUAN BANGSA DAN POLITIK',
   ),
   332 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Inspektorat',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Inspektorat',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SEKRETARIAT MAJELIS PEMUSYAWARATAN ULAMA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS PEMUSYAWARATAN ULAMA',
   ),
   333 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SEKRETARIAT MAJELIS PEMUSYAWARATAN ULAMA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS PEMUSYAWARATAN ULAMA',
   ),
   334 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Badan Kesatuan Bangsa dan Politik',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SEKRETARIAT BAITUL MAL KABUPATEN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT BAITUL MAL KABUPATEN',
   ),
   335 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat Majelis Pemusyawaratan Ulama',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Pemusyawaratan Ulama',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SEKRETARIAT BAITUL MAL KABUPATEN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT BAITUL MAL KABUPATEN',
   ),
   336 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat Majelis Pemusyawaratan Ulama',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Pemusyawaratan Ulama',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'SEKRETARIAT MAJELIS ADAT ACEH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS ADAT ACEH',
   ),
   337 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat Baitul Mal Kabupaten',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Baitul Mal Kabupaten',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'SEKRETARIAT MAJELIS ADAT ACEH',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'SEKRETARIAT MAJELIS ADAT ACEH',
   ),
   338 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat Baitul Mal Kabupaten',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Baitul Mal Kabupaten',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
   ),
   339 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Sekretariat Majelis Adat Aceh',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Adat Aceh',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PERPUSTAKAAN DAN KEARSIPAN',
   ),
   340 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Sekretariat Majelis Adat Aceh',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Sekretariat Majelis Adat Aceh',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   341 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN JOHAN PAHLAWAN',
   ),
   342 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Dinas Perpustakaan dan Kearsipan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN KAWAY XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   343 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Johan Pahlawan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN KAWAY XVI',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN KAWAY XVI',
   ),
   344 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Johan Pahlawan',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Johan Pahlawan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN MEUREUBO',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   345 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Kaway XVI',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN MEUREUBO',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN MEUREUBO',
   ),
   346 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Kaway XVI',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Kaway XVI',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN WOYLA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   347 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Meureubo',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN WOYLA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA',
   ),
   348 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Meureubo',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Meureubo',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN WOYLA TIMUR',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   349 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Woyla',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN WOYLA TIMUR',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA TIMUR',
   ),
   350 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Woyla',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN WOYLA BARAT',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   351 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Woyla Timur',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN WOYLA BARAT',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN WOYLA BARAT',
   ),
   352 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Woyla Timur',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Timur',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   353 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Woyla Barat',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTE CEUREUMEN',
   ),
   354 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Woyla Barat',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Woyla Barat',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN PANTON REU',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   355 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Pante Ceureumen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN PANTON REU',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN PANTON REU',
   ),
   356 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Pante Ceureumen',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Pante Ceureumen',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   357 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Panton Reu',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN ARONGAN LAMBALEK',
   ),
   358 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Panton Reu',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Panton Reu',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN SUNGAI MAS',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   359 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Arongan Lambalek',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN SUNGAI MAS',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SUNGAI MAS',
   ),
   360 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Arongan Lambalek',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Arongan Lambalek',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN SAMATIGA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   361 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Sungai Mas',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN SAMATIGA',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN SAMATIGA',
   ),
   362 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Sungai Mas',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Sungai Mas',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'KECAMATAN BUBON',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   363 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Samatiga',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'KECAMATAN BUBON',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'KECAMATAN BUBON',
   ),
   364 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Samatiga',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Samatiga',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
   ),
   365 => 
   array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
     'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'Kecamatan Bubon',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
+    'IK PROGRAM' => 'Maturitas SPIP',
+    'BASELINE IK PROGRAM' => 'N/A',
+    'TARGET IK PROGRAM' => '2',
+    'SATUAN IK PROGRAM' => 'Indeks',
+    'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
   ),
   366 => 
-  array (
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'Kecamatan Bubon',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'Kecamatan Bubon',
-  ),
-  367 => 
-  array (
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Jumlah Inovasi',
-    'BASELINE IK PROGRAM' => '1',
-    'TARGET IK PROGRAM' => '1',
-    'SATUAN IK PROGRAM' => 'Inovasi',
-    'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
-  ),
-  368 => 
-  array (
-    'PERIODE PENILAIAN' => '2025-2029',
-    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
-    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
-    'IK PROGRAM' => 'Maturitas SPIP',
-    'BASELINE IK PROGRAM' => 'N/A',
-    'TARGET IK PROGRAM' => '2',
-    'SATUAN IK PROGRAM' => 'Indeks',
-    'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
-    'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
-  ),
-  369 => 
   array (
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Pemenuhan Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
@@ -7640,7 +7656,7 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
   ),
-  370 => 
+  367 => 
   array (
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Pemenuhan Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
@@ -7652,7 +7668,7 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
   ),
-  371 => 
+  368 => 
   array (
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Pemenuhan Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
@@ -7664,7 +7680,7 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
   ),
-  372 => 
+  369 => 
   array (
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Pemenuhan Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
@@ -7676,7 +7692,7 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
   ),
-  373 => 
+  370 => 
   array (
     'PERIODE PENILAIAN' => '2025-2029',
     'PROGRAM PRIORITAS' => 'Program Pemenuhan Upaya Kesehatan Perorangan dan Upaya Kesehatan Masyarakat',
@@ -7687,5 +7703,18 @@ Dinas Pertanian Tanaman Pangan dan Hortikultura',
     'SATUAN IK PROGRAM' => 'Persen',
     'OPD IK PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
     'OPD PENANGGUNGJAWAB PROGRAM' => 'BLUD RSUD CUT NYAK DHIEN',
+  ),
+  371 => 
+  array (
+    'MISI' => 'Mengembangkan dan Melestarikan Budaya Aceh',
+    'PERIODE PENILAIAN' => '2025-2029',
+    'PROGRAM PRIORITAS' => 'Program Penunjang Urusan Pemerintahan Daerah Kabupaten/Kota',
+    'OUTCOME PROGRAM PRIORITAS' => 'Meningkatnya Kualitas Layanan Pendukung Administrasi Pemerintahan',
+    'IK PROGRAM' => 'Jumlah Inovasi',
+    'BASELINE IK PROGRAM' => '1',
+    'TARGET IK PROGRAM' => '1',
+    'SATUAN IK PROGRAM' => 'Inovasi',
+    'OPD IK PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
+    'OPD PENANGGUNGJAWAB PROGRAM' => 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
   ),
 );
