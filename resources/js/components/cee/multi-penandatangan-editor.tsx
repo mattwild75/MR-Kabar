@@ -5,11 +5,11 @@ import { Label } from '@/components/ui/label';
 import { Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 
-interface Signatory {
+type Signatory = {
   jabatan: string;
   nama: string;
   nip: string;
-}
+};
 
 interface MultiPenandatanganEditorProps {
   dataUmumId: number;
@@ -28,7 +28,7 @@ interface MultiPenandatanganEditorProps {
 // SEMUA required string (default '' bila tidak dipakai) — sama pola &
 // alasan dgn TtdFormData di ttd-editor.tsx (optional (?:) tidak memenuhi
 // constraint Record<string, FormDataConvertible> milik useForm<T>() Inertia).
-interface KepalaFormData {
+type KepalaFormData = {
   tempat_pembuatan: string;
   tanggal_pembuatan: string;
   jabatan_kepala_daerah: string;
@@ -36,7 +36,7 @@ interface KepalaFormData {
   nama_kepala_daerah: string;
   nama_kepala_dinas: string;
   nip_kepala_dinas: string;
-}
+};
 
 // Editor gabungan utk blok MultiPenandatangan (Form Cetak 6 & 7): kolom
 // "tengah" (penandatangan[] — Sekretaris/Kepala Bidang dkk, dinamis

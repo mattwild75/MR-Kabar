@@ -7,7 +7,7 @@ import AppLayout from '@/layouts/app-layout';
 import JadwalPenilaianWidget, { type JadwalArahan } from '@/components/ui/jadwal-penilaian-widget';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { useMemo, useState, type CSSProperties } from 'react';
+import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import {
   Activity as ActivityIcon,
   AlertTriangle,
@@ -976,7 +976,7 @@ export default function Dashboard({
                       name="Cakupan Signifikan"
                       stroke="#0ea5e9"
                       connectNulls
-                      label={{ position: 'top', fontSize: 11, fill: '#0ea5e9', formatter: (v: number) => `${v.toFixed(2)}%` }}
+                      label={{ position: 'top', fontSize: 11, fill: '#0ea5e9', formatter: (v: ReactNode) => (typeof v === 'number' ? `${v.toFixed(2)}%` : v) }}
                     />
                     <Line
                       yAxisId="gap"

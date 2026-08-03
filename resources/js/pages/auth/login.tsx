@@ -14,11 +14,11 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { useEduVideo } from '@/lib/edu-video';
 
-interface LoginForm {
+type LoginForm = {
     username: string;
     password: string;
     remember: boolean;
-}
+};
 
 interface LoginProps {
     status?: string;

@@ -34,7 +34,7 @@ interface TtdEditorProps {
 // compiler (ditemukan lewat audit dead-code/bug 2026-07-26: bukan bug
 // runtime, tapi lubang di jaring pengaman kalau field ini direfactor/typo
 // di masa depan).
-interface TtdFormData {
+type TtdFormData = {
   tempat_pembuatan: string;
   tanggal_pembuatan: string;
   jabatan_kepala_daerah: string;
@@ -42,7 +42,7 @@ interface TtdFormData {
   nama_kepala_daerah: string;
   nama_kepala_dinas: string;
   nip_kepala_dinas: string;
-}
+};
 
 export function TtdEditor({ dataUmumId, tempatPembuatan, tanggalPembuatan, jabatan, jabatanField, nama, namaField, nip }: TtdEditorProps) {
   const [editing, setEditing] = useState(false);
