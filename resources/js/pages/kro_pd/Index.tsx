@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import AutocompleteTextarea from '@/components/ui/autocomplete-textarea';
-import AutocompleteMultiline from '@/components/ui/autocomplete-multiline';
 import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -164,6 +163,10 @@ interface PageProps {
   program1aMap: Record<string, Program1aEntry>;
   currentUserId: number | null;
   isAdmin: boolean;
+  tahun: number | null;
+  tahunOptions: number[];
+  opdId: number | null;
+  opdSaringanOptions: OpdOption[];
 }
 
 const keyOf = (level: string, id: string | number) => `${level}:${id}`;
@@ -524,10 +527,6 @@ interface TreeCallbacks {
   registerRef: (key: string, el: HTMLElement | null) => void;
   currentUserId: number | null;
   isAdmin: boolean;
-  tahun: number | null;
-  tahunOptions: number[];
-  opdId: number | null;
-  opdSaringanOptions: OpdOption[];
 }
 
 function SubKegiatanRow({ sk, cb }: { sk: SubKegiatanItem; cb: TreeCallbacks }) {

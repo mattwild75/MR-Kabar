@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import AutocompleteTextarea from '@/components/ui/autocomplete-textarea';
-import AutocompleteMultiline from '@/components/ui/autocomplete-multiline';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import { KRS_FIELD_INFO } from '@/lib/krs-field-info';
 import {
