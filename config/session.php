@@ -38,6 +38,36 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Batas Sesi Sejak Login — SATU-SATUNYA yang menentukan
+    |--------------------------------------------------------------------------
+    |
+    | Sesi berakhir sekian menit SEJAK LOGIN, bukan sejak aktivitas terakhir.
+    | Hitungannya berjalan terus di sisi server: sedang dipakai atau tidak,
+    | jendela terbuka atau tertutup, jaringan tersambung atau putus — waktunya
+    | tetap berkurang. Yang menyimpannya cuma satu penanda `login_at` di sesi.
+    |
+    | `lifetime` Laravel di atas sengaja disetel LEBIH PANJANG daripada batas
+    | ini supaya ia tidak pernah ikut menentukan. Kalau tidak, akan ada dua
+    | penghitung dengan aturan berbeda — satu bergeser tiap request, satu tidak
+    | — dan pengguna tidak akan pernah bisa menebak kapan sebenarnya ia keluar.
+    |
+    | `warning_seconds` menentukan berapa detik SEBELUM habis peringatan
+    | muncul. Peringatannya hanya bisa tampil kalau jendelanya sedang terbuka
+    | dan jaringannya tersambung; kalau tidak, waktunya tetap habis pada
+    | detik yang sama.
+    |
+    | Ketiga tempat yang dulu menuliskan angka 4 jam sendiri-sendiri
+    | (middleware, controller status, komponen peringatan) kini membacanya
+    | dari sini.
+    |
+    */
+
+    'max_lifetime' => (int) env('SESSION_MAX_LIFETIME', 240),
+
+    'warning_seconds' => (int) env('SESSION_WARNING_SECONDS', 60),
+
+    /*
+    |--------------------------------------------------------------------------
     | Session Encryption
     |--------------------------------------------------------------------------
     |
@@ -129,7 +159,7 @@ return [
 
     'cookie' => env(
         'SESSION_COOKIE',
-        Str::slug(env('APP_NAME', 'laravel'), '_') . '_session'
+        Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
     /*

@@ -1,54 +1,54 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PanduanController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MediaDownloadController;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\BackupController;
-use App\Http\Controllers\RiskExcelController;
-use App\Http\Controllers\KrsPicExcelController;
 use App\Http\Controllers\AuditLogController;
-use App\Http\Controllers\UserFileController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\SettingAppController;
-use App\Http\Controllers\KeteranganPendukungController;
-use App\Http\Controllers\ProgramBupatiRisikoController;
-use App\Http\Controllers\MediaFolderController;
-use App\Http\Controllers\KaeresController;
-use App\Http\Controllers\KrsPemdaController;
-use App\Http\Controllers\IrsPemdaController;
-use App\Http\Controllers\KaeresPdController;
-use App\Http\Controllers\KrsPdController;
-use App\Http\Controllers\IrsPdController;
-use App\Http\Controllers\KaeresRoController;
-use App\Http\Controllers\KroPdController;
-use App\Http\Controllers\IroPdController;
-use App\Http\Controllers\DataRisikoGabunganController;
-use App\Http\Controllers\RiskEvidenceController;
-use App\Http\Controllers\SessionStatusController;
-use App\Http\Controllers\TroubleshootReportController;
-use App\Http\Controllers\TrashController;
-use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\Auth\CeeSurveyQrLoginController;
+use App\Http\Controllers\Auth\LaporQrLoginController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CeeFormController;
-use App\Http\Controllers\MonitoringEvaluasiController;
-use App\Http\Controllers\CetakMonitoringEvaluasiController;
-use App\Http\Controllers\CetakLaporanController;
 use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
 use App\Http\Controllers\CetakHasilAnalisisController;
+use App\Http\Controllers\CetakLaporanController;
+use App\Http\Controllers\CetakMonitoringEvaluasiController;
 use App\Http\Controllers\CetakRisikoController;
 use App\Http\Controllers\CetakRtpController;
 use App\Http\Controllers\CetakStrukturPengelolaController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\TahunAktifController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DataRisikoGabunganController;
+use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\IroPdController;
+use App\Http\Controllers\IrsPdController;
+use App\Http\Controllers\IrsPemdaController;
+use App\Http\Controllers\KaeresController;
+use App\Http\Controllers\KaeresPdController;
+use App\Http\Controllers\KaeresRoController;
+use App\Http\Controllers\KeteranganPendukungController;
+use App\Http\Controllers\KroPdController;
+use App\Http\Controllers\KrsPdController;
+use App\Http\Controllers\KrsPemdaController;
+use App\Http\Controllers\KrsPicExcelController;
 use App\Http\Controllers\LaporanKejadianController;
-use App\Http\Controllers\Auth\LaporQrLoginController;
-use App\Http\Controllers\Auth\CeeSurveyQrLoginController;
+use App\Http\Controllers\MediaDownloadController;
+use App\Http\Controllers\MediaFolderController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MonitoringEvaluasiController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProgramBupatiRisikoController;
+use App\Http\Controllers\RiskEvidenceController;
+use App\Http\Controllers\RiskExcelController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SessionStatusController;
+use App\Http\Controllers\SettingAppController;
+use App\Http\Controllers\TahunAktifController;
+use App\Http\Controllers\TrashController;
+use App\Http\Controllers\TroubleshootReportController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserFileController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -102,9 +102,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // pengisiannya terbuka bagi setiap pengguna yang sudah masuk.
     Route::post('panduan/kuis', [PanduanController::class, 'simpanKuis'])->name('panduan.kuis');
 
-    // Dipoll oleh SessionTimeoutWarning (frontend) untuk auto-logout 4 jam
-    // sejak login (lihat MAX_SESSION_SECONDS di ForceLogoutAfterMaxDuration
-    // middleware & SessionStatusController).
+    // Ditanyai berkala oleh SessionTimeoutWarning: sisa waktu sesi menurut
+    // server. Batasnya sendiri ada di `config('session.max_lifetime')`, dibaca
+    // bersama oleh ForceLogoutAfterMaxDuration dan SessionStatusController.
     Route::get('session-status', [SessionStatusController::class, 'show'])->name('session.status');
     Route::post('session-extend', [SessionStatusController::class, 'extend'])->name('session.extend');
 
@@ -461,6 +461,5 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::delete('risk-evidence/{type}/{id}/{mediaId}', [RiskEvidenceController::class, 'destroy'])->name('risk-evidence.destroy');
 });
 
-require __DIR__ . '/settings.php';
-require __DIR__ . '/auth.php';
-
+require __DIR__.'/settings.php';
+require __DIR__.'/auth.php';

@@ -4,34 +4,53 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+/**
+ * Sisa waktu sesi menurut SERVER.
+ *
+ * Halaman tidak boleh menghitung sendiri dari saat ia dibuka: jendela bisa
+ * ditinggalkan berjam-jam, komputer bisa tertidur, dan jam di komputer
+ * pengguna bisa saja meleset. Yang menentukan hanya satu — selisih antara
+ * waktu server sekarang dan `login_at`.
+ */
 class SessionStatusController extends Controller
 {
-    private const MAX_SESSION_SECONDS = 4 * 60 * 60;
+    private function batasDetik(): int
+    {
+        return (int) config('session.max_lifetime') * 60;
+    }
 
     /**
-     * Dipoll berkala oleh frontend (SessionTimeoutWarning) untuk tahu kapan
-     * harus menampilkan dialog peringatan sesi akan berakhir — mengembalikan
-     * berapa detik lagi sampai batas 4 jam sejak login tercapai.
+     * Sisa detik sampai sesi berakhir, berikut ambang peringatannya.
+     *
+     * Ambangnya ikut dikirim supaya halaman tidak perlu menyimpan salinan
+     * angkanya sendiri — satu-satunya sumbernya tetap config.
      */
     public function show(Request $request)
     {
         $loginAt = $request->session()->get('login_at', now()->timestamp);
-        $secondsRemaining = self::MAX_SESSION_SECONDS - (now()->timestamp - $loginAt);
+        $sisa = $this->batasDetik() - (now()->timestamp - $loginAt);
 
         return response()->json([
-            'secondsRemaining' => max(0, $secondsRemaining),
+            'secondsRemaining' => max(0, $sisa),
+            'warningSeconds' => (int) config('session.warning_seconds'),
+            'maxSeconds' => $this->batasDetik(),
         ]);
     }
 
     /**
-     * Dipanggil saat user klik "Lanjutkan" pada dialog peringatan — reset
-     * login_at ke sekarang, memberi 4 jam penuh lagi sebelum peringatan
-     * berikutnya, tanpa perlu login ulang dengan password.
+     * Dipanggil saat pengguna menekan "Lanjutkan" pada peringatan.
+     *
+     * Menyetel ulang `login_at` ke sekarang, memberi satu periode penuh lagi
+     * tanpa perlu mengetik sandi.
      */
     public function extend(Request $request)
     {
         $request->session()->put('login_at', now()->timestamp);
 
-        return response()->json(['secondsRemaining' => self::MAX_SESSION_SECONDS]);
+        return response()->json([
+            'secondsRemaining' => $this->batasDetik(),
+            'warningSeconds' => (int) config('session.warning_seconds'),
+            'maxSeconds' => $this->batasDetik(),
+        ]);
     }
 }
