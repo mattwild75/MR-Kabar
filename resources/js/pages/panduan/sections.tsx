@@ -983,7 +983,7 @@ export const SECTIONS: Section[] = [
             { title: 'Seksi 2 — Analisis & Peta Risiko (2 widget)', desc: 'Matriks 5×5, Progres Tahapan per UPR' },
             { title: 'Seksi 3 — Distribusi Risiko (3 widget)', desc: 'per Tingkatan, per Kategori, Siklus 4-Skor' },
             { title: 'Seksi 4 — Prioritas & Tren (3 widget)', desc: 'Daftar Prioritas, Tren Level, Tren Efektivitas Pengendalian' },
-            { title: 'Seksi 5 — Kinerja UPR (2 widget)', desc: 'Ranking Eksposur OPD, Log Kejadian Risiko' },
+            { title: 'Seksi 5 — Kinerja UPR (2 widget)', desc: 'Ranking Eksposur OPD (tiap baris dapat diklik untuk membuka Data Risiko gabungan milik OPD itu), Log Kejadian Risiko' },
             { title: 'Seksi 6 — Kepatuhan & Aktivitas (2 widget)', desc: 'Kepatuhan Pelaporan Berkala, Aktivitas Terbaru' },
           ]}
         />
@@ -1038,7 +1038,7 @@ export const SECTIONS: Section[] = [
           items={[
             {
               title: '2.1 Peta Risiko (Matriks 5×5)',
-              desc: 'Grid Dampak × Kemungkinan berwarna sesuai Bab II.D, menampilkan jumlah risiko per sel — skala & warna tiap sel diambil LANGSUNG dari tabel referensi yang dikonfigurasi Admin di Settings > Keterangan Pendukung (bukan dihitung ulang dampak×kemungkinan), supaya selalu konsisten dengan Matriks Analisis Risiko di Form Cetak 4. Klik sel yang berisi risiko untuk melihat daftar uraian risikonya, lalu klik salah satu risiko untuk membuka rinciannya.',
+              desc: 'Grid Dampak × Kemungkinan berwarna sesuai Bab II.D, menampilkan jumlah risiko per sel — skala & warna tiap sel diambil LANGSUNG dari tabel referensi yang dikonfigurasi Admin di Settings > Keterangan Pendukung (bukan dihitung ulang dampak×kemungkinan), supaya selalu konsisten dengan Matriks Analisis Risiko di Form Cetak 4. Klik sel yang berisi risiko untuk melihat daftar uraian risikonya, lalu klik salah satu risiko untuk membuka rinciannya. Garis putus-putus bertangga pada matriks adalah batas Selera Risiko: sel di luarnya wajib punya Rencana Tindak Pengendalian. Letaknya diturunkan dari penanda level di Keterangan Pendukung sehingga bergeser sendiri saat seleranya diubah, dan bentuknya bertangga — bukan lurus — karena mengikuti peringkat 1–25 yang memang tidak simetris.',
             },
             {
               title: '2.2 Progres Tahapan per UPR',
@@ -2180,6 +2180,48 @@ export const SECTIONS: Section[] = [
           Semua penghapusan bersifat <em>soft delete</em> — data tidak langsung hilang. Buka{' '}
           <code>Utilities → Data Terhapus</code> untuk memulihkan data yang salah terhapus, baik satu baris maupun
           satu kelompok (satu Sasaran/Program beserta seluruh turunannya).
+        </Kotak>
+
+        <Kotak title="Menyaring data: Periode, Tahun, dan Perangkat Daerah" tone="accent">
+          <p>
+            Setiap halaman konteks dan risiko punya penyaring di bagian atas. Bahasanya sengaja dibedakan karena
+            yang disekat memang berbeda:
+          </p>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li>
+              <strong>Periode Penilaian</strong> (mis. 2025-2029) untuk <code>I_a_KRS_Pemda</code> dan{' '}
+              <code>II_a_KRS_PD</code> — keduanya menurunkan RPJMD dan Renstra yang berlaku lima tahunan.
+            </li>
+            <li>
+              <strong>Tahun Penilaian</strong> (mis. 2026) untuk <code>III_a_KRO_PD</code> dan seluruh formulir
+              Identifikasi Risiko — keduanya menempel pada kegiatan yang anggarannya ditetapkan tahunan lewat
+              Renja dan DPA.
+            </li>
+            <li>
+              <strong>Perangkat Daerah</strong>, dengan pilihan &quot;Semua OPD&quot;. Hanya tampil bagi yang berhak
+              melihat lintas perangkat daerah; PIC biasa memang sudah terkunci pada datanya sendiri.
+            </li>
+          </ul>
+          <p className="mt-2">
+            Nilainya mengikuti Data Umum masing-masing perangkat daerah — kalau PIC menuliskan periodenya 2029-2033,
+            itulah yang dipakai; aplikasi tidak memaksakan angkanya sendiri. Penyaring ini juga{' '}
+            <strong>terpisah dari Tahun Aktif</strong>, sehingga membaca tahun lalu tidak mengubah tahun berjalan
+            bagi perangkat daerah lain.
+          </p>
+        </Kotak>
+
+        <Kotak title="Mengisi OPD Penanggung Jawab: dipilih, bukan diketik" tone="accent">
+          <p>
+            Kolom OPD Penanggung Jawab pada <code>I_a</code>, <code>II_a</code>, dan <code>III_a</code> diisi dengan{' '}
+            <strong>mencentang</strong> dari daftar resmi di{' '}
+            <code>Settings → Keterangan Pendukung → OPD</code>, bukan diketik bebas. Tersedia kotak pencarian dan
+            tombol &quot;Pilih semua&quot;, dan satu program boleh diampu banyak perangkat daerah sekaligus.
+          </p>
+          <p className="mt-2">
+            Alasannya bukan sekadar kemudahan. Selama kolom ini diketik bebas, ejaannya berbeda-beda antar pengisi —
+            &quot;Dinas Sosial&quot; berdampingan dengan &quot;DINAS TRANSMIGRASI DAN TENAGA KERJA&quot; di kolom yang
+            sama. Penyaring, pengelompokan, dan rekap yang mencocokkan teks lalu meleset tanpa ada tanda apa pun.
+          </p>
         </Kotak>
       </>
     ),
