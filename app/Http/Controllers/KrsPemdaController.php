@@ -7,6 +7,7 @@ use App\Models\Opd;
 use App\Models\KrsPemda;
 use App\Services\KrsIrsSyncService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -472,6 +473,158 @@ class KrsPemdaController extends Controller
     }
 
     /**
+     * Menyelaraskan baris-baris sebuah program non-prioritas dengan isi kartu.
+     *
+     * Kartu program non-prioritas adalah gabungan: satu baris tabel menampung
+     * SATU pasangan indikator dan perangkat daerah, sedangkan kartunya
+     * menampilkan seluruh indikator dan seluruh pengampunya sekaligus. Kalau
+     * penyimpanannya diperlakukan sebagai penyuntingan satu baris biasa,
+     * seluruh daftar menumpuk ke dalam satu sel sementara baris-baris lain
+     * tetap ada — datanya jadi rangkap, dan tiap penyimpanan berikutnya
+     * menambah rangkapnya lagi.
+     *
+     * Jadi yang dilakukan di sini bukan menyunting satu baris, melainkan
+     * menyamakan HIMPUNAN baris program itu dengan isi kartunya:
+     *
+     *   - pasangan yang sudah ada dipertahankan beserta id-nya, hanya kolom
+     *     penyertanya yang diperbarui;
+     *   - pasangan baru dibuatkan barisnya;
+     *   - pasangan yang hilang dari kartu dihapus-lunak, bukan dihapus permanen,
+     *     sehingga masih bisa dipulihkan lewat Data Terhapus.
+     *
+     * Mempertahankan id yang sudah ada penting: jejak audit menempel pada id,
+     * dan membuat ulang seluruh baris akan memutus riwayat perubahannya.
+     *
+     * Mengembalikan null bila baris ini BUKAN kartu gabungan — pemanggilnya lalu
+     * menyimpan seperti biasa.
+     */
+    private function selaraskanBarisNonPrioritas(KrsPemda $baris, array $data): ?string
+    {
+        $pecah = fn ($v) => array_values(array_filter(
+            array_map('trim', preg_split('/\r?\n/', (string) $v)),
+            fn ($s) => $s !== '',
+        ));
+
+        $sasaran = trim($this->removeLabel((string) ($data['SASARAN RPJMD'] ?? '')));
+        $program = trim((string) ($data['PROGRAM PRIORITAS'] ?? ''));
+        $opd = array_values(array_unique($pecah($data['OPD PENANGGUNGJAWAB PROGRAM'] ?? '')));
+        $ik = $pecah($data['IK PROGRAM'] ?? '');
+
+        // Hanya berlaku untuk program non-prioritas yang memang digabung.
+        // Baris prioritas punya rantai Visi sampai Sasaran sendiri dan tidak
+        // pernah digabung, jadi disimpan seperti biasa.
+        $nonPrioritas = in_array($sasaran, ['', '-', 'Tidak Ada Data'], true);
+        $kartuGabungan = count($opd) > 1 || count($ik) > 1;
+        if (! $nonPrioritas || $program === '' || ! $kartuGabungan) {
+            return null;
+        }
+
+        $baseline = $pecah($data['BASELINE IK PROGRAM'] ?? '');
+        $target = $pecah($data['TARGET IK PROGRAM'] ?? '');
+        $satuan = $pecah($data['SATUAN IK PROGRAM'] ?? '');
+
+        // Indikator dan nilai penyertanya berpasangan menurut URUTAN baris.
+        // Kalau salah satu kolom lebih pendek, sisanya dikosongkan — lebih baik
+        // kosong daripada mengambil nilai milik indikator lain.
+        $indikator = [];
+        foreach ($ik as $i => $nama) {
+            $indikator[] = [
+                'IK PROGRAM' => $nama,
+                'BASELINE IK PROGRAM' => $baseline[$i] ?? '',
+                'TARGET IK PROGRAM' => $target[$i] ?? '',
+                'SATUAN IK PROGRAM' => $satuan[$i] ?? '',
+            ];
+        }
+        if (! $indikator) {
+            $indikator[] = ['IK PROGRAM' => '', 'BASELINE IK PROGRAM' => '',
+                'TARGET IK PROGRAM' => '', 'SATUAN IK PROGRAM' => ''];
+        }
+
+        $kunci = fn (array $n, string $o) => implode('|', [
+            $n['IK PROGRAM'], $n['BASELINE IK PROGRAM'], $n['TARGET IK PROGRAM'],
+            $n['SATUAN IK PROGRAM'], $o,
+        ]);
+
+        // Kolom yang sama untuk seluruh baris program ini.
+        $bersama = [
+            'MISI' => $data['MISI'] ?? '',
+            'OUTCOME PROGRAM PRIORITAS' => $data['OUTCOME PROGRAM PRIORITAS'] ?? '',
+            'PERIODE PENILAIAN' => $baris->{'PERIODE PENILAIAN'},
+        ];
+
+        $dibuat = 0;
+        $dihapus = 0;
+        DB::transaction(function () use ($program, $indikator, $opd, $kunci, $bersama, &$dibuat, &$dihapus) {
+            // Syarat "non-prioritas" dikurung sendiri: tanpa kurung, orWhere-nya
+            // lepas dari syarat nama program dan menyapu baris program lain.
+            $adaSekarang = KrsPemda::where('PROGRAM PRIORITAS', $program)
+                ->where(fn ($q) => $q
+                    ->whereIn('SASARAN RPJMD', ['', '-', 'Tidak Ada Data'])
+                    ->orWhereNull('SASARAN RPJMD'))
+                ->get();
+
+            // Tiap kunci menampung DAFTAR baris, bukan satu baris.
+            //
+            // Data lama bisa memuat dua baris berpasangan sama — dan kalau
+            // petanya hanya menyimpan satu, yang tertimpa tidak pernah
+            // diperiksa sehingga rangkapnya lolos. Yang pertama dipertahankan
+            // beserta id dan jejak auditnya; sisanya dihapus-lunak.
+            $peta = [];
+            foreach ($adaSekarang as $r) {
+                $peta[$kunci([
+                    'IK PROGRAM' => trim((string) $r->{'IK PROGRAM'}),
+                    'BASELINE IK PROGRAM' => trim((string) $r->{'BASELINE IK PROGRAM'}),
+                    'TARGET IK PROGRAM' => trim((string) $r->{'TARGET IK PROGRAM'}),
+                    'SATUAN IK PROGRAM' => trim((string) $r->{'SATUAN IK PROGRAM'}),
+                ], trim((string) $r->{'OPD PENANGGUNGJAWAB PROGRAM'}))][] = $r;
+            }
+
+            $diinginkan = [];
+            foreach ($indikator as $n) {
+                foreach ($opd as $o) {
+                    $k = $kunci($n, $o);
+                    $diinginkan[$k] = true;
+                    if (isset($peta[$k])) {
+                        // Yang pertama dipertahankan, rangkapnya dibuang.
+                        $simpan = array_shift($peta[$k]);
+                        $simpan->update($bersama);
+                        foreach ($peta[$k] as $rangkap) {
+                            $rangkap->delete();
+                            $dihapus++;
+                        }
+                        $peta[$k] = [];
+                        continue;
+                    }
+                    KrsPemda::create(array_merge($bersama, $n, [
+                        'SASARAN RPJMD' => '',
+                        'PROGRAM PRIORITAS' => $program,
+                        'OPD IK PROGRAM' => $o,
+                        'OPD PENANGGUNGJAWAB PROGRAM' => $o,
+                    ]));
+                    $dibuat++;
+                }
+            }
+
+            foreach ($peta as $k => $sisa) {
+                if (isset($diinginkan[$k])) {
+                    continue;
+                }
+                foreach ($sisa as $r) {
+                    $r->delete();   // hapus-lunak, masih bisa dipulihkan
+                    $dihapus++;
+                }
+            }
+        });
+
+        $jumlah = count($indikator) * count($opd);
+
+        return "Program ini diampu " . count($opd) . ' perangkat daerah dengan '
+            . count($indikator) . ' indikator, tersimpan sebagai ' . $jumlah . ' baris'
+            . ($dibuat ? " ({$dibuat} baru" . ($dihapus ? ", {$dihapus} dihapus)" : ')') : ($dihapus ? " ({$dihapus} dihapus)" : ''))
+            . '.';
+    }
+
+    /**
      * KRS_Pemda (I_a) lintas-OPD/RPJMD — bukan milik satu PIC, jadi
      * dibatasi per-ROLE (admin/super-admin saja), bukan row-level seperti
      * IRS_Pemda/KRS_PD/IRS_PD/KRO_PD/IRO_PD (lihat RiskOwnershipPolicy).
@@ -503,10 +656,19 @@ class KrsPemdaController extends Controller
         $this->ensureCanManage($request);
 
         $data = $this->fillBlanks($this->validated($request));
-        $krs_pemda->update($data);
+
+        // Kartu program non-prioritas menggabungkan banyak baris — satu baris
+        // per pasangan indikator dan perangkat daerah. Menyimpannya sebagai
+        // satu baris akan menumpuk seluruh daftar ke dalam satu sel dan
+        // meninggalkan baris lain apa adanya, sehingga datanya rangkap.
+        $ringkas = $this->selaraskanBarisNonPrioritas($krs_pemda, $data);
+        if ($ringkas === null) {
+            $krs_pemda->update($data);
+        }
         $sync->sync();
 
-        return redirect()->route('krs_pemda.index')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('krs_pemda.index')
+            ->with('success', 'Data berhasil diperbarui.' . ($ringkas ? ' ' . $ringkas : ''));
     }
 
     /**
