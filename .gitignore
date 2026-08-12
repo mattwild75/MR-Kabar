@@ -23,3 +23,7 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+# Artefak kait Git LFS di Windows: '/dev/null' diperlakukan sebagai jalur
+# relatif, sehingga kaitnya membuat folder dev/null/ di dalam repositori.
+dev/
