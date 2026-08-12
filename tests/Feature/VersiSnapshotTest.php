@@ -70,16 +70,38 @@ class VersiSnapshotTest extends TestCase
         File::ensureDirectoryExists($layanan->folder());
 
         $berkas = $layanan->berkasSnapshot($tag);
-        $zip = new ZipArchive();
-        $zip->open($berkas, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        $zip->addFromString('db-dumps/mysql-mrkabar.sql', $isiSql);
-        $zip->close();
 
-        File::put($layanan->folder() . '/manifest.json', json_encode([[
+        // Nilai balik open() WAJIB diperiksa. Kalau tidak, kegagalannya baru
+        // muncul satu baris kemudian sebagai "ValueError: Invalid or
+        // uninitialized Zip object" dari addFromString — pesan yang sama
+        // sekali tidak menunjuk ke sebabnya, dan membuat empat uji ini tampak
+        // rusak acak.
+        //
+        // Kenapa bisa gagal: folder versi ini folder SUNGGUHAN di storage,
+        // bukan disk palsu. Di Windows berkasnya bisa terkunci sesaat oleh
+        // pemindai virus atau oleh proses lain yang sedang menyibukkan disk.
+        // Terpantau dua kali dari sepuluh putaran, keduanya persis ketika
+        // mesin sedang penuh oleh render video. Karena itu dicoba ulang
+        // sebentar, lalu menyerah dengan pesan yang menyebut jalurnya.
+        $zip = new ZipArchive;
+        $dibuka = false;
+        for ($percobaan = 1; $percobaan <= 5; $percobaan++) {
+            $dibuka = $zip->open($berkas, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true;
+            if ($dibuka) {
+                break;
+            }
+            usleep(200_000);
+        }
+        $this->assertTrue($dibuka, "Gagal membuka arsip uji setelah 5 percobaan: {$berkas}");
+
+        $zip->addFromString('db-dumps/mysql-mrkabar.sql', $isiSql);
+        $this->assertTrue($zip->close(), "Gagal menutup arsip uji: {$berkas}");
+
+        File::put($layanan->folder().'/manifest.json', json_encode([[
             'tag' => $tag,
             'commit' => str_repeat('a', 40),
             'dibuat' => '2026-07-31 08:00:00',
-            'berkas' => $tag . '.zip',
+            'berkas' => $tag.'.zip',
             'ukuran' => File::size($berkas),
             'sidik_jari' => hash_file('sha256', $berkas),
             'migrasi_terakhir' => '2026_07_29_160000_create_program_bupati_risiko_usulan_table',
@@ -98,7 +120,7 @@ class VersiSnapshotTest extends TestCase
     {
         parent::setUp();
 
-        $berkas = $this->layanan()->folder() . '/manifest.json';
+        $berkas = $this->layanan()->folder().'/manifest.json';
         $this->manifesAsli = File::exists($berkas) ? File::get($berkas) : null;
     }
 
@@ -114,7 +136,7 @@ class VersiSnapshotTest extends TestCase
         // dihapus, dan manifes dikembalikan persis seperti semula.
         File::delete($this->layanan()->berkasSnapshot(self::TAG_UJI));
 
-        $berkas = $this->layanan()->folder() . '/manifest.json';
+        $berkas = $this->layanan()->folder().'/manifest.json';
         if ($this->manifesAsli !== null) {
             File::put($berkas, $this->manifesAsli);
         } else {
@@ -200,7 +222,7 @@ class VersiSnapshotTest extends TestCase
         $this->actingAs($this->superAdmin())
             ->post('/backup/versi', ['tag' => $daftar[0]])
             ->assertRedirect()
-            ->assertSessionHas('error', fn($pesan) => str_contains($pesan, 'sudah ada'));
+            ->assertSessionHas('error', fn ($pesan) => str_contains($pesan, 'sudah ada'));
     }
 
     // --- penjaga pemulihan ----------------------------------------------
@@ -212,7 +234,7 @@ class VersiSnapshotTest extends TestCase
         $this->actingAs($this->superAdmin())
             ->post('/backup/versi/v9.9.9/pulihkan', ['konfirmasi' => 'v9.9.8'])
             ->assertRedirect()
-            ->assertSessionHas('error', fn($pesan) => str_contains($pesan, 'Konfirmasi tidak cocok'));
+            ->assertSessionHas('error', fn ($pesan) => str_contains($pesan, 'Konfirmasi tidak cocok'));
 
         // Database harus utuh: snapshot palsu di atas hanya berisi "SELECT 1",
         // jadi kalau sempat dijalankan, tabel users akan hilang.
@@ -232,7 +254,7 @@ class VersiSnapshotTest extends TestCase
         $this->actingAs($this->superAdmin())
             ->post('/backup/versi/v9.9.9/pulihkan', ['konfirmasi' => 'v9.9.9'])
             ->assertRedirect()
-            ->assertSessionHas('error', fn($pesan) => str_contains($pesan, 'rusak'));
+            ->assertSessionHas('error', fn ($pesan) => str_contains($pesan, 'rusak'));
 
         $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('users'));
     }
@@ -242,7 +264,7 @@ class VersiSnapshotTest extends TestCase
         $this->actingAs($this->superAdmin())
             ->post('/backup/versi/v9.9.9/pulihkan', ['konfirmasi' => 'v9.9.9'])
             ->assertRedirect()
-            ->assertSessionHas('error', fn($pesan) => str_contains($pesan, 'tidak ditemukan'));
+            ->assertSessionHas('error', fn ($pesan) => str_contains($pesan, 'tidak ditemukan'));
     }
 
     public function test_unduh_snapshot_versi_yang_tidak_ada_menghasilkan_404(): void
@@ -258,7 +280,7 @@ class VersiSnapshotTest extends TestCase
     {
         $layanan = $this->layanan();
         File::ensureDirectoryExists($layanan->folder());
-        File::put($layanan->folder() . '/manifest.json', '{ ini bukan json }');
+        File::put($layanan->folder().'/manifest.json', '{ ini bukan json }');
 
         $this->assertSame([], $layanan->manifes());
 
