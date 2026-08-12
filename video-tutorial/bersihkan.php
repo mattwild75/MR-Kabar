@@ -123,6 +123,33 @@ if ($sejakRekam) {
 echo "\ntotal: $total baris";
 echo $aksi === 'hapus' ? " — SUDAH DIHAPUS\n" : " (belum dihapus; jalankan 'hapus' untuk membuang)\n";
 
+// Catatan log aktivitas milik baris-baris di atas.
+//
+// Ini SENGAJA dibatasi pada rentang waktu perekaman saja, bukan "semua catatan
+// yang subjeknya sudah tidak ada". Perbedaannya penting: catatan tentang baris
+// yang dihapus lewat pemakaian biasa memang HARUS tetap tinggal — "si anu
+// menghapus risiko X" justru baru berguna sesudah X hilang, dan itulah gunanya
+// jejak audit. Yang dibuang di sini hanya jejak data contoh yang sebenarnya
+// tidak pernah ada.
+//
+// Tanpa langkah ini, widget "Aktivitas Terbaru" di Dasbor memperlihatkan
+// pembuatan baris yang tidak bisa dibuka siapa pun, dan halaman Log Aktivitas
+// memuat tautan yang menuju ke ketiadaan.
+if ($sejakRekam) {
+    $qLog = DB::table('activity_log')
+        ->where('created_at', '>=', $sejakRekam)
+        ->whereIn('causer_id', DB::table('users')
+            ->whereIn('username', ['PIC_INSPEKTORAT', 'mrkabarvip', 'LAPOR', 'CEE_Survey'])
+            ->pluck('id'));
+    $nLog = (clone $qLog)->count();
+    printf("catatan log aktivitas hasil perekaman: %d", $nLog);
+    if ($aksi === 'hapus' && $nLog) {
+        $qLog->delete();
+        echo ' — SUDAH DIHAPUS';
+    }
+    echo "\n";
+}
+
 // Pengaman: pastikan 2025 tidak ikut tergores.
 $masih2025 = DB::table('tbl_irs_pd')->where('user_id', $uid)->where('TAHUN DINILAI RISIKO', 2025)->count()
     + DB::table('tbl_iro_pd')->where('user_id', $uid)->where('TAHUN DINILAI RISIKO', 2025)->count();

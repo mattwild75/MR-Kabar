@@ -8,6 +8,7 @@ import JadwalPenilaianWidget, { type JadwalArahan } from '@/components/ui/jadwal
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import SaatTerlihat from '@/components/ui/saat-terlihat';
 import {
   Activity as ActivityIcon,
   AlertTriangle,
@@ -771,6 +772,7 @@ export default function Dashboard({
                 <p className="text-sm text-muted-foreground">Belum ada data.</p>
               ) : (
                 <div className="max-h-[280px] overflow-y-auto overflow-x-hidden">
+                  <SaatTerlihat tinggi={Math.max(280, distribusiKategori.length * 32)}>
                   <ResponsiveContainer width="100%" height={Math.max(280, distribusiKategori.length * 32)}>
                     <BarChart data={distribusiKategori} layout="vertical" margin={{ left: 24, right: 16 }}>
                       <XAxis type="number" allowDecimals={false} />
@@ -785,6 +787,7 @@ export default function Dashboard({
                       />
                     </BarChart>
                   </ResponsiveContainer>
+                  </SaatTerlihat>
                 </div>
               )}
             </CardContent>
@@ -801,6 +804,7 @@ export default function Dashboard({
             ) : (
               <>
                 <div className="max-h-[400px] overflow-x-hidden overflow-y-auto">
+                  <SaatTerlihat tinggi={Math.max(260, inherenResidual.length * 32)}>
                   <ResponsiveContainer width="100%" height={Math.max(260, inherenResidual.length * 32)}>
                     <ComposedChart
                       data={inherenResidual.map((r, i) => ({ ...r, y: i, gap: r.skala_inheren - r.skala_residual }))}
@@ -847,6 +851,7 @@ export default function Dashboard({
                       />
                     </ComposedChart>
                   </ResponsiveContainer>
+                  </SaatTerlihat>
                 </div>
                 <p className="mt-2 text-center text-xs text-muted-foreground">
                   Menampilkan seluruh {inherenResidual.length} risiko yang sudah memiliki Skala Inheren — bar biru+merah
@@ -904,6 +909,7 @@ export default function Dashboard({
               <CardTitle className="text-base">Tren Level Risiko (5 Tahun Terakhir)</CardTitle>
             </CardHeader>
             <CardContent className="h-[260px]">
+              <SaatTerlihat tinggi="100%" className="h-full">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={trenTahunan}>
                   <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
@@ -931,6 +937,7 @@ export default function Dashboard({
                   />
                 </AreaChart>
               </ResponsiveContainer>
+              </SaatTerlihat>
             </CardContent>
           </Card>
         </div>
@@ -944,7 +951,8 @@ export default function Dashboard({
               <p className="text-sm text-muted-foreground">Belum ada risiko dengan Skala Inheren terisi.</p>
             ) : (
               <>
-                <ResponsiveContainer width="100%" height="90%">
+                <SaatTerlihat tinggi="90%" className="h-[90%]">
+                <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={trenEfektivitasPengendalian}>
                     <CartesianGrid strokeDasharray="3 3" opacity={0.3} />
                     <XAxis dataKey="tahun" />
@@ -990,6 +998,7 @@ export default function Dashboard({
                     />
                   </LineChart>
                 </ResponsiveContainer>
+                </SaatTerlihat>
                 <p className="text-center text-xs text-muted-foreground">
                   Rata-rata Gap = besaran penurunan skala risiko (Inheren − Residual) · Cakupan Signifikan = % risiko
                   dengan gap ≥ {5} · Rata-rata Deviasi Target vs Aktual = Aktual − Target pada risiko yang sudah

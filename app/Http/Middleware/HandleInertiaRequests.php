@@ -69,17 +69,21 @@ class HandleInertiaRequests extends Middleware
                 // ditempelkan ke mana.
                 'createdRiskId' => session('createdRiskId'),
             ],
-            'setting' => fn() => SettingApp::cached(),
+            'setting' => fn () => SettingApp::cached(),
             // Penanda versi berkas video edukasi bawaan, ditempelkan sebagai
             // query string pada URL-nya di sisi klien. Nama berkasnya tetap
             // sama tiap kali video di-deploy ulang, sehingga tanpa penanda ini
             // peramban akan terus memakai salinan lamanya dari cache — berkas
             // 70MB tidak akan diminta ulang hanya karena isinya berubah.
-            'eduVideoVersion' => fn() => @filemtime(public_path('video/video-edukasi-mr-kabar.mp4')) ?: null,
+            'eduVideoVersion' => fn () => @filemtime(public_path('video/video-edukasi-mr-kabar.mp4')) ?: null,
             // Penanda versi video tutorial pengisian, alasannya sama persis.
-            'tutorialVideoVersion' => fn() => @filemtime(public_path('video/tutorial-mr-kabar.mp4')) ?: null,
-            'laporVideoVersion' => fn() => @filemtime(public_path('video/lapor-mr-kabar.mp4')) ?: null,
-            'unreadNotificationsCount' => fn() => $request->user()?->unreadNotifications()->count() ?? 0,
+            'tutorialVideoVersion' => fn () => @filemtime(public_path('video/tutorial-mr-kabar.mp4')) ?: null,
+            // Dulu ada 'laporVideoVersion' di sini. Video Lapor sudah tidak
+            // ada lagi sebagai video tersendiri sejak 13 Agustus 2026 — isinya
+            // jadi bab VIII-XIII di dalam video tutorial. Penanda itu tertinggal
+            // menunjuk berkas yang sudah dihapus, sehingga setiap permintaan
+            // halaman mana pun memeriksa berkas yang dipastikan tidak ada.
+            'unreadNotificationsCount' => fn () => $request->user()?->unreadNotifications()->count() ?? 0,
         ]);
     }
 }
