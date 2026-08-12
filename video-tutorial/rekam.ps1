@@ -2,7 +2,7 @@
 #
 #   powershell -File rekam.ps1                          bersihkan lalu rekam semua
 #   powershell -File rekam.ps1 -Mulai V                 lanjutkan dari bagian V
-#   powershell -File rekam.ps1 -Naskah naskah-lapor.json -Bagian I,II,III,IV,V,VI
+#   powershell -File rekam.ps1 -Bagian VIII,IX          hanya bagian tertentu
 #
 # Dipisah per bagian dengan sengaja: kalau satu bagian meleset, yang diulang
 # hanya bagian itu, bukan sejam rekaman. Urutannya tetap harus dari depan,
@@ -12,16 +12,27 @@
 # berkas skrip sebagai ANSI, dan tanda baca seperti em dash membuat seluruh
 # berkas gagal diurai. "2>&1" pada program native juga dihindari: ia membungkus
 # keluaran biasa sebagai galat dan menghentikan skrip walau programnya berhasil.
-param([string]$Mulai = '', [string]$Naskah = '', [string]$Bagian = '')
+param([string]$Mulai = '', [string]$Naskah = 'naskah-gabungan.json', [string]$Bagian = '')
 
 Set-Location $PSScriptRoot
 # Daftar bagian disebut EKSPLISIT lewat -Bagian. Membacanya dari berkas naskah
 # lewat ConvertFrom-Json sempat dicoba dan hasilnya menyatu jadi satu untai,
 # sehingga seluruh nama bagian dikirim sebagai satu argumen.
+#
+# Bawaannya kini 17 bagian: video Pengisian dan video Lapor sudah disatukan
+# jadi satu video oleh gabung_naskah.py.
+#
+# Namanya $daftar, BUKAN $bagian. PowerShell tidak membedakan huruf besar-kecil
+# pada nama variabel, jadi $bagian adalah variabel yang SAMA dengan parameter
+# $Bagian - dan parameter itu bertipe [string]. Larik yang dimasukkan ke sana
+# dipaksa jadi untai berspasi, sehingga seluruh nama bagian terkirim sebagai
+# satu argumen: "--bagian 'I II III ...'". Skrip tetap berjalan dan baru gagal
+# di pengendali dengan pesan "bagian tidak ketemu".
 if ($Bagian -ne '') {
-    $bagian = $Bagian -split ','
+    $daftar = $Bagian -split ','
 } else {
-    $bagian = @('I','II','III','IV','V','VI','VII','VIII','IX','X','XI')
+    $daftar = @('I','II','III','IV','V','VI','VII','VIII','IX','X',
+                'XI','XII','XIII','XIV','XV','XVI','XVII')
 }
 
 if ($Mulai -eq '') {
@@ -29,14 +40,14 @@ if ($Mulai -eq '') {
     php bersihkan.php hapus | Select-Object -Last 2
     php bersihkan.php tandai
 } else {
-    $i = [array]::IndexOf($bagian, $Mulai)
+    $i = [array]::IndexOf($daftar, $Mulai)
     if ($i -lt 0) { Write-Output "bagian tidak dikenal: $Mulai"; exit 1 }
-    $bagian = $bagian[$i..($bagian.Length - 1)]
+    $daftar = $daftar[$i..($daftar.Length - 1)]
     Write-Output "== melanjutkan dari bagian $Mulai (data yang sudah ada dipertahankan)"
 }
 
 $mulaiWaktu = Get-Date
-foreach ($b in $bagian) {
+foreach ($b in $daftar) {
     $lewat = ((Get-Date) - $mulaiWaktu).ToString('hh\:mm\:ss')
     Write-Output ""
     Write-Output "===== BAGIAN $b   (sudah berjalan $lewat)"

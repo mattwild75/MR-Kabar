@@ -2234,6 +2234,28 @@ export const SECTIONS: Section[] = [
     navLabel: 'Navigasi & Sidebar',
     content: (
       <>
+        <Kotak title="Sesi berakhir otomatis 4 jam sejak Anda masuk" tone="accent">
+          Demi keamanan, sesi Anda berakhir otomatis <strong>empat jam sesudah login</strong>. Hitungannya
+          dimulai <strong>sejak Anda masuk, bukan sejak aktivitas terakhir</strong> — jadi waktunya tetap
+          berjalan walaupun aplikasinya Anda tinggalkan, jendelanya ditutup, komputernya tertidur, atau
+          jaringannya putus.
+          <br />
+          <br />
+          <strong>Satu menit sebelum habis</strong> muncul peringatan berisi hitungan mundur dan dua pilihan:{' '}
+          <strong>Lanjutkan</strong> (memberi satu periode penuh lagi tanpa perlu mengetik sandi) atau{' '}
+          <strong>Keluar</strong>. Kalau didiamkan sampai hitungannya habis, Anda keluar sendiri.
+          <br />
+          <br />
+          Peringatan itu hanya bisa tampil kalau jendelanya sedang terbuka dan jaringannya tersambung. Kalau
+          tidak, waktunya <em>tetap</em> habis pada detik yang sama — batas sesi memang tidak bergantung pada
+          ada tidaknya orang yang sedang melihat layar.
+          <br />
+          <br />
+          <strong>Yang perlu Anda lakukan:</strong> biasakan menekan Simpan begitu satu formulir selesai,
+          jangan menumpuk pekerjaan setengah jadi di layar. Dan kalau peringatan itu muncul, simpan dulu
+          isian yang belum tersimpan sebelum memilih Lanjutkan.
+        </Kotak>
+
         <p>
           Menu sebelah kiri (sidebar) bisa <strong>dilebarkan (expanded)</strong> atau{' '}
           <strong>dikecilkan jadi kolom ikon saja (collapsed)</strong> lewat tombol panah kembar (

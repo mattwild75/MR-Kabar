@@ -743,15 +743,29 @@ class Perekam {
           const b3 = await p.evaluate(BARIS);
           if (!b3 || !b3.simpan) break;
           await t.klikTitik(b3.simpan.x, b3.simpan.y);
-          await tidur(900);
 
           dikerjakan++;
-          // Kalau jumlah kotak pilihan tidak berkurang, barisnya tidak
-          // tersimpan — berhenti daripada berputar tanpa ujung.
-          const b4 = await p.evaluate(BARIS);
+          // Berkurangnya jumlah kotak pilihan itulah tanda barisnya tersimpan.
+          // DITUNGGU, bukan diperiksa sekali: penyimpanan lewat Inertia dan
+          // penggambaran ulangnya bisa lewat satu detik pada halaman 1c yang
+          // isinya delapan sub unsur. Versi sebelumnya memeriksa tepat 900 md
+          // sesudah klik dan menyimpulkan gagal padahal barisnya tersimpan
+          // beberapa ratus milidetik kemudian — perekaman berhenti di tengah
+          // jalan tanpa ada yang benar-benar salah.
+          let b4 = null;
+          for (let i = 0; i < 24; i++) {
+            await tidur(400);
+            b4 = await p.evaluate(BARIS);
+            if (!b4 || b4.sisa < b.sisa) break;
+          }
           if (b4 && b4.sisa >= b.sisa) {
+            // Tanda bintang penanda kolom wajib juga ber-class text-destructive
+            // dan selalu ada di layar; kalau ikut terbaca, pesan galatnya jadi
+            // "tidak tersimpan. *" yang tidak menerangkan apa pun.
             const galat = await p.evaluate(() => [...document.querySelectorAll('.text-destructive')]
-              .filter((e) => e.offsetParent !== null).map((e) => e.textContent.trim())[0] || '');
+              .filter((e) => e.offsetParent !== null)
+              .map((e) => e.textContent.trim())
+              .filter((s) => s.length > 2)[0] || '(tidak ada pesan galat di layar)');
             throw new Error(`baris simpulan ke-${dikerjakan} tidak tersimpan. ${galat}`);
           }
         }

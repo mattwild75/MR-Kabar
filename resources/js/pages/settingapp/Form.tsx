@@ -19,13 +19,6 @@ import {
   useVersiTutorial,
 } from '@/lib/tutorial-video';
 import BAB_TUTORIAL from '@/data/tutorial-video-chapters.json';
-import {
-  LAPOR_BAWAAN,
-  LAPOR_VTT_BAWAAN,
-  LAPOR_STEM_BAWAAN,
-  useVersiLapor,
-} from '@/lib/lapor-video';
-import BAB_LAPOR from '@/data/lapor-video-chapters.json';
 
 const DEFAULT_WARNA = '#181818';
 const DEFAULT_LOGO_BG = '#ffffff';
@@ -55,13 +48,6 @@ interface SettingApp {
   tutorial_video_gain_music: number;
   tutorial_video_subtitle_enabled: boolean;
   tutorial_video_subtitle_size: number;
-  lapor_video_enabled: boolean;
-  lapor_video_path: string | null;
-  lapor_video_subtitle_path: string | null;
-  lapor_video_gain_narration: number;
-  lapor_video_gain_music: number;
-  lapor_video_subtitle_enabled: boolean;
-  lapor_video_subtitle_size: number;
   seo: {
     title?: string;
     description?: string;
@@ -112,16 +98,6 @@ export default function SettingForm({ setting }: Props) {
   const [tutHapusSubtitle, setTutHapusSubtitle] = useState(false);
   const versiTutorial = useVersiTutorial();
 
-  // Video tutorial lapor kejadian risiko - setelannya sejajar dengan dua video
-  // di atas, dan sengaja terpisah supaya bisa dimatikan sendiri.
-  const [lapEnabled, setLapEnabled] = useState(setting?.lapor_video_enabled ?? true);
-  const [lapRemove, setLapRemove] = useState(false);
-  const [lapGainNarration, setLapGainNarration] = useState(setting?.lapor_video_gain_narration ?? 100);
-  const [lapGainMusic, setLapGainMusic] = useState(setting?.lapor_video_gain_music ?? 100);
-  const [lapSubtitleEnabled, setLapSubtitleEnabled] = useState(setting?.lapor_video_subtitle_enabled ?? true);
-  const [lapSubtitleSize, setLapSubtitleSize] = useState(setting?.lapor_video_subtitle_size ?? 70);
-  const [lapHapusSubtitle, setLapHapusSubtitle] = useState(false);
-  const versiLapor = useVersiLapor();
 
   const { data, setData, post, processing, errors, transform } = useForm({
     nama_app: setting?.nama_app || '',
@@ -143,8 +119,6 @@ export default function SettingForm({ setting }: Props) {
     edu_video_subtitle_path: null as File | null,
     tutorial_video_path: null as File | null,
     tutorial_video_subtitle_path: null as File | null,
-    lapor_video_path: null as File | null,
-    lapor_video_subtitle_path: null as File | null,
   });
 
   const logoPreview = useRef<string | null>(setting?.logo ? `/storage/${setting.logo}` : null);
@@ -157,9 +131,6 @@ export default function SettingForm({ setting }: Props) {
   );
   const [tutVideoPreview, setTutVideoPreview] = useState<string | null>(
     setting?.tutorial_video_path ? `/storage/${setting.tutorial_video_path}` : TUTORIAL_BAWAAN,
-  );
-  const [lapVideoPreview, setLapVideoPreview] = useState<string | null>(
-    setting?.lapor_video_path ? `/storage/${setting.lapor_video_path}` : LAPOR_BAWAAN,
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -188,13 +159,6 @@ export default function SettingForm({ setting }: Props) {
       tutorial_video_gain_music: tutGainMusic,
       tutorial_video_subtitle_enabled: tutSubtitleEnabled,
       tutorial_video_subtitle_size: tutSubtitleSize,
-      lapor_video_enabled: lapEnabled,
-      lapor_video_remove: lapRemove,
-      lapor_video_subtitle_remove: lapHapusSubtitle,
-      lapor_video_gain_narration: lapGainNarration,
-      lapor_video_gain_music: lapGainMusic,
-      lapor_video_subtitle_enabled: lapSubtitleEnabled,
-      lapor_video_subtitle_size: lapSubtitleSize,
     }));
     post('/settingsapp', {
       forceFormData: true,
@@ -205,8 +169,6 @@ export default function SettingForm({ setting }: Props) {
         setHapusSubtitle(false);
         setTutRemove(false);
         setTutHapusSubtitle(false);
-        setLapRemove(false);
-        setLapHapusSubtitle(false);
       },
     });
   };
@@ -950,257 +912,6 @@ export default function SettingForm({ setting }: Props) {
                       onClick={() => {
                         setTutGainNarration(100);
                         setTutGainMusic(100);
-                      }}
-                    >
-                      Kembalikan ke bawaan (100% / 100%)
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {/* Video Tutorial Lapor Section */}
-              <Separator />
-              <h3 className="text-lg font-semibold">Video Tutorial Lapor Kejadian Risiko</h3>
-              <p className="text-muted-foreground text-sm">
-                Apa yang terjadi setelah risiko benar-benar terjadi, dari dua sisi (13 menit) &mdash;
-                sisi pelapor yang masuk lewat kode QR tanpa punya akun, dan sisi PIC yang menelaah
-                laporannya sampai menjadi catatan resmi di Formulir 10. Dua kasus ditempuh: risiko
-                yang sudah terdaftar, dan risiko yang belum terdaftar sama sekali. Tampil di paling
-                bawah halaman Panduan.
-              </p>
-
-              <div className="flex items-center gap-3 rounded-md border p-3">
-                <Checkbox
-                  id="lapor_video_enabled"
-                  checked={lapEnabled}
-                  onCheckedChange={(checked) => setLapEnabled(checked === true)}
-                />
-                <Label htmlFor="lapor_video_enabled" className="flex-1 text-sm font-normal">
-                  Tampilkan video tutorial lapor di halaman Panduan
-                </Label>
-              </div>
-
-              {lapEnabled && (
-                <div className="space-y-6">
-                  {/* Berkas kustom (opsional) */}
-                  <div className="space-y-1">
-                    <Label htmlFor="lapor_video_path">Ganti berkas video (MP4/WebM/MOV, maks 50MB)</Label>
-                    <Input
-                      id="lapor_video_path"
-                      type="file"
-                      accept="video/mp4,video/webm,video/quicktime"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0] || null;
-                        setData('lapor_video_path', file);
-                        if (file) {
-                          setLapVideoPreview(URL.createObjectURL(file));
-                          setLapRemove(false);
-                        }
-                      }}
-                      className={errors.lapor_video_path ? 'border-red-500' : ''}
-                    />
-                    {errors.lapor_video_path && (
-                      <p className="text-sm text-red-500">{errors.lapor_video_path}</p>
-                    )}
-                    <p className="text-muted-foreground text-xs">
-                      Kosongkan kalau tidak ingin mengganti &mdash; video bawaan yang dipakai. Berkas
-                      unggahan sendiri audionya menyatu di dalam video, sehingga setelan volume di bawah
-                      tidak berlaku untuknya; daftar bab juga disembunyikan karena menit-detiknya milik
-                      video yang berbeda.
-                    </p>
-
-                    {lapVideoPreview && !lapRemove && (
-                      <div className="mt-2 space-y-2">
-                        {lapVideoPreview === LAPOR_BAWAAN ? (
-                          <div>
-                            <EduVideoPlayer
-                              src={LAPOR_BAWAAN + versiLapor}
-                              stems={{
-                                narration: LAPOR_STEM_BAWAAN.narration + versiLapor,
-                                music: LAPOR_STEM_BAWAAN.music + versiLapor,
-                                sfx: LAPOR_STEM_BAWAAN.sfx + versiLapor,
-                              }}
-                              vtt={LAPOR_VTT_BAWAAN + versiLapor}
-                              gains={{ narration: lapGainNarration, music: lapGainMusic, sfx: 100 }}
-                              subtitleEnabled={lapSubtitleEnabled}
-                              subtitleSize={lapSubtitleSize}
-                              chapters={BAB_LAPOR}
-                              chapterNav
-                            />
-                            <p className="text-muted-foreground mt-1.5 text-xs">
-                              Pratinjau ini langsung mengikuti setelan di bawah &mdash; geser slider sambil
-                              video berjalan untuk mendengar dan melihat hasilnya sebelum disimpan.
-                            </p>
-                          </div>
-                        ) : (
-                          <video src={lapVideoPreview} controls preload="none" className="max-h-48 rounded border" />
-                        )}
-                        {setting?.lapor_video_path && (
-                          <div>
-                            <Button
-                              type="button"
-                              variant="destructive"
-                              size="sm"
-                              onClick={() => {
-                                setLapRemove(true);
-                                setLapVideoPreview(null);
-                                setData('lapor_video_path', null);
-                              }}
-                            >
-                              Hapus berkas kustom (kembali ke video bawaan)
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {lapRemove && (
-                      <p className="text-sm text-amber-600">
-                        Berkas kustom akan dihapus saat disimpan &mdash; kembali memakai video bawaan.
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Subtitle */}
-                  <div className="space-y-3 rounded-md border p-4">
-                    <div>
-                      <Label>Subtitle</Label>
-                      <p className="text-muted-foreground mt-1 text-xs">
-                        Sama seperti video edukasi, subtitle dikirim sebagai berkas terpisah &mdash; bisa
-                        dimatikan dan diubah ukurannya tanpa me-render ulang videonya.
-                      </p>
-                    </div>
-
-                    <div className="space-y-1">
-                      <Label htmlFor="lapor_video_subtitle_path">
-                        Ganti berkas subtitle (.vtt atau .srt, maks 2MB)
-                      </Label>
-                      <Input
-                        id="lapor_video_subtitle_path"
-                        type="file"
-                        accept=".vtt,.srt,text/vtt"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0] || null;
-                          setData('lapor_video_subtitle_path', file);
-                          if (file) setLapHapusSubtitle(false);
-                        }}
-                        className={errors.lapor_video_subtitle_path ? 'border-red-500' : ''}
-                      />
-                      {errors.lapor_video_subtitle_path && (
-                        <p className="text-sm text-red-500">{errors.lapor_video_subtitle_path}</p>
-                      )}
-                      <p className="text-muted-foreground text-xs">
-                        Kosongkan kalau tidak ingin mengganti. Berkas .srt otomatis dikonversi ke .vtt saat
-                        disimpan. Wajib diisi kalau Anda memasang video sendiri di atas.
-                      </p>
-
-                      {setting?.lapor_video_subtitle_path && !lapHapusSubtitle && (
-                        <div className="flex flex-wrap items-center gap-3 pt-1">
-                          <a
-                            href={`/storage/${setting.lapor_video_subtitle_path}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-primary text-sm underline underline-offset-4 hover:no-underline"
-                          >
-                            Lihat berkas subtitle terpasang
-                          </a>
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            onClick={() => {
-                              setLapHapusSubtitle(true);
-                              setData('lapor_video_subtitle_path', null);
-                            }}
-                          >
-                            Hapus (kembali ke subtitle bawaan)
-                          </Button>
-                        </div>
-                      )}
-
-                      {lapHapusSubtitle && (
-                        <p className="text-sm text-amber-600">
-                          Berkas subtitle akan dihapus saat disimpan &mdash; kembali memakai subtitle bawaan.
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <Checkbox
-                        id="lapor_video_subtitle_enabled"
-                        checked={lapSubtitleEnabled}
-                        onCheckedChange={(checked) => setLapSubtitleEnabled(checked === true)}
-                      />
-                      <Label htmlFor="lapor_video_subtitle_enabled" className="flex-1 text-sm font-normal">
-                        Tampilkan subtitle saat video diputar
-                      </Label>
-                    </div>
-
-                    {lapSubtitleEnabled && (
-                      <>
-                        <div className="flex items-center gap-4">
-                          <span className="w-36 shrink-0 text-sm">Ukuran teks</span>
-                          <input
-                            type="range"
-                            min={50}
-                            max={200}
-                            step={5}
-                            value={lapSubtitleSize}
-                            onChange={(e) => setLapSubtitleSize(Number(e.target.value))}
-                            className="accent-primary h-2 flex-1 cursor-pointer"
-                          />
-                          <span className="w-28 shrink-0 text-right font-mono text-sm tabular-nums">
-                            {lapSubtitleSize}%
-                            <span className="text-muted-foreground ml-1 text-xs">
-                              ~{Math.round((1080 * 0.028 * lapSubtitleSize) / 100)}px
-                            </span>
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground text-xs">
-                          Ukuran mengikuti besar gambar, jadi porsinya sama baik di pemutar kecil maupun
-                          layar penuh. Angka px di samping slider adalah perkiraan pada layar 1080p.
-                        </p>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Balance audio */}
-                  <div className="space-y-3 rounded-md border p-4">
-                    <div>
-                      <Label>Volume mix audio</Label>
-                      <p className="text-muted-foreground mt-1 text-xs">
-                        Video tutorial dikirim ke pemutar sebagai dua jalur audio terpisah &mdash; narasi
-                        dan musik. Perubahan di sini langsung terdengar tanpa render ulang. Tidak ada
-                        jalur efek suara karena video ini memang tidak memakainya.
-                      </p>
-                    </div>
-                    {[
-                      { label: 'Narasi', value: lapGainNarration, set: setLapGainNarration },
-                      { label: 'Musik', value: lapGainMusic, set: setLapGainMusic },
-                    ].map((row) => (
-                      <div key={row.label} className="flex items-center gap-4">
-                        <span className="w-36 shrink-0 text-sm">{row.label}</span>
-                        <input
-                          type="range"
-                          min={0}
-                          max={200}
-                          step={5}
-                          value={row.value}
-                          onChange={(e) => row.set(Number(e.target.value))}
-                          className="accent-primary h-2 flex-1 cursor-pointer"
-                        />
-                        <span className="w-14 shrink-0 text-right font-mono text-sm tabular-nums">
-                          {row.value}%
-                        </span>
-                      </div>
-                    ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        setLapGainNarration(100);
-                        setLapGainMusic(100);
                       }}
                     >
                       Kembalikan ke bawaan (100% / 100%)

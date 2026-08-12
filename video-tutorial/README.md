@@ -1,12 +1,45 @@
 # Video Tutorial MR Kabar
 
-Dua video rekaman aplikasi sungguhan, keduanya di **kaki halaman `/panduan`**
-di bawah video edukasi:
+**Satu** video rekaman aplikasi sungguhan, di **kaki halaman `/panduan`** di
+bawah video edukasi.
 
 | Video | Isi | Naskah |
 |---|---|---|
-| **Tutorial Pengisian** (59 menit, 11 bab) | satu perangkat daerah mengisi satu tahun penuh, dari Data Umum sampai laporan; bab X memperagakan cara pimpinan membaca datanya lewat akun peninjau — tiap widget Dasbor yang bisa diklik memang diklik | `naskah.json` |
-| **Tutorial Lapor Kejadian Risiko** (13 menit, 6 bab) | dari sisi pelapor yang masuk lewat kode QR tanpa punya akun, dan sisi PIC yang menelaahnya sampai masuk Formulir 10 — dua kasus: risiko yang sudah terdaftar dan yang belum | `naskah-lapor.json` |
+| **Tutorial MR Kabar** (17 bab) | satu perangkat daerah menempuh satu tahun penuh — Data Umum sampai laporan tercetak — berikut apa yang dikerjakan ketika risikonya benar-benar terjadi, dan cara pimpinan membaca datanya lewat akun peninjau | `naskah-gabungan.json` |
+
+## Kenapa digabung (12 Agustus 2026)
+
+Sebelumnya ini dua video terpisah: Pengisian (59 menit, 11 bab) dan Lapor
+Kejadian Risiko (13 menit, 6 bab). Keduanya berdiri sendiri, dan itu membuat
+satu hal tidak pernah terasa: **Formulir 10 yang jadi inti video Lapor
+sebenarnya duduk tepat sesudah Monitoring dan Evaluasi di video Pengisian.**
+Ditonton terpisah, penonton harus menyambungnya sendiri di kepalanya.
+
+Digabung, urutannya muncul dengan sendirinya: isi → pantau → catat kejadian
+yang benar-benar terjadi → cetak → laporkan → baca.
+
+Penggabungannya **bukan menempelkan dua berkas**. `gabung_naskah.py` menulis
+ulang empat sambungan (pembuka Pengisian membingkai keseluruhan; pembuka
+Lapor jadi peralihan, bukan pembuka video baru; penutup Lapor menyerahkan
+kembali ke alur cetak; penutup merangkum kedua paruh) dan menomori ulang
+seluruh id. Penomoran ulang itu wajib: kedua naskah asal memakai penomoran
+narasi sendiri-sendiri, dan `rakit.py` memetakan narasi ke langkah lewat
+pasangan (bagian, langkah) — id yang bertabrakan membuat narasi satu bagian
+menimpa bagian lain tanpa galat apa pun.
+
+Dua judul bab ikut diganti. "Sebelum mulai" masuk akal sebagai judul video
+tersendiri, tetapi begitu ia cuma satu bab di antara tujuh belas, judul itu
+muncul dua kali di daftar bab; "Sesudahnya" juga tidak menerangkan sesudah
+apa.
+
+Ditambah **lima langkah** untuk hal yang ada di aplikasi tetapi belum pernah
+disebut di video mana pun: batas sesi empat jam berikut peringatannya,
+penyaring OPD dan Tahun di formulir, daftar centang OPD di KRS Pemda, garis
+Selera Risiko di Peta Risiko Dasbor, dan Ranking Eksposur yang bisa diklik.
+
+`naskah.json` dan `naskah-lapor.json` **tetap disimpan** — keduanya sumber
+bagi `gabung_naskah.py`. Yang tidak boleh disunting langsung adalah
+`naskah-gabungan.json`, karena ia hasil rakitan dan akan tertimpa.
 
 Bedanya dengan video edukasi di `video-edukasi/v3/`: yang itu animasi yang
 menjelaskan **konsepnya**, kedua video ini rekaman aplikasi sungguhan yang
@@ -52,31 +85,52 @@ rekaman musisi; frasa dan dinamikanya tetap ditulis di `musik.py`.
 
 ## Urutan build
 
+**Awalan nama keluaran diturunkan dari NAMA BERKAS NASKAH.** `naskah.json`
+menghasilkan `tutorial-*`, `naskah-lapor.json` menghasilkan `lapor-*`, dan
+`naskah-gabungan.json` menghasilkan `gabungan-*`. Sementara itu `campur.sh`
+dan `pasang.sh` dipanggil dengan awalan yang disebut sendiri, dan aplikasi
+membaca `tutorial-*` dari `public/video/`.
+
+Kalau ketiganya tidak disamakan, kegagalannya SENYAP dan mahal: `campur.sh
+tutorial` menemukan `tutorial-gambar.mp4` dan `tutorial-narasi.wav` versi
+LAMA yang masih tertinggal di `keluaran/`, mengerjakan seluruh mux sampai
+selesai tanpa satu pun galat, dan menghasilkan video berdurasi lama. Ketahuan
+hanya kalau durasinya diperiksa — pada v5 hasilnya 59:05 padahal video
+gabungannya 79:35. Karena itu sesudah `rakit.py`, keluaran `gabungan-*`
+DINAMAI ULANG jadi `tutorial-*` sebelum `campur.sh` dijalankan.
+
 ```bash
-php    akun.php pasang PIC_INSPEKTORAT    # pinjam akun, sandinya dibuat acak
-php    akun.php pasang mrkabarvip         # akun peninjau, untuk bab pembacaan data
-python suara.py                           # narasi -> audio/*.mp3 + waktu.json
-python suara.py --naskah naskah-lapor.json
-node   pengendali.cjs --uji --bagian II   # uji satu bagian tanpa merekam
-powershell -File rekam.ps1                # rekam seluruh bagian (~1 jam)
-powershell -File rekam.ps1 -Mulai V       # atau lanjutkan dari bagian tertentu
-python rakit.py                           # sambung gambar, narasi, subtitle, bab
-python rakit.py --naskah naskah-lapor.json
-python musik.py 3110                      # musik sepanjang video
-python musik.py 775 lapor
-bash   campur.sh tutorial                 # campur audio + mux + berkas 720p
-bash   campur.sh lapor
-bash   pasang.sh semua                    # pasang keduanya + build ulang bundel
-php    bersihkan.php hapus                # BUANG seluruh data contoh
-php    akun.php pulihkan                  # kembalikan sandi asli semua akun
+python gabung_naskah.py                        # dua naskah -> naskah-gabungan.json
+rm -f  audio/*.mp3 audio/waktu.json            # WAJIB: id narasi dinomori ulang
+python suara.py --naskah naskah-gabungan.json  # narasi -> audio/*.mp3 + waktu.json
+php    akun.php pasang PIC_INSPEKTORAT         # pinjam akun, sandinya dibuat acak
+php    akun.php pasang mrkabarvip              # akun peninjau, untuk bab pembacaan data
+node   pengendali.cjs --naskah naskah-gabungan.json --uji --bagian II
+powershell -File rekam.ps1                     # rekam seluruh bagian (~1,5 jam)
+python rakit.py --naskah naskah-gabungan.json  # sambung gambar, narasi, subtitle, bab
+# WAJIB: samakan awalan sebelum campur, kalau tidak yang termux berkas LAMA
+for f in gambar.mp4 narasi.wav subtitle.vtt transkrip.txt bab.json; do
+  mv -f "keluaran/gabungan-$f" "keluaran/tutorial-$f"
+done
+python musik.py <detik>                        # musik sepanjang video
+bash   campur.sh tutorial                      # campur audio + mux + berkas 720p
+bash   pasang.sh semua                         # pasang + build ulang bundel
+php    bersihkan.php hapus                     # BUANG seluruh data contoh
+php    akun.php pulihkan                       # kembalikan sandi asli semua akun
 ```
 
-Merekam video Lapor per bagian dari PowerShell (daftar bagiannya disebut di
-luar skrip, karena PowerShell menggabungkan argumen larik jadi satu untai):
+**`rm -f audio/*.mp3` itu wajib, bukan kehati-hatian berlebihan.** `suara.py`
+melewati berkas yang sudah ada, dan `gabung_naskah.py` menomori ulang seluruh
+id narasi. Tanpa dikosongkan, sebagian kalimat akan memakai suara milik
+kalimat lain dari naskah lama — dan itu tidak menimbulkan galat apa pun,
+cuma narasi yang tidak nyambung dengan gambarnya.
+
+Merekam per bagian dari PowerShell (daftar bagiannya disebut di luar skrip,
+karena PowerShell menggabungkan argumen larik jadi satu untai):
 
 ```powershell
-foreach ($b in @('I','II','III','IV','V','VI')) {
-  node pengendali.cjs --naskah naskah-lapor.json --bagian $b
+foreach ($b in @('I','II','III','IV','V','VI','VII','VIII','IX')) {
+  node pengendali.cjs --naskah naskah-gabungan.json --bagian $b
 }
 ```
 

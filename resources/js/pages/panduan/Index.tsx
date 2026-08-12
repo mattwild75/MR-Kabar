@@ -7,7 +7,6 @@ import EduVideoQuiz from '@/components/edu-video-quiz';
 import RekapKuisVideo, { type RekapKuis } from '@/components/ui/rekap-kuis-video';
 import { useEduVideo } from '@/lib/edu-video';
 import { useTutorialVideo } from '@/lib/tutorial-video';
-import { useLaporVideo } from '@/lib/lapor-video';
 
 /**
  * Halaman panduan/dokumentasi statis "Apa itu Manajemen Risiko / MR Kabar".
@@ -29,7 +28,6 @@ export default function PanduanIndex({
   const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
   const video = useEduVideo();
   const tutorial = useTutorialVideo();
-  const lapor = useLaporVideo();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -158,12 +156,15 @@ export default function PanduanIndex({
               contoh, bukan ke atas. */}
           {tutorial.enabled && (
           <section id="video-tutorial" className="scroll-mt-20 rounded-md border bg-card p-5">
-            <h2 className="mb-1 text-lg font-semibold">Video Tutorial Pengisian (dari awal sampai laporan)</h2>
+            <h2 className="mb-1 text-lg font-semibold">Video Tutorial (dari awal sampai laporan)</h2>
             <p className="mb-3 text-sm text-muted-foreground">
-              Satu perangkat daerah mengisi satu tahun penuh — dari Data Umum, CEE, penetapan konteks,
+              Satu perangkat daerah menempuh satu tahun penuh — dari Data Umum, CEE, penetapan konteks,
               identifikasi dan analisis risiko, rencana tindak, monitoring, sampai formulir cetaknya siap
-              ditandatangani. Setiap isian dan setiap pilihan dijelaskan alasannya. Klik judul bab untuk
-              melompat ke bagiannya.
+              ditandatangani. Di tengahnya, apa yang dikerjakan ketika risikonya benar-benar terjadi: dari
+              sisi pelapor yang masuk lewat kode QR tanpa punya akun, sampai sisi PIC yang menelaahnya
+              menjadi catatan resmi di Formulir 10. Ditutup dengan cara pimpinan membaca datanya lewat akun
+              peninjau. Setiap isian dan setiap pilihan dijelaskan alasannya. Klik judul bab untuk melompat
+              ke bagiannya.
             </p>
             <p className="mb-4 rounded-md border border-amber-500/60 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
               <strong>Seluruh isian dalam video ini adalah data contoh.</strong> Isinya disusun agar masuk akal
@@ -193,44 +194,13 @@ export default function PanduanIndex({
           </section>
           )}
 
-          {/* Video tutorial Lapor Kejadian Risiko — paling bawah, sesudah video
-              tutorial pengisian. Urutannya mengikuti urutan pekerjaannya:
-              risiko diisi dulu, dinilai, baru ada kejadian yang dilaporkan. */}
-          {lapor.enabled && (
-          <section id="video-lapor" className="scroll-mt-20 rounded-md border bg-card p-5">
-            <h2 className="mb-1 text-lg font-semibold">Video Tutorial Lapor Kejadian Risiko</h2>
-            <p className="mb-3 text-sm text-muted-foreground">
-              Apa yang terjadi setelah risiko benar-benar terjadi — dari dua sisi. Sisi pelapor, yang
-              masuk lewat kode QR tanpa perlu punya akun; dan sisi PIC, yang menelaah laporan itu sampai
-              menjadi catatan resmi di Formulir 10. Dua kasus ditempuh: kejadian dari risiko yang sudah
-              terdaftar, dan kejadian yang risikonya belum terdaftar sama sekali sehingga harus
-              didaftarkan dulu lengkap dengan rencana tindaknya.
-            </p>
-            <p className="mb-4 rounded-md border border-amber-500/60 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-              <strong>Seluruh isian dalam video ini adalah data contoh.</strong> Untuk laporan yang
-              sesungguhnya, isinya kembali kepada kejadian yang benar-benar terjadi di tempat Anda.
-            </p>
-            <EduVideoPlayer
-              src={lapor.src}
-              stems={lapor.stems}
-              gains={lapor.gains}
-              vtt={lapor.vtt}
-              subtitleEnabled={lapor.subtitleEnabled}
-              subtitleSize={lapor.subtitleSize}
-              chapters={lapor.chapters}
-              chapterNav={lapor.bawaan}
-              showChapters={lapor.bawaan}
-              downloads={
-                lapor.bawaan
-                  ? [
-                      { label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)', href: '/video/lapor-mr-kabar-720p.mp4' },
-                      { label: 'Unduh transkrip (.txt)', href: '/video/lapor-transkrip.txt' },
-                    ]
-                  : undefined
-              }
-            />
-          </section>
-          )}
+          {/* Dulu ada seksi kedua di sini: "Video Tutorial Lapor Kejadian
+              Risiko". Sejak 13 Agustus 2026 keduanya jadi SATU video.
+              Alasannya bukan menghemat tempat: Formulir 10 yang jadi inti
+              video Lapor sebenarnya duduk tepat sesudah Monitoring dan
+              Evaluasi di video Pengisian, dan selama keduanya terpisah
+              penonton harus menyambungnya sendiri di kepalanya. Sekarang
+              bagian itu ada di bab VIII-XIII video yang sama. */}
         </div>
       </div>
     </AppLayout>

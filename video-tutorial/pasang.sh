@@ -44,13 +44,19 @@ pasang_satu() {
 }
 
 case "${1:-tutorial}" in
-  semua) pasang_satu tutorial; pasang_satu lapor ;;
+  # Video Lapor sudah TIDAK ADA lagi sebagai video tersendiri sejak 13 Agustus
+  # 2026 - isinya jadi bab VIII-XIII di dalam video tutorial yang sama.
+  semua) pasang_satu tutorial ;;
   *)     pasang_satu "${1:-tutorial}" ;;
 esac
 
 # WAJIB sesudah menyalin daftar bab. Menyalinnya saja tidak mengubah apa pun
 # yang dilihat pengguna sampai bundelnya dibangun ulang.
-( cd .. && npm run build )
+# npm di Windows adalah npm.cmd dan TIDAK ada di PATH shell Bash; dipanggil
+# langsung ia gagal "command not found" dan set -e menghentikan skrip SESUDAH
+# berkas tersalin tetapi SEBELUM bundel dibangun - daftar bab di aplikasi lalu
+# tetap memakai waktu video lama tanpa ada yang tampak rusak.
+cmd //c "cd /d .. && npm run build"
 
 echo
 echo "Terpasang:"

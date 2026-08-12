@@ -1,1088 +1,1418 @@
 WEBVTT
 
-00:00:00.815 --> 00:00:06.263
+00:00:00.813 --> 00:00:06.261
 Selamat datang di MR Kabar, aplikasi manajemen risiko Pemerintah Kabupaten Aceh Barat.
 
-00:00:06.263 --> 00:00:16.343
-Video ini mengikuti satu perangkat daerah mengisi satu tahun penuh — dari halaman yang masih kosong sampai laporannya tercetak dan siap ditandatangani.
+00:00:06.261 --> 00:00:16.797
+Video ini mengikuti satu perangkat daerah menempuh satu tahun penuh — dari halaman yang masih kosong, sampai laporannya tercetak dan siap ditandatangani.
 
-00:00:16.610 --> 00:00:23.714
+00:00:16.797 --> 00:00:29.013
+Dan tidak berhenti di situ. Di tengah jalan nanti kita berhenti pada satu hal yang paling sering terlewat: apa yang dikerjakan ketika risikonya benar-benar terjadi, dan bagaimana pegawai mana pun bisa melaporkannya tanpa perlu punya akun.
+
+00:00:29.013 --> 00:00:40.197
+Jadi satu video ini memuat seluruhnya — cara mengisi, cara memantau, cara melaporkan kejadian, cara mencetak, dan cara pimpinan membacanya.
+
+00:00:40.451 --> 00:00:47.555
 Satu hal perlu disampaikan lebih dulu, dan ini penting. Seluruh isian dalam video ini adalah data contoh.
 
-00:00:23.714 --> 00:00:34.874
+00:00:47.555 --> 00:00:58.715
 Isinya memang disusun supaya masuk akal dan mendekati keadaan sebenarnya, tetapi ia tetap contoh — dibuat untuk menunjukkan caranya, bukan untuk disalin.
 
-00:00:34.874 --> 00:00:46.802
+00:00:58.715 --> 00:01:10.643
 Pada pengisian yang sesungguhnya, setiap pernyataan risiko, setiap penyebab, dan setiap angka skala dikembalikan kepada pertimbangan penilai risikonya sendiri — melalui PIC atau unit pemilik risiko di perangkat daerah masing-masing.
 
-00:00:47.074 --> 00:00:54.850
+00:01:10.907 --> 00:01:18.683
 Kita mulai dari halaman masuk. Nama pengguna diisi sesuai akun yang diberikan admin aplikasi.
 
-00:00:55.111 --> 00:01:00.079
+00:01:18.944 --> 00:01:23.912
 Ada tiga jenis akun di aplikasi ini, dan bedanya perlu diketahui sejak awal.
 
-00:01:00.079 --> 00:01:14.215
+00:01:23.912 --> 00:01:38.048
 Akun PIC mengisi data perangkat daerahnya sendiri. Akun Admin melihat dan mengelola seluruh perangkat daerah. Dan akun peninjau hanya bisa membaca, tidak bisa mengubah apa pun.
 
-00:01:14.215 --> 00:01:19.999
+00:01:38.048 --> 00:01:43.832
 Yang kita pakai hari ini akun PIC — karena akun inilah yang dipegang sebagian besar penonton video ini.
 
-00:01:20.265 --> 00:01:24.177
+00:01:44.086 --> 00:01:47.998
 Halaman pertama yang terbuka adalah Dasbor.
 
-00:01:24.177 --> 00:01:31.713
+00:01:47.998 --> 00:01:55.534
 Perhatikan, hampir seluruhnya masih kosong. Itu memang wajar — tahun dua ribu dua puluh enam belum diisi apa-apa.
 
-00:01:31.713 --> 00:01:42.969
+00:01:55.534 --> 00:02:06.790
 Dan ini yang lebih penting: tidak ada satu pun angka di halaman ini yang diketik langsung. Semuanya dihitung sendiri dari formulir yang sebentar lagi kita isi.
 
-00:01:43.243 --> 00:01:47.467
+00:02:07.050 --> 00:02:11.682
+Satu hal lagi sebelum kita mulai mengisi, dan ini pasti Anda alami sendiri.
+
+00:02:11.682 --> 00:02:26.010
+Demi keamanan, sesi Anda berakhir otomatis empat jam sesudah masuk. Dihitung sejak login, bukan sejak aktivitas terakhir — jadi waktunya tetap berjalan walaupun aplikasinya Anda tinggalkan.
+
+00:02:26.010 --> 00:02:35.922
+Satu menit sebelum habis akan muncul peringatan berisi pilihan Lanjutkan atau Keluar. Kalau peringatan itu muncul, simpan dulu isian yang belum tersimpan, baru pilih Lanjutkan.
+
+00:02:35.922 --> 00:02:44.946
+Jadi biasakan menekan Simpan begitu satu formulir selesai. Jangan menumpuk pekerjaan setengah jadi di layar.
+
+00:02:45.209 --> 00:02:49.433
 Sekarang lihat menu di sebelah kiri, dan ingat satu hal ini baik-baik.
 
-00:01:47.467 --> 00:02:00.523
+00:02:49.433 --> 00:03:02.489
 Urutan menu di sidebar bukan urutan yang asal. Ia adalah urutan kerjanya. Form Input lebih dulu, lalu Form Monitoring dan Evaluasi, baru Form Cetak.
 
-00:02:00.523 --> 00:02:07.843
+00:03:02.489 --> 00:03:09.809
 Kalau Anda mengerjakannya dari atas ke bawah, tidak akan ada satu langkah pun yang terlewat. Mari kita mulai dari yang paling atas.
 
-00:02:09.880 --> 00:02:14.200
+00:03:11.812 --> 00:03:16.132
 Menu pertama di bawah Form Input adalah Data Umum.
 
-00:02:14.200 --> 00:02:22.528
+00:03:16.132 --> 00:03:24.460
 Halaman ini diisi paling awal, dan alasannya sederhana. Isinya menjadi kepala setiap formulir cetak dan blok tanda tangan di bawahnya.
 
-00:02:22.528 --> 00:02:32.392
+00:03:24.460 --> 00:03:34.324
 Kalau ia diisi belakangan, formulir yang tercetak keluar tanpa identitas — dan itu baru ketahuan saat berkasnya sudah mau ditandatangani.
 
-00:02:32.673 --> 00:02:35.913
+00:03:34.577 --> 00:03:37.817
 Empat kolom pertama menerangkan siapa yang mengisi.
 
-00:02:35.913 --> 00:02:48.945
+00:03:37.817 --> 00:03:50.849
 Nama urusan dan sub-urusan punya daftar usulan yang muncul saat diketik. Daftar itu hanya membantu — Anda tetap boleh mengetik sendiri mengikuti dokumen resmi perangkat daerah Anda.
 
-00:02:48.945 --> 00:02:54.393
+00:03:50.849 --> 00:03:56.297
 Nama dinas ditulis lengkap, karena persis kalimat inilah yang nanti tercetak di kepala formulir.
 
-00:02:56.469 --> 00:03:03.045
+00:03:57.675 --> 00:04:04.251
 Kolom berikutnya, Periode Penilaian, adalah kolom yang paling sering diisi keliru.
 
-00:03:03.045 --> 00:03:09.645
+00:04:04.251 --> 00:04:10.851
 Yang diminta di sini periode Renstra — dua ribu dua puluh lima sampai dua ribu dua puluh sembilan — bukan tahun berjalan.
 
-00:03:09.645 --> 00:03:19.917
+00:04:10.851 --> 00:04:21.123
 Yang tahunan bukan kolom ini, melainkan penunjuk Tahun Penilaian di atas. Itulah yang menyekat data satu tahun dari tahun berikutnya.
 
-00:03:20.197 --> 00:03:25.453
+00:04:21.384 --> 00:04:26.640
 Berikutnya nama kepala daerah dan kepala perangkat daerah, lengkap dengan jabatan dan NIP.
 
-00:03:25.453 --> 00:03:34.501
+00:04:26.640 --> 00:04:35.688
 Kepala daerah dipakai pada laporan tingkat pemerintah daerah; kepala perangkat daerah menjadi penanda tangan formulir milik perangkat daerah.
 
-00:03:51.055 --> 00:03:55.303
+00:04:48.427 --> 00:04:52.675
 Lalu PIC penilai risiko — orang yang mengisi kertas kerja ini.
 
-00:03:55.303 --> 00:04:04.855
+00:04:52.675 --> 00:05:02.227
 Perhatikan bedanya. Yang mengisi dan yang menandatangani adalah dua hal berbeda, dan aplikasi ini memang memisahkannya.
 
-00:04:05.132 --> 00:04:10.364
+00:05:02.491 --> 00:05:07.723
 Sekarang bagian yang paling perlu dipahami dari seluruh halaman ini: tiga kolom dokumen sumber.
 
-00:04:10.364 --> 00:04:17.732
+00:05:07.723 --> 00:05:15.091
 Ketiganya bukan pengulangan. Masing-masing menandai satu tingkatan risiko yang berbeda.
 
-00:04:17.732 --> 00:04:23.300
+00:05:15.091 --> 00:05:20.659
 Dokumen sumber RSP untuk risiko strategis pemerintah daerah — sumbernya RPJMD.
 
-00:04:23.300 --> 00:04:31.412
+00:05:20.659 --> 00:05:28.771
 Dokumen sumber RSO untuk risiko strategis perangkat daerah — sumbernya Renstra, bukan RPJMD.
 
-00:04:31.412 --> 00:04:40.100
+00:05:28.771 --> 00:05:37.459
 Dan dokumen sumber ROO untuk risiko operasional — sumbernya Renja dan DPA tahun berjalan, karena risiko operasional melekat pada kegiatan yang ada anggarannya.
 
-00:04:40.100 --> 00:04:51.164
+00:05:37.459 --> 00:05:48.523
 Kalau tiga kolom ini diisi dengan dokumen yang sama semua, itu tanda tingkatan risikonya belum dibedakan — dan kekeliruannya akan menjalar sampai ke formulir cetak.
 
-00:04:51.425 --> 00:04:55.913
+00:05:48.787 --> 00:05:53.275
 Tempat dan tanggal pembuatan kertas kerja tercetak tepat di atas blok tanda tangan.
 
-00:05:00.796 --> 00:05:04.204
+00:05:57.627 --> 00:06:01.035
 Terakhir, daftar penanda tangan.
 
-00:05:04.204 --> 00:05:14.092
+00:06:01.035 --> 00:06:10.923
 Daftar ini milik masing-masing perangkat daerah, bukan satu daftar untuk seluruh pemerintah daerah. Urutan barisnya menentukan urutan tampil dari kiri ke kanan pada formulir cetak.
 
-00:05:14.092 --> 00:05:24.916
+00:06:10.923 --> 00:06:21.747
 Kita isi enam baris sesuai struktur Inspektorat: Sekretaris, lalu Inspektur Pembantu Wilayah satu sampai empat, dan Inspektur Pembantu Khusus.
 
-00:05:24.916 --> 00:05:35.908
+00:06:21.747 --> 00:06:32.739
 Tiap baris minta tiga hal — jabatan, nama lengkap beserta gelarnya, dan NIP. Ketiganya tercetak apa adanya, jadi tulis persis seperti yang dikehendaki muncul di berkas.
 
-00:05:35.908 --> 00:05:47.380
+00:06:32.739 --> 00:06:44.211
 Ada satu perilaku yang perlu diketahui supaya nanti tidak mengagetkan. Daftar ini tersambung dua arah dengan kolom Penyusun pada Form 1c CEE.
 
-00:05:47.380 --> 00:05:59.476
+00:06:44.211 --> 00:06:56.307
 Artinya, kalau Anda menambah penyusun di Form 1c, barisnya ikut muncul di sini — dan sebaliknya. Pencocokannya lewat jabatan, jadi tulislah jabatan dengan sebutan yang tetap sama di kedua tempat.
 
-00:05:59.476 --> 00:06:10.036
+00:06:56.307 --> 00:07:06.867
 Kalau jabatan yang sama ditulis dengan dua cara berbeda, aplikasi akan menganggapnya dua orang, dan yang tercetak jadi ada dua baris untuk satu orang.
 
-00:06:34.191 --> 00:06:35.967
+00:07:25.075 --> 00:07:26.851
 Simpan.
 
-00:06:35.967 --> 00:06:44.727
+00:07:26.851 --> 00:07:35.611
 Data Umum selesai, dan mulai sekarang setiap formulir cetak yang kita buka sudah punya kepala dan blok tanda tangannya sendiri.
 
-00:06:47.548 --> 00:06:54.220
+00:07:38.043 --> 00:07:44.715
 Menu berikutnya adalah CEE, singkatan dari Control Environment Evaluation — evaluasi lingkungan pengendalian.
 
-00:06:54.220 --> 00:07:07.276
+00:07:44.715 --> 00:07:57.771
 Letaknya sebelum penilaian risiko, dan itu bukan kebetulan. Perdep menempatkan pengenalan kelemahan lingkungan pengendalian sebagai tahap pertama, baru sesudahnya risiko dinilai.
 
-00:07:07.276 --> 00:07:14.812
+00:07:57.771 --> 00:08:05.307
 Alasannya masuk akal. Kalau lingkungan pengendaliannya sendiri lemah, penilaian risiko yang disusun di atasnya ikut rapuh.
 
-00:07:14.812 --> 00:07:25.996
+00:08:05.307 --> 00:08:16.491
 CEE punya empat formulir yang berurutan: 1a, 1b, 1c, dan 1d. Kita kerjakan satu per satu.
 
-00:07:26.273 --> 00:07:34.193
+00:08:16.750 --> 00:08:24.670
 Formulir 1a adalah kuesioner persepsi. Tiga puluh tujuh pertanyaan, tersebar pada delapan unsur lingkungan pengendalian.
 
-00:07:34.193 --> 00:07:42.593
+00:08:24.670 --> 00:08:33.070
 Yang pertama diisi identitas responden. Perhatikan syaratnya: jabatan minimal eselon empat.
 
-00:07:42.593 --> 00:07:51.809
+00:08:33.070 --> 00:08:42.286
 Dan ini penting — kuesioner ini tidak diisi satu orang. Ia diisi banyak responden, dan hasilnya baru bermakna setelah jawaban mereka dirata-ratakan.
 
-00:07:51.809 --> 00:08:00.281
+00:08:42.286 --> 00:08:50.758
 Kalau hanya satu orang yang mengisi, yang Anda dapatkan bukan persepsi organisasi, melainkan pendapat satu orang.
 
-00:08:00.554 --> 00:08:04.874
+00:08:51.031 --> 00:08:55.351
 Pertanyaan pertama ada di unsur Penegakan Integritas dan Nilai Etika.
 
-00:08:04.874 --> 00:08:25.226
+00:08:55.351 --> 00:09:15.703
 Pilihan jawabannya empat. Satu berarti belum ada atau belum dibangun. Dua, sudah ada tetapi belum konsisten. Tiga, sudah baik dan masih bisa ditingkatkan. Empat, sudah baik dan bahkan bisa ditularkan ke perangkat daerah lain.
 
-00:08:25.226 --> 00:08:31.274
+00:09:15.703 --> 00:09:21.751
 Di sinilah letak salah kaprah yang paling sering. Banyak yang menjawab empat begitu aturannya ada.
 
-00:08:31.274 --> 00:08:42.386
+00:09:21.751 --> 00:09:32.863
 Padahal yang ditanyakan bukan apakah aturannya ada, melainkan apakah ia dijalankan. Aturan yang tersimpan rapi di lemari tetap bernilai satu.
 
-00:08:42.386 --> 00:08:48.194
+00:09:32.863 --> 00:09:38.671
 Kita jawab tiga: kode etik sudah ada dan dipakai, tetapi penerapannya masih bisa diperkuat.
 
-00:08:48.462 --> 00:08:54.582
+00:09:38.930 --> 00:09:45.050
 Butir-butir berikutnya kita jawab lebih cepat, tetapi cara berpikirnya tetap sama.
 
-00:08:54.582 --> 00:09:01.638
+00:09:45.050 --> 00:09:52.106
 Perhatikan bahwa tidak semuanya bernilai tiga. Beberapa butir dijawab dua, dan itu memang disengaja.
 
-00:09:01.638 --> 00:09:14.982
+00:09:52.106 --> 00:10:05.450
 Jawaban dua nanti harus punya pasangannya di Formulir 1b — kelemahan yang sama harus bisa ditunjukkan buktinya di dokumen. Kalau tidak, salah satu dari keduanya pasti keliru.
 
-00:09:15.248 --> 00:09:19.064
+00:10:05.703 --> 00:10:09.519
 Sekarang unsur ketiga, Kepemimpinan yang Kondusif.
 
-00:09:19.064 --> 00:09:27.224
+00:10:09.519 --> 00:10:17.679
 Unsur ini punya delapan butir — paling banyak di antara delapan unsur. Itu bukan kebetulan.
 
-00:09:27.224 --> 00:09:37.088
+00:10:17.679 --> 00:10:27.543
 Lingkungan pengendalian berdiri atau runtuh pada sikap pimpinan. Kalau pimpinan menganggap pengendalian sebagai penghambat, seluruh unsur lain ikut melemah betapapun rapi dokumennya.
 
-00:09:37.354 --> 00:09:40.738
+00:10:27.804 --> 00:10:31.188
 Kita lanjutkan sampai unsur keenam.
 
-00:09:40.738 --> 00:09:47.746
+00:10:31.188 --> 00:10:38.196
 Sepanjang mengisi, satu pegangan saja: jawablah keadaan yang sebenarnya, bukan keadaan yang ingin dilaporkan.
 
-00:09:47.746 --> 00:10:00.130
+00:10:38.196 --> 00:10:50.580
 Kuesioner ini bukan penilaian kinerja. Ia alat untuk menemukan yang perlu diperbaiki, dan nilai tinggi yang tidak benar hanya menyembunyikan pekerjaan yang seharusnya dikerjakan.
 
-00:10:00.384 --> 00:10:05.328
+00:10:51.554 --> 00:10:56.498
 Unsur ketujuh, Perwujudan Peran Aparat Pengawasan Intern Pemerintah yang Efektif.
 
-00:10:05.328 --> 00:10:14.832
+00:10:56.498 --> 00:11:06.002
 Kita perlu jujur di sini. Yang sedang mengisi adalah Inspektorat, dan yang sedang dinilai adalah peran Inspektorat sendiri.
 
-00:10:14.832 --> 00:10:24.144
+00:11:06.002 --> 00:11:15.314
 Justru karena itu bagian ini harus diisi paling hati-hati. Menilai diri sendiri terlalu tinggi adalah kecenderungan yang wajar, dan di sinilah ia paling mudah terjadi.
 
-00:10:24.144 --> 00:10:33.696
+00:11:15.314 --> 00:11:24.866
 Bagi perangkat daerah selain Inspektorat, unsur ini menanyakan hal lain: seberapa efektif pengawasan intern dirasakan di tempat Anda.
 
-00:10:33.973 --> 00:10:40.357
+00:11:25.142 --> 00:11:31.526
 Unsur terakhir, Hubungan Kerja yang Baik dengan Instansi Pemerintah Terkait. Hanya dua butir.
 
-00:10:40.357 --> 00:10:51.205
+00:11:31.526 --> 00:11:42.374
 Sedikit bukan berarti tidak penting. Unsur ini justru yang paling sering terlupakan karena isinya hubungan keluar, bukan urusan dalam kantor sendiri.
 
-00:10:51.475 --> 00:10:53.467
+00:11:42.638 --> 00:11:44.630
 Simpan jawaban.
 
-00:10:53.467 --> 00:11:05.203
+00:11:44.630 --> 00:11:56.366
 Aplikasi menghitung sendiri simpulan tiap unsur — memadai atau kurang memadai — dari rata-rata jawaban seluruh responden. Tidak ada yang perlu dihitung tangan.
 
-00:11:05.471 --> 00:11:10.175
+00:11:56.642 --> 00:12:01.346
 Formulir 1b, CEE Berdasarkan Dokumen.
 
-00:11:10.175 --> 00:11:17.999
+00:12:01.346 --> 00:12:09.170
 Ini bukan pengulangan 1a. Bedanya mendasar: 1a menanyakan persepsi orang, 1b memeriksa berkas.
 
-00:11:17.999 --> 00:11:31.895
+00:12:09.170 --> 00:12:23.066
 Keduanya sengaja dipisah supaya pertentangannya kelihatan. Orang bisa merasa segalanya baik-baik saja sementara dokumennya bercerita lain — dan justru pertentangan itulah yang paling berguna ditemukan.
 
-00:11:32.171 --> 00:11:36.803
+00:12:23.331 --> 00:12:27.963
 Kelemahan pertama, pada unsur Penegakan Integritas dan Nilai Etika.
 
-00:11:36.803 --> 00:11:46.787
+00:12:27.963 --> 00:12:37.947
 Perhatikan kolom Sumber Data. Inilah yang membedakan 1b dari 1a — setiap kelemahan harus bisa ditunjuk berkasnya.
 
-00:11:46.787 --> 00:11:53.723
+00:12:37.947 --> 00:12:44.883
 Kalau sebuah kelemahan tidak bisa disebutkan sumbernya, ia bukan temuan dokumen melainkan pendapat, dan tempatnya di 1a.
 
-00:11:58.254 --> 00:12:05.574
+00:12:50.895 --> 00:12:58.215
 Kelemahan kedua, pada unsur Penyusunan dan Penerapan Kebijakan tentang Pembinaan Sumber Daya Manusia.
 
-00:12:05.574 --> 00:12:13.830
+00:12:58.215 --> 00:13:06.471
 Ingat butir yang tadi kita jawab dua di kuesioner. Inilah pasangannya — keluhan yang sama, tetapi sekarang disertai berkasnya.
 
-00:12:25.603 --> 00:12:30.163
+00:13:19.701 --> 00:13:24.261
 Kelemahan ketiga, pada unsur Perwujudan Peran APIP yang Efektif.
 
-00:12:30.163 --> 00:12:41.107
+00:13:24.261 --> 00:13:35.205
 Yang satu ini akan kita temui lagi nanti sebagai penyebab risiko strategis. Itu bukan pengulangan yang sia-sia — memang begitu seharusnya.
 
-00:12:41.107 --> 00:12:51.883
+00:13:35.205 --> 00:13:45.981
 Kelemahan lingkungan pengendalian yang dibiarkan akan muncul kembali sebagai penyebab risiko. Kalau di aplikasi Anda keduanya tidak pernah bertemu, kemungkinan besar salah satunya belum digali cukup dalam.
 
-00:12:57.085 --> 00:13:01.501
+00:13:53.734 --> 00:13:58.150
 Formulir 1c, Simpulan Survei Persepsi.
 
-00:13:01.501 --> 00:13:08.245
+00:13:58.150 --> 00:14:04.894
 Di sinilah dua sumber tadi dipertemukan, dan simpulannya ditarik per unsur: memadai, atau kurang memadai.
 
-00:13:08.245 --> 00:13:18.013
+00:14:04.894 --> 00:14:14.662
 Kolom penyusun dan kepala perangkat daerah di bagian atas tersambung dua arah dengan daftar penanda tangan di Data Umum — yang tadi sudah kita isi.
 
-00:13:18.272 --> 00:13:22.016
+00:14:14.936 --> 00:14:18.680
 Sekarang bagian yang paling perlu diperhatikan dari seluruh CEE.
 
-00:13:22.016 --> 00:13:30.536
+00:14:18.680 --> 00:14:27.200
 Bayangkan sebuah unsur yang kuesionernya menjawab baik, tetapi dokumennya menunjukkan lemah. Mana yang diambil?
 
-00:13:30.536 --> 00:13:36.416
+00:14:27.200 --> 00:14:33.080
 Jawabannya: yang bisa dibuktikan. Bukti dokumen menang atas persepsi.
 
-00:13:36.416 --> 00:13:50.720
+00:14:33.080 --> 00:14:47.384
 Tetapi tidak berhenti di situ. Alasan memilihnya harus ditulis di kolom dasar simpulan — supaya penilai tahun berikutnya tahu mengapa keputusannya begitu, dan tidak mengulang pertimbangan yang sama dari nol.
 
-00:13:50.720 --> 00:13:59.072
+00:14:47.384 --> 00:14:55.736
 Kolom dasar simpulan itu bukan formalitas. Ia satu-satunya tempat di seluruh aplikasi yang merekam pertimbangan manusia di balik sebuah keputusan.
 
-00:15:50.716 --> 00:15:53.212
+00:17:05.950 --> 00:17:08.446
 Simpan simpulannya.
 
-00:15:53.212 --> 00:16:05.188
+00:17:08.446 --> 00:17:20.422
 Perlu diingat, aplikasi sudah menghitung simpulan awal dari rata-rata kuesioner. Yang Anda lakukan di sini bukan menghitung ulang, melainkan menimbang — dan kalau perlu, menolak angka itu dengan alasan tertulis.
 
-00:16:05.464 --> 00:16:10.888
+00:17:20.692 --> 00:17:26.116
 Formulir terakhir dalam CEE: 1d, Rencana Tindak Pengendalian atas CEE.
 
-00:16:10.888 --> 00:16:23.272
+00:17:26.116 --> 00:17:38.500
 Setiap unsur yang disimpulkan kurang memadai harus punya rencana perbaikannya di sini. Menemukan kelemahan tanpa merencanakan perbaikannya berarti pekerjaannya berhenti di tengah.
 
-00:16:23.272 --> 00:16:33.880
+00:17:38.500 --> 00:17:49.108
 Satu hal yang perlu dibedakan sejak sekarang. RTP di formulir ini memperbaiki lingkungan pengendalian — hal-hal mendasar seperti kode etik, kompetensi, atau kepemimpinan.
 
-00:16:33.880 --> 00:16:44.056
+00:17:49.108 --> 00:17:59.284
 Nanti ada RTP yang lain, di Formulir 7, yang menangani risiko tertentu. Keduanya tidak boleh berisi kalimat yang sama.
 
-00:16:44.056 --> 00:16:48.304
+00:17:59.284 --> 00:18:03.532
 Kalau isinya sama persis, salah satu di antaranya pasti salah tempat.
 
-00:16:48.563 --> 00:16:55.211
+00:18:03.785 --> 00:18:10.433
 Rencana pertama, atas kelemahan pada unsur Penegakan Integritas dan Nilai Etika.
 
-00:16:55.211 --> 00:17:02.195
+00:18:10.433 --> 00:18:17.417
 Perhatikan bentuk kalimatnya. Ia menyebut apa yang dikerjakan, oleh siapa, dan kapan selesai.
 
-00:17:02.195 --> 00:17:11.627
+00:18:17.417 --> 00:18:26.849
 Rencana yang berbunyi meningkatkan integritas tidak bisa dipantau, karena tidak ada satu pun hal yang bisa dilaporkan sudah selesai atau belum.
 
-00:17:35.303 --> 00:17:40.055
+00:18:53.641 --> 00:18:58.393
 Rencana kedua, atas kelemahan pemantauan tindak lanjut hasil pengawasan.
 
-00:17:40.055 --> 00:17:53.111
+00:18:58.393 --> 00:19:11.449
 Yang ini akan kita temui lagi nanti. Simpan dulu dalam ingatan — kita akan melihat bagaimana satu kelemahan lingkungan pengendalian berubah menjadi penyebab sebuah risiko strategis.
 
-00:18:25.002 --> 00:18:29.034
+00:19:45.501 --> 00:19:49.533
 Sekarang kita masuk ke inti aplikasi ini: penilaian risiko.
 
-00:18:29.034 --> 00:18:42.138
+00:19:49.533 --> 00:20:02.637
 Ada tiga tingkatan, dan urutannya di menu sudah menuntun. Risiko Strategis Pemda, Risiko Strategis Perangkat Daerah, lalu Risiko Operasional Perangkat Daerah.
 
-00:18:42.138 --> 00:18:49.386
+00:20:02.637 --> 00:20:09.885
 Tiap tingkatan punya dua formulir. Yang berhuruf a menetapkan konteksnya, yang berhuruf b mengisi risikonya.
 
-00:18:49.386 --> 00:18:58.002
+00:20:09.885 --> 00:20:18.501
 Konteks lebih dulu, selalu. Risiko tidak bisa dinilai tanpa tahu sasaran apa yang sedang diancamnya.
 
-00:18:58.280 --> 00:19:05.816
+00:20:18.779 --> 00:20:26.315
 Ini Formulir 1a, Konteks Risiko Strategis Pemerintah Daerah. Isinya tujuan dan sasaran RPJMD.
 
-00:19:05.816 --> 00:19:19.520
+00:20:26.315 --> 00:20:40.019
 Perhatikan, kita hanya membacanya. Tingkat ini tidak diisi PIC perangkat daerah, melainkan Admin — karena isinya lintas perangkat daerah dan harus satu untuk seluruh kabupaten.
 
-00:19:19.520 --> 00:19:28.952
+00:20:40.019 --> 00:20:49.451
 Yang perlu Anda lakukan di sini cuma satu: membacanya sebagai acuan. Sasaran RPJMD di halaman inilah yang nanti muncul sebagai pilihan di formulir berikutnya.
 
-00:19:29.228 --> 00:19:35.540
+00:20:49.712 --> 00:20:56.024
 Sekarang Formulir 1b, Identifikasi Risiko Strategis Pemerintah Daerah.
 
-00:19:35.540 --> 00:19:44.444
+00:20:56.024 --> 00:21:04.928
 Di sini perangkat daerah boleh mengisi — dan memang seharusnya. Risiko tingkat pemerintah daerah bukan milik satu instansi; ia dipikul bersama.
 
-00:19:44.705 --> 00:19:51.713
+00:21:05.185 --> 00:21:12.193
 Sasaran RPJMD diambil dari Formulir 1a tadi, lalu risikonya dirumuskan.
 
-00:19:51.713 --> 00:20:01.913
+00:21:12.193 --> 00:21:22.393
 Perhatikan bentuk kalimat risikonya. Ia menyebut sesuatu yang BISA TERJADI dan mengancam sasaran — bukan keluhan, bukan penyebab, dan bukan keadaan yang sudah pasti.
 
-00:20:01.913 --> 00:20:15.329
+00:21:22.393 --> 00:21:35.809
 Tiga rumusan yang sering dipakai dan ketiganya keliru: kurangnya anggaran, itu penyebab. SDM terbatas, itu juga penyebab. Pelayanan buruk, itu keluhan.
 
-00:20:15.329 --> 00:20:25.529
+00:21:35.809 --> 00:21:46.009
 Yang benar menyebut peristiwanya: maturitas SPIP tidak naik ke tingkat yang ditargetkan. Itu peristiwa, bisa terjadi atau tidak, dan langsung mengancam sasaran.
 
-00:20:25.800 --> 00:20:31.632
+00:21:46.274 --> 00:21:52.106
 Kolom Pemilik Risiko. Di sinilah tiga peran yang paling sering tertukar perlu dibedakan.
 
-00:20:31.632 --> 00:20:42.384
+00:21:52.106 --> 00:22:02.858
 Pemilik Risiko adalah pihak yang sasarannya terancam. Untuk risiko tingkat pemerintah daerah, itu Sekretaris Daerah — bukan Inspektorat.
 
-00:20:42.384 --> 00:20:50.376
+00:22:02.858 --> 00:22:10.850
 Penanggung Jawab Pengendalian, yang kolomnya ada di bawah nanti, adalah yang mengerjakan penanganannya. Itu bisa Inspektorat.
 
-00:20:50.376 --> 00:21:01.176
+00:22:10.850 --> 00:22:21.650
 Dan Penanggung Jawab Pengelolaan Risiko adalah yang mengurus prosesnya secara keseluruhan. Tiga peran, tiga orang atau unit yang bisa berbeda.
 
-00:21:01.176 --> 00:21:06.216
+00:22:21.650 --> 00:22:26.690
 Kalau ketiganya selalu Anda isi dengan nama yang sama, hampir pasti ada yang belum dipilah.
 
-00:21:06.490 --> 00:21:13.018
+00:22:26.943 --> 00:22:33.471
 Penyebab risiko dikelompokkan — internal delapan kategori, eksternal enam.
 
-00:21:13.018 --> 00:21:20.530
+00:22:33.471 --> 00:22:40.983
 Pengelompokan ini bukan hiasan. Ia memaksa penyebab dicari dari beberapa sisi, bukan berhenti di yang pertama terpikir.
 
-00:21:20.530 --> 00:21:28.450
+00:22:40.983 --> 00:22:48.903
 Kita pilih dua: Men untuk pemahaman yang belum merata, dan Method untuk penilaian mandiri yang belum berkala.
 
-00:21:31.090 --> 00:21:35.506
+00:22:53.950 --> 00:22:58.366
 Dampak ditulis pada sasarannya, bukan pada pekerjaan sehari-hari.
 
-00:21:35.506 --> 00:21:47.386
+00:22:58.366 --> 00:23:10.246
 Bedanya begini. Kalau dampaknya ditulis pekerjaan jadi menumpuk, itu dampak pada kesibukan. Yang diminta dampak pada apa yang mau dicapai.
 
-00:21:47.659 --> 00:21:54.619
+00:23:11.548 --> 00:23:18.508
 Aplikasi bertanya apakah risiko ini sudah punya pengendalian. Kita jawab ya.
 
-00:21:54.619 --> 00:22:02.203
+00:23:18.508 --> 00:23:26.092
 Jawaban ini menentukan bentuk formulir selanjutnya — kalau belum ada pengendalian, skala inheren dan skala sekarang tidak perlu dibedakan.
 
-00:22:04.732 --> 00:22:08.764
+00:23:33.261 --> 00:23:37.293
 Sekarang penilaian skalanya, lewat matriks lima kali lima.
 
-00:22:08.764 --> 00:22:25.204
+00:23:37.293 --> 00:23:53.733
 Tiga titik diisi. Inheren — seandainya tidak ada pengendalian sama sekali. Residual atau sekarang — dengan pengendalian yang ada hari ini. Dan target — setelah rencana tindak dijalankan.
 
-00:22:25.204 --> 00:22:29.404
+00:23:53.733 --> 00:23:57.933
 Kita mulai dari inheren: dampak empat, kemungkinan lima.
 
-00:22:29.404 --> 00:22:34.108
+00:23:57.933 --> 00:24:02.637
 Lalu sekarang: dampak empat, kemungkinan empat.
 
-00:22:34.108 --> 00:22:44.644
+00:24:02.637 --> 00:24:13.173
 Selisih antara keduanya itulah nilai pengendalian yang sudah ada. Kalau tidak ada selisihnya sama sekali, pengendalian itu memang tidak bekerja — dan menilainya Efektif jadi tidak masuk akal.
 
-00:22:44.921 --> 00:22:51.089
+00:24:13.430 --> 00:24:19.598
 Rencana tindak pengendalian. Ada lima pilihan respons risiko.
 
-00:22:51.089 --> 00:23:02.537
+00:24:19.598 --> 00:24:31.046
 Avoid berarti kegiatannya dihentikan. Abate atau mitigate menurunkan risikonya. Share atau transfer mengalihkannya ke pihak lain. Accept berarti diterima apa adanya.
 
-00:23:02.537 --> 00:23:08.321
+00:24:31.046 --> 00:24:36.830
 Kita pilih Abate, karena penyebabnya masih bisa dikendalikan sendiri.
 
-00:23:13.370 --> 00:23:17.186
+00:24:48.236 --> 00:24:52.052
 Terakhir, proyeksi setelah rencana tindak dijalankan.
 
-00:23:17.186 --> 00:23:28.994
+00:24:52.052 --> 00:25:03.860
 Kita nilai Cukup Efektif, bukan Efektif. Alasannya jujur: kenaikan maturitas SPIP tidak sepenuhnya berada dalam kendali satu instansi.
 
-00:23:28.994 --> 00:23:33.002
+00:25:03.860 --> 00:25:07.868
 Lalu skala target: dampak empat, kemungkinan tiga.
 
-00:23:33.002 --> 00:23:39.842
+00:25:07.868 --> 00:25:14.708
 Perhatikan baik-baik — dampaknya TIDAK turun. Yang turun kemungkinannya.
 
-00:23:39.842 --> 00:23:51.770
+00:25:14.708 --> 00:25:26.636
 Inilah salah kaprah yang paling sering. Rencana tindak biasanya menurunkan peluang kejadiannya, bukan akibatnya kalau kejadian itu tetap terjadi. Menurunkan keduanya sekaligus perlu alasan yang kuat.
 
-00:23:53.780 --> 00:24:00.812
+00:25:26.910 --> 00:25:34.782
+Satu hal yang khas di tingkat Pemerintah Daerah: satu program sering dikerjakan beberapa perangkat daerah sekaligus.
+
+00:25:34.782 --> 00:25:41.262
+Karena itu kolom perangkat daerah di sini tidak diketik, melainkan dicentang dari daftar resmi empat puluh sembilan perangkat daerah.
+
+00:25:41.262 --> 00:25:53.046
+Dua akibatnya. Ejaan namanya jadi seragam di seluruh aplikasi, dan satu indikator bisa dimiliki lebih dari satu dinas tanpa perlu menyalin barisnya.
+
+00:25:55.142 --> 00:26:02.174
 Tingkat kedua: Risiko Strategis Perangkat Daerah. Konteksnya lebih dulu, Formulir 2a.
 
-00:24:00.812 --> 00:24:08.324
+00:26:02.174 --> 00:26:09.686
 Halaman ini menurunkan sasaran RPJMD sampai ke subkegiatan, mengikuti Renstra perangkat daerah.
 
-00:24:08.324 --> 00:24:21.908
+00:26:09.686 --> 00:26:23.270
 Enam tingkat: sasaran RPJMD, tujuan strategis, sasaran strategis, program, kegiatan, subkegiatan. Masing-masing punya indikator, baseline, target, dan satuan.
 
-00:24:22.165 --> 00:24:25.645
+00:26:23.946 --> 00:26:27.426
 Tujuan strategis dan indikatornya.
 
-00:24:25.645 --> 00:24:34.981
+00:26:27.426 --> 00:26:36.762
 Satu hal yang perlu diperhatikan tentang baseline. Baseline tahun dua ribu dua puluh enam BUKAN baseline tahun sebelumnya — ia realisasi tahun dua ribu dua puluh lima.
 
-00:24:34.981 --> 00:24:45.613
+00:26:36.762 --> 00:26:47.394
 Menyalin baseline lama adalah kekeliruan yang paling sering lolos, karena tidak ada satu pun yang menolaknya. Aplikasi menerima angka apa saja.
 
-00:24:45.865 --> 00:24:51.913
+00:26:50.765 --> 00:26:56.813
 Sasaran strategis, program, kegiatan, dan subkegiatan diisi dengan cara yang sama.
 
-00:24:51.913 --> 00:25:05.209
+00:26:56.813 --> 00:27:10.109
 Sumbernya Renstra dan DPA — jangan dikarang. Kalau rumusannya berbeda dari dokumen resmi, formulir cetaknya nanti tidak cocok dengan dokumen perencanaan, dan itu jadi temuan.
 
-00:25:15.127 --> 00:25:18.367
+00:27:31.861 --> 00:27:35.101
 Kegiatan dan subkegiatan menutup hierarkinya.
 
-00:25:18.367 --> 00:25:29.983
+00:27:35.101 --> 00:27:46.717
 Perhatikan bahwa halaman konteks ini tidak punya kolom tahun. Memang begitu — yang berganti tiap tahun adalah risikonya, bukan hierarki Renstra-nya.
 
-00:25:50.607 --> 00:25:57.471
+00:28:18.798 --> 00:28:25.662
 Sekarang bagian terpenting dari seluruh video ini: Formulir 2b, Identifikasi Risiko Strategis Perangkat Daerah.
 
-00:25:57.471 --> 00:26:06.279
+00:28:25.662 --> 00:28:34.470
 Kita akan mengisi satu risiko pelan-pelan, dari kolom pertama sampai skala target, dan menjelaskan alasan setiap kolomnya.
 
-00:26:06.279 --> 00:26:12.543
+00:28:34.470 --> 00:28:40.734
 Risiko yang kita pakai nyata: rendahnya kepatuhan perangkat daerah menindaklanjuti rekomendasi hasil pengawasan.
 
-00:26:12.543 --> 00:26:25.983
+00:28:40.734 --> 00:28:54.174
 Ingat kelemahan yang tadi kita catat di CEE tentang pemantauan tindak lanjut? Inilah kelanjutannya. Kelemahan lingkungan pengendalian yang dibiarkan muncul lagi sebagai penyebab risiko.
 
-00:26:26.244 --> 00:26:29.580
+00:28:59.353 --> 00:29:02.689
 Penyebabnya dua, dan keduanya internal.
 
-00:26:29.580 --> 00:26:41.460
+00:29:02.689 --> 00:29:14.569
 Men, untuk komitmen pimpinan perangkat daerah yang belum merata. Method, untuk pemantauan yang belum terjadwal dan tidak adanya konsekuensi atas keterlambatan.
 
-00:26:41.460 --> 00:26:52.236
+00:29:14.569 --> 00:29:25.345
 Satu ukuran untuk menguji apakah penyebab sudah cukup dalam: bisakah ia dikendalikan? Kalau penyebabnya sesuatu yang di luar kuasa Anda sepenuhnya, rencana tindaknya tidak akan pernah menyentuhnya.
 
-00:26:52.236 --> 00:26:58.668
+00:29:25.345 --> 00:29:31.777
 Karena kedua penyebab ini masih bisa dikendalikan, kita tandai C — controllable.
 
-00:26:58.930 --> 00:27:01.354
+00:29:34.284 --> 00:29:36.708
 Dampak dan pihak yang terkena.
 
-00:27:01.354 --> 00:27:14.098
+00:29:36.708 --> 00:29:49.452
 Daftar pihak yang terkena dampak ini bukan formalitas. Ia yang nanti membantu menimbang skala dampaknya — makin luas dan makin penting pihak yang terkena, makin besar skalanya.
 
-00:27:14.360 --> 00:27:17.432
+00:29:52.119 --> 00:29:55.191
 Pengendalian yang sudah ada ditulis apa adanya.
 
-00:27:17.432 --> 00:27:30.944
+00:29:55.191 --> 00:30:08.703
 Godaan terbesar di kolom ini adalah melebih-lebihkan. Jangan. Kalau pengendalian yang ada ditulis lebih baik daripada kenyataannya, seluruh analisis di bawahnya ikut meleset.
 
-00:27:30.944 --> 00:27:39.464
+00:30:08.703 --> 00:30:17.223
 Kategorinya kita nilai KE, Kurang Efektif. Sudah ada pemantauan, tetapi tidak semua perangkat daerah menindaklanjuti tepat waktu.
 
-00:27:39.464 --> 00:27:49.328
+00:30:17.223 --> 00:30:27.087
 Perhatikan: sudah ada prosedurnya tidak otomatis berarti Efektif. Yang dinilai hasilnya, bukan keberadaannya.
 
-00:27:49.602 --> 00:27:54.042
+00:30:27.363 --> 00:30:31.803
 Matriks lima kali lima. Kita mulai dari inheren.
 
-00:27:54.042 --> 00:28:08.826
+00:30:31.803 --> 00:30:46.587
 Bayangkan tidak ada satu pun pengendalian. Tidak ada pemantauan, tidak ada laporan yang dikirim. Dalam keadaan itu, dampaknya empat dan kemungkinannya lima — hampir pasti terjadi.
 
-00:28:08.826 --> 00:28:14.826
+00:30:46.587 --> 00:30:52.587
 Lalu keadaan sekarang, dengan pemantauan yang sudah ada: dampak tiga, kemungkinan empat.
 
-00:28:14.826 --> 00:28:25.314
+00:30:52.587 --> 00:31:03.075
 Angka di dalam sel bukan hasil perkalian. Ia peringkat satu sampai dua puluh lima yang sengaja membobot dampak lebih besar daripada kemungkinan.
 
-00:28:25.314 --> 00:28:32.994
+00:31:03.075 --> 00:31:10.755
 Karena itu risiko berdampak sangat besar tetapi jarang terjadi tetap dinilai tinggi di aplikasi ini. Itu keputusan yang disengaja.
 
-00:28:33.264 --> 00:28:36.192
+00:31:11.021 --> 00:31:13.949
 Sekarang titik ketiga: target.
 
-00:28:36.192 --> 00:28:40.608
+00:31:13.949 --> 00:31:18.365
 Dampak tetap tiga, kemungkinan turun jadi tiga.
 
-00:28:40.608 --> 00:28:52.128
+00:31:18.365 --> 00:31:29.885
 Sekali lagi, karena ini yang paling sering keliru — rencana tindak kita menurunkan peluang perangkat daerah terlambat menindaklanjuti. Ia tidak mengubah seberapa buruk akibatnya kalau keterlambatan itu tetap terjadi.
 
-00:28:52.128 --> 00:29:05.448
+00:31:29.885 --> 00:31:43.205
 Ketiga titik kini terlihat berjajar di matriks. Itulah gambaran seluruh perjalanan risiko ini: dari seandainya tidak ditangani, ke keadaan sekarang, sampai ke yang dituju.
 
-00:29:05.720 --> 00:29:08.216
+00:31:43.482 --> 00:31:45.978
 Rencana tindak pengendaliannya.
 
-00:29:08.216 --> 00:29:23.744
+00:31:45.978 --> 00:32:01.506
 Abate, karena penyebabnya bisa dikendalikan. Isinya tiga hal yang konkret: menyusun pemantauan terjadwal, mengeksposnya kepada Bupati, dan memasukkan tindak lanjut ke dalam penilaian kinerja perangkat daerah.
 
-00:29:23.744 --> 00:29:34.112
+00:32:01.506 --> 00:32:11.874
 Ketiganya bisa dilaporkan sudah dikerjakan atau belum. Itu syaratnya. Rencana tindak yang berbunyi meningkatkan koordinasi tidak akan pernah bisa dilaporkan realisasinya.
 
-00:29:34.112 --> 00:29:47.336
+00:32:11.874 --> 00:32:25.098
 Dan perhatikan Penanggung Jawab Pengendaliannya: Inspektur Pembantu Wilayah — bukan Inspektur. Inspektur tadi Pemilik Risikonya. Dua kolom, dua peran.
 
-00:29:56.154 --> 00:30:01.098
+00:32:49.182 --> 00:32:54.126
 Barisnya muncul di daftar, lengkap dengan warna peringkatnya.
 
-00:30:01.098 --> 00:30:08.898
+00:32:54.126 --> 00:33:01.926
 Sekarang satu risiko lagi, kali ini lebih cepat. Setelah polanya dipahami, pengisian berikutnya memang jauh lebih ringan.
 
-00:30:08.898 --> 00:30:20.586
+00:33:01.926 --> 00:33:13.614
 Risiko kedua: belum optimalnya pemanfaatan teknologi informasi dalam pengawasan. Penyebabnya campuran — internal dan eksternal sekaligus.
 
-00:30:20.586 --> 00:30:30.090
+00:33:13.614 --> 00:33:23.118
 Perhatikan bahwa penyebab eksternal tetap boleh dicatat, tetapi ia biasanya membawa tanda UC: tidak terkendali. Dan itu mengubah bentuk rencana tindaknya.
 
-00:30:53.115 --> 00:30:57.867
+00:34:02.377 --> 00:34:07.129
 Untuk risiko ini pengendaliannya belum ada sama sekali, jadi kita jawab tidak.
 
-00:30:57.867 --> 00:31:08.907
+00:34:07.129 --> 00:34:18.169
 Perhatikan formulirnya berubah. Kalau belum ada pengendalian, membedakan skala inheren dan skala sekarang tidak ada gunanya — keduanya sama.
 
-00:31:08.907 --> 00:31:15.051
+00:34:18.169 --> 00:34:24.313
 Kategorinya otomatis Tidak Efektif, dan itu memang jujur: tidak ada yang bisa dinilai efektivitasnya.
 
-00:31:15.328 --> 00:31:20.944
+00:34:24.572 --> 00:34:30.188
 Skalanya kita isi, lalu rencana tindaknya, lalu simpan.
 
-00:31:20.944 --> 00:31:31.936
+00:34:30.188 --> 00:34:41.180
 Dua risiko strategis perangkat daerah sudah tercatat. Dalam keadaan sebenarnya, jumlahnya bisa lima sampai sepuluh — sebanyak yang benar-benar mengancam sasaran, tidak perlu dipaksa banyak.
 
-00:32:11.448 --> 00:32:18.408
+00:35:33.983 --> 00:35:39.407
+Sebelum lanjut, satu hal kecil yang sering terlewat: penyaring tahun di kanan atas halaman ini.
+
+00:35:39.407 --> 00:35:52.847
+Ia ada di seluruh formulir risiko dan di Data Risiko Gabungan. Gunanya untuk menengok isian tahun sebelumnya tanpa mengubah apa pun — daftarnya disaring, datanya tidak disentuh.
+
+00:35:52.847 --> 00:36:00.815
+Berguna sekali saat menyusun risiko tahun berjalan: Anda bisa melihat apa yang sudah didaftarkan tahun lalu, lalu kembali tanpa meninggalkan jejak.
+
+00:36:02.937 --> 00:36:09.897
 Tingkat ketiga: Risiko Operasional Perangkat Daerah. Konteksnya dulu, Formulir 3a.
 
-00:32:18.408 --> 00:32:31.200
+00:36:09.897 --> 00:36:22.689
 Bedanya dengan Formulir 2a bisa diringkas satu kalimat. Konteks strategis berhenti di sasaran; konteks operasional turun sampai kegiatan yang ada anggarannya di DPA.
 
-00:32:31.200 --> 00:32:36.672
+00:36:22.689 --> 00:36:28.161
 Karena itulah sumber dokumennya juga berbeda — Renja dan DPA, bukan Renstra.
 
-00:32:36.929 --> 00:32:41.681
+00:36:31.270 --> 00:36:36.022
 Kegiatan pertama: Penyelenggaraan Pengawasan Internal.
 
-00:32:41.681 --> 00:32:46.001
+00:36:36.022 --> 00:36:40.342
 Indikator dan targetnya diambil apa adanya dari DPA tahun berjalan.
 
-00:32:46.001 --> 00:32:51.473
+00:36:40.342 --> 00:36:45.814
 Isian konteks operasional memang mirip dengan konteks strategis tadi, dan itu bukan kebetulan.
 
-00:32:51.473 --> 00:33:06.209
+00:36:45.814 --> 00:37:00.550
 Program dan indikatornya sama karena berasal dari dokumen yang sama. Yang berbeda ujungnya: konteks strategis berhenti pada apa yang mau dicapai, konteks operasional turun ke pekerjaan yang mengerjakannya.
 
-00:33:06.209 --> 00:33:12.521
+00:37:00.550 --> 00:37:06.862
 Satu perangkat daerah biasanya punya beberapa baris di sini, sebanyak kegiatan yang benar-benar dijalankan tahun itu.
 
-00:33:12.521 --> 00:33:22.337
+00:37:06.862 --> 00:37:16.678
 Tidak semua kegiatan wajib dinilai risikonya. Yang dipilih kegiatan yang kalau gagal, sasaran perangkat daerah ikut terancam.
 
-00:33:25.125 --> 00:33:29.445
+00:37:34.295 --> 00:37:38.615
 Sekarang Formulir 3b, Identifikasi Risiko Operasional.
 
-00:33:29.445 --> 00:33:34.773
+00:37:38.615 --> 00:37:43.943
 Ada satu kolom di sini yang tidak ada di dua tingkat sebelumnya: Tahap.
 
-00:33:34.773 --> 00:33:45.837
+00:37:43.943 --> 00:37:55.007
 Alasannya masuk akal. Risiko operasional melekat pada langkah kegiatan, jadi perlu diketahui langkah mana — perencanaan, pelaksanaan, pengawasan, atau pelaporan.
 
-00:33:45.837 --> 00:33:54.573
+00:37:55.007 --> 00:38:03.743
 Risiko pertama: pelaksanaan pengawasan internal tidak sesuai dengan PKPT. Tahapnya pengawasan.
 
-00:33:59.787 --> 00:34:04.923
+00:38:18.380 --> 00:38:23.516
 Sekarang pembeda yang paling berguna sekaligus paling sering diisi asal: C dan UC.
 
-00:34:04.923 --> 00:34:10.491
+00:38:23.516 --> 00:38:29.084
 Penyebab risiko ini jumlah auditor yang terbatas dan jadwal penugasan yang padat.
 
-00:34:10.491 --> 00:34:18.267
+00:38:29.084 --> 00:38:36.860
 Bisakah Inspektorat menambah auditor sendiri? Tidak. Penambahan pegawai bukan keputusan Inspektorat.
 
-00:34:18.267 --> 00:34:27.051
+00:38:36.860 --> 00:38:45.644
 Karena itu kita tandai UC — tidak terkendali. Dan konsekuensinya langsung terasa pada rencana tindaknya.
 
-00:34:27.051 --> 00:34:39.483
+00:38:45.644 --> 00:38:58.076
 Rencana tindak untuk penyebab yang tidak terkendali bukan menambah auditor, melainkan menyusun prioritas berbasis risiko dengan auditor yang ada. Menulis rencana tindak yang tidak berada dalam kuasa Anda hanya memindahkan masalah ke laporan.
 
-00:34:39.740 --> 00:34:45.332
+00:39:09.373 --> 00:39:14.965
 Pengendalian yang sudah ada, skalanya, dan rencana tindaknya.
 
-00:34:45.332 --> 00:34:52.172
+00:39:14.965 --> 00:39:21.805
 Skala inheren dampak lima kemungkinan lima — peringkat tertinggi. Sekarang dampak lima kemungkinan empat.
 
-00:34:52.172 --> 00:35:06.548
+00:39:21.805 --> 00:39:36.181
 Dampaknya tidak turun sedikit pun oleh pengendalian yang ada, dan itu memang jujur: PKPT tahunan mengurangi peluang kegiatan terlewat, tetapi tidak mengurangi akibatnya kalau satu perangkat daerah benar-benar tidak terawasi.
 
-00:35:06.548 --> 00:35:12.452
+00:39:36.181 --> 00:39:42.085
 Pengendalian yang sudah ada untuk risiko ini Program Kerja Pengawasan Tahunan dan surat tugas penugasan auditor.
 
-00:35:12.452 --> 00:35:24.284
+00:39:42.085 --> 00:39:53.917
 Kategorinya kurang efektif, dan celahnya kita pilih kriteria a: kebijakan dan prosedurnya sudah dilakukan, tetapi belum mampu menangani risiko yang teridentifikasi.
 
-00:35:24.284 --> 00:35:34.100
+00:39:53.917 --> 00:40:03.733
 Perhatikan bahwa kelima kriteria celah ini bukan karangan aplikasi. Kelimanya datang dari Perdep, dan disediakan sebagai pilihan supaya tidak perlu diketik ulang setiap kali.
 
-00:35:34.100 --> 00:35:45.116
+00:40:03.733 --> 00:40:14.749
 Memilih kriteria yang tepat itu penting, karena kriteria itulah yang menerangkan mengapa pengendalian yang sudah ada belum cukup, dan dari situlah rencana tindaknya diturunkan.
 
-00:36:00.704 --> 00:36:08.264
+00:40:49.280 --> 00:40:56.840
 Satu risiko operasional lagi, lebih cepat: dokumentasi hasil pengawasan tidak lengkap. Tahapnya pelaporan.
 
-00:36:08.264 --> 00:36:23.288
+00:40:56.840 --> 00:41:11.864
 Perhatikan bahwa risiko ini tampak kecil, tetapi akibatnya tidak. Rekomendasi yang tidak terdokumentasi rapi tidak bisa ditindaklanjuti — dan itu langsung menyambung ke risiko strategis yang tadi kita isi.
 
-00:36:23.288 --> 00:36:27.512
+00:41:11.864 --> 00:41:16.088
 Risiko kedua ini kita isi lebih cepat, karena polanya sudah sama.
 
-00:36:27.512 --> 00:36:36.872
+00:41:16.088 --> 00:41:25.448
 Tetapi perhatikan tahapnya berbeda. Yang pertama tadi tahap pengawasan, yang ini tahap pertanggungjawaban dan pelaporan.
 
-00:36:36.872 --> 00:36:43.592
+00:41:25.448 --> 00:41:32.168
 Satu kegiatan bisa punya risiko di beberapa tahap sekaligus, dan itu justru tanda kegiatannya sudah ditelusuri dengan cermat.
 
-00:36:43.592 --> 00:36:51.632
+00:41:32.168 --> 00:41:40.208
 Kalau seluruh risiko operasional Anda menumpuk di satu tahap saja, biasanya tahap yang lain belum sempat dipikirkan.
 
-00:36:51.632 --> 00:37:00.656
+00:41:40.208 --> 00:41:49.232
 Celahnya kita pilih kriteria c: kebijakannya ada, tetapi belum diikuti prosedur baku yang jelas. Itu keadaan yang paling sering ditemui di lapangan.
 
-00:37:00.656 --> 00:37:09.800
+00:41:49.232 --> 00:41:58.376
 Dan rencana tindaknya menyesuaikan, yaitu memperkuat reviu berjenjang sebelum laporan terbit, bukan membuat kebijakan baru yang sudah ada.
 
-00:38:09.382 --> 00:38:15.286
+00:43:29.946 --> 00:43:35.850
 Sampai di sini seluruh risiko sudah dinilai dan setiap rencana tindak sudah punya penanggung jawab dan tenggatnya.
 
-00:38:15.286 --> 00:38:25.246
+00:43:35.850 --> 00:43:45.810
 Yang tersisa satu hal: membuktikan bahwa rencana itu benar-benar dijalankan. Itulah isi menu Form Monitoring dan Evaluasi.
 
-00:38:25.246 --> 00:38:30.046
+00:43:45.810 --> 00:43:50.610
 Buka Formulir 8 dan 9, Monitoring Rencana Tindak Pengendalian.
 
-00:38:30.313 --> 00:38:36.121
+00:43:50.875 --> 00:43:56.683
 Perhatikan satu hal penting: daftar di halaman ini tidak diketik ulang.
 
-00:38:36.121 --> 00:38:43.633
+00:43:56.683 --> 00:44:04.195
 Seluruh rencana tindak yang tadi kita susun muncul sendiri di sini — dari Formulir 1b, 2b, dan 3b sekaligus.
 
-00:38:43.633 --> 00:38:49.369
+00:44:04.195 --> 00:44:09.931
 Inilah sebabnya rencana tindak tidak boleh ditulis sebagai kalimat niat yang kabur.
 
-00:38:49.369 --> 00:38:59.017
+00:44:09.931 --> 00:44:19.579
 Kalau rencana tindaknya berbunyi meningkatkan koordinasi, tidak ada satu pun hal yang bisa dilaporkan realisasinya di halaman ini. Yang bisa dilaporkan hanya yang punya wujud.
 
-00:38:59.017 --> 00:39:10.585
+00:44:19.579 --> 00:44:31.147
 Formulir 8 mencatat pengkomunikasiannya — kepada siapa rencana ini disampaikan, dan dengan cara apa. Formulir 9 mencatat pemantauannya.
 
-00:39:10.585 --> 00:39:19.009
+00:44:31.147 --> 00:44:39.571
 Keduanya punya kolom rencana dan kolom realisasi. Yang diisi di awal tahun kolom rencananya; realisasinya diisi setelah dikerjakan.
 
-00:39:19.262 --> 00:39:24.230
+00:44:39.837 --> 00:44:44.805
 Sekarang Formulir 10, Pencatatan Kejadian Risiko.
 
-00:39:24.230 --> 00:39:34.574
+00:44:44.805 --> 00:44:55.149
 Bedanya dengan seluruh formulir sebelumnya mendasar. Semua yang tadi kita isi berbicara tentang sesuatu yang BELUM terjadi. Formulir ini mencatat yang SUDAH terjadi.
 
-00:39:34.574 --> 00:39:45.614
+00:44:55.149 --> 00:45:06.189
 Risiko yang benar-benar terjadi disebut kejadian risiko. Ia dicatat lengkap dengan tanggal, kerugian kalau ada, dan penanganan yang dilakukan.
 
-00:39:45.614 --> 00:39:53.606
+00:45:06.189 --> 00:45:14.181
 Catatan ini bukan sekadar arsip. Ia yang menjadi bukti tahun depan bahwa penilaian kemungkinan yang kita buat tahun ini masuk akal atau tidak.
 
-00:39:53.606 --> 00:40:05.174
+00:45:14.181 --> 00:45:25.749
 Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat lima kali setahun, penilaian tahun berikutnya harus berubah — dan Formulir 10 inilah dasarnya.
 
-00:40:05.452 --> 00:40:10.996
+00:45:25.999 --> 00:45:31.543
 Ada satu jalur lagi yang perlu diketahui, di menu Utilities: Lapor Kejadian Risiko.
 
-00:40:10.996 --> 00:40:23.068
+00:45:31.543 --> 00:45:43.615
 Halaman itu untuk pegawai yang tidak punya akun PIC. Mereka tetap bisa melaporkan kejadian risiko lewat tautan atau kode QR, tanpa perlu masuk aplikasi.
 
-00:40:23.068 --> 00:40:28.420
+00:45:43.615 --> 00:45:48.967
 Laporan yang masuk lewat jalur itu direkap dan bisa ditarik menjadi catatan resmi di Formulir 10.
 
-00:40:30.470 --> 00:40:35.054
+00:45:50.979 --> 00:45:55.899
+Sampai di sini seluruh formulir yang kita isi berbicara tentang sesuatu yang belum terjadi.
+
+00:45:55.899 --> 00:46:07.059
+Sekarang kita berhenti sebentar pada yang sudah terjadi. Karena cepat atau lambat, satu di antara risiko yang tadi kita daftarkan memang akan terjadi.
+
+00:46:07.059 --> 00:46:19.731
+Dan urusannya punya dua sisi. Sisi pelapor — siapa pun yang melihat kejadiannya, termasuk pegawai yang tidak punya akun aplikasi. Lalu sisi PIC, yang menelaah laporan itu dan menindaklanjutinya.
+
+00:46:19.990 --> 00:46:26.278
+Kita akan menempuh dua kasus, karena aplikasinya memang memperlakukannya berbeda.
+
+00:46:26.278 --> 00:46:36.238
+Kasus pertama: kejadian yang risikonya sudah terdaftar di kertas kerja — persis seperti yang barusan kita susun. Ini yang paling sering, dan paling cepat diselesaikan.
+
+00:46:36.238 --> 00:46:47.710
+Kasus kedua: kejadian yang risikonya belum pernah terdaftar sama sekali. Ini yang paling penting dipahami, karena urutan penanganannya tidak bisa dibalik.
+
+00:46:47.971 --> 00:46:53.203
+Kita mulai dari sisi pelapor, dan perhatikan bagaimana ia masuk.
+
+00:46:53.203 --> 00:47:03.019
+Pelapor tidak mengetik nama pengguna dan kata sandi. Ia memindai kode QR yang ditempel di kantor atau dibagikan lewat pesan, dan kode itu langsung membawanya ke formulir lapor.
+
+00:47:03.019 --> 00:47:10.051
+Ini disengaja. Orang yang baru melihat kejadian tidak boleh dihalangi urusan akun.
+
+00:47:10.319 --> 00:47:14.735
+Perhatikan menu di sebelah kiri. Isinya cuma tiga.
+
+00:47:14.735 --> 00:47:31.007
+Akun ini akun bersama yang dipakai banyak orang, jadi jangkauannya sengaja dibuat sesempit mungkin. Ia tidak bisa membuka data risiko perangkat daerah mana pun, tidak bisa mengubah apa pun, dan tidak bisa melihat laporan orang lain.
+
+00:47:31.007 --> 00:47:34.439
+Yang bisa dilakukannya hanya satu: melapor.
+
+00:47:36.538 --> 00:47:43.834
+Di bagian atas formulir ada dua mode pelaporan, dan pilihan inilah yang menentukan seluruh sisanya.
+
+00:47:43.834 --> 00:47:52.762
+Cek Risiko yang Sudah Terjadi dipakai kalau pelapor tahu kejadian ini berasal dari risiko yang memang sudah terdaftar. Lapor Kejadian Baru dipakai kalau tidak.
+
+00:47:52.762 --> 00:48:02.866
+Kalau pelapor ragu, pilih saja Lapor Kejadian Baru. Menautkannya nanti adalah pekerjaan PIC, bukan pekerjaan pelapor.
+
+00:48:02.866 --> 00:48:05.842
+Untuk kasus pertama ini kita pilih yang kiri.
+
+00:48:06.116 --> 00:48:16.556
+Muncul kolom pencarian risiko terdaftar. Ia menelusuri ketiga tingkatan sekaligus — risiko strategis pemerintah daerah, strategis perangkat daerah, dan operasional.
+
+00:48:16.556 --> 00:48:22.508
+Kita cari risiko tentang pengawasan yang tidak sesuai program kerja pengawasan tahunan.
+
+00:48:22.508 --> 00:48:29.876
+Begitu risikonya dipilih, laporan ini otomatis tertaut ke sana. Itu menghemat satu langkah telaah PIC nanti.
+
+00:48:30.145 --> 00:48:34.393
+Sekarang identitas pelapor dan isi kejadiannya.
+
+00:48:34.393 --> 00:48:42.457
+Nama wajib. Surel dan nomor telepon boleh dikosongkan — banyak pelapor tidak ingin dihubungi, dan aplikasi tidak memaksanya.
+
+00:48:42.457 --> 00:48:54.049
+Perangkat daerah terkait juga boleh dikosongkan. Pelapor awam belum tentu tahu perangkat daerah mana yang mengurusnya, dan Admin bisa melengkapinya belakangan.
+
+00:48:54.300 --> 00:48:59.964
+Kolom Kejadian adalah inti laporan ini, dan ada satu hal yang membedakannya dari pernyataan risiko.
+
+00:48:59.964 --> 00:49:12.780
+Pernyataan risiko ditulis sebagai sesuatu yang bisa terjadi. Kejadian ditulis sebagai sesuatu yang sudah terjadi — dengan waktu, tempat, dan angka kalau ada.
+
+00:49:12.780 --> 00:49:17.172
+Makin jelas kejadiannya ditulis, makin sedikit PIC harus menebak.
+
+00:49:22.339 --> 00:49:26.587
+Waktu kejadian diisi lewat pemilih tanggal dan jam.
+
+00:49:26.587 --> 00:49:33.427
+Kalau kejadiannya berlangsung berhari-hari, isikan saat pertama kali diketahui — itu yang berguna untuk menelusuri kembali.
+
+00:49:33.696 --> 00:49:42.744
+Terakhir, Pemicu. Bentuknya sama persis dengan kolom penyebab risiko yang dipakai PIC — internal delapan kategori, eksternal enam.
+
+00:49:42.744 --> 00:49:51.984
+Pelapor tidak wajib mengisinya, dan tidak perlu merasa harus tahu penggolongannya. Satu saja sudah sangat membantu.
+
+00:49:51.984 --> 00:49:57.120
+Kita tandai Method, karena persoalannya pada penjadwalan — bukan pada orangnya.
+
+00:49:57.120 --> 00:50:06.048
+Inilah bahan yang nanti dipakai PIC menilai apakah risikonya perlu dinilai ulang, atau bahkan didaftarkan kalau memang belum ada.
+
+00:50:06.313 --> 00:50:08.569
+Kirim laporannya.
+
+00:50:08.569 --> 00:50:16.057
+Begitu terkirim, PIC perangkat daerah terkait langsung menerima pemberitahuan. Pelapor tidak perlu menelepon siapa pun.
+
+00:50:16.057 --> 00:50:22.729
+Dan pekerjaan pelapor selesai sampai di sini. Sisanya bukan urusannya.
+
+00:50:24.716 --> 00:50:28.916
+Sekarang kita berpindah ke sisi PIC, dengan akun yang berbeda.
+
+00:50:28.916 --> 00:50:35.060
+Laporan yang masuk berkumpul di menu Utilities, Rekap Lapor Kejadian Risiko.
+
+00:50:35.060 --> 00:50:44.876
+Perhatikan statusnya: baru. Ada empat status yang berjalan berurutan — baru, diverifikasi, ditindaklanjuti, dan selesai.
+
+00:50:45.147 --> 00:50:51.363
+Langkah pertama PIC bukan langsung menindaklanjuti, melainkan memverifikasi.
+
+00:50:51.363 --> 00:50:59.019
+Yang diperiksa tiga hal: benarkah kejadiannya, benarkah ini urusan perangkat daerah kita, dan benarkah risikonya yang tertaut itu.
+
+00:50:59.019 --> 00:51:08.667
+Laporan ini sudah tertaut ke risiko terdaftar karena pelapornya memilihnya sendiri. PIC tinggal memastikan tautannya memang tepat.
+
+00:51:08.667 --> 00:51:12.699
+Kalau ternyata keliru, tautannya bisa diganti dari sini juga.
+
+00:51:12.973 --> 00:51:18.421
+Karena risikonya sudah terdaftar dan tautannya benar, tombol Catat ke Formulir 10 tersedia.
+
+00:51:18.421 --> 00:51:32.389
+Inilah yang mengubah laporan menjadi catatan resmi. Sebelum dicatat, ia baru laporan; sesudah dicatat, ia menjadi kejadian risiko yang masuk ke kertas kerja dan ikut terbaca di Dasbor.
+
+00:51:32.389 --> 00:51:41.293
+Perhatikan satu hal penting: tombol ini hanya muncul kalau laporannya sudah tertaut ke risiko terdaftar. Alasannya akan sangat jelas di kasus kedua nanti.
+
+00:51:41.572 --> 00:51:49.468
+Sesudah dicatat, statusnya dinaikkan menjadi ditindaklanjuti, lalu selesai setelah penanganannya rampung.
+
+00:51:49.468 --> 00:51:58.900
+Catatan tindak lanjut sebaiknya diisi. Ia yang menjelaskan kepada penilai berikutnya apa yang benar-benar dikerjakan, bukan sekadar bahwa laporannya sudah ditutup.
+
+00:52:00.880 --> 00:52:04.840
+Sekarang kasus kedua, dan inilah yang paling perlu dipahami.
+
+00:52:04.840 --> 00:52:15.640
+Kali ini kejadiannya tidak berasal dari risiko mana pun yang terdaftar. Sesuatu terjadi yang memang belum pernah terpikirkan saat penilaian risiko disusun.
+
+00:52:15.640 --> 00:52:24.304
+Itu bukan kegagalan. Justru begitulah manajemen risiko bekerja — daftar risiko tidak pernah lengkap, dan kejadian nyata yang melengkapinya.
+
+00:52:24.568 --> 00:52:32.104
+Perhatikan, kolom pencarian risiko tidak muncul. Memang tidak ada yang bisa dicari.
+
+00:52:32.104 --> 00:52:36.568
+Kejadiannya: surat tugas pemeriksaan terbit setelah kegiatan dimulai.
+
+00:52:36.568 --> 00:52:47.152
+Ini tidak ada di daftar risiko mana pun. Ia bukan soal jumlah auditor, bukan soal tindak lanjut, bukan soal sistem informasi.
+
+00:53:06.929 --> 00:53:12.737
+Pemicunya kita tandai Method, karena persoalannya ada pada urutan prosedur — bukan pada orangnya.
+
+00:53:12.737 --> 00:53:20.009
+Lalu dikirim. Sampai di sini pekerjaan pelapor sama saja dengan kasus pertama.
+
+00:53:32.783 --> 00:53:37.343
+Kembali ke sisi PIC. Laporan kedua sudah masuk.
+
+00:53:37.343 --> 00:53:43.583
+Perhatikan bedanya dengan yang pertama: tombol Catat ke Formulir 10 tidak ada.
+
+00:53:43.583 --> 00:53:57.647
+Ini bukan kekurangan aplikasi, melainkan pembatasan yang disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi ia selalu butuh risiko yang sudah terdaftar. Tanpa itu, kejadiannya akan menggantung tanpa induk.
+
+00:53:57.647 --> 00:54:03.743
+Artinya PIC harus mengerjakan satu hal dulu: mendaftarkan risikonya.
+
+00:54:04.016 --> 00:54:09.008
+Kita buka Formulir 3b, Identifikasi Risiko Operasional Perangkat Daerah.
+
+00:54:09.008 --> 00:54:16.352
+Dalam keadaan sebenarnya ini dibuka di tab baru, supaya rekap laporannya tidak perlu ditinggalkan.
+
+00:54:16.352 --> 00:54:24.680
+Kejadiannya ada di tahap perencanaan penugasan, jadi tahapnya Perencanaan — bukan Pelaksanaan, walaupun akibatnya terasa saat pelaksanaan.
+
+00:54:28.644 --> 00:54:34.836
+Sekarang perhatikan cara merumuskan risikonya, karena ini yang paling sering keliru.
+
+00:54:34.836 --> 00:54:43.188
+Yang kita punya adalah kejadian: surat tugas terbit terlambat. Tetapi yang dicatat di sini bukan kejadiannya, melainkan risikonya.
+
+00:54:43.188 --> 00:54:51.372
+Kejadian adalah satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi.
+
+00:54:51.372 --> 00:54:59.796
+Jadi rumusannya bukan surat tugas terbit tiga hari terlambat, melainkan penerbitan surat tugas terlambat sehingga penugasan dimulai tanpa dasar administratif yang lengkap.
+
+00:55:00.069 --> 00:55:06.213
+Penyebabnya kita ambil langsung dari pemicu yang ditulis pelapor. Itu gunanya kolom pemicu tadi.
+
+00:55:06.213 --> 00:55:17.229
+Method, karena urutan prosedurnya yang belum diatur. Terkendali, karena penerbitan surat tugas sepenuhnya di dalam kuasa Inspektorat sendiri.
+
+00:55:41.082 --> 00:55:46.242
+Pengendalian yang sudah ada, dan di sinilah kejujuran diuji.
+
+00:55:46.242 --> 00:55:57.978
+Prosedur penugasannya memang ada, tetapi belum mengatur urutan waktunya. Jadi kategorinya Kurang Efektif, dan celahnya kriteria c — kebijakan sudah ada tetapi belum diikuti prosedur baku yang jelas.
+
+00:55:57.978 --> 00:56:10.506
+Satu hal yang perlu disadari: skala kemungkinan risiko ini tidak boleh dinilai rendah. Kita tahu ia sudah terjadi sekali, dan itu bukan dugaan melainkan catatan.
+
+00:56:10.506 --> 00:56:16.626
+Inilah sumbangan terbesar laporan kejadian terhadap penilaian risiko — ia mengoreksi tebakan dengan kenyataan.
+
+00:56:16.889 --> 00:56:19.481
+Skalanya kita isi lewat matriks.
+
+00:56:19.481 --> 00:56:31.337
+Inheren dampak tiga kemungkinan empat. Sekarang dampak tiga kemungkinan tiga — pengendalian yang ada sedikit menurunkan peluangnya, tetapi tidak menghilangkannya.
+
+00:56:31.337 --> 00:56:36.017
+Target dampak tiga kemungkinan dua, setelah rencana tindaknya dijalankan.
+
+00:56:47.478 --> 00:56:53.238
+Rencana tindak pengendaliannya, dan inilah tujuan seluruh perjalanan ini.
+
+00:56:53.238 --> 00:57:00.246
+Laporan seorang pegawai tentang satu surat tugas yang terlambat, berakhir menjadi rencana perbaikan yang punya penanggung jawab dan tenggat.
+
+00:57:00.246 --> 00:57:10.542
+Isinya konkret: menetapkan bahwa surat tugas terbit paling lambat satu hari sebelum kegiatan dimulai, dan memasukkannya ke dalam prosedur baku penugasan.
+
+00:57:10.542 --> 00:57:12.510
+Lalu disimpan.
+
+00:57:42.718 --> 00:57:47.854
+Sekarang kembali ke rekap laporan, dan tautkan laporannya ke risiko yang baru saja dibuat.
+
+00:57:47.854 --> 00:57:55.054
+Begitu tertaut, tombol Catat ke Formulir 10 muncul — sama seperti kasus pertama tadi.
+
+00:57:55.054 --> 00:58:02.998
+Perhatikan urutannya, karena tidak bisa dibalik: risikonya dulu, baru kejadiannya dicatat. Bukan sebaliknya.
+
+00:58:04.878 --> 00:58:08.454
+Mari lihat ke mana semuanya bermuara.
+
+00:58:08.454 --> 00:58:13.686
+Formulir 10 sekarang memuat kedua kejadian tadi, lengkap dengan risikonya masing-masing.
+
+00:58:21.362 --> 00:58:27.746
+Dan rencana tindak yang tadi kita susun sudah menunggu di Formulir 8 dan 9, siap dilaporkan realisasinya.
+
+00:58:27.746 --> 00:58:43.034
+Perjalanannya utuh: seorang pegawai melihat sesuatu, melapor lewat kode QR tanpa punya akun, PIC menelaahnya, risikonya didaftarkan, rencana perbaikannya disusun, dan sekarang pelaksanaannya dipantau.
+
+00:58:43.034 --> 00:58:48.482
+Itu manajemen risiko yang bekerja — bukan dokumen yang disusun sekali setahun lalu disimpan.
+
+00:58:48.757 --> 00:58:52.261
+Dua hal untuk diingat dari bagian ini.
+
+00:58:52.261 --> 00:59:01.789
+Pertama, pelapor tidak perlu tahu apa pun tentang manajemen risiko. Ia cukup menceritakan apa yang dilihatnya. Sisanya pekerjaan PIC.
+
+00:59:01.789 --> 00:59:15.973
+Kedua, kejadian yang risikonya belum terdaftar bukan masalah — ia justru cara daftar risiko diperbaiki. Yang jadi masalah kalau laporan seperti itu dibiarkan menggantung tanpa pernah didaftarkan.
+
+00:59:15.973 --> 00:59:27.373
+Sekarang kita kembali ke alur utama. Seluruh isian sudah lengkap, pemantauannya berjalan, dan kejadian nyatanya tercatat. Yang tersisa: mencetaknya jadi dokumen resmi.
+
+00:59:29.382 --> 00:59:33.966
 Sekarang bagian yang paling menyenangkan, karena tidak ada satu pun yang perlu diketik.
 
-00:40:35.054 --> 00:40:42.038
+00:59:33.966 --> 00:59:40.950
 Menu Form Cetak menghasilkan seluruh kertas kerja penilaian risiko dalam bentuk siap ditandatangani.
 
-00:40:42.038 --> 00:40:50.102
+00:59:40.950 --> 00:59:49.014
 Dan ini yang perlu dipegang: tidak ada satu kolom pun di menu ini yang bisa diisi. Semuanya berasal dari formulir yang tadi kita kerjakan.
 
-00:40:50.102 --> 00:40:57.014
+00:59:49.014 --> 00:59:55.926
 Kalau ada yang kosong di sini, yang diperbaiki formulir asalnya — bukan halaman cetaknya.
 
-00:40:57.289 --> 00:41:02.857
+00:59:56.199 --> 01:00:01.767
 Ini Formulir 2b, Konteks Risiko Strategis Perangkat Daerah.
 
-00:41:02.857 --> 00:41:12.145
+01:00:01.767 --> 01:00:11.055
 Perhatikan kepala halamannya — nama perangkat daerah, periode, tahun penilaian. Semuanya datang dari Data Umum yang kita isi paling awal tadi.
 
-00:41:12.145 --> 00:41:16.969
+01:00:11.055 --> 01:00:15.879
 Sekarang Anda melihat mengapa halaman itu dikerjakan pertama.
 
-00:41:17.234 --> 00:41:21.842
+01:00:16.134 --> 01:00:20.742
 Formulir 3b, Identifikasi Risiko Strategis Perangkat Daerah.
 
-00:41:21.842 --> 00:41:34.442
+01:00:20.742 --> 01:00:33.342
 Seluruh kolom yang tadi kita isi satu per satu kini berjajar dalam satu tabel — pernyataan risiko, penyebab, dampak, pengendalian yang ada, sampai celah pengendaliannya.
 
-00:41:34.723 --> 00:41:41.707
+01:00:33.600 --> 01:00:40.584
 Formulir 4, Hasil Analisis Risiko. Dan Formulir 5, Daftar Risiko Prioritas.
 
-00:41:41.707 --> 00:41:47.611
+01:00:40.584 --> 01:00:46.488
 Di Formulir 5 ada satu hal yang perlu dijelaskan, karena sering ditanyakan.
 
-00:41:47.611 --> 00:41:54.427
+01:00:46.488 --> 01:00:53.304
 Tidak semua risiko yang kita isi muncul di daftar prioritas. Yang muncul hanya yang berada di luar Selera Risiko.
 
-00:41:54.427 --> 00:42:09.115
+01:00:53.304 --> 01:01:07.992
 Selera Risiko Kabupaten Aceh Barat ditetapkan sampai dengan peringkat Sedang. Artinya risiko berperingkat Tinggi dan Sangat Tinggi wajib ditangani; Sedang, Rendah, dan Sangat Rendah cukup dipantau.
 
-00:42:09.115 --> 00:42:18.499
+01:01:07.992 --> 01:01:17.376
 Batas itu ketetapan pemerintah daerah, bukan bawaan aplikasi. Kalau suatu saat digeser, isi daftar ini berubah sendiri tanpa satu baris pun disentuh.
 
-00:42:18.778 --> 00:42:25.162
+01:01:17.630 --> 01:01:24.014
 Formulir 7, Rencana Tindak Pengendalian atas Hasil Identifikasi Risiko.
 
-00:42:25.162 --> 00:42:34.426
+01:01:24.014 --> 01:01:33.278
 Bandingkan dengan Formulir 6 yang berisi rencana tindak atas CEE. Isinya harus berbeda — yang satu memperbaiki lingkungan pengendalian, yang satu menangani risiko tertentu.
 
-00:42:34.426 --> 00:42:42.730
+01:01:33.278 --> 01:01:41.582
 Setiap formulir ini bisa diunduh sebagai PDF, lengkap dengan blok tanda tangan yang namanya kita isi di Data Umum.
 
-00:42:44.771 --> 00:42:50.819
+01:01:43.578 --> 01:01:49.626
 Empat laporan menutup seluruh rangkaian ini, dan yang membedakannya bukan isinya melainkan siapa yang menyusunnya.
 
-00:42:50.819 --> 00:43:00.371
+01:01:49.626 --> 01:01:59.178
 Laporan 11, Pelaksanaan Penilaian Risiko. Disusun perangkat daerah, sesudah penilaian risiko selesai.
 
-00:43:00.371 --> 00:43:08.315
+01:01:59.178 --> 01:02:07.122
 Laporan 12, Laporan Berkala Pengelolaan Risiko. Juga disusun perangkat daerah, tetapi berkala sepanjang tahun.
 
-00:43:08.588 --> 00:43:13.460
+01:02:07.391 --> 01:02:12.263
 Laporan 13, Pemantauan oleh Unit Kepatuhan.
 
-00:43:13.460 --> 00:43:17.780
+01:02:12.263 --> 01:02:16.583
 Dan Laporan 14, Pembinaan oleh Komite Pengelolaan Risiko.
 
-00:43:17.780 --> 00:43:29.444
+01:02:16.583 --> 01:02:28.247
 Dua yang terakhir ini paling sering terlewat, dan alasannya sederhana: penyusunnya bukan perangkat daerah, melainkan unit kepatuhan dan komite di tingkat pemerintah daerah.
 
-00:43:29.444 --> 00:43:37.268
+01:02:28.247 --> 01:02:36.071
 Kalau di perangkat daerah Anda keduanya belum pernah ada, itu bukan berarti tidak wajib. Itu berarti strukturnya yang belum berjalan.
 
-00:43:39.249 --> 00:43:45.513
+01:02:38.146 --> 01:02:44.410
 Sampai di sini kita selalu memakai kacamata orang yang mengisi. Sekarang kacamatanya diganti.
 
-00:43:45.513 --> 00:44:02.073
+01:02:44.410 --> 01:03:00.970
 Bab ini untuk yang tidak mengisi apa pun, tetapi harus mengambil keputusan dari apa yang sudah diisi. Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, dan pemangku kepentingan lain yang perlu membaca data manajemen risiko.
 
-00:44:02.073 --> 00:44:12.729
+01:03:00.970 --> 01:03:11.626
 Akunnya berbeda. Namanya akun peninjau, dan ia hanya bisa membaca. Seluruh perintah penulisan ditolak di sisi server, bukan sekadar tombolnya disembunyikan.
 
-00:44:12.729 --> 00:44:24.825
+01:03:11.626 --> 01:03:23.722
 Artinya akun ini aman diberikan kepada siapa pun yang perlu melihat. Sebebas apa pun ia menjelajah, tidak ada satu pun data perangkat daerah yang bisa berubah karenanya.
 
-00:44:24.825 --> 00:44:39.729
+01:03:23.722 --> 01:03:38.626
 Yang akan kita kerjakan di bab ini bukan membaca angka satu per satu. Hampir setiap widget di Dasbor bisa diklik, dan di balik kliknya ada nama risiko, nama perangkat daerah, dan formulir yang belum terisi. Itulah yang membuat Dasbor ini berguna untuk rapat.
 
-00:44:39.999 --> 00:44:47.247
+01:03:38.895 --> 01:03:46.143
 Mulai dari dua penyaring di kanan atas, karena keduanya menentukan arti seluruh angka di bawahnya.
 
-00:44:47.247 --> 00:44:53.463
+01:03:46.143 --> 01:03:52.359
 Yang kiri memilih perangkat daerah, yang kanan memilih tahun. Saya pilih Dinas Kesehatan.
 
-00:44:53.463 --> 00:45:01.983
+01:03:52.359 --> 01:04:00.879
 Seluruh Dasbor langsung menyempit. Sekarang setiap angka di halaman ini hanya bicara tentang Dinas Kesehatan.
 
-00:45:01.983 --> 00:45:12.399
+01:04:00.879 --> 01:04:11.295
 Inilah cara menyiapkan rapat dengan satu perangkat daerah. Buka penyaringnya di nama mereka, dan Anda masuk rapat dengan angka mereka sendiri, bukan angka gabungan yang tidak bisa mereka jawab.
 
-00:45:12.399 --> 00:45:19.503
+01:04:11.295 --> 01:04:18.399
 Saya kembalikan ke Semua OPD, karena sisa bab ini membaca keadaan seluruh kabupaten.
 
-00:45:19.503 --> 00:45:29.199
+01:04:18.399 --> 01:04:28.095
 Satu hal penting soal penyaring tahun: ia terpisah dari Tahun Aktif. Pimpinan bisa membaca tahun mana pun tanpa mengganggu perangkat daerah yang sedang mengisi tahun berjalan.
 
-00:45:29.475 --> 00:45:36.651
+01:04:28.353 --> 01:04:35.529
 Empat kartu ringkasan. Jangan dibaca satu per satu — artinya justru muncul dari hubungan antar keempatnya.
 
-00:45:36.651 --> 00:45:52.395
+01:04:35.529 --> 01:04:51.273
 Total Risiko Teridentifikasi dua ratus lima puluh delapan. Risiko Prioritas seratus dua puluh sembilan. RTP Selesai Disusun seratus dua puluh sembilan dari seratus dua puluh sembilan, seratus persen.
 
-00:45:52.395 --> 00:46:00.027
+01:04:51.273 --> 01:04:58.905
 Kalau berhenti membaca di sini, kesimpulannya: sempurna. Seluruh risiko prioritas sudah punya rencana penanganan.
 
-00:46:00.027 --> 00:46:09.555
+01:04:58.905 --> 01:05:08.433
 Sekarang lihat kartu keempat. Kepatuhan Pelaporan tiga persen. Satu dari empat puluh sembilan perangkat daerah.
 
-00:46:09.555 --> 00:46:20.235
+01:05:08.433 --> 01:05:19.113
 Dua angka itu berdampingan menceritakan satu hal yang tidak enak didengar tetapi harus didengar. Rencananya seratus persen tersusun, tetapi buktinya bahwa rencana itu dikerjakan hampir tidak ada.
 
-00:46:20.235 --> 00:46:41.739
+01:05:19.113 --> 01:05:40.617
 Keputusan yang bisa diambil dari sini: jangan merayakan angka seratus persen itu. Yang seratus persen adalah niat, bukan hasil. Arahan yang tepat justru menuntut Formulir delapan, sembilan, dan sepuluh diisi — karena tanpa itu seluruh Dasbor ini menampilkan rencana, bukan kenyataan.
 
-00:46:42.012 --> 00:46:45.972
+01:05:40.893 --> 01:05:44.853
 Peta Risiko menempatkan seluruh risiko pada matriks lima kali lima.
 
-00:46:45.972 --> 00:46:52.236
+01:05:44.853 --> 01:05:51.117
 Yang dilihat pimpinan bukan titik satu per satu, melainkan ke mana massanya condong.
 
-00:46:52.236 --> 00:47:04.044
+01:05:51.117 --> 01:06:02.925
 Menumpuk di kanan atas berarti banyak risiko berdampak besar dan sering terjadi. Itu tampak buruk, tetapi belum tentu berarti daerahnya buruk — bisa juga berarti penilaiannya jujur, dan itu awal yang sehat.
 
-00:47:04.044 --> 00:47:19.524
+01:06:02.925 --> 01:06:18.405
 Yang benar-benar mengkhawatirkan justru kebalikannya: seluruh titik menumpuk di kiri bawah. Tidak ada organisasi yang risikonya serendah itu. Sebaran seperti itu hampir selalu tanda penilaian yang menahan diri.
 
-00:47:19.524 --> 00:47:26.508
+01:06:18.405 --> 01:06:25.389
 Garis putus-putus bertangga adalah batas Selera Risiko. Segala yang berada di luarnya wajib punya rencana tindak.
 
-00:47:26.774 --> 00:47:33.134
+01:06:25.667 --> 01:06:30.347
+Perhatikan garis putus-putus tebal yang melintasi matriks ini.
+
+01:06:30.347 --> 01:06:40.475
+Itu batas Selera Risiko yang ditetapkan Pemerintah Daerah sendiri, digambar ulang di sini. Semua sel di luar garis itu melampaui selera dan wajib punya Rencana Tindak Pengendalian.
+
+01:06:40.475 --> 01:06:50.075
+Gunanya sederhana: pimpinan tidak perlu menghitung satu per satu. Cukup lihat berapa banyak angka yang duduk di luar garis.
+
+01:06:50.343 --> 01:06:56.703
 Sekarang bagian yang sering tidak diketahui: angka di dalam sel matriks ini bisa diklik.
 
-00:47:33.134 --> 00:47:41.342
+01:06:56.703 --> 01:07:04.911
 Saya klik sel paling ujung — Dampak lima kali Kemungkinan lima, skala dua puluh lima. Sel paling berbahaya di seluruh matriks.
 
-00:47:41.342 --> 00:47:50.894
+01:07:04.911 --> 01:07:14.463
 Yang terbuka bukan angka lagi, melainkan nama risikonya. Lima risiko, lengkap dengan perangkat daerah pemiliknya.
 
-00:47:50.894 --> 00:47:59.150
+01:07:14.463 --> 01:07:22.719
 Perhatikan tanda kecil di sebelah kanan tiap baris. Centang hijau berarti rencana tindaknya sudah tersusun, silang kuning berarti belum.
 
-00:47:59.150 --> 00:48:11.462
+01:07:22.719 --> 01:07:35.031
 Di sinilah Dasbor berhenti jadi hiasan. Sel merah dengan silang kuning di dalamnya adalah risiko yang sudah diakui paling berbahaya, tetapi belum ada yang menanganinya.
 
-00:48:11.462 --> 00:48:23.534
+01:07:35.031 --> 01:07:47.103
 Keputusan yang bisa diambil: daftar inilah agenda rapat, bukan daftar seluruh dua ratus lima puluh delapan risiko. Lima baris ini yang ditanyakan satu per satu, kepada nama perangkat daerah yang tertulis di sebelahnya.
 
-00:48:23.803 --> 00:48:27.715
+01:07:47.377 --> 01:07:51.289
 Nama risikonya pun masih bisa diklik lagi.
 
-00:48:27.715 --> 00:48:35.227
+01:07:51.289 --> 01:07:58.801
 Terbuka rincian risikonya: uraian lengkap, tingkatannya, perangkat daerah pemiliknya, dan status rencana tindaknya.
 
-00:48:35.227 --> 00:48:47.299
+01:07:58.801 --> 01:08:10.873
 Tombol Buka Daftar di bawah membawa langsung ke baris aslinya di formulir register risiko — jadi pimpinan bisa menelusuri sampai ke dasar tanpa perlu tahu formulir mana yang harus dibuka.
 
-00:48:47.299 --> 00:48:56.083
+01:08:10.873 --> 01:08:19.657
 Tiga klik dari angka ringkasan sampai ke satu baris risiko milik satu perangkat daerah. Itu yang memungkinkan pertanyaan rapat berubah dari umum jadi spesifik.
 
-00:48:56.083 --> 00:49:07.147
+01:08:19.657 --> 01:08:30.721
 Bukan lagi bertanya bagaimana manajemen risikonya. Melainkan menyebut risiko ini, milik dinas ini, kenapa belum ada rencana tindaknya.
 
-00:49:07.413 --> 00:49:13.029
+01:08:31.324 --> 01:08:36.940
 Widget berikutnya menjawab pertanyaan yang paling sering ditanyakan pimpinan: siapa yang belum selesai.
 
-00:49:13.029 --> 00:49:22.797
+01:08:36.940 --> 01:08:46.708
 Progres Tahapan per UPR. Tiap perangkat daerah punya satu batang, dengan angka tahapan yang sudah dilewati dari tujuh tahap.
 
-00:49:22.797 --> 00:49:29.205
+01:08:46.708 --> 01:08:53.116
 Dinas Kesehatan tujuh dari tujuh — selesai. Sebagian besar yang lain empat dari tujuh.
 
-00:49:29.205 --> 00:49:35.277
+01:08:53.116 --> 01:08:59.188
 Tetapi batang ini juga bisa diklik, dan justru di baliknya keterangan yang berguna.
 
-00:49:35.533 --> 00:49:38.917
+01:08:59.450 --> 01:09:02.834
 Saya klik salah satu perangkat daerah yang belum selesai.
 
-00:49:38.917 --> 00:49:47.941
+01:09:02.834 --> 01:09:11.858
 Terbuka rincian tujuh tahapnya satu per satu. Centang hijau untuk yang sudah, silang kuning untuk yang belum.
 
-00:49:47.941 --> 00:49:52.885
+01:09:11.858 --> 01:09:16.802
 Jadi bukan hanya tahu bahwa mereka tersendat, tetapi tersendat persis di tahap mana.
 
-00:49:52.885 --> 00:50:00.709
+01:09:16.802 --> 01:09:24.626
 Dan tahap yang belum selesai masih bisa diklik lagi — ia membuka tombol yang langsung menuju formulir yang belum terisi itu.
 
-00:50:00.709 --> 00:50:13.549
+01:09:24.626 --> 01:09:37.466
 Keputusan yang bisa diambil dari widget ini paling langsung di antara semuanya. Arahan rapat berubah dari segera lengkapi manajemen risikonya, menjadi kalimat yang bisa dikerjakan: selesaikan Formulir satu a sampai satu c minggu ini.
 
-00:50:13.549 --> 00:50:19.789
+01:09:37.466 --> 01:09:43.706
 Perbedaan dua kalimat itu menentukan apakah rapatnya menghasilkan sesuatu atau tidak.
 
-00:50:20.055 --> 00:50:31.263
+01:09:43.977 --> 01:09:55.185
 Dua widget distribusi. Yang kiri membagi risiko menurut tingkatannya — Strategis Pemda, Strategis Perangkat Daerah, dan Operasional.
 
-00:50:31.263 --> 00:50:37.023
+01:09:55.185 --> 01:10:00.945
 Yang kanan membaginya menurut kategori urusan. Batang di widget kanan bisa diklik.
 
-00:50:37.023 --> 00:50:47.583
+01:10:00.945 --> 01:10:11.505
 Saya klik salah satunya. Terbuka daftar risiko dalam kategori itu, dan tiap barisnya masih bisa diklik lagi ke rincian risikonya.
 
-00:50:47.583 --> 00:50:55.791
+01:10:11.505 --> 01:10:19.713
 Cara membacanya begini. Kalau satu kategori urusan menumpuk jauh di atas yang lain, itu belum tentu berarti urusan itu paling bermasalah.
 
-00:50:55.791 --> 00:51:09.447
+01:10:19.713 --> 01:10:33.369
 Bisa juga berarti perangkat daerah pengampu urusan itu yang paling serius menilai dirinya, sementara yang lain belum. Bedanya baru ketahuan setelah dibuka isinya — dan sekarang bisa dibuka.
 
-00:51:09.447 --> 00:51:22.119
+01:10:33.369 --> 01:10:46.041
 Keputusan yang bisa diambil: kalau kategori yang menumpuk ternyata dimiliki banyak perangkat daerah sekaligus, masalahnya sistemik dan penanganannya harus lintas dinas. Kalau ternyata milik satu dinas saja, penanganannya cukup di situ.
 
-00:51:22.377 --> 00:51:29.529
+01:10:56.002 --> 01:11:03.154
 Siklus empat skor risiko. Inilah widget paling jujur di seluruh Dasbor, dan yang paling layak dibawa ke rapat.
 
-00:51:29.529 --> 00:51:45.465
+01:11:03.154 --> 01:11:19.090
 Inheren adalah keadaan seandainya tidak ada pengendalian sama sekali. Residual keadaan sekarang. Target yang dituju setelah rencana tindak dijalankan. Aktual adalah kenyataannya di ujung tahun.
 
-00:51:45.465 --> 00:51:52.785
+01:11:19.090 --> 01:11:26.410
 Batang biru dan merah, berlian hijau, segitiga oranye. Semuanya bisa diklik ke rincian risikonya.
 
-00:51:52.785 --> 00:51:59.625
+01:11:26.410 --> 01:11:33.250
 Pertanyaan yang menentukan cuma satu: apakah segitiga oranye bergerak mendekati berlian hijau?
 
-00:51:59.625 --> 00:52:09.825
+01:11:33.250 --> 01:11:43.450
 Kalau tidak bergerak, rencana tindaknya tidak bekerja. Bisa karena rencananya keliru, bisa karena tidak dijalankan, bisa karena penyebabnya ternyata bukan yang diduga.
 
-00:52:09.825 --> 00:52:23.361
+01:11:43.450 --> 01:11:56.986
 Ketiganya keputusan yang sama sekali berbeda — mengganti rencana, menegur pelaksanaan, atau menilai ulang penyebabnya. Dan tidak satu pun bisa dipilih tanpa melihat widget ini.
 
-00:52:23.361 --> 00:52:34.065
+01:11:56.986 --> 01:12:07.690
 Yang perlu diperhatikan: kalau segitiga oranyenya tidak ada sama sekali, itu bukan berarti tidak membaik. Itu berarti Formulir sembilan belum diisi, dan kita memang belum tahu apa-apa.
 
-00:52:34.331 --> 00:52:43.163
+01:12:07.940 --> 01:12:16.772
 Daftar Risiko Prioritas. Isinya risiko yang berada di luar Selera Risiko — yang wajib punya rencana tindak.
 
-00:52:43.163 --> 00:52:49.571
+01:12:16.772 --> 01:12:23.180
 Tiap barisnya menampilkan skala risikonya dan status rencana tindaknya, dan seluruh barisnya bisa diklik ke rincian.
 
-00:52:49.571 --> 00:52:57.587
+01:12:23.180 --> 01:12:31.196
 Yang perlu dicari mata pimpinan di sini cuma satu: baris berlabel merah, yaitu RTP belum tersusun.
 
-00:52:57.587 --> 00:53:06.683
+01:12:31.196 --> 01:12:40.292
 Keputusan yang bisa diambil: baris merah di daftar ini adalah satu-satunya hal di Dasbor yang menuntut tindakan sebelum rapat berikutnya. Sisanya bisa menunggu.
 
-00:53:06.949 --> 00:53:12.853
+01:12:40.560 --> 01:12:46.464
 Ranking Eksposur Risiko per perangkat daerah. Widget ini paling sering disalahpahami.
 
-00:53:12.853 --> 00:53:16.261
+01:12:46.464 --> 01:12:49.872
 Ia bukan daftar perangkat daerah terburuk.
 
-00:53:16.261 --> 00:53:26.293
+01:12:49.872 --> 01:12:59.904
 Yang berada di atas biasanya justru yang paling teliti menilai dirinya, atau yang memang mengurus urusan berisiko tinggi — pekerjaan konstruksi, pelayanan kesehatan, penyaluran bantuan.
 
-00:53:26.293 --> 00:53:33.829
+01:12:59.904 --> 01:13:07.440
 Cara membacanya: ini daftar tempat perhatian pimpinan paling berdampak, bukan daftar yang perlu ditegur.
 
-00:53:33.829 --> 00:53:43.741
+01:13:07.440 --> 01:13:17.352
 Kalau daftar ini dipakai untuk menegur, akibatnya bisa ditebak. Tahun berikutnya semua perangkat daerah akan menilai dirinya rendah, dan seluruh sistem ini kehilangan gunanya.
 
-00:53:43.741 --> 00:53:55.765
+01:13:17.352 --> 01:13:29.376
 Keputusan yang tepat dari widget ini bukan sanksi, melainkan alokasi. Ke mana pengawasan, pendampingan, dan anggaran pengendalian diarahkan lebih dulu.
 
-00:53:56.034 --> 00:54:01.698
+01:13:29.644 --> 01:13:33.076
+Dan daftar peringkat ini bukan sekadar untuk dibaca.
+
+01:13:33.076 --> 01:13:43.204
+Klik salah satu perangkat daerah, dan aplikasi langsung membawa Anda ke seluruh risiko milik perangkat daerah itu — tidak perlu mencarinya lagi lewat menu.
+
+01:13:43.204 --> 01:13:49.972
+Inilah yang membuat widget ini berguna dalam rapat: dari angka yang mencurigakan, satu klik saja sudah sampai ke barisnya.
+
+01:13:49.972 --> 01:14:07.684
+Dan penyaring perangkat daerah yang tadi kita pakai di atas juga ada di keenam formulir risiko dan di Data Risiko Gabungan — tetapi hanya untuk akun yang memang berhak melihat seluruh perangkat daerah. Akun PIC tidak melihatnya, karena baginya memang cuma ada satu.
+
+01:14:07.935 --> 01:14:13.599
 Log Kejadian Risiko Terealisasi mencatat risiko yang benar-benar terjadi, bukan yang diperkirakan.
 
-00:54:01.698 --> 00:54:10.626
+01:14:13.599 --> 01:14:22.527
 Tiga tombol penyaring di sudut kanannya bisa diklik. Semua, Laporan Warga, dan Pencatatan Internal.
 
-00:54:10.626 --> 00:54:18.450
+01:14:22.527 --> 01:14:30.351
 Laporan Warga datang dari luar, lewat kode QR tanpa perlu punya akun. Pencatatan Internal ditulis sendiri oleh perangkat daerah.
 
-00:54:18.450 --> 00:54:29.010
+01:14:30.351 --> 01:14:40.911
 Membandingkan dua penyaring ini menjawab pertanyaan yang tidak muncul di widget mana pun: apakah kita mengetahui masalah sendiri, atau selalu diberi tahu warga.
 
-00:54:29.010 --> 00:54:38.034
+01:14:40.911 --> 01:14:49.935
 Kalau Laporan Warga jauh lebih banyak daripada Pencatatan Internal, kesimpulannya bukan bahwa warganya rajin. Kesimpulannya deteksi internal kita lemah.
 
-00:54:38.034 --> 00:54:52.194
+01:14:49.935 --> 01:15:04.095
 Dan bandingkan seluruh log ini dengan penilaian kemungkinan di atas tadi. Kalau sebuah risiko dinilai jarang terjadi tetapi kejadiannya tercatat berkali-kali dalam setahun, penilaian tahun depan harus berubah.
 
-00:54:52.194 --> 00:55:00.330
+01:15:04.095 --> 01:15:12.231
 Di sinilah manajemen risiko berhenti menjadi dokumen dan mulai menjadi alat. Log ini yang mengoreksi penilaian, bukan sebaliknya.
 
-00:55:00.605 --> 00:55:11.621
+01:15:18.409 --> 01:15:29.425
 Dua tren lima tahun menjawab pertanyaan yang berbeda lagi: apakah keadaannya membaik dari tahun ke tahun, atau kita hanya sibuk mengisi formulir yang sama berulang-ulang.
 
-00:55:11.621 --> 00:55:24.053
+01:15:29.425 --> 01:15:41.857
 Tren Level Risiko memperlihatkan berapa banyak risiko Tinggi dan Sangat Tinggi tiap tahun. Tren Efektivitas Pengendalian memperlihatkan seberapa lebar jarak antara Inheren dan Residual — makin lebar, makin bekerja pengendaliannya.
 
-00:55:24.053 --> 00:55:35.909
+01:15:41.857 --> 01:15:53.713
 Di bawahnya, Kepatuhan Pelaporan per perangkat daerah untuk Formulir delapan, sembilan, dan sepuluh, dan Aktivitas Terbaru yang mencatat siapa mengubah apa dan kapan.
 
-00:55:35.909 --> 00:55:45.029
+01:15:53.713 --> 01:16:02.833
 Aktivitas Terbaru sering diabaikan, padahal ia menjawab satu pertanyaan yang penting: apakah datanya hidup, atau terakhir disentuh delapan bulan lalu menjelang pemeriksaan.
 
-00:55:45.299 --> 00:55:50.699
+01:16:03.102 --> 01:16:08.502
 Untuk keperluan rapat, seluruh isi Dasbor ini ada versi cetaknya.
 
-00:55:50.699 --> 00:56:02.483
+01:16:08.502 --> 01:16:20.286
 Daftar Risiko Prioritas pada Formulir lima, hasil analisis pada Formulir empat, dan laporan Bab Empat pada Formulir sebelas sampai empat belas — semuanya bisa diunduh sebagai PDF dan dibawa ke rapat tanpa perlu membuka aplikasi.
 
-00:56:02.483 --> 00:56:06.683
+01:16:20.286 --> 01:16:24.486
 Akun peninjau bisa membuka dan mengunduh semuanya.
 
-00:56:06.957 --> 00:56:12.285
+01:16:24.736 --> 01:16:30.064
 Terakhir, kembali ke hal yang membuat akun ini aman diberikan kepada siapa pun yang perlu membaca.
 
-00:56:12.285 --> 00:56:24.669
+01:16:30.064 --> 01:16:42.448
 Perhatikan formulir ini. Barisnya bisa dibaca lengkap sampai kolom terakhir, tetapi tidak ada tombol tambah, tidak ada tombol ubah, tidak ada tombol hapus.
 
-00:56:24.669 --> 00:56:33.045
+01:16:42.448 --> 01:16:50.824
 Dan itu bukan sekadar tombol yang disembunyikan. Seandainya alamat penyimpanan dipanggil langsung, aplikasi tetap menolaknya di sisi server.
 
-00:56:33.045 --> 00:56:47.205
+01:16:50.824 --> 01:17:04.984
 Jadi Bupati, Sekretaris Daerah, Kepala Perangkat Daerah, atau pemangku kepentingan mana pun bisa menelusuri sampai ke baris paling dalam, dan tidak ada satu pun kemungkinan data perangkat daerah berubah karenanya.
 
-00:56:47.205 --> 00:56:56.901
+01:17:04.984 --> 01:17:14.680
 Itulah cara membaca Dasbor ini. Bukan mengumpulkan angka, melainkan mengubah angka jadi pertanyaan yang punya nama, punya pemilik, dan punya batas waktu.
 
-00:56:58.914 --> 00:57:02.298
+01:17:16.649 --> 01:17:20.033
 Kita kembali ke Dasbor, tempat kita mulai tadi.
 
-00:57:02.298 --> 00:57:14.154
+01:17:20.033 --> 01:17:31.889
 Bandingkan dengan keadaannya di awal video. Yang tadi kosong sekarang terisi — jumlah risiko, sebarannya menurut peringkat, dan kemajuan pengisian.
 
-00:57:14.154 --> 00:57:21.186
+01:17:31.889 --> 01:17:38.921
 Dan ingat: tidak satu pun angka ini diketik. Semuanya lahir dari formulir yang kita kerjakan satu per satu.
 
-00:57:21.454 --> 00:57:26.782
+01:17:39.194 --> 01:17:44.522
 Menu Visualisasi menampilkan hubungan antar tingkatan sebagai bagan.
 
-00:57:26.782 --> 00:57:35.278
+01:17:44.522 --> 01:17:53.018
 Di sinilah paling mudah terlihat kalau ada yang terputus — misalnya risiko yang sasarannya tidak ada di konteks, atau sebaliknya sasaran yang belum punya risiko sama sekali.
 
-00:57:35.945 --> 00:57:40.145
+01:17:53.955 --> 01:17:58.155
 Menu Data Risiko gabungan menyatukan ketiga tingkatan dalam satu tabel.
 
-00:57:40.145 --> 00:57:54.665
+01:17:58.155 --> 01:18:12.675
 Berguna kalau Anda hanya ingat sebagian kalimat risikonya tetapi lupa ia ada di tingkat yang mana. Cari di sini, lalu klik Lihat Data — aplikasi melompat ke formulir asalnya dan menyorot barisnya.
 
-00:57:54.931 --> 00:58:01.483
+01:18:12.934 --> 01:18:19.486
 Terakhir, satu hal yang menenangkan: menghapus di aplikasi ini tidak berarti hilang.
 
-00:58:01.483 --> 00:58:08.563
+01:18:19.486 --> 01:18:26.566
 Setiap baris yang dihapus masuk ke menu Data Terhapus, dan bisa dipulihkan. Jadi jangan takut mencoba.
 
-00:58:08.824 --> 00:58:20.584
-Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, sampai laporan tercetak.
+01:18:26.845 --> 01:18:40.189
+Sampai di sini seluruh rangkaiannya. Dari Data Umum, CEE, konteks, identifikasi, analisis, rencana tindak, monitoring, pencatatan kejadian nyata, sampai laporan tercetak.
 
-00:58:20.584 --> 00:58:34.312
+01:18:40.189 --> 01:18:53.917
 Kalau ada satu hal saja yang perlu diingat dari video ini, ingatlah yang ini: urutan menu di sidebar adalah urutan kerjanya. Kerjakan dari atas ke bawah, dan tidak akan ada yang terlewat.
 
-00:58:34.312 --> 00:58:44.776
-Dan kalau Anda pimpinan yang menonton video ini, bagian sebelum ini yang paling berguna: cara membaca datanya dan pertanyaan apa yang layak diajukan dari sana.
+01:18:53.917 --> 01:19:04.357
+Kalau Anda pegawai yang tidak memegang akun pengisian, bagian yang paling berguna bagi Anda ada di tengah tadi: cukup pindai kode QR, ceritakan apa yang Anda lihat, dan laporan itu sampai ke PIC.
 
-00:58:44.776 --> 00:58:55.504
-Dan sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+01:19:04.357 --> 01:19:14.317
+Dan kalau Anda pimpinan, bagian sebelum ini yang paling berguna: cara membaca datanya, dan pertanyaan apa yang layak diajukan dari sana.
 
-00:58:55.504 --> 00:59:04.504
+01:19:14.317 --> 01:19:24.949
+Sekali lagi — seluruh isian dalam video ini data contoh. Untuk pengisian yang sesungguhnya, penilaiannya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+
+01:19:24.949 --> 01:19:33.949
 Kalau ada yang tidak jelas, halaman Panduan tempat video ini berada memuat penjelasan lengkapnya. Selamat bekerja.
 

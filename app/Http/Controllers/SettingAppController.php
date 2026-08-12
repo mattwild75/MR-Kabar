@@ -81,20 +81,6 @@ class SettingAppController extends Controller
             'tutorial_video_gain_music' => 'nullable|integer|min:0|max:200',
             'tutorial_video_subtitle_enabled' => 'nullable|boolean',
             'tutorial_video_subtitle_size' => 'nullable|integer|min:50|max:200',
-            // Video tutorial lapor kejadian risiko - aturannya sama persis.
-            'lapor_video_enabled'     => 'nullable|boolean',
-            'lapor_video_path'        => 'nullable|file|mimes:mp4,webm,mov|max:51200',
-            'lapor_video_remove'      => 'nullable|boolean',
-            'lapor_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
-                if (!in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
-                    $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
-                }
-            }],
-            'lapor_video_subtitle_remove' => 'nullable|boolean',
-            'lapor_video_gain_narration' => 'nullable|integer|min:0|max:200',
-            'lapor_video_gain_music'  => 'nullable|integer|min:0|max:200',
-            'lapor_video_subtitle_enabled' => 'nullable|boolean',
-            'lapor_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             'warna'                   => 'nullable|string|max:20',
             'seo'                     => 'nullable|array',
             'contact_email'           => 'nullable|email|max:255',
@@ -120,8 +106,6 @@ class SettingAppController extends Controller
         $data['edu_video_subtitle_enabled'] = $request->boolean('edu_video_subtitle_enabled');
         $data['tutorial_video_enabled'] = $request->boolean('tutorial_video_enabled');
         $data['tutorial_video_subtitle_enabled'] = $request->boolean('tutorial_video_subtitle_enabled');
-        $data['lapor_video_enabled'] = $request->boolean('lapor_video_enabled');
-        $data['lapor_video_subtitle_enabled'] = $request->boolean('lapor_video_subtitle_enabled');
 
         $removeSplashVideo = (bool) ($data['login_splash_video_remove'] ?? false);
         unset($data['login_splash_video_remove']);
@@ -216,35 +200,6 @@ class SettingAppController extends Controller
             $data['tutorial_video_subtitle_path'] = null;
         } else {
             unset($data['tutorial_video_subtitle_path']);
-        }
-
-        $hapusVideoLapor = (bool) ($data['lapor_video_remove'] ?? false);
-        unset($data['lapor_video_remove']);
-
-        if ($request->hasFile('lapor_video_path')) {
-            $data['lapor_video_path'] = $request->file('lapor_video_path')->store('lapor-video', 'public');
-        } elseif ($hapusVideoLapor) {
-            $data['lapor_video_path'] = null;
-        } else {
-            unset($data['lapor_video_path']);
-        }
-
-        $hapusSubtitleLapor = (bool) ($data['lapor_video_subtitle_remove'] ?? false);
-        unset($data['lapor_video_subtitle_remove']);
-
-        if ($request->hasFile('lapor_video_subtitle_path')) {
-            $berkas = $request->file('lapor_video_subtitle_path');
-            $isi = (string) file_get_contents($berkas->getRealPath());
-            if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
-                $isi = $this->srtKeVtt($isi);
-            }
-            $nama = 'lapor-video/subtitle-' . now()->format('YmdHis') . '-' . Str::random(6) . '.vtt';
-            Storage::disk('public')->put($nama, $isi);
-            $data['lapor_video_subtitle_path'] = $nama;
-        } elseif ($hapusSubtitleLapor) {
-            $data['lapor_video_subtitle_path'] = null;
-        } else {
-            unset($data['lapor_video_subtitle_path']);
         }
 
         $setting->fill($data)->save();
