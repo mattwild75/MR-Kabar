@@ -43,7 +43,8 @@ rm -f sub.srt
 
 echo "[3/3] potongan per tahap..."
 mkdir -p klip
-python make_klip.py
+# Lewat cmd: `python` di Windows adalah .exe yang tidak ada di PATH shell Bash.
+cmd //c "python make_klip.py"
 
 echo
 ls -la MR_Kabar_Video_Edukasi_v3*.mp4 klip/

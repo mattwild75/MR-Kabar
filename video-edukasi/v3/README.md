@@ -1,11 +1,64 @@
-# Video Edukasi MR Kabar — v4 (video tunggal, ±29 menit)
+# Video Edukasi MR Kabar — v5 (video tunggal, ±30 menit)
 
-> **Folder ini bernama `v3` tetapi isinya sudah v4.** Nama folder dan nama
+> **Folder ini bernama `v3` tetapi isinya sudah v5.** Nama folder dan nama
 > berkas keluaran (`MR_Kabar_Video_Edukasi_v3.mp4`) sengaja tidak diganti:
 > `deploy.sh`, `mux_final.sh`, dan `remux_audio.sh` merujuknya sebagai teks
 > tetap, dan berkas yang dipasang di `public/video/` toh bernama
 > `video-edukasi-mr-kabar.mp4` tanpa nomor versi. Mengganti namanya hanya
 > memindahkan tempat kekeliruan bisa terjadi.
+
+## Yang berubah pada v5 (12 Agustus 2026)
+
+**Naskahnya ditulis ulang utuh, bukan ditambal.** v4 lahir dari serangkaian
+skrip penambal dan id kalimatnya sudah tidak berurutan (1-98 warisan v2, lalu
+101-169 diselipkan sesuai urutan penambalan). Naskah yang tumbuh begitu
+lama-lama kehilangan alurnya: kalimat baru menempel di tempat yang kebetulan
+longgar, bukan di tempat yang masuk akal bagi pendengar. v5 ditulis sekali
+jalan di `naskah_v5.py`, id-nya kembali berurutan 1-157.
+
+Tiga hal yang **keliru** di v4 dan diperbaiki:
+
+1. Kategori skala 11-15 disebut "Moderat" di dua tempat, padahal label
+   sesungguhnya di `risk_levels` adalah **"Sedang"**. v4 bahkan bertentangan
+   dengan dirinya sendiri — ia memakai "Sedang" waktu menerangkan Selera
+   Risiko, lalu "Moderat" beberapa menit kemudian.
+2. Form 14 disebut "yang menyusul". Form itu sudah jadi.
+3. "Tiga belas dokumen resmi" — sudah empat belas, ditambah bagan Struktur
+   Pengelolaan Risiko.
+
+Enam hal yang **belum pernah disebut** dan kini masuk ke alurnya: batas sesi
+empat jam berikut peringatannya (diberi porsi paling panjang — satu-satunya
+butir yang pasti dialami setiap PIC), penyaring OPD dan Tahun, Ranking
+Eksposur yang bisa diklik, garis Selera Risiko yang ikut digambar di Peta
+Risiko Dashboard, daftar centang OPD di KRS Pemda, dan empat widget Dashboard
+yang tak pernah disinggung.
+
+Naskah: 151 → 157 kalimat. Scene tetap 25.
+
+**Cara menulisnya berubah.** Pada v4, `text` (respelling fonetik untuk TTS)
+dan `display` (ejaan benar untuk subtitle) ditulis tangan berdampingan. Itu
+sumber kekeliruan yang tidak kelihatan: subtitle bisa sudah diperbaiki
+sementara suaranya masih kalimat lama. Sekarang narasi ditulis sekali dalam
+ejaan benar, dan `text` diturunkan otomatis lewat tabel `RESPELL`.
+
+**Tangkapan layar diambil ulang seluruhnya** lewat `akun_sementara.php` +
+`ambil_shots.cjs`. Berbeda dari `video-tutorial/akun.php` yang MEMINJAM akun
+sungguhan (mengganti sandinya lalu mengembalikan belakangan), skrip ini
+MEMBUAT akun baru lalu menghapusnya sampai habis — kalau langkah pengembalian
+pada cara meminjam terlewat, pemilik akun terkunci dari aplikasinya sendiri
+tanpa pesan galat yang menjelaskan sebabnya.
+
+Satu jebakan yang sempat memakan satu putaran: tahun aktif Pemda sekarang
+**2026 dan tahun itu masih kosong**, sementara seluruh 258 baris risiko
+bertahun 2025. Tanpa `?tahun=2025` yang terpotret adalah dashboard bernilai
+nol semua. Tahunnya dipaksa lewat parameter URL, BUKAN dengan mengubah
+`PengaturanPemda.tahun_penilaian` — setelan itu berlaku untuk semua OPD
+sekaligus.
+
+Skrip v5: `naskah_v5.py` (naskah), `petakan_v5.py` (id v4 → v5 pada 688
+panggilan `L()`), `koreografi_v5.py` (koreografi enam kalimat baru berikut
+`out` tetangganya). Ketiganya menolak berjalan dua kali. Naskah dan koreografi
+v4 disimpan sebagai `lines-v4.json.simpan` dan `scenes-v4.js.simpan`.
 
 ## Yang berubah pada v4 (1 Agustus 2026)
 
@@ -83,9 +136,16 @@ permanen di layar, dan layar penutup keresmian.
 ## Urutan build
 
 ```bash
-python revisi_v4.py              # naskah v3 -> v4 (menolak berjalan dua kali)
-python hapus_selingan.py         # buang selingan; ikut membuang koreografinya
-python generate_audio.py         # 151 baris narasi -> audio/line_XXX.mp3
+# --- v5: naskah ditulis ulang utuh, sekali jalan ---
+python naskah_v5.py              # naskah -> lines.json (157 kalimat, id 1-157)
+python petakan_v5.py             # id v4 -> v5 pada scenes.js
+python koreografi_v5.py          # koreografi 6 kalimat baru + `out` tetangganya
+php    akun_sementara.php buat   # akun sementara -> "username sandi"
+node   ambil_shots.cjs U S       # 10 tangkapan layar (?tahun=2025!)
+php    akun_sementara.php hapus  # WAJIB — lalu `cek` harus bilang bersih
+
+rm -f  audio/*.mp3               # WAJIB utk build utuh; generate melewati yg ada
+python generate_audio.py         # 157 baris narasi -> audio/line_XXX.mp3
 python build_timeline.py         # timeline.json + subtitle.srt + narration_full.mp3
 python generate_audio_assets.py  # music_bg.wav + sfx/ (20 efek)
 python build_sfx_bus.py          # sfx_bus.wav (232 cue)

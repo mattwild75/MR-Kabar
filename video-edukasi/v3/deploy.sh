@@ -44,7 +44,12 @@ cp chapters.json                      "../../resources/js/data/edu-video-chapter
 # apa pun yang dilihat pengguna sampai bundelnya dibangun ulang. Terlewat pada
 # v4: daftar bab di aplikasi masih memakai waktu video lama padahal berkas
 # JSON-nya sudah benar, dan tidak ada yang tampak rusak dari luar.
-( cd ../.. && npm run build )
+# Dipanggil lewat cmd, bukan langsung. `npm` di Windows adalah `npm.cmd` dan
+# TIDAK ada di PATH shell Bash — memanggilnya langsung gagal dengan "command
+# not found", lalu `set -e` menghentikan skrip TEPAT DI SINI: berkas videonya
+# sudah terpasang tetapi klip belum disalin dan bundelnya belum dibangun.
+# Dari luar tidak ada yang tampak gagal. Terjadi sungguhan pada v5.
+cmd //c "cd /d ..\\.. && npm run build"
 
 mkdir -p "$PUB/klip"
 cp klip/*.mp4 "$PUB/klip/" 2>/dev/null || true

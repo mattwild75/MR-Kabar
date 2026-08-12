@@ -32,3 +32,10 @@ mux_log.txt
 chapters.json
 subtitle.vtt
 transkrip.txt
+
+# Salinan naskah & koreografi versi sebelumnya, dibuat sebelum penulisan ulang
+# v5 supaya `petakan_v5.py` punya acuan untuk mencocokkan id lama ke id baru.
+# Tidak perlu di-commit: isinya persis sama dengan yang sudah ada di riwayat
+# git, dan menyimpannya berdampingan justru mengundang orang membangun ulang
+# dari naskah yang sudah ditinggalkan.
+*.simpan
