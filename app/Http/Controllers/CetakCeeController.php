@@ -19,35 +19,61 @@ use Inertia\Inertia;
  */
 class CetakCeeController extends Controller
 {
+    use \App\Http\Controllers\Concerns\SharesCetakContext;
+
     /**
-     * PIC biasa (role 'user', punya opd_id) hanya melihat OPD miliknya
-     * sendiri di dropdown — akun bersama CEE_Survey & Admin/Super Admin
-     * (opd_id null / role admin) tetap melihat semua OPD.
+     * Hanya yang berhak lintas OPD yang melihat seluruh daftar; sisanya
+     * hanya perangkat daerahnya sendiri.
+     *
+     * canViewAllOpd() mencakup admin, super-admin, dan peninjau eksekutif —
+     * keanggotaannya ditentukan PERAN yang diberikan eksplisit, bukan
+     * disimpulkan dari opd_id yang kebetulan kosong.
      */
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
-            return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
+        if (! $user->canViewAllOpd()) {
+            return $user->opd_id
+                ? Opd::where('id', $user->opd_id)->get(['id', 'nama'])
+                : Opd::whereRaw('1 = 0')->get(['id', 'nama']);
         }
 
         return Opd::orderBy('nama')->get(['id', 'nama']);
     }
 
     /**
-     * PIC biasa (punya opd_id) hanya boleh cetak/unduh CEE OPD miliknya
-     * sendiri. Akun bersama CEE_Survey & Admin/Super Admin tidak dibatasi.
+     * Penjaga akses lintas OPD.
+     *
+     * MEMAKAI penjaga bersama, tidak lagi menyimpan salinan sendiri. Salinan
+     * lama di sini berbunyi:
+     *
+     *     if (!$opdId || !$user->opd_id || $user->hasAnyRole([...,'cee-survey']))
+     *         return;
+     *
+     * dan itu adalah celah IDOR yang bisa dipakai SIAPA PUN TANPA AKUN.
+     * Rantainya: /login/cee-survey rute publik tanpa sandi ->
+     * RestrictCeeSurveyRole mengizinkan /cetak/cee -> penjaga ini membebaskan
+     * peran cee-survey -> opd_id dari URL dipakai apa adanya. Diuji: mengganti
+     * satu angka pada ?opd_id= mengembalikan kertas kerja CEE perangkat daerah
+     * mana pun.
+     *
+     * Celah dengan bentuk yang sama sudah pernah ditutup di
+     * SharesCetakContext dan dipakai enam controller cetak lain. Berkas ini
+     * satu-satunya yang tertinggal memakai salinan lamanya.
+     *
+     * Peran cee-survey SENGAJA TIDAK dibebaskan lewat $peranEkstra. Akun itu
+     * dipakai bergantian oleh siapa saja lewat kode QR dan kredensialnya
+     * memang publik; memberinya akses cetak lintas OPD sama saja membuka
+     * kembali celah yang baru ditutup. Tugasnya mengisi kuesioner di /cee,
+     * bukan mencetak.
      */
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
-        $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
-            return;
-        }
-
-        if ($opdId !== $user->opd_id) {
-            abort(403, 'Anda hanya dapat mengakses CEE untuk OPD Anda sendiri.');
-        }
+        $this->ensureOpdAccessWith(
+            $request,
+            $opdId,
+            'Anda hanya dapat mengakses CEE untuk OPD Anda sendiri.',
+        );
     }
 
     /** Nama Pemda utk judul 1b/1c — dari pengaturan Pemda-wide (dikelola Admin/Super Admin). */
@@ -75,7 +101,7 @@ class CetakCeeController extends Controller
         $rendenSlot = [];
         foreach ($jawaban as $j) {
             $key = mb_strtolower(trim($j->responden_nama));
-            if (!array_key_exists($key, $rendenSlot)) {
+            if (! array_key_exists($key, $rendenSlot)) {
                 $rendenSlot[$key] = count($rendenSlot);
             }
         }
