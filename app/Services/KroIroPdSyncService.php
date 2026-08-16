@@ -44,7 +44,7 @@ class KroIroPdSyncService
 
     private function syncUnlocked(): void
     {
-        if (!Schema::hasTable(self::TARGET_TABLE) || !Schema::hasTable('tbl_kro_pd')) {
+        if (! Schema::hasTable(self::TARGET_TABLE) || ! Schema::hasTable('tbl_kro_pd')) {
             return;
         }
 
@@ -70,7 +70,7 @@ class KroIroPdSyncService
         if (Schema::hasTable('tbl_krs_irs_pd')) {
             foreach (DB::table('tbl_krs_irs_pd')->get() as $krsPd) {
                 $key = $this->matchKey((string) $krsPd->SASARAN_STRATEGIS_PD);
-                if ($key !== '' && !isset($krsPdBySasaranRenstra[$key])) {
+                if ($key !== '' && ! isset($krsPdBySasaranRenstra[$key])) {
                     $krsPdBySasaranRenstra[$key] = $krsPd;
                 }
             }
@@ -90,9 +90,13 @@ class KroIroPdSyncService
             }
         }
 
-        DB::table(self::TARGET_TABLE)->truncate();
-
+        // DELETE di dalam transaksi, bukan TRUNCATE di luarnya. Alasan
+        // lengkapnya ada di KrsIrsSyncService — ringkasnya: TRUNCATE adalah
+        // DDL yang tidak bisa dibatalkan, sehingga pengisian ulang yang gagal
+        // di tengah meninggalkan tabel gabungan kosong tanpa jalan pulang.
         DB::transaction(function () use ($insertRows) {
+            DB::table(self::TARGET_TABLE)->delete();
+
             foreach (array_chunk($insertRows, 200) as $chunk) {
                 DB::table(self::TARGET_TABLE)->insert($chunk);
             }
@@ -173,6 +177,7 @@ class KroIroPdSyncService
                     $npProgramIndex, $npKegiatanIndex, $nextNpProgramNo,
                     $npKegiatanCounter, $npSubkegiatanCounter
                 );
+
                 continue;
             }
 
@@ -185,22 +190,22 @@ class KroIroPdSyncService
                 $sasaranRenstraKode = $m[1];
             }
 
-            if (!isset($sasaranRenstraIndex[$sasaranRenstraVal])) {
+            if (! isset($sasaranRenstraIndex[$sasaranRenstraVal])) {
                 $sasaranRenstraIndex[$sasaranRenstraVal] = $sasaranRenstraKode;
                 $counters[$sasaranRenstraKode] = ['program' => 1];
             }
             $sasaranRenstraNo = $sasaranRenstraIndex[$sasaranRenstraVal];
 
-            $programKey = $sasaranRenstraNo . '|' . $programVal;
-            if (!isset($programIndex[$programKey])) {
+            $programKey = $sasaranRenstraNo.'|'.$programVal;
+            if (! isset($programIndex[$programKey])) {
                 $programNo = $counters[$sasaranRenstraNo]['program']++;
                 $programIndex[$programKey] = $programNo;
                 $counters[$sasaranRenstraNo]['kegiatan'][$programNo] = 1;
             }
             $programNo = $programIndex[$programKey];
 
-            $kegiatanKey = $programKey . '|' . $kegiatanVal;
-            if (!isset($kegiatanIndex[$kegiatanKey])) {
+            $kegiatanKey = $programKey.'|'.$kegiatanVal;
+            if (! isset($kegiatanIndex[$kegiatanKey])) {
                 $kegiatanNo = $counters[$sasaranRenstraNo]['kegiatan'][$programNo]++;
                 $kegiatanIndex[$kegiatanKey] = $kegiatanNo;
                 $counters[$sasaranRenstraNo]['subkegiatan'][$kegiatanKey] = 0;
@@ -249,15 +254,15 @@ class KroIroPdSyncService
         array &$programIndex, array &$kegiatanIndex, int &$nextProgramNo,
         array &$kegiatanCounter, array &$subkegiatanCounter
     ): array {
-        if (!isset($programIndex[$programVal])) {
+        if (! isset($programIndex[$programVal])) {
             $programIndex[$programVal] = $nextProgramNo++;
             $kegiatanCounter[$programVal] = 0;
         }
         $programNo = $programIndex[$programVal];
         $programKode = "NP.{$programNo}";
 
-        $kegiatanKey = $programVal . '|' . $kegiatanVal;
-        if (!isset($kegiatanIndex[$kegiatanKey])) {
+        $kegiatanKey = $programVal.'|'.$kegiatanVal;
+        if (! isset($kegiatanIndex[$kegiatanKey])) {
             $kegiatanIndex[$kegiatanKey] = ++$kegiatanCounter[$programVal];
             $subkegiatanCounter[$kegiatanKey] = 0;
         }
@@ -300,7 +305,7 @@ class KroIroPdSyncService
         for ($i = 0; $i < $maxLines; $i++) {
             $t = trim($targetLines[$i] ?? '');
             $s = trim($satuanLines[$i] ?? '');
-            $lines[] = '> ' . $t . ($s !== '' ? " ({$s})" : '');
+            $lines[] = '> '.$t.($s !== '' ? " ({$s})" : '');
         }
 
         return implode("\n", $lines);
@@ -309,7 +314,7 @@ class KroIroPdSyncService
     private function simpleFormat(string $value): string
     {
         $lines = $value === '' ? [] : preg_split('/\r\n|\r|\n/', $value);
-        $lines = array_map(fn ($l) => '> ' . trim($l), $lines);
+        $lines = array_map(fn ($l) => '> '.trim($l), $lines);
 
         return implode("\n", $lines);
     }

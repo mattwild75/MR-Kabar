@@ -40,7 +40,7 @@ class KrsIrsPdSyncService
 
     private function syncUnlocked(): void
     {
-        if (!Schema::hasTable(self::TARGET_TABLE) || !Schema::hasTable('tbl_krs_pd')) {
+        if (! Schema::hasTable(self::TARGET_TABLE) || ! Schema::hasTable('tbl_krs_pd')) {
             return;
         }
 
@@ -65,7 +65,7 @@ class KrsIrsPdSyncService
         if (Schema::hasTable('tbl_krs_irs_pemda')) {
             foreach (DB::table('tbl_krs_irs_pemda')->get() as $pemda) {
                 $key = $this->matchKey((string) $pemda->SASARAN_RPJMD);
-                if ($key !== '' && !isset($pemdaBySasaran[$key])) {
+                if ($key !== '' && ! isset($pemdaBySasaran[$key])) {
                     $pemdaBySasaran[$key] = $pemda;
                 }
             }
@@ -85,9 +85,13 @@ class KrsIrsPdSyncService
             }
         }
 
-        DB::table(self::TARGET_TABLE)->truncate();
-
+        // DELETE di dalam transaksi, bukan TRUNCATE di luarnya. Alasan
+        // lengkapnya ada di KrsIrsSyncService — ringkasnya: TRUNCATE adalah
+        // DDL yang tidak bisa dibatalkan, sehingga pengisian ulang yang gagal
+        // di tengah meninggalkan tabel gabungan kosong tanpa jalan pulang.
         DB::transaction(function () use ($insertRows) {
+            DB::table(self::TARGET_TABLE)->delete();
+
             foreach (array_chunk($insertRows, 200) as $chunk) {
                 DB::table(self::TARGET_TABLE)->insert($chunk);
             }
@@ -174,6 +178,7 @@ class KrsIrsPdSyncService
                     $npProgramIndex, $npKegiatanIndex, $nextNpProgramNo,
                     $npKegiatanCounter, $npSubkegiatanCounter
                 );
+
                 continue;
             }
 
@@ -186,38 +191,38 @@ class KrsIrsPdSyncService
                 $sasaranRpjmdKode = $m[1];
             }
 
-            if (!isset($sasaranRpjmdIndex[$sasaranRpjmdVal])) {
+            if (! isset($sasaranRpjmdIndex[$sasaranRpjmdVal])) {
                 $sasaranRpjmdIndex[$sasaranRpjmdVal] = $sasaranRpjmdKode;
                 $counters[$sasaranRpjmdKode] = ['tujuan' => 1];
             }
             $sasaranRpjmdNo = $sasaranRpjmdIndex[$sasaranRpjmdVal];
 
-            $tujuanKey = $sasaranRpjmdNo . '|' . $tujuanVal;
-            if (!isset($tujuanIndex[$tujuanKey])) {
+            $tujuanKey = $sasaranRpjmdNo.'|'.$tujuanVal;
+            if (! isset($tujuanIndex[$tujuanKey])) {
                 $tujuanNo = $counters[$sasaranRpjmdNo]['tujuan']++;
                 $tujuanIndex[$tujuanKey] = $tujuanNo;
                 $counters[$sasaranRpjmdNo]['sasaran'][$tujuanNo] = 1;
             }
             $tujuanNo = $tujuanIndex[$tujuanKey];
 
-            $sasaranKey = $sasaranRpjmdNo . '|' . $tujuanNo . '|' . $sasaranVal;
-            if (!isset($sasaranIndex[$sasaranKey])) {
+            $sasaranKey = $sasaranRpjmdNo.'|'.$tujuanNo.'|'.$sasaranVal;
+            if (! isset($sasaranIndex[$sasaranKey])) {
                 $sasaranNo = $counters[$sasaranRpjmdNo]['sasaran'][$tujuanNo]++;
                 $sasaranIndex[$sasaranKey] = $sasaranNo;
                 $counters[$sasaranRpjmdNo]['program'][$tujuanNo][$sasaranNo] = 1;
             }
             $sasaranNo = $sasaranIndex[$sasaranKey];
 
-            $programKey = $sasaranKey . '|' . $programVal;
-            if (!isset($programIndex[$programKey])) {
+            $programKey = $sasaranKey.'|'.$programVal;
+            if (! isset($programIndex[$programKey])) {
                 $programNo = $counters[$sasaranRpjmdNo]['program'][$tujuanNo][$sasaranNo]++;
                 $programIndex[$programKey] = $programNo;
                 $counters[$sasaranRpjmdNo]['kegiatan'][$tujuanNo][$sasaranNo][$programNo] = 1;
             }
             $programNo = $programIndex[$programKey];
 
-            $kegiatanKey = $programKey . '|' . $kegiatanVal;
-            if (!isset($kegiatanIndex[$kegiatanKey])) {
+            $kegiatanKey = $programKey.'|'.$kegiatanVal;
+            if (! isset($kegiatanIndex[$kegiatanKey])) {
                 $kegiatanNo = $counters[$sasaranRpjmdNo]['kegiatan'][$tujuanNo][$sasaranNo][$programNo]++;
                 $kegiatanIndex[$kegiatanKey] = $kegiatanNo;
             }
@@ -269,15 +274,15 @@ class KrsIrsPdSyncService
         array &$programIndex, array &$kegiatanIndex, int &$nextProgramNo,
         array &$kegiatanCounter, array &$subkegiatanCounter
     ): array {
-        if (!isset($programIndex[$programVal])) {
+        if (! isset($programIndex[$programVal])) {
             $programIndex[$programVal] = $nextProgramNo++;
             $kegiatanCounter[$programVal] = 0;
         }
         $programNo = $programIndex[$programVal];
         $programKode = "NP.{$programNo}";
 
-        $kegiatanKey = $programVal . '|' . $kegiatanVal;
-        if (!isset($kegiatanIndex[$kegiatanKey])) {
+        $kegiatanKey = $programVal.'|'.$kegiatanVal;
+        if (! isset($kegiatanIndex[$kegiatanKey])) {
             $kegiatanIndex[$kegiatanKey] = ++$kegiatanCounter[$programVal];
             $subkegiatanCounter[$kegiatanKey] = 0;
         }
@@ -321,7 +326,7 @@ class KrsIrsPdSyncService
         for ($i = 0; $i < $maxLines; $i++) {
             $t = trim($targetLines[$i] ?? '');
             $s = trim($satuanLines[$i] ?? '');
-            $lines[] = '> ' . $t . ($s !== '' ? " ({$s})" : '');
+            $lines[] = '> '.$t.($s !== '' ? " ({$s})" : '');
         }
 
         return implode("\n", $lines);
@@ -336,7 +341,7 @@ class KrsIrsPdSyncService
 
         $result = ["{$label} {$kode} : "];
         foreach ($lines as $line) {
-            $result[] = '> ' . trim($line);
+            $result[] = '> '.trim($line);
         }
 
         return implode("\n", $result);
@@ -345,7 +350,7 @@ class KrsIrsPdSyncService
     private function simpleFormat(string $value): string
     {
         $lines = $value === '' ? [] : preg_split('/\r\n|\r|\n/', $value);
-        $lines = array_map(fn ($l) => '> ' . trim($l), $lines);
+        $lines = array_map(fn ($l) => '> '.trim($l), $lines);
 
         return implode("\n", $lines);
     }

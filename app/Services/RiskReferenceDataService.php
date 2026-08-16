@@ -63,7 +63,7 @@ class RiskReferenceDataService
 
     private function terapkanFaktorReduksi(?int $nilaiInheren, ?string $kategoriEfektivitas): ?int
     {
-        if (!$nilaiInheren || $nilaiInheren < 1 || $nilaiInheren > 5) {
+        if (! $nilaiInheren || $nilaiInheren < 1 || $nilaiInheren > 5) {
             return null;
         }
 
@@ -118,7 +118,7 @@ class RiskReferenceDataService
         }
 
         foreach (['TE', 'KE', 'CE', 'E'] as $kategori) {
-            if ($value === $kategori || str_starts_with($value, $kategori . ' (')) {
+            if ($value === $kategori || str_starts_with($value, $kategori.' (')) {
                 return $kategori;
             }
         }
@@ -159,7 +159,7 @@ class RiskReferenceDataService
         $kemungkinanInheren = (int) ($data['SKALA KEMUNGKINAN INHEREN'] ?? 0);
 
         // Skenario A — existing control dinilai: Inheren wajib.
-        if ($kategoriExisting !== null && (!$dampakInheren || !$kemungkinanInheren)) {
+        if ($kategoriExisting !== null && (! $dampakInheren || ! $kemungkinanInheren)) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'SKALA DAMPAK INHEREN' => 'Skala Dampak & Kemungkinan Inheren wajib diisi bila Kategori Existing Control dinilai — skala risiko yang Anda isi adalah skala RESIDUAL (setelah pengendalian), jadi baseline "sebelum pengendalian" (Inheren) harus ada sebagai pembanding.',
             ]);
@@ -173,12 +173,12 @@ class RiskReferenceDataService
         // sebaliknya seperti sebelumnya). Arah lama (Residual->Inheren)
         // tetap dipertahankan utk kompatibilitas data/alur lama yg mengisi
         // Residual duluan tanpa Inheren.
-        if ($kategoriExisting === null && !$dampakInheren && !$kemungkinanInheren && $dampak && $kemungkinan) {
+        if ($kategoriExisting === null && ! $dampakInheren && ! $kemungkinanInheren && $dampak && $kemungkinan) {
             $dampakInheren = $dampak;
             $kemungkinanInheren = $kemungkinan;
             $data['SKALA DAMPAK INHEREN'] = $dampakInheren;
             $data['SKALA KEMUNGKINAN INHEREN'] = $kemungkinanInheren;
-        } elseif ($kategoriExisting === null && !$dampak && !$kemungkinan && $dampakInheren && $kemungkinanInheren) {
+        } elseif ($kategoriExisting === null && ! $dampak && ! $kemungkinan && $dampakInheren && $kemungkinanInheren) {
             $dampak = $dampakInheren;
             $kemungkinan = $kemungkinanInheren;
             $data['SKALA DAMPAK'] = $dampak;
@@ -190,7 +190,7 @@ class RiskReferenceDataService
         // 'nullable' krn form "Tidak ada Existing Control" hanya mengisi
         // Inheren (lihat blok di atas), tapi minimal SATU pasang tetap
         // wajib supaya baris risiko tidak tersimpan tanpa skala sama sekali.
-        if (!$dampak && !$kemungkinan && !$dampakInheren && !$kemungkinanInheren) {
+        if (! $dampak && ! $kemungkinan && ! $dampakInheren && ! $kemungkinanInheren) {
             throw \Illuminate\Validation\ValidationException::withMessages([
                 'SKALA DAMPAK INHEREN' => 'Skala Dampak & Kemungkinan wajib diisi — pilih dulu "Apakah risiko ini sudah memiliki Pengendalian yang Sudah Ada?" lalu isi skala yang muncul.',
             ]);
@@ -208,7 +208,7 @@ class RiskReferenceDataService
         // 10), tidak pernah menambahnya.
         if ($data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO INHEREN'] < $data['SKALA RISIKO']) {
             throw \Illuminate\Validation\ValidationException::withMessages([
-                'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko (' . $data['SKALA RISIKO'] . ') — risiko sebelum pengendalian harus selalu lebih besar atau sama dengan risiko setelah pengendalian.',
+                'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren ('.$data['SKALA RISIKO INHEREN'].') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko ('.$data['SKALA RISIKO'].') — risiko sebelum pengendalian harus selalu lebih besar atau sama dengan risiko setelah pengendalian.',
             ]);
         }
 
@@ -254,7 +254,7 @@ class RiskReferenceDataService
 
             if ($data['SKALA RISIKO TARGET'] !== null && $data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO TARGET'] > $data['SKALA RISIKO INHEREN']) {
                 throw \Illuminate\Validation\ValidationException::withMessages([
-                    'SKALA KEMUNGKINAN TARGET' => 'Skala Risiko Target (' . $data['SKALA RISIKO TARGET'] . ') tidak boleh lebih tinggi dari Skala Risiko Inheren (' . $data['SKALA RISIKO INHEREN'] . ') — proyeksi RTP dihitung dari kondisi tanpa kontrol, hasilnya harus selalu lebih baik atau sama dengan kondisi itu.',
+                    'SKALA KEMUNGKINAN TARGET' => 'Skala Risiko Target ('.$data['SKALA RISIKO TARGET'].') tidak boleh lebih tinggi dari Skala Risiko Inheren ('.$data['SKALA RISIKO INHEREN'].') — proyeksi RTP dihitung dari kondisi tanpa kontrol, hasilnya harus selalu lebih baik atau sama dengan kondisi itu.',
                 ]);
             }
         } else {
@@ -316,7 +316,7 @@ class RiskReferenceDataService
     /** Hitung Skala Risiko & Skala Prioritas dari Dampak x Kemungkinan (dipanggil dari withCalculatedScales di 3 controller). */
     public function hitungSkala(?int $dampak, ?int $kemungkinan): array
     {
-        if (!$dampak || !$kemungkinan || $dampak < 1 || $dampak > 5 || $kemungkinan < 1 || $kemungkinan > 5) {
+        if (! $dampak || ! $kemungkinan || $dampak < 1 || $dampak > 5 || $kemungkinan < 1 || $kemungkinan > 5) {
             return ['skala_risiko' => null, 'skala_prioritas' => null];
         }
 

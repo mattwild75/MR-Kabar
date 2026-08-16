@@ -27,7 +27,9 @@ class UjiCobaPengendalianTest extends TestCase
     private const TAHUN = 2026;
 
     private Opd $opd;
+
     private User $pic;
+
     private IroPd $risiko;
 
     protected function setUp(): void
@@ -118,9 +120,9 @@ class UjiCobaPengendalianTest extends TestCase
         ]));
 
         $this->actingAs($this->pic)
-            ->get('/monitoring-evaluasi/8-9?tahun=' . self::TAHUN)
+            ->get('/monitoring-evaluasi/8-9?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('rows', 1)
                 ->where('rows.0.uji_coba_triwulan', 'III')
                 ->where('rows.0.uji_coba_tahun', 2026)

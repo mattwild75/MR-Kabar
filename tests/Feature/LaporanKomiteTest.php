@@ -66,9 +66,9 @@ class LaporanKomiteTest extends TestCase
     public function test_halaman_memakai_periode_semester_bukan_triwulan(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN . '&periode=S2')
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN.'&periode=S2')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->where('periode', 'S2')
                 ->where('periodeOptions.S1', 'Semester I (Januari sampai Juni)')
                 ->where('periodeOptions.S2', 'Semester II (Juli sampai Desember)')
@@ -83,9 +83,9 @@ class LaporanKomiteTest extends TestCase
     public function test_periode_yang_tidak_dikenal_jatuh_ke_semester_satu(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN . '&periode=III')
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN.'&periode=III')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->where('periode', 'S1'));
+            ->assertInertia(fn (AssertableInertia $page) => $page->where('periode', 'S1'));
     }
 
     /**
@@ -95,22 +95,22 @@ class LaporanKomiteTest extends TestCase
     public function test_narasi_bawaan_menyebut_semester_bukan_triwulan(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN . '&periode=S1')
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN.'&periode=S1')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
-                ->where('narasi.ruang_lingkup', fn($v) => str_contains($v, 'Semester I Tahun 2026')
-                    && !str_contains($v, 'Triwulan')));
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('narasi.ruang_lingkup', fn ($v) => str_contains($v, 'Semester I Tahun 2026')
+                    && ! str_contains($v, 'Triwulan')));
     }
 
     public function test_periode_tahunan_disebut_tanpa_kata_semester(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN . '&periode=TAHUNAN')
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN.'&periode=TAHUNAN')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
-                ->where('narasi.penutup', fn($v) => str_contains($v, 'Tahun 2026')
-                    && !str_contains($v, 'Semester')
-                    && !str_contains($v, 'Triwulan')));
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->where('narasi.penutup', fn ($v) => str_contains($v, 'Tahun 2026')
+                    && ! str_contains($v, 'Semester')
+                    && ! str_contains($v, 'Triwulan')));
     }
 
     // --- perekaman narasi ------------------------------------------------
@@ -163,9 +163,9 @@ class LaporanKomiteTest extends TestCase
     public function test_pic_biasa_boleh_membaca_laporannya(): void
     {
         $this->actingAs($this->pengguna('user'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN)
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->where('canEdit', false));
+            ->assertInertia(fn (AssertableInertia $page) => $page->where('canEdit', false));
     }
 
     public function test_pic_biasa_tidak_dapat_mengubah_narasinya(): void
@@ -194,9 +194,9 @@ class LaporanKomiteTest extends TestCase
         ]);
 
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN)
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('komite', 1)
                 ->where('komite.0.nama', 'Nama Ketua Komite')
                 ->where('komite.0.jabatan', 'Ketua Komite Pengelolaan Risiko'));
@@ -205,9 +205,9 @@ class LaporanKomiteTest extends TestCase
     public function test_halaman_tetap_terbuka_ketika_komite_belum_direkam(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN)
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->has('komite', 0));
+            ->assertInertia(fn (AssertableInertia $page) => $page->has('komite', 0));
     }
 
     public function test_susunan_komite_tahun_lain_tidak_terbawa(): void
@@ -220,8 +220,8 @@ class LaporanKomiteTest extends TestCase
         ]);
 
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/laporan/4?tahun=' . self::TAHUN)
+            ->get('/cetak/laporan/4?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->has('komite', 0));
+            ->assertInertia(fn (AssertableInertia $page) => $page->has('komite', 0));
     }
 }

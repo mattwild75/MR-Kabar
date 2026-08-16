@@ -30,9 +30,7 @@ class RiskExcelImportService
     /** @var array<string, array<string,true>> cache set kunci modul induk per validate() — lihat parentKeySet(). */
     private array $parentKeyCache = [];
 
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     public function import(UploadedFile $file, int $importingUserId): array
     {
@@ -47,7 +45,7 @@ class RiskExcelImportService
         }
 
         $v = $this->validate($spreadsheet);
-        if (!empty($v['structureErrors'])) {
+        if (! empty($v['structureErrors'])) {
             return [
                 'ok' => false,
                 'structure_errors' => $v['structureErrors'],
@@ -71,7 +69,7 @@ class RiskExcelImportService
     public function validate(Spreadsheet $spreadsheet, ?array $moduleSlugs = null, ?int $scopeUserId = null): array
     {
         $structureErrors = $this->validateStructure($spreadsheet, $moduleSlugs);
-        if (!empty($structureErrors)) {
+        if (! empty($structureErrors)) {
             return [
                 'structureErrors' => $structureErrors,
                 'parsedByModule' => [],
@@ -236,7 +234,7 @@ class RiskExcelImportService
 
         $sheetsReport = [];
         foreach ($order as $slug) {
-            if (!isset($reportByModule[$slug])) {
+            if (! isset($reportByModule[$slug])) {
                 continue;
             }
             $module = $modules[$slug];
@@ -275,8 +273,9 @@ class RiskExcelImportService
 
         foreach ($modules as $module) {
             $sheet = $spreadsheet->getSheetByName($module['sheet_name']);
-            if (!$sheet) {
+            if (! $sheet) {
                 $errors[] = "Sheet \"{$module['sheet_name']}\" tidak ditemukan di file yang diupload.";
+
                 continue;
             }
 
@@ -329,13 +328,14 @@ class RiskExcelImportService
 
             $rowErrors = $this->validateSingleRow($data, $module, $parsedByModule, $existingIds, $parentKeySetResolver);
 
-            if (!empty($rowErrors)) {
+            if (! empty($rowErrors)) {
                 foreach ($rowErrors as $msg) {
                     $errors[] = [
                         'row' => $excelRow,
                         'message' => $msg,
                     ];
                 }
+
                 continue;
             }
 
@@ -357,7 +357,7 @@ class RiskExcelImportService
             $rules[$field] = ['required', 'integer', 'min:1', 'max:5'];
         }
         foreach ($module['enum_fields'] as $field => $options) {
-            $rules[$field] = ['nullable', 'in:' . implode(',', $options)];
+            $rules[$field] = ['nullable', 'in:'.implode(',', $options)];
         }
 
         $payload = [];
@@ -388,7 +388,7 @@ class RiskExcelImportService
         // modul, dibangun di validate()), bukan query per baris.
         $rowId = $data['_ROW_ID'] ?? '';
         if ($rowId !== '') {
-            if (!ctype_digit($rowId) || !isset($existingIds[(int) $rowId])) {
+            if (! ctype_digit($rowId) || ! isset($existingIds[(int) $rowId])) {
                 $errors[] = "_ROW_ID \"{$rowId}\" tidak merujuk baris data yang masih ada (mungkin sudah dihapus setelah file diekspor).";
             }
         }
@@ -404,10 +404,10 @@ class RiskExcelImportService
                 $parentKeys = $parentKeySetResolver($crossRef['parent_module']);
                 $found = isset($parentKeys[$key]) || $this->matchesParsedParent($crossRef['parent_module'], $crossRef['parent_field'], $key, $parsedByModule);
 
-                if (!$found) {
+                if (! $found) {
                     $errors[] = "\"{$crossRef['field']}\" (\"{$value}\") tidak ditemukan di modul induk (\"{$crossRef['parent_module']}\").";
                 }
-            } elseif (!$isOptional) {
+            } elseif (! $isOptional) {
                 $errors[] = "\"{$crossRef['field']}\" wajib diisi (merujuk data di modul induk).";
             }
         }
@@ -509,6 +509,7 @@ class RiskExcelImportService
                         $existing->fill($attributes);
                         $existing->save();
                         $updated++;
+
                         continue;
                     }
                 }
@@ -552,7 +553,7 @@ class RiskExcelImportService
         ];
         $data = $attributes;
         foreach ($skorFields as $field) {
-            if (!array_key_exists($field, $data) && $existing !== null) {
+            if (! array_key_exists($field, $data) && $existing !== null) {
                 $data[$field] = $existing->{$field};
             }
         }
@@ -599,6 +600,7 @@ class RiskExcelImportService
 
             if ($field === 'TAHUN TARGET PENYELESAIAN') {
                 $attributes[$field] = $value === '' ? null : (int) $value;
+
                 continue;
             }
 

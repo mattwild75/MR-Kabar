@@ -11,16 +11,16 @@ class FaviconGenerator
      * compositing it onto a solid background color so it stays visible
      * in browser tabs regardless of light/dark tab bar theme.
      *
-     * @param string $logoPath  Storage path (on the 'public' disk) of the source logo.
-     * @param string $bgColor   Hex color, e.g. "#ffffff".
-     * @param int    $size      Output square size in pixels.
-     * @return string           Storage path (on the 'public' disk) of the generated favicon.
+     * @param  string  $logoPath  Storage path (on the 'public' disk) of the source logo.
+     * @param  string  $bgColor  Hex color, e.g. "#ffffff".
+     * @param  int  $size  Output square size in pixels.
+     * @return string Storage path (on the 'public' disk) of the generated favicon.
      */
     public static function generate(string $logoPath, string $bgColor, int $size = 64): string
     {
         $sourceFullPath = Storage::disk('public')->path($logoPath);
 
-        if (!file_exists($sourceFullPath)) {
+        if (! file_exists($sourceFullPath)) {
             throw new \RuntimeException("Logo file not found: {$sourceFullPath}");
         }
 
@@ -63,10 +63,10 @@ class FaviconGenerator
             $srcHeight,
         );
 
-        $outputRelativePath = 'favicon/generated-' . uniqid() . '.png';
+        $outputRelativePath = 'favicon/generated-'.uniqid().'.png';
         $outputFullPath = Storage::disk('public')->path($outputRelativePath);
         $outputDir = dirname($outputFullPath);
-        if (!is_dir($outputDir)) {
+        if (! is_dir($outputDir)) {
             mkdir($outputDir, 0755, true);
         }
 
@@ -78,7 +78,7 @@ class FaviconGenerator
         return $outputRelativePath;
     }
 
-    private static function loadImage(string $path): \GdImage|null
+    private static function loadImage(string $path): ?\GdImage
     {
         $info = getimagesize($path);
         if ($info === false) {
@@ -105,7 +105,7 @@ class FaviconGenerator
     {
         $hex = ltrim($hex, '#');
         if (strlen($hex) === 3) {
-            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+            $hex = $hex[0].$hex[0].$hex[1].$hex[1].$hex[2].$hex[2];
         }
         if (strlen($hex) !== 6) {
             // Fall back to white on malformed input rather than throwing,

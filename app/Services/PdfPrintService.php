@@ -101,7 +101,7 @@ class PdfPrintService
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.pdf"',
         ]);
     }
 
@@ -167,7 +167,7 @@ class PdfPrintService
         $cookies = [];
         foreach (explode(';', $header) as $pair) {
             $pair = trim($pair);
-            if ($pair === '' || !str_contains($pair, '=')) {
+            if ($pair === '' || ! str_contains($pair, '=')) {
                 continue;
             }
             [$name, $value] = explode('=', $pair, 2);

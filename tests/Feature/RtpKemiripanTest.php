@@ -32,6 +32,7 @@ class RtpKemiripanTest extends TestCase
     private const TAHUN = 2026;
 
     private Opd $opd;
+
     private Opd $opdLain;
 
     protected function setUp(): void
@@ -69,7 +70,7 @@ class RtpKemiripanTest extends TestCase
             'tipe' => $tipe,
             'id' => $id,
             'label' => $label,
-            'konteks' => 'konteks ' . $id,
+            'konteks' => 'konteks '.$id,
             'opd_id' => $opdId ?? $this->opd->id,
             'tahun' => $tahun ?? self::TAHUN,
         ];
@@ -315,9 +316,9 @@ class RtpKemiripanTest extends TestCase
         ]);
 
         $this->actingAs($pic)
-            ->get('/monitoring-evaluasi/8-9?tahun=' . self::TAHUN)
+            ->get('/monitoring-evaluasi/8-9?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 // Keduanya TETAP muncul — kemiripan hanya menandai, tidak
                 // pernah menyembunyikan atau memblokir.
                 ->has('rows', 2)

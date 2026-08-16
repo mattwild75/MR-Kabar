@@ -64,7 +64,7 @@ class KrsIrsSyncService
 
     private function syncUnlocked(): void
     {
-        if (!Schema::hasTable(self::TARGET_TABLE) || !Schema::hasTable('tbl_krs_pemda')) {
+        if (! Schema::hasTable(self::TARGET_TABLE) || ! Schema::hasTable('tbl_krs_pemda')) {
             return;
         }
 
@@ -99,12 +99,25 @@ class KrsIrsSyncService
             }
         }
 
-        // TRUNCATE adalah DDL di MySQL dan memicu implicit commit, yang akan
-        // merusak transaksi Laravel jika keduanya dibungkus bersama — jadi
-        // truncate dijalankan terpisah, di luar transaksi insert.
-        DB::table(self::TARGET_TABLE)->truncate();
-
+        // DELETE, bukan TRUNCATE, dan seluruhnya di DALAM satu transaksi.
+        //
+        // TRUNCATE adalah DDL di MySQL: ia memicu commit implisit dan tidak
+        // bisa dibatalkan. Versi sebelumnya menyadari itu dan memindahkannya
+        // ke LUAR transaksi — tetapi itu memindahkan masalahnya, bukan
+        // menyelesaikannya. Yang tersisa: tabel sudah terlanjur kosong, lalu
+        // kalau pengisian ulangnya gagal di tengah (galat apa pun, koneksi
+        // putus, proses mati), tabel gabungan tertinggal kosong atau separuh
+        // dan TIDAK ADA yang bisa memutarnya kembali. Akibatnya bagi pengguna:
+        // risiko lenyap dari Data Risiko Gabungan dan Visualisasi Hirarki,
+        // padahal barisnya masih utuh di tabel asalnya.
+        //
+        // DELETE adalah DML — bisa dibatalkan. Dengan keduanya di dalam satu
+        // transaksi, kegagalan di tengah mengembalikan tabel ke keadaan
+        // semula, utuh. Pada tabel sebesar ini (375 baris) selisih
+        // kecepatannya tidak terukur.
         DB::transaction(function () use ($insertRows) {
+            DB::table(self::TARGET_TABLE)->delete();
+
             foreach (array_chunk($insertRows, 200) as $chunk) {
                 DB::table(self::TARGET_TABLE)->insert($chunk);
             }
@@ -185,26 +198,27 @@ class KrsIrsSyncService
                     'program' => $programVal,
                     'row' => $row,
                 ];
+
                 continue;
             }
 
-            if (!isset($misiIndex[$misiVal])) {
+            if (! isset($misiIndex[$misiVal])) {
                 $misiNo = $nextMisiNo++;
                 $misiIndex[$misiVal] = $misiNo;
                 $misiCounters[$misiNo] = ['tujuan' => 1];
             }
             $misiNo = $misiIndex[$misiVal];
 
-            $tujuanKey = $misiNo . '|' . $tujuanVal;
-            if (!isset($tujuanIndex[$tujuanKey])) {
+            $tujuanKey = $misiNo.'|'.$tujuanVal;
+            if (! isset($tujuanIndex[$tujuanKey])) {
                 $tujuanNo = $misiCounters[$misiNo]['tujuan']++;
                 $tujuanIndex[$tujuanKey] = $tujuanNo;
                 $misiCounters[$misiNo]['sasaran'][$tujuanNo] = 1;
             }
             $tujuanNo = $tujuanIndex[$tujuanKey];
 
-            $sasaranKey = $misiNo . '|' . $tujuanNo . '|' . $sasaranVal;
-            if (!isset($sasaranIndex[$sasaranKey])) {
+            $sasaranKey = $misiNo.'|'.$tujuanNo.'|'.$sasaranVal;
+            if (! isset($sasaranIndex[$sasaranKey])) {
                 $sasaranNo = $misiCounters[$misiNo]['sasaran'][$tujuanNo]++;
                 $sasaranIndex[$sasaranKey] = $sasaranNo;
             }
@@ -248,7 +262,7 @@ class KrsIrsSyncService
         for ($i = 0; $i < $maxLines; $i++) {
             $t = trim($targetLines[$i] ?? '');
             $s = trim($satuanLines[$i] ?? '');
-            $lines[] = '> ' . $t . ($s !== '' ? " ({$s})" : '');
+            $lines[] = '> '.$t.($s !== '' ? " ({$s})" : '');
         }
 
         return implode("\n", $lines);
@@ -268,7 +282,7 @@ class KrsIrsSyncService
 
         $result = ["{$label} {$kode} : "];
         foreach ($lines as $line) {
-            $result[] = '> ' . trim($line);
+            $result[] = '> '.trim($line);
         }
 
         return implode("\n", $result);
@@ -282,7 +296,7 @@ class KrsIrsSyncService
     private function simpleFormat(string $value): string
     {
         $lines = $value === '' ? [] : preg_split('/\r\n|\r|\n/', $value);
-        $lines = array_map(fn ($l) => '> ' . trim($l), $lines);
+        $lines = array_map(fn ($l) => '> '.trim($l), $lines);
 
         return implode("\n", $lines);
     }

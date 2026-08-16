@@ -60,8 +60,8 @@ class JadwalPenilaianDasborTest extends TestCase
             'urutan' => 1,
             'tahapan' => 'Penilaian Risiko Operasional OPD',
             'dokumen_pemicu' => 'RKA OPD',
-            'tanggal_mulai' => self::TAHUN . '-10-03',
-            'tanggal_selesai' => self::TAHUN . '-10-14',
+            'tanggal_mulai' => self::TAHUN.'-10-03',
+            'tanggal_selesai' => self::TAHUN.'-10-14',
             'pelaksana' => 'Seluruh OPD, difasilitasi Inspektorat',
             'keluaran' => 'Dokumen Penilaian Risiko Operasional OPD',
         ]);
@@ -74,9 +74,9 @@ class JadwalPenilaianDasborTest extends TestCase
         $this->arahanDenganTahapan();
 
         $this->actingAs($this->pengguna('admin'))
-            ->get('/dashboard?tahun=' . self::TAHUN)
+            ->get('/dashboard?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('jadwalPenilaian', 1)
                 ->has('jadwalPenilaian.0.tahapan', 1)
                 ->where('jadwalPenilaian.0.tahapan.0.tahapan', 'Penilaian Risiko Operasional OPD')
@@ -93,9 +93,9 @@ class JadwalPenilaianDasborTest extends TestCase
         $this->arahanDenganTahapan('draf');
 
         $this->actingAs($this->pengguna('admin'))
-            ->get('/dashboard?tahun=' . self::TAHUN)
+            ->get('/dashboard?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->has('jadwalPenilaian', 0));
+            ->assertInertia(fn (AssertableInertia $page) => $page->has('jadwalPenilaian', 0));
     }
 
     public function test_arahan_tahun_lain_tidak_muncul(): void
@@ -108,9 +108,9 @@ class JadwalPenilaianDasborTest extends TestCase
         ]);
 
         $this->actingAs($this->pengguna('admin'))
-            ->get('/dashboard?tahun=' . self::TAHUN)
+            ->get('/dashboard?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->has('jadwalPenilaian', 0));
+            ->assertInertia(fn (AssertableInertia $page) => $page->has('jadwalPenilaian', 0));
     }
 
     /**
@@ -122,9 +122,9 @@ class JadwalPenilaianDasborTest extends TestCase
         $this->arahanDenganTahapan();
 
         $this->actingAs($this->pengguna('user'))
-            ->get('/dashboard?tahun=' . self::TAHUN)
+            ->get('/dashboard?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('jadwalPenilaian', 1)
                 ->has('jadwalPenilaian.0.tahapan', 1));
     }
@@ -144,9 +144,9 @@ class JadwalPenilaianDasborTest extends TestCase
         $this->arahanDenganTahapan('berlaku', '1_tahunan');
 
         $this->actingAs($this->pengguna('admin'))
-            ->get('/dashboard?tahun=' . self::TAHUN)
+            ->get('/dashboard?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('jadwalPenilaian', 2)
                 ->where('jadwalPenilaian.0.jenis', '1_tahunan')
                 ->where('jadwalPenilaian.1.jenis', '5_tahunan'));
@@ -155,8 +155,8 @@ class JadwalPenilaianDasborTest extends TestCase
     public function test_dasbor_tetap_terbuka_ketika_belum_ada_arahan_sama_sekali(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/dashboard?tahun=' . self::TAHUN)
+            ->get('/dashboard?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->has('jadwalPenilaian', 0));
+            ->assertInertia(fn (AssertableInertia $page) => $page->has('jadwalPenilaian', 0));
     }
 }

@@ -71,9 +71,9 @@ class StrukturPengelolaRisikoTest extends TestCase
         $this->baris();
 
         $this->actingAs($this->pengguna('user'))
-            ->get('/cetak/struktur-pengelolaan-risiko?tahun=' . self::TAHUN)
+            ->get('/cetak/struktur-pengelolaan-risiko?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('rows', 1)
                 ->where('canEdit', false));
     }
@@ -157,7 +157,7 @@ class StrukturPengelolaRisikoTest extends TestCase
         $this->actingAs($this->pengguna('admin'))
             ->get('/cetak/struktur-pengelolaan-risiko?tahun=2026')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page->has('rows', 1)->where('tahun', 2026));
+            ->assertInertia(fn (AssertableInertia $page) => $page->has('rows', 1)->where('tahun', 2026));
     }
 
     // --- salin tahun -----------------------------------------------------
@@ -190,7 +190,7 @@ class StrukturPengelolaRisikoTest extends TestCase
         $this->actingAs($this->pengguna('admin'))
             ->post('/cetak/struktur-pengelolaan-risiko/salin', ['tahun_sumber' => 2025, 'tahun_tujuan' => 2026])
             ->assertRedirect()
-            ->assertSessionHas('error', fn($p) => str_contains($p, 'sudah punya susunan'));
+            ->assertSessionHas('error', fn ($p) => str_contains($p, 'sudah punya susunan'));
 
         $this->assertSame(1, StrukturPengelolaRisiko::where('tahun', 2026)->count());
     }
@@ -200,7 +200,7 @@ class StrukturPengelolaRisikoTest extends TestCase
         $this->actingAs($this->pengguna('admin'))
             ->post('/cetak/struktur-pengelolaan-risiko/salin', ['tahun_sumber' => 2024, 'tahun_tujuan' => 2026])
             ->assertRedirect()
-            ->assertSessionHas('error', fn($p) => str_contains($p, 'belum punya susunan'));
+            ->assertSessionHas('error', fn ($p) => str_contains($p, 'belum punya susunan'));
     }
 
     public function test_pic_biasa_tidak_dapat_menyalin_susunan(): void
@@ -219,9 +219,9 @@ class StrukturPengelolaRisikoTest extends TestCase
     public function test_halaman_tetap_terbuka_ketika_belum_ada_susunan(): void
     {
         $this->actingAs($this->pengguna('admin'))
-            ->get('/cetak/struktur-pengelolaan-risiko?tahun=' . self::TAHUN)
+            ->get('/cetak/struktur-pengelolaan-risiko?tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('rows', 0)
                 ->has('peranOptions')
                 ->where('canEdit', true));

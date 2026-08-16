@@ -157,7 +157,7 @@ class SeleraRisikoTest extends TestCase
         $this->actingAs($this->admin())
             ->get('/keterangan-pendukung?tab=level_risiko')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->where('seleraRisiko.ambang', 16)
                 ->where('seleraRisiko.batas_diterima', 'Sedang')
                 ->where('seleraRisiko.label_melampaui', ['Sangat Tinggi', 'Tinggi'])
@@ -189,7 +189,7 @@ class SeleraRisikoTest extends TestCase
         $this->actingAs($admin)
             ->get('/keterangan-pendukung?tab=matriks')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->where('seleraRisiko.ambang', $this->riskRef()->ambangSeleraRisiko())
                 ->where('seleraRisiko.batas_diterima', 'Rendah'));
     }

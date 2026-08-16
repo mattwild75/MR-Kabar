@@ -272,7 +272,7 @@ class ArahanPenilaianRisikoTest extends TestCase
         $this->actingAs($admin)
             ->get('/keterangan-pendukung?tab=arahan_penilaian')
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('arahanPenilaian', 1)
                 ->has('arahanPenilaian.0.tahapan', 1)
                 ->where('arahanPenilaian.0.tahapan.0.dokumen_pemicu', 'RKA OPD')

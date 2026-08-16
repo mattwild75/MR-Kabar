@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import {
   Command,
@@ -13,7 +13,25 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { icons } from '@/lib/icon-list';
+/**
+ * Daftar ikon TIDAK di-import langsung, melainkan dimuat saat pemilihnya
+ * dibuka.
+ *
+ * Terukur pada audit PASS 3 (17 Agustus 2026): berkas daftar ikon menjadi
+ * bongkahan 743 KB — 22% dari seluruh 3,4 MB aset terbangun, dan yang
+ * terbesar di aplikasi ini, melampaui Dasbor (404 KB) maupun bundel utama
+ * (364 KB). Isinya nama 3.500+ ikon Lucide.
+ *
+ * Yang memakainya hanya pemilih ikon di Menu Manager — halaman pengaturan
+ * yang dibuka Super Admin sesekali. Dengan import langsung, setiap pengguna
+ * yang memuat halaman mana pun yang menyeret komponen ini ikut membayar 743
+ * KB untuk daftar yang tidak pernah mereka buka.
+ *
+ * Beban ini TIDAK tumbuh mengikuti data — ia tetap 743 KB selamanya. Justru
+ * itu yang membuatnya layak diperbaiki lebih dulu: sekali dikerjakan,
+ * manfaatnya berlaku terus.
+ */
+type DaftarIkon = typeof import('@/lib/icon-list')['icons'];
 
 interface IconPickerProps {
   value: string;
@@ -31,6 +49,22 @@ const MAX_RESULTS = 100;
 export default function IconPicker({ value, onChange }: IconPickerProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
+  const [icons, setIcons] = useState<DaftarIkon>([]);
+
+  // Dimuat sekali, saat pemilihnya PERTAMA dibuka. Sesudah itu tinggal di
+  // state, jadi membuka-tutup berikutnya tidak mengunduh apa pun lagi.
+  useEffect(() => {
+    if (!open || icons.length > 0) return;
+
+    let hidup = true;
+    import('@/lib/icon-list').then((m) => {
+      if (hidup) setIcons(m.icons);
+    });
+
+    return () => {
+      hidup = false;
+    };
+  }, [open, icons.length]);
 
   const filtered = React.useMemo(() => {
     const s = search.trim().toLowerCase();
@@ -46,7 +80,7 @@ export default function IconPicker({ value, onChange }: IconPickerProps) {
       .sort((a, b) => b.score - a.score || a.item.name.localeCompare(b.item.name))
       .slice(0, MAX_RESULTS)
       .map((x) => x.item);
-  }, [search]);
+  }, [search, icons]);
 
   const selected = icons.find((i) => i.name === value);
   const SelectedIcon = selected?.icon;

@@ -71,7 +71,7 @@ class VersiSnapshotService
 
     private function berkasManifes(): string
     {
-        return $this->folder() . '/manifest.json';
+        return $this->folder().'/manifest.json';
     }
 
     public function tagSah(string $tag): bool
@@ -88,7 +88,7 @@ class VersiSnapshotService
     public function manifes(): array
     {
         $berkas = $this->berkasManifes();
-        if (!File::exists($berkas)) {
+        if (! File::exists($berkas)) {
             return [];
         }
 
@@ -131,7 +131,7 @@ class VersiSnapshotService
 
     public function berkasSnapshot(string $tag): string
     {
-        return $this->folder() . '/' . $tag . '.zip';
+        return $this->folder().'/'.$tag.'.zip';
     }
 
     /**
@@ -153,7 +153,7 @@ class VersiSnapshotService
 
     public function keadaanMigrasi(): array
     {
-        if (!Schema::hasTable('migrations')) {
+        if (! Schema::hasTable('migrations')) {
             return ['terakhir' => null, 'jumlah' => 0];
         }
 
@@ -183,18 +183,18 @@ class VersiSnapshotService
      */
     public function rekam(string $tag, string $folderBackupHarian, ?string $catatan = null): array
     {
-        if (!$this->tagSah($tag)) {
+        if (! $this->tagSah($tag)) {
             throw new \InvalidArgumentException('Nama tag tidak memenuhi pola versi yang diizinkan.');
         }
 
         Artisan::call('backup:run', ['--only-db' => true]);
 
         $terbaru = collect(File::exists($folderBackupHarian) ? File::files($folderBackupHarian) : [])
-            ->filter(fn($berkas) => $berkas->getExtension() === 'zip')
-            ->sortByDesc(fn($berkas) => $berkas->getMTime())
+            ->filter(fn ($berkas) => $berkas->getExtension() === 'zip')
+            ->sortByDesc(fn ($berkas) => $berkas->getMTime())
             ->first();
 
-        if (!$terbaru) {
+        if (! $terbaru) {
             throw new \RuntimeException('Dump database tidak terbentuk — snapshot versi tidak dapat dibuat.');
         }
 
@@ -218,7 +218,7 @@ class VersiSnapshotService
 
         $manifes = array_values(array_filter(
             $this->manifes(),
-            fn($lama) => ($lama['tag'] ?? null) !== $tag
+            fn ($lama) => ($lama['tag'] ?? null) !== $tag
         ));
         array_unshift($manifes, $baris);
         $this->tulisManifes($manifes);
@@ -231,14 +231,14 @@ class VersiSnapshotService
      */
     public function hapus(string $tag): void
     {
-        if (!$this->tagSah($tag)) {
+        if (! $this->tagSah($tag)) {
             return;
         }
 
         File::delete($this->berkasSnapshot($tag));
         $this->tulisManifes(array_values(array_filter(
             $this->manifes(),
-            fn($baris) => ($baris['tag'] ?? null) !== $tag
+            fn ($baris) => ($baris['tag'] ?? null) !== $tag
         )));
     }
 
@@ -252,7 +252,7 @@ class VersiSnapshotService
         $catatan = $this->catatan($tag);
         $berkas = $this->berkasSnapshot($tag);
 
-        if ($catatan === null || !File::exists($berkas)) {
+        if ($catatan === null || ! File::exists($berkas)) {
             return false;
         }
 

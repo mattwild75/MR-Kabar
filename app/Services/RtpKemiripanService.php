@@ -56,7 +56,7 @@ class RtpKemiripanService
      * pasangan dan hanya berjalan di dalam kelompok yang kecil.
      *
      * @param  array<int, array<string, mixed>>  $daftar  keluaran rtpGabungan()
-     * @return array<int, array<string, mixed>>  daftar yang sama, plus 'kemiripan'
+     * @return array<int, array<string, mixed>> daftar yang sama, plus 'kemiripan'
      */
     public function tandai(array $daftar): array
     {
@@ -66,7 +66,7 @@ class RtpKemiripanService
         // hasilnya bisa ditempelkan kembali tanpa mengubah urutan daftar.
         $kelompok = [];
         foreach ($daftar as $i => $baris) {
-            $kunci = ($baris['opd_id'] ?? 'x') . '|' . ($baris['tahun'] ?? 'x');
+            $kunci = ($baris['opd_id'] ?? 'x').'|'.($baris['tahun'] ?? 'x');
             $kelompok[$kunci][] = $i;
         }
 
@@ -116,7 +116,7 @@ class RtpKemiripanService
     private function pasanganDiabaikan(): array
     {
         return RtpKemiripanDiabaikan::all()
-            ->mapWithKeys(fn($r) => [
+            ->mapWithKeys(fn ($r) => [
                 RtpKemiripanDiabaikan::kunci($r->tipe_a, (int) $r->id_a, $r->tipe_b, (int) $r->id_b) => true,
             ])
             ->all();
@@ -161,7 +161,7 @@ class RtpKemiripanService
 
         $kata = array_filter(
             $kata,
-            fn($k) => mb_strlen($k) >= 4 && !in_array($k, self::KATA_UMUM, true)
+            fn ($k) => mb_strlen($k) >= 4 && ! in_array($k, self::KATA_UMUM, true)
         );
 
         return array_values(array_unique($kata));

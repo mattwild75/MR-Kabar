@@ -31,7 +31,9 @@ class CeeSimpulanBertentanganTest extends TestCase
     private const TAHUN = 2026;
 
     private Opd $opd;
+
     private CeeUnsur $unsurBertentangan;
+
     private CeeUnsur $unsurSejalan;
 
     protected function setUp(): void
@@ -122,9 +124,9 @@ class CeeSimpulanBertentanganTest extends TestCase
     public function test_form_menandai_sub_unsur_yang_kedua_sumbernya_bertentangan(): void
     {
         $this->actingAs($this->admin())
-            ->get('/cee/1c?opd_id=' . $this->opd->id . '&tahun=' . self::TAHUN)
+            ->get('/cee/1c?opd_id='.$this->opd->id.'&tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('ringkasan', 2)
                 ->where('ringkasan.0.simpulan_1a', 'Memadai')
                 ->where('ringkasan.0.bertentangan', true)
@@ -189,9 +191,9 @@ class CeeSimpulanBertentanganTest extends TestCase
         $this->actingAs($admin)->post('/cee/1c', $this->muatan('Sudah ditindaklanjuti.', 'Memadai'));
 
         $this->actingAs($admin)
-            ->get('/cetak/cee/1c?opd_id=' . $this->opd->id . '&tahun=' . self::TAHUN)
+            ->get('/cetak/cee/1c?opd_id='.$this->opd->id.'&tahun='.self::TAHUN)
             ->assertOk()
-            ->assertInertia(fn(AssertableInertia $page) => $page
+            ->assertInertia(fn (AssertableInertia $page) => $page
                 ->has('rows', 2)
                 ->where('rows.0.hasil_dokumen', 'Kurang Memadai')
                 ->where('rows.0.hasil_survei', 'Memadai')

@@ -23,7 +23,7 @@ class RiskExcelExportService
      */
     public function build(bool $includeData, ?array $moduleSlugs = null, ?int $scopeUserId = null): Spreadsheet
     {
-        $spreadsheet = new Spreadsheet();
+        $spreadsheet = new Spreadsheet;
         $spreadsheet->removeSheetByIndex(0);
 
         $modules = RiskExcelRegistry::modules();
@@ -121,12 +121,12 @@ class RiskExcelExportService
      */
     private function escapeFormulaInjection($value)
     {
-        if (!is_string($value) || $value === '') {
+        if (! is_string($value) || $value === '') {
             return $value;
         }
 
         if (in_array($value[0], ['=', '+', '-', '@'], true)) {
-            return "'" . $value;
+            return "'".$value;
         }
 
         return $value;
