@@ -12,6 +12,21 @@
 #
 # Skrip ini menyalinnya ke OneDrive, yang tersinkron ke awan.
 #
+# PERINGATAN SEBELUM MEMULIHKAN SALAH SATU BERKAS INI.
+# Cadangan yang dibuat dengan "mysqldump --databases" memuat baris
+# "USE `mrkabar`;" di dalamnya. Akibatnya perintah seperti
+#
+#     mysql -u root database_uji < cadangan.sql
+#
+# TIDAK memulihkan ke database_uji. Nama di baris perintah diabaikan, dan
+# isinya ditulis ke database ASLI - menimpa seluruh perubahan sejak cadangan
+# itu dibuat. Ini terjadi sungguhan saat audit PASS 5B pada 17 Agustus 2026.
+#
+# Sebelum memulihkan ke tempat lain, buang dulu baris CREATE DATABASE dan USE:
+#
+#     (Get-Content cadangan.sql -Raw) -replace '(?m)^CREATE DATABASE .*$','' `
+#        -replace '(?m)^USE `mrkabar`;$','' | Set-Content aman.sql -Encoding UTF8
+#
 #   powershell -File scripts\salin-cadangan.ps1
 #   powershell -File scripts\salin-cadangan.ps1 -Diam     (tanpa keluaran, utk penjadwal)
 #

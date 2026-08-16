@@ -42,7 +42,21 @@
     @endif
 
 
-    @routes
+    {{--
+        Daftar rute Ziggy TIDAK dikirim ke /panduan-publik. Halaman itu terbuka
+        tanpa login, dan @routes tanpa penyaring menuliskan SELURUH 260 definisi
+        rute ke dalam HTML — termasuk seluruh permukaan administrasi seperti
+        roles.destroy dan users.reset-password. Rutenya sendiri tetap terkunci
+        middleware, tetapi peta lengkap aplikasi jadi tersedia gratis bagi
+        siapa pun yang membuka view-source. Ditemukan pada audit PASS 1.
+
+        Halaman itu memang tidak memerlukannya: Public.tsx sengaja menulis
+        '/login' apa adanya, bukan route('login'), karena Ziggy hanya tersedia
+        di peramban (lihat komentarnya di berkas itu).
+    --}}
+    @unless (request()->routeIs('panduan.public'))
+        @routes
+    @endunless
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @inertiaHead

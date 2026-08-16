@@ -69,7 +69,20 @@ class HandleInertiaRequests extends Middleware
                 // ditempelkan ke mana.
                 'createdRiskId' => session('createdRiskId'),
             ],
-            'setting' => fn () => SettingApp::cached(),
+            // TIDAK dibagikan ke /panduan-publik. Halaman itu terbuka tanpa
+            // login, dan baris settingapp memuat 32 kolom — di antaranya
+            // contact_email, yang berisi surel pribadi pemegang akun Super
+            // Admin. Seluruhnya ikut terserialisasi ke atribut data-page dan
+            // terbaca siapa pun lewat view-source; terbukti pada audit PASS 1.
+            //
+            // Halaman itu memang tidak memakainya sama sekali (Public.tsx
+            // tidak menyentuh prop `setting`), sedangkan halaman login MASIH
+            // memerlukannya untuk logo, nama aplikasi, dan video pembuka —
+            // jadi penyaringnya berdasarkan nama rute, bukan "sudah login
+            // atau belum".
+            'setting' => fn () => $request->routeIs('panduan.public')
+                ? null
+                : SettingApp::cached(),
             // Penanda versi berkas video edukasi bawaan, ditempelkan sebagai
             // query string pada URL-nya di sisi klien. Nama berkasnya tetap
             // sama tiap kali video di-deploy ulang, sehingga tanpa penanda ini
