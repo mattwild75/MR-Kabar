@@ -108,4 +108,118 @@ class KeamananAksesOpdTest extends TestCase
                 ->assertOk();
         }
     }
+
+    // ---------------------------------------------------------------------
+    // R-10: penjaga yang disalin, bukan dipakai bersama.
+    //
+    // Audit PASS 4 mencatat POLANYA sebagai temuan, bukan kejadiannya:
+    // selama penjaga keamanan boleh disalin, perbaikan keamanan akan
+    // tertinggal di salah satu salinan. Ramalan itu terbukti — CeeForm dan
+    // MonitoringEvaluasi masing-masing menyimpan salinannya sendiri, dan
+    // KEDUANYA masih memuat bentuk IDOR yang sudah diperbaiki di
+    // SharesCetakContext berbulan sebelumnya:
+    //
+    //     if (! $opdId || ! $user->opd_id || $user->canViewAllOpd()) {
+    //         return;                     // <- LOLOS
+    //     }
+    //
+    // Uji di bawah menahan bentuk itu di kedua tempat sekaligus.
+    // ---------------------------------------------------------------------
+
+    /** Akun tanpa opd_id BUKAN berarti boleh melihat semua perangkat daerah. */
+    public function test_pic_tanpa_opd_tidak_dapat_membuka_cee_opd_mana_pun(): void
+    {
+        [$opdA] = $this->siapkan();
+
+        $belumDitautkan = User::factory()->create(['opd_id' => null]);
+        $belumDitautkan->assignRole('user');
+
+        foreach (['1a', '1b', '1c'] as $form) {
+            $this->actingAs($belumDitautkan)
+                ->get("/cee/{$form}?opd_id={$opdA->id}&tahun=2025")
+                ->assertForbidden();
+        }
+    }
+
+    public function test_pic_tanpa_opd_tidak_dapat_membuka_monitoring_evaluasi_opd_mana_pun(): void
+    {
+        [$opdA] = $this->siapkan();
+
+        $belumDitautkan = User::factory()->create(['opd_id' => null]);
+        $belumDitautkan->assignRole('user');
+
+        foreach (['8-9', '10'] as $form) {
+            $this->actingAs($belumDitautkan)
+                ->get("/monitoring-evaluasi/{$form}?opd_id={$opdA->id}&tahun=2025")
+                ->assertForbidden();
+        }
+    }
+
+    /** PIC bertautan tetap tidak boleh menyeberang ke tetangganya. */
+    public function test_pic_tidak_dapat_membuka_cee_opd_lain(): void
+    {
+        [$opdA, $opdB] = $this->siapkan();
+
+        $pic = User::factory()->create(['opd_id' => $opdA->id]);
+        $pic->assignRole('user');
+
+        $this->actingAs($pic)->get("/cee/1a?opd_id={$opdB->id}&tahun=2025")->assertForbidden();
+    }
+
+    /**
+     * Monitoring & Evaluasi diuji lewat penyimpanannya, bukan tampilannya.
+     *
+     * Halaman form89/form10 memang MENGABAIKAN `?opd_id=` untuk PIC — ia
+     * selalu dikunci ke perangkat daerahnya sendiri, jadi alamat yang
+     * dioprek tidak menghasilkan apa pun. Yang benar-benar menerima opd_id
+     * dari pengguna adalah penyimpanannya, dan di situlah penjaganya berdiri.
+     */
+    public function test_pic_tidak_dapat_menyimpan_monitoring_evaluasi_untuk_opd_lain(): void
+    {
+        [$opdA, $opdB] = $this->siapkan();
+
+        $pic = User::factory()->create(['opd_id' => $opdA->id]);
+        $pic->assignRole('user');
+
+        $this->actingAs($pic)
+            ->post('/monitoring-evaluasi/8-9', [
+                'opd_id' => $opdB->id,
+                'tahun' => 2025,
+                'rtp_sumber_tipe' => 'irs_pemda',
+                'rtp_sumber_id' => 1,
+            ])
+            ->assertForbidden();
+    }
+
+    /**
+     * Sisi sebaliknya, dan sama pentingnya: penjaga yang disatukan TIDAK
+     * BOLEH ikut menutup jalan yang memang sah. Akun bersama CEE_Survey
+     * dirancang dipakai bergantian lintas OPD — kalau uji ini gagal,
+     * pengisian CEE lewat kode QR berhenti untuk semua orang.
+     */
+    public function test_akun_cee_survey_tetap_dapat_mengisi_cee_lintas_opd(): void
+    {
+        [$opdA, $opdB] = $this->siapkan();
+
+        $akunBersama = User::factory()->create(['opd_id' => null]);
+        $akunBersama->assignRole('cee-survey');
+
+        foreach ([$opdA, $opdB] as $opd) {
+            $this->actingAs($akunBersama)
+                ->get("/cee/1a?opd_id={$opd->id}&tahun=2025")
+                ->assertOk();
+        }
+    }
+
+    /** Dan PIC tetap bisa membuka miliknya sendiri. */
+    public function test_pic_tetap_dapat_membuka_cee_dan_monev_opd_sendiri(): void
+    {
+        [$opdA] = $this->siapkan();
+
+        $pic = User::factory()->create(['opd_id' => $opdA->id]);
+        $pic->assignRole('user');
+
+        $this->actingAs($pic)->get("/cee/1a?opd_id={$opdA->id}&tahun=2025")->assertOk();
+        $this->actingAs($pic)->get('/monitoring-evaluasi/8-9')->assertOk();
+    }
 }

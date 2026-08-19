@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\MembatasiAksesOpd;
 use App\Models\CeeJawaban;
 use App\Models\CeeKelemahanDokumen;
 use App\Models\CeeRtp;
@@ -32,6 +33,8 @@ use Inertia\Inertia;
  */
 class CeeFormController extends Controller
 {
+    use MembatasiAksesOpd;
+
     /**
      * Sama seperti IrsPdController::TRIWULAN_OPTIONS — Target Waktu &
      * Realisasi Penyelesaian Form 1d dipisah Triwulan+Tahun, bukan teks
@@ -154,20 +157,23 @@ class CeeFormController extends Controller
     }
 
     /**
-     * PIC biasa (punya opd_id) hanya boleh akses CEE OPD miliknya sendiri —
-     * baik lihat (GET) maupun simpan (POST/PUT/DELETE). Akun bersama
-     * CEE_Survey & Admin/Super Admin tidak dibatasi (lintas OPD).
+     * PIC biasa hanya boleh akses CEE OPD miliknya sendiri — baik lihat (GET)
+     * maupun simpan (POST/PUT/DELETE). Akun bersama CEE_Survey memang
+     * dirancang lintas OPD, jadi ia diloloskan lewat $peranEkstra.
+     *
+     * Sebelumnya berkas ini menyimpan salinan pemeriksaannya sendiri, dan
+     * salinan itu masih memuat bentuk IDOR yang sudah diperbaiki di tempat
+     * lain berbulan sebelumnya: akun tanpa opd_id diloloskan begitu saja.
+     * Lihat MembatasiAksesOpd untuk bentuk persisnya.
      */
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
-        $user = $request->user();
-        if (! $opdId || ! $user->opd_id || $user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
-            return;
-        }
-
-        if ($opdId !== $user->opd_id) {
-            abort(403, 'Anda hanya dapat mengakses CEE untuk OPD Anda sendiri.');
-        }
+        $this->tolakOpdLain(
+            $request,
+            $opdId,
+            'Anda hanya dapat mengakses CEE untuk OPD Anda sendiri.',
+            ['cee-survey'],
+        );
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\MembatasiAksesOpd;
 use App\Models\CeeRtp;
 use App\Models\IroPd;
 use App\Models\IrsPd;
@@ -36,6 +37,8 @@ use Inertia\Inertia;
  */
 class MonitoringEvaluasiController extends Controller
 {
+    use MembatasiAksesOpd;
+
     public const TRIWULAN_OPTIONS = ['I', 'II', 'III', 'IV'];
 
     public const TRIWULAN_LABELS = [
@@ -61,19 +64,18 @@ class MonitoringEvaluasiController extends Controller
     }
 
     /**
-     * PIC biasa (punya opd_id) hanya boleh akses Monitoring & Evaluasi OPD
-     * miliknya sendiri — sama pola dgn CeeFormController::ensureOpdAccess().
+     * PIC biasa hanya boleh akses Monitoring & Evaluasi OPD miliknya sendiri.
+     *
+     * Dulu berkas ini menyalin pemeriksaan CeeFormController — termasuk
+     * menyalin bentuk IDOR-nya. Sekarang keduanya memanggil penjaga yang sama.
      */
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
-        $user = $request->user();
-        if (! $opdId || ! $user->opd_id || $user->canViewAllOpd()) {
-            return;
-        }
-
-        if ($opdId !== $user->opd_id) {
-            abort(403, 'Anda hanya dapat mengakses Monitoring & Evaluasi untuk OPD Anda sendiri.');
-        }
+        $this->tolakOpdLain(
+            $request,
+            $opdId,
+            'Anda hanya dapat mengakses Monitoring & Evaluasi untuk OPD Anda sendiri.',
+        );
     }
 
     /** Peta tipe RTP/risiko polimorfik ke kelas model sumbernya. */

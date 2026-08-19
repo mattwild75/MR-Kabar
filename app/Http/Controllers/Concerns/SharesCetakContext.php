@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
  */
 trait SharesCetakContext
 {
+    use MembatasiAksesOpd;
+
     private function pengaturan(): PengaturanPemda
     {
         return PengaturanPemda::current();
@@ -40,11 +42,12 @@ trait SharesCetakContext
     }
 
     /**
-     * PIC biasa (punya opd_id) hanya boleh akses Form Cetak OPD-nya sendiri.
-     * $pesan menyesuaikan konteks tiap controller; $peranEkstra utk kasus
-     * yg mengizinkan peran tambahan lolos (mis. 'cee-survey' pada CetakCee).
-     * Tiap controller memanggil ini dari wrapper ensureOpdAccess()-nya
-     * sendiri (menyisipkan pesan yg pas) supaya call site lama tak berubah.
+     * Penjaga akses OPD untuk Form Cetak.
+     *
+     * Isinya sengaja TIDAK ada di sini lagi — pemeriksaannya satu, di
+     * MembatasiAksesOpd, dipakai bersama seluruh controller yang membatasi
+     * akses per perangkat daerah. Yang tersisa di sini cuma pesannya, karena
+     * itulah satu-satunya yang memang berbeda antar-Form Cetak.
      */
     private function ensureOpdAccessWith(
         Request $request,
@@ -52,24 +55,6 @@ trait SharesCetakContext
         string $pesan = 'Anda hanya dapat mengakses Form Cetak untuk OPD Anda sendiri.',
         array $peranEkstra = [],
     ): void {
-        $user = $request->user();
-
-        // Admin/super-admin (& peran ekstra eksplisit yg diizinkan controller
-        // pemanggil) selalu boleh lintas-OPD — satu-satunya jalur "lolos" yg
-        // sah. TIDAK boleh menyamakan "user tanpa opd_id" dgn "boleh lintas-
-        // OPD": PIC non-admin yg belum sempat di-assign opd_id (mis. akun
-        // baru dari self-registration publik) HARUS ditolak, bukan diloloskan
-        // — sebelumnya baris ini jadi celah IDOR lintas-OPD.
-        // canViewAllOpd() mencakup admin, super-admin, dan peninjau eksekutif.
-        // Peninjau tetap aman dari celah IDOR di atas karena keanggotaannya
-        // ditentukan oleh PERAN yang diberikan eksplisit, bukan disimpulkan
-        // dari opd_id yang kosong.
-        if ($user->canViewAllOpd() || ($peranEkstra && $user->hasAnyRole($peranEkstra))) {
-            return;
-        }
-
-        if (! $opdId || ! $user->opd_id || $opdId !== $user->opd_id) {
-            abort(403, $pesan);
-        }
+        $this->tolakOpdLain($request, $opdId, $pesan, $peranEkstra);
     }
 }
