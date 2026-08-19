@@ -397,23 +397,40 @@ export default function JadwalPenilaianWidget({
         </div>
       </div>
 
-      <div className="mt-3 space-y-4">
-        {arahan.map((a) => (
-          <div key={a.id}>
-            <p className="text-muted-foreground text-xs">
-              {a.jenis_label}
-              {a.nomor_se ? ` · Nomor ${a.nomor_se}` : ''}
-              {a.tanggal_se ? ` · ${tanggal(a.tanggal_se)}` : ''}
-            </p>
+      {/* Garis waktunya dilipat, ringkasannya tidak.
+          Dua sumbu waktu berikut kartunya memakan hampir separuh layar
+          pertama Dasbor, sedangkan yang perlu dilihat setiap hari cuma dua
+          lencana di atas: berapa tahapan lewat tenggat dan berapa sedang
+          berjalan. Karena itu yang dilipat hanya bagian bawahnya — lencananya
+          tetap terbaca dalam keadaan tertutup, jadi melipat ini tidak pernah
+          menyembunyikan tenggat yang terlewat.
 
-            {a.tahapan.length === 0 ? (
-              <p className="text-muted-foreground mt-1 text-sm">Belum ada tahapan yang dirinci pada arahan ini.</p>
-            ) : (
-              <GarisWaktu arahan={a} />
-            )}
-          </div>
-        ))}
-      </div>
+          Memakai <details> bawaan peramban, pola yang sama dengan panel
+          "Lihat status pengisian seluruh OPD", supaya keduanya membuka dan
+          menutup dengan cara yang sama persis. */}
+      <details className="mt-3">
+        <summary className="text-muted-foreground hover:text-foreground cursor-pointer text-xs">
+          Lihat garis waktu jadwal ({arahan.length} arahan · {semuaTahapan.length} tahapan)
+        </summary>
+
+        <div className="mt-3 space-y-4">
+          {arahan.map((a) => (
+            <div key={a.id}>
+              <p className="text-muted-foreground text-xs">
+                {a.jenis_label}
+                {a.nomor_se ? ` · Nomor ${a.nomor_se}` : ''}
+                {a.tanggal_se ? ` · ${tanggal(a.tanggal_se)}` : ''}
+              </p>
+
+              {a.tahapan.length === 0 ? (
+                <p className="text-muted-foreground mt-1 text-sm">Belum ada tahapan yang dirinci pada arahan ini.</p>
+              ) : (
+                <GarisWaktu arahan={a} />
+              )}
+            </div>
+          ))}
+        </div>
+      </details>
     </div>
   );
 }
