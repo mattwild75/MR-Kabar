@@ -69,6 +69,13 @@ class HandleInertiaRequests extends Middleware
                 // barisnya ada - tanpa ini, berkasnya tidak tahu harus
                 // ditempelkan ke mana.
                 'createdRiskId' => session('createdRiskId'),
+                // Kode QR + kunci teks hasil langkah 'siapkan', dan sepuluh
+                // kode pemulihan hasil langkah 'nyalakan'. Keduanya lewat
+                // flash, bukan prop tetap: masing-masing hanya boleh tampil
+                // sekali, tepat sesudah aksinya, lalu hilang saat halaman
+                // dimuat ulang.
+                'duaFaktorSiap' => session('duaFaktorSiap'),
+                'duaFaktorKodePemulihan' => session('duaFaktorKodePemulihan'),
             ],
             // TIDAK dibagikan ke /panduan-publik. Halaman itu terbuka tanpa
             // login, dan baris settingapp memuat 32 kolom — di antaranya

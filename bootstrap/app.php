@@ -7,6 +7,7 @@ use App\Http\Middleware\RestrictCeeSurveyRole;
 use App\Http\Middleware\RestrictLaporRisikoRole;
 use App\Http\Middleware\ShareMenus;
 use App\Http\Middleware\ViewerReadOnly;
+use App\Http\Middleware\WajibDuaFaktor;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -26,6 +27,11 @@ return Application::configure(basePath: dirname(__DIR__))
             ShareMenus::class,
             RestrictCeeSurveyRole::class,
             RestrictLaporRisikoRole::class,
+            // Sesudah penjaga peran, sebelum ViewerReadOnly. Urutannya
+            // penting: yang ditahan di sini belum boleh menyentuh apa pun,
+            // jadi ia harus lebih dulu daripada penjaga yang mengatur BOLEH
+            // MENGUBAH APA.
+            WajibDuaFaktor::class,
             // Ditaruh di rantai global (bukan per-route) supaya fitur baru
             // apa pun otomatis ikut terkunci untuk peran `eksekutif` tanpa
             // perlu diingat satu per satu.

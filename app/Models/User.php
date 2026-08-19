@@ -37,6 +37,13 @@ class User extends Authenticatable implements HasMedia
     protected $hidden = [
         'password',
         'remember_token',
+        // Ikut tersembunyi karena objek User dibagikan utuh ke setiap halaman
+        // lewat Inertia shared props, dan seluruhnya terbaca lewat view-source.
+        // Isinya memang sudah terenkripsi, tetapi ciphertext yang terpampang
+        // di tiap halaman memberi penyerang bahan untuk dikerjakan di waktu
+        // luangnya. Tidak ada satu pun layar yang membutuhkannya.
+        'two_factor_secret',
+        'two_factor_recovery_codes',
     ];
 
     /**

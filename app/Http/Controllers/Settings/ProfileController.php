@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Services\DuaFaktorService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,9 +18,20 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+        $duaFaktor = app(DuaFaktorService::class);
+        $user = $request->user();
+
         return Inertia::render('settings/profile', [
-            'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
+            'mustVerifyEmail' => $user instanceof MustVerifyEmail,
             'status' => $request->session()->get('status'),
+            // Keadaan 2FA akun ini. Hanya angka dan boolean yang dikirim —
+            // kuncinya sendiri tidak pernah meninggalkan server kecuali sekali
+            // saat pemasangan, lewat flash 'duaFaktorSiap'.
+            'duaFaktor' => [
+                'aktif' => $duaFaktor->aktif($user),
+                'wajib' => $duaFaktor->wajibBagi($user),
+                'sisaKodePemulihan' => count($duaFaktor->kodePemulihanTersimpan($user)),
+            ],
         ]);
     }
 

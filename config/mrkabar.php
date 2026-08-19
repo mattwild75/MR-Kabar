@@ -36,4 +36,21 @@ return [
         'npm_binary' => env('BROWSERSHOT_NPM_BINARY'),
     ],
 
+    /*
+     * Autentikasi dua faktor (TOTP).
+     *
+     * `peran_wajib` menentukan siapa yang TIDAK BOLEH memakai aplikasi ini
+     * tanpa memasang 2FA lebih dulu. Sengaja dibaca dari sini, bukan ditulis
+     * di dalam kode: menambah peran berhak-tinggi kelak cukup mengubah baris
+     * ini, dan daftarnya terbaca sekali pandang tanpa menelusuri controller.
+     *
+     * Peran lain — PIC perangkat daerah, peninjau, akun bersama LAPOR dan
+     * CEE_Survey — sengaja TIDAK diwajibkan. Akun bersama dipakai bergantian
+     * oleh banyak orang lewat kode QR; mewajibkan satu ponsel di situ justru
+     * membuatnya tidak bisa dipakai siapa pun.
+     */
+    'dua_faktor' => [
+        'peran_wajib' => ['super-admin', 'admin'],
+    ],
+
 ];

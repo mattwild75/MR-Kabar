@@ -4,10 +4,12 @@ Daftar hal yang **hanya bisa dikerjakan di server** — tidak ada satu pun yang
 bisa diselesaikan dari sisi kode. Urutannya sengaja dari atas ke bawah;
 beberapa langkah bergantung pada langkah sebelumnya.
 
-Dua dokumen pendamping, supaya isinya tidak diulang di sini:
+Tiga dokumen pendamping, supaya isinya tidak diulang di sini:
 
 - [PENJADWAL_SERVER.md](PENJADWAL_SERVER.md) — memasang cron/Task Scheduler
 - [PANDUAN_LIVE_WORKER.md](PANDUAN_LIVE_WORKER.md) — demo lewat tunnel & queue worker
+- [DUA_FAKTOR.md](DUA_FAKTOR.md) — autentikasi dua faktor, termasuk cara
+  membuka akun yang ponsel dan kode pemulihannya hilang
 
 ---
 

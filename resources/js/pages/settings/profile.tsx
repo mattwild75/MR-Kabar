@@ -3,6 +3,7 @@ import { Transition } from '@headlessui/react';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
+import DuaFaktorSection, { type KeadaanDuaFaktor } from '@/components/dua-faktor-section';
 import HeadingSmall from '@/components/heading-small';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
+export default function Profile({ mustVerifyEmail, status, duaFaktor }: { mustVerifyEmail: boolean; status?: string; duaFaktor: KeadaanDuaFaktor }) {
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
@@ -110,6 +111,10 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
                             </Transition>
                         </div>
                     </form>
+
+                    <div className="border-t pt-6">
+                        <DuaFaktorSection keadaan={duaFaktor} />
+                    </div>
                 </div>
             </SettingsLayout>
         </AppLayout>

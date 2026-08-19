@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\Auth\CeeSurveyQrLoginController;
+use App\Http\Controllers\Auth\DuaFaktorTantanganController;
 use App\Http\Controllers\Auth\LaporQrLoginController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CeeFormController;
@@ -89,6 +90,19 @@ Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
 Route::get('/panduan-publik', function () {
     return Inertia::render('panduan/Public');
 })->name('panduan.public');
+
+// Layar tantangan dua faktor. SENGAJA di luar grup 'menu.permission':
+// pengguna yang sampai ke sini belum boleh menyentuh apa pun, dan
+// memeriksanya terhadap izin menu justru bisa memantulkannya ke tempat lain
+// sebelum tahap kedua terlampaui. Middleware WajibDuaFaktor sendiri sudah
+// mengizinkan jalur ini apa adanya supaya pemantulannya tidak berputar.
+Route::middleware('auth')->group(function () {
+    Route::get('dua-faktor', [DuaFaktorTantanganController::class, 'tampil'])->name('dua-faktor.tampil');
+    Route::post('dua-faktor', [DuaFaktorTantanganController::class, 'kirim'])
+        ->middleware('throttle:6,1')
+        ->name('dua-faktor.kirim');
+    Route::post('dua-faktor/batal', [DuaFaktorTantanganController::class, 'batal'])->name('dua-faktor.batal');
+});
 
 Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
