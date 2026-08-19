@@ -58,6 +58,26 @@ New-Item -ItemType Directory -Force -Path $tujuan | Out-Null
 robocopy $asal $tujuan /E /XO /R:2 /W:2 /NFL /NDL /NP /NJH /NJS | Out-Null
 $kode = $LASTEXITCODE
 
+# BERKAS MEDIA ikut disalin, dan itu WAJIB - bukan tambahan yang manis.
+#
+# Seluruh jalur cadangan di dalam aplikasi (tombol Backup maupun snapshot
+# versi) memanggil `backup:run --only-db`. Artinya isi database tersimpan,
+# tetapi BERKAS-nya tidak: Bukti Dukung Risiko dan File Manager tinggal di
+# storage/app/private (MEDIA_DISK=local). Memulihkan snapshot tanpa berkas
+# ini menghasilkan baris media yang menunjuk berkas yang tidak ada - bukti
+# dukung yang hilang tanpa jejak. Ditemukan pada audit R-20.
+#
+# Folder versi dikecualikan supaya tidak tersalin dua kali (sudah ditangani
+# robocopy di atas).
+$asalMedia = Join-Path $PSScriptRoot '..\storage\app\private'
+$asalMedia = (Resolve-Path $asalMedia -ErrorAction SilentlyContinue)
+if ($asalMedia) {
+    $tujuanMedia = Join-Path $env:OneDrive 'MR Kabar\berkas-media'
+    New-Item -ItemType Directory -Force -Path $tujuanMedia | Out-Null
+    robocopy $asalMedia $tujuanMedia /E /XO /XD "$asalMedia\versi" /R:2 /W:2 /NFL /NDL /NP /NJH /NJS | Out-Null
+    if ($LASTEXITCODE -ge 8) { $kode = $LASTEXITCODE }
+}
+
 # Robocopy: 0-7 sukses (0 = tidak ada yang perlu disalin), >=8 gagal.
 if ($kode -ge 8) {
     Write-Output "GAGAL menyalin (kode robocopy $kode)"
