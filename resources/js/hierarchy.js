@@ -1,4 +1,4 @@
-﻿(function(window) {
+﻿(function (window) {
     // Helper to create a level container div
     function createLevelDiv(level, container) {
         const div = document.createElement('div');
@@ -9,23 +9,39 @@
     }
     // Private variables
     const levelColors = [
-        "#ff9aa2", // Level 0 - Visi
-        "#ffb7b2", // Level 1 - Misi
-        "#ffdac1", // Level 2 - Tujuan
-        "#e2f0cb", // Level 3 - Sasaran
-        "#b5ead7", // Level 4 - Program
-        "#c7ceea", // Level 5 - OPD
-        "#a2d2ff"  // Level 6 - Risiko
+        '#ff9aa2', // Level 0 - Visi
+        '#ffb7b2', // Level 1 - Misi
+        '#ffdac1', // Level 2 - Tujuan
+        '#e2f0cb', // Level 3 - Sasaran
+        '#b5ead7', // Level 4 - Program
+        '#c7ceea', // Level 5 - OPD
+        '#a2d2ff', // Level 6 - Risiko
     ];
 
     // Palet untuk level atribut risiko (7+) yang jumlahnya dinamis
     // mengikuti kolom tabel — diulang bila kolom lebih banyak
     // daripada jumlah warna.
     const attrColors = [
-        "#ffd6e0", "#ffe5b4", "#fdffb6", "#caffbf", "#9bf6ff",
-        "#a0c4ff", "#bdb2ff", "#ffc6ff", "#e2ece9", "#ffadad",
-        "#ffd6a5", "#fbf8cc", "#b9fbc0", "#98f5e1", "#8eecf5",
-        "#90dbf4", "#a3c4f3", "#cfbaf0", "#f1c0e8", "#ffcfd2"
+        '#ffd6e0',
+        '#ffe5b4',
+        '#fdffb6',
+        '#caffbf',
+        '#9bf6ff',
+        '#a0c4ff',
+        '#bdb2ff',
+        '#ffc6ff',
+        '#e2ece9',
+        '#ffadad',
+        '#ffd6a5',
+        '#fbf8cc',
+        '#b9fbc0',
+        '#98f5e1',
+        '#8eecf5',
+        '#90dbf4',
+        '#a3c4f3',
+        '#cfbaf0',
+        '#f1c0e8',
+        '#ffcfd2',
     ];
 
     let chartData = null;
@@ -49,12 +65,12 @@
         if (!chartArea || !wrapper) return;
         chartArea.style.transform = `scale(${zoomLevel})`;
         chartArea.style.transformOrigin = '0 0';
-        wrapper.style.width = (chartArea.offsetWidth * zoomLevel) + 'px';
-        wrapper.style.height = (chartArea.offsetHeight * zoomLevel) + 'px';
+        wrapper.style.width = chartArea.offsetWidth * zoomLevel + 'px';
+        wrapper.style.height = chartArea.offsetHeight * zoomLevel + 'px';
     }
 
     // Fungsi zoom
-    window.zoomHierarchy = function(factor) {
+    window.zoomHierarchy = function (factor) {
         zoomLevel = Math.max(0.2, Math.min(zoomLevel * factor, 5));
         applyZoom();
     };
@@ -64,23 +80,26 @@
         const treeContainer = document.getElementById('tree-container');
         if (!treeContainer || !chartData) return;
 
-        treeContainer.innerHTML = '<div class="chart-scale-wrapper" id="chart-scale-wrapper"><div class="chart-area" id="chart-area"><svg class="connectors" id="connectors"></svg></div></div>';
+        treeContainer.innerHTML =
+            '<div class="chart-scale-wrapper" id="chart-scale-wrapper"><div class="chart-area" id="chart-area"><svg class="connectors" id="connectors"></svg></div></div>';
         const chartArea = treeContainer.querySelector('.chart-area');
 
         // Group nodes by level
         const levels = {};
-        chartData.nodes.forEach(node => {
+        chartData.nodes.forEach((node) => {
             if (!levels[node.level]) levels[node.level] = [];
             levels[node.level].push(node);
         });
 
         // Create level containers
-        Object.keys(levels).sort((a,b)=>a-b).forEach(level => {
-            createLevelDiv(level, chartArea);
-        });
+        Object.keys(levels)
+            .sort((a, b) => a - b)
+            .forEach((level) => {
+                createLevelDiv(level, chartArea);
+            });
 
         // Place nodes in their level
-        chartData.nodes.forEach(node => {
+        chartData.nodes.forEach((node) => {
             const levelDiv = document.querySelector(`.level[data-level="${node.level}"]`);
             createNodeDiv(node, node.level, levelDiv);
         });
@@ -137,9 +156,7 @@
         // Level 7+ adalah atribut risiko yang jumlahnya dinamis mengikuti
         // kolom tabel — palet atribut diulang bila kolom lebih banyak
         // daripada jumlah warna.
-        let headerColor = level < 7
-            ? (levelColors[level] || '#ddd')
-            : attrColors[(level - 7) % attrColors.length];
+        let headerColor = level < 7 ? levelColors[level] || '#ddd' : attrColors[(level - 7) % attrColors.length];
         let label = node.name;
         if (level == 5 || node.name === 'OPD') {
             headerColor = levelColors[5];
@@ -151,14 +168,14 @@
         infoBtn.className = 'node-info-btn';
         infoBtn.innerHTML = '\u2139\ufe0f';
         infoBtn.title = 'Lihat detail';
-        infoBtn.onclick = function(e) {
+        infoBtn.onclick = function (e) {
             e.stopPropagation();
             showNodeDetail(node);
         };
 
         div.innerHTML = `
-            <div class=\"node-header\" style=\"background-color: ${headerColor}\">${label}</div>
-            <div class=\"node-value\">${node.value}</div>
+            <div class="node-header" style="background-color: ${headerColor}">${label}</div>
+            <div class="node-value">${node.value}</div>
         `;
         div.querySelector('.node-header').appendChild(infoBtn);
 
@@ -170,9 +187,9 @@
     function showNodeDetail(node) {
         let html = `<h4>Detail ${node.name}</h4><ul style="list-style:none;padding:0;">`;
         for (const key in node) {
-            if (['id','name','children','level'].includes(key)) continue;
+            if (['id', 'name', 'children', 'level'].includes(key)) continue;
             if (node[key] && typeof node[key] !== 'object') {
-                html += `<li><b>${key.replace(/_/g,' ').toUpperCase()}</b>: ${node[key]}</li>`;
+                html += `<li><b>${key.replace(/_/g, ' ').toUpperCase()}</b>: ${node[key]}</li>`;
             }
         }
         html += '</ul>';
@@ -195,7 +212,7 @@
                 <div id="node-detail-content"></div>
             </div>`;
             document.body.appendChild(modal);
-            modal.querySelector('#close-node-detail-modal').onclick = function() {
+            modal.querySelector('#close-node-detail-modal').onclick = function () {
                 modal.style.display = 'none';
             };
         }
@@ -215,7 +232,7 @@
         const chartAreaRect = chartArea.getBoundingClientRect();
 
         // Draw all edges
-        chartData.edges.forEach(edge => {
+        chartData.edges.forEach((edge) => {
             const parentEl = chartArea.querySelector(`.node[data-id="${escapeSelector(edge.from)}"]`);
             const childEl = chartArea.querySelector(`.node[data-id="${escapeSelector(edge.to)}"]`);
             if (!parentEl || !childEl) return;
@@ -277,7 +294,7 @@
         void chartArea.offsetHeight; // paksa reflow sebelum mengukur
         const chartAreaRect = chartArea.getBoundingClientRect();
 
-        chartData.edges.forEach(edge => {
+        chartData.edges.forEach((edge) => {
             const parentEl = chartArea.querySelector(`.node[data-id="${escapeSelector(edge.from)}"]`);
             const childEl = chartArea.querySelector(`.node[data-id="${escapeSelector(edge.to)}"]`);
             if (!parentEl || !childEl) return;
@@ -336,7 +353,9 @@
 
     function intersectRows(setA, setB) {
         const result = new Set();
-        setA.forEach(v => { if (setB.has(v)) result.add(v); });
+        setA.forEach((v) => {
+            if (setB.has(v)) result.add(v);
+        });
         return result;
     }
 
@@ -345,14 +364,20 @@
     // (mis. RISIKO yang sama persis muncul di 2 baris tabel berbeda);
     // masing-masing baris tetap berhak ditelusuri sampai ujungnya sendiri.
     function visitKey(nodeId, rows) {
-        return nodeId + '::' + Array.from(rows).sort((a, b) => a - b).join(',');
+        return (
+            nodeId +
+            '::' +
+            Array.from(rows)
+                .sort((a, b) => a - b)
+                .join(',')
+        );
     }
 
     function initialContextRows(nodeId) {
         const contextRows = new Set();
-        chartData.edges.forEach(edge => {
+        chartData.edges.forEach((edge) => {
             if (edge.from === nodeId || edge.to === nodeId) {
-                edgeRowSet(edge).forEach(r => contextRows.add(r));
+                edgeRowSet(edge).forEach((r) => contextRows.add(r));
             }
         });
         return contextRows;
@@ -384,14 +409,16 @@
         if (!chartArea) return;
         // Find all edges where to = nodeId AND yang berbagi baris asal
         // dengan konteks yang sedang ditelusuri.
-        chartData.edges.forEach(edge => {
+        chartData.edges.forEach((edge) => {
             if (edge.to !== nodeId) return;
             const sharedRows = intersectRows(edgeRowSet(edge), contextRows);
             if (sharedRows.size === 0) return;
 
             const parentId = edge.from;
             const parentNode = chartArea.querySelector(`.node[data-id="${escapeSelector(parentId)}"]`);
-            const connector = chartArea.querySelector(`.connector[data-parent="${escapeSelector(parentId)}"][data-child="${escapeSelector(nodeId)}"]`);
+            const connector = chartArea.querySelector(
+                `.connector[data-parent="${escapeSelector(parentId)}"][data-child="${escapeSelector(nodeId)}"]`,
+            );
             if (parentNode && connector) {
                 parentNode.classList.add('highlighted-path');
                 connector.classList.add('highlighted-path');
@@ -408,7 +435,7 @@
         if (!chartArea) return;
         // Find all edges where from = nodeId AND yang berbagi baris asal
         // dengan konteks yang sedang ditelusuri.
-        chartData.edges.forEach(edge => {
+        chartData.edges.forEach((edge) => {
             if (edge.from !== nodeId) return;
             const sharedRows = intersectRows(edgeRowSet(edge), contextRows);
             if (sharedRows.size === 0) return;
@@ -425,7 +452,7 @@
     }
 
     function resetHighlight() {
-        document.querySelectorAll('.node, .connector').forEach(el => {
+        document.querySelectorAll('.node, .connector').forEach((el) => {
             el.classList.remove('highlighted', 'highlighted-path');
         });
     }
@@ -488,17 +515,13 @@
         const naturalWidth = chartArea.scrollWidth;
         const naturalHeight = chartArea.scrollHeight;
 
-        const PAGE_WIDTH_PX = 1122;  // A4 landscape ~297mm @ 96dpi
-        const PAGE_HEIGHT_PX = 793;  // ~210mm @ 96dpi
+        const PAGE_WIDTH_PX = 1122; // A4 landscape ~297mm @ 96dpi
+        const PAGE_HEIGHT_PX = 793; // ~210mm @ 96dpi
         const MARGIN_PX = 24;
         const availableWidth = PAGE_WIDTH_PX - MARGIN_PX * 2;
         const availableHeight = PAGE_HEIGHT_PX - MARGIN_PX * 2;
 
-        const printScale = Math.min(
-            availableWidth / naturalWidth,
-            availableHeight / naturalHeight,
-            1
-        );
+        const printScale = Math.min(availableWidth / naturalWidth, availableHeight / naturalHeight, 1);
 
         document.documentElement.style.setProperty('--print-scale', printScale);
 
@@ -546,7 +569,7 @@
     });
 
     // Handler for mode change (optional, for external call)
-    window.onModeChange = function(mode) {
+    window.onModeChange = function (mode) {
         selectedHighlightMode = mode || 'total';
         if (selectedNodeId) {
             resetHighlight();
@@ -559,14 +582,13 @@
     };
 
     // Export public API
-    window.initializeHierarchy = function(data) {
+    window.initializeHierarchy = function (data) {
         chartData = data;
         createChart();
     };
 
-    window.resetHierarchyHighlight = function() {
+    window.resetHierarchyHighlight = function () {
         selectedNodeId = null;
         resetHighlight();
     };
-
 })(window);

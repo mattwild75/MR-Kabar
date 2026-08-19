@@ -52,7 +52,7 @@ class SekretariatDaerahContohSeeder extends Seeder
     public function run(): void
     {
         $user = User::where('username', 'PIC_SEKRETARIAT_DAERAH')->first();
-        if (!$user) {
+        if (! $user) {
             $this->command?->warn("User 'PIC_SEKRETARIAT_DAERAH' tidak ditemukan, dilewati.");
 
             return;

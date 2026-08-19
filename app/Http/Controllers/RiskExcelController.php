@@ -49,14 +49,14 @@ class RiskExcelController extends Controller
      */
     private function ensureSuperAdmin(): void
     {
-        if (!auth()->user()?->hasRole('super-admin')) {
+        if (! auth()->user()?->hasRole('super-admin')) {
             abort(403, 'Persetujuan impor Excel hanya dapat dilakukan oleh Super Admin.');
         }
     }
 
     public function index()
     {
-        if (!$this->isAdmin()) {
+        if (! $this->isAdmin()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengakses Ekspor/Impor Excel.');
         }
 
@@ -96,21 +96,21 @@ class RiskExcelController extends Controller
 
     public function export(RiskExcelExportService $service)
     {
-        if (!$this->isAdmin()) {
+        if (! $this->isAdmin()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengekspor data.');
         }
 
         set_time_limit(300);
 
         $spreadsheet = $service->build(includeData: true);
-        $filename = 'MR-Kabar-Data-Risiko-' . now()->format('Y-m-d_His') . '.xlsx';
+        $filename = 'MR-Kabar-Data-Risiko-'.now()->format('Y-m-d_His').'.xlsx';
 
         return $this->streamXlsx($spreadsheet, $filename);
     }
 
     public function template(RiskExcelExportService $service)
     {
-        if (!$this->isAdmin()) {
+        if (! $this->isAdmin()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengunduh template.');
         }
 
@@ -122,7 +122,7 @@ class RiskExcelController extends Controller
 
     public function import(Request $request, RiskExcelImportService $service)
     {
-        if (!$this->isAdmin()) {
+        if (! $this->isAdmin()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengimpor data.');
         }
 
@@ -154,7 +154,7 @@ class RiskExcelController extends Controller
 
         $v = $service->validate($spreadsheet);
 
-        if (!empty($v['structureErrors'])) {
+        if (! empty($v['structureErrors'])) {
             $result = ['ok' => false, 'structure_errors' => $v['structureErrors'], 'sheets' => []];
 
             return $this->respondWithImportResult($result);
@@ -194,7 +194,7 @@ class RiskExcelController extends Controller
         // sudah bukan "pending" lagi setelah lock pertama selesai.
         $claimed = DB::transaction(function () use ($importRequest) {
             $locked = RiskExcelImportRequest::whereKey($importRequest->id)->lockForUpdate()->first();
-            if (!$locked || $locked->status !== 'pending') {
+            if (! $locked || $locked->status !== 'pending') {
                 return null;
             }
             // Tandai segera sbg "processing" di dalam lock yg sama supaya
@@ -207,12 +207,12 @@ class RiskExcelController extends Controller
             return $locked;
         });
 
-        if (!$claimed) {
+        if (! $claimed) {
             return redirect()->back()->with('error', 'Permintaan ini sudah diproses sebelumnya.');
         }
 
         $fullPath = Storage::disk('local')->path($claimed->file_path);
-        if (!Storage::disk('local')->exists($claimed->file_path)) {
+        if (! Storage::disk('local')->exists($claimed->file_path)) {
             $claimed->update(['status' => 'rejected', 'reviewed_by' => auth()->id(), 'reviewed_at' => now(), 'rejection_reason' => 'File sumber tidak ditemukan lagi di server.']);
 
             return redirect()->back()->with('error', 'File sumber tidak ditemukan lagi di server — permintaan otomatis ditandai gagal.');
@@ -231,7 +231,7 @@ class RiskExcelController extends Controller
         // yang dirujuk sudah dihapus) tetap tertangkap sebelum ditulis.
         $v = $service->validate($spreadsheet);
 
-        if (!empty($v['structureErrors'])) {
+        if (! empty($v['structureErrors'])) {
             $claimed->update([
                 'status' => 'rejected',
                 'reviewed_by' => auth()->id(),
@@ -277,14 +277,14 @@ class RiskExcelController extends Controller
         // approve balapan dari klik ganda atau dua super-admin bersamaan.
         $claimed = DB::transaction(function () use ($importRequest) {
             $locked = RiskExcelImportRequest::whereKey($importRequest->id)->lockForUpdate()->first();
-            if (!$locked || $locked->status !== 'pending') {
+            if (! $locked || $locked->status !== 'pending') {
                 return null;
             }
 
             return $locked;
         });
 
-        if (!$claimed) {
+        if (! $claimed) {
             return redirect()->back()->with('error', 'Permintaan ini sudah diproses sebelumnya.');
         }
 
@@ -305,7 +305,7 @@ class RiskExcelController extends Controller
 
     private function respondWithImportResult(array $result)
     {
-        if (!$result['ok']) {
+        if (! $result['ok']) {
             return redirect()->back()->with('error', 'File ditolak — struktur/format tidak sesuai.')->with('importResult', $result);
         }
 

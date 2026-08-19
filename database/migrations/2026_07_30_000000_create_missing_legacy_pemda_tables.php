@@ -36,7 +36,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('tbl_krs_pemda')) {
+        if (! Schema::hasTable('tbl_krs_pemda')) {
             Schema::create('tbl_krs_pemda', function (Blueprint $table) {
                 $table->id();
                 foreach ([
@@ -70,7 +70,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('tbl_krs_irs_pemda')) {
+        if (! Schema::hasTable('tbl_krs_irs_pemda')) {
             Schema::create('tbl_krs_irs_pemda', function (Blueprint $table) {
                 foreach ([
                     'VISI',

@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasTable('tbl_pembangunandaerah') && !Schema::hasTable('tbl_krs_pemda')) {
+        if (Schema::hasTable('tbl_pembangunandaerah') && ! Schema::hasTable('tbl_krs_pemda')) {
             Schema::rename('tbl_pembangunandaerah', 'tbl_krs_pemda');
         }
     }
 
     public function down(): void
     {
-        if (Schema::hasTable('tbl_krs_pemda') && !Schema::hasTable('tbl_pembangunandaerah')) {
+        if (Schema::hasTable('tbl_krs_pemda') && ! Schema::hasTable('tbl_pembangunandaerah')) {
             Schema::rename('tbl_krs_pemda', 'tbl_pembangunandaerah');
         }
     }

@@ -41,9 +41,9 @@ class StrukturPengelola2025Seeder extends Seeder
         $inspektur = $this->namaBerjabatan('INSPEKTUR');
 
         $tugasUpr = "a. melaksanakan penilaian Risiko pada tingkatannya dan menetapkan penanganannya;\n"
-            . "b. menyusun dan melaksanakan Rencana Tindak Pengendalian;\n"
-            . "c. melaporkan kejadian Risiko yang terjadi dalam pelaksanaan kegiatan sehari-hari;\n"
-            . "d. menyampaikan hasil penilaian Risiko kepada Unit Kepatuhan.";
+            ."b. menyusun dan melaksanakan Rencana Tindak Pengendalian;\n"
+            ."c. melaporkan kejadian Risiko yang terjadi dalam pelaksanaan kegiatan sehari-hari;\n"
+            .'d. menyampaikan hasil penilaian Risiko kepada Unit Kepatuhan.';
 
         // Urutan mengikuti Lampiran Keputusan Bupati: penanggung jawab,
         // koordinator penyelenggaraan, ketiga jenjang Unit Pemilik Risiko,
@@ -55,11 +55,11 @@ class StrukturPengelola2025Seeder extends Seeder
                 'kedudukan' => 'ketua',
                 'jabatan' => 'Bupati Aceh Barat',
                 'nama' => $bupati,
-                'tugas' => "Selaku penanggung jawab pengelolaan Risiko sekaligus Ketua Unit Pemilik "
-                    . "Risiko tingkat Pemerintah Daerah:\n"
-                    . "a. menetapkan arah kebijakan pengelolaan Risiko Pemerintah Daerah;\n"
-                    . "b. memiliki Risiko strategis Pemerintah Daerah dan memutuskan penanganannya;\n"
-                    . "c. menerima laporan pengelolaan Risiko dari Unit Kepatuhan dan Komite.",
+                'tugas' => 'Selaku penanggung jawab pengelolaan Risiko sekaligus Ketua Unit Pemilik '
+                    ."Risiko tingkat Pemerintah Daerah:\n"
+                    ."a. menetapkan arah kebijakan pengelolaan Risiko Pemerintah Daerah;\n"
+                    ."b. memiliki Risiko strategis Pemerintah Daerah dan memutuskan penanganannya;\n"
+                    .'c. menerima laporan pengelolaan Risiko dari Unit Kepatuhan dan Komite.',
             ],
             [
                 'peran' => 'upr_pemda',
@@ -67,17 +67,17 @@ class StrukturPengelola2025Seeder extends Seeder
                 'jabatan' => 'Kepala Badan Perencanaan Pembangunan Daerah',
                 'nama' => null,
                 'tugas' => 'Mengoordinasikan teknis penilaian Risiko strategis Pemerintah Daerah '
-                    . 'dan menyiapkan bahan pembahasannya.',
+                    .'dan menyiapkan bahan pembahasannya.',
             ],
             [
                 'peran' => 'upr_pemda',
                 'kedudukan' => 'anggota',
                 'jabatan' => 'Seluruh Kepala Perangkat Daerah, Sekretaris Daerah, Sekretaris DPRK, '
-                    . 'Inspektur, dan Direktur BLUD RSUD Cut Nyak Dhien',
+                    .'Inspektur, dan Direktur BLUD RSUD Cut Nyak Dhien',
                 'nama' => null,
                 'tugas' => 'Mengikuti penilaian Risiko strategis Pemerintah Daerah secara Control '
-                    . 'Self Assessment atau Focus Group Discussion, serta melaksanakan Rencana '
-                    . 'Tindak Pengendalian yang menjadi bagiannya.',
+                    .'Self Assessment atau Focus Group Discussion, serta melaksanakan Rencana '
+                    .'Tindak Pengendalian yang menjadi bagiannya.',
             ],
 
             // ── Koordinator penyelenggaraan ──
@@ -86,11 +86,11 @@ class StrukturPengelola2025Seeder extends Seeder
                 'kedudukan' => null,
                 'jabatan' => 'Sekretaris Daerah Kabupaten Aceh Barat',
                 'nama' => $sekda,
-                'tugas' => "a. mengoordinasikan penyelenggaraan pengelolaan Risiko di lingkungan "
-                    . "Pemerintah Kabupaten Aceh Barat;\n"
-                    . "b. memastikan setiap tahapan pengelolaan Risiko dilaksanakan sesuai arahan "
-                    . "Bupati;\n"
-                    . "c. menerima tembusan laporan pengelolaan Risiko.",
+                'tugas' => 'a. mengoordinasikan penyelenggaraan pengelolaan Risiko di lingkungan '
+                    ."Pemerintah Kabupaten Aceh Barat;\n"
+                    .'b. memastikan setiap tahapan pengelolaan Risiko dilaksanakan sesuai arahan '
+                    ."Bupati;\n"
+                    .'c. menerima tembusan laporan pengelolaan Risiko.',
             ],
 
             // ── Komite Pengelolaan Risiko ──
@@ -100,22 +100,22 @@ class StrukturPengelola2025Seeder extends Seeder
                 'jabatan' => 'Bupati Aceh Barat',
                 'nama' => $bupati,
                 'tugas' => "a. menetapkan petunjuk pelaksanaan pengelolaan Risiko Pemerintah Daerah;\n"
-                    . "b. menetapkan kebijakan penerapan berupa Kategori Risiko, Kriteria Risiko, "
-                    . "Matriks Analisis Risiko, Level Risiko, dan Selera Risiko;\n"
-                    . "c. menetapkan Daftar Risiko, Peta Risiko, dan Rencana Tindak Pengendalian "
-                    . "tingkat Pemerintah Daerah;\n"
-                    . "d. menetapkan kebijakan pembinaan pengelolaan Risiko.",
+                    .'b. menetapkan kebijakan penerapan berupa Kategori Risiko, Kriteria Risiko, '
+                    ."Matriks Analisis Risiko, Level Risiko, dan Selera Risiko;\n"
+                    .'c. menetapkan Daftar Risiko, Peta Risiko, dan Rencana Tindak Pengendalian '
+                    ."tingkat Pemerintah Daerah;\n"
+                    .'d. menetapkan kebijakan pembinaan pengelolaan Risiko.',
             ],
             [
                 'peran' => 'komite',
                 'kedudukan' => 'koordinator',
                 'jabatan' => 'Kepala Badan Perencanaan Pembangunan Daerah',
                 'nama' => null,
-                'tugas' => "a. menyusun konsep petunjuk pelaksanaan dan kebijakan penerapan "
-                    . "pengelolaan Risiko;\n"
-                    . "b. mengoordinasikan kegiatan pembinaan berupa sosialisasi, bimbingan, "
-                    . "supervisi, dan pelatihan;\n"
-                    . "c. menyiapkan laporan semesteran dan tahunan kegiatan pembinaan.",
+                'tugas' => 'a. menyusun konsep petunjuk pelaksanaan dan kebijakan penerapan '
+                    ."pengelolaan Risiko;\n"
+                    .'b. mengoordinasikan kegiatan pembinaan berupa sosialisasi, bimbingan, '
+                    ."supervisi, dan pelatihan;\n"
+                    .'c. menyiapkan laporan semesteran dan tahunan kegiatan pembinaan.',
             ],
             [
                 'peran' => 'komite',
@@ -123,7 +123,7 @@ class StrukturPengelola2025Seeder extends Seeder
                 'jabatan' => 'Kepala Perangkat Daerah yang ditunjuk',
                 'nama' => null,
                 'tugas' => 'Melaksanakan pembinaan pengelolaan Risiko kepada Unit Pemilik Risiko '
-                    . 'dan menjadi fasilitator yang memandu proses penilaian Risiko.',
+                    .'dan menjadi fasilitator yang memandu proses penilaian Risiko.',
             ],
 
             // ── Unit Kepatuhan ──
@@ -132,13 +132,13 @@ class StrukturPengelola2025Seeder extends Seeder
                 'kedudukan' => null,
                 'jabatan' => 'Asisten Sekretaris Daerah Kabupaten Aceh Barat',
                 'nama' => null,
-                'tugas' => "a. memantau pelaksanaan pengelolaan Risiko pada Unit Pemilik Risiko, "
-                    . "sejak penilaian kelemahan lingkungan pengendalian, proses penilaian Risiko, "
-                    . "sampai pelaksanaan kegiatan pengendalian;\n"
-                    . "b. menelaah kewajaran analisis Risiko dan kelayakan Rencana Tindak "
-                    . "Pengendalian;\n"
-                    . "c. menyusun laporan triwulanan dan tahunan pemantauan pengelolaan Risiko "
-                    . "kepada Bupati dengan tembusan Sekretaris Daerah.",
+                'tugas' => 'a. memantau pelaksanaan pengelolaan Risiko pada Unit Pemilik Risiko, '
+                    .'sejak penilaian kelemahan lingkungan pengendalian, proses penilaian Risiko, '
+                    ."sampai pelaksanaan kegiatan pengendalian;\n"
+                    .'b. menelaah kewajaran analisis Risiko dan kelayakan Rencana Tindak '
+                    ."Pengendalian;\n"
+                    .'c. menyusun laporan triwulanan dan tahunan pemantauan pengelolaan Risiko '
+                    .'kepada Bupati dengan tembusan Sekretaris Daerah.',
             ],
 
             // ── Penanggung jawab pengawasan ──
@@ -148,9 +148,9 @@ class StrukturPengelola2025Seeder extends Seeder
                 'jabatan' => 'Inspektur Kabupaten Aceh Barat',
                 'nama' => $inspektur,
                 'tugas' => "a. melaksanakan pengawasan atas penyelenggaraan pengelolaan Risiko;\n"
-                    . "b. memberikan layanan fasilitasi penerapan pengelolaan Risiko dan "
-                    . "penyelenggaraan Sistem Pengendalian Intern Pemerintah;\n"
-                    . "c. melaksanakan pengawasan berbasis Risiko.",
+                    .'b. memberikan layanan fasilitasi penerapan pengelolaan Risiko dan '
+                    ."penyelenggaraan Sistem Pengendalian Intern Pemerintah;\n"
+                    .'c. melaksanakan pengawasan berbasis Risiko.',
             ],
 
             // ── Unit Pemilik Risiko Tingkat Eselon II ──
@@ -167,16 +167,16 @@ class StrukturPengelola2025Seeder extends Seeder
                 'jabatan' => 'Sekretaris Perangkat Daerah atau pejabat yang menangani perencanaan',
                 'nama' => null,
                 'tugas' => 'Mengoordinasikan teknis penilaian Risiko strategis Perangkat Daerah '
-                    . 'dan menghimpun kertas kerjanya.',
+                    .'dan menghimpun kertas kerjanya.',
             ],
             [
                 'peran' => 'upr_eselon_2',
                 'kedudukan' => 'anggota',
                 'jabatan' => 'Seluruh Kepala Bagian, Kepala Bidang, atau Inspektur Pembantu pada '
-                    . 'Perangkat Daerah yang bersangkutan',
+                    .'Perangkat Daerah yang bersangkutan',
                 'nama' => null,
                 'tugas' => 'Mengikuti penilaian Risiko strategis Perangkat Daerah dan melaksanakan '
-                    . 'kegiatan pengendalian pada bidang tugasnya.',
+                    .'kegiatan pengendalian pada bidang tugasnya.',
             ],
 
             // ── Unit Pemilik Risiko Tingkat Eselon III dan IV ──
@@ -191,19 +191,19 @@ class StrukturPengelola2025Seeder extends Seeder
                 'peran' => 'upr_eselon_3_4',
                 'kedudukan' => 'koordinator',
                 'jabatan' => 'Kepala Subbagian, Kepala Subbidang, atau Kepala Seksi yang menangani '
-                    . 'perencanaan kegiatan',
+                    .'perencanaan kegiatan',
                 'nama' => null,
                 'tugas' => 'Mengoordinasikan teknis penilaian Risiko operasional dan menghimpun '
-                    . 'kertas kerjanya.',
+                    .'kertas kerjanya.',
             ],
             [
                 'peran' => 'upr_eselon_3_4',
                 'kedudukan' => 'anggota',
                 'jabatan' => 'Seluruh Kepala Subbagian, Kepala Subbidang, dan Kepala Seksi pada '
-                    . 'Bagian atau Bidang yang bersangkutan',
+                    .'Bagian atau Bidang yang bersangkutan',
                 'nama' => null,
                 'tugas' => 'Melaksanakan kegiatan pengendalian yang dibutuhkan serta mencatat '
-                    . 'kejadian Risiko dan realisasi Rencana Tindak Pengendalian.',
+                    .'kejadian Risiko dan realisasi Rencana Tindak Pengendalian.',
             ],
         ];
 
@@ -211,10 +211,10 @@ class StrukturPengelola2025Seeder extends Seeder
             StrukturPengelolaRisiko::create($b + ['tahun' => self::TAHUN, 'urutan' => $i + 1]);
         }
 
-        $bernama = collect($baris)->filter(fn($b) => $b['nama'] !== null)->count();
+        $bernama = collect($baris)->filter(fn ($b) => $b['nama'] !== null)->count();
         $this->command?->info(
-            'Struktur Pengelolaan Risiko 2025 dibuat: ' . count($baris) . ' baris pada 7 peran, '
-            . $bernama . ' di antaranya sudah bernama dari Data Umum. Sisanya diisi Admin.'
+            'Struktur Pengelolaan Risiko 2025 dibuat: '.count($baris).' baris pada 7 peran, '
+            .$bernama.' di antaranya sudah bernama dari Data Umum. Sisanya diisi Admin.'
         );
     }
 
@@ -235,7 +235,7 @@ class StrukturPengelola2025Seeder extends Seeder
     private function namaBerjabatan(string $potongan): ?string
     {
         return DataUmum::where('tahun_penilaian', self::TAHUN)
-            ->where('jabatan_kepala_dinas', 'like', '%' . $potongan . '%')
+            ->where('jabatan_kepala_dinas', 'like', '%'.$potongan.'%')
             ->whereNotNull('nama_kepala_dinas')
             ->where('nama_kepala_dinas', '!=', '')
             ->value('nama_kepala_dinas');

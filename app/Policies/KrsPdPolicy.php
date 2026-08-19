@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class KrsPdPolicy extends RiskOwnershipPolicy
-{
-}
+class KrsPdPolicy extends RiskOwnershipPolicy {}

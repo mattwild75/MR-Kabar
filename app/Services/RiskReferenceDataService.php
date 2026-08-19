@@ -8,7 +8,9 @@ use App\Models\RiskJenis;
 use App\Models\RiskLevel;
 use App\Models\RiskLikelihoodCriteria;
 use App\Models\RiskMatrixCell;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Sumber tunggal utk data referensi risiko yang sebelumnya di-duplikasi 3x
@@ -160,7 +162,7 @@ class RiskReferenceDataService
 
         // Skenario A — existing control dinilai: Inheren wajib.
         if ($kategoriExisting !== null && (! $dampakInheren || ! $kemungkinanInheren)) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'SKALA DAMPAK INHEREN' => 'Skala Dampak & Kemungkinan Inheren wajib diisi bila Kategori Existing Control dinilai — skala risiko yang Anda isi adalah skala RESIDUAL (setelah pengendalian), jadi baseline "sebelum pengendalian" (Inheren) harus ada sebagai pembanding.',
             ]);
         }
@@ -191,7 +193,7 @@ class RiskReferenceDataService
         // Inheren (lihat blok di atas), tapi minimal SATU pasang tetap
         // wajib supaya baris risiko tidak tersimpan tanpa skala sama sekali.
         if (! $dampak && ! $kemungkinan && ! $dampakInheren && ! $kemungkinanInheren) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'SKALA DAMPAK INHEREN' => 'Skala Dampak & Kemungkinan wajib diisi — pilih dulu "Apakah risiko ini sudah memiliki Pengendalian yang Sudah Ada?" lalu isi skala yang muncul.',
             ]);
         }
@@ -207,7 +209,7 @@ class RiskReferenceDataService
         // pengendalian hanya bisa MENGURANGI risiko (Perdep Pasal 1 angka
         // 10), tidak pernah menambahnya.
         if ($data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO INHEREN'] < $data['SKALA RISIKO']) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
+            throw ValidationException::withMessages([
                 'SKALA DAMPAK INHEREN' => 'Skala Risiko Inheren ('.$data['SKALA RISIKO INHEREN'].') tidak boleh lebih rendah dari Skala Risiko setelah pengendalian/Sisa Risiko ('.$data['SKALA RISIKO'].') — risiko sebelum pengendalian harus selalu lebih besar atau sama dengan risiko setelah pengendalian.',
             ]);
         }
@@ -253,7 +255,7 @@ class RiskReferenceDataService
             $data['SKALA RISIKO TARGET'] = $hasilTarget['skala_risiko'];
 
             if ($data['SKALA RISIKO TARGET'] !== null && $data['SKALA RISIKO INHEREN'] !== null && $data['SKALA RISIKO TARGET'] > $data['SKALA RISIKO INHEREN']) {
-                throw \Illuminate\Validation\ValidationException::withMessages([
+                throw ValidationException::withMessages([
                     'SKALA KEMUNGKINAN TARGET' => 'Skala Risiko Target ('.$data['SKALA RISIKO TARGET'].') tidak boleh lebih tinggi dari Skala Risiko Inheren ('.$data['SKALA RISIKO INHEREN'].') — proyeksi RTP dihitung dari kondisi tanpa kontrol, hasilnya harus selalu lebih baik atau sama dengan kondisi itu.',
                 ]);
             }
@@ -408,7 +410,7 @@ class RiskReferenceDataService
      * sebelumnya (temuan audit performa). Invalidasi otomatis via
      * RiskLevel::booted() saat Admin edit Level Risiko.
      */
-    public function riskLevelsOrdered(): \Illuminate\Support\Collection
+    public function riskLevelsOrdered(): Collection
     {
         return Cache::rememberForever(RiskLevel::CACHE_KEY, fn () => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class', 'melampaui_selera']));
     }

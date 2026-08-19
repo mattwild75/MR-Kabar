@@ -6,8 +6,8 @@ use App\Models\IroPd;
 use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\User;
-use App\Services\KrsIrsPdSyncService;
 use App\Services\KroIroPdSyncService;
+use App\Services\KrsIrsPdSyncService;
 use Illuminate\Database\Seeder;
 
 /**
@@ -35,8 +35,9 @@ class RegisterRisiko2025Seeder extends Seeder
     {
         foreach ($this->dataset() as $opdNama => $data) {
             $user = User::where('username', $data['username'])->first();
-            if (!$user) {
+            if (! $user) {
                 $this->command?->warn("User '{$data['username']}' tidak ditemukan, dilewati ({$opdNama}).");
+
                 continue;
             }
 
@@ -45,8 +46,8 @@ class RegisterRisiko2025Seeder extends Seeder
             $this->seedIroPd($user->id, $opdNama, $data['iro_pd']);
         }
 
-        (new KrsIrsPdSyncService())->sync();
-        (new KroIroPdSyncService())->sync();
+        (new KrsIrsPdSyncService)->sync();
+        (new KroIroPdSyncService)->sync();
 
         $this->command?->info('Register risiko tahun 2025 (IRS Pemda, IRS PD, IRO PD, 5 OPD) berhasil di-seed.');
     }

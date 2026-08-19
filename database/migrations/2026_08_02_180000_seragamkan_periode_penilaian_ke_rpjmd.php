@@ -54,7 +54,7 @@ return new class extends Migration
     private function seragamkan(string $tabel, string $kolom): void
     {
         $menyimpang = DB::table($tabel)
-            ->select('id', $kolom . ' as periode')
+            ->select('id', $kolom.' as periode')
             ->whereNotNull($kolom)
             ->where($kolom, '<>', '')
             ->where($kolom, '<>', self::BAKU)

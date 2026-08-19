@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\SettingApp;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Process;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -39,7 +40,7 @@ class HandleInertiaRequests extends Middleware
             // yang menyadarinya. Hasilnya di-cache 1 jam supaya tidak
             // memanggil git pada setiap permintaan.
             'versi' => cache()->remember('versi-aplikasi', 3600, function () {
-                $hasil = \Illuminate\Support\Facades\Process::path(base_path())
+                $hasil = Process::path(base_path())
                     ->timeout(5)
                     ->run('git describe --tags --abbrev=0');
 

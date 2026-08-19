@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Menu;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Menu;
 
 class CheckMenuPermission
 {
@@ -14,7 +14,7 @@ class CheckMenuPermission
         $user = $request->user();
 
         // Abaikan jika belum login
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('login');
         }
 
@@ -26,13 +26,13 @@ class CheckMenuPermission
         // lolos tanpa pengecekan permission sama sekali. Di sini kita
         // cocokkan `menus.route` sebagai PREFIX dari path aktual, supaya
         // sub-route ikut permission menu induknya.
-        $path = '/' . ltrim($request->path(), '/');
+        $path = '/'.ltrim($request->path(), '/');
 
         $menu = Menu::whereNotNull('route')
             ->where('route', '!=', '')
             ->where('route', '!=', '#')
             ->get()
-            ->filter(fn ($m) => $path === $m->route || str_starts_with($path, rtrim($m->route, '/') . '/'))
+            ->filter(fn ($m) => $path === $m->route || str_starts_with($path, rtrim($m->route, '/').'/'))
             ->sortByDesc(fn ($m) => strlen($m->route))
             ->first();
 
@@ -45,7 +45,7 @@ class CheckMenuPermission
         // JANGAN diubah jadi default-deny, itu akan memblokir 403 halaman yang
         // seharusnya bisa diakses semua user.
         if ($menu && $menu->permission_name) {
-            if (!$user->can($menu->permission_name)) {
+            if (! $user->can($menu->permission_name)) {
                 abort(403, 'Anda tidak memiliki izin untuk mengakses halaman ini.');
             }
         }

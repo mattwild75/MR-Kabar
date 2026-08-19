@@ -6,6 +6,6 @@
  * (lihat RiskOwnershipPolicy).
  */
 export function canManageRow(rowUserId: number | null | undefined, currentUserId: number | null, isAdmin: boolean): boolean {
-  if (isAdmin) return true;
-  return rowUserId != null && currentUserId != null && rowUserId === currentUserId;
+    if (isAdmin) return true;
+    return rowUserId != null && currentUserId != null && rowUserId === currentUserId;
 }

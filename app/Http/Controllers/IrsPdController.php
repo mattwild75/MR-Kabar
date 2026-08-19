@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
 use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\IrsPd;
 use App\Models\KrsPd;
@@ -14,23 +15,18 @@ use App\Services\KrsIrsPdSyncService;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class IrsPdController extends Controller
 {
-    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
-
+    use AppendsProgramBupatiTag;
+    use GeneratesKodeRisiko;
+    use HasOpdFillStatus;
+    use MemeriksaTabelTersedia;
     use MenyaringPeriodePenilaian;
 
-    use HasOpdFillStatus;
-    use GeneratesKodeRisiko;
-    use AppendsProgramBupatiTag;
-
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     // "NOMOR URUT RISIKO" sengaja tidak ada di FIELDS — nilainya selalu
     // dihitung ulang otomatis oleh withNomorUrut() setiap render, sama
@@ -118,7 +114,7 @@ class IrsPdController extends Controller
         // super-admin yang melihat semua — konsisten dengan pembatasan
         // edit/hapus di RiskOwnershipPolicy.
         $query = IrsPd::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
         $this->saringTahun($query, $tahun, 'TAHUN DINILAI RISIKO');
@@ -144,7 +140,7 @@ class IrsPdController extends Controller
         // dibatasi ke milik sendiri supaya PIC tidak bisa merujuk Sasaran
         // Renstra milik OPD lain.
         $sasaranQuery = KrsPd::query();
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $sasaranQuery->where('user_id', auth()->id());
         }
         $sasaranOptions = $sasaranQuery
@@ -153,6 +149,7 @@ class IrsPdController extends Controller
             ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
             ->map(function ($v) {
                 $pos = strrpos($v, ':');
+
                 return $pos !== false ? trim(substr($v, $pos + 1)) : $v;
             })
             ->unique()
@@ -201,7 +198,7 @@ class IrsPdController extends Controller
      */
     private function sasaranRenstraKodes(): array
     {
-        if (!$this->tabelTersedia('tbl_krs_irs_pd')) {
+        if (! $this->tabelTersedia('tbl_krs_irs_pd')) {
             return [];
         }
 

@@ -10,6 +10,7 @@ use App\Models\DataUmum;
 use App\Models\IroPd;
 use App\Models\IrsPd;
 use App\Models\IrsPemda;
+use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Services\PdfPrintService;
 use App\Services\RiskReferenceDataService;
@@ -54,11 +55,11 @@ class CetakRtpController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->canViewAllOpd()) {
-            return \App\Models\Opd::where('id', $user->opd_id)->get(['id', 'nama']);
+        if ($user->opd_id && ! $user->canViewAllOpd()) {
+            return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
-        return \App\Models\Opd::orderBy('nama')->get(['id', 'nama']);
+        return Opd::orderBy('nama')->get(['id', 'nama']);
     }
 
     // ── Form 6: RTP atas CEE ─────────────────────────────────────────────
@@ -111,7 +112,7 @@ class CetakRtpController extends Controller
      */
     private function formatTriwulanTahun(?string $triwulan, ?int $tahun): ?string
     {
-        if (!$triwulan && !$tahun) {
+        if (! $triwulan && ! $tahun) {
             return null;
         }
 
@@ -126,7 +127,7 @@ class CetakRtpController extends Controller
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
-        $opd = $opdId ? \App\Models\Opd::find($opdId) : null;
+        $opd = $opdId ? Opd::find($opdId) : null;
         $pengaturan = $this->pengaturan();
         $dataUmum = $opdId ? DataUmum::forOpdAndTahun($opdId, $tahun) : null;
 
@@ -146,7 +147,7 @@ class CetakRtpController extends Controller
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
         $this->ensureOpdAccess($request, $opdId);
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
-        $opd = $opdId ? \App\Models\Opd::findOrFail($opdId) : abort(404);
+        $opd = $opdId ? Opd::findOrFail($opdId) : abort(404);
 
         $url = url("/cetak/risiko/6?opd_id={$opdId}&tahun={$tahun}");
 
@@ -234,7 +235,7 @@ class CetakRtpController extends Controller
         $nomorPemda = $this->nomorUrutFor($strategisPemda);
 
         $sectionI = $strategisPemda
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->filter(fn ($r) => $ambangTinggi !== null && (int) $r->{'SKALA RISIKO'} >= $ambangTinggi)
             ->map(fn ($r) => $this->rtpRow($r, 'RSP', $namaPemda, $nomorPemda[$r->id] ?? null))
             ->sortByDesc('skala_risiko')
@@ -249,7 +250,7 @@ class CetakRtpController extends Controller
         $nomorOpdStrategis = $this->nomorUrutFor($strategisOpd);
 
         $sectionII = $strategisOpd
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->filter(fn ($r) => $ambangTinggi !== null && (int) $r->{'SKALA RISIKO'} >= $ambangTinggi)
             ->map(fn ($r) => $this->rtpRow($r, 'RSO', $r->user?->opd?->nama, $nomorOpdStrategis[$r->id] ?? null))
             ->sortByDesc('skala_risiko')
@@ -264,7 +265,7 @@ class CetakRtpController extends Controller
         $nomorOpdOperasional = $this->nomorUrutFor($operasionalOpd);
 
         $sectionIII = $operasionalOpd
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->filter(fn ($r) => $ambangTinggi !== null && (int) $r->{'SKALA RISIKO'} >= $ambangTinggi)
             ->map(fn ($r) => $this->rtpRow($r, 'ROO', $r->user?->opd?->nama, $nomorOpdOperasional[$r->id] ?? null))
             ->sortByDesc('skala_risiko')
@@ -325,7 +326,7 @@ class CetakRtpController extends Controller
     {
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $opdId = $this->scopedOpdId($request) === null && $request->filled('opd_id') ? $request->integer('opd_id') : null;
-        $url = url("/cetak/risiko/7?tahun={$tahun}" . ($opdId ? "&opd_id={$opdId}" : ''));
+        $url = url("/cetak/risiko/7?tahun={$tahun}".($opdId ? "&opd_id={$opdId}" : ''));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-7-RTP-Hasil-Identifikasi-Risiko-{$tahun}");
     }

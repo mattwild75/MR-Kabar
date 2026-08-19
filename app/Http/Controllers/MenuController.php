@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
 
 class MenuController extends Controller
 {
@@ -21,7 +21,7 @@ class MenuController extends Controller
      */
     private function ensureSuperAdmin(): void
     {
-        if (!auth()->user()?->hasRole('super-admin')) {
+        if (! auth()->user()?->hasRole('super-admin')) {
             abort(403, 'Manajemen Menu hanya dapat diakses oleh Super Admin.');
         }
     }
@@ -34,8 +34,8 @@ class MenuController extends Controller
         $user = $request->user();
 
         $menus = Menu::with([
-            'children' => fn($q) => $q->orderBy('order')->with([
-                'children' => fn($q2) => $q2->orderBy('order'),
+            'children' => fn ($q) => $q->orderBy('order')->with([
+                'children' => fn ($q2) => $q2->orderBy('order'),
             ]),
         ])
             ->whereNull('parent_id')
@@ -73,7 +73,7 @@ class MenuController extends Controller
             'permission_name' => 'nullable|string|exists:permissions,name',
         ]);
 
-        if (!isset($data['order'])) {
+        if (! isset($data['order'])) {
             $data['order'] = Menu::where('parent_id', $data['parent_id'] ?? null)->max('order') + 1;
         }
 
@@ -104,12 +104,12 @@ class MenuController extends Controller
             'title' => 'required|string',
             'icon' => 'nullable|string',
             'route' => 'nullable|string',
-            'parent_id' => 'nullable|exists:menus,id|not_in:' . $menu->id,
+            'parent_id' => 'nullable|exists:menus,id|not_in:'.$menu->id,
             'order' => 'nullable|integer',
             'permission_name' => 'nullable|string|exists:permissions,name',
         ]);
 
-        if (!isset($data['order'])) {
+        if (! isset($data['order'])) {
             $data['order'] = Menu::where('parent_id', $data['parent_id'] ?? null)->max('order') + 1;
         }
 
@@ -141,7 +141,7 @@ class MenuController extends Controller
                     'parent_id' => $parentId,
                 ]);
 
-                if (!empty($item['children'])) {
+                if (! empty($item['children'])) {
                     $updateOrder($item['children'], $item['id']);
                 }
             }

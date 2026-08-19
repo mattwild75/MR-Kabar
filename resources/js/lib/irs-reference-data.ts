@@ -47,8 +47,8 @@ export const PENYEBAB_5M_KATEGORI = [...PENYEBAB_INTERNAL_KATEGORI, ...PENYEBAB_
 // lapor-kejadian/Form10) yg memakai PENYEBAB_5M_KATEGORI konsisten,
 // tidak perlu didefinisikan ulang di tiap file.
 export const PENYEBAB_GROUP_LABELS: Record<string, string> = {
-  [PENYEBAB_INTERNAL_KATEGORI[0]]: 'Internal',
-  [PENYEBAB_EKSTERNAL_KATEGORI[0]]: 'Eksternal',
+    [PENYEBAB_INTERNAL_KATEGORI[0]]: 'Internal',
+    [PENYEBAB_EKSTERNAL_KATEGORI[0]]: 'Eksternal',
 };
 
 // Alias ejaan lama utk data yg SUDAH tersimpan sebelum kategori ini resmi
@@ -58,7 +58,7 @@ export const PENYEBAB_GROUP_LABELS: Record<string, string> = {
 // migrasi) — form input BARU tetap cuma menampilkan kategori resmi di
 // PENYEBAB_INTERNAL_KATEGORI/PENYEBAB_EKSTERNAL_KATEGORI, bukan alias-nya.
 export const PENYEBAB_KATEGORI_ALIASES: Record<string, string> = {
-  Man: 'Men',
+    Man: 'Men',
 };
 
 // Suffix "- Int"/"- Eks" yg ditempel ke label kategori saat disimpan (mis.
@@ -68,7 +68,7 @@ export const PENYEBAB_KATEGORI_ALIASES: Record<string, string> = {
 // dihitung otomatis dari sini alih-alih diisi checkbox terpisah. Dipakai
 // MultiCategoryTextarea via prop `categorySuffix`.
 export function penyebabKategoriSuffix(kategori: string): string {
-  return PENYEBAB_INTERNAL_KATEGORI.includes(kategori) ? '- Int' : '- Eks';
+    return PENYEBAB_INTERNAL_KATEGORI.includes(kategori) ? '- Int' : '- Eks';
 }
 
 // Hitung "SUMBER SEBAB RISIKO" (Internal / Eksternal / Internal dan
@@ -76,13 +76,17 @@ export function penyebabKategoriSuffix(kategori: string): string {
 // iro_pd supaya field itu tidak lagi diisi manual, cukup tersirat dari
 // kategori 7M+1E/PESTLE apa saja yg dicentang.
 export function computeSumberSebabRisiko(uraianPenyebabRisiko: string): string {
-  const text = uraianPenyebabRisiko ?? '';
-  const hasInternal = PENYEBAB_INTERNAL_KATEGORI.some((k) => text.includes(`${k} - Int (`) || text.includes(`${k} - Int;`) || text.endsWith(`${k} - Int`));
-  const hasEksternal = PENYEBAB_EKSTERNAL_KATEGORI.some((k) => text.includes(`${k} - Eks (`) || text.includes(`${k} - Eks;`) || text.endsWith(`${k} - Eks`));
-  if (hasInternal && hasEksternal) return 'Internal dan Eksternal';
-  if (hasInternal) return 'Internal';
-  if (hasEksternal) return 'Eksternal';
-  return '';
+    const text = uraianPenyebabRisiko ?? '';
+    const hasInternal = PENYEBAB_INTERNAL_KATEGORI.some(
+        (k) => text.includes(`${k} - Int (`) || text.includes(`${k} - Int;`) || text.endsWith(`${k} - Int`),
+    );
+    const hasEksternal = PENYEBAB_EKSTERNAL_KATEGORI.some(
+        (k) => text.includes(`${k} - Eks (`) || text.includes(`${k} - Eks;`) || text.endsWith(`${k} - Eks`),
+    );
+    if (hasInternal && hasEksternal) return 'Internal dan Eksternal';
+    if (hasInternal) return 'Internal';
+    if (hasEksternal) return 'Eksternal';
+    return '';
 }
 
 export const C_UC_OPTIONS = ['C', 'UC'];
@@ -103,26 +107,26 @@ export const KATEGORI_EFEKTIVITAS_OPTIONS = ['TE', 'KE', 'CE', 'E'];
 // nilai di sini hanya utk preview real-time di form) — kalau backend
 // berubah, file ini WAJIB ikut diubah.
 export const FAKTOR_REDUKSI_KONTROL: Record<string, number> = {
-  TE: 1.0,
-  KE: 0.8,
-  CE: 0.6,
-  E: 0.4,
+    TE: 1.0,
+    KE: 0.8,
+    CE: 0.6,
+    E: 0.4,
 };
 
 /** K terkendali = round(K_inheren x faktor kategori), clamp 1-5 — mirror hitungKemungkinanTerkendali() backend. */
 export function hitungKemungkinanTerkendali(kemungkinanInheren: number | null, kategori: string | null): number | null {
-  return terapkanFaktorReduksi(kemungkinanInheren, kategori);
+    return terapkanFaktorReduksi(kemungkinanInheren, kategori);
 }
 
 /** D terkendali = round(D_inheren x faktor kategori), clamp 1-5 — mirror hitungDampakTerkendali() backend, dipakai RTP Mitigate/Share-Transfer. */
 export function hitungDampakTerkendali(dampakInheren: number | null, kategori: string | null): number | null {
-  return terapkanFaktorReduksi(dampakInheren, kategori);
+    return terapkanFaktorReduksi(dampakInheren, kategori);
 }
 
 function terapkanFaktorReduksi(nilaiInheren: number | null, kategori: string | null): number | null {
-  if (!nilaiInheren || nilaiInheren < 1 || nilaiInheren > 5) return null;
-  const faktor = (kategori && FAKTOR_REDUKSI_KONTROL[kategori]) || 1.0;
-  return Math.max(1, Math.min(5, Math.round(nilaiInheren * faktor)));
+    if (!nilaiInheren || nilaiInheren < 1 || nilaiInheren > 5) return null;
+    const faktor = (kategori && FAKTOR_REDUKSI_KONTROL[kategori]) || 1.0;
+    return Math.max(1, Math.min(5, Math.round(nilaiInheren * faktor)));
 }
 
 /**
@@ -137,27 +141,27 @@ function terapkanFaktorReduksi(nilaiInheren: number | null, kategori: string | n
  * Kemungkinan seperti versi sebelumnya).
  */
 export function arahReduksiRtp(rencanaTindakPengendalian: string | null | undefined): { kemungkinan: boolean; dampak: boolean } {
-  // Case-insensitive, sama seperti backend (mb_strtolower + str_contains) —
-  // sebelumnya pencocokan di sini case-sensitive (hanya "Avoid" persis huruf
-  // besar-kecilnya), sehingga preview real-time Skala Target di form bisa
-  // beda dari nilai yang benar-benar dihitung & tersimpan backend saat teks
-  // RTP ditulis dengan kapitalisasi berbeda (mis. "avoid" huruf kecil).
-  const nilai = (rencanaTindakPengendalian ?? '').trim().toLowerCase();
-  const avoid = nilai !== '' && nilai.includes('avoid');
-  const keK = avoid || (nilai !== '' && nilai.includes('abate'));
-  const keD = avoid || (nilai !== '' && (nilai.includes('mitigate') || nilai.includes('share/transfer')));
+    // Case-insensitive, sama seperti backend (mb_strtolower + str_contains) —
+    // sebelumnya pencocokan di sini case-sensitive (hanya "Avoid" persis huruf
+    // besar-kecilnya), sehingga preview real-time Skala Target di form bisa
+    // beda dari nilai yang benar-benar dihitung & tersimpan backend saat teks
+    // RTP ditulis dengan kapitalisasi berbeda (mis. "avoid" huruf kecil).
+    const nilai = (rencanaTindakPengendalian ?? '').trim().toLowerCase();
+    const avoid = nilai !== '' && nilai.includes('avoid');
+    const keK = avoid || (nilai !== '' && nilai.includes('abate'));
+    const keD = avoid || (nilai !== '' && (nilai.includes('mitigate') || nilai.includes('share/transfer')));
 
-  return { kemungkinan: keK, dampak: keD };
+    return { kemungkinan: keK, dampak: keD };
 }
 
 /** Ambil kode kategori (TE/KE/CE/E) dari nilai tersimpan CategorizedTextarea "KODE (uraian)" atau bare "KODE". */
 export function ekstrakKategoriKontrol(value: string | null | undefined): string | null {
-  const v = (value ?? '').trim();
-  if (!v) return null;
-  for (const kategori of KATEGORI_EFEKTIVITAS_OPTIONS) {
-    if (v === kategori || v.startsWith(`${kategori} (`)) return kategori;
-  }
-  return null;
+    const v = (value ?? '').trim();
+    if (!v) return null;
+    for (const kategori of KATEGORI_EFEKTIVITAS_OPTIONS) {
+        if (v === kategori || v.startsWith(`${kategori} (`)) return kategori;
+    }
+    return null;
 }
 
 // 5 jenis respon risiko (risk response) sesuai kerangka umum manajemen
@@ -192,11 +196,11 @@ export const KATEGORI_EXISTING_CONTROL_OPTIONS = KATEGORI_EFEKTIVITAS_OPTIONS;
  * Kurang Efektif: pengendaliannya berjalan, tetapi belum menutup seluruhnya.
  */
 export const CELAH_PENGENDALIAN_KRITERIA = [
-  { kode: 'a', teks: 'Kebijakan dan prosedur pengendalian sudah dilakukan, namun belum mampu menangani risiko yang teridentifikasi' },
-  { kode: 'b', teks: 'Prosedur pengendalian belum dilaksanakan' },
-  { kode: 'c', teks: 'Kebijakan belum diikuti dengan prosedur baku yang jelas' },
-  { kode: 'd', teks: 'Kebijakan dan prosedur yang ada tidak sesuai dengan peraturan di atasnya' },
-  { kode: 'e', teks: 'Pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul' },
+    { kode: 'a', teks: 'Kebijakan dan prosedur pengendalian sudah dilakukan, namun belum mampu menangani risiko yang teridentifikasi' },
+    { kode: 'b', teks: 'Prosedur pengendalian belum dilaksanakan' },
+    { kode: 'c', teks: 'Kebijakan belum diikuti dengan prosedur baku yang jelas' },
+    { kode: 'd', teks: 'Kebijakan dan prosedur yang ada tidak sesuai dengan peraturan di atasnya' },
+    { kode: 'e', teks: 'Pengendalian sudah berjalan namun masih lemah, sehingga masih ada risiko lain yang timbul' },
 ] as const;
 
 /** Kategori efektivitas yang mewajibkan celah pengendalian disebutkan. */

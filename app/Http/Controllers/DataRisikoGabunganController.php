@@ -30,9 +30,9 @@ use Inertia\Inertia;
  */
 class DataRisikoGabunganController extends Controller
 {
+    use AppendsProgramBupatiTag;
     use GeneratesKodeRisiko;
     use HasOpdFillStatus;
-    use AppendsProgramBupatiTag;
     use MenyaringPeriodePenilaian;
 
     /** Field `risiko_tipe` (program_bupati_risiko) per model — dipakai buildSection() utk penanda "(P{nomor})". */
@@ -63,7 +63,7 @@ class DataRisikoGabunganController extends Controller
     private function scopedOpdId(): ?int
     {
         $user = auth()->user();
-        if (!$user || $user->canViewAllOpd()) {
+        if (! $user || $user->canViewAllOpd()) {
             return null;
         }
 
@@ -110,7 +110,7 @@ class DataRisikoGabunganController extends Controller
         $programBupatiMap = $this->programBupatiNomorMap(self::RISIKO_TIPE_BY_MODEL[$modelClass]);
 
         return $rows
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->map(fn ($r) => [
                 'id' => $r->id,
                 'no' => $nomorUrut[$r->id] ?? null,

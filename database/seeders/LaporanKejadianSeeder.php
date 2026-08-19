@@ -28,7 +28,7 @@ class LaporanKejadianSeeder extends Seeder
         $neededPermissions = ['dashboard-view', 'utilities-view'];
         foreach ($neededPermissions as $permName) {
             $permission = Permission::where('name', $permName)->first();
-            if ($permission && !$role->hasPermissionTo($permission)) {
+            if ($permission && ! $role->hasPermissionTo($permission)) {
                 $role->givePermissionTo($permission);
             }
         }
@@ -42,7 +42,7 @@ class LaporanKejadianSeeder extends Seeder
             ]
         );
 
-        if (!$user->hasRole('lapor-risiko')) {
+        if (! $user->hasRole('lapor-risiko')) {
             $user->assignRole($role);
         }
     }

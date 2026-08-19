@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SettingApp;
 use App\Services\VersiSnapshotService;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -18,9 +19,7 @@ use ZipArchive;
 
 class BackupController extends Controller
 {
-    public function __construct(private readonly VersiSnapshotService $versi)
-    {
-    }
+    public function __construct(private readonly VersiSnapshotService $versi) {}
 
     /**
      * Lapis kedua di luar permission_name menu — backup database (dump
@@ -34,7 +33,7 @@ class BackupController extends Controller
      */
     private function ensureSuperAdmin(): void
     {
-        if (!auth()->user()?->hasRole('super-admin')) {
+        if (! auth()->user()?->hasRole('super-admin')) {
             abort(403, 'Backup database & push GitHub hanya dapat diakses oleh Super Admin.');
         }
     }
@@ -67,7 +66,7 @@ class BackupController extends Controller
      */
     private function ensureGitSyncEnabled(): void
     {
-        if (!SettingApp::cached()?->git_sync_enabled) {
+        if (! SettingApp::cached()?->git_sync_enabled) {
             abort(403, 'Fitur Git Push/Pull belum diaktifkan di server ini. Nyalakan toggle "Aktifkan Git Push/Pull" di halaman Backup ini untuk mengaktifkannya di lingkungan Anda sendiri.');
         }
     }
@@ -103,14 +102,14 @@ class BackupController extends Controller
      */
     protected function backupPath(): string
     {
-        return 'private/' . config('backup.backup.name', 'Laravel');
+        return 'private/'.config('backup.backup.name', 'Laravel');
     }
 
     public function index()
     {
         $this->ensureSuperAdmin();
 
-        $realPath = storage_path('app/' . $this->backupPath());
+        $realPath = storage_path('app/'.$this->backupPath());
 
         $files = File::exists($realPath) ? File::files($realPath) : [];
 
@@ -120,12 +119,12 @@ class BackupController extends Controller
         // satu dump yang sama). Tanpa penandaan ini operator melihat sederet
         // berkas bertanggal tanpa tahu mana yang bersejarah.
         $sidikVersi = collect($this->versi->manifes())
-            ->filter(fn($baris) => !empty($baris['sidik_jari']))
-            ->mapWithKeys(fn($baris) => [$baris['sidik_jari'] => $baris['tag']]);
+            ->filter(fn ($baris) => ! empty($baris['sidik_jari']))
+            ->mapWithKeys(fn ($baris) => [$baris['sidik_jari'] => $baris['tag']]);
 
         $backups = collect($files)
-            ->filter(fn($file) => $file->getExtension() === 'zip')
-            ->map(fn($file) => [
+            ->filter(fn ($file) => $file->getExtension() === 'zip')
+            ->map(fn ($file) => [
                 'name' => $file->getFilename(),
                 'size' => $file->getSize(),
                 'last_modified' => $file->getMTime(),
@@ -213,7 +212,7 @@ class BackupController extends Controller
             'git', '-C', base_path(), 'tag', '-l', '--sort=-v:refname',
         ]);
 
-        if (!$result->successful()) {
+        if (! $result->successful()) {
             return [];
         }
 
@@ -235,7 +234,7 @@ class BackupController extends Controller
     {
         $lock = Cache::lock('backup-operation-lock', 600);
 
-        if (!$lock->get()) {
+        if (! $lock->get()) {
             abort(409, 'Sedang ada operasi backup/restore/git lain yang berjalan. Coba lagi sebentar.');
         }
 
@@ -253,17 +252,17 @@ class BackupController extends Controller
      */
     private function keepOnlyLatestBackup(): void
     {
-        $realPath = storage_path('app/' . $this->backupPath());
-        if (!File::exists($realPath)) {
+        $realPath = storage_path('app/'.$this->backupPath());
+        if (! File::exists($realPath)) {
             return;
         }
 
         $zips = collect(File::files($realPath))
-            ->filter(fn($file) => $file->getExtension() === 'zip')
-            ->sortByDesc(fn($file) => $file->getMTime())
+            ->filter(fn ($file) => $file->getExtension() === 'zip')
+            ->sortByDesc(fn ($file) => $file->getMTime())
             ->values();
 
-        $zips->skip(1)->each(fn($file) => File::delete($file->getPathname()));
+        $zips->skip(1)->each(fn ($file) => File::delete($file->getPathname()));
     }
 
     /**
@@ -287,11 +286,11 @@ class BackupController extends Controller
                 Artisan::call('backup:run', ['--only-db' => true]);
                 $this->keepOnlyLatestBackup();
             } catch (\Throwable $e) {
-                return redirect()->back()->with('error', 'Backup database gagal, push dibatalkan: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Backup database gagal, push dibatalkan: '.$e->getMessage());
             }
 
             // Langkah 2: commit + push kode.
-            $message = trim((string) $request->input('message')) ?: 'Backup kode via aplikasi — ' . now()->toDateTimeString();
+            $message = trim((string) $request->input('message')) ?: 'Backup kode via aplikasi — '.now()->toDateTimeString();
 
             $base = base_path();
             $steps = [
@@ -304,10 +303,10 @@ class BackupController extends Controller
                 $result = Process::timeout(120)->run($cmd);
 
                 // "nothing to commit" bukan kegagalan — lanjut ke push spt biasa.
-                if (!$result->successful() && !str_contains($result->errorOutput(), 'nothing to commit')) {
+                if (! $result->successful() && ! str_contains($result->errorOutput(), 'nothing to commit')) {
                     return redirect()->back()->with(
                         'error',
-                        'Backup database berhasil, tapi git push gagal: ' . trim($result->errorOutput() ?: $result->output())
+                        'Backup database berhasil, tapi git push gagal: '.trim($result->errorOutput() ?: $result->output())
                     );
                 }
             }
@@ -323,6 +322,7 @@ class BackupController extends Controller
         return $this->withBackupLock(function () {
             Artisan::call('backup:run', ['--only-db' => true]);
             $this->keepOnlyLatestBackup();
+
             return redirect()->back()->with('success', 'Backup berhasil dibuat.');
         });
     }
@@ -332,13 +332,13 @@ class BackupController extends Controller
         $this->ensureSuperAdmin();
 
         $file = basename($file);
-        if (!str_ends_with($file, '.zip')) {
+        if (! str_ends_with($file, '.zip')) {
             abort(404, 'File tidak ditemukan.');
         }
 
-        $path = storage_path('app/' . $this->backupPath() . '/' . $file);
+        $path = storage_path('app/'.$this->backupPath().'/'.$file);
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             abort(404, 'File tidak ditemukan.');
         }
 
@@ -350,13 +350,13 @@ class BackupController extends Controller
         $this->ensureSuperAdmin();
 
         $file = basename($file);
-        if (!str_ends_with($file, '.zip')) {
+        if (! str_ends_with($file, '.zip')) {
             return redirect()->back()->with('error', 'File tidak ditemukan.');
         }
 
-        $path = storage_path('app/' . $this->backupPath() . '/' . $file);
+        $path = storage_path('app/'.$this->backupPath().'/'.$file);
 
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             return redirect()->back()->with('error', 'File tidak ditemukan.');
         }
 
@@ -388,23 +388,23 @@ class BackupController extends Controller
                 Artisan::call('backup:run', ['--only-db' => true]);
                 $this->keepOnlyLatestBackup();
             } catch (\Throwable $e) {
-                return redirect()->back()->with('error', 'Backup database gagal, git pull dibatalkan: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Backup database gagal, git pull dibatalkan: '.$e->getMessage());
             }
 
             $base = base_path();
             $result = Process::timeout(120)->run(['git', '-C', $base, 'pull', '--tags', 'origin', 'HEAD']);
 
-            if (!$result->successful()) {
+            if (! $result->successful()) {
                 return redirect()->back()->with(
                     'error',
-                    'Git pull gagal: ' . trim($result->errorOutput() ?: $result->output())
+                    'Git pull gagal: '.trim($result->errorOutput() ?: $result->output())
                 );
             }
 
             return redirect()->back()->with(
                 'success',
-                'Kode berhasil ditarik dari GitHub: ' . trim($result->output())
-                . ' Backup database sebelum penarikan tersimpan di daftar backup.'
+                'Kode berhasil ditarik dari GitHub: '.trim($result->output())
+                .' Backup database sebelum penarikan tersimpan di daftar backup.'
             );
         });
     }
@@ -440,8 +440,8 @@ class BackupController extends Controller
         ]);
 
         $availableTags = $this->listGitTags();
-        if (!in_array($data['tag'], $availableTags, true)) {
-            return redirect()->back()->with('error', 'Tag "' . $data['tag'] . '" tidak ditemukan di repository ini.');
+        if (! in_array($data['tag'], $availableTags, true)) {
+            return redirect()->back()->with('error', 'Tag "'.$data['tag'].'" tidak ditemukan di repository ini.');
         }
 
         return $this->withBackupLock(function () use ($data) {
@@ -449,16 +449,16 @@ class BackupController extends Controller
                 Artisan::call('backup:run', ['--only-db' => true]);
                 $this->keepOnlyLatestBackup();
             } catch (\Throwable $e) {
-                return redirect()->back()->with('error', 'Backup database gagal, checkout tag dibatalkan: ' . $e->getMessage());
+                return redirect()->back()->with('error', 'Backup database gagal, checkout tag dibatalkan: '.$e->getMessage());
             }
 
             $base = base_path();
             $result = Process::timeout(60)->run(['git', '-C', $base, 'reset', '--hard', $data['tag']]);
 
-            if (!$result->successful()) {
+            if (! $result->successful()) {
                 return redirect()->back()->with(
                     'error',
-                    'Checkout ke tag "' . $data['tag'] . '" gagal: ' . trim($result->errorOutput() ?: $result->output())
+                    'Checkout ke tag "'.$data['tag'].'" gagal: '.trim($result->errorOutput() ?: $result->output())
                 );
             }
 
@@ -468,39 +468,39 @@ class BackupController extends Controller
             // lama" dan "database masih versi baru" adalah keadaan yang bisa
             // membuat aplikasi crash, jadi jangan dibiarkan menganga menunggu
             // klik berikutnya.
-            $pesan = 'Kode server berhasil dikembalikan ke versi ' . $data['tag'] . '. Backup database sebelum checkout tersimpan di daftar backup.';
+            $pesan = 'Kode server berhasil dikembalikan ke versi '.$data['tag'].'. Backup database sebelum checkout tersimpan di daftar backup.';
 
-            if (!empty($data['pulihkan_database'])) {
-                if (!$this->versi->snapshotAda($data['tag'])) {
+            if (! empty($data['pulihkan_database'])) {
+                if (! $this->versi->snapshotAda($data['tag'])) {
                     return redirect()->back()->with(
                         'warning',
-                        $pesan . ' Database TIDAK dipulihkan karena versi ini belum punya snapshot — '
-                        . 'tag tersebut dibuat sebelum fitur snapshot versi ada. Jalankan migrasi/rebuild secara manual bila skema tidak cocok.'
+                        $pesan.' Database TIDAK dipulihkan karena versi ini belum punya snapshot — '
+                        .'tag tersebut dibuat sebelum fitur snapshot versi ada. Jalankan migrasi/rebuild secara manual bila skema tidak cocok.'
                     );
                 }
 
-                if (!$this->versi->snapshotUtuh($data['tag'])) {
+                if (! $this->versi->snapshotUtuh($data['tag'])) {
                     return redirect()->back()->with(
                         'error',
-                        $pesan . ' Database TIDAK dipulihkan karena berkas snapshot versi ini rusak '
-                        . '(sidik jarinya tidak lagi sama dengan saat direkam). Database sekarang sengaja dibiarkan apa adanya.'
+                        $pesan.' Database TIDAK dipulihkan karena berkas snapshot versi ini rusak '
+                        .'(sidik jarinya tidak lagi sama dengan saat direkam). Database sekarang sengaja dibiarkan apa adanya.'
                     );
                 }
 
                 try {
                     $sql = $this->sqlDariZip($this->versi->berkasSnapshot($data['tag']));
                 } catch (\RuntimeException $e) {
-                    return redirect()->back()->with('error', $pesan . ' Database TIDAK dipulihkan: ' . $e->getMessage());
+                    return redirect()->back()->with('error', $pesan.' Database TIDAK dipulihkan: '.$e->getMessage());
                 }
 
-                return $this->timpaDatabaseDariSql($sql, 'snapshot versi ' . $data['tag']);
+                return $this->timpaDatabaseDariSql($sql, 'snapshot versi '.$data['tag']);
             }
 
             $selisih = $this->versi->selisihMigrasi($data['tag']);
-            if ($selisih !== null && !$selisih['sepadan']) {
-                $pesan .= ' PERHATIAN: database saat ini punya ' . $selisih['sekarang'] . ' migrasi, sedangkan versi '
-                    . $data['tag'] . ' tercatat ' . $selisih['tag'] . ' migrasi — skemanya tidak sepadan dengan kode ini. '
-                    . 'Pulihkan database dari snapshot versi tersebut, atau sesuaikan skema secara manual.';
+            if ($selisih !== null && ! $selisih['sepadan']) {
+                $pesan .= ' PERHATIAN: database saat ini punya '.$selisih['sekarang'].' migrasi, sedangkan versi '
+                    .$data['tag'].' tercatat '.$selisih['tag'].' migrasi — skemanya tidak sepadan dengan kode ini. '
+                    .'Pulihkan database dari snapshot versi tersebut, atau sesuaikan skema secara manual.';
             } else {
                 $pesan .= ' Jalankan migrasi/rebuild jika perlu menyesuaikan skema database dengan versi kode ini.';
             }
@@ -529,7 +529,7 @@ class BackupController extends Controller
         $this->ensureSuperAdmin();
 
         $data = $request->validate([
-            'tag' => ['required', 'string', 'max:100', 'regex:' . VersiSnapshotService::POLA_TAG],
+            'tag' => ['required', 'string', 'max:100', 'regex:'.VersiSnapshotService::POLA_TAG],
             'catatan' => ['nullable', 'string', 'max:500'],
             'push' => ['nullable', 'boolean'],
         ], [
@@ -539,8 +539,8 @@ class BackupController extends Controller
         if (in_array($data['tag'], $this->listGitTags(), true)) {
             return redirect()->back()->with(
                 'error',
-                'Versi ' . $data['tag'] . ' sudah ada. Memindahkan tag yang sudah dipublikasikan akan membuat '
-                . 'salinan orang lain berisi kode berbeda dengan nama versi yang sama — pakai nomor versi berikutnya.'
+                'Versi '.$data['tag'].' sudah ada. Memindahkan tag yang sudah dipublikasikan akan membuat '
+                .'salinan orang lain berisi kode berbeda dengan nama versi yang sama — pakai nomor versi berikutnya.'
             );
         }
 
@@ -551,17 +551,17 @@ class BackupController extends Controller
 
         return $this->withBackupLock(function () use ($data, $wajibPush) {
             $base = base_path();
-            $pesanCommit = 'Tandai versi ' . $data['tag'] . ($data['catatan'] ? ' — ' . $data['catatan'] : '');
+            $pesanCommit = 'Tandai versi '.$data['tag'].($data['catatan'] ? ' — '.$data['catatan'] : '');
 
             // Langkah 1: pastikan tidak ada perubahan yang tertinggal di luar
             // versi ini. "nothing to commit" bukan kegagalan — artinya working
             // tree memang sudah bersih dan tag akan menunjuk HEAD apa adanya.
             foreach ([['git', '-C', $base, 'add', '-A'], ['git', '-C', $base, 'commit', '-m', $pesanCommit]] as $cmd) {
                 $hasil = Process::timeout(120)->run($cmd);
-                if (!$hasil->successful() && !str_contains($hasil->output() . $hasil->errorOutput(), 'nothing to commit')) {
+                if (! $hasil->successful() && ! str_contains($hasil->output().$hasil->errorOutput(), 'nothing to commit')) {
                     return redirect()->back()->with(
                         'error',
-                        'Gagal menyimpan perubahan sebelum menandai versi: ' . trim($hasil->errorOutput() ?: $hasil->output())
+                        'Gagal menyimpan perubahan sebelum menandai versi: '.trim($hasil->errorOutput() ?: $hasil->output())
                     );
                 }
             }
@@ -569,38 +569,38 @@ class BackupController extends Controller
             // Langkah 2: buat tag beranotasi (bukan tag ringan) supaya
             // pembuatnya, waktunya, dan catatannya ikut tersimpan di dalam
             // objek tag itu sendiri, bukan cuma di manifes aplikasi.
-            $anotasi = $data['catatan'] ?: 'Versi ' . $data['tag'];
+            $anotasi = $data['catatan'] ?: 'Versi '.$data['tag'];
             $hasilTag = Process::timeout(60)->run(['git', '-C', $base, 'tag', '-a', $data['tag'], '-m', $anotasi]);
-            if (!$hasilTag->successful()) {
+            if (! $hasilTag->successful()) {
                 return redirect()->back()->with(
                     'error',
-                    'Gagal membuat tag ' . $data['tag'] . ': ' . trim($hasilTag->errorOutput() ?: $hasilTag->output())
+                    'Gagal membuat tag '.$data['tag'].': '.trim($hasilTag->errorOutput() ?: $hasilTag->output())
                 );
             }
 
             // Langkah 3: snapshot database. Gagal di sini berarti tag dibatalkan.
             try {
-                $catatan = $this->versi->rekam($data['tag'], storage_path('app/' . $this->backupPath()), $data['catatan'] ?? null);
+                $catatan = $this->versi->rekam($data['tag'], storage_path('app/'.$this->backupPath()), $data['catatan'] ?? null);
                 $this->keepOnlyLatestBackup();
             } catch (\Throwable $e) {
                 Process::timeout(60)->run(['git', '-C', $base, 'tag', '-d', $data['tag']]);
 
                 return redirect()->back()->with(
                     'error',
-                    'Snapshot database gagal, tag ' . $data['tag'] . ' dibatalkan supaya tidak ada versi tanpa cadangan data: ' . $e->getMessage()
+                    'Snapshot database gagal, tag '.$data['tag'].' dibatalkan supaya tidak ada versi tanpa cadangan data: '.$e->getMessage()
                 );
             }
 
-            $pesan = 'Versi ' . $data['tag'] . ' ditandai, berikut snapshot database '
-                . round($catatan['ukuran'] / 1024) . ' KB pada ' . $catatan['jumlah_migrasi'] . ' migrasi.';
+            $pesan = 'Versi '.$data['tag'].' ditandai, berikut snapshot database '
+                .round($catatan['ukuran'] / 1024).' KB pada '.$catatan['jumlah_migrasi'].' migrasi.';
 
             if ($wajibPush) {
                 $hasilPush = Process::timeout(180)->run(['git', '-C', $base, 'push', '--follow-tags', 'origin', 'HEAD']);
-                if (!$hasilPush->successful()) {
+                if (! $hasilPush->successful()) {
                     return redirect()->back()->with(
                         'warning',
-                        $pesan . ' Tetapi push ke GitHub gagal: ' . trim($hasilPush->errorOutput() ?: $hasilPush->output())
-                        . ' — versi tetap tersimpan di lokal dan bisa di-push ulang.'
+                        $pesan.' Tetapi push ke GitHub gagal: '.trim($hasilPush->errorOutput() ?: $hasilPush->output())
+                        .' — versi tetap tersimpan di lokal dan bisa di-push ulang.'
                     );
                 }
                 $pesan .= ' Kode dan tag sudah di-push ke GitHub (snapshot database TIDAK ikut, tetap di lokal).';
@@ -619,11 +619,11 @@ class BackupController extends Controller
     {
         $this->ensureSuperAdmin();
 
-        if (!$this->versi->tagSah($tag) || !$this->versi->snapshotAda($tag)) {
+        if (! $this->versi->tagSah($tag) || ! $this->versi->snapshotAda($tag)) {
             abort(404, 'Snapshot untuk versi ini tidak ditemukan.');
         }
 
-        return response()->download($this->versi->berkasSnapshot($tag), $tag . '.zip');
+        return response()->download($this->versi->berkasSnapshot($tag), $tag.'.zip');
     }
 
     /**
@@ -635,8 +635,8 @@ class BackupController extends Controller
     {
         $this->ensureSuperAdmin();
 
-        if (!$this->versi->tagSah($tag) || !$this->versi->snapshotAda($tag)) {
-            return redirect()->back()->with('error', 'Snapshot untuk versi ' . $tag . ' tidak ditemukan.');
+        if (! $this->versi->tagSah($tag) || ! $this->versi->snapshotAda($tag)) {
+            return redirect()->back()->with('error', 'Snapshot untuk versi '.$tag.' tidak ditemukan.');
         }
 
         // Ketik ulang nama versi — pengaman yang sama dengan checkout tag,
@@ -646,11 +646,11 @@ class BackupController extends Controller
             return redirect()->back()->with('error', 'Konfirmasi tidak cocok — ketik nama versi persis seperti tertulis.');
         }
 
-        if (!$this->versi->snapshotUtuh($tag)) {
+        if (! $this->versi->snapshotUtuh($tag)) {
             return redirect()->back()->with(
                 'error',
-                'Berkas snapshot versi ' . $tag . ' rusak (sidik jarinya tidak lagi sama dengan saat direkam). '
-                . 'Database sengaja dibiarkan apa adanya.'
+                'Berkas snapshot versi '.$tag.' rusak (sidik jarinya tidak lagi sama dengan saat direkam). '
+                .'Database sengaja dibiarkan apa adanya.'
             );
         }
 
@@ -660,7 +660,7 @@ class BackupController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
 
-        return $this->withBackupLock(fn() => $this->timpaDatabaseDariSql($sql, 'snapshot versi ' . $tag));
+        return $this->withBackupLock(fn () => $this->timpaDatabaseDariSql($sql, 'snapshot versi '.$tag));
     }
 
     /**
@@ -708,7 +708,7 @@ class BackupController extends Controller
      */
     private function sqlDariZip(string $zipPath): string
     {
-        $zip = new ZipArchive();
+        $zip = new ZipArchive;
         if ($zip->open($zipPath) !== true) {
             throw new \RuntimeException('File zip tidak valid atau rusak.');
         }
@@ -750,7 +750,7 @@ class BackupController extends Controller
      * supaya pemanggil bisa membungkus beberapa langkah (mis. checkout tag lalu
      * pulihkan database) dalam satu kunci yang sama.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     private function timpaDatabaseDariSql(string $sqlContent, string $namaSumber)
     {
@@ -761,10 +761,10 @@ class BackupController extends Controller
             Artisan::call('backup:run', ['--only-db' => true]);
             $this->keepOnlyLatestBackup();
         } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Backup pengaman sebelum menimpa database gagal, proses dibatalkan: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Backup pengaman sebelum menimpa database gagal, proses dibatalkan: '.$e->getMessage());
         }
 
-        $tmpSqlPath = storage_path('app/private/import-' . uniqid() . '.sql');
+        $tmpSqlPath = storage_path('app/private/import-'.uniqid().'.sql');
         File::put($tmpSqlPath, $sqlContent);
 
         try {
@@ -772,8 +772,8 @@ class BackupController extends Controller
         } catch (\Throwable $e) {
             return redirect()->back()->with(
                 'error',
-                'Pemulihan database gagal total: ' . $e->getMessage() . ' — database mungkin dalam kondisi tidak konsisten. '
-                . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini).'
+                'Pemulihan database gagal total: '.$e->getMessage().' — database mungkin dalam kondisi tidak konsisten. '
+                .'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini).'
             );
         } finally {
             File::delete($tmpSqlPath);
@@ -790,22 +790,22 @@ class BackupController extends Controller
         // restore rusak sebelum terlanjur dilaporkan "berhasil".
         $missingTables = [];
         foreach (['users', 'menus'] as $table) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 $missingTables[] = $table;
             }
         }
 
-        if (!empty($missingTables) || DB::table('users')->count() === 0) {
+        if (! empty($missingTables) || DB::table('users')->count() === 0) {
             return redirect()->back()->with(
                 'error',
                 'Pemulihan selesai TAPI database hasilnya tampak tidak lengkap (tabel inti kosong/hilang: '
-                . (empty($missingTables) ? 'users' : implode(', ', $missingTables))
-                . '). Kemungkinan ada statement SQL yang gagal di tengah proses. '
-                . 'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini) via menu Import lagi.'
+                .(empty($missingTables) ? 'users' : implode(', ', $missingTables))
+                .'). Kemungkinan ada statement SQL yang gagal di tengah proses. '
+                .'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini) via menu Import lagi.'
             );
         }
 
-        $message = 'Database berhasil dipulihkan dari ' . $namaSumber . '. Backup kondisi sebelumnya tersimpan di daftar backup.';
+        $message = 'Database berhasil dipulihkan dari '.$namaSumber.'. Backup kondisi sebelumnya tersimpan di daftar backup.';
         if ($failedStatements > 0) {
             $message .= " Peringatan: {$failedStatements} statement SQL dilewati karena error (lihat log) — periksa data hasil pemulihan.";
         }
@@ -895,6 +895,7 @@ class BackupController extends Controller
                 if ($char === "\n") {
                     $inLineComment = false;
                 }
+
                 continue;
             }
 
@@ -905,6 +906,7 @@ class BackupController extends Controller
                     // adanya supaya tidak salah dianggap penutup quote.
                     $current .= $next;
                     $i++;
+
                     continue;
                 }
                 if ($char === $inString) {
@@ -913,31 +915,36 @@ class BackupController extends Controller
                     if ($next === $inString) {
                         $current .= $next;
                         $i++;
+
                         continue;
                     }
                     $inString = null;
                 }
+
                 continue;
             }
 
             if ($char === "'" || $char === '"') {
                 $inString = $char;
                 $current .= $char;
+
                 continue;
             }
 
             if ($char === '-' && $next === '-') {
                 $inLineComment = true;
                 $current .= $char;
+
                 continue;
             }
 
             if ($char === ';') {
                 $trimmed = trim($current);
-                if ($trimmed !== '' && !str_starts_with($trimmed, '--')) {
+                if ($trimmed !== '' && ! str_starts_with($trimmed, '--')) {
                     $statements[] = $trimmed;
                 }
                 $current = '';
+
                 continue;
             }
 
@@ -945,7 +952,7 @@ class BackupController extends Controller
         }
 
         $trimmed = trim($current);
-        if ($trimmed !== '' && !str_starts_with($trimmed, '--')) {
+        if ($trimmed !== '' && ! str_starts_with($trimmed, '--')) {
             $statements[] = $trimmed;
         }
 

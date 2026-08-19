@@ -94,17 +94,18 @@ class DataUmumContohSeeder extends Seeder
 
         foreach (self::CONTOH as $namaOpd => $fields) {
             $opd = Opd::where('nama', $namaOpd)->first();
-            if (!$opd) {
+            if (! $opd) {
                 continue;
             }
 
             $user = User::where('opd_id', $opd->id)->first();
-            if (!$user) {
+            if (! $user) {
                 continue;
             }
 
             if (DataUmum::where('user_id', $user->id)->exists()) {
                 $dilewati++;
+
                 continue;
             }
 

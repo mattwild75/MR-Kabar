@@ -17,8 +17,7 @@ class SharedFileApprovalDecided extends Notification
     public function __construct(
         private readonly Media $media,
         private readonly bool $approved,
-    ) {
-    }
+    ) {}
 
     public function via(object $notifiable): array
     {
@@ -34,8 +33,8 @@ class SharedFileApprovalDecided extends Notification
             'approved' => $this->approved,
             'title' => $this->approved ? 'File Anda disetujui di Folder Umum' : 'File Anda ditolak di Folder Umum',
             'body' => $this->approved
-                ? 'File "' . $this->media->file_name . '" yang Anda unggah ke Folder Umum telah disetujui dan kini terlihat oleh semua pengguna.'
-                : 'File "' . $this->media->file_name . '" yang Anda unggah ke Folder Umum ditolak dan telah dihapus.',
+                ? 'File "'.$this->media->file_name.'" yang Anda unggah ke Folder Umum telah disetujui dan kini terlihat oleh semua pengguna.'
+                : 'File "'.$this->media->file_name.'" yang Anda unggah ke Folder Umum ditolak dan telah dihapus.',
             'url' => '/files?scope=shared',
         ];
     }

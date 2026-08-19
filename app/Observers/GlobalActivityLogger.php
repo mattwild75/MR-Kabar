@@ -58,12 +58,14 @@ class GlobalActivityLogger
     protected function logActivity(string $action, Model $model, array $properties = [])
     {
         // Hindari log untuk tabel activity_log itu sendiri
-        if ($model->getTable() === 'activity_log') return;
+        if ($model->getTable() === 'activity_log') {
+            return;
+        }
 
         activity('global')
             ->causedBy(Auth::user())
             ->performedOn($model)
             ->withProperties($properties)
-            ->log("{$action} " . class_basename($model));
+            ->log("{$action} ".class_basename($model));
     }
 }

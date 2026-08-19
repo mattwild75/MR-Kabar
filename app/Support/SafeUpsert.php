@@ -37,7 +37,7 @@ class SafeUpsert
             try {
                 return DB::transaction($write, $attempts);
             } catch (QueryException $e) {
-                if ($attempt >= $attempts || !self::isDuplicateEntry($e)) {
+                if ($attempt >= $attempts || ! self::isDuplicateEntry($e)) {
                     throw $e;
                 }
 

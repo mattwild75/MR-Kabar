@@ -38,7 +38,7 @@ class CeeContohSekretariatDaerahSeeder extends Seeder
             ->keyBy('kode');
 
         $opd = Opd::where('nama', 'SEKRETARIAT DAERAH')->first();
-        if (!$opd) {
+        if (! $opd) {
             $this->command?->warn("OPD 'SEKRETARIAT DAERAH' tidak ditemukan, dilewati.");
 
             return;
@@ -100,7 +100,7 @@ class CeeContohSekretariatDaerahSeeder extends Seeder
         // 1b: kelemahan berdasar dokumen.
         foreach ($skenario['kelemahan'] as $k) {
             $unsur = $unsurs[$k['unsur']] ?? null;
-            if (!$unsur) {
+            if (! $unsur) {
                 continue;
             }
             CeeKelemahanDokumen::create([
@@ -132,7 +132,7 @@ class CeeContohSekretariatDaerahSeeder extends Seeder
             $nilaiUnsur = $skenario['nilai'][$kode] ?? [];
             $rataRata = count($nilaiUnsur) > 0 ? array_sum($nilaiUnsur) / count($nilaiUnsur) : 3;
             $adaKelemahan = collect($skenario['kelemahan'])->contains('unsur', $kode);
-            $simpulanAkhir = ($rataRata >= 2.5 && !$adaKelemahan) ? 'Memadai' : 'Kurang Memadai';
+            $simpulanAkhir = ($rataRata >= 2.5 && ! $adaKelemahan) ? 'Memadai' : 'Kurang Memadai';
 
             $penjelasan = $adaKelemahan
                 ? collect($skenario['kelemahan'])->firstWhere('unsur', $kode)['uraian']

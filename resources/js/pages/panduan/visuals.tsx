@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react';
 import { ArrowDown, ArrowRight } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 /**
  * Komponen visual reusable untuk halaman /panduan (bagan alur, tabel,
@@ -11,228 +11,224 @@ import { ArrowDown, ArrowRight } from 'lucide-react';
 
 // ─── Flow horizontal (mis. 3 tingkat risiko, 5 respon risiko) ──────────────
 interface FlowBoxItem {
-  label: string;
-  desc?: string;
-  tone?: 'default' | 'accent' | 'muted';
+    label: string;
+    desc?: string;
+    tone?: 'default' | 'accent' | 'muted';
 }
 
 const toneClass = (tone: FlowBoxItem['tone']) => {
-  switch (tone) {
-    case 'accent':
-      return 'border-sky-500/50 bg-sky-500/10';
-    case 'muted':
-      return 'border-border bg-muted/40';
-    default:
-      return 'border-border bg-card';
-  }
+    switch (tone) {
+        case 'accent':
+            return 'border-sky-500/50 bg-sky-500/10';
+        case 'muted':
+            return 'border-border bg-muted/40';
+        default:
+            return 'border-border bg-card';
+    }
 };
 
 export function FlowHorizontal({ items }: { items: FlowBoxItem[] }) {
-  return (
-    <div className="not-prose my-3 flex flex-col items-stretch gap-2 overflow-x-auto sm:flex-row sm:items-center">
-      {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <div className={`min-w-[9rem] flex-1 rounded-lg border p-3 text-center ${toneClass(item.tone)}`}>
-            <p className="text-sm font-semibold text-foreground">{item.label}</p>
-            {item.desc && <p className="mt-0.5 text-xs text-muted-foreground">{item.desc}</p>}
-          </div>
-          {i < items.length - 1 && (
-            <ArrowRight className="hidden h-5 w-5 shrink-0 text-muted-foreground sm:block" />
-          )}
-          {i < items.length - 1 && <ArrowDown className="h-5 w-5 shrink-0 self-center text-muted-foreground sm:hidden" />}
+    return (
+        <div className="not-prose my-3 flex flex-col items-stretch gap-2 overflow-x-auto sm:flex-row sm:items-center">
+            {items.map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                    <div className={`min-w-[9rem] flex-1 rounded-lg border p-3 text-center ${toneClass(item.tone)}`}>
+                        <p className="text-foreground text-sm font-semibold">{item.label}</p>
+                        {item.desc && <p className="text-muted-foreground mt-0.5 text-xs">{item.desc}</p>}
+                    </div>
+                    {i < items.length - 1 && <ArrowRight className="text-muted-foreground hidden h-5 w-5 shrink-0 sm:block" />}
+                    {i < items.length - 1 && <ArrowDown className="text-muted-foreground h-5 w-5 shrink-0 self-center sm:hidden" />}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Flow vertikal bernomor (mis. 5 tahap proses, langkah tata cara) ───────
 interface FlowStepItem {
-  title: string;
-  desc: ReactNode;
+    title: string;
+    desc: ReactNode;
 }
 
 export function FlowVertical({ items }: { items: FlowStepItem[] }) {
-  return (
-    <div className="not-prose my-3 space-y-0">
-      {items.map((item, i) => (
-        <div key={i} className="flex gap-3">
-          <div className="flex flex-col items-center">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-primary-foreground">
-              {i + 1}
-            </div>
-            {i < items.length - 1 && <div className="my-1 w-px flex-1 bg-border" />}
-          </div>
-          <div className={`min-w-0 flex-1 ${i < items.length - 1 ? 'pb-4' : ''}`}>
-            <p className="font-semibold text-foreground">{item.title}</p>
-            <div className="mt-0.5 text-sm text-muted-foreground">{item.desc}</div>
-          </div>
+    return (
+        <div className="not-prose my-3 space-y-0">
+            {items.map((item, i) => (
+                <div key={i} className="flex gap-3">
+                    <div className="flex flex-col items-center">
+                        <div className="bg-primary text-primary-foreground flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold">
+                            {i + 1}
+                        </div>
+                        {i < items.length - 1 && <div className="bg-border my-1 w-px flex-1" />}
+                    </div>
+                    <div className={`min-w-0 flex-1 ${i < items.length - 1 ? 'pb-4' : ''}`}>
+                        <p className="text-foreground font-semibold">{item.title}</p>
+                        <div className="text-muted-foreground mt-0.5 text-sm">{item.desc}</div>
+                    </div>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Diagram pohon/hierarki (mis. peta menu, struktur KRS→IRS) ─────────────
 interface TreeNode {
-  label: string;
-  desc?: string;
-  children?: TreeNode[];
+    label: string;
+    desc?: string;
+    children?: TreeNode[];
 }
 
 function TreeNodeView({ node, depth = 0 }: { node: TreeNode; depth?: number }) {
-  return (
-    <div className={depth > 0 ? 'ml-4 border-l border-dashed border-border pl-4' : ''}>
-      <div className="my-1 inline-block rounded-md border border-border bg-card px-3 py-1.5">
-        <p className="text-sm font-medium text-foreground">{node.label}</p>
-        {node.desc && <p className="text-xs text-muted-foreground">{node.desc}</p>}
-      </div>
-      {node.children && node.children.length > 0 && (
-        <div>
-          {node.children.map((child, i) => (
-            <TreeNodeView key={i} node={child} depth={depth + 1} />
-          ))}
+    return (
+        <div className={depth > 0 ? 'border-border ml-4 border-l border-dashed pl-4' : ''}>
+            <div className="border-border bg-card my-1 inline-block rounded-md border px-3 py-1.5">
+                <p className="text-foreground text-sm font-medium">{node.label}</p>
+                {node.desc && <p className="text-muted-foreground text-xs">{node.desc}</p>}
+            </div>
+            {node.children && node.children.length > 0 && (
+                <div>
+                    {node.children.map((child, i) => (
+                        <TreeNodeView key={i} node={child} depth={depth + 1} />
+                    ))}
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export function TreeDiagram({ root }: { root: TreeNode }) {
-  return (
-    <div className="not-prose my-3 overflow-x-auto rounded-lg border bg-muted/20 p-3">
-      <TreeNodeView node={root} />
-    </div>
-  );
+    return (
+        <div className="not-prose bg-muted/20 my-3 overflow-x-auto rounded-lg border p-3">
+            <TreeNodeView node={root} />
+        </div>
+    );
 }
 
 // ─── Struktur organisasi berjenjang (mis. UPR, Three Lines of Defense) ─────
 interface OrgLevel {
-  label: string;
-  items: string[];
-  tone?: FlowBoxItem['tone'];
+    label: string;
+    items: string[];
+    tone?: FlowBoxItem['tone'];
 }
 
 export function OrgChart({ levels }: { levels: OrgLevel[] }) {
-  return (
-    <div className="not-prose my-3 space-y-2">
-      {levels.map((level, i) => (
-        <div key={i}>
-          <div className="flex items-center gap-2">
-            <span className="shrink-0 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-              {level.label}
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-          <div className="mt-1.5 flex flex-wrap gap-2">
-            {level.items.map((item, j) => (
-              <div key={j} className={`rounded-md border px-3 py-1.5 text-sm ${toneClass(level.tone)}`}>
-                {item}
-              </div>
+    return (
+        <div className="not-prose my-3 space-y-2">
+            {levels.map((level, i) => (
+                <div key={i}>
+                    <div className="flex items-center gap-2">
+                        <span className="text-muted-foreground shrink-0 text-xs font-semibold tracking-wide uppercase">{level.label}</span>
+                        <div className="bg-border h-px flex-1" />
+                    </div>
+                    <div className="mt-1.5 flex flex-wrap gap-2">
+                        {level.items.map((item, j) => (
+                            <div key={j} className={`rounded-md border px-3 py-1.5 text-sm ${toneClass(level.tone)}`}>
+                                {item}
+                            </div>
+                        ))}
+                    </div>
+                    {i < levels.length - 1 && (
+                        <div className="mt-2 flex justify-center">
+                            <ArrowDown className="text-muted-foreground h-4 w-4" />
+                        </div>
+                    )}
+                </div>
             ))}
-          </div>
-          {i < levels.length - 1 && (
-            <div className="mt-2 flex justify-center">
-              <ArrowDown className="h-4 w-4 text-muted-foreground" />
-            </div>
-          )}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Timeline siklus (mis. siklus tahunan RPJMD/Renstra/Renja) ─────────────
 interface TimelineItem {
-  period: string;
-  label: string;
-  desc?: string;
+    period: string;
+    label: string;
+    desc?: string;
 }
 
 export function Timeline({ items }: { items: TimelineItem[] }) {
-  return (
-    <div className="not-prose my-3 space-y-3">
-      {items.map((item, i) => (
-        <div key={i} className="flex gap-3">
-          <div className="w-20 shrink-0 text-right text-xs font-semibold text-primary">{item.period}</div>
-          <div className="relative flex flex-col items-center">
-            <div className="h-3 w-3 shrink-0 rounded-full border-2 border-primary bg-background" />
-            {i < items.length - 1 && <div className="w-px flex-1 bg-border" />}
-          </div>
-          <div className={`min-w-0 flex-1 ${i < items.length - 1 ? 'pb-3' : ''}`}>
-            <p className="text-sm font-medium text-foreground">{item.label}</p>
-            {item.desc && <p className="text-xs text-muted-foreground">{item.desc}</p>}
-          </div>
+    return (
+        <div className="not-prose my-3 space-y-3">
+            {items.map((item, i) => (
+                <div key={i} className="flex gap-3">
+                    <div className="text-primary w-20 shrink-0 text-right text-xs font-semibold">{item.period}</div>
+                    <div className="relative flex flex-col items-center">
+                        <div className="border-primary bg-background h-3 w-3 shrink-0 rounded-full border-2" />
+                        {i < items.length - 1 && <div className="bg-border w-px flex-1" />}
+                    </div>
+                    <div className={`min-w-0 flex-1 ${i < items.length - 1 ? 'pb-3' : ''}`}>
+                        <p className="text-foreground text-sm font-medium">{item.label}</p>
+                        {item.desc && <p className="text-muted-foreground text-xs">{item.desc}</p>}
+                    </div>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Tabel sederhana dgn header (mis. struktur kode risiko, respon risiko) ─
 interface SimpleTableProps {
-  headers: string[];
-  rows: ReactNode[][];
+    headers: string[];
+    rows: ReactNode[][];
 }
 
 export function SimpleTable({ headers, rows }: SimpleTableProps) {
-  return (
-    <div className="not-prose my-3 overflow-x-auto rounded-lg border">
-      <table className="w-full border-collapse text-sm">
-        <thead>
-          <tr className="bg-muted/50">
-            {headers.map((h, i) => (
-              <th key={i} className="border-b px-3 py-2 text-left font-semibold text-foreground">
-                {h}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((row, i) => (
-            <tr key={i} className={i % 2 === 1 ? 'bg-muted/20' : ''}>
-              {row.map((cell, j) => (
-                <td key={j} className="border-b px-3 py-2 align-top text-muted-foreground last:border-b-0">
-                  {cell}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+    return (
+        <div className="not-prose my-3 overflow-x-auto rounded-lg border">
+            <table className="w-full border-collapse text-sm">
+                <thead>
+                    <tr className="bg-muted/50">
+                        {headers.map((h, i) => (
+                            <th key={i} className="text-foreground border-b px-3 py-2 text-left font-semibold">
+                                {h}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {rows.map((row, i) => (
+                        <tr key={i} className={i % 2 === 1 ? 'bg-muted/20' : ''}>
+                            {row.map((cell, j) => (
+                                <td key={j} className="text-muted-foreground border-b px-3 py-2 align-top last:border-b-0">
+                                    {cell}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 // ─── Badge kecil berwarna (mis. label kode RSP/RSO/ROO) ────────────────────
 export function ColorBadge({
-  children,
-  color,
+    children,
+    color,
 }: {
-  children: ReactNode;
-  color: 'red' | 'amber' | 'emerald' | 'sky' | 'orange' | 'yellow' | 'cyan' | 'indigo' | 'lime' | 'rose' | 'teal' | 'fuchsia';
+    children: ReactNode;
+    color: 'red' | 'amber' | 'emerald' | 'sky' | 'orange' | 'yellow' | 'cyan' | 'indigo' | 'lime' | 'rose' | 'teal' | 'fuchsia';
 }) {
-  const map = {
-    red: 'bg-red-500/15 text-red-600 dark:text-red-400',
-    amber: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
-    emerald: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
-    sky: 'bg-sky-500/15 text-sky-600 dark:text-sky-400',
-    orange: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
-    yellow: 'bg-yellow-400/20 text-yellow-700 dark:text-yellow-400',
-    // Empat warna berikut ditambahkan agar tabel "Kolom Sebab 7M+1E" di
-    // Panduan (sections.tsx) benar-benar merepresentasikan warna badge asli
-    // yang dipakai Form Cetak 10 (lihat PENYEBAB_5M_BADGE_CLASS di
-    // components/ui/penyebab-category-text.tsx) — sebelumnya ColorBadge
-    // hanya py 6 warna sehingga 8 kategori 7M+1E terpaksa dipetakan ke
-    // warna yang salah/berulang (mis. Machine & Method sama2 "sky").
-    cyan: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-400',
-    indigo: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400',
-    lime: 'bg-lime-500/15 text-lime-700 dark:text-lime-400',
-    rose: 'bg-rose-500/15 text-rose-600 dark:text-rose-400',
-    teal: 'bg-teal-500/15 text-teal-600 dark:text-teal-400',
-    fuchsia: 'bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400',
-  };
-  return <span className={`inline-block rounded px-1.5 py-0.5 text-xs font-semibold ${map[color]}`}>{children}</span>;
+    const map = {
+        red: 'bg-red-500/15 text-red-600 dark:text-red-400',
+        amber: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
+        emerald: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
+        sky: 'bg-sky-500/15 text-sky-600 dark:text-sky-400',
+        orange: 'bg-orange-500/15 text-orange-600 dark:text-orange-400',
+        yellow: 'bg-yellow-400/20 text-yellow-700 dark:text-yellow-400',
+        // Empat warna berikut ditambahkan agar tabel "Kolom Sebab 7M+1E" di
+        // Panduan (sections.tsx) benar-benar merepresentasikan warna badge asli
+        // yang dipakai Form Cetak 10 (lihat PENYEBAB_5M_BADGE_CLASS di
+        // components/ui/penyebab-category-text.tsx) — sebelumnya ColorBadge
+        // hanya py 6 warna sehingga 8 kategori 7M+1E terpaksa dipetakan ke
+        // warna yang salah/berulang (mis. Machine & Method sama2 "sky").
+        cyan: 'bg-cyan-500/15 text-cyan-600 dark:text-cyan-400',
+        indigo: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400',
+        lime: 'bg-lime-500/15 text-lime-700 dark:text-lime-400',
+        rose: 'bg-rose-500/15 text-rose-600 dark:text-rose-400',
+        teal: 'bg-teal-500/15 text-teal-600 dark:text-teal-400',
+        fuchsia: 'bg-fuchsia-500/15 text-fuchsia-600 dark:text-fuchsia-400',
+    };
+    return <span className={`inline-block rounded px-1.5 py-0.5 text-xs font-semibold ${map[color]}`}>{children}</span>;
 }
 
 // ─── Matriks Analisis Risiko 5×5 (Dampak × Kemungkinan → Skala Risiko) ─────
@@ -242,185 +238,180 @@ export function ColorBadge({
 // Risiko di Settings > Keterangan Pendukung, angka contoh di panduan ini
 // bisa saja beda dari kondisi live aplikasi, tapi POLA warnanya tetap sama.
 const RISK_MATRIX_SKALA: Record<number, Record<number, number>> = {
-  1: { 1: 1, 2: 2, 3: 4, 4: 6, 5: 9 },
-  2: { 1: 3, 2: 7, 3: 10, 4: 12, 5: 15 },
-  3: { 1: 5, 2: 11, 3: 14, 4: 16, 5: 18 },
-  4: { 1: 8, 2: 13, 3: 17, 4: 19, 5: 23 },
-  5: { 1: 20, 2: 21, 3: 22, 4: 24, 5: 25 },
+    1: { 1: 1, 2: 2, 3: 4, 4: 6, 5: 9 },
+    2: { 1: 3, 2: 7, 3: 10, 4: 12, 5: 15 },
+    3: { 1: 5, 2: 11, 3: 14, 4: 16, 5: 18 },
+    4: { 1: 8, 2: 13, 3: 17, 4: 19, 5: 23 },
+    5: { 1: 20, 2: 21, 3: 22, 4: 24, 5: 25 },
 };
 
 function warnaSkala(skala: number): string {
-  if (skala >= 20) return 'bg-red-500 text-white';
-  if (skala >= 16) return 'bg-orange-400 text-white';
-  if (skala >= 11) return 'bg-yellow-300 text-black';
-  if (skala >= 6) return 'bg-green-400 text-black';
-  return 'bg-sky-400 text-white';
+    if (skala >= 20) return 'bg-red-500 text-white';
+    if (skala >= 16) return 'bg-orange-400 text-white';
+    if (skala >= 11) return 'bg-yellow-300 text-black';
+    if (skala >= 6) return 'bg-green-400 text-black';
+    return 'bg-sky-400 text-white';
 }
 
 export function RiskMatrix5x5() {
-  const dampakLabels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
-  const kemungkinanLabels = ['Sangat Jarang', 'Jarang', 'Kadang Terjadi', 'Sering Terjadi', 'Hampir Pasti Terjadi'];
+    const dampakLabels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+    const kemungkinanLabels = ['Sangat Jarang', 'Jarang', 'Kadang Terjadi', 'Sering Terjadi', 'Hampir Pasti Terjadi'];
 
-  return (
-    <div className="not-prose my-3 overflow-x-auto rounded-lg border">
-      <table className="w-full min-w-[560px] table-fixed border-collapse text-xs">
-        <thead>
-          <tr>
-            <th colSpan={7} className="border-b bg-muted/50 p-2 text-center text-sm font-bold text-foreground">
-              Matriks Analisis Risiko (Dampak × Kemungkinan)
-            </th>
-          </tr>
-          <tr className="bg-muted/40">
-            <th colSpan={2} className="border-b px-2 py-1.5 text-left font-semibold text-foreground">
-              Level Kemungkinan
-            </th>
-            <th colSpan={5} className="border-b px-2 py-1.5 text-center font-semibold text-foreground">
-              Dampak
-            </th>
-          </tr>
-          <tr className="bg-muted/40">
-            <th className="border-b px-2 py-1"></th>
-            <th className="border-b px-2 py-1"></th>
-            {dampakLabels.map((label, i) => (
-              <th key={label} className="border-b px-1 py-1 text-center font-semibold text-foreground">
-                {i + 1}
-                <div className="text-[10px] font-normal text-muted-foreground">{label}</div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {[5, 4, 3, 2, 1].map((kemungkinan) => (
-            <tr key={kemungkinan}>
-              <th className="border-b px-2 py-1.5 text-center font-semibold text-foreground">{kemungkinan}</th>
-              <th className="border-b px-2 py-1.5 text-left font-semibold whitespace-nowrap text-foreground">
-                {kemungkinanLabels[kemungkinan - 1]}
-              </th>
-              {[1, 2, 3, 4, 5].map((dampak) => {
-                const skala = RISK_MATRIX_SKALA[dampak][kemungkinan];
-                return (
-                  <td key={dampak} className={`border-b px-1 py-1.5 text-center font-semibold ${warnaSkala(skala)}`}>
-                    {skala}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+    return (
+        <div className="not-prose my-3 overflow-x-auto rounded-lg border">
+            <table className="w-full min-w-[560px] table-fixed border-collapse text-xs">
+                <thead>
+                    <tr>
+                        <th colSpan={7} className="bg-muted/50 text-foreground border-b p-2 text-center text-sm font-bold">
+                            Matriks Analisis Risiko (Dampak × Kemungkinan)
+                        </th>
+                    </tr>
+                    <tr className="bg-muted/40">
+                        <th colSpan={2} className="text-foreground border-b px-2 py-1.5 text-left font-semibold">
+                            Level Kemungkinan
+                        </th>
+                        <th colSpan={5} className="text-foreground border-b px-2 py-1.5 text-center font-semibold">
+                            Dampak
+                        </th>
+                    </tr>
+                    <tr className="bg-muted/40">
+                        <th className="border-b px-2 py-1"></th>
+                        <th className="border-b px-2 py-1"></th>
+                        {dampakLabels.map((label, i) => (
+                            <th key={label} className="text-foreground border-b px-1 py-1 text-center font-semibold">
+                                {i + 1}
+                                <div className="text-muted-foreground text-[10px] font-normal">{label}</div>
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {[5, 4, 3, 2, 1].map((kemungkinan) => (
+                        <tr key={kemungkinan}>
+                            <th className="text-foreground border-b px-2 py-1.5 text-center font-semibold">{kemungkinan}</th>
+                            <th className="text-foreground border-b px-2 py-1.5 text-left font-semibold whitespace-nowrap">
+                                {kemungkinanLabels[kemungkinan - 1]}
+                            </th>
+                            {[1, 2, 3, 4, 5].map((dampak) => {
+                                const skala = RISK_MATRIX_SKALA[dampak][kemungkinan];
+                                return (
+                                    <td key={dampak} className={`border-b px-1 py-1.5 text-center font-semibold ${warnaSkala(skala)}`}>
+                                        {skala}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 // ─── Grid kartu statistik mini (mis. 4 kartu Ringkasan Dashboard) ──────────
 interface StatCardItem {
-  label: string;
-  value: string;
-  desc?: string;
-  tone?: 'default' | 'accent' | 'muted';
+    label: string;
+    value: string;
+    desc?: string;
+    tone?: 'default' | 'accent' | 'muted';
 }
 
 export function StatCardGrid({ items }: { items: StatCardItem[] }) {
-  return (
-    <div className="not-prose my-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-      {items.map((item, i) => (
-        <div key={i} className={`rounded-lg border p-3 ${toneClass(item.tone)}`}>
-          <p className="text-xs text-muted-foreground">{item.label}</p>
-          <p className="mt-0.5 text-xl font-bold text-foreground">{item.value}</p>
-          {item.desc && <p className="mt-0.5 text-[11px] text-muted-foreground">{item.desc}</p>}
+    return (
+        <div className="not-prose my-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {items.map((item, i) => (
+                <div key={i} className={`rounded-lg border p-3 ${toneClass(item.tone)}`}>
+                    <p className="text-muted-foreground text-xs">{item.label}</p>
+                    <p className="text-foreground mt-0.5 text-xl font-bold">{item.value}</p>
+                    {item.desc && <p className="text-muted-foreground mt-0.5 text-[11px]">{item.desc}</p>}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Grid ikon widget berlabel (mis. peta 15 widget Dashboard per seksi) ───
 interface WidgetItem {
-  title: string;
-  desc: string;
+    title: string;
+    desc: string;
 }
 
 export function WidgetGrid({ items }: { items: WidgetItem[] }) {
-  return (
-    <div className="not-prose my-3 grid gap-2 sm:grid-cols-2">
-      {items.map((item, i) => (
-        <div key={i} className="rounded-md border bg-card p-2.5">
-          <p className="text-xs font-semibold text-foreground">{item.title}</p>
-          <p className="mt-0.5 text-xs text-muted-foreground">{item.desc}</p>
+    return (
+        <div className="not-prose my-3 grid gap-2 sm:grid-cols-2">
+            {items.map((item, i) => (
+                <div key={i} className="bg-card rounded-md border p-2.5">
+                    <p className="text-foreground text-xs font-semibold">{item.title}</p>
+                    <p className="text-muted-foreground mt-0.5 text-xs">{item.desc}</p>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Bar horizontal mini (mis. distribusi kategori risiko, kepatuhan OPD) ──
 interface BarItem {
-  label: string;
-  value: number;
-  max: number;
-  tone?: 'default' | 'accent' | 'muted';
+    label: string;
+    value: number;
+    max: number;
+    tone?: 'default' | 'accent' | 'muted';
 }
 
 export function MiniBarChart({ items }: { items: BarItem[] }) {
-  return (
-    <div className="not-prose my-3 space-y-2 rounded-lg border p-3">
-      {items.map((item, i) => (
-        <div key={i} className="flex items-center gap-2">
-          <span className="w-32 shrink-0 truncate text-xs text-muted-foreground">{item.label}</span>
-          <div className="h-3 flex-1 overflow-hidden rounded-full bg-muted">
-            <div
-              className={`h-full rounded-full ${item.tone === 'accent' ? 'bg-sky-500' : 'bg-primary'}`}
-              style={{ width: `${Math.max(4, (item.value / item.max) * 100)}%` }}
-            />
-          </div>
-          <span className="w-6 shrink-0 text-right text-xs font-semibold text-foreground">{item.value}</span>
+    return (
+        <div className="not-prose my-3 space-y-2 rounded-lg border p-3">
+            {items.map((item, i) => (
+                <div key={i} className="flex items-center gap-2">
+                    <span className="text-muted-foreground w-32 shrink-0 truncate text-xs">{item.label}</span>
+                    <div className="bg-muted h-3 flex-1 overflow-hidden rounded-full">
+                        <div
+                            className={`h-full rounded-full ${item.tone === 'accent' ? 'bg-sky-500' : 'bg-primary'}`}
+                            style={{ width: `${Math.max(4, (item.value / item.max) * 100)}%` }}
+                        />
+                    </div>
+                    <span className="text-foreground w-6 shrink-0 text-right text-xs font-semibold">{item.value}</span>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Penanda kecil "widget ini bisa diklik utk rincian" ────────────────────
 export function InteractiveTag() {
-  return (
-    <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-400">
-      Bisa diklik
-    </span>
-  );
+    return (
+        <span className="ml-1.5 inline-flex items-center gap-1 rounded-full bg-sky-500/15 px-1.5 py-0.5 text-[10px] font-semibold text-sky-600 dark:text-sky-400">
+            Bisa diklik
+        </span>
+    );
 }
 
 // ─── Diagram siklus 4-Skor Risiko (Inheren → Residual → Target → Aktual) ───
 interface SkorTahap {
-  label: string;
-  skala: number;
-  keterangan: string;
-  warna: string;
+    label: string;
+    skala: number;
+    keterangan: string;
+    warna: string;
 }
 
 export function SkorEmpatTahapDiagram({ items }: { items: SkorTahap[] }) {
-  const max = 25;
-  return (
-    <div className="not-prose my-3 rounded-lg border p-4">
-      <div className="flex items-end gap-4 overflow-x-auto pb-2">
-        {items.map((item, i) => (
-          <div key={i} className="flex flex-1 flex-col items-center gap-1">
-            <span className="text-sm font-bold text-foreground">{item.skala}</span>
-            <div className="flex h-32 w-full items-end justify-center rounded-md bg-muted/40">
-              <div
-                className={`w-8 rounded-t-sm ${item.warna}`}
-                style={{ height: `${Math.max(6, (item.skala / max) * 100)}%` }}
-              />
+    const max = 25;
+    return (
+        <div className="not-prose my-3 rounded-lg border p-4">
+            <div className="flex items-end gap-4 overflow-x-auto pb-2">
+                {items.map((item, i) => (
+                    <div key={i} className="flex flex-1 flex-col items-center gap-1">
+                        <span className="text-foreground text-sm font-bold">{item.skala}</span>
+                        <div className="bg-muted/40 flex h-32 w-full items-end justify-center rounded-md">
+                            <div className={`w-8 rounded-t-sm ${item.warna}`} style={{ height: `${Math.max(6, (item.skala / max) * 100)}%` }} />
+                        </div>
+                        <p className="text-foreground mt-1 text-center text-xs font-semibold">{item.label}</p>
+                        <p className="text-muted-foreground text-center text-[11px]">{item.keterangan}</p>
+                        {i < items.length - 1 && <ArrowRight className="text-muted-foreground mt-1 hidden h-4 w-4 shrink-0 sm:block" />}
+                    </div>
+                ))}
             </div>
-            <p className="mt-1 text-center text-xs font-semibold text-foreground">{item.label}</p>
-            <p className="text-center text-[11px] text-muted-foreground">{item.keterangan}</p>
-            {i < items.length - 1 && (
-              <ArrowRight className="mt-1 hidden h-4 w-4 shrink-0 text-muted-foreground sm:block" />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+        </div>
+    );
 }
 
 // ─── Mockup matriks 5×5 interaktif (ilustrasi tombol "Isi Nilai Risiko") ───
@@ -428,174 +419,170 @@ export function SkorEmpatTahapDiagram({ items }: { items: SkorTahap[] }) {
 // visual utk memperlihatkan tampilan risk-matrix-picker-dialog.tsx: sel yg
 // sudah ditandai badge titik (I/R/T/A), kursor pointer di sel lain.
 interface MatrixMarkedPoint {
-  dampak: number;
-  kemungkinan: number;
-  label: string;
-  warna: string;
+    dampak: number;
+    kemungkinan: number;
+    label: string;
+    warna: string;
 }
 
 export function RiskMatrixInteractivePreview({ points }: { points: MatrixMarkedPoint[] }) {
-  const dampakLabels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
-  const kemungkinanLabels = ['Sangat Jarang', 'Jarang', 'Kadang Terjadi', 'Sering Terjadi', 'Hampir Pasti Terjadi'];
+    const dampakLabels = ['Sangat Rendah', 'Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+    const kemungkinanLabels = ['Sangat Jarang', 'Jarang', 'Kadang Terjadi', 'Sering Terjadi', 'Hampir Pasti Terjadi'];
 
-  const pointsAt = (dampak: number, kemungkinan: number) =>
-    points.filter((p) => p.dampak === dampak && p.kemungkinan === kemungkinan);
+    const pointsAt = (dampak: number, kemungkinan: number) => points.filter((p) => p.dampak === dampak && p.kemungkinan === kemungkinan);
 
-  return (
-    <div className="not-prose my-3 overflow-x-auto rounded-lg border">
-      <table className="w-full min-w-[560px] table-fixed border-collapse text-xs">
-        <thead>
-          <tr>
-            <th colSpan={7} className="border-b bg-muted/50 p-2 text-center text-sm font-bold text-foreground">
-              Isi Nilai Risiko — klik sel utk mengisi titik yang sedang aktif
-            </th>
-          </tr>
-          <tr className="bg-muted/40">
-            <th colSpan={2} className="border-b px-2 py-1.5 text-left font-semibold text-foreground">
-              Level Kemungkinan
-            </th>
-            <th colSpan={5} className="border-b px-2 py-1.5 text-center font-semibold text-foreground">
-              Dampak
-            </th>
-          </tr>
-          <tr className="bg-muted/40">
-            <th className="border-b px-2 py-1"></th>
-            <th className="border-b px-2 py-1"></th>
-            {dampakLabels.map((label, i) => (
-              <th key={label} className="border-b px-1 py-1 text-center font-semibold text-foreground">
-                {i + 1}
-                <div className="text-[10px] font-normal text-muted-foreground">{label}</div>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {[5, 4, 3, 2, 1].map((kemungkinan) => (
-            <tr key={kemungkinan}>
-              <th className="border-b px-2 py-1.5 text-center font-semibold text-foreground">{kemungkinan}</th>
-              <th className="border-b px-2 py-1.5 text-left font-semibold whitespace-nowrap text-foreground">
-                {kemungkinanLabels[kemungkinan - 1]}
-              </th>
-              {[1, 2, 3, 4, 5].map((dampak) => {
-                const skala = RISK_MATRIX_SKALA[dampak][kemungkinan];
-                const marked = pointsAt(dampak, kemungkinan);
-                return (
-                  <td
-                    key={dampak}
-                    className={`relative cursor-pointer border-b px-1 py-1.5 text-center font-semibold ${warnaSkala(skala)}`}
-                  >
-                    {skala}
-                    {marked.length > 0 && (
-                      <div className="mt-0.5 flex flex-wrap justify-center gap-0.5">
-                        {marked.map((m, i) => (
-                          <span
-                            key={i}
-                            className={`inline-flex h-4 w-4 items-center justify-center rounded-full border text-[9px] font-bold text-white shadow ${m.warna}`}
-                            title={m.label}
-                          >
-                            {m.label[0]}
-                          </span>
+    return (
+        <div className="not-prose my-3 overflow-x-auto rounded-lg border">
+            <table className="w-full min-w-[560px] table-fixed border-collapse text-xs">
+                <thead>
+                    <tr>
+                        <th colSpan={7} className="bg-muted/50 text-foreground border-b p-2 text-center text-sm font-bold">
+                            Isi Nilai Risiko — klik sel utk mengisi titik yang sedang aktif
+                        </th>
+                    </tr>
+                    <tr className="bg-muted/40">
+                        <th colSpan={2} className="text-foreground border-b px-2 py-1.5 text-left font-semibold">
+                            Level Kemungkinan
+                        </th>
+                        <th colSpan={5} className="text-foreground border-b px-2 py-1.5 text-center font-semibold">
+                            Dampak
+                        </th>
+                    </tr>
+                    <tr className="bg-muted/40">
+                        <th className="border-b px-2 py-1"></th>
+                        <th className="border-b px-2 py-1"></th>
+                        {dampakLabels.map((label, i) => (
+                            <th key={label} className="text-foreground border-b px-1 py-1 text-center font-semibold">
+                                {i + 1}
+                                <div className="text-muted-foreground text-[10px] font-normal">{label}</div>
+                            </th>
                         ))}
-                      </div>
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+                    </tr>
+                </thead>
+                <tbody>
+                    {[5, 4, 3, 2, 1].map((kemungkinan) => (
+                        <tr key={kemungkinan}>
+                            <th className="text-foreground border-b px-2 py-1.5 text-center font-semibold">{kemungkinan}</th>
+                            <th className="text-foreground border-b px-2 py-1.5 text-left font-semibold whitespace-nowrap">
+                                {kemungkinanLabels[kemungkinan - 1]}
+                            </th>
+                            {[1, 2, 3, 4, 5].map((dampak) => {
+                                const skala = RISK_MATRIX_SKALA[dampak][kemungkinan];
+                                const marked = pointsAt(dampak, kemungkinan);
+                                return (
+                                    <td
+                                        key={dampak}
+                                        className={`relative cursor-pointer border-b px-1 py-1.5 text-center font-semibold ${warnaSkala(skala)}`}
+                                    >
+                                        {skala}
+                                        {marked.length > 0 && (
+                                            <div className="mt-0.5 flex flex-wrap justify-center gap-0.5">
+                                                {marked.map((m, i) => (
+                                                    <span
+                                                        key={i}
+                                                        className={`inline-flex h-4 w-4 items-center justify-center rounded-full border text-[9px] font-bold text-white shadow ${m.warna}`}
+                                                        title={m.label}
+                                                    >
+                                                        {m.label[0]}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </td>
+                                );
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 // ─── Mockup dua-kolom "Ya vs Tidak" toggle Existing Control ────────────────
 interface ToggleCompareColumn {
-  label: string;
-  aktif: boolean;
-  fields: string[];
+    label: string;
+    aktif: boolean;
+    fields: string[];
 }
 
 export function ToggleCompare({ columns }: { columns: ToggleCompareColumn[] }) {
-  return (
-    <div className="not-prose my-3 grid gap-3 sm:grid-cols-2">
-      {columns.map((col, i) => (
-        <div
-          key={i}
-          className={`rounded-lg border p-3 ${col.aktif ? 'border-sky-500/50 bg-sky-500/10' : 'border-border bg-muted/20'}`}
-        >
-          <div className="mb-2 flex items-center gap-2">
-            <span
-              className={`rounded-md px-2 py-0.5 text-xs font-bold ${
-                col.aktif ? 'bg-sky-500 text-white' : 'border border-border bg-transparent text-foreground'
-              }`}
-            >
-              {col.label}
-            </span>
-          </div>
-          <ul className="list-disc space-y-1 pl-5 text-xs text-muted-foreground">
-            {col.fields.map((f, j) => (
-              <li key={j}>{f}</li>
+    return (
+        <div className="not-prose my-3 grid gap-3 sm:grid-cols-2">
+            {columns.map((col, i) => (
+                <div key={i} className={`rounded-lg border p-3 ${col.aktif ? 'border-sky-500/50 bg-sky-500/10' : 'border-border bg-muted/20'}`}>
+                    <div className="mb-2 flex items-center gap-2">
+                        <span
+                            className={`rounded-md px-2 py-0.5 text-xs font-bold ${
+                                col.aktif ? 'bg-sky-500 text-white' : 'border-border text-foreground border bg-transparent'
+                            }`}
+                        >
+                            {col.label}
+                        </span>
+                    </div>
+                    <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
+                        {col.fields.map((f, j) => (
+                            <li key={j}>{f}</li>
+                        ))}
+                    </ul>
+                </div>
             ))}
-          </ul>
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Peta menu penuh (grid kartu grup + submenu, mis. seluruh 7 grup sidebar) ─
 interface MenuMapGroup {
-  title: string;
-  tone?: FlowBoxItem['tone'];
-  items: string[];
+    title: string;
+    tone?: FlowBoxItem['tone'];
+    items: string[];
 }
 
 export function MenuMapGrid({ groups }: { groups: MenuMapGroup[] }) {
-  return (
-    <div className="not-prose my-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {groups.map((g, i) => (
-        <div key={i} className={`rounded-lg border p-3 ${toneClass(g.tone)}`}>
-          <p className="mb-1.5 text-sm font-bold text-foreground">{g.title}</p>
-          <ul className="space-y-1">
-            {g.items.map((item, j) => (
-              <li key={j} className="rounded border border-border/60 bg-background/60 px-2 py-1 text-xs text-muted-foreground">
-                {item}
-              </li>
+    return (
+        <div className="not-prose my-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {groups.map((g, i) => (
+                <div key={i} className={`rounded-lg border p-3 ${toneClass(g.tone)}`}>
+                    <p className="text-foreground mb-1.5 text-sm font-bold">{g.title}</p>
+                    <ul className="space-y-1">
+                        {g.items.map((item, j) => (
+                            <li key={j} className="border-border/60 bg-background/60 text-muted-foreground rounded border px-2 py-1 text-xs">
+                                {item}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             ))}
-          </ul>
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Diagram alur data end-to-end (pipeline besar, banyak node berurutan) ──
 interface PipelineNode {
-  label: string;
-  desc?: string;
-  tone?: FlowBoxItem['tone'];
+    label: string;
+    desc?: string;
+    tone?: FlowBoxItem['tone'];
 }
 
 export function DataPipeline({ nodes }: { nodes: PipelineNode[] }) {
-  return (
-    <div className="not-prose my-3 flex flex-col items-stretch gap-1 overflow-x-auto rounded-lg border bg-muted/10 p-3 sm:flex-row sm:items-center sm:gap-0">
-      {nodes.map((n, i) => (
-        <div key={i} className="flex items-center gap-1 sm:gap-0">
-          <div className={`min-w-[8rem] rounded-lg border px-3 py-2 text-center ${toneClass(n.tone)}`}>
-            <p className="text-xs font-semibold text-foreground">{n.label}</p>
-            {n.desc && <p className="mt-0.5 text-[10px] text-muted-foreground">{n.desc}</p>}
-          </div>
-          {i < nodes.length - 1 && (
-            <>
-              <ArrowRight className="mx-1 hidden h-4 w-4 shrink-0 text-muted-foreground sm:block" />
-              <ArrowDown className="my-1 h-4 w-4 shrink-0 self-center text-muted-foreground sm:hidden" />
-            </>
-          )}
+    return (
+        <div className="not-prose bg-muted/10 my-3 flex flex-col items-stretch gap-1 overflow-x-auto rounded-lg border p-3 sm:flex-row sm:items-center sm:gap-0">
+            {nodes.map((n, i) => (
+                <div key={i} className="flex items-center gap-1 sm:gap-0">
+                    <div className={`min-w-[8rem] rounded-lg border px-3 py-2 text-center ${toneClass(n.tone)}`}>
+                        <p className="text-foreground text-xs font-semibold">{n.label}</p>
+                        {n.desc && <p className="text-muted-foreground mt-0.5 text-[10px]">{n.desc}</p>}
+                    </div>
+                    {i < nodes.length - 1 && (
+                        <>
+                            <ArrowRight className="text-muted-foreground mx-1 hidden h-4 w-4 shrink-0 sm:block" />
+                            <ArrowDown className="text-muted-foreground my-1 h-4 w-4 shrink-0 self-center sm:hidden" />
+                        </>
+                    )}
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  );
+    );
 }
 
 // ─── Screenshot tampilan aplikasi (mis. Dashboard, IRS Pemda, dsb) ─────────
@@ -606,53 +593,53 @@ export function DataPipeline({ nodes }: { nodes: PipelineNode[] }) {
 // sekaligus — tanpa lazy, semua screenshot ikut di-load di awal walau belum
 // terlihat.
 export function Screenshot({ src, alt, caption }: { src: string; alt: string; caption?: string }) {
-  return (
-    <figure className="not-prose my-3">
-      <div className="overflow-hidden rounded-lg border bg-muted/10 shadow-sm">
-        <img src={src} alt={alt} loading="lazy" className="w-full" />
-      </div>
-      {caption && <figcaption className="mt-1.5 text-center text-xs text-muted-foreground">{caption}</figcaption>}
-    </figure>
-  );
+    return (
+        <figure className="not-prose my-3">
+            <div className="bg-muted/10 overflow-hidden rounded-lg border shadow-sm">
+                <img src={src} alt={alt} loading="lazy" className="w-full" />
+            </div>
+            {caption && <figcaption className="text-muted-foreground mt-1.5 text-center text-xs">{caption}</figcaption>}
+        </figure>
+    );
 }
 
 // ─── Sepasang screenshot berdampingan (mis. Dashboard mode Light vs Dark) ──
 export function ScreenshotPair({
-  left,
-  right,
+    left,
+    right,
 }: {
-  left: { src: string; alt: string; caption?: string };
-  right: { src: string; alt: string; caption?: string };
+    left: { src: string; alt: string; caption?: string };
+    right: { src: string; alt: string; caption?: string };
 }) {
-  return (
-    <div className="not-prose my-3 grid gap-3 sm:grid-cols-2">
-      <Screenshot {...left} />
-      <Screenshot {...right} />
-    </div>
-  );
+    return (
+        <div className="not-prose my-3 grid gap-3 sm:grid-cols-2">
+            <Screenshot {...left} />
+            <Screenshot {...right} />
+        </div>
+    );
 }
 
 // ─── Preview blok penanda tangan majemuk (Form Cetak 6 & 7) ────────────────
 interface SignatureItem {
-  jabatan: string;
-  nama: string;
-  nip?: string;
+    jabatan: string;
+    nama: string;
+    nip?: string;
 }
 
 export function SignatureBlockPreview({ items }: { items: SignatureItem[] }) {
-  return (
-    <div className="not-prose my-3 rounded-lg border bg-muted/10 p-4">
-      <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
-        {items.map((item, i) => (
-          <div key={i} className="text-center">
-            <p className="text-xs font-semibold text-foreground">{item.jabatan}</p>
-            <div className="mt-6">
-              <p className="text-xs font-semibold text-foreground underline underline-offset-2">{item.nama}</p>
-              {item.nip && <p className="text-[10px] text-muted-foreground">NIP. {item.nip}</p>}
+    return (
+        <div className="not-prose bg-muted/10 my-3 rounded-lg border p-4">
+            <div className="grid gap-3" style={{ gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))` }}>
+                {items.map((item, i) => (
+                    <div key={i} className="text-center">
+                        <p className="text-foreground text-xs font-semibold">{item.jabatan}</p>
+                        <div className="mt-6">
+                            <p className="text-foreground text-xs font-semibold underline underline-offset-2">{item.nama}</p>
+                            {item.nip && <p className="text-muted-foreground text-[10px]">NIP. {item.nip}</p>}
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+        </div>
+    );
 }

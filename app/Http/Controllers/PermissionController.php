@@ -18,7 +18,7 @@ class PermissionController extends Controller
      */
     private function ensureSuperAdmin(): void
     {
-        if (!auth()->user()?->hasRole('super-admin')) {
+        if (! auth()->user()?->hasRole('super-admin')) {
             abort(403, 'Manajemen Permission hanya dapat diakses oleh Super Admin.');
         }
     }
@@ -34,7 +34,7 @@ class PermissionController extends Controller
         }
 
         if ($request->filled('search')) {
-            $query->where('name', 'like', '%' . $request->search . '%');
+            $query->where('name', 'like', '%'.$request->search.'%');
         }
 
         $permissions = $query
@@ -94,7 +94,7 @@ class PermissionController extends Controller
         $this->ensureSuperAdmin();
 
         $data = $request->validate([
-            'name' => 'required|string|max:255|unique:permissions,name,' . $permission->id,
+            'name' => 'required|string|max:255|unique:permissions,name,'.$permission->id,
             'group' => 'nullable|string|max:255',
         ]);
 

@@ -204,7 +204,7 @@ trait MenyaringPeriodePenilaian
 
         return $query->where(function ($q) use ($kolom, $nama) {
             foreach ($kolom as $k) {
-                $q->orWhere($k, 'like', '%' . $nama . '%');
+                $q->orWhere($k, 'like', '%'.$nama.'%');
             }
         });
     }

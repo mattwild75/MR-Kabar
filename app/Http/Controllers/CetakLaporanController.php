@@ -51,7 +51,7 @@ class CetakLaporanController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->canViewAllOpd()) {
+        if ($user->opd_id && ! $user->canViewAllOpd()) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -82,7 +82,7 @@ class CetakLaporanController extends Controller
         return match ($key) {
             'latar_belakang' => "Dalam rangka mendukung akuntabilitas pengelolaan risiko sesuai Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019 tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah, {$pemerintahKabkota} menyusun laporan pengelolaan risiko periode {$periodeLabel} sebagai bentuk pertanggungjawaban penyelenggaraan Sistem Pengendalian Intern Pemerintah.",
             'dasar_hukum' => "1. Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Sistem Pengendalian Intern Pemerintah;\n2. Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah Nomor 4 Tahun 2019 tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah;\n3. Peraturan Kepala Daerah tentang Penyelenggaraan Sistem Pengendalian Intern Pemerintah pada {$pemerintahKabkota}.",
-            'maksud_tujuan' => "Laporan ini disusun dengan maksud dan tujuan memberikan gambaran pelaksanaan pengelolaan risiko, termasuk identifikasi, analisis, dan rencana tindak pengendalian (RTP) atas risiko yang teridentifikasi, sebagai bahan evaluasi dan pengambilan keputusan bagi pimpinan.",
+            'maksud_tujuan' => 'Laporan ini disusun dengan maksud dan tujuan memberikan gambaran pelaksanaan pengelolaan risiko, termasuk identifikasi, analisis, dan rencana tindak pengendalian (RTP) atas risiko yang teridentifikasi, sebagai bahan evaluasi dan pengambilan keputusan bagi pimpinan.',
             'ruang_lingkup' => "Ruang lingkup laporan ini meliputi risiko strategis Pemerintah Daerah, risiko strategis Perangkat Daerah, dan risiko operasional Perangkat Daerah yang telah diidentifikasi dan dinilai pada {$periodeLabel}.",
             'penutup' => "Demikian laporan ini disusun sebagai bahan evaluasi penyelenggaraan pengelolaan risiko {$pemerintahKabkota} periode {$periodeLabel}, dengan harapan dapat menjadi dasar perbaikan berkelanjutan pengelolaan risiko pada periode berikutnya.",
             'kondisi_lingkungan_pengendalian' => 'Bagian ini berisi hasil penilaian awal dan hasil survei Control Environment Evaluation (CEE), yang selanjutnya disimpulkan kondisi lingkungan pengendalian urusan wajib/pilihan pada pemerintah daerah.',
@@ -117,7 +117,7 @@ class CetakLaporanController extends Controller
         // Laporan 13 dan 14 SELALU tingkat Pemda — bukan milik satu OPD —
         // jadi hanya Admin/Super Admin yang boleh mengubah narasinya, walau
         // semua Pengguna boleh membacanya.
-        if (!$request->user()->canViewAllOpd() && in_array($jenis, ['pemantauan_kepatuhan', 'pembinaan_komite'], true)) {
+        if (! $request->user()->canViewAllOpd() && in_array($jenis, ['pemantauan_kepatuhan', 'pembinaan_komite'], true)) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengubah laporan tingkat Pemerintah Daerah.');
         }
 
@@ -187,7 +187,7 @@ class CetakLaporanController extends Controller
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $label = $opdId ? Opd::findOrFail($opdId)->nama : 'Pemda';
 
-        $url = url("/cetak/laporan/1?" . http_build_query(['opd_id' => $opdId, 'tahun' => $tahun]));
+        $url = url('/cetak/laporan/1?'.http_build_query(['opd_id' => $opdId, 'tahun' => $tahun]));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-11-Laporan-Pelaksanaan-Penilaian-Risiko-{$label}-{$tahun}");
     }
@@ -201,10 +201,10 @@ class CetakLaporanController extends Controller
             // Filter OPD didorong ke SQL (tak ada penomoran kode risiko yg
             // bergantung pada set penuh di sini — cuma hitung jumlah).
             $rows = $modelClass::when(
-                    $opdId,
-                    fn ($q) => $q->whereHas('user', fn ($u) => $u->where('opd_id', $opdId)),
-                    fn ($q) => $q->whereHas('user'),
-                )
+                $opdId,
+                fn ($q) => $q->whereHas('user', fn ($u) => $u->where('opd_id', $opdId)),
+                fn ($q) => $q->whereHas('user'),
+            )
                 ->where('TAHUN DINILAI RISIKO', (string) $tahun)
                 ->with('user')
                 ->get()
@@ -275,7 +275,7 @@ class CetakLaporanController extends Controller
         $triwulan = $request->string('triwulan')->toString() ?: 'I';
         $label = $opdId ? Opd::findOrFail($opdId)->nama : 'Pemda';
 
-        $url = url("/cetak/laporan/2?" . http_build_query(['opd_id' => $opdId, 'tahun' => $tahun, 'triwulan' => $triwulan]));
+        $url = url('/cetak/laporan/2?'.http_build_query(['opd_id' => $opdId, 'tahun' => $tahun, 'triwulan' => $triwulan]));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-12-Laporan-Triwulan-{$triwulan}-Pengelolaan-Risiko-{$label}-{$tahun}");
     }
@@ -410,7 +410,7 @@ class CetakLaporanController extends Controller
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $triwulan = $request->string('triwulan')->toString() ?: 'I';
 
-        $url = url("/cetak/laporan/3?" . http_build_query(['tahun' => $tahun, 'triwulan' => $triwulan]));
+        $url = url('/cetak/laporan/3?'.http_build_query(['tahun' => $tahun, 'triwulan' => $triwulan]));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-13-Laporan-Pemantauan-Triwulan-{$triwulan}-{$tahun}");
     }
@@ -489,7 +489,7 @@ class CetakLaporanController extends Controller
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
         $periode = $this->periodeKomite($request);
 
-        $url = url('/cetak/laporan/4?' . http_build_query(['tahun' => $tahun, 'periode' => $periode]));
+        $url = url('/cetak/laporan/4?'.http_build_query(['tahun' => $tahun, 'periode' => $periode]));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Form-14-Laporan-Pembinaan-Komite-{$periode}-{$tahun}");
     }
@@ -595,7 +595,7 @@ class CetakLaporanController extends Controller
                 ['nama' => 'Identifikasi Risiko', 'selesai' => $risikoTeridentifikasiOpd->contains($opd->id)],
                 ['nama' => 'Analisis (Skala Dampak/Kemungkinan)', 'selesai' => $skalaTerisiOpd->contains($opd->id)],
                 ['nama' => 'RTP Risiko Prioritas', 'selesai' => $rtpRisikoLengkapOpd->contains($opd->id)],
-                ['nama' => 'RTP CEE (1d)', 'selesai' => $ceeSelesai && (!$butuhRtpCee || $ceeRtpOpd->contains($opd->id))],
+                ['nama' => 'RTP CEE (1d)', 'selesai' => $ceeSelesai && (! $butuhRtpCee || $ceeRtpOpd->contains($opd->id))],
                 ['nama' => 'Monitoring RTP (8-9)', 'selesai' => $monitoringOpd->contains($opd->id)],
                 ['nama' => 'Pencatatan Kejadian (10)', 'selesai' => $pencatatanOpd->contains($opd->id)],
             ];

@@ -1,0 +1,121 @@
+# Menjalankan seluruh pemeriksaan mutu pada tiap push dan pull request.
+#
+# Kenapa perlu. Sampai 18 Agustus 2026 repositori ini tidak punya CI sama
+# sekali: 142 uji hanya berjalan kalau seseorang mengetik `php artisan test`
+# di mesinnya sendiri. Audit menemukan satu celah KRITIS yang sudah pernah
+# ditutup di enam controller lalu tertinggal di satu tempat — persis jenis
+# kekeliruan yang tertangkap kalau setiap perubahan diperiksa otomatis.
+#
+# Yang diperiksa di sini SAMA PERSIS dengan yang dijalankan di mesin
+# pengembang, supaya "lulus di sini, gagal di CI" tidak pernah terjadi:
+# uji Pest, gaya PHP (Pint), tipe TypeScript, gaya JS (ESLint), format
+# (Prettier), dan pemeriksaan kerentanan dependensi.
+name: Uji
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Push beruntun membatalkan jalannya yang lama — yang penting hasil commit
+# terakhir, bukan antrean panjang yang menghabiskan kuota.
+concurrency:
+  group: uji-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: PHP — uji & gaya
+    runs-on: ubuntu-latest
+
+    # phpunit.xml memakai DB_CONNECTION=mysql dengan database
+    # mrkabar_testing. Uji di sini menyentuh database SUNGGUHAN (bukan
+    # sqlite in-memory), jadi layanan MySQL wajib disediakan — kalau
+    # diganti sqlite, perbedaan perilaku MySQL seperti TRUNCATE yang memicu
+    # commit implisit tidak akan pernah tertangkap.
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_DATABASE: mrkabar_testing
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Siapkan PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, pdo_mysql, zip, gd, intl, bcmath
+          coverage: none
+
+      - name: Pasang dependensi PHP
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Siapkan .env
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Jalankan uji
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: mrkabar_testing
+          DB_USERNAME: root
+          DB_PASSWORD: ''
+        run: php artisan test
+
+      - name: Periksa gaya PHP (Pint)
+        run: ./vendor/bin/pint --test
+
+      # Memakai `audit` biasa, bukan `--locked`: yang ingin diketahui adalah
+      # kerentanan pada yang BENAR-BENAR terpasang.
+      - name: Periksa kerentanan dependensi PHP
+        run: composer audit
+
+  frontend:
+    name: Frontend — tipe, gaya & bangunan
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Siapkan Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Pasang dependensi
+        run: npm ci
+
+      - name: Periksa tipe
+        run: npx tsc --noEmit
+
+      # `npm run lint` memakai --fix yang MENGUBAH berkas. Di CI yang
+      # diperlukan hanya laporan, jadi eslint dipanggil langsung tanpa --fix.
+      - name: Periksa gaya JS
+        run: npx eslint .
+
+      - name: Periksa format
+        run: npm run format:check
+
+      - name: Bangun bundel
+        run: npm run build
+
+      # Hanya dependensi produksi — yang benar-benar terkirim ke peramban.
+      # Perkakas build (vite, rollup, babel) tidak diperiksa di sini karena
+      # kerentanannya baru berarti kalau ada yang bisa mempengaruhi proses
+      # membangun, dan itu ancaman yang berbeda.
+      - name: Periksa kerentanan dependensi produksi
+        run: npm audit --omit=dev --audit-level=moderate

@@ -62,7 +62,7 @@ class LaporanKejadianRisiko extends Model
      */
     public function risikoTerdaftar(): ?Model
     {
-        if (!$this->risiko_terdaftar_tipe || !$this->risiko_terdaftar_id) {
+        if (! $this->risiko_terdaftar_tipe || ! $this->risiko_terdaftar_id) {
             return null;
         }
 

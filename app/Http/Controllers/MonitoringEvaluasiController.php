@@ -10,7 +10,6 @@ use App\Models\LaporanKejadianRisiko;
 use App\Models\MonitoringRtp;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
-use App\Models\PengaturanPemda;
 use App\Models\RtpKemiripanDiabaikan;
 use App\Services\RiskReferenceDataService;
 use App\Services\RtpKemiripanService;
@@ -49,13 +48,12 @@ class MonitoringEvaluasiController extends Controller
     public function __construct(
         private RiskReferenceDataService $riskRef,
         private RtpKemiripanService $kemiripan,
-    ) {
-    }
+    ) {}
 
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->canViewAllOpd()) {
+        if ($user->opd_id && ! $user->canViewAllOpd()) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -69,7 +67,7 @@ class MonitoringEvaluasiController extends Controller
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
         $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->canViewAllOpd()) {
+        if (! $opdId || ! $user->opd_id || $user->canViewAllOpd()) {
             return;
         }
 
@@ -142,7 +140,7 @@ class MonitoringEvaluasiController extends Controller
                 'tipe' => 'irs_pemda',
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
-                'konteks' => 'Risiko Strategis Pemda: ' . $r->{'URAIAN RISIKO'},
+                'konteks' => 'Risiko Strategis Pemda: '.$r->{'URAIAN RISIKO'},
                 'opd_id' => $r->user?->opd_id,
                 'opd_nama' => $r->user?->opd?->nama,
                 'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
@@ -167,7 +165,7 @@ class MonitoringEvaluasiController extends Controller
                 'tipe' => 'irs_pd',
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
-                'konteks' => 'Risiko Strategis OPD: ' . $r->{'URAIAN RISIKO'},
+                'konteks' => 'Risiko Strategis OPD: '.$r->{'URAIAN RISIKO'},
                 'opd_id' => $r->user?->opd_id,
                 'opd_nama' => $r->user?->opd?->nama,
                 'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
@@ -192,7 +190,7 @@ class MonitoringEvaluasiController extends Controller
                 'tipe' => 'iro_pd',
                 'id' => $r->id,
                 'label' => $r->{'RENCANA TINDAK PENGENDALIAN'},
-                'konteks' => 'Risiko Operasional OPD: ' . $r->{'URAIAN RISIKO'},
+                'konteks' => 'Risiko Operasional OPD: '.$r->{'URAIAN RISIKO'},
                 'opd_id' => $r->user?->opd_id,
                 'opd_nama' => $r->user?->opd?->nama,
                 'tahun' => $this->toIntOrNull($r->{'TAHUN DINILAI RISIKO'}),
@@ -217,7 +215,7 @@ class MonitoringEvaluasiController extends Controller
                 'tipe' => 'cee_rtp',
                 'id' => $r->id,
                 'label' => $r->rencana_tindak_pengendalian,
-                'konteks' => 'RTP atas CEE (' . ($r->unsur?->kode ?? '-') . '. ' . ($r->unsur?->nama ?? '-') . '): ' . $r->kondisi_kurang_memadai,
+                'konteks' => 'RTP atas CEE ('.($r->unsur?->kode ?? '-').'. '.($r->unsur?->nama ?? '-').'): '.$r->kondisi_kurang_memadai,
                 'opd_id' => $r->opd_id,
                 'opd_nama' => $r->opd?->nama,
                 'tahun' => $r->tahun_penilaian,
@@ -292,11 +290,11 @@ class MonitoringEvaluasiController extends Controller
             $existingQuery->where('opd_id', $opdId);
         }
         $existing = ($opdId || $isAdmin)
-            ? $existingQuery->get()->keyBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
+            ? $existingQuery->get()->keyBy(fn ($m) => $m->rtp_sumber_tipe.':'.$m->rtp_sumber_id)
             : collect();
 
         $rows = collect($rtpGabungan)->map(function ($rtp) use ($existing) {
-            $key = $rtp['tipe'] . ':' . $rtp['id'];
+            $key = $rtp['tipe'].':'.$rtp['id'];
             $monitoring = $existing->get($key);
 
             return [
@@ -676,11 +674,11 @@ class MonitoringEvaluasiController extends Controller
         // per risiko, baris itu justru harus diproses PALING AKHIR.
         $existing = ($opdId || $isAdmin)
             ? $existingQuery->orderBy('tahun_penilaian')->get()
-                ->keyBy(fn ($p) => $p->risiko_tipe . ':' . $p->risiko_id)
+                ->keyBy(fn ($p) => $p->risiko_tipe.':'.$p->risiko_id)
             : collect();
 
         $rows = collect($risikoGabungan)->map(function ($risiko) use ($existing) {
-            $key = $risiko['tipe'] . ':' . $risiko['id'];
+            $key = $risiko['tipe'].':'.$risiko['id'];
             $pencatatan = $existing->get($key);
 
             return [
@@ -755,7 +753,7 @@ class MonitoringEvaluasiController extends Controller
 
         // #11: laporan_kejadian_id (kalau ada) jg wajib milik OPD yg sama —
         // cegah menautkan laporan warga OPD lain ke Form 10 OPD ini.
-        if (!empty($data['laporan_kejadian_id'])) {
+        if (! empty($data['laporan_kejadian_id'])) {
             $laporanOpdId = LaporanKejadianRisiko::whereKey($data['laporan_kejadian_id'])->value('opd_id');
             if ($laporanOpdId === null || (int) $laporanOpdId !== (int) $data['opd_id']) {
                 abort(403, 'Laporan kejadian yang dirujuk bukan milik OPD tersebut.');
@@ -777,7 +775,7 @@ class MonitoringEvaluasiController extends Controller
                 ->where('tahun_penilaian', $data['tahun'])
                 ->first();
 
-            $pencatatan = $existing ?? new PencatatanKejadianRisiko();
+            $pencatatan = $existing ?? new PencatatanKejadianRisiko;
             if ($pencatatan->trashed()) {
                 $pencatatan->restore();
             }

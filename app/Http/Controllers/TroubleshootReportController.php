@@ -73,17 +73,17 @@ class TroubleshootReportController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'subject'     => ['required', 'string', 'max:255'],
-            'category'    => ['required', Rule::in(TroubleshootReport::CATEGORIES)],
+            'subject' => ['required', 'string', 'max:255'],
+            'category' => ['required', Rule::in(TroubleshootReport::CATEGORIES)],
             'description' => ['required', 'string', 'max:5000'],
         ]);
 
         $report = TroubleshootReport::create([
-            'user_id'     => $request->user()->id,
-            'subject'     => $validated['subject'],
-            'category'    => $validated['category'],
+            'user_id' => $request->user()->id,
+            'subject' => $validated['subject'],
+            'category' => $validated['category'],
             'description' => $validated['description'],
-            'status'      => 'baru',
+            'status' => 'baru',
         ]);
 
         Notification::send(
@@ -128,7 +128,7 @@ class TroubleshootReportController extends Controller
 
     private function ensureCanView(Request $request): void
     {
-        if (!$request->user()?->canViewAllOpd()) {
+        if (! $request->user()?->canViewAllOpd()) {
             throw new AccessDeniedHttpException('Rekapan troubleshoot hanya dapat diakses oleh Admin/Super Admin.');
         }
     }

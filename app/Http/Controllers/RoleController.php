@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -19,7 +19,7 @@ class RoleController extends Controller
      */
     private function ensureSuperAdmin(): void
     {
-        if (!auth()->user()?->hasRole('super-admin')) {
+        if (! auth()->user()?->hasRole('super-admin')) {
             abort(403, 'Manajemen Role hanya dapat diakses oleh Super Admin.');
         }
     }
@@ -57,6 +57,7 @@ class RoleController extends Controller
         $this->ensureSuperAdmin();
 
         $permissions = Permission::all()->groupBy('group');
+
         return Inertia::render('roles/Form', [
             'groupedPermissions' => $permissions,
         ]);
@@ -68,6 +69,7 @@ class RoleController extends Controller
 
         $permissions = Permission::all()->groupBy('group');
         $role->load('permissions');
+
         return Inertia::render('roles/Form', [
             'role' => $role,
             'groupedPermissions' => $permissions,
@@ -79,7 +81,7 @@ class RoleController extends Controller
         $this->ensureSuperAdmin();
 
         $data = $request->validate([
-            'name' => 'required|unique:roles,name,' . $role->id,
+            'name' => 'required|unique:roles,name,'.$role->id,
             'permissions' => 'array',
         ]);
 
@@ -94,6 +96,7 @@ class RoleController extends Controller
         $this->ensureSuperAdmin();
 
         $role->delete();
+
         return redirect()->route('roles.index')->with('success', 'Role deleted');
     }
 }

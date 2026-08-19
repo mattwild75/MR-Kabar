@@ -159,13 +159,13 @@ class LaporanKejadianController extends Controller
         $user = $request->user();
         $isAdminOrSuperAdmin = $user->canViewAllOpd();
 
-        if (!$isAdminOrSuperAdmin && !$user->opd_id) {
+        if (! $isAdminOrSuperAdmin && ! $user->opd_id) {
             throw new AccessDeniedHttpException('Rekapan laporan kejadian risiko hanya dapat diakses oleh Admin/Super Admin atau PIC OPD terkait.');
         }
 
         $query = LaporanKejadianRisiko::with(['opd', 'ditindaklanjutiOleh'])->latest();
 
-        if (!$isAdminOrSuperAdmin) {
+        if (! $isAdminOrSuperAdmin) {
             $query->where('opd_id', $user->opd_id);
         }
 
@@ -322,7 +322,7 @@ class LaporanKejadianController extends Controller
      */
     public function updateOpd(Request $request, LaporanKejadianRisiko $laporanKejadian)
     {
-        if (!$request->user()->canViewAllOpd()) {
+        if (! $request->user()->canViewAllOpd()) {
             throw new AccessDeniedHttpException('Hanya Admin/Super Admin yang dapat mengubah OPD terkait laporan.');
         }
 

@@ -60,7 +60,7 @@ return new class extends Migration
             ->whereNotNull('periode_penilaian')->where('periode_penilaian', '<>', '')
             ->select('periode_penilaian', DB::raw('count(*) as n'))
             ->groupBy('periode_penilaian')->orderByDesc('n')->value('periode_penilaian')
-            ?: ($tahunBerlaku . '-' . ($tahunBerlaku + 4));
+            ?: ($tahunBerlaku.'-'.($tahunBerlaku + 4));
 
         // KRS Pemda lintas-OPD, jadi seluruh barisnya memakai periode acuan.
         DB::table('tbl_krs_pemda')->update(['PERIODE PENILAIAN' => $periodeUmum]);

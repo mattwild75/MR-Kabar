@@ -15,9 +15,7 @@ class RiskExcelImportRequestReviewed extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly RiskExcelImportRequest $importRequest)
-    {
-    }
+    public function __construct(private readonly RiskExcelImportRequest $importRequest) {}
 
     public function via(object $notifiable): array
     {
@@ -33,7 +31,7 @@ class RiskExcelImportRequestReviewed extends Notification
         $body = $approved
             ? "Impor Excel Anda (\"{$this->importRequest->original_filename}\") telah disetujui oleh {$reviewerName}."
             : "Impor Excel Anda (\"{$this->importRequest->original_filename}\") ditolak oleh {$reviewerName}"
-                . ($this->importRequest->rejection_reason ? ": {$this->importRequest->rejection_reason}" : '.');
+                .($this->importRequest->rejection_reason ? ": {$this->importRequest->rejection_reason}" : '.');
 
         return [
             'kind' => 'risk_excel_import_reviewed',

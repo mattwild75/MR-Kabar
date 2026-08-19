@@ -14,46 +14,49 @@ let iconMapCache: Record<string, LucideIcon> | null = null;
 let loadPromise: Promise<Record<string, LucideIcon>> | null = null;
 
 function loadIconMap(): Promise<Record<string, LucideIcon>> {
-  if (iconMapCache) return Promise.resolve(iconMapCache);
-  if (!loadPromise) {
-    loadPromise = import('@/lib/icon-list').then(({ icons }) => {
-      iconMapCache = icons.reduce((acc, curr) => {
-        acc[curr.name] = curr.icon;
-        return acc;
-      }, {} as Record<string, LucideIcon>);
-      return iconMapCache;
-    });
-  }
-  return loadPromise;
+    if (iconMapCache) return Promise.resolve(iconMapCache);
+    if (!loadPromise) {
+        loadPromise = import('@/lib/icon-list').then(({ icons }) => {
+            iconMapCache = icons.reduce(
+                (acc, curr) => {
+                    acc[curr.name] = curr.icon;
+                    return acc;
+                },
+                {} as Record<string, LucideIcon>,
+            );
+            return iconMapCache;
+        });
+    }
+    return loadPromise;
 }
 
 const readyListeners = new Set<() => void>();
 
 /** Mulai fetch chunk icon-list lebih awal + beri tahu listener saat siap. */
 export function preloadIconMap(): void {
-  loadIconMap().then(() => {
-    readyListeners.forEach((fn) => fn());
-  });
+    loadIconMap().then(() => {
+        readyListeners.forEach((fn) => fn());
+    });
 }
 
 /** Daftarkan callback yg dipanggil sekali saat peta ikon selesai dimuat (utk trigger re-render). */
 export function onIconMapReady(fn: () => void): () => void {
-  if (iconMapCache) {
-    fn();
-    return () => {};
-  }
-  readyListeners.add(fn);
-  return () => readyListeners.delete(fn);
+    if (iconMapCache) {
+        fn();
+        return () => {};
+    }
+    readyListeners.add(fn);
+    return () => readyListeners.delete(fn);
 }
 
 /** Lookup sinkron — LayoutGrid jika peta belum selesai dimuat atau nama tak ditemukan. */
 export function iconMapper(name?: string): LucideIcon {
-  if (!name) return LayoutGrid;
-  if (!iconMapCache) {
-    void loadIconMap();
-    return LayoutGrid;
-  }
+    if (!name) return LayoutGrid;
+    if (!iconMapCache) {
+        void loadIconMap();
+        return LayoutGrid;
+    }
 
-  const formatted = name.charAt(0).toUpperCase() + name.slice(1); // e.g. user → User
-  return iconMapCache[formatted] || LayoutGrid;
+    const formatted = name.charAt(0).toUpperCase() + name.slice(1); // e.g. user → User
+    return iconMapCache[formatted] || LayoutGrid;
 }

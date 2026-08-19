@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
-use App\Models\Opd;
 use App\Models\KrsPemda;
+use App\Models\Opd;
 use App\Services\KrsIrsSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -92,6 +92,7 @@ class KrsPemdaController extends Controller
     private function isPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RPJMD'});
+
         return $val !== '' && $val !== '-' && $val !== 'Tidak Ada Data';
     }
 
@@ -123,7 +124,7 @@ class KrsPemdaController extends Controller
             $sasaranVal = $this->removeLabel((string) $row->{'SASARAN RPJMD'});
             $programVal = $this->removeLabel((string) $row->{'PROGRAM PRIORITAS'});
 
-            if (!isset($visiIndex[$visiVal])) {
+            if (! isset($visiIndex[$visiVal])) {
                 $visiNo = $nextVisiNo++;
                 $visiIndex[$visiVal] = $visiNo;
                 $visis[$visiNo] = [
@@ -140,8 +141,8 @@ class KrsPemdaController extends Controller
             // sama (mis. sama-sama kosong / "Tidak Ada Data") tidak keliru
             // digabung jadi satu node yang menaungi Tujuan/Sasaran/Program
             // dari kedua Visi sekaligus.
-            $misiKey = $visiNo . '|' . $misiVal;
-            if (!isset($misiIndex[$misiKey])) {
+            $misiKey = $visiNo.'|'.$misiVal;
+            if (! isset($misiIndex[$misiKey])) {
                 $misiNo = $nextMisiNo++;
                 $misiIndex[$misiKey] = $misiNo;
                 $misis[$misiNo] = [
@@ -154,8 +155,8 @@ class KrsPemdaController extends Controller
             }
             $misiNo = $misiIndex[$misiKey];
 
-            $tujuanKey = $misiNo . '|' . $tujuanVal;
-            if (!isset($tujuanIndex[$tujuanKey])) {
+            $tujuanKey = $misiNo.'|'.$tujuanVal;
+            if (! isset($tujuanIndex[$tujuanKey])) {
                 $tujuanNo = $misis[$misiNo]['_nextTujuanNo']++;
                 $tujuanIndex[$tujuanKey] = $tujuanNo;
                 $tujuanKode = "{$misiNo}.{$tujuanNo}";
@@ -174,8 +175,8 @@ class KrsPemdaController extends Controller
             }
             $tujuanNo = $tujuanIndex[$tujuanKey];
 
-            $sasaranKey = $misiNo . '|' . $tujuanNo . '|' . $sasaranVal;
-            if (!isset($sasaranIndex[$sasaranKey])) {
+            $sasaranKey = $misiNo.'|'.$tujuanNo.'|'.$sasaranVal;
+            if (! isset($sasaranIndex[$sasaranKey])) {
                 $sasaranNo = $misis[$misiNo]['tujuans'][$tujuanNo]['_nextSasaranNo']++;
                 $sasaranIndex[$sasaranKey] = $sasaranNo;
                 $sasaranKode = "{$misiNo}.{$tujuanNo}.{$sasaranNo}";
@@ -243,6 +244,7 @@ class KrsPemdaController extends Controller
                 }
                 $m['tujuans'] = array_values($m['tujuans']);
             }
+
             return array_values($misis);
         };
 
@@ -327,7 +329,7 @@ class KrsPemdaController extends Controller
             $baseline = $this->removeLabel((string) $row->{'BASELINE IK PROGRAM'});
             $target = $this->removeLabel((string) $row->{'TARGET IK PROGRAM'});
             $satuan = $this->removeLabel((string) $row->{'SATUAN IK PROGRAM'});
-            $kunci = $ik . '|' . $baseline . '|' . $target . '|' . $satuan;
+            $kunci = $ik.'|'.$baseline.'|'.$target.'|'.$satuan;
 
             if (! isset($indikator[$programVal][$kunci])) {
                 $indikator[$programVal][$kunci] = [
@@ -593,6 +595,7 @@ class KrsPemdaController extends Controller
                             $dihapus++;
                         }
                         $peta[$k] = [];
+
                         continue;
                     }
                     KrsPemda::create(array_merge($bersama, $n, [
@@ -618,10 +621,10 @@ class KrsPemdaController extends Controller
 
         $jumlah = count($indikator) * count($opd);
 
-        return "Program ini diampu " . count($opd) . ' perangkat daerah dengan '
-            . count($indikator) . ' indikator, tersimpan sebagai ' . $jumlah . ' baris'
-            . ($dibuat ? " ({$dibuat} baru" . ($dihapus ? ", {$dihapus} dihapus)" : ')') : ($dihapus ? " ({$dihapus} dihapus)" : ''))
-            . '.';
+        return 'Program ini diampu '.count($opd).' perangkat daerah dengan '
+            .count($indikator).' indikator, tersimpan sebagai '.$jumlah.' baris'
+            .($dibuat ? " ({$dibuat} baru".($dihapus ? ", {$dihapus} dihapus)" : ')') : ($dihapus ? " ({$dihapus} dihapus)" : ''))
+            .'.';
     }
 
     /**
@@ -631,7 +634,7 @@ class KrsPemdaController extends Controller
      */
     private function ensureCanManage(Request $request): void
     {
-        if (!$request->user()->canViewAllOpd()) {
+        if (! $request->user()->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola data Risiko Strategis Pemda.');
         }
     }
@@ -668,7 +671,7 @@ class KrsPemdaController extends Controller
         $sync->sync();
 
         return redirect()->route('krs_pemda.index')
-            ->with('success', 'Data berhasil diperbarui.' . ($ringkas ? ' ' . $ringkas : ''));
+            ->with('success', 'Data berhasil diperbarui.'.($ringkas ? ' '.$ringkas : ''));
     }
 
     /**
@@ -715,7 +718,7 @@ class KrsPemdaController extends Controller
         $this->ensureCanManage($request);
 
         $level = (string) $request->input('level');
-        if (!isset(self::NODE_LEVEL_FIELDS[$level])) {
+        if (! isset(self::NODE_LEVEL_FIELDS[$level])) {
             abort(422, 'Level node tidak dikenal.');
         }
 
@@ -739,6 +742,7 @@ class KrsPemdaController extends Controller
                     return false;
                 }
             }
+
             return true;
         });
 
@@ -771,7 +775,7 @@ class KrsPemdaController extends Controller
         $this->ensureCanManage($request);
 
         $level = (string) $request->input('level');
-        if (!isset(self::NODE_MATCH_FIELDS[$level])) {
+        if (! isset(self::NODE_MATCH_FIELDS[$level])) {
             abort(422, 'Level node tidak dikenal.');
         }
 
@@ -783,6 +787,7 @@ class KrsPemdaController extends Controller
                     return false;
                 }
             }
+
             return true;
         });
 

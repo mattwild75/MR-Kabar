@@ -8,8 +8,8 @@ use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\Opd;
 use App\Models\User;
-use App\Services\KrsIrsPdSyncService;
 use App\Services\KroIroPdSyncService;
+use App\Services\KrsIrsPdSyncService;
 use Illuminate\Database\Seeder;
 
 /**
@@ -38,8 +38,9 @@ class KrsKroPdVariasiSeeder extends Seeder
     {
         foreach ($this->dataset() as $opdNama => $data) {
             $opd = Opd::where('nama', $opdNama)->first();
-            if (!$opd) {
+            if (! $opd) {
                 $this->command?->warn("OPD '{$opdNama}' tidak ditemukan, dilewati.");
+
                 continue;
             }
 
@@ -58,8 +59,8 @@ class KrsKroPdVariasiSeeder extends Seeder
         // Regenerasi tabel gabungan (dipakai halaman tabel & diagram
         // /krs_irs_pd dan /kro_iro_pd) supaya data baru langsung tampak di
         // sana juga, bukan cuma di Form Cetak.
-        (new KrsIrsPdSyncService())->sync();
-        (new KroIroPdSyncService())->sync();
+        (new KrsIrsPdSyncService)->sync();
+        (new KroIroPdSyncService)->sync();
     }
 
     private function seedKrs(string $opdNama, ?int $userId, array $krs): void
@@ -79,7 +80,7 @@ class KrsKroPdVariasiSeeder extends Seeder
             ->where('OPD PENANGGUNG JAWAB KEGIATAN', $opdNama)
             ->exists();
 
-        if (!$krsExists) {
+        if (! $krsExists) {
             KrsPd::create([
                 'user_id' => $userId,
                 'SASARAN RPJMD' => $krs['sasaran_rpjmd'],
@@ -112,7 +113,7 @@ class KrsKroPdVariasiSeeder extends Seeder
             ]);
         }
 
-        if (!empty($krs['risiko'])) {
+        if (! empty($krs['risiko'])) {
             $this->seedIrs($opdNama, $userId, $sasaran, $krs['risiko']);
         }
     }
@@ -128,7 +129,7 @@ class KrsKroPdVariasiSeeder extends Seeder
             ->where('OPD PENANGGUNG JAWAB KEGIATAN', $opdNama)
             ->exists();
 
-        if (!$kroExists) {
+        if (! $kroExists) {
             KroPd::create([
                 'user_id' => $userId,
                 'SASARAN RENSTRA' => $kro['sasaran_renstra'],
@@ -151,7 +152,7 @@ class KrsKroPdVariasiSeeder extends Seeder
             ]);
         }
 
-        if (!empty($kro['risiko'])) {
+        if (! empty($kro['risiko'])) {
             $this->seedIro($opdNama, $userId, $kegiatan, $kro['risiko']);
         }
     }

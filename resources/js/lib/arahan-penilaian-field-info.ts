@@ -8,7 +8,7 @@
  * aplikasi.
  */
 export const ARAHAN_FIELD_INFO: Record<string, string> = {
-  jenis: `Definisi: Jenis arahan menurut Perdep PPKD 4/2019 — Lampiran 3 memuat contoh Arahan 5 Tahunan, Lampiran 4 memuat contoh Arahan 1 Tahunan.
+    jenis: `Definisi: Jenis arahan menurut Perdep PPKD 4/2019 — Lampiran 3 memuat contoh Arahan 5 Tahunan, Lampiran 4 memuat contoh Arahan 1 Tahunan.
 
 Fungsi: Membedakan cakupan waktunya. Arahan 5 Tahunan mengikuti periode RPJMD dan menetapkan urusan serta Perangkat Daerah mana yang dinilai selama satu periode. Arahan 1 Tahunan mengikuti siklus anggaran dan memuat tanggal pelaksanaan yang konkret.
 
@@ -16,7 +16,7 @@ Cara mengisi: pilih 5 Tahunan untuk arahan yang terbit sekali di awal periode RP
 
 Contoh: Arahan 1 Tahunan Tahun 2025 yang menetapkan penilaian Risiko Operasional dilakukan 3 sampai 14 Oktober setelah RKA Perangkat Daerah disusun.`,
 
-  periode: `Definisi: Rentang tahun keberlakuan arahan ini.
+    periode: `Definisi: Rentang tahun keberlakuan arahan ini.
 
 Fungsi: Menentukan pada tahun mana jadwal ini muncul di Dasbor. Widget jadwal hanya menampilkan arahan yang mencakup tahun yang sedang dilihat.
 
@@ -24,7 +24,7 @@ Cara mengisi: untuk arahan 1 tahunan, isi Tahun Mulai dan Tahun Selesai dengan t
 
 Contoh: 2025 sampai 2025 untuk arahan tahunan; 2025 sampai 2029 untuk arahan lima tahunan.`,
 
-  surat_edaran: `Definisi: Nomor dan tanggal Surat Edaran Bupati yang menetapkan arahan ini.
+    surat_edaran: `Definisi: Nomor dan tanggal Surat Edaran Bupati yang menetapkan arahan ini.
 
 Fungsi: Menjadi rujukan resmi saat jadwal ditagihkan kepada Perangkat Daerah — tanpa nomor SE, jadwal hanya rancangan yang belum mengikat siapa pun.
 
@@ -32,7 +32,7 @@ Cara mengisi: kosongkan selama Surat Edaran belum terbit, lalu isi setelah ditet
 
 Contoh: SE-700/123/2025 tanggal 15 September 2025.`,
 
-  status: `Definisi: Keadaan arahan — Draf selama masih disusun, Berlaku setelah ditetapkan Bupati.
+    status: `Definisi: Keadaan arahan — Draf selama masih disusun, Berlaku setelah ditetapkan Bupati.
 
 Fungsi: HANYA arahan berstatus Berlaku yang dibaca widget jadwal di Dasbor. Arahan Draf sengaja tidak menagih siapa pun, sebab menagih Perangkat Daerah atas sesuatu yang belum ditetapkan Bupati sama saja dengan mengarang jadwal.
 
@@ -40,7 +40,7 @@ Cara mengisi: biarkan Draf selama naskah masih dibahas. Ubah ke Berlaku setelah 
 
 Contoh: satu arahan Berlaku untuk tahun berjalan, dan satu arahan Draf untuk tahun depan yang sedang disusun.`,
 
-  tahapan: `Definisi: Satu langkah penyelenggaraan penilaian Risiko beserta tenggatnya.
+    tahapan: `Definisi: Satu langkah penyelenggaraan penilaian Risiko beserta tenggatnya.
 
 Fungsi: Menjadi sumber data jadwal pada Dasbor. Tiap tahapan ditampilkan dengan keadaannya — belum waktunya, sedang berjalan, atau tenggat terlampaui — sehingga seluruh Perangkat Daerah melihat tenggat yang sama.
 
@@ -48,7 +48,7 @@ Cara mengisi: tuliskan tahapan sebagaimana disebut dalam Surat Edaran, bukan ist
 
 Contoh: "Penilaian Risiko Operasional Perangkat Daerah", "Penilaian Lingkungan Pengendalian (CEE) Form 1a sampai 1d".`,
 
-  dokumen_pemicu: `Definisi: Dokumen perencanaan yang menjadi pemicu dimulainya tahapan ini.
+    dokumen_pemicu: `Definisi: Dokumen perencanaan yang menjadi pemicu dimulainya tahapan ini.
 
 Fungsi: Perdep menyatakan tenggat penilaian Risiko relatif terhadap dokumen perencanaan, bukan terhadap tanggal kalender semata — misalnya "selambat-lambatnya dua minggu setelah RKA Perangkat Daerah disusun". Kolom ini yang merekam kaitan tersebut.
 
@@ -56,7 +56,7 @@ Cara mengisi: sebutkan nama dokumennya saja, tanpa nomor.
 
 Contoh: RKA Perangkat Daerah, Renstra Perangkat Daerah, RPJMD Kabupaten Aceh Barat, Renja Perangkat Daerah.`,
 
-  tenggat: `Definisi: Tanggal mulai dan tanggal selesai tahapan.
+    tenggat: `Definisi: Tanggal mulai dan tanggal selesai tahapan.
 
 Fungsi: Menentukan keadaan tahapan pada widget jadwal. Hari terakhir tenggat masih terhitung berjalan, baru esoknya terhitung terlampaui — supaya tenggat yang ditetapkan Bupati tidak terpangkas sehari.
 
@@ -64,7 +64,7 @@ Cara mengisi: tanggal selesai tidak boleh mendahului tanggal mulai; kalau dibali
 
 Contoh: 3 Oktober 2025 sampai 14 Oktober 2025, mengikuti contoh pada Perdep.`,
 
-  pelaksana: `Definisi: Pihak yang menjalankan tahapan ini.
+    pelaksana: `Definisi: Pihak yang menjalankan tahapan ini.
 
 Fungsi: Menjelaskan kepada siapa tenggat itu ditujukan, sehingga Perangkat Daerah tahu tahapan mana yang menjadi tanggung jawabnya.
 
@@ -72,7 +72,7 @@ Cara mengisi: sebutkan jabatan atau satuan kerjanya, bukan nama orang — susuna
 
 Contoh: "Seluruh Perangkat Daerah, difasilitasi Inspektorat"; "Sekretaris Daerah selaku Koordinator Penyelenggaraan".`,
 
-  keluaran: `Definisi: Hasil yang harus ada setelah tahapan ini selesai.
+    keluaran: `Definisi: Hasil yang harus ada setelah tahapan ini selesai.
 
 Fungsi: Membuat tahapan dapat dinilai selesai atau belum berdasarkan dokumen yang benar-benar terwujud, bukan berdasarkan kesan.
 

@@ -62,9 +62,8 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
                     <section className="max-w-xl space-y-12">
                         {akunBersama && halamanAkun ? (
                             <p className="text-muted-foreground rounded-md border border-dashed p-4 text-sm">
-                                Akun peninjau dipakai bersama beberapa orang. Mengubah profil atau kata sandinya
-                                akan memutus akses semua pengguna lain, jadi pengelolaannya dipegang Admin.
-                                Hubungi Admin bila datanya perlu diperbarui.
+                                Akun peninjau dipakai bersama beberapa orang. Mengubah profil atau kata sandinya akan memutus akses semua pengguna
+                                lain, jadi pengelolaannya dipegang Admin. Hubungi Admin bila datanya perlu diperbarui.
                             </p>
                         ) : (
                             children

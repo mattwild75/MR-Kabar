@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception as SpreadsheetReaderException;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
@@ -69,7 +70,7 @@ class KrsPicExcelController extends Controller
      */
     private function ensurePicOpd(): void
     {
-        if (!auth()->user()?->hasAnyRole(self::PIC_OPD_ROLES)) {
+        if (! auth()->user()?->hasAnyRole(self::PIC_OPD_ROLES)) {
             abort(403, 'Ekspor/Impor KRS ini khusus untuk PIC OPD.');
         }
     }
@@ -80,7 +81,7 @@ class KrsPicExcelController extends Controller
      */
     private function ensureAdminOrSuperAdmin(): void
     {
-        if (!auth()->user()?->canViewAllOpd()) {
+        if (! auth()->user()?->canViewAllOpd()) {
             abort(403, 'Persetujuan impor KRS hanya dapat dilakukan oleh Admin/Super Admin.');
         }
     }
@@ -93,7 +94,7 @@ class KrsPicExcelController extends Controller
         // impor, dan peninjau memang boleh melihat semua yang dilihat admin.
         // Tombol aksinya (export/template/import/approve/reject) tetap
         // dijaga terpisah di bawah dan seluruh penulisan ditolak middleware.
-        if (!$user || !($user->canViewAllOpd() || $user->hasAnyRole(self::PIC_OPD_ROLES))) {
+        if (! $user || ! ($user->canViewAllOpd() || $user->hasAnyRole(self::PIC_OPD_ROLES))) {
             abort(403, 'Halaman ini khusus PIC OPD, Admin, dan Super Admin.');
         }
 
@@ -159,12 +160,12 @@ class KrsPicExcelController extends Controller
             $requested = RiskExcelRegistry::picOpdModules();
         }
 
-        if (in_array('kro_pd', $requested, true) && !in_array('krs_pd', $requested, true)) {
+        if (in_array('kro_pd', $requested, true) && ! in_array('krs_pd', $requested, true)) {
             $requested[] = 'krs_pd';
         }
 
         if ((in_array('krs_pd', $requested, true) || in_array('kro_pd', $requested, true))
-            && !in_array('krs_pemda', $requested, true)) {
+            && ! in_array('krs_pemda', $requested, true)) {
             $requested[] = 'krs_pemda';
         }
 
@@ -183,7 +184,7 @@ class KrsPicExcelController extends Controller
      * WAJIB ada di antara sheet yang terdeteksi (bukan opsional) karena
      * selalu jadi referensi cross-ref dasar.
      */
-    private function presentModuleSlugs(\PhpOffice\PhpSpreadsheet\Spreadsheet $spreadsheet): array
+    private function presentModuleSlugs(Spreadsheet $spreadsheet): array
     {
         $modules = RiskExcelRegistry::modules();
         $present = [];
@@ -202,7 +203,7 @@ class KrsPicExcelController extends Controller
 
         $slugs = $this->resolveModuleSlugs($request);
         $spreadsheet = $service->build(includeData: true, moduleSlugs: $slugs, scopeUserId: auth()->id());
-        $filename = 'MR-Kabar-KRS-' . now()->format('Y-m-d_His') . '.xlsx';
+        $filename = 'MR-Kabar-KRS-'.now()->format('Y-m-d_His').'.xlsx';
 
         return $this->streamXlsx($spreadsheet, $filename);
     }
@@ -246,7 +247,7 @@ class KrsPicExcelController extends Controller
 
         $v = $service->validate($spreadsheet, $presentSlugs, $user->id);
 
-        if (!empty($v['structureErrors'])) {
+        if (! empty($v['structureErrors'])) {
             return redirect()->back()
                 ->with('error', 'File ditolak — struktur/format tidak sesuai.')
                 ->with('importResult', ['ok' => false, 'structure_errors' => $v['structureErrors'], 'sheets' => []]);
@@ -289,7 +290,7 @@ class KrsPicExcelController extends Controller
         // sebelumnya, WAJIB direplikasi persis di sini).
         $claimed = DB::transaction(function () use ($importRequest) {
             $locked = RiskExcelImportRequest::whereKey($importRequest->id)->lockForUpdate()->first();
-            if (!$locked || $locked->status !== 'pending') {
+            if (! $locked || $locked->status !== 'pending') {
                 return null;
             }
             $locked->update(['status' => 'processing']);
@@ -297,11 +298,11 @@ class KrsPicExcelController extends Controller
             return $locked;
         });
 
-        if (!$claimed) {
+        if (! $claimed) {
             return redirect()->back()->with('error', 'Permintaan ini sudah diproses sebelumnya.');
         }
 
-        if (!Storage::disk('local')->exists($claimed->file_path)) {
+        if (! Storage::disk('local')->exists($claimed->file_path)) {
             $claimed->update(['status' => 'rejected', 'reviewed_by' => auth()->id(), 'reviewed_at' => now(), 'rejection_reason' => 'File sumber tidak ditemukan lagi di server.']);
 
             return redirect()->back()->with('error', 'File sumber tidak ditemukan lagi di server — permintaan otomatis ditandai gagal.');
@@ -337,7 +338,7 @@ class KrsPicExcelController extends Controller
 
         $v = $service->validate($spreadsheet, $presentSlugs, $claimed->user_id);
 
-        if (!empty($v['structureErrors'])) {
+        if (! empty($v['structureErrors'])) {
             $claimed->update([
                 'status' => 'rejected',
                 'reviewed_by' => auth()->id(),
@@ -399,14 +400,14 @@ class KrsPicExcelController extends Controller
 
         $claimed = DB::transaction(function () use ($importRequest) {
             $locked = RiskExcelImportRequest::whereKey($importRequest->id)->lockForUpdate()->first();
-            if (!$locked || $locked->status !== 'pending') {
+            if (! $locked || $locked->status !== 'pending') {
                 return null;
             }
 
             return $locked;
         });
 
-        if (!$claimed) {
+        if (! $claimed) {
             return redirect()->back()->with('error', 'Permintaan ini sudah diproses sebelumnya.');
         }
 

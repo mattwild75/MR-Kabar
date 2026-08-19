@@ -27,7 +27,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('arahan_penilaian_risiko')) {
+        if (! Schema::hasTable('arahan_penilaian_risiko')) {
             Schema::create('arahan_penilaian_risiko', function (Blueprint $table) {
                 $table->id();
                 // '5_tahunan' mengikuti periode RPJMD, '1_tahunan' mengikuti
@@ -54,7 +54,7 @@ return new class extends Migration
             });
         }
 
-        if (!Schema::hasTable('arahan_tahapan')) {
+        if (! Schema::hasTable('arahan_tahapan')) {
             Schema::create('arahan_tahapan', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('arahan_penilaian_risiko_id')

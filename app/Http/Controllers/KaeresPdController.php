@@ -77,7 +77,7 @@ class KaeresPdController extends Controller
         $uraianPos = array_search('URAIAN_RISIKO', $columns, true);
         $detailColumns = $uraianPos === false ? [] : array_values(array_filter(
             array_slice($columns, $uraianPos + 1),
-            fn ($col) => !in_array(strtolower($col), ['id', 'created_at', 'updated_at', 'deleted_at'], true)
+            fn ($col) => ! in_array(strtolower($col), ['id', 'created_at', 'updated_at', 'deleted_at'], true)
         ));
 
         $nodeMap = [];
@@ -96,13 +96,14 @@ class KaeresPdController extends Controller
             // rantai Visi/Misi/Tujuan/Sasaran di atasnya — sejajar dengan
             // program prioritas, hanya tanpa edge ke atas. Ditangani terpisah
             // di buildNonPrioritasNodes() lalu lanjut ke baris berikutnya.
-            if (!$item->VISI) {
+            if (! $item->VISI) {
                 if ($item->PROGRAM_PD) {
                     $this->buildNonPrioritasNodes($item, $rowIndex, $nodeMap, $edges, $edgeIndex, $detailColumns);
                 }
+
                 continue;
             }
-            $visiId = 'visi_' . md5($item->VISI);
+            $visiId = 'visi_'.md5($item->VISI);
             $nodeMap[$visiId] = [
                 'id' => $visiId,
                 'name' => 'VISI',
@@ -111,10 +112,10 @@ class KaeresPdController extends Controller
             ];
 
             // MISI
-            if (!$item->MISI) {
+            if (! $item->MISI) {
                 continue;
             }
-            $misiId = 'misi_' . md5($item->MISI);
+            $misiId = 'misi_'.md5($item->MISI);
             $nodeMap[$misiId] = [
                 'id' => $misiId,
                 'name' => 'MISI',
@@ -124,10 +125,10 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $visiId, $misiId, $rowIndex);
 
             // TUJUAN RPJMD
-            if (!$item->TUJUAN_RPJMD) {
+            if (! $item->TUJUAN_RPJMD) {
                 continue;
             }
-            $tujuanRpjmdId = 'tujuanrpjmd_' . md5($item->TUJUAN_RPJMD);
+            $tujuanRpjmdId = 'tujuanrpjmd_'.md5($item->TUJUAN_RPJMD);
             $nodeMap[$tujuanRpjmdId] = array_merge([
                 'id' => $tujuanRpjmdId,
                 'name' => 'TUJUAN RPJMD',
@@ -137,10 +138,10 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $misiId, $tujuanRpjmdId, $rowIndex);
 
             // SASARAN RPJMD (rujukan ke KRS_Pemda — titik sambung ke KRS_PD)
-            if (!$item->SASARAN_RPJMD) {
+            if (! $item->SASARAN_RPJMD) {
                 continue;
             }
-            $sasaranRpjmdId = 'sasaranrpjmd_' . md5($item->SASARAN_RPJMD);
+            $sasaranRpjmdId = 'sasaranrpjmd_'.md5($item->SASARAN_RPJMD);
             $nodeMap[$sasaranRpjmdId] = array_merge([
                 'id' => $sasaranRpjmdId,
                 'name' => 'SASARAN RPJMD',
@@ -150,10 +151,10 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $tujuanRpjmdId, $sasaranRpjmdId, $rowIndex);
 
             // TUJUAN STRATEGIS PD
-            if (!$item->TUJUAN_STRATEGIS_PD) {
+            if (! $item->TUJUAN_STRATEGIS_PD) {
                 continue;
             }
-            $tujuanId = 'tujuan_' . md5($item->TUJUAN_STRATEGIS_PD);
+            $tujuanId = 'tujuan_'.md5($item->TUJUAN_STRATEGIS_PD);
             $nodeMap[$tujuanId] = [
                 'id' => $tujuanId,
                 'name' => 'TUJUAN STRATEGIS PD',
@@ -166,10 +167,10 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $sasaranRpjmdId, $tujuanId, $rowIndex);
 
             // SASARAN STRATEGIS PD
-            if (!$item->SASARAN_STRATEGIS_PD) {
+            if (! $item->SASARAN_STRATEGIS_PD) {
                 continue;
             }
-            $sasaranId = 'sasaranpd_' . md5($item->SASARAN_STRATEGIS_PD);
+            $sasaranId = 'sasaranpd_'.md5($item->SASARAN_STRATEGIS_PD);
             $nodeMap[$sasaranId] = [
                 'id' => $sasaranId,
                 'name' => 'SASARAN STRATEGIS PD',
@@ -182,11 +183,11 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $tujuanId, $sasaranId, $rowIndex);
 
             // PROGRAM PD
-            if (!$item->PROGRAM_PD) {
+            if (! $item->PROGRAM_PD) {
                 continue;
             }
             $cleanProgram = trim(preg_replace('/\s+/', ' ', $item->PROGRAM_PD));
-            $programId = 'program_' . md5($cleanProgram);
+            $programId = 'program_'.md5($cleanProgram);
             $nodeMap[$programId] = [
                 'id' => $programId,
                 'name' => 'PROGRAM PD',
@@ -199,10 +200,10 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $sasaranId, $programId, $rowIndex);
 
             // KEGIATAN PD
-            if (!$item->KEGIATAN_PD) {
+            if (! $item->KEGIATAN_PD) {
                 continue;
             }
-            $kegiatanId = 'kegiatan_' . md5($item->KEGIATAN_PD);
+            $kegiatanId = 'kegiatan_'.md5($item->KEGIATAN_PD);
             $nodeMap[$kegiatanId] = [
                 'id' => $kegiatanId,
                 'name' => 'KEGIATAN PD',
@@ -215,11 +216,11 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $programId, $kegiatanId, $rowIndex);
 
             // SUBKEGIATAN PD
-            if (!$item->SUBKEGIATAN_PD) {
+            if (! $item->SUBKEGIATAN_PD) {
                 continue;
             }
             $cleanSubkegiatan = trim(preg_replace('/\s+/', ' ', $item->SUBKEGIATAN_PD));
-            $subkegiatanId = 'subkegiatan_' . md5($cleanSubkegiatan);
+            $subkegiatanId = 'subkegiatan_'.md5($cleanSubkegiatan);
 
             // OPD — satu SubKegiatan bisa dijalankan lebih dari satu OPD
             // sekaligus, satu OPD per baris di kolom
@@ -245,7 +246,7 @@ class KaeresPdController extends Controller
             $this->addEdge($edges, $edgeIndex, $kegiatanId, $subkegiatanId, $rowIndex);
 
             foreach ($opdNames as $opdName) {
-                $opdId = 'opd_' . md5($opdName);
+                $opdId = 'opd_'.md5($opdName);
                 $nodeMap[$opdId] = [
                     'id' => $opdId,
                     'name' => 'OPD',
@@ -260,8 +261,8 @@ class KaeresPdController extends Controller
                 // Sasaran bisa punya banyak Program/Kegiatan dengan OPD
                 // berbeda.
                 if ($item->URAIAN_RISIKO) {
-                    $risikoId = 'risiko_' . md5(
-                        $sasaranId . '|' . $item->URAIAN_RISIKO . '|' . ($item->NOMOR_URUT_RISIKO ?? '')
+                    $risikoId = 'risiko_'.md5(
+                        $sasaranId.'|'.$item->URAIAN_RISIKO.'|'.($item->NOMOR_URUT_RISIKO ?? '')
                     );
                     $risikoNode = [
                         'id' => $risikoId,
@@ -303,8 +304,8 @@ class KaeresPdController extends Controller
                             $detailValue = self::TRIWULAN_LABELS[$detailValue] ?? $detailValue;
                         }
 
-                        $detailId = strtolower($col) . '_' . md5($detailValue);
-                        if (!isset($nodeMap[$detailId])) {
+                        $detailId = strtolower($col).'_'.md5($detailValue);
+                        if (! isset($nodeMap[$detailId])) {
                             $nodeMap[$detailId] = [
                                 'id' => $detailId,
                                 'name' => $label,
@@ -320,7 +321,7 @@ class KaeresPdController extends Controller
 
                             $existing = $nodeMap[$detailId][$uraianKey] ?? '';
                             $lines = $existing === '' ? [] : explode("\n", $existing);
-                            if (!in_array($line, $lines, true)) {
+                            if (! in_array($line, $lines, true)) {
                                 $lines[] = $line;
                             }
                             $nodeMap[$detailId][$uraianKey] = implode("\n", $lines);
@@ -352,7 +353,7 @@ class KaeresPdController extends Controller
         $cleanProgram = trim(preg_replace('/\s+/', ' ', $item->PROGRAM_PD));
         // ID diberi prefix "np" agar tidak bentrok dengan program prioritas
         // bernama sama (kalau ada) — non-prioritas adalah node terpisah.
-        $programId = 'program_np_' . md5($cleanProgram);
+        $programId = 'program_np_'.md5($cleanProgram);
         $nodeMap[$programId] = [
             'id' => $programId,
             'name' => 'PROGRAM PD',
@@ -365,10 +366,10 @@ class KaeresPdController extends Controller
         ];
         // Sengaja TIDAK ada addEdge dari Sasaran ke $programId — menggantung.
 
-        if (!$item->KEGIATAN_PD) {
+        if (! $item->KEGIATAN_PD) {
             return;
         }
-        $kegiatanId = 'kegiatan_np_' . md5($item->KEGIATAN_PD);
+        $kegiatanId = 'kegiatan_np_'.md5($item->KEGIATAN_PD);
         $nodeMap[$kegiatanId] = [
             'id' => $kegiatanId,
             'name' => 'KEGIATAN PD',
@@ -380,11 +381,11 @@ class KaeresPdController extends Controller
         ];
         $this->addEdge($edges, $edgeIndex, $programId, $kegiatanId, $rowIndex);
 
-        if (!$item->SUBKEGIATAN_PD) {
+        if (! $item->SUBKEGIATAN_PD) {
             return;
         }
         $cleanSub = trim(preg_replace('/\s+/', ' ', $item->SUBKEGIATAN_PD));
-        $subkegiatanId = 'subkegiatan_np_' . md5($cleanSub);
+        $subkegiatanId = 'subkegiatan_np_'.md5($cleanSub);
 
         $opdNames = array_values(array_filter(
             array_map('trim', preg_split('/\r\n|\r|\n/', (string) $item->OPD_PENANGGUNGJAWAB_KEGIATAN)),
@@ -403,7 +404,7 @@ class KaeresPdController extends Controller
         ];
         $this->addEdge($edges, $edgeIndex, $kegiatanId, $subkegiatanId, $rowIndex);
         foreach ($opdNames as $opdName) {
-            $opdId = 'opd_' . md5($opdName);
+            $opdId = 'opd_'.md5($opdName);
             $nodeMap[$opdId] = [
                 'id' => $opdId,
                 'name' => 'OPD',
@@ -423,13 +424,13 @@ class KaeresPdController extends Controller
     private function pemdaRpjmdIkMap(): array
     {
         $map = ['tujuan' => [], 'sasaran' => []];
-        if (!Schema::hasTable('tbl_krs_irs_pemda')) {
+        if (! Schema::hasTable('tbl_krs_irs_pemda')) {
             return $map;
         }
 
         foreach (DB::table('tbl_krs_irs_pemda')->get() as $p) {
             $tk = $this->cleanKey($p->TUJUAN_RPJMD ?? '');
-            if ($tk !== '' && !isset($map['tujuan'][$tk])) {
+            if ($tk !== '' && ! isset($map['tujuan'][$tk])) {
                 $map['tujuan'][$tk] = [
                     'ik' => $p->IK_TUJUAN_RPJMD ?? null,
                     'baseline_ik' => $p->BASELINE_IK_TUJUAN_RPJMD ?? null,
@@ -438,7 +439,7 @@ class KaeresPdController extends Controller
                 ];
             }
             $sk = $this->cleanKey($p->SASARAN_RPJMD ?? '');
-            if ($sk !== '' && !isset($map['sasaran'][$sk])) {
+            if ($sk !== '' && ! isset($map['sasaran'][$sk])) {
                 $map['sasaran'][$sk] = [
                     'ik' => $p->IK_SASARAN_RPJMD ?? null,
                     'baseline_ik' => $p->BASELINE_IK_SASARAN_RPJMD ?? null,
@@ -450,5 +451,4 @@ class KaeresPdController extends Controller
 
         return $map;
     }
-
 }

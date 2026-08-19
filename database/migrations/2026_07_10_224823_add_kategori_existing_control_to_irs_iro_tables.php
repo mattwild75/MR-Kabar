@@ -19,7 +19,7 @@ return new class extends Migration
     public function up(): void
     {
         foreach (self::TABLES as $table) {
-            if (Schema::hasTable($table) && !Schema::hasColumn($table, 'KATEGORI EXISTING CONTROL')) {
+            if (Schema::hasTable($table) && ! Schema::hasColumn($table, 'KATEGORI EXISTING CONTROL')) {
                 Schema::table($table, function (Blueprint $t) {
                     $t->text('KATEGORI EXISTING CONTROL')->nullable()->after('URAIAN PENGENDALIAN YANG SUDAH ADA');
                 });

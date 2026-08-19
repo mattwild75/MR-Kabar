@@ -14,9 +14,7 @@ class TroubleshootReportSubmitted extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly TroubleshootReport $report)
-    {
-    }
+    public function __construct(private readonly TroubleshootReport $report) {}
 
     public function via(object $notifiable): array
     {
@@ -32,7 +30,7 @@ class TroubleshootReportSubmitted extends Notification
             'category' => $this->report->category,
             'title' => 'Laporan troubleshoot baru',
             'body' => ($this->report->user?->name ?? 'Seseorang')
-                . ' mengirim laporan "' . $this->report->subject . '" (' . $this->report->category . ').',
+                .' mengirim laporan "'.$this->report->subject.'" ('.$this->report->category.').',
             'url' => '/troubleshoot',
         ];
     }

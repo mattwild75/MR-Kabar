@@ -63,7 +63,7 @@ class DataUmum extends Model
      */
     public static function forOpdAndTahun(?int $opdId, int|string $tahun): ?self
     {
-        if (!$opdId) {
+        if (! $opdId) {
             return static::whereNotNull('user_id')
                 ->where('tahun_penilaian', (string) $tahun)
                 ->orderBy('id')

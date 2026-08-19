@@ -30,13 +30,13 @@ class ArahanPenilaian2025Seeder extends Seeder
     public function run(): void
     {
         ArahanPenilaianRisiko::where('tahun_mulai', self::TAHUN)
-            ->orWhere(fn($q) => $q->where('tahun_mulai', '<=', self::TAHUN)->where('tahun_selesai', '>=', self::TAHUN))
+            ->orWhere(fn ($q) => $q->where('tahun_mulai', '<=', self::TAHUN)->where('tahun_selesai', '>=', self::TAHUN))
             ->get()
-            ->each(fn($a) => $a->forceDelete());
+            ->each(fn ($a) => $a->forceDelete());
 
         $dasar = 'Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Sistem Pengendalian Intern Pemerintah; '
-            . 'Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah BPKP Nomor 4 Tahun 2019 '
-            . 'tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah.';
+            .'Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah BPKP Nomor 4 Tahun 2019 '
+            .'tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah.';
 
         // ── Arahan 5 tahunan, mengikuti periode RPJMD ────────────────────
         $limaTahunan = ArahanPenilaianRisiko::create([
@@ -48,8 +48,8 @@ class ArahanPenilaian2025Seeder extends Seeder
             'dasar_hukum' => $dasar,
             'status' => 'berlaku',
             'catatan' => 'Draf arahan lima tahunan mengikuti periode RPJMD. Penilaian Risiko dilakukan pada tiga '
-                . 'tingkat: Strategis Pemerintah Daerah, Strategis Perangkat Daerah, dan Operasional Perangkat '
-                . 'Daerah. Nomor dan tanggal Surat Edaran diisi setelah ditetapkan Bupati.',
+                .'tingkat: Strategis Pemerintah Daerah, Strategis Perangkat Daerah, dan Operasional Perangkat '
+                .'Daerah. Nomor dan tanggal Surat Edaran diisi setelah ditetapkan Bupati.',
         ]);
 
         $this->tahapan($limaTahunan, [
@@ -89,9 +89,9 @@ class ArahanPenilaian2025Seeder extends Seeder
             'dasar_hukum' => $dasar,
             'status' => 'berlaku',
             'catatan' => 'Draf arahan tahunan. Hasil penilaian Risiko disampaikan kepada Bupati dengan tembusan '
-                . 'Sekretaris Daerah selaku Koordinator Penyelenggaraan. Penilaian Risiko Operasional agar '
-                . 'mempertimbangkan Risiko yang telah teridentifikasi pada tahun sebelumnya beserta Risiko baru. '
-                . 'Inspektorat bertindak sebagai fasilitator.',
+                .'Sekretaris Daerah selaku Koordinator Penyelenggaraan. Penilaian Risiko Operasional agar '
+                .'mempertimbangkan Risiko yang telah teridentifikasi pada tahun sebelumnya beserta Risiko baru. '
+                .'Inspektorat bertindak sebagai fasilitator.',
         ]);
 
         $this->tahapan($satuTahunan, [

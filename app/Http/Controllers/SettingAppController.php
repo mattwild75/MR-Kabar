@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
 use App\Models\SettingApp;
 use App\Services\FaviconGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class SettingAppController extends Controller
 {
@@ -20,7 +20,7 @@ class SettingAppController extends Controller
      */
     private function ensureAdmin(): void
     {
-        if (!auth()->user()?->canViewAllOpd()) {
+        if (! auth()->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola App Settings.');
         }
     }
@@ -30,6 +30,7 @@ class SettingAppController extends Controller
         $this->ensureAdmin();
 
         $setting = SettingApp::first();
+
         return Inertia::render('settingapp/Form', ['setting' => $setting]);
     }
 
@@ -38,41 +39,41 @@ class SettingAppController extends Controller
         $this->ensureAdmin();
 
         $data = $request->validate([
-            'nama_app'                => 'required|string|max:255',
-            'deskripsi'               => 'nullable|string',
-            'logo'                    => 'nullable|file|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
-            'logo_bg'                 => 'nullable|string|max:20',
-            'favicon'                 => 'nullable|file|image|mimes:ico,png,jpg,jpeg,webp|max:1024',
-            'favicon_from_logo'       => 'nullable|boolean',
-            'login_splash_enabled'    => 'nullable|boolean',
-            'login_splash_video'      => 'nullable|file|mimes:mp4,webm,mov|max:20480',
+            'nama_app' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'logo' => 'nullable|file|image|mimes:png,jpg,jpeg,svg,webp|max:2048',
+            'logo_bg' => 'nullable|string|max:20',
+            'favicon' => 'nullable|file|image|mimes:ico,png,jpg,jpeg,webp|max:1024',
+            'favicon_from_logo' => 'nullable|boolean',
+            'login_splash_enabled' => 'nullable|boolean',
+            'login_splash_video' => 'nullable|file|mimes:mp4,webm,mov|max:20480',
             'login_splash_video_remove' => 'nullable|boolean',
-            'login_splash_muted'      => 'nullable|boolean',
-            'edu_video_enabled'       => 'nullable|boolean',
-            'edu_video_path'          => 'nullable|file|mimes:mp4,webm,mov|max:51200',
-            'edu_video_remove'        => 'nullable|boolean',
+            'login_splash_muted' => 'nullable|boolean',
+            'edu_video_enabled' => 'nullable|boolean',
+            'edu_video_path' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
+            'edu_video_remove' => 'nullable|boolean',
             // Tidak memakai aturan mimes: berkas .vtt/.srt terdeteksi sebagai
             // text/plain, jadi pemeriksaannya lewat ekstensi. Ukurannya kecil
             // (2MB sudah jauh lebih dari cukup untuk video sepanjang apa pun).
             'edu_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
-                if (!in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
+                if (! in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
                     $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
                 }
             }],
             'edu_video_subtitle_remove' => 'nullable|boolean',
             'edu_video_gain_narration' => 'nullable|integer|min:0|max:200',
-            'edu_video_gain_music'    => 'nullable|integer|min:0|max:200',
-            'edu_video_gain_sfx'      => 'nullable|integer|min:0|max:200',
+            'edu_video_gain_music' => 'nullable|integer|min:0|max:200',
+            'edu_video_gain_sfx' => 'nullable|integer|min:0|max:200',
             'edu_video_subtitle_enabled' => 'nullable|boolean',
             'edu_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             // Video tutorial pengisian - aturannya disamakan dengan video
             // edukasi, kecuali gain efek suara: video tutorial hanya punya
             // dua lapisan audio, narasi dan musik.
-            'tutorial_video_enabled'  => 'nullable|boolean',
-            'tutorial_video_path'     => 'nullable|file|mimes:mp4,webm,mov|max:51200',
-            'tutorial_video_remove'   => 'nullable|boolean',
+            'tutorial_video_enabled' => 'nullable|boolean',
+            'tutorial_video_path' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
+            'tutorial_video_remove' => 'nullable|boolean',
             'tutorial_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
-                if (!in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
+                if (! in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
                     $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
                 }
             }],
@@ -81,11 +82,11 @@ class SettingAppController extends Controller
             'tutorial_video_gain_music' => 'nullable|integer|min:0|max:200',
             'tutorial_video_subtitle_enabled' => 'nullable|boolean',
             'tutorial_video_subtitle_size' => 'nullable|integer|min:50|max:200',
-            'warna'                   => 'nullable|string|max:20',
-            'seo'                     => 'nullable|array',
-            'contact_email'           => 'nullable|email|max:255',
+            'warna' => 'nullable|string|max:20',
+            'seo' => 'nullable|array',
+            'contact_email' => 'nullable|email|max:255',
             'contact_email_secondary' => 'nullable|email|max:255',
-            'footer_credit'           => 'nullable|string|max:255',
+            'footer_credit' => 'nullable|string|max:255',
         ]);
 
         $setting = SettingApp::firstOrNew();
@@ -112,7 +113,6 @@ class SettingAppController extends Controller
 
         $removeEduVideo = (bool) ($data['edu_video_remove'] ?? false);
         unset($data['edu_video_remove']);
-
 
         if ($request->hasFile('logo')) {
             $data['logo'] = $request->file('logo')->store('logo', 'public');
@@ -160,7 +160,7 @@ class SettingAppController extends Controller
             if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
                 $isi = $this->srtKeVtt($isi);
             }
-            $nama = 'edu-video/subtitle-' . now()->format('YmdHis') . '-' . Str::random(6) . '.vtt';
+            $nama = 'edu-video/subtitle-'.now()->format('YmdHis').'-'.Str::random(6).'.vtt';
             Storage::disk('public')->put($nama, $isi);
             $data['edu_video_subtitle_path'] = $nama;
         } elseif ($hapusSubtitle) {
@@ -168,7 +168,6 @@ class SettingAppController extends Controller
         } else {
             unset($data['edu_video_subtitle_path']);
         }
-
 
         $hapusVideoTutorial = (bool) ($data['tutorial_video_remove'] ?? false);
         unset($data['tutorial_video_remove']);
@@ -193,7 +192,7 @@ class SettingAppController extends Controller
             if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
                 $isi = $this->srtKeVtt($isi);
             }
-            $nama = 'tutorial-video/subtitle-' . now()->format('YmdHis') . '-' . Str::random(6) . '.vtt';
+            $nama = 'tutorial-video/subtitle-'.now()->format('YmdHis').'-'.Str::random(6).'.vtt';
             Storage::disk('public')->put($nama, $isi);
             $data['tutorial_video_subtitle_path'] = $nama;
         } elseif ($hapusSubtitleTutorial) {
@@ -241,6 +240,6 @@ class SettingAppController extends Controller
         // terganti.
         $isi = preg_replace('/(\d{2}:\d{2}:\d{2}),(\d{3})/', '$1.$2', $isi) ?? $isi;
 
-        return "WEBVTT\n\n" . $isi . "\n";
+        return "WEBVTT\n\n".$isi."\n";
     }
 }

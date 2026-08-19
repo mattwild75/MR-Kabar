@@ -48,7 +48,9 @@ class ShareMenus
         ];
 
         Inertia::share('menus', function () use ($user, $allowedTitlesForCeeSurvey, $allowedTitlesForLaporRisiko) {
-            if (!$user) return [];
+            if (! $user) {
+                return [];
+            }
 
             $isCeeSurvey = $user->hasRole('cee-survey');
             $canManageCeeQuestions = $user->hasAnyRole(['admin', 'super-admin']);
@@ -89,20 +91,19 @@ class ShareMenus
             $buildTree = function ($parentId = null) use (&$buildTree, $indexed, $user, $isCeeSurvey, $allowedTitlesForCeeSurvey, $canManageCeeQuestions, $isLaporRisiko, $allowedTitlesForLaporRisiko) {
                 return $indexed
                     ->filter(
-                        fn($menu) =>
-                        $menu->parent_id === $parentId &&
-                            (!$menu->permission_name || $user->can($menu->permission_name)) &&
-                            (!$isCeeSurvey || in_array($menu->title, $allowedTitlesForCeeSurvey, true)) &&
-                            !($menu->title === 'Kelola Pertanyaan CEE' && !$canManageCeeQuestions) &&
-                            (!$isLaporRisiko || in_array($menu->title, $allowedTitlesForLaporRisiko, true))
+                        fn ($menu) => $menu->parent_id === $parentId &&
+                            (! $menu->permission_name || $user->can($menu->permission_name)) &&
+                            (! $isCeeSurvey || in_array($menu->title, $allowedTitlesForCeeSurvey, true)) &&
+                            ! ($menu->title === 'Kelola Pertanyaan CEE' && ! $canManageCeeQuestions) &&
+                            (! $isLaporRisiko || in_array($menu->title, $allowedTitlesForLaporRisiko, true))
                     )
                     ->map(function ($menu) use (&$buildTree) {
                         $menu->children = $buildTree($menu->id)->values();
+
                         return $menu;
                     })
                     ->filter(
-                        fn($menu) =>
-                        ($menu->route && $menu->route !== '#') || $menu->children->isNotEmpty()
+                        fn ($menu) => ($menu->route && $menu->route !== '#') || $menu->children->isNotEmpty()
                     )
                     ->values();
             };

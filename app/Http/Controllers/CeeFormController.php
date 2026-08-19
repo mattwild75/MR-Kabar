@@ -13,6 +13,7 @@ use App\Models\PengaturanPemda;
 use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 /**
@@ -53,7 +54,7 @@ class CeeFormController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
+        if ($user->opd_id && ! $user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -160,7 +161,7 @@ class CeeFormController extends Controller
     private function ensureOpdAccess(Request $request, ?int $opdId): void
     {
         $user = $request->user();
-        if (!$opdId || !$user->opd_id || $user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
+        if (! $opdId || ! $user->opd_id || $user->hasAnyRole(['admin', 'super-admin', 'cee-survey'])) {
             return;
         }
 
@@ -209,7 +210,7 @@ class CeeFormController extends Controller
             'unsurs' => $unsurs,
             'rekap' => $rekap,
             'respondenList' => $opdId ? $this->respondenList1a($opdId, $tahun) : [],
-            'canEditOrDelete1a' => !$request->user()->hasRole('cee-survey'),
+            'canEditOrDelete1a' => ! $request->user()->hasRole('cee-survey'),
         ]);
     }
 
@@ -482,7 +483,7 @@ class CeeFormController extends Controller
      */
     private function cariPenandatangan(?DataUmum $dataUmum, string $keyword): ?array
     {
-        if (!$dataUmum) {
+        if (! $dataUmum) {
             return null;
         }
 
@@ -597,7 +598,7 @@ class CeeFormController extends Controller
         return CeeUnsur::with('pertanyaan')->get()
             ->mapWithKeys(function ($unsur) use ($rekap1a, $kelemahan1b) {
                 $simpulanList = $unsur->pertanyaan
-                    ->map(fn($p) => $rekap1a[$p->id]['simpulan'] ?? null)
+                    ->map(fn ($p) => $rekap1a[$p->id]['simpulan'] ?? null)
                     ->filter();
                 $simpulanSurvei = $simpulanList->isEmpty()
                     ? null
@@ -670,13 +671,13 @@ class CeeFormController extends Controller
             if (($bertentangan[$unsurId] ?? false) && trim((string) ($row['penjelasan'] ?? '')) === '') {
                 $galat["simpulan.{$i}.penjelasan"] =
                     'Hasil reviu dokumen dan survei persepsi pada sub unsur ini bertentangan. '
-                    . 'Perdep mewajibkan simpulannya ditarik lewat pendalaman atau professional judgement, '
-                    . 'jadi Penjelasan wajib diisi.';
+                    .'Perdep mewajibkan simpulannya ditarik lewat pendalaman atau professional judgement, '
+                    .'jadi Penjelasan wajib diisi.';
             }
         }
 
         if ($galat !== []) {
-            throw \Illuminate\Validation\ValidationException::withMessages($galat);
+            throw ValidationException::withMessages($galat);
         }
 
         // Kepala OPD (penandatangan/UPR) di-snapshot dari Data Umum milik
@@ -868,7 +869,7 @@ class CeeFormController extends Controller
                     ->orderBy('id')
                     ->get()
                 : [],
-            'canEditOrDelete1d' => !$request->user()->hasRole('cee-survey'),
+            'canEditOrDelete1d' => ! $request->user()->hasRole('cee-survey'),
         ]);
     }
 

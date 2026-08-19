@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('tbl_krs_irs_pemda')) {
+        if (! Schema::hasTable('tbl_krs_irs_pemda')) {
             return;
         }
 
@@ -16,18 +16,18 @@ return new class extends Migration
         // risiko) supaya urutan kolom RISIKO di KaeresController::
         // visualizationEmbed() — yang mengambil "semua kolom setelah
         // URAIAN_RISIKO" sebagai rantai atribut diagram — tidak bergeser.
-        if (!Schema::hasColumn('tbl_krs_irs_pemda', 'OPD_IK_TUJUAN_RPJMD')) {
+        if (! Schema::hasColumn('tbl_krs_irs_pemda', 'OPD_IK_TUJUAN_RPJMD')) {
             DB::statement('ALTER TABLE tbl_krs_irs_pemda ADD COLUMN OPD_IK_TUJUAN_RPJMD TEXT NULL AFTER TARGET_IK_TUJUAN_RPJMD');
         }
 
-        if (!Schema::hasColumn('tbl_krs_irs_pemda', 'OPD_IK_SASARAN_RPJMD')) {
+        if (! Schema::hasColumn('tbl_krs_irs_pemda', 'OPD_IK_SASARAN_RPJMD')) {
             DB::statement('ALTER TABLE tbl_krs_irs_pemda ADD COLUMN OPD_IK_SASARAN_RPJMD TEXT NULL AFTER TARGET_IK_SASARAN_RPJMD');
         }
     }
 
     public function down(): void
     {
-        if (!Schema::hasTable('tbl_krs_irs_pemda')) {
+        if (! Schema::hasTable('tbl_krs_irs_pemda')) {
             return;
         }
 

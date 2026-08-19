@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ArahanPenilaianRisiko;
 use App\Models\ArahanTahapan;
 use App\Models\KrsPemda;
+use App\Models\Opd;
 use App\Models\ProgramPembangunanBupati;
 use App\Models\RiskEntitasPenilai;
 use App\Models\RiskImpactCriteria;
@@ -43,7 +44,7 @@ class KeteranganPendukungController extends Controller
      */
     private function ensureAdmin(): void
     {
-        if (!auth()->user()?->canViewAllOpd()) {
+        if (! auth()->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengelola Keterangan Pendukung.');
         }
     }
@@ -62,7 +63,7 @@ class KeteranganPendukungController extends Controller
             'riskLevels' => RiskLevel::orderBy('urutan')->get(),
             'jenisRisiko' => RiskJenis::orderBy('urutan')->get(),
             'entitasPenilai' => RiskEntitasPenilai::orderBy('urutan')->get(),
-            'opdList' => \App\Models\Opd::orderBy('nama')->get(),
+            'opdList' => Opd::orderBy('nama')->get(),
             'programPembangunan' => ProgramPembangunanBupati::orderBy('nomor')->get(),
             'visiMisiPemda' => $this->visiMisiPerMisi(),
             'seleraRisiko' => $this->ringkasanSeleraRisiko(),
@@ -387,12 +388,12 @@ class KeteranganPendukungController extends Controller
             'nama' => ['required', 'string', 'max:255', Rule::unique('opd', 'nama')],
         ]);
 
-        \App\Models\Opd::create($data);
+        Opd::create($data);
 
         return back()->with('success', 'OPD berhasil ditambahkan.');
     }
 
-    public function updateOpd(Request $request, \App\Models\Opd $opd)
+    public function updateOpd(Request $request, Opd $opd)
     {
         $this->ensureAdmin();
 
@@ -405,7 +406,7 @@ class KeteranganPendukungController extends Controller
         return back()->with('success', 'OPD berhasil diperbarui.');
     }
 
-    public function destroyOpd(\App\Models\Opd $opd)
+    public function destroyOpd(Opd $opd)
     {
         $this->ensureAdmin();
 

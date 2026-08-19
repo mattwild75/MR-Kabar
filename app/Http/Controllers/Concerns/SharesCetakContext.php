@@ -24,7 +24,7 @@ trait SharesCetakContext
 
     private function dataUmumForInertia(?DataUmum $dataUmum): ?array
     {
-        if (!$dataUmum) {
+        if (! $dataUmum) {
             return null;
         }
 
@@ -68,7 +68,7 @@ trait SharesCetakContext
             return;
         }
 
-        if (!$opdId || !$user->opd_id || $opdId !== $user->opd_id) {
+        if (! $opdId || ! $user->opd_id || $opdId !== $user->opd_id) {
             abort(403, $pesan);
         }
     }

@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Http\Controllers\BackupController;
 use App\Models\User;
 use App\Services\VersiSnapshotService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 use ZipArchive;
@@ -210,7 +212,7 @@ class VersiSnapshotTest extends TestCase
 
     public function test_versi_yang_sudah_ada_tidak_dapat_dipakai_ulang(): void
     {
-        $tagAda = app(\App\Http\Controllers\BackupController::class);
+        $tagAda = app(BackupController::class);
         $adaTag = (new \ReflectionClass($tagAda))->getMethod('listGitTags');
         $adaTag->setAccessible(true);
         $daftar = $adaTag->invoke($tagAda);
@@ -238,7 +240,7 @@ class VersiSnapshotTest extends TestCase
 
         // Database harus utuh: snapshot palsu di atas hanya berisi "SELECT 1",
         // jadi kalau sempat dijalankan, tabel users akan hilang.
-        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('users'));
+        $this->assertTrue(Schema::hasTable('users'));
     }
 
     public function test_pemulihan_ditolak_bila_berkas_snapshot_berubah_sejak_direkam(): void
@@ -256,7 +258,7 @@ class VersiSnapshotTest extends TestCase
             ->assertRedirect()
             ->assertSessionHas('error', fn ($pesan) => str_contains($pesan, 'rusak'));
 
-        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasTable('users'));
+        $this->assertTrue(Schema::hasTable('users'));
     }
 
     public function test_pemulihan_versi_tanpa_snapshot_ditolak(): void
@@ -324,7 +326,7 @@ class VersiSnapshotTest extends TestCase
         $this->assertArrayHasKey('users', $cacah);
         foreach ($cacah as $tabel => $jumlah) {
             $this->assertTrue(
-                \Illuminate\Support\Facades\Schema::hasTable($tabel),
+                Schema::hasTable($tabel),
                 "tabel $tabel dicacah padahal tidak ada"
             );
             $this->assertIsInt($jumlah);

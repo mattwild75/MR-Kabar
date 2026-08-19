@@ -18,7 +18,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('tbl_krs_irs_pemda')) {
+        if (! Schema::hasTable('tbl_krs_irs_pemda')) {
             return;
         }
 

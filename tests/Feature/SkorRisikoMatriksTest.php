@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\RiskMatrixCell;
+use Database\Seeders\RiskReferenceDataSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -39,7 +40,7 @@ class SkorRisikoMatriksTest extends TestCase
 
     public function test_tiga_nilai_jangkar_dari_perdep(): void
     {
-        $this->seed(\Database\Seeders\RiskReferenceDataSeeder::class);
+        $this->seed(RiskReferenceDataSeeder::class);
 
         // Kalau matriksnya perkalian, ketiganya akan bernilai 5, 5, dan 12.
         $this->assertSame(20, $this->skala(5, 1), 'Dampak 5 x Kemungkinan 1 harus 20');
@@ -49,7 +50,7 @@ class SkorRisikoMatriksTest extends TestCase
 
     public function test_matriks_berisi_peringkat_1_sampai_25_tanpa_duplikat(): void
     {
-        $this->seed(\Database\Seeders\RiskReferenceDataSeeder::class);
+        $this->seed(RiskReferenceDataSeeder::class);
 
         $nilai = RiskMatrixCell::pluck('skala_risiko')
             ->map(fn ($v) => (int) $v)->sort()->values()->all();
@@ -67,7 +68,7 @@ class SkorRisikoMatriksTest extends TestCase
      */
     public function test_dampak_selalu_dibobot_lebih_berat_daripada_kemungkinan(): void
     {
-        $this->seed(\Database\Seeders\RiskReferenceDataSeeder::class);
+        $this->seed(RiskReferenceDataSeeder::class);
 
         for ($a = 1; $a <= 5; $a++) {
             for ($b = $a + 1; $b <= 5; $b++) {
@@ -82,7 +83,7 @@ class SkorRisikoMatriksTest extends TestCase
 
     public function test_skala_naik_seiring_dampak_dan_kemungkinan(): void
     {
-        $this->seed(\Database\Seeders\RiskReferenceDataSeeder::class);
+        $this->seed(RiskReferenceDataSeeder::class);
 
         for ($d = 1; $d <= 5; $d++) {
             for ($k = 1; $k <= 5; $k++) {

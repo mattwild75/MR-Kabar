@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Pemetaan analitis: 258 risiko teridentifikasi tahun 2025 (IRS Pemda/IRS
  * PD/IRO PD, tabel gaya #1 SPASI DAN KAPITAL) -> 100 Program Pembangunan
@@ -94,7 +95,7 @@ return [
     15 => [ // Sarpras Sekolah (Disdikbud)
         ['tipe' => 'iro_pd', 'id' => 111],
     ],
-    16 => [ // Bus Gratis (Dishub)
+    16 => [// Bus Gratis (Dishub)
     ],
     17 => [ // Bimbel Gratis SMP/SMA (Disdikbud)
         ['tipe' => 'iro_pd', 'id' => 167],
@@ -139,7 +140,7 @@ return [
         ['tipe' => 'iro_pd', 'id' => 135],
         ['tipe' => 'iro_pd', 'id' => 136],
     ],
-    25 => [ // Subsidi Energi Terjangkau (Perkim)
+    25 => [// Subsidi Energi Terjangkau (Perkim)
     ],
     26 => [ // BBM Bersubsidi Abang Becak (Dinsos)
         ['tipe' => 'irs_pd', 'id' => 24],
@@ -485,7 +486,7 @@ return [
         ['tipe' => 'iro_pd', 'id' => 115],
         ['tipe' => 'iro_pd', 'id' => 120],
     ],
-    88 => [ // Lubang Biopori (Perkim)
+    88 => [// Lubang Biopori (Perkim)
     ],
     89 => [ // Sarpras Penanganan Bencana Memadai (BPBD)
         ['tipe' => 'irs_pd', 'id' => 87],

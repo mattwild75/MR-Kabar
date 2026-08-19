@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\KuisVideoHasil;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 /**
@@ -47,7 +46,7 @@ class PanduanController extends Controller
     public function simpanKuis(Request $request)
     {
         $data = $request->validate([
-            'jawaban' => ['required', 'array', 'size:' . self::JUMLAH_SOAL],
+            'jawaban' => ['required', 'array', 'size:'.self::JUMLAH_SOAL],
             'jawaban.*' => ['required', 'integer', 'min:0', 'max:3'],
         ]);
 

@@ -34,50 +34,50 @@ class CeeRtp2025Seeder extends Seeder
     private const RANCANGAN = [
         'A' => [
             'rtp' => 'Menyusun dan menetapkan aturan perilaku pegawai beserta mekanisme penegakannya, '
-                . 'mengomunikasikannya kepada seluruh pegawai, serta menandatangani pakta integritas secara berkala.',
+                .'mengomunikasikannya kepada seluruh pegawai, serta menandatangani pakta integritas secara berkala.',
             'pj' => 'Sekretaris Perangkat Daerah',
             'tw' => 'II',
         ],
         'B' => [
             'rtp' => 'Menyusun standar kompetensi tiap jabatan dan memetakan kesenjangan kompetensi pegawai, '
-                . 'lalu menyusun rencana pengembangan kompetensi berbasis kesenjangan tersebut.',
+                .'lalu menyusun rencana pengembangan kompetensi berbasis kesenjangan tersebut.',
             'pj' => 'Kepala Subbagian Kepegawaian',
             'tw' => 'III',
         ],
         'C' => [
             'rtp' => 'Menetapkan kebijakan pengelolaan Risiko pada tingkat Perangkat Daerah dan menjadikan '
-                . 'informasi Risiko sebagai bahan pertimbangan dalam rapat pimpinan serta penyusunan Renja.',
+                .'informasi Risiko sebagai bahan pertimbangan dalam rapat pimpinan serta penyusunan Renja.',
             'pj' => 'Kepala Perangkat Daerah',
             'tw' => 'II',
         ],
         'D' => [
             'rtp' => 'Menuangkan peran dan tanggung jawab pengelolaan Risiko ke dalam uraian tugas jabatan, '
-                . 'serta menetapkan mekanisme pelaporan pelaksanaannya secara berkala.',
+                .'serta menetapkan mekanisme pelaporan pelaksanaannya secara berkala.',
             'pj' => 'Sekretaris Perangkat Daerah',
             'tw' => 'III',
         ],
         'E' => [
             'rtp' => 'Menetapkan kriteria pendelegasian wewenang secara tertulis dan mereviu kewenangan yang '
-                . 'didelegasikan secara periodik.',
+                .'didelegasikan secara periodik.',
             'pj' => 'Sekretaris Perangkat Daerah',
             'tw' => 'III',
         ],
         'F' => [
             'rtp' => 'Menyusun kebijakan dan prosedur pengelolaan sumber daya manusia yang lengkap sejak '
-                . 'rekrutmen sampai pemberhentian, menginternalisasi budaya sadar Risiko, serta menyiapkan '
-                . 'mekanisme penghargaan dan sanksi atas pengelolaan Risiko dalam penilaian kinerja.',
+                .'rekrutmen sampai pemberhentian, menginternalisasi budaya sadar Risiko, serta menyiapkan '
+                .'mekanisme penghargaan dan sanksi atas pengelolaan Risiko dalam penilaian kinerja.',
             'pj' => 'Kepala Subbagian Kepegawaian',
             'tw' => 'IV',
         ],
         'G' => [
             'rtp' => 'Mengusulkan reviu dan pendampingan Inspektorat atas penyelenggaraan urusan, serta '
-                . 'menindaklanjuti seluruh saran dan rekomendasi pengawasan secara tepat waktu.',
+                .'menindaklanjuti seluruh saran dan rekomendasi pengawasan secara tepat waktu.',
             'pj' => 'Sekretaris Perangkat Daerah',
             'tw' => 'III',
         ],
         'H' => [
             'rtp' => 'Membangun mekanisme koordinasi berkala dengan instansi yang memiliki keterkaitan '
-                . 'operasional maupun fungsi pengawasan, dituangkan dalam jadwal dan notula yang terdokumentasi.',
+                .'operasional maupun fungsi pengawasan, dituangkan dalam jadwal dan notula yang terdokumentasi.',
             'pj' => 'Kepala Perangkat Daerah',
             'tw' => 'IV',
         ],
@@ -95,7 +95,7 @@ class CeeRtp2025Seeder extends Seeder
         if ($simpulan->isEmpty()) {
             $this->command?->warn(
                 'Belum ada simpulan CEE 2025 yang Kurang Memadai — jalankan CeeContoh2025Seeder lebih dulu. '
-                . 'Tidak ada RTP CEE yang dibuat.'
+                .'Tidak ada RTP CEE yang dibuat.'
             );
 
             return;
@@ -117,7 +117,7 @@ class CeeRtp2025Seeder extends Seeder
                 // penyusun; kalau kosong, dipakai nama sub unsurnya sendiri
                 // supaya kolom ini tidak pernah menjadi teks karangan.
                 'kondisi_kurang_memadai' => $s->penjelasan
-                    ?: 'Sub unsur ' . ($s->unsur?->nama ?? $kode) . ' disimpulkan Kurang Memadai pada Form 1c.',
+                    ?: 'Sub unsur '.($s->unsur?->nama ?? $kode).' disimpulkan Kurang Memadai pada Form 1c.',
                 'rencana_tindak_pengendalian' => $rancangan['rtp'],
                 'penanggung_jawab' => $rancangan['pj'],
                 'triwulan_target' => $rancangan['tw'],

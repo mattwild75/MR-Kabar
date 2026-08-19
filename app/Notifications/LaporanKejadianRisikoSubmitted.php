@@ -16,9 +16,7 @@ class LaporanKejadianRisikoSubmitted extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly LaporanKejadianRisiko $laporan)
-    {
-    }
+    public function __construct(private readonly LaporanKejadianRisiko $laporan) {}
 
     public function via(object $notifiable): array
     {
@@ -32,8 +30,8 @@ class LaporanKejadianRisikoSubmitted extends Notification
             'laporan_id' => $this->laporan->id,
             'nama_lengkap' => $this->laporan->nama_lengkap,
             'title' => 'Laporan kejadian risiko baru',
-            'body' => $this->laporan->nama_lengkap . ' melaporkan kejadian: "'
-                . str($this->laporan->kejadian)->limit(80) . '".',
+            'body' => $this->laporan->nama_lengkap.' melaporkan kejadian: "'
+                .str($this->laporan->kejadian)->limit(80).'".',
             'url' => '/lapor-kejadian/rekap',
         ];
     }

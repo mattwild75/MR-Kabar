@@ -94,7 +94,7 @@ trait GeneratesKodeRisiko
      */
     private function generateKodeRisiko(string $prefix, ?string $tahunDinilai, ?string $jenisRisiko, ?string $entitasPenilai, ?string $nomorUrut): ?string
     {
-        if (!$tahunDinilai || !$jenisRisiko || !$entitasPenilai || !$nomorUrut) {
+        if (! $tahunDinilai || ! $jenisRisiko || ! $entitasPenilai || ! $nomorUrut) {
             return null;
         }
 
@@ -103,7 +103,7 @@ trait GeneratesKodeRisiko
         // "JENIS RISIKO" tersimpan format "37 - Keuangan dan Pendapatan"
         // (lihat RiskReferenceDataService::jenisRisikoOptions()) — ambil
         // angka kode di depan tanda "-".
-        if (!preg_match('/^(\d+)\s*-/', trim($jenisRisiko), $m)) {
+        if (! preg_match('/^(\d+)\s*-/', trim($jenisRisiko), $m)) {
             return null;
         }
         $kodeJenis = str_pad($m[1], 2, '0', STR_PAD_LEFT);
@@ -148,9 +148,9 @@ trait GeneratesKodeRisiko
      */
     private function nomorUrutFor($rows): array
     {
-        $groupKey = fn ($row) => mb_strtolower(trim((string) ($row->{'TAHUN DINILAI RISIKO'} ?? ''))) . '|'
-            . mb_strtolower(trim((string) ($row->{'JENIS RISIKO'} ?? ''))) . '|'
-            . mb_strtolower(trim((string) ($row->{'ENTITAS PD YANG MENILAI'} ?? '')));
+        $groupKey = fn ($row) => mb_strtolower(trim((string) ($row->{'TAHUN DINILAI RISIKO'} ?? ''))).'|'
+            .mb_strtolower(trim((string) ($row->{'JENIS RISIKO'} ?? ''))).'|'
+            .mb_strtolower(trim((string) ($row->{'ENTITAS PD YANG MENILAI'} ?? '')));
 
         $sorted = collect($rows)->sortBy([
             fn ($a, $b) => $groupKey($a) <=> $groupKey($b),

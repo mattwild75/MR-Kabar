@@ -1,7 +1,7 @@
 // Transkrip teks MsgBox dari VBA (I_a_KRS_Pemda) — ditampilkan sebagai info
 // popover di samping label tiap field pada form Tambah/Edit Data.
 export const KRS_FIELD_INFO: Record<string, string> = {
-  VISI: `Definisi: Gambaran umum dan ideal tentang kondisi masa depan daerah yang ingin diwujudkan oleh Kepala Daerah dalam periode 5 tahun.
+    VISI: `Definisi: Gambaran umum dan ideal tentang kondisi masa depan daerah yang ingin diwujudkan oleh Kepala Daerah dalam periode 5 tahun.
 
 Fungsi: Menjadi arah pembangunan daerah, pedoman seluruh program/kebijakan SKPD/OPD.
 
@@ -9,7 +9,7 @@ Contoh: "Terwujudnya Kabupaten X yang Maju, Mandiri, dan Sejahtera Berkelanjutan
 
 Bila tidak ada maka kosongkan saja (dengan acuan: dokumen RPD).`,
 
-  MISI: `Definisi: Penjabaran visi dalam bentuk langkah-langkah strategis yang lebih operasional.
+    MISI: `Definisi: Penjabaran visi dalam bentuk langkah-langkah strategis yang lebih operasional.
 
 Fungsi: Menjadi dasar perumusan tujuan, sasaran, dan strategi pembangunan.
 
@@ -20,7 +20,7 @@ Contoh:
 
 Bila tidak ada maka kosongkan saja (dengan acuan: dokumen RPD).`,
 
-  'TUJUAN RPJMD': `Definisi: Hasil akhir yang ingin dicapai dalam periode RPJMD (5 tahun) berdasarkan visi dan misi.
+    'TUJUAN RPJMD': `Definisi: Hasil akhir yang ingin dicapai dalam periode RPJMD (5 tahun) berdasarkan visi dan misi.
 
 Fungsi: Menjadi pedoman capaian pembangunan yang jelas dan terukur.
 
@@ -29,7 +29,7 @@ Meningkatnya kualitas layanan pendidikan.
 Meningkatnya daya saing ekonomi daerah.
 Meningkatnya kualitas infrastruktur wilayah.`,
 
-  'IK TUJUAN RPJMD': `Definisi: Ukuran keberhasilan pencapaian tujuan pembangunan daerah yang ditetapkan dalam RPJMD.
+    'IK TUJUAN RPJMD': `Definisi: Ukuran keberhasilan pencapaian tujuan pembangunan daerah yang ditetapkan dalam RPJMD.
 
 Fungsi: Menjadi "alat ukur" apakah tujuan pembangunan (yang masih bersifat umum) benar-benar tercapai.
 
@@ -43,7 +43,7 @@ Indeks Pembangunan Manusia (IPM)
 
 Urutan baris harus sama dengan urutan baris di Baseline/Target/Satuan IK Tujuan (baris ke-1 harus pasangan, baris ke-2 harus pasangan, dst). Jika salah satu indikator tidak punya nilai di Baseline/Target/Satuan, kosongkan barisnya saja (jangan digeser) supaya pasangannya tetap sejajar.`,
 
-  'BASELINE IK TUJUAN RPJMD': `Definisi: Nilai awal dari indikator kinerja pada tahun pertama penyusunan RPJMD (kondisi eksisting sebelum intervensi program pembangunan).
+    'BASELINE IK TUJUAN RPJMD': `Definisi: Nilai awal dari indikator kinerja pada tahun pertama penyusunan RPJMD (kondisi eksisting sebelum intervensi program pembangunan).
 
 Fungsi: Menjadi titik tolak untuk mengukur kemajuan.
 
@@ -56,7 +56,7 @@ Jika ada lebih dari 1 nilai IK, tulis satu nilai per baris (Shift+Enter) sesuai 
 
 Baris harus sejajar dengan IK Tujuan yang bersangkutan — kosongkan barisnya (bukan menghapus barisnya) jika IK tersebut tidak punya baseline.`,
 
-  'TARGET IK TUJUAN RPJMD': `Definisi: Nilai yang ingin dicapai pada akhir periode RPJMD (tahun ke-5).
+    'TARGET IK TUJUAN RPJMD': `Definisi: Nilai yang ingin dicapai pada akhir periode RPJMD (tahun ke-5).
 
 Fungsi: Menjadi tolok ukur keberhasilan pembangunan jangka menengah.
 
@@ -69,7 +69,7 @@ Jika ada lebih dari 1 nilai IK, tulis satu nilai per baris (Shift+Enter) sesuai 
 
 Baris harus sejajar dengan IK Tujuan yang bersangkutan — kosongkan barisnya (bukan menghapus barisnya) jika IK tersebut tidak punya target.`,
 
-  'SATUAN IK TUJUAN RPJMD': `Definisi: Unit ukuran yang digunakan untuk indikator, agar jelas cara mengukurnya.
+    'SATUAN IK TUJUAN RPJMD': `Definisi: Unit ukuran yang digunakan untuk indikator, agar jelas cara mengukurnya.
 
 Contoh:
 AHH => Tahun. => inilah satuan IKnya.
@@ -80,7 +80,7 @@ Persen
 
 Baris harus sejajar dengan IK Tujuan yang bersangkutan.`,
 
-  'OPD IK TUJUAN RPJMD': `Definisi: Perangkat Daerah (OPD/SKPK/Dinas) yang bertanggung jawab atas capaian indikator Tujuan tersebut — berbeda dari OPD Penanggungjawab Program (yang melaksanakan Program, bukan mengampu indikator Tujuan).
+    'OPD IK TUJUAN RPJMD': `Definisi: Perangkat Daerah (OPD/SKPK/Dinas) yang bertanggung jawab atas capaian indikator Tujuan tersebut — berbeda dari OPD Penanggungjawab Program (yang melaksanakan Program, bukan mengampu indikator Tujuan).
 
 Contoh:
 IK Tujuan: Angka Harapan Hidup (AHH) => OPD: Dinas Kesehatan.
@@ -91,7 +91,7 @@ Dinas Pendidikan dan Kebudayaan
 
 Baris harus sejajar dengan IK Tujuan yang bersangkutan — kosongkan barisnya (bukan menghapus barisnya) jika IK tersebut tidak punya OPD.`,
 
-  'SASARAN RPJMD': `Definisi: Hasil yang lebih spesifik, kuantitatif, dan dapat diukur dari tujuan pembangunan.
+    'SASARAN RPJMD': `Definisi: Hasil yang lebih spesifik, kuantitatif, dan dapat diukur dari tujuan pembangunan.
 
 Fungsi: Menjadi indikator utama keberhasilan pembangunan.
 
@@ -99,7 +99,7 @@ Contoh:
 Meningkatnya Angka Harapan Hidup.
 Menurunnya Tingkat kemiskinan.`,
 
-  'IK SASARAN RPJMD': `Definisi: Ukuran keberhasilan pencapaian sasaran pembangunan daerah (lebih spesifik dibanding tujuan).
+    'IK SASARAN RPJMD': `Definisi: Ukuran keberhasilan pencapaian sasaran pembangunan daerah (lebih spesifik dibanding tujuan).
 
 Fungsi: Menjadi indikator untuk mengukur seberapa jauh sasaran pembangunan dapat diwujudkan.
 
@@ -113,7 +113,7 @@ Angka Kematian Ibu (per 100.000 kelahiran hidup)
 
 Urutan baris harus sama dengan urutan baris di Baseline/Target/Satuan IK Sasaran (baris ke-1 harus pasangan, baris ke-2 harus pasangan, dst). Jika salah satu indikator tidak punya nilai di Baseline/Target/Satuan, kosongkan barisnya saja (jangan digeser) supaya pasangannya tetap sejajar.`,
 
-  'BASELINE IK SASARAN RPJMD': `Definisi: Nilai awal indikator kinerja sasaran pada tahun pertama penyusunan RPJMD.
+    'BASELINE IK SASARAN RPJMD': `Definisi: Nilai awal indikator kinerja sasaran pada tahun pertama penyusunan RPJMD.
 
 Fungsi: Menjadi acuan kondisi awal sebelum ada intervensi pembangunan.
 
@@ -126,7 +126,7 @@ Jika ada lebih dari 1 nilai IK, tulis satu nilai per baris (Shift+Enter) sesuai 
 
 Baris harus sejajar dengan IK Sasaran yang bersangkutan — kosongkan barisnya (bukan menghapus barisnya) jika IK tersebut tidak punya baseline.`,
 
-  'TARGET IK SASARAN RPJMD': `Definisi: Nilai indikator yang ingin dicapai pada akhir periode RPJMD (tahun ke-5).
+    'TARGET IK SASARAN RPJMD': `Definisi: Nilai indikator yang ingin dicapai pada akhir periode RPJMD (tahun ke-5).
 
 Fungsi: Menjadi tolok ukur capaian sasaran yang terukur dan realistis.
 
@@ -139,7 +139,7 @@ Jika ada lebih dari 1 nilai IK, tulis satu nilai per baris (Shift+Enter) sesuai 
 
 Baris harus sejajar dengan IK Sasaran yang bersangkutan — kosongkan barisnya (bukan menghapus barisnya) jika IK tersebut tidak punya target.`,
 
-  'SATUAN IK SASARAN RPJMD': `Definisi: Unit ukuran indikator kinerja sasaran.
+    'SATUAN IK SASARAN RPJMD': `Definisi: Unit ukuran indikator kinerja sasaran.
 
 Contoh:
 APM SMP => % => inilah satuan IKnya.
@@ -150,7 +150,7 @@ Tahun
 
 Baris harus sejajar dengan IK Sasaran yang bersangkutan.`,
 
-  'OPD IK SASARAN RPJMD': `Definisi: Perangkat Daerah (OPD/SKPK/Dinas) yang bertanggung jawab atas capaian indikator Sasaran tersebut — berbeda dari OPD Penanggungjawab Program.
+    'OPD IK SASARAN RPJMD': `Definisi: Perangkat Daerah (OPD/SKPK/Dinas) yang bertanggung jawab atas capaian indikator Sasaran tersebut — berbeda dari OPD Penanggungjawab Program.
 
 Contoh:
 IK Sasaran: Angka Partisipasi Murni (APM) SMP => OPD: Dinas Pendidikan dan Kebudayaan.
@@ -161,14 +161,14 @@ Dinas Kesehatan
 
 Baris harus sejajar dengan IK Sasaran yang bersangkutan — kosongkan barisnya (bukan menghapus barisnya) jika IK tersebut tidak punya OPD.`,
 
-  'PROGRAM PRIORITAS': `Definisi: Program utama yang dipilih dari sekian banyak program, yang dianggap paling strategis untuk mewujudkan visi-misi.
+    'PROGRAM PRIORITAS': `Definisi: Program utama yang dipilih dari sekian banyak program, yang dianggap paling strategis untuk mewujudkan visi-misi.
 
 Fungsi: Menjadi fokus penggunaan anggaran daerah dan dasar penyusunan RKPD tahunan.
 
 Contoh:
 Program pengentasan kemiskinan terpadu.`,
 
-  'OUTCOME PROGRAM PRIORITAS': `Definisi: Dampak atau hasil nyata dari pelaksanaan program prioritas terhadap masyarakat/daerah.
+    'OUTCOME PROGRAM PRIORITAS': `Definisi: Dampak atau hasil nyata dari pelaksanaan program prioritas terhadap masyarakat/daerah.
 
 Fungsi: Mengukur keberhasilan bukan hanya dari output (misalnya jumlah sekolah dibangun), tetapi juga dari manfaat (misalnya meningkatnya angka partisipasi sekolah).
 
@@ -180,7 +180,7 @@ Jika ada lebih dari 1 outcome, tulis satu outcome per baris (tekan Shift+Enter u
 Kemiskinan menurun secara signifikan
 Akses pendidikan dan kesehatan lebih merata`,
 
-  'IK PROGRAM': `Definisi: Ukuran keberhasilan pencapaian dari program prioritas Kepala Daerah dalam RPJMD.
+    'IK PROGRAM': `Definisi: Ukuran keberhasilan pencapaian dari program prioritas Kepala Daerah dalam RPJMD.
 
 Fungsi: Menunjukkan sejauh mana program prioritas berdampak nyata bagi masyarakat.
 
@@ -194,7 +194,7 @@ Persentase APK (Angka Partisipasi Kasar) SMA
 
 Urutan baris harus sama dengan urutan baris di Baseline/Target/Satuan IK Program (baris ke-1 harus pasangan, baris ke-2 harus pasangan, dst). Jika salah satu indikator tidak punya nilai di Baseline/Target/Satuan, kosongkan barisnya saja (jangan digeser) supaya pasangannya tetap sejajar.`,
 
-  'BASELINE IK PROGRAM': `Definisi: Nilai awal indikator program prioritas pada tahun pertama RPJMD.
+    'BASELINE IK PROGRAM': `Definisi: Nilai awal indikator program prioritas pada tahun pertama RPJMD.
 
 Fungsi: Menjadi acuan awal sebelum program dilaksanakan.
 
@@ -209,7 +209,7 @@ Baris harus sejajar dengan IK Program yang bersangkutan — kosongkan barisnya (
 
 Catatan untuk Program yang dijalankan lebih dari 1 OPD: baris di sini juga harus sejajar dengan urutan baris OPD di field OPD Penanggungjawab Program (baris ke-1 = OPD ke-1, dst).`,
 
-  'TARGET IK PROGRAM': `Definisi: Nilai capaian indikator program prioritas yang diharapkan pada akhir periode RPJMD (tahun ke-5).
+    'TARGET IK PROGRAM': `Definisi: Nilai capaian indikator program prioritas yang diharapkan pada akhir periode RPJMD (tahun ke-5).
 
 Fungsi: Tolok ukur keberhasilan pelaksanaan program prioritas.
 
@@ -224,7 +224,7 @@ Baris harus sejajar dengan IK Program yang bersangkutan — kosongkan barisnya (
 
 Catatan untuk Program yang dijalankan lebih dari 1 OPD: baris di sini juga harus sejajar dengan urutan baris OPD di field OPD Penanggungjawab Program (baris ke-1 = OPD ke-1, dst).`,
 
-  'SATUAN IK PROGRAM': `Definisi: Unit ukuran indikator yang dipakai agar jelas dan konsisten.
+    'SATUAN IK PROGRAM': `Definisi: Unit ukuran indikator yang dipakai agar jelas dan konsisten.
 
 Contoh:
 APK SMA => % => inilah satuan IKnya.
@@ -237,7 +237,7 @@ Baris harus sejajar dengan IK Program yang bersangkutan.
 
 Catatan untuk Program yang dijalankan lebih dari 1 OPD: baris di sini juga harus sejajar dengan urutan baris OPD di field OPD Penanggungjawab Program (baris ke-1 = OPD ke-1, dst).`,
 
-  'OPD PENANGGUNGJAWAB PROGRAM': `Definisi: Perangkat Daerah (OPD/SKPK/Dinas) yang bertanggung jawab melaksanakan dan mencapai target program prioritas.
+    'OPD PENANGGUNGJAWAB PROGRAM': `Definisi: Perangkat Daerah (OPD/SKPK/Dinas) yang bertanggung jawab melaksanakan dan mencapai target program prioritas.
 
 Fungsi: Memberikan kejelasan siapa yang harus memastikan program berjalan & target tercapai.
 

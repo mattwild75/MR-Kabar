@@ -13,7 +13,7 @@ return new class extends Migration
         // database yang di-migrate dari nol (mis. test suite dengan
         // RefreshDatabase) tabel ini tidak ada, jadi migration ini dilewati
         // agar tidak meruntuhkan migrate/test di environment tersebut.
-        if (!Schema::hasTable('tbl_pembangunandaerah')) {
+        if (! Schema::hasTable('tbl_pembangunandaerah')) {
             return;
         }
 
@@ -24,7 +24,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        if (!Schema::hasTable('tbl_pembangunandaerah')) {
+        if (! Schema::hasTable('tbl_pembangunandaerah')) {
             return;
         }
 

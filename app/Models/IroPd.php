@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class IroPd extends Model
 {
-    use SoftDeletes;
     use CascadeSoftDeletesToMonitoring;
+    use SoftDeletes;
 
     protected $table = 'tbl_iro_pd';
 

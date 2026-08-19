@@ -35,9 +35,7 @@ class CetakHasilAnalisisController extends Controller
     use GeneratesKodeRisiko;
     use SharesCetakContext;
 
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     /**
      * Data Umum Pemda-wide UTK TAHUN TERTENTU (sama pola dgn
@@ -50,7 +48,7 @@ class CetakHasilAnalisisController extends Controller
     {
         $dataUmum = DataUmum::forOpdAndTahun(null, $tahun);
 
-        if ($dataUmum && (!$dataUmum->nama_kepala_daerah || !$dataUmum->jabatan_kepala_daerah)) {
+        if ($dataUmum && (! $dataUmum->nama_kepala_daerah || ! $dataUmum->jabatan_kepala_daerah)) {
             $default = $this->pengaturan();
             $dataUmum->nama_kepala_daerah ??= $default->nama_kepala_daerah;
             $dataUmum->jabatan_kepala_daerah ??= $default->jabatan_kepala_daerah;
@@ -72,7 +70,7 @@ class CetakHasilAnalisisController extends Controller
      */
     private function picNamaForOpd(?int $opdId, int $tahun): ?string
     {
-        if (!$opdId) {
+        if (! $opdId) {
             return null;
         }
 
@@ -170,7 +168,7 @@ class CetakHasilAnalisisController extends Controller
         $nomorPemda = $this->nomorUrutFor($strategisPemda);
 
         $sectionI = $strategisPemda
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->map(fn ($r) => $this->analisisRow($r, 'RSP', $namaPemda, $nomorPemda[$r->id] ?? null))
             ->sortBy(fn ($r) => [$r['opd'] ?? '', $r['kode_risiko'] ?? ''])
             ->values();
@@ -185,7 +183,7 @@ class CetakHasilAnalisisController extends Controller
         $nomorOpdStrategis = $this->nomorUrutFor($strategisOpd);
 
         $sectionII = $strategisOpd
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->map(fn ($r) => $this->analisisRow($r, 'RSO', $r->user?->opd?->nama, $nomorOpdStrategis[$r->id] ?? null))
             ->sortBy(fn ($r) => [$r['opd'] ?? '', $r['kode_risiko'] ?? ''])
             ->values();
@@ -200,7 +198,7 @@ class CetakHasilAnalisisController extends Controller
         $nomorOpdOperasional = $this->nomorUrutFor($operasionalOpd);
 
         $sectionIII = $operasionalOpd
-            ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+            ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
             ->map(fn ($r) => $this->analisisRow($r, 'ROO', $r->user?->opd?->nama, $nomorOpdOperasional[$r->id] ?? null))
             ->sortBy(fn ($r) => [$r['opd'] ?? '', $r['kode_risiko'] ?? ''])
             ->values();

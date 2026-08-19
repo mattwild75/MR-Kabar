@@ -2,16 +2,16 @@
 
 namespace App\Providers;
 
-use App\Models\IrsPemda;
-use App\Models\KrsPd;
-use App\Models\IrsPd;
-use App\Models\KroPd;
 use App\Models\IroPd;
-use App\Policies\IrsPemdaPolicy;
-use App\Policies\KrsPdPolicy;
-use App\Policies\IrsPdPolicy;
-use App\Policies\KroPdPolicy;
+use App\Models\IrsPd;
+use App\Models\IrsPemda;
+use App\Models\KroPd;
+use App\Models\KrsPd;
 use App\Policies\IroPdPolicy;
+use App\Policies\IrsPdPolicy;
+use App\Policies\IrsPemdaPolicy;
+use App\Policies\KroPdPolicy;
+use App\Policies\KrsPdPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 

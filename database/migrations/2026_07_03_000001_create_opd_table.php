@@ -21,7 +21,7 @@ return new class extends Migration
         // dengan RefreshDatabase, atau instalasi baru) — lewati seeding OPD
         // awal jika tabelnya belum ada, agar migration ini tidak meruntuhkan
         // migrate/test di environment tersebut.
-        if (!Schema::hasTable('tbl_pembangunandaerah')) {
+        if (! Schema::hasTable('tbl_pembangunandaerah')) {
             return;
         }
 

@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\ShareMenus;
 use App\Http\Middleware\CheckMenuPermission;
 use App\Http\Middleware\ForceLogoutAfterMaxDuration;
+use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RestrictCeeSurveyRole;
 use App\Http\Middleware\RestrictLaporRisikoRole;
+use App\Http\Middleware\ShareMenus;
 use App\Http\Middleware\ViewerReadOnly;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -14,8 +14,8 @@ use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__ . '/../routes/web.php',
-        commands: __DIR__ . '/../routes/console.php',
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {

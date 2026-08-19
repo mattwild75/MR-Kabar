@@ -1,5 +1,5 @@
-import * as LucideIcons from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 
 // Seluruh icon Lucide (ribuan, termasuk yg dulu hilang di daftar manual
 // spt ClipboardCheck) diambil OTOMATIS dari named export package
@@ -11,9 +11,9 @@ import type { LucideIcon } from 'lucide-react';
 const EXCLUDED_EXPORTS = new Set(['createLucideIcon', 'icons', 'default']);
 
 export const icons: { name: string; icon: LucideIcon }[] = Object.keys(LucideIcons)
-  .filter((name) => !EXCLUDED_EXPORTS.has(name) && !name.endsWith('Icon'))
-  .sort((a, b) => a.localeCompare(b))
-  .map((name) => ({
-    name,
-    icon: (LucideIcons as unknown as Record<string, LucideIcon>)[name],
-  }));
+    .filter((name) => !EXCLUDED_EXPORTS.has(name) && !name.endsWith('Icon'))
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => ({
+        name,
+        icon: (LucideIcons as unknown as Record<string, LucideIcon>)[name],
+    }));

@@ -294,7 +294,7 @@ class Perekam {
     // kursor melintasinya, sehingga butir yang tadi dihitung koordinatnya sudah
     // bergeser saat kursornya tiba. Akibatnya yang terpilih perangkat daerah
     // yang sama sekali lain, dan tidak ada galat apa pun.
-    const klikTepat = async (r, v) => {
+    const klikTepat = async (r, _v) => {
       await this.t.ke(r.x, r.y);
       for (let i = 0; i < 4; i++) {
         const ulang = await cari();

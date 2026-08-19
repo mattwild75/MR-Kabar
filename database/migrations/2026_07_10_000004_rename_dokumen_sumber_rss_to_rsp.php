@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (Schema::hasColumn('data_umum', 'dokumen_sumber_rss') && !Schema::hasColumn('data_umum', 'dokumen_sumber_rsp')) {
+        if (Schema::hasColumn('data_umum', 'dokumen_sumber_rss') && ! Schema::hasColumn('data_umum', 'dokumen_sumber_rsp')) {
             DB::statement('ALTER TABLE data_umum CHANGE dokumen_sumber_rss dokumen_sumber_rsp VARCHAR(255) NULL');
         }
     }
 
     public function down(): void
     {
-        if (Schema::hasColumn('data_umum', 'dokumen_sumber_rsp') && !Schema::hasColumn('data_umum', 'dokumen_sumber_rss')) {
+        if (Schema::hasColumn('data_umum', 'dokumen_sumber_rsp') && ! Schema::hasColumn('data_umum', 'dokumen_sumber_rss')) {
             DB::statement('ALTER TABLE data_umum CHANGE dokumen_sumber_rsp dokumen_sumber_rss VARCHAR(255) NULL');
         }
     }

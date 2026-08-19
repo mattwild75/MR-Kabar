@@ -21,12 +21,13 @@ return new class extends Migration
     // cukup), tbl_krs_irs_pd & tbl_kro_iro_pd masih TEXT (butuh key length
     // eksplisit, lihat komentar di up()).
     private const DERIVED_TABLES = ['tbl_krs_irs_pemda', 'tbl_krs_irs_pd', 'tbl_kro_iro_pd'];
+
     private const TEXT_COLUMN_TABLES = ['tbl_krs_irs_pd', 'tbl_kro_iro_pd'];
 
     public function up(): void
     {
         foreach (self::DERIVED_TABLES as $table) {
-            if (!Schema::hasTable($table) || $this->indexExists($table, "{$table}_tahun_dinilai_risiko_index")) {
+            if (! Schema::hasTable($table) || $this->indexExists($table, "{$table}_tahun_dinilai_risiko_index")) {
                 continue;
             }
 
@@ -35,6 +36,7 @@ return new class extends Migration
                 // mewajibkan key length eksplisit utk index di kolom
                 // TEXT/BLOB, Blueprint tidak punya API utk itu.
                 DB::statement("ALTER TABLE `{$table}` ADD INDEX `{$table}_tahun_dinilai_risiko_index` (`TAHUN_DINILAI_RISIKO`(10))");
+
                 continue;
             }
 
@@ -43,7 +45,7 @@ return new class extends Migration
             });
         }
 
-        if (Schema::hasTable('cee_jawaban') && !$this->indexExists('cee_jawaban', 'cee_jawaban_opd_tahun_index')) {
+        if (Schema::hasTable('cee_jawaban') && ! $this->indexExists('cee_jawaban', 'cee_jawaban_opd_tahun_index')) {
             Schema::table('cee_jawaban', function (Blueprint $t) {
                 $t->index(['opd_id', 'tahun_penilaian'], 'cee_jawaban_opd_tahun_index');
             });

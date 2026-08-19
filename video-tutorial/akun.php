@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Kata sandi sementara untuk akun perekam, berikut pemulihannya.
  *
@@ -24,15 +25,16 @@
  *   php akun.php sandi USERNAME        -> cetak sandi sementara akun itu
  *   php akun.php sandi-lapor           -> cetak sandi akun bersama LAPOR
  */
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+$app->make(Kernel::class)->bootstrap();
 
 use App\Models\User;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Str;
 
 const BAWAAN = 'PIC_INSPEKTORAT';
-const SIMPANAN = __DIR__ . '/.sandi-lama';
+const SIMPANAN = __DIR__.'/.sandi-lama';
 
 $aksi = $argv[1] ?? 'periksa';
 $username = $argv[2] ?? BAWAAN;
@@ -96,7 +98,7 @@ if ($aksi === 'pasang') {
     $user->password = $sandi;   // model men-cast 'password' => 'hashed'
     $user->saveQuietly();
     echo "Sandi sementara terpasang untuk $username.\n";
-    echo 'Hash lama tersimpan di ' . basename(SIMPANAN) . " - WAJIB dipulihkan.\n";
+    echo 'Hash lama tersimpan di '.basename(SIMPANAN)." - WAJIB dipulihkan.\n";
 } elseif ($aksi === 'pulihkan') {
     $s = simpanan();
     if (! $s) {
@@ -114,5 +116,5 @@ if ($aksi === 'pasang') {
     tulisSimpanan([]);
 } else {
     $s = simpanan();
-    echo 'Akun yang sedang dipinjam: ' . ($s ? implode(', ', array_keys($s)) : 'tidak ada') . "\n";
+    echo 'Akun yang sedang dipinjam: '.($s ? implode(', ', array_keys($s)) : 'tidak ada')."\n";
 }

@@ -65,6 +65,7 @@ return new class extends Migration
                 // pasangannya dengan kolom indikator tidak bergeser.
                 $baru = implode("\n", array_map(function ($n) use ($peta) {
                     $bersih = trim($n);
+
                     return $peta[$this->baku($bersih)] ?? $n;
                 }, preg_split('/\r?\n/', $asli)));
 

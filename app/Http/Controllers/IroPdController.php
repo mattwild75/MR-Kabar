@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
 use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\IroPd;
 use App\Models\KroPd;
@@ -14,23 +15,18 @@ use App\Services\KroIroPdSyncService;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class IroPdController extends Controller
 {
-    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
-
+    use AppendsProgramBupatiTag;
+    use GeneratesKodeRisiko;
+    use HasOpdFillStatus;
+    use MemeriksaTabelTersedia;
     use MenyaringPeriodePenilaian;
 
-    use HasOpdFillStatus;
-    use GeneratesKodeRisiko;
-    use AppendsProgramBupatiTag;
-
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     // "NOMOR URUT RISIKO" sengaja tidak ada di FIELDS — nilainya selalu
     // dihitung ulang otomatis oleh withNomorUrut() setiap render, sama
@@ -144,7 +140,7 @@ class IroPdController extends Controller
         // super-admin yang melihat semua — konsisten dengan pembatasan
         // edit/hapus di RiskOwnershipPolicy.
         $query = IroPd::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
         $this->saringTahun($query, $tahun, 'TAHUN DINILAI RISIKO');
@@ -170,7 +166,7 @@ class IroPdController extends Controller
         // milik sendiri supaya PIC tidak bisa merujuk Kegiatan milik OPD
         // lain.
         $kegiatanQuery = KroPd::query();
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $kegiatanQuery->where('user_id', auth()->id());
         }
         $kegiatanOptions = $kegiatanQuery
@@ -179,6 +175,7 @@ class IroPdController extends Controller
             ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
             ->map(function ($v) {
                 $pos = strrpos($v, ':');
+
                 return $pos !== false ? trim(substr($v, $pos + 1)) : $v;
             })
             ->unique()
@@ -229,7 +226,7 @@ class IroPdController extends Controller
      */
     private function kegiatanKodes(): array
     {
-        if (!$this->tabelTersedia('tbl_kro_iro_pd')) {
+        if (! $this->tabelTersedia('tbl_kro_iro_pd')) {
             return [];
         }
 

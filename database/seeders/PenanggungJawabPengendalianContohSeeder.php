@@ -179,7 +179,7 @@ class PenanggungJawabPengendalianContohSeeder extends Seeder
     private function updateRows(string $modelClass, string $username, array $valuesById): void
     {
         $user = User::where('username', $username)->first();
-        if (!$user) {
+        if (! $user) {
             $this->command?->warn("User '{$username}' tidak ditemukan, dilewati.");
 
             return;
@@ -187,7 +187,7 @@ class PenanggungJawabPengendalianContohSeeder extends Seeder
 
         foreach ($valuesById as $id => $values) {
             $row = $modelClass::where('user_id', $user->id)->find($id);
-            if (!$row) {
+            if (! $row) {
                 $this->command?->warn("{$modelClass} #{$id} milik {$username} tidak ditemukan, dilewati.");
 
                 continue;

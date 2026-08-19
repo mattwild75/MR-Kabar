@@ -21,63 +21,63 @@ import { SECTIONS } from './sections';
  * lihat catatan keamanan lengkap di komentar route.
  */
 export default function PanduanPublic() {
-  const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
+    const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          const topMost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b));
-          setActiveId(topMost.target.id);
-        }
-      },
-      { rootMargin: '-80px 0px -70% 0px', threshold: 0 },
-    );
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const visible = entries.filter((e) => e.isIntersecting);
+                if (visible.length > 0) {
+                    const topMost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b));
+                    setActiveId(topMost.target.id);
+                }
+            },
+            { rootMargin: '-80px 0px -70% 0px', threshold: 0 },
+        );
 
-    SECTIONS.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    });
+        SECTIONS.forEach((s) => {
+            const el = document.getElementById(s.id);
+            if (el) observer.observe(el);
+        });
 
-    return () => observer.disconnect();
-  }, []);
+        return () => observer.disconnect();
+    }, []);
 
-  return (
-    <div className="min-h-svh bg-background text-foreground">
-      <Head title="Apa itu Manajemen Risiko / MR Kabar">
-        {/* Meta SEO dasar — halaman ini SATU-SATUNYA titik masuk publik
+    return (
+        <div className="bg-background text-foreground min-h-svh">
+            <Head title="Apa itu Manajemen Risiko / MR Kabar">
+                {/* Meta SEO dasar — halaman ini SATU-SATUNYA titik masuk publik
             (tanpa login) yang layak diindeks mesin pencari, lihat catatan
             keamanan di dokblok atas: tidak memuat data internal apa pun,
             murni konten edukasi statis (SECTIONS), jadi aman terekspos
             luas. Sebelumnya cuma ada <title>, tanpa description/OG — Google
             & preview share (WhatsApp dll) menampilkan cuplikan asal-asalan
             tanpa ini. */}
-        <meta
-          name="description"
-          content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019. Pelajari konsep, proses 5 tahap, dan struktur pengelolaan risiko sektor publik."
-        />
-        <meta name="robots" content="index, follow" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Apa itu Manajemen Risiko / MR Kabar" />
-        <meta
-          property="og:description"
-          content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019."
-        />
-        <meta property="og:site_name" content="MR Kabar" />
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Apa itu Manajemen Risiko / MR Kabar" />
-        <meta
-          name="twitter:description"
-          content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019."
-        />
-      </Head>
+                <meta
+                    name="description"
+                    content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019. Pelajari konsep, proses 5 tahap, dan struktur pengelolaan risiko sektor publik."
+                />
+                <meta name="robots" content="index, follow" />
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content="Apa itu Manajemen Risiko / MR Kabar" />
+                <meta
+                    property="og:description"
+                    content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019."
+                />
+                <meta property="og:site_name" content="MR Kabar" />
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content="Apa itu Manajemen Risiko / MR Kabar" />
+                <meta
+                    name="twitter:description"
+                    content="Panduan publik MR Kabar — aplikasi digitalisasi manajemen risiko Pemerintah Kabupaten Aceh Barat sesuai Peraturan Deputi PPKD BPKP No.4/2019."
+                />
+            </Head>
 
-      {/* Header minimal — bukan sidebar aplikasi, cukup logo + link kembali ke login */}
-      <header className="sticky top-0 z-20 border-b bg-card/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
-          <span className="font-serif text-lg font-semibold">MR Kabar</span>
-          {/* Hardcode '/login' (bukan route('login')) — halaman ini di-SSR
+            {/* Header minimal — bukan sidebar aplikasi, cukup logo + link kembali ke login */}
+            <header className="bg-card/95 sticky top-0 z-20 border-b backdrop-blur">
+                <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+                    <span className="font-serif text-lg font-semibold">MR Kabar</span>
+                    {/* Hardcode '/login' (bukan route('login')) — halaman ini di-SSR
               (lihat resources/js/ssr.jsx) supaya title/meta SEO ikut
               ter-render di HTML awal utk crawler yg tidak eksekusi JS,
               tapi Ziggy's route() cuma tersedia di window (browser),
@@ -86,65 +86,63 @@ export default function PanduanPublic() {
               artinya meta SEO TIDAK PERNAH benar2 ter-render). Path
               /login stabil (bukan route dinamis yg bisa berubah param),
               aman di-hardcode. */}
-          <Link href="/login" className="text-sm text-sky-500 underline underline-offset-2 hover:text-sky-600">
-            ← Kembali ke halaman Masuk
-          </Link>
+                    <Link href="/login" className="text-sm text-sky-500 underline underline-offset-2 hover:text-sky-600">
+                        ← Kembali ke halaman Masuk
+                    </Link>
+                </div>
+            </header>
+
+            <div className="mx-auto flex max-w-6xl gap-6 p-4">
+                {/* Daftar isi — sticky, tersembunyi di layar sempit */}
+                <nav className="bg-card sticky top-16 hidden h-fit w-64 shrink-0 space-y-1 rounded-md border p-3 text-sm lg:block">
+                    <p className="text-muted-foreground mb-2 px-2 text-xs font-semibold tracking-wide uppercase">Daftar Isi</p>
+                    {SECTIONS.map((s) => (
+                        <a
+                            key={s.id}
+                            href={`#${s.id}`}
+                            className={`block rounded border-l-2 px-2 py-1.5 transition-colors ${
+                                activeId === s.id
+                                    ? 'text-foreground border-sky-500 bg-sky-500/10 font-medium'
+                                    : 'text-muted-foreground hover:bg-muted hover:text-foreground border-transparent'
+                            }`}
+                        >
+                            {s.navLabel ?? s.title}
+                        </a>
+                    ))}
+                </nav>
+
+                {/* Konten */}
+                <div className="min-w-0 flex-1 space-y-4 pb-16">
+                    <div>
+                        <h1 className="text-2xl font-semibold">Apa itu Manajemen Risiko / MR Kabar</h1>
+                        <p className="text-muted-foreground mt-1 text-sm">
+                            Panduan lengkap konsep manajemen risiko pemerintah daerah dan cara memakai aplikasi MR Kabar dari awal sampai akhir —
+                            mengikuti kerangka 5W1H (Apa, Mengapa, Siapa, Kapan, Di mana, Bagaimana). Halaman ini terbuka untuk umum, tanpa perlu
+                            login.
+                        </p>
+                    </div>
+
+                    {/* Navigasi cepat versi mobile */}
+                    <nav className="flex flex-wrap gap-2 lg:hidden">
+                        {SECTIONS.map((s) => (
+                            <a
+                                key={s.id}
+                                href={`#${s.id}`}
+                                className="bg-muted/50 text-muted-foreground hover:bg-muted rounded-full border px-3 py-1 text-xs"
+                            >
+                                {s.navLabel ?? s.title}
+                            </a>
+                        ))}
+                    </nav>
+
+                    {SECTIONS.map((s) => (
+                        <section key={s.id} id={s.id} className="bg-card scroll-mt-20 rounded-md border p-5">
+                            <h2 className="mb-3 text-lg font-semibold">{s.title}</h2>
+                            <div className="prose prose-sm dark:prose-invert max-w-none space-y-3 text-sm leading-relaxed">{s.content}</div>
+                        </section>
+                    ))}
+                </div>
+            </div>
         </div>
-      </header>
-
-      <div className="mx-auto flex max-w-6xl gap-6 p-4">
-        {/* Daftar isi — sticky, tersembunyi di layar sempit */}
-        <nav className="sticky top-16 hidden h-fit w-64 shrink-0 space-y-1 rounded-md border bg-card p-3 text-sm lg:block">
-          <p className="mb-2 px-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">Daftar Isi</p>
-          {SECTIONS.map((s) => (
-            <a
-              key={s.id}
-              href={`#${s.id}`}
-              className={`block rounded border-l-2 px-2 py-1.5 transition-colors ${
-                activeId === s.id
-                  ? 'border-sky-500 bg-sky-500/10 font-medium text-foreground'
-                  : 'border-transparent text-muted-foreground hover:bg-muted hover:text-foreground'
-              }`}
-            >
-              {s.navLabel ?? s.title}
-            </a>
-          ))}
-        </nav>
-
-        {/* Konten */}
-        <div className="min-w-0 flex-1 space-y-4 pb-16">
-          <div>
-            <h1 className="text-2xl font-semibold">Apa itu Manajemen Risiko / MR Kabar</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Panduan lengkap konsep manajemen risiko pemerintah daerah dan cara memakai aplikasi MR Kabar dari awal
-              sampai akhir — mengikuti kerangka 5W1H (Apa, Mengapa, Siapa, Kapan, Di mana, Bagaimana). Halaman ini
-              terbuka untuk umum, tanpa perlu login.
-            </p>
-          </div>
-
-          {/* Navigasi cepat versi mobile */}
-          <nav className="flex flex-wrap gap-2 lg:hidden">
-            {SECTIONS.map((s) => (
-              <a
-                key={s.id}
-                href={`#${s.id}`}
-                className="rounded-full border bg-muted/50 px-3 py-1 text-xs text-muted-foreground hover:bg-muted"
-              >
-                {s.navLabel ?? s.title}
-              </a>
-            ))}
-          </nav>
-
-          {SECTIONS.map((s) => (
-            <section key={s.id} id={s.id} className="scroll-mt-20 rounded-md border bg-card p-5">
-              <h2 className="mb-3 text-lg font-semibold">{s.title}</h2>
-              <div className="prose prose-sm dark:prose-invert max-w-none space-y-3 text-sm leading-relaxed">
-                {s.content}
-              </div>
-            </section>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+    );
 }

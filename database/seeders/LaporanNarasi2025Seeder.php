@@ -39,7 +39,7 @@ class LaporanNarasi2025Seeder extends Seeder
     {
         LaporanNarasi::where('tahun_penilaian', self::TAHUN)->forceDelete();
 
-        $penyusun = User::whereHas('roles', fn($q) => $q->where('name', 'admin'))->value('id');
+        $penyusun = User::whereHas('roles', fn ($q) => $q->where('name', 'admin'))->value('id');
         $opdIds = $this->opdBerisiko();
 
         if ($opdIds === []) {
@@ -60,14 +60,14 @@ class LaporanNarasi2025Seeder extends Seeder
                 'submitted_by' => $penyusun,
             ] + $this->narasiUmum() + [
                 'kondisi_lingkungan_pengendalian' => 'Uraikan simpulan Control Environment Evaluation (CEE) '
-                    . 'Tahun 2025 pada Perangkat Daerah ini: sub unsur mana yang Memadai dan mana yang Kurang '
-                    . 'Memadai, beserta dasar penilaiannya dari hasil reviu dokumen dan survei persepsi.',
+                    .'Tahun 2025 pada Perangkat Daerah ini: sub unsur mana yang Memadai dan mana yang Kurang '
+                    .'Memadai, beserta dasar penilaiannya dari hasil reviu dokumen dan survei persepsi.',
                 'rencana_perbaikan_lingkungan' => 'Uraikan Rencana Tindak Pengendalian atas sub unsur yang '
-                    . 'disimpulkan Kurang Memadai, sebagaimana tercantum pada Form 1d.',
+                    .'disimpulkan Kurang Memadai, sebagaimana tercantum pada Form 1d.',
                 'rancangan_informasi_komunikasi' => 'Uraikan media dan jadwal pengkomunikasian Rencana Tindak '
-                    . 'Pengendalian kepada pihak yang menjalankannya, sebagaimana tercantum pada Form 8.',
+                    .'Pengendalian kepada pihak yang menjalankannya, sebagaimana tercantum pada Form 8.',
                 'rancangan_pemantauan' => 'Uraikan bentuk dan jadwal pemantauan atas pelaksanaan pengendalian, '
-                    . 'termasuk uji coba penerapannya, sebagaimana tercantum pada Form 9.',
+                    .'termasuk uji coba penerapannya, sebagaimana tercantum pada Form 9.',
             ]);
             $jumlah['form11']++;
         }
@@ -83,8 +83,8 @@ class LaporanNarasi2025Seeder extends Seeder
                     'submitted_by' => $penyusun,
                 ] + $this->narasiUmum($triwulan) + $this->narasiKegiatan($triwulan) + [
                     'monitoring_risiko_rtp' => "Uraikan hasil pemantauan Triwulan {$triwulan}: pengkomunikasian "
-                        . 'Risiko dan RTP, kejadian Risiko yang benar-benar terjadi, pelaksanaan RTP, serta '
-                        . 'penilaian ulang Skala Risiko Aktual setelah pengendalian berjalan.',
+                        .'Risiko dan RTP, kejadian Risiko yang benar-benar terjadi, pelaksanaan RTP, serta '
+                        .'penilaian ulang Skala Risiko Aktual setelah pengendalian berjalan.',
                 ]);
                 $jumlah['form12']++;
             }
@@ -100,8 +100,8 @@ class LaporanNarasi2025Seeder extends Seeder
                 'submitted_by' => $penyusun,
             ] + $this->narasiUmum($triwulan) + $this->narasiKegiatan($triwulan) + [
                 'rekomendasi_feedback' => 'Uraikan rekomendasi Unit Kepatuhan kepada Unit Pemilik Risiko atas '
-                    . "kendala Triwulan {$triwulan}, termasuk Perangkat Daerah yang belum melengkapi Form 8, 9, "
-                    . 'dan 10 sebagaimana tampak pada rekapitulasi di bawah.',
+                    ."kendala Triwulan {$triwulan}, termasuk Perangkat Daerah yang belum melengkapi Form 8, 9, "
+                    .'dan 10 sebagaimana tampak pada rekapitulasi di bawah.',
             ]);
             $jumlah['form13']++;
         }
@@ -118,24 +118,24 @@ class LaporanNarasi2025Seeder extends Seeder
                 'submitted_by' => $penyusun,
             ] + $this->narasiUmum() + [
                 'rencana_kegiatan' => "Uraikan rencana kegiatan pembinaan pada {$label}: sosialisasi, bimbingan, "
-                    . 'supervisi, dan pelatihan pengelolaan Risiko, beserta Perangkat Daerah sasarannya.',
+                    .'supervisi, dan pelatihan pengelolaan Risiko, beserta Perangkat Daerah sasarannya.',
                 'realisasi_kegiatan' => "Uraikan realisasi kegiatan pembinaan pada {$label} beserta kesenjangannya "
-                    . 'terhadap rencana, termasuk jumlah Perangkat Daerah yang benar-benar terbina.',
+                    .'terhadap rencana, termasuk jumlah Perangkat Daerah yang benar-benar terbina.',
                 'hambatan_pelaksanaan' => 'Uraikan kendala pembinaan — misalnya keterbatasan waktu pendamping, '
-                    . 'pergantian pejabat pengelola Risiko, atau Perangkat Daerah yang belum menunjuk penanggung '
-                    . 'jawab pengelolaan Risiko.',
+                    .'pergantian pejabat pengelola Risiko, atau Perangkat Daerah yang belum menunjuk penanggung '
+                    .'jawab pengelolaan Risiko.',
                 'hasil_pembinaan' => 'Uraikan hasil pembinaan kepada Unit Pemilik Risiko: perubahan yang terjadi '
-                    . 'setelah dibina, serta hasil fasilitasi dalam memandu langkah demi langkah proses penilaian '
-                    . 'Risiko maupun pemutakhiran Risiko dan RTP.',
+                    .'setelah dibina, serta hasil fasilitasi dalam memandu langkah demi langkah proses penilaian '
+                    .'Risiko maupun pemutakhiran Risiko dan RTP.',
                 'rekomendasi_feedback' => 'Uraikan rekomendasi strategis maupun teknis Komite kepada Unit Pemilik '
-                    . 'Risiko, termasuk usulan kebijakan yang perlu ditetapkan Bupati.',
+                    .'Risiko, termasuk usulan kebijakan yang perlu ditetapkan Bupati.',
             ]);
             $jumlah['form14']++;
         }
 
         $this->command?->info(
             "Narasi laporan 2025 dibuat: Form 11 {$jumlah['form11']} berkas, Form 12 {$jumlah['form12']} berkas, "
-            . "Form 13 {$jumlah['form13']} berkas, Form 14 {$jumlah['form14']} berkas."
+            ."Form 13 {$jumlah['form13']} berkas, Form 14 {$jumlah['form14']} berkas."
         );
     }
 
@@ -153,36 +153,36 @@ class LaporanNarasi2025Seeder extends Seeder
         foreach (['tbl_irs_pd', 'tbl_iro_pd'] as $tabel) {
             $ids = $ids->merge(
                 DB::table($tabel)
-                    ->join('users', 'users.id', '=', $tabel . '.user_id')
-                    ->where($tabel . '.TAHUN DINILAI RISIKO', (string) self::TAHUN)
+                    ->join('users', 'users.id', '=', $tabel.'.user_id')
+                    ->where($tabel.'.TAHUN DINILAI RISIKO', (string) self::TAHUN)
                     ->whereNotNull('users.opd_id')
                     ->distinct()
                     ->pluck('users.opd_id')
             );
         }
 
-        return $ids->unique()->map(fn($id) => (int) $id)->sort()->values()->all();
+        return $ids->unique()->map(fn ($id) => (int) $id)->sort()->values()->all();
     }
 
     /** Empat bagian pendahuluan yang sama bentuknya pada keempat laporan. */
     private function narasiUmum(?string $periode = null): array
     {
-        $label = $periode ? "Triwulan {$periode} Tahun " . self::TAHUN : 'Tahun ' . self::TAHUN;
+        $label = $periode ? "Triwulan {$periode} Tahun ".self::TAHUN : 'Tahun '.self::TAHUN;
 
         return [
             'latar_belakang' => 'Uraikan alasan penyusunan laporan ini serta kedudukannya dalam penyelenggaraan '
-                . 'Sistem Pengendalian Intern Pemerintah pada Pemerintah Kabupaten Aceh Barat.',
-            'dasar_hukum' => "1. Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Sistem Pengendalian Intern "
-                . "Pemerintah;\n2. Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah BPKP Nomor 4 "
-                . "Tahun 2019 tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah;\n3. Surat Edaran Bupati "
-                . 'Aceh Barat tentang Arahan dan Kebijakan Penilaian Risiko Tahun ' . self::TAHUN . '.',
+                .'Sistem Pengendalian Intern Pemerintah pada Pemerintah Kabupaten Aceh Barat.',
+            'dasar_hukum' => '1. Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Sistem Pengendalian Intern '
+                ."Pemerintah;\n2. Peraturan Deputi Bidang Pengawasan Penyelenggaraan Keuangan Daerah BPKP Nomor 4 "
+                ."Tahun 2019 tentang Pedoman Pengelolaan Risiko pada Pemerintah Daerah;\n3. Surat Edaran Bupati "
+                .'Aceh Barat tentang Arahan dan Kebijakan Penilaian Risiko Tahun '.self::TAHUN.'.',
             'maksud_tujuan' => 'Uraikan maksud dan tujuan laporan ini sebagai bahan evaluasi dan pengambilan '
-                . 'keputusan bagi pimpinan.',
+                .'keputusan bagi pimpinan.',
             'ruang_lingkup' => "Ruang lingkup laporan ini meliputi pengelolaan Risiko pada {$label}, mencakup "
-                . 'penilaian lingkungan pengendalian, penilaian Risiko, penyusunan dan pelaksanaan Rencana Tindak '
-                . 'Pengendalian, serta pemantauannya.',
-            'penutup' => "Demikian laporan ini disusun sebagai bahan evaluasi penyelenggaraan pengelolaan Risiko "
-                . "Pemerintah Kabupaten Aceh Barat {$label}.",
+                .'penilaian lingkungan pengendalian, penilaian Risiko, penyusunan dan pelaksanaan Rencana Tindak '
+                .'Pengendalian, serta pemantauannya.',
+            'penutup' => 'Demikian laporan ini disusun sebagai bahan evaluasi penyelenggaraan pengelolaan Risiko '
+                ."Pemerintah Kabupaten Aceh Barat {$label}.",
         ];
     }
 
@@ -191,12 +191,12 @@ class LaporanNarasi2025Seeder extends Seeder
     {
         return [
             'rencana_kegiatan' => "Uraikan kegiatan pengendalian yang direncanakan pada Triwulan {$triwulan}, "
-                . 'termasuk pemutakhiran Risiko dan RTP dari periode sebelumnya.',
-            'realisasi_kegiatan' => "Uraikan kegiatan pengendalian yang benar-benar dilaksanakan pada Triwulan "
-                . "{$triwulan} beserta kesenjangannya terhadap rencana.",
+                .'termasuk pemutakhiran Risiko dan RTP dari periode sebelumnya.',
+            'realisasi_kegiatan' => 'Uraikan kegiatan pengendalian yang benar-benar dilaksanakan pada Triwulan '
+                ."{$triwulan} beserta kesenjangannya terhadap rencana.",
             'hambatan_pelaksanaan' => 'Uraikan kendala yang menyebabkan kesenjangan tersebut — misalnya '
-                . 'keterbatasan anggaran, pergantian pelaksana, atau tahapan yang bergantung pada dokumen '
-                . 'perencanaan yang belum terbit.',
+                .'keterbatasan anggaran, pergantian pelaksana, atau tahapan yang bergantung pada dokumen '
+                .'perencanaan yang belum terbit.',
         ];
     }
 }

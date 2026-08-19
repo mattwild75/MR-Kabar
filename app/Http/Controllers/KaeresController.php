@@ -94,7 +94,7 @@ class KaeresController extends Controller
         $uraianPos = array_search('URAIAN_RISIKO', $columns, true);
         $detailColumns = $uraianPos === false ? [] : array_values(array_filter(
             array_slice($columns, $uraianPos + 1),
-            fn ($col) => !in_array(strtolower($col), ['id', 'created_at', 'updated_at', 'deleted_at'], true)
+            fn ($col) => ! in_array(strtolower($col), ['id', 'created_at', 'updated_at', 'deleted_at'], true)
         ));
 
         $nodeMap = [];
@@ -103,20 +103,21 @@ class KaeresController extends Controller
 
         foreach ($data as $rowIndex => $item) {
             // VISI
-            if (!$item->VISI) {
+            if (! $item->VISI) {
                 // Baris NON-PRIORITAS (VISI kosong, PROGRAM ada): program
                 // menggantung mulai level PROGRAM (4), sejajar program
                 // prioritas tanpa edge ke Sasaran — lihat buildNonPrioritasNodes.
                 if ($item->PROGRAM_PRIORITAS) {
                     $this->buildNonPrioritasNodes($item, $rowIndex, $nodeMap, $edges, $edgeIndex);
                 }
+
                 continue;
             }
             // VISI & MISI TIDAK punya indikator sendiri di RPJMD (tabel hanya
             // menyimpan teksnya) — jadi node-nya sengaja TANPA ik/baseline/
             // target/opd. Popup detail-nya cukup menampilkan VALUE. (Sebelumnya
             // keliru diisi IK_TUJUAN_RPJMD milik Tujuan — sudah dibersihkan.)
-            $visiId = 'visi_' . md5($item->VISI);
+            $visiId = 'visi_'.md5($item->VISI);
             $nodeMap[$visiId] = [
                 'id' => $visiId,
                 'name' => 'VISI',
@@ -126,7 +127,7 @@ class KaeresController extends Controller
 
             // MISI
             if ($item->MISI) {
-                $misiId = 'misi_' . md5($item->MISI);
+                $misiId = 'misi_'.md5($item->MISI);
                 $nodeMap[$misiId] = [
                     'id' => $misiId,
                     'name' => 'MISI',
@@ -137,7 +138,7 @@ class KaeresController extends Controller
 
                 // TUJUAN
                 if ($item->TUJUAN_RPJMD) {
-                    $tujuanId = 'tujuan_' . md5($item->TUJUAN_RPJMD);
+                    $tujuanId = 'tujuan_'.md5($item->TUJUAN_RPJMD);
                     $nodeMap[$tujuanId] = [
                         'id' => $tujuanId,
                         'name' => 'TUJUAN',
@@ -152,7 +153,7 @@ class KaeresController extends Controller
 
                     // SASARAN
                     if ($item->SASARAN_RPJMD) {
-                        $sasaranId = 'sasaran_' . md5($item->SASARAN_RPJMD);
+                        $sasaranId = 'sasaran_'.md5($item->SASARAN_RPJMD);
                         $nodeMap[$sasaranId] = [
                             'id' => $sasaranId,
                             'name' => 'SASARAN',
@@ -168,7 +169,7 @@ class KaeresController extends Controller
                         // PROGRAM
                         if ($item->PROGRAM_PRIORITAS) {
                             $cleanProgram = trim(preg_replace('/\s+/', ' ', $item->PROGRAM_PRIORITAS));
-                            $programId = 'program_' . md5($cleanProgram);
+                            $programId = 'program_'.md5($cleanProgram);
 
                             // OPD — satu Program bisa dijalankan lebih dari
                             // satu OPD sekaligus (satu OPD per baris pada
@@ -197,7 +198,7 @@ class KaeresController extends Controller
                             $this->addEdge($edges, $edgeIndex, $sasaranId, $programId, $rowIndex);
 
                             foreach ($opdNames as $opdName) {
-                                $opdId = 'opd_' . md5($opdName);
+                                $opdId = 'opd_'.md5($opdName);
                                 $nodeMap[$opdId] = [
                                     'id' => $opdId,
                                     'name' => 'OPD',
@@ -214,8 +215,8 @@ class KaeresController extends Controller
                                 // yang sama jadi banyak node duplikat visual
                                 // saat satu Sasaran punya banyak Program.
                                 if ($item->URAIAN_RISIKO) {
-                                    $risikoId = 'risiko_' . md5(
-                                        $sasaranId . '|' . $item->URAIAN_RISIKO . '|' . ($item->NOMOR_URUT_RISIKO ?? '')
+                                    $risikoId = 'risiko_'.md5(
+                                        $sasaranId.'|'.$item->URAIAN_RISIKO.'|'.($item->NOMOR_URUT_RISIKO ?? '')
                                     );
                                     // Semua atribut ikut disimpan di node
                                     // risiko untuk modal detail.
@@ -270,8 +271,8 @@ class KaeresController extends Controller
                                         // Node boleh digabung; yang menjamin highlight
                                         // tetap akurat adalah tag row_id per edge (lihat
                                         // addEdge()), bukan pemisahan identitas node.
-                                        $detailId = strtolower($col) . '_' . md5($detailValue);
-                                        if (!isset($nodeMap[$detailId])) {
+                                        $detailId = strtolower($col).'_'.md5($detailValue);
+                                        if (! isset($nodeMap[$detailId])) {
                                             $nodeMap[$detailId] = [
                                                 'id' => $detailId,
                                                 'name' => $label,
@@ -295,7 +296,7 @@ class KaeresController extends Controller
 
                                             $existing = $nodeMap[$detailId][$uraianKey] ?? '';
                                             $lines = $existing === '' ? [] : explode("\n", $existing);
-                                            if (!in_array($line, $lines, true)) {
+                                            if (! in_array($line, $lines, true)) {
                                                 $lines[] = $line;
                                             }
                                             $nodeMap[$detailId][$uraianKey] = implode("\n", $lines);
@@ -341,13 +342,13 @@ class KaeresController extends Controller
             return '';
         }
 
-        return implode("\n", array_map(fn ($o) => '> ' . $o, $opdNames));
+        return implode("\n", array_map(fn ($o) => '> '.$o, $opdNames));
     }
 
     private function buildNonPrioritasNodes($item, int $rowIndex, array &$nodeMap, array &$edges, array &$edgeIndex): void
     {
         $cleanProgram = trim(preg_replace('/\s+/', ' ', $item->PROGRAM_PRIORITAS));
-        $programId = 'program_np_' . md5($cleanProgram);
+        $programId = 'program_np_'.md5($cleanProgram);
 
         $opdNames = array_values(array_filter(
             array_map('trim', preg_split('/\r\n|\r|\n/', (string) $item->OPD_PENANGGUNGJAWAB_PROGRAM)),
@@ -368,7 +369,7 @@ class KaeresController extends Controller
         ];
         // Sengaja TANPA edge dari Sasaran — menggantung.
         foreach ($opdNames as $opdName) {
-            $opdId = 'opd_' . md5($opdName);
+            $opdId = 'opd_'.md5($opdName);
             $nodeMap[$opdId] = [
                 'id' => $opdId,
                 'name' => 'OPD',
@@ -381,8 +382,8 @@ class KaeresController extends Controller
 
     private function addEdge(array &$edges, array &$edgeIndex, string $from, string $to, int $rowIndex): void
     {
-        $key = $from . '=>' . $to;
-        if (!isset($edgeIndex[$key])) {
+        $key = $from.'=>'.$to;
+        if (! isset($edgeIndex[$key])) {
             $edgeIndex[$key] = \count($edges);
             $edges[] = ['from' => $from, 'to' => $to, 'rows' => []];
         }
@@ -452,5 +453,4 @@ class KaeresController extends Controller
 
         return [$value, null];
     }
-
 }

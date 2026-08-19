@@ -154,7 +154,7 @@ class CeeContoh2025Seeder extends Seeder
     private function seedOpd(string $opdNama, ?User $ceeUser, $unsurs, array $skenario): void
     {
         $opd = Opd::where('nama', $opdNama)->first();
-        if (!$opd) {
+        if (! $opd) {
             $this->command?->warn("OPD '{$opdNama}' tidak ditemukan, dilewati.");
 
             return;
@@ -194,7 +194,7 @@ class CeeContoh2025Seeder extends Seeder
         // 1b: kelemahan berdasar dokumen.
         foreach ($skenario['kelemahan'] as $k) {
             $unsur = $unsurs[$k['unsur']] ?? null;
-            if (!$unsur) {
+            if (! $unsur) {
                 continue;
             }
             CeeKelemahanDokumen::create([
@@ -221,7 +221,7 @@ class CeeContoh2025Seeder extends Seeder
             $nilaiUnsur = $skenario['nilai'][$kode] ?? [];
             $rataRata = count($nilaiUnsur) > 0 ? array_sum($nilaiUnsur) / count($nilaiUnsur) : 3;
             $adaKelemahan = collect($skenario['kelemahan'])->contains('unsur', $kode);
-            $simpulanAkhir = ($rataRata >= 2.5 && !$adaKelemahan) ? 'Memadai' : 'Kurang Memadai';
+            $simpulanAkhir = ($rataRata >= 2.5 && ! $adaKelemahan) ? 'Memadai' : 'Kurang Memadai';
 
             // Dua sumber simpulan menurut Lampiran 5 Form 1.c: hasil reviu
             // dokumen (ada tidaknya kelemahan pada 1b) dan hasil survei
@@ -235,10 +235,10 @@ class CeeContoh2025Seeder extends Seeder
             // pertimbangan itu WAJIB tertulis. Tanpa ini, baris hasil seeder
             // akan ditolak formnya sendiri begitu disimpan ulang.
             if ($bertentangan) {
-                $penjelasan = 'Hasil reviu dokumen (' . $hasilDokumen . ') dan hasil survei persepsi ('
-                    . $hasilSurvei . ') pada sub unsur ini bertentangan. Setelah dilakukan pendalaman melalui '
-                    . 'konfirmasi kepada pengelola sub unsur, disimpulkan ' . $simpulanAkhir
-                    . ' karena bukti pelaksanaan yang ditemukan belum sejalan dengan persepsi responden.';
+                $penjelasan = 'Hasil reviu dokumen ('.$hasilDokumen.') dan hasil survei persepsi ('
+                    .$hasilSurvei.') pada sub unsur ini bertentangan. Setelah dilakukan pendalaman melalui '
+                    .'konfirmasi kepada pengelola sub unsur, disimpulkan '.$simpulanAkhir
+                    .' karena bukti pelaksanaan yang ditemukan belum sejalan dengan persepsi responden.';
             } elseif ($adaKelemahan) {
                 $penjelasan = collect($skenario['kelemahan'])->firstWhere('unsur', $kode)['uraian'];
             } else {

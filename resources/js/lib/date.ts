@@ -6,17 +6,17 @@
 // browser dengan locale 'id-ID'.
 
 const dateTimeFormatter = new Intl.DateTimeFormat('id-ID', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
 });
 
 /** "12 Juli 2026 10:30" — dipakai di tempat yang butuh presisi waktu (Audit Log, Log Import Excel, dll). */
 export function formatTanggalWaktu(value: string | number | Date | null | undefined): string {
-  if (!value) return '-';
-  const d = value instanceof Date ? value : new Date(value);
-  if (isNaN(d.getTime())) return '-';
-  return dateTimeFormatter.format(d).replace(/\./g, ':');
+    if (!value) return '-';
+    const d = value instanceof Date ? value : new Date(value);
+    if (isNaN(d.getTime())) return '-';
+    return dateTimeFormatter.format(d).replace(/\./g, ':');
 }

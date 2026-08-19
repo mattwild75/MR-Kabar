@@ -20,6 +20,7 @@ use App\Services\PdfPrintService;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -55,9 +56,7 @@ class ProgramBupatiRisikoController extends Controller
     use GeneratesKodeRisiko;
     use SharesCetakContext;
 
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     private const URL_INDEX_BY_TIPE = [
         'irs_pemda' => '/irs_pemda',
@@ -110,7 +109,7 @@ class ProgramBupatiRisikoController extends Controller
 
         return ProgramBupatiRisikoUsulan::with(['program:id,nomor,program_pembangunan', 'user:id,name'])
             ->where('status', 'pending')
-            ->when(!$this->bolehMengelolaKaitan(), fn ($q) => $q->where('user_id', $user?->id))
+            ->when(! $this->bolehMengelolaKaitan(), fn ($q) => $q->where('user_id', $user?->id))
             ->orderBy('created_at')
             ->get()
             ->map(fn (ProgramBupatiRisikoUsulan $u) => [
@@ -152,7 +151,7 @@ class ProgramBupatiRisikoController extends Controller
      * supaya kedua tampilan selalu identik datanya (bukan 2 implementasi yg
      * bisa saling menyimpang).
      */
-    private function buildProgramData(): \Illuminate\Support\Collection
+    private function buildProgramData(): Collection
     {
         $programs = ProgramPembangunanBupati::with('risikoTerkait')->orderBy('nomor')->get();
 
@@ -217,7 +216,7 @@ class ProgramBupatiRisikoController extends Controller
             $risikoRows = $program->risikoTerkait
                 ->map(function (ProgramBupatiRisiko $pivot) use ($risikoByTipe, $nomorUrutByTipe, $programSemuaByRisikoKey) {
                     $risiko = $risikoByTipe[$pivot->risiko_tipe][$pivot->risiko_id] ?? null;
-                    if (!$risiko) {
+                    if (! $risiko) {
                         return null; // Risiko sumber sudah dihapus — lewati diam-diam.
                     }
 
@@ -250,7 +249,7 @@ class ProgramBupatiRisikoController extends Controller
                         // risikonya justru dikendalikan "DINAS KESEHATAN").
                         'opd_penanggung_jawab' => $risiko->{'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN'} ?? null,
                         'skala_risiko' => $risiko->{'SKALA RISIKO'} !== null ? (int) $risiko->{'SKALA RISIKO'} : null,
-                        'url' => self::URL_INDEX_BY_TIPE[$pivot->risiko_tipe] . "?highlight_id={$pivot->risiko_id}",
+                        'url' => self::URL_INDEX_BY_TIPE[$pivot->risiko_tipe]."?highlight_id={$pivot->risiko_id}",
                         'program_semua' => $programSemua,
                     ];
                 })
@@ -306,7 +305,7 @@ class ProgramBupatiRisikoController extends Controller
     {
         $tahun = $request->integer('tahun') ?: (int) PengaturanPemda::current()->tahun_penilaian;
 
-        $url = url('/program-bupati-risiko/cetak?' . http_build_query(['tahun' => $tahun]));
+        $url = url('/program-bupati-risiko/cetak?'.http_build_query(['tahun' => $tahun]));
 
         return PdfPrintService::downloadFromUrl($request, $url, "Risiko-100-Program-Bupati-{$tahun}");
     }
@@ -329,7 +328,7 @@ class ProgramBupatiRisikoController extends Controller
         // PIC hanya boleh mengusulkan risiko dari register miliknya sendiri,
         // jadi pencariannya pun dibatasi ke sana — kalau tidak, mereka melihat
         // pilihan yang pasti ditolak begitu dikirim.
-        $hanyaMilikSendiri = !$this->bolehMengelolaKaitan();
+        $hanyaMilikSendiri = ! $this->bolehMengelolaKaitan();
 
         $results = [];
         foreach (self::RISIKO_MODELS as $tipe => $modelClass) {
@@ -367,12 +366,12 @@ class ProgramBupatiRisikoController extends Controller
 
         $modelClass = self::RISIKO_MODELS[$validated['risiko_tipe']];
         $risiko = $modelClass::find($validated['risiko_id']);
-        if (!$risiko) {
+        if (! $risiko) {
             abort(422, 'Risiko yang dipilih tidak ditemukan.');
         }
 
         // PIC OPD mengusulkan, tidak menerapkan langsung.
-        if (!$this->bolehMengelolaKaitan()) {
+        if (! $this->bolehMengelolaKaitan()) {
             $this->pastikanRisikoMilikSendiri($request, $risiko);
 
             return $this->catatUsulan($request, $program, $validated['risiko_tipe'], (int) $validated['risiko_id'], 'tambah');
@@ -390,9 +389,9 @@ class ProgramBupatiRisikoController extends Controller
         // login, termasuk 49 akun PIC OPD, bisa melepas kaitan risiko mana
         // pun dari program Bupati mana pun. Menyembunyikan tombolnya saja
         // tidak cukup — alamatnya tetap bisa dipanggil langsung.
-        if (!$this->bolehMengelolaKaitan()) {
+        if (! $this->bolehMengelolaKaitan()) {
             $risiko = $pivot->risiko();
-            if (!$risiko) {
+            if (! $risiko) {
                 abort(422, 'Baris risiko yang dikaitkan tidak ditemukan.');
             }
             $this->pastikanRisikoMilikSendiri($request, $risiko);
@@ -513,7 +512,7 @@ class ProgramBupatiRisikoController extends Controller
 
     private function pastikanBolehMeninjau(ProgramBupatiRisikoUsulan $usulan): void
     {
-        if (!$this->bolehMengelolaKaitan()) {
+        if (! $this->bolehMengelolaKaitan()) {
             abort(403, 'Hanya Admin atau Super Admin yang dapat memutuskan usulan kaitan risiko.');
         }
 

@@ -48,7 +48,7 @@ class ArahanTahapan extends Model
     {
         $saat = ($saat ?? now())->startOfDay();
 
-        if (!$this->tanggal_mulai && !$this->tanggal_selesai) {
+        if (! $this->tanggal_mulai && ! $this->tanggal_selesai) {
             return 'tanpa_tenggat';
         }
 

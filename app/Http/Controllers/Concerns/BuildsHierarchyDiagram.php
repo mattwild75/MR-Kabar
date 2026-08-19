@@ -31,7 +31,7 @@ trait BuildsHierarchyDiagram
         }
 
         $opdNama = auth()->user()?->opd?->nama;
-        if (!$opdNama) {
+        if (! $opdNama) {
             return false;
         }
 
@@ -52,6 +52,7 @@ trait BuildsHierarchyDiagram
         if (preg_match('/^(?:[A-Za-z]+\s+){1,3}[\d.]+\s*:\s*(.*)$/s', $value, $m)) {
             $value = trim($m[1]);
         }
+
         return mb_strtolower(preg_replace('/\s+/', ' ', $value));
     }
 
@@ -65,13 +66,13 @@ trait BuildsHierarchyDiagram
             return '';
         }
 
-        return implode("\n", array_map(fn ($o) => '> ' . $o, $opdNames));
+        return implode("\n", array_map(fn ($o) => '> '.$o, $opdNames));
     }
 
     private function addEdge(array &$edges, array &$edgeIndex, string $from, string $to, int $rowIndex): void
     {
-        $key = $from . '=>' . $to;
-        if (!isset($edgeIndex[$key])) {
+        $key = $from.'=>'.$to;
+        if (! isset($edgeIndex[$key])) {
             $edgeIndex[$key] = \count($edges);
             $edges[] = ['from' => $from, 'to' => $to, 'rows' => []];
         }

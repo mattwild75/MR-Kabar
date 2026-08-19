@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Memeriksa dan menghapus data 2026 hasil perekaman.
  *
@@ -14,15 +15,16 @@
  *   php bersihkan.php periksa
  *   php bersihkan.php hapus
  */
-require __DIR__ . '/../vendor/autoload.php';
-$app = require_once __DIR__ . '/../bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+$app->make(Kernel::class)->bootstrap();
 
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\DB;
 
 const USERNAME = 'PIC_INSPEKTORAT';
 const TAHUN = 2026;
-const PENANDA = __DIR__ . '/.mulai-rekam';
+const PENANDA = __DIR__.'/.mulai-rekam';
 
 $aksi = $argv[1] ?? 'periksa';
 $uid = DB::table('users')->where('username', USERNAME)->value('id');
@@ -43,7 +45,7 @@ if ($aksi === 'tandai') {
         $batas[$t] = (int) DB::table($t)->max('id');
     }
     file_put_contents(PENANDA, json_encode($batas));
-    exit('Penanda id terakhir sebelum rekam: ' . json_encode($batas) . "\n");
+    exit('Penanda id terakhir sebelum rekam: '.json_encode($batas)."\n");
 }
 
 $batas = file_exists(PENANDA) ? json_decode(trim(file_get_contents(PENANDA)), true) : null;
@@ -57,7 +59,7 @@ $bertahun = [
 ];
 
 $total = 0;
-echo "== baris milik " . USERNAME . " untuk tahun " . TAHUN . "\n";
+echo '== baris milik '.USERNAME.' untuk tahun '.TAHUN."\n";
 
 foreach ($bertahun as [$tabel, $kolom]) {
     $q = DB::table($tabel)->where('user_id', $uid)->where($kolom, TAHUN);
@@ -72,6 +74,7 @@ foreach ($bertahun as [$tabel, $kolom]) {
 foreach ($TANPA_TAHUN as $tabel) {
     if (! isset($batas[$tabel])) {
         echo "  ($tabel dilewati: penanda belum dibuat — jalankan 'tandai' dulu)\n";
+
         continue;
     }
     $q = DB::table($tabel)->where('user_id', $uid)->where('id', '>', $batas[$tabel]);
@@ -142,7 +145,7 @@ if ($sejakRekam) {
             ->whereIn('username', ['PIC_INSPEKTORAT', 'mrkabarvip', 'LAPOR', 'CEE_Survey'])
             ->pluck('id'));
     $nLog = (clone $qLog)->count();
-    printf("catatan log aktivitas hasil perekaman: %d", $nLog);
+    printf('catatan log aktivitas hasil perekaman: %d', $nLog);
     if ($aksi === 'hapus' && $nLog) {
         $qLog->delete();
         echo ' — SUDAH DIHAPUS';

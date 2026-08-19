@@ -1,5 +1,5 @@
-import { usePage } from '@inertiajs/react';
 import type { EduVideoStems } from '@/components/edu-video-player';
+import { usePage } from '@inertiajs/react';
 
 /**
  * Berkas video edukasi BAWAAN. Didefinisikan di sini saja karena dipakai di
@@ -73,11 +73,7 @@ export function useEduVideo() {
         // subtitle unggahan berarti memang tidak punya subtitle — berkas
         // bawaan tidak boleh dipasangkan ke sana karena menit-detiknya milik
         // video yang berbeda.
-        vtt: subtitleUnggahan
-            ? `/storage/${subtitleUnggahan}`
-            : customPath
-              ? null
-              : VTT_BAWAAN + v,
+        vtt: subtitleUnggahan ? `/storage/${subtitleUnggahan}` : customPath ? null : VTT_BAWAAN + v,
         gains: {
             narration: setting?.edu_video_gain_narration ?? 100,
             music: setting?.edu_video_gain_music ?? 100,

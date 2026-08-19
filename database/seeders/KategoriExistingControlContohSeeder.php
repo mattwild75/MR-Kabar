@@ -71,7 +71,7 @@ class KategoriExistingControlContohSeeder extends Seeder
     private function updateRows(string $modelClass, string $username, array $kategoriById): void
     {
         $user = User::where('username', $username)->first();
-        if (!$user) {
+        if (! $user) {
             $this->command?->warn("User '{$username}' tidak ditemukan, dilewati.");
 
             return;
@@ -79,7 +79,7 @@ class KategoriExistingControlContohSeeder extends Seeder
 
         foreach ($kategoriById as $id => $kategori) {
             $row = $modelClass::where('user_id', $user->id)->find($id);
-            if (!$row) {
+            if (! $row) {
                 $this->command?->warn("{$modelClass} #{$id} milik {$username} tidak ditemukan, dilewati.");
 
                 continue;

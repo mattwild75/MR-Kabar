@@ -15,9 +15,7 @@ class ProgramBupatiUsulanSubmitted extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly ProgramBupatiRisikoUsulan $usulan)
-    {
-    }
+    public function __construct(private readonly ProgramBupatiRisikoUsulan $usulan) {}
 
     public function via(object $notifiable): array
     {
@@ -35,9 +33,9 @@ class ProgramBupatiUsulanSubmitted extends Notification
             'submitter_name' => $this->usulan->user?->name,
             'title' => 'Usulan kaitan risiko Program Bupati',
             'body' => ($this->usulan->user?->name ?? 'Seorang PIC')
-                . ' mengusulkan ' . ($tambah ? 'penambahan' : 'pelepasan')
-                . ' kaitan risiko pada Program #' . ($this->usulan->program?->nomor ?? '?')
-                . ' — menunggu persetujuan Anda.',
+                .' mengusulkan '.($tambah ? 'penambahan' : 'pelepasan')
+                .' kaitan risiko pada Program #'.($this->usulan->program?->nomor ?? '?')
+                .' — menunggu persetujuan Anda.',
             'url' => '/program-bupati-risiko',
         ];
     }

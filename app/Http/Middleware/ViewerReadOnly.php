@@ -54,11 +54,11 @@ class ViewerReadOnly
     {
         $user = $request->user();
 
-        if (!$user || !$user->hasRole('eksekutif')) {
+        if (! $user || ! $user->hasRole('eksekutif')) {
             return $next($request);
         }
 
-        if (!in_array($request->method(), self::WRITE_METHODS, true)) {
+        if (! in_array($request->method(), self::WRITE_METHODS, true)) {
             return $next($request);
         }
 

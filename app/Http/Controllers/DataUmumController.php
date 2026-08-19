@@ -69,11 +69,11 @@ class DataUmumController extends Controller
     private function targetUser(Request $request, ?int $opdId): ?User
     {
         $isAdmin = $request->user()->canViewAllOpd();
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             return $request->user();
         }
 
-        if (!$opdId) {
+        if (! $opdId) {
             return null;
         }
 
@@ -90,7 +90,7 @@ class DataUmumController extends Controller
         $targetUser = $this->targetUser($request, $opdId);
         $data = $targetUser
             ? DataUmum::firstOrNew(['user_id' => $targetUser->id, 'tahun_penilaian' => (string) $tahun])
-            : new DataUmum();
+            : new DataUmum;
 
         return Inertia::render('datumum/Index', [
             'isAdmin' => $isAdmin,
@@ -102,13 +102,13 @@ class DataUmumController extends Controller
             'tahun' => $tahun,
             // Admin blm memilih OPD sama sekali (beda dari "OPD dipilih tapi
             // belum py user/PIC terdaftar", lihat targetUserBelumAda).
-            'belumPilihOpd' => $isAdmin && !$opdId,
-            'targetUserBelumAda' => $isAdmin && $opdId && !$targetUser,
+            'belumPilihOpd' => $isAdmin && ! $opdId,
+            'targetUserBelumAda' => $isAdmin && $opdId && ! $targetUser,
             // Baris utk tahun terpilih blm pernah diisi ($data->exists false)
             // — beda dari "form kosong krn field2nya memang belum diisi",
             // dipakai frontend utk tampilkan banner "belum ada data utk
             // tahun ini" (BUKAN diam2 fallback ke data tahun lain).
-            'belumAdaData' => !$data->exists,
+            'belumAdaData' => ! $data->exists,
             'data' => [
                 ...collect(self::FIELDS)->mapWithKeys(function ($f) use ($data, $default) {
                     if ($f === 'tanggal_pembuatan') {
@@ -148,7 +148,7 @@ class DataUmumController extends Controller
         $opdId = $isAdmin ? $request->integer('opd_id') : null;
 
         $targetUser = $this->targetUser($request, $opdId);
-        if ($isAdmin && !$targetUser) {
+        if ($isAdmin && ! $targetUser) {
             abort(404, $opdId
                 ? 'OPD terpilih belum memiliki akun PIC terdaftar — tidak ada Data Umum yang bisa diisi/diubah.'
                 : 'Pilih OPD terlebih dahulu.');
@@ -200,7 +200,7 @@ class DataUmumController extends Controller
                 ->filter(fn ($v) => $v !== null && $v !== '')
                 ->all();
 
-            if (!empty($defaultPayload)) {
+            if (! empty($defaultPayload)) {
                 $default = PengaturanPemda::current();
                 $default->update($defaultPayload);
             }
@@ -224,7 +224,7 @@ class DataUmumController extends Controller
         $isAdmin = $user->canViewAllOpd();
         $sameOpd = $user->opd_id && $dataUmum->user?->opd_id === $user->opd_id;
 
-        if (!$isAdmin && $dataUmum->user_id !== $user->id && !$sameOpd) {
+        if (! $isAdmin && $dataUmum->user_id !== $user->id && ! $sameOpd) {
             abort(403, 'Anda tidak memiliki akses untuk mengubah penanda tangan ini.');
         }
 

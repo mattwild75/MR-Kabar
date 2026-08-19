@@ -35,7 +35,7 @@ class ProgramNonPrioritasSeeder extends Seeder
         $this->prioritasSet = KrsPemda::all()
             ->filter(fn ($r) => $this->isPrioritasRow($r))
             ->map(fn ($r) => $this->norm((string) $r->{'PROGRAM PRIORITAS'})
-                . '||' . $this->norm((string) $r->{'OPD PENANGGUNGJAWAB PROGRAM'}))
+                .'||'.$this->norm((string) $r->{'OPD PENANGGUNGJAWAB PROGRAM'}))
             ->filter()
             ->flip()
             ->all();
@@ -523,7 +523,7 @@ class ProgramNonPrioritasSeeder extends Seeder
      */
     private function addNonPrioritas(string $program, string $opd, array $ik = []): void
     {
-        $key = $this->norm($program) . '||' . $this->norm($opd);
+        $key = $this->norm($program).'||'.$this->norm($opd);
 
         // Jangan tambahkan bila PERANGKAT DAERAH INI memang menurunkan program
         // tersebut dari sebuah Sasaran (ada di 3.5).
@@ -538,6 +538,7 @@ class ProgramNonPrioritasSeeder extends Seeder
         // ada tanda apa pun selain satu baris peringatan.
         if (isset($this->prioritasSet[$key])) {
             $this->command?->warn("  SKIP (prioritas): {$program} [{$opd}]");
+
             return;
         }
 
@@ -567,6 +568,7 @@ class ProgramNonPrioritasSeeder extends Seeder
     private function isPrioritasRow($r): bool
     {
         $s = trim((string) $r->{'SASARAN RPJMD'});
+
         return $s !== '' && $s !== '-' && $s !== 'Tidak Ada Data';
     }
 

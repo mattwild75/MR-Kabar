@@ -30,7 +30,7 @@ class MediaDownloadController extends Controller
 
         return response()->file($media->getPath(), [
             'Content-Type' => $media->mime_type,
-            'Content-Disposition' => 'inline; filename="' . $media->file_name . '"',
+            'Content-Disposition' => 'inline; filename="'.$media->file_name.'"',
             // Cegah MIME sniffing browser — file di-serve inline, jangan
             // biarkan browser menebak tipe lain (mis. eksekusi HTML/JS).
             'X-Content-Type-Options' => 'nosniff',
@@ -53,7 +53,7 @@ class MediaDownloadController extends Controller
         $requester = $request->user();
         $owner = $media->model instanceof User ? $media->model : null;
 
-        if (!$owner) {
+        if (! $owner) {
             // Media tidak bermodel User (mis. milik model lain di masa
             // depan) — default tolak, tidak ada aturan kepemilikan yg jelas.
             abort(403, 'Anda tidak memiliki izin untuk mengakses file ini.');
@@ -80,7 +80,7 @@ class MediaDownloadController extends Controller
         if ($isAdminOrSuperAdmin) {
             // Admin (bukan super-admin) tidak boleh melihat file milik
             // super-admin — sama persis aturan UserFileController::destroy().
-            if (!$requester->hasRole('super-admin') && $owner->hasRole('super-admin')) {
+            if (! $requester->hasRole('super-admin') && $owner->hasRole('super-admin')) {
                 abort(403, 'Admin tidak dapat mengakses file milik Super Admin.');
             }
 

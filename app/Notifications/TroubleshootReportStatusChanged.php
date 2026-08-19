@@ -16,9 +16,7 @@ class TroubleshootReportStatusChanged extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly TroubleshootReport $report)
-    {
-    }
+    public function __construct(private readonly TroubleshootReport $report) {}
 
     public function via(object $notifiable): array
     {
@@ -38,7 +36,7 @@ class TroubleshootReportStatusChanged extends Notification
             'report_id' => $this->report->id,
             'status' => $this->report->status,
             'title' => 'Status laporan troubleshoot diperbarui',
-            'body' => 'Laporan Anda "' . $this->report->subject . '" ' . $statusLabel . '.',
+            'body' => 'Laporan Anda "'.$this->report->subject.'" '.$statusLabel.'.',
             'url' => '/troubleshoot',
         ];
     }

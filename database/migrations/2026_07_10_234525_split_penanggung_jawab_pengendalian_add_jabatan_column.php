@@ -21,17 +21,17 @@ return new class extends Migration
     public function up(): void
     {
         foreach (self::TABLES as $table) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 continue;
             }
 
-            if (Schema::hasColumn($table, 'PENANGGUNG JAWAB PENGENDALIAN') && !Schema::hasColumn($table, 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN')) {
+            if (Schema::hasColumn($table, 'PENANGGUNG JAWAB PENGENDALIAN') && ! Schema::hasColumn($table, 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN')) {
                 Schema::table($table, function (Blueprint $t) {
                     $t->renameColumn('PENANGGUNG JAWAB PENGENDALIAN', 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN');
                 });
             }
 
-            if (!Schema::hasColumn($table, 'PENANGGUNG JAWAB PENGENDALIAN')) {
+            if (! Schema::hasColumn($table, 'PENANGGUNG JAWAB PENGENDALIAN')) {
                 Schema::table($table, function (Blueprint $t) {
                     $t->text('PENANGGUNG JAWAB PENGENDALIAN')->nullable()->after('RENCANA TINDAK PENGENDALIAN');
                 });
@@ -42,7 +42,7 @@ return new class extends Migration
     public function down(): void
     {
         foreach (self::TABLES as $table) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 continue;
             }
 

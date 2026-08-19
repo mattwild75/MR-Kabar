@@ -21,7 +21,7 @@ export default function YearFilterVisualization({ title, tahunOptions, embedRout
     return (
         <AppLayout>
             <Head title={title} />
-            <div className="flex items-center gap-2 border-b bg-background px-4 py-2">
+            <div className="bg-background flex items-center gap-2 border-b px-4 py-2">
                 <span className="text-sm font-medium">Tahun Dinilai Risiko:</span>
                 <Select value={tahun} onValueChange={setTahun}>
                     <SelectTrigger className="w-40">

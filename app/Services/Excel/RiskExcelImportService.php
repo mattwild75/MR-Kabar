@@ -6,8 +6,10 @@ use App\Services\RiskReferenceDataService;
 use App\Support\RiskExcelRegistry;
 use App\Support\TextNormalizer;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -288,7 +290,7 @@ class RiskExcelImportService
             foreach ($expectedHeader as $col => $expectedLabel) {
                 $actualLabel = $actualHeader[$col] ?? '';
                 if ($actualLabel !== $expectedLabel) {
-                    $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col + 1);
+                    $colLetter = Coordinate::stringFromColumnIndex($col + 1);
                     $errors[] = "Sheet \"{$module['sheet_name']}\" kolom {$colLetter}: header diharapkan \"{$expectedLabel}\", ditemukan \"{$actualLabel}\".";
                 }
             }
@@ -298,7 +300,7 @@ class RiskExcelImportService
     }
 
     /**
-     * @param  \Illuminate\Support\Collection  $existingIds  ID valid modul ini sendiri (utk cek _ROW_ID), key=id.
+     * @param  Collection  $existingIds  ID valid modul ini sendiri (utk cek _ROW_ID), key=id.
      * @param  \Closure  $parentKeySetResolver  fn(string $parentSlug): array<string,true> — kunci matchKey() ternormalisasi dari modul induk.
      * @return array{0: array, 1: array} [baris valid (siap ditulis), daftar error per-baris]
      */

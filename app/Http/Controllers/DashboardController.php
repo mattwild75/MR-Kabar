@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
+use App\Models\ArahanPenilaianRisiko;
 use App\Models\CeeRtp;
 use App\Models\CeeSimpulan;
 use App\Models\CeeUnsur;
@@ -11,14 +12,15 @@ use App\Models\IrsPd;
 use App\Models\IrsPemda;
 use App\Models\LaporanKejadianRisiko;
 use App\Models\MonitoringRtp;
-use App\Models\ArahanPenilaianRisiko;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
 use App\Models\PengaturanPemda;
 use App\Models\RiskMatrixCell;
+use App\Models\User;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Spatie\Activitylog\Models\Activity;
 
@@ -53,14 +55,12 @@ class DashboardController extends Controller
     /** Cache khusus skalaRowsForTren() — sama pola $rowsCache, key "tahun:opd". */
     protected array $skalaRowsCache = [];
 
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     /** Aksesor memoized ke collectRiskRows() — semua widget lewat sini. */
     private function rowsForTahun(int $tahun, ?int $opdId): Collection
     {
-        $key = $tahun . ':' . ($opdId ?? 'all');
+        $key = $tahun.':'.($opdId ?? 'all');
 
         return $this->rowsCache[$key] ??= $this->collectRiskRows($tahun, $opdId);
     }
@@ -203,7 +203,7 @@ class DashboardController extends Controller
         $skalaAktualMax = MonitoringRtp::where('tahun_penilaian', $tahun)
             ->whereNotNull('skala_risiko_aktual')
             ->get(['rtp_sumber_tipe', 'rtp_sumber_id', 'skala_risiko_aktual'])
-            ->groupBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
+            ->groupBy(fn ($m) => $m->rtp_sumber_tipe.':'.$m->rtp_sumber_id)
             ->map(fn ($g) => $g->max('skala_risiko_aktual'));
 
         $map = function ($rows, string $tingkat, string $prefixKode, ?string $opdLabelDefault = null) use ($opdId, $skalaAktualMax) {
@@ -215,7 +215,7 @@ class DashboardController extends Controller
             $rtpSumberTipe = self::RTP_SUMBER_TIPE_BY_TIPE[$tingkat] ?? null;
 
             return $rows
-                ->filter(fn ($r) => !$opdId || $r->user?->opd_id === $opdId)
+                ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
                 ->map(fn ($r) => [
                     'id' => $r->id,
                     'tipe' => $tingkat,
@@ -509,7 +509,7 @@ class DashboardController extends Controller
                 // sekali, statusnya belum bisa ditentukan (BUKAN otomatis
                 // "tidak butuh"). Tanpa guard $ceeSelesai ini, OPD yg belum
                 // mulai CEE sama sekali keliru dapat 1 tahap gratis di sini.
-                ['nama' => 'RTP CEE (1d)', 'selesai' => $ceeSelesai && (!$butuhRtpCee || $ceeRtpOpd->contains($opd->id)), 'url' => "/cee/1d?opd_id={$opd->id}"],
+                ['nama' => 'RTP CEE (1d)', 'selesai' => $ceeSelesai && (! $butuhRtpCee || $ceeRtpOpd->contains($opd->id)), 'url' => "/cee/1d?opd_id={$opd->id}"],
                 ['nama' => 'Monitoring RTP (8-9)', 'selesai' => $monitoringOpd->contains($opd->id), 'url' => "/monitoring-evaluasi/8-9?opd_id={$opd->id}"],
                 ['nama' => 'Pencatatan Kejadian (10)', 'selesai' => $pencatatanOpd->contains($opd->id), 'url' => "/monitoring-evaluasi/10?opd_id={$opd->id}"],
             ];
@@ -558,7 +558,7 @@ class DashboardController extends Controller
     private function buildDistribusiKategori(Collection $rows): array
     {
         return $rows
-            ->filter(fn ($r) => !empty($r['jenis_risiko']))
+            ->filter(fn ($r) => ! empty($r['jenis_risiko']))
             ->groupBy('jenis_risiko')
             ->map(fn ($g, $jenis) => [
                 'kategori' => $jenis,
@@ -607,7 +607,7 @@ class DashboardController extends Controller
                 'tipe' => $r['tipe'],
                 'opd_nama' => $r['owner_opd_nama'],
                 'kode_risiko' => $r['kode_risiko'],
-                'uraian_risiko' => \Illuminate\Support\Str::limit($r['uraian_risiko'], 60),
+                'uraian_risiko' => Str::limit($r['uraian_risiko'], 60),
                 'skala_inheren' => $r['skala_risiko_inheren'],
                 'skala_residual' => $r['skala_risiko'],
                 'skala_target' => $r['skala_risiko_target'],
@@ -669,7 +669,7 @@ class DashboardController extends Controller
      */
     private function skalaRowsForTren(int $tahun, ?int $opdId): Collection
     {
-        $key = $tahun . ':' . ($opdId ?? 'all');
+        $key = $tahun.':'.($opdId ?? 'all');
         if (isset($this->skalaRowsCache[$key])) {
             return $this->skalaRowsCache[$key];
         }
@@ -706,7 +706,7 @@ class DashboardController extends Controller
                 }
             })
             ->get(['rtp_sumber_tipe', 'rtp_sumber_id', 'skala_risiko_aktual'])
-            ->groupBy(fn ($m) => $m->rtp_sumber_tipe . ':' . $m->rtp_sumber_id)
+            ->groupBy(fn ($m) => $m->rtp_sumber_tipe.':'.$m->rtp_sumber_id)
             ->map(fn ($g) => $g->max('skala_risiko_aktual'));
 
         return $this->skalaRowsCache[$key] = $rows->map(fn ($r) => [
@@ -888,7 +888,7 @@ class DashboardController extends Controller
                 'kategori' => $p->laporan_kejadian_id ? 'warga' : 'internal',
                 'tanggal' => $p->tanggal_terjadi?->format('Y-m-d'),
                 'opd_nama' => $p->opd?->nama ?? '-',
-                'uraian' => \Illuminate\Support\Str::limit($p->dampak_saat_kejadian ?? $p->sebab_saat_kejadian ?? '-', 80),
+                'uraian' => Str::limit($p->dampak_saat_kejadian ?? $p->sebab_saat_kejadian ?? '-', 80),
             ]);
 
         $laporanIdsSudahDicatat = PencatatanKejadianRisiko::whereNotNull('laporan_kejadian_id')
@@ -904,7 +904,7 @@ class DashboardController extends Controller
                 'kategori' => 'warga',
                 'tanggal' => $l->waktu_kejadian?->format('Y-m-d'),
                 'opd_nama' => $l->opd?->nama ?? '-',
-                'uraian' => \Illuminate\Support\Str::limit($l->kejadian, 80),
+                'uraian' => Str::limit($l->kejadian, 80),
                 'status' => $l->status,
             ]);
 
@@ -989,7 +989,7 @@ class DashboardController extends Controller
             // OPD tanpa risiko teridentifikasi sama sekali di tahun ini
             // tidak punya kewajiban Form 8/9/10 utk dinilai — N/A, bukan
             // 'belum' (yg menyiratkan pelanggaran kepatuhan yg tidak nyata).
-            if (!$opdIdsWithRiskRows->contains($opd->id)) {
+            if (! $opdIdsWithRiskRows->contains($opd->id)) {
                 $status = 'n/a';
             } else {
                 $status = $adaMonitoring && $adaPencatatan ? 'lengkap' : (($adaMonitoring || $adaPencatatan) ? 'sebagian' : 'belum');
@@ -1024,9 +1024,9 @@ class DashboardController extends Controller
     {
         $query = Activity::with('causer')->latest()->limit(self::ACTIVITY_FEED_LIMIT);
 
-        if (!$isAdmin && $opdId) {
-            $userIdsSameOpd = \App\Models\User::where('opd_id', $opdId)->pluck('id');
-            $query->whereIn('causer_id', $userIdsSameOpd)->where('causer_type', \App\Models\User::class);
+        if (! $isAdmin && $opdId) {
+            $userIdsSameOpd = User::where('opd_id', $opdId)->pluck('id');
+            $query->whereIn('causer_id', $userIdsSameOpd)->where('causer_type', User::class);
         }
 
         return $query->get()->map(function ($a) {

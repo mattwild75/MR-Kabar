@@ -2,32 +2,33 @@
 
 namespace App\Providers;
 
-use App\Models\Menu;
-use App\Models\MediaFolder;
-use App\Models\Opd;
-use App\Models\KrsPemda;
-use App\Models\IrsPemda;
-use App\Models\KrsPd;
-use App\Models\IrsPd;
-use App\Models\KroPd;
-use App\Models\IroPd;
-use App\Models\User;
-use App\Models\SettingApp;
 use App\Models\CeeJawaban;
-use App\Models\CeeSimpulan;
 use App\Models\CeeRtp;
-use App\Models\MonitoringRtp;
-use App\Models\PencatatanKejadianRisiko;
+use App\Models\CeeSimpulan;
+use App\Models\IroPd;
+use App\Models\IrsPd;
+use App\Models\IrsPemda;
+use App\Models\KroPd;
+use App\Models\KrsPd;
+use App\Models\KrsPemda;
 use App\Models\LaporanKejadianRisiko;
-use Spatie\Permission\Models\Role;
-use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\RateLimiter;
+use App\Models\MediaFolder;
+use App\Models\Menu;
+use App\Models\MonitoringRtp;
+use App\Models\Opd;
+use App\Models\PencatatanKejadianRisiko;
+use App\Models\SettingApp;
+use App\Models\User;
 use App\Observers\GlobalActivityLogger;
 use App\Observers\OpdSyncObserver;
 use App\Observers\UserFolderObserver;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
         // balik reverse proxy/SSL termination bisa menghasilkan link http
         // campuran (mixed content) meski diakses lewat https.
         if (config('app.env') !== 'local' || str_contains(config('app.url'), 'https://')) {
-            \Illuminate\Support\Facades\URL::forceScheme('https');
+            URL::forceScheme('https');
         }
 
         User::observe(GlobalActivityLogger::class);

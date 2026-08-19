@@ -41,7 +41,7 @@ class CetakRisikoController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->canViewAllOpd()) {
+        if ($user->opd_id && ! $user->canViewAllOpd()) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -102,7 +102,7 @@ class CetakRisikoController extends Controller
     {
         $dataUmum = DataUmum::forOpdAndTahun($opdId, $tahun);
 
-        if (!$opdId && $dataUmum && (!$dataUmum->nama_kepala_daerah || !$dataUmum->jabatan_kepala_daerah)) {
+        if (! $opdId && $dataUmum && (! $dataUmum->nama_kepala_daerah || ! $dataUmum->jabatan_kepala_daerah)) {
             $default = $this->pengaturan();
             $dataUmum->nama_kepala_daerah ??= $default->nama_kepala_daerah;
             $dataUmum->jabatan_kepala_daerah ??= $default->jabatan_kepala_daerah;
@@ -167,7 +167,7 @@ class CetakRisikoController extends Controller
     private function indikatorRows($rows, string $ikCol, ?string $baselineCol, string $targetCol, string $satuanCol, string $opdCol, ?string $fallbackOpdCol = null)
     {
         $first = $rows->first(fn ($r) => trim((string) ($r->{$ikCol} ?? '')) !== '');
-        if (!$first) {
+        if (! $first) {
             return collect();
         }
 
@@ -245,7 +245,7 @@ class CetakRisikoController extends Controller
                 ->values();
 
             $tujuanList = $tujuanGroups->map(function ($tujuanRows, $ti) use ($misiNomor, $registeredSasaran) {
-                $tujuanNomor = "{$misiNomor}." . ($ti + 1);
+                $tujuanNomor = "{$misiNomor}.".($ti + 1);
                 $g = $tujuanRows->first();
 
                 $sasaranGroups = $tujuanRows->filter(fn ($r) => trim((string) ($r->{'SASARAN RPJMD'} ?? '')) !== '')
@@ -253,7 +253,7 @@ class CetakRisikoController extends Controller
                     ->values();
 
                 $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($tujuanNomor, $registeredSasaran) {
-                    $sasaranNomor = "{$tujuanNomor}." . ($si + 1);
+                    $sasaranNomor = "{$tujuanNomor}.".($si + 1);
                     $sasaranTeks = trim($sasaranRows->first()->{'SASARAN RPJMD'});
                     $isRegistered = $registeredSasaran->has($this->matchKey($sasaranTeks));
 
@@ -372,7 +372,7 @@ class CetakRisikoController extends Controller
     {
         $label = $dokumenSumber ?: 'RPJMD';
 
-        return mb_strtoupper(trim("{$label} {$pemerintahKabkota} " . ($periode ?? '')));
+        return mb_strtoupper(trim("{$label} {$pemerintahKabkota} ".($periode ?? '')));
     }
 
     public function cetak2a(Request $request)
@@ -462,7 +462,7 @@ class CetakRisikoController extends Controller
                 ->values();
 
             $sasaranList = $sasaranGroups->map(function ($sasaranRows, $si) use ($tujuanNomor, $registeredSasaranPd) {
-                $sasaranNomor = "{$tujuanNomor}." . ($si + 1);
+                $sasaranNomor = "{$tujuanNomor}.".($si + 1);
                 $sasaranTeks = trim($sasaranRows->first()->{'SASARAN STRATEGIS PD'});
 
                 return [
@@ -505,7 +505,7 @@ class CetakRisikoController extends Controller
     {
         $label = $dokumenSumber ?: 'Renstra';
 
-        return mb_strtoupper(trim("{$label} {$opdNama} " . ($periode ?? '')));
+        return mb_strtoupper(trim("{$label} {$opdNama} ".($periode ?? '')));
     }
 
     public function cetak2b(Request $request)
@@ -601,7 +601,7 @@ class CetakRisikoController extends Controller
                 ->values();
 
             $programList = $programGroups->map(function ($programRows, $pi) use ($sasaranNomor, $registeredKegiatan) {
-                $programNomor = "{$sasaranNomor}." . ($pi + 1);
+                $programNomor = "{$sasaranNomor}.".($pi + 1);
 
                 $kegiatanGroups = $programRows->filter(fn ($r) => trim((string) ($r->{'KEGIATAN PD'} ?? '')) !== '')
                     ->groupBy(fn ($r) => $this->matchKey(trim($r->{'KEGIATAN PD'})))
@@ -611,7 +611,7 @@ class CetakRisikoController extends Controller
                     $kegiatanTeks = trim($kegiatanRows->first()->{'KEGIATAN PD'});
 
                     return [
-                        'nomor' => "{$programNomor}." . ($ki + 1),
+                        'nomor' => "{$programNomor}.".($ki + 1),
                         'kegiatan' => $kegiatanTeks,
                         'indikator_list' => $this->indikatorRows($kegiatanRows, 'IK KEGIATAN PD', 'BASELINE IK KEGIATAN PD', 'TARGET IK KEGIATAN PD', 'SATUAN IK KEGIATAN PD', 'OPD PENANGGUNG JAWAB KEGIATAN'),
                         'bold' => $registeredKegiatan->has($this->matchKey($kegiatanTeks)),
@@ -881,7 +881,7 @@ class CetakRisikoController extends Controller
     private function buildIdentifikasiPemda(int $tahun, ?int $opdId = null)
     {
         $konteks = $this->buildKonteksPemda($tahun);
-        if (!$konteks) {
+        if (! $konteks) {
             return [];
         }
 
@@ -913,7 +913,7 @@ class CetakRisikoController extends Controller
 
         $resolver = function (string $sasaranTeks) use ($sasaranGroups, $nomorUrutMap) {
             $groupRows = $sasaranGroups->get($this->matchKey($sasaranTeks));
-            if (!$groupRows || $groupRows->isEmpty()) {
+            if (! $groupRows || $groupRows->isEmpty()) {
                 return [];
             }
 
@@ -981,7 +981,7 @@ class CetakRisikoController extends Controller
     private function buildIdentifikasiPd(int $opdId, string $opdNama, int $tahun)
     {
         $konteks = $this->buildKonteksPd($opdNama, $tahun);
-        if (!$konteks) {
+        if (! $konteks) {
             return [];
         }
 
@@ -1001,7 +1001,7 @@ class CetakRisikoController extends Controller
 
         $resolver = function (string $sasaranTeks) use ($sasaranGroups, $nomorUrutMap) {
             $groupRows = $sasaranGroups->get($this->matchKey($sasaranTeks));
-            if (!$groupRows || $groupRows->isEmpty()) {
+            if (! $groupRows || $groupRows->isEmpty()) {
                 return [];
             }
 
@@ -1060,7 +1060,7 @@ class CetakRisikoController extends Controller
     private function buildIdentifikasiRo(int $opdId, string $opdNama, int $tahun)
     {
         $konteks = $this->buildKonteksRo($opdNama, $tahun);
-        if (!$konteks) {
+        if (! $konteks) {
             return [];
         }
 
@@ -1077,7 +1077,7 @@ class CetakRisikoController extends Controller
 
         $resolver = function (string $kegiatanTeks) use ($kegiatanGroups, $nomorUrutMap) {
             $groupRows = $kegiatanGroups->get($this->matchKey($kegiatanTeks));
-            if (!$groupRows || $groupRows->isEmpty()) {
+            if (! $groupRows || $groupRows->isEmpty()) {
                 return [];
             }
 
@@ -1153,7 +1153,7 @@ class CetakRisikoController extends Controller
         $isAdmin = $user->canViewAllOpd();
         $sameOpd = $user->opd_id && $dataUmum->user?->opd_id === $user->opd_id;
 
-        if (!$isAdmin && $dataUmum->user_id !== $user->id && !$sameOpd) {
+        if (! $isAdmin && $dataUmum->user_id !== $user->id && ! $sameOpd) {
             abort(403, 'Anda tidak memiliki akses untuk mengubah penanda tangan ini.');
         }
 

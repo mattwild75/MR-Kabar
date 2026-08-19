@@ -42,7 +42,7 @@ class RestrictCeeSurveyRole
 
     public function handle(Request $request, Closure $next): Response
     {
-        if (!self::bolehAkses($request->user(), '/' . ltrim($request->path(), '/'))) {
+        if (! self::bolehAkses($request->user(), '/'.ltrim($request->path(), '/'))) {
             return redirect('/dashboard');
         }
 
@@ -60,12 +60,12 @@ class RestrictCeeSurveyRole
      */
     public static function bolehAkses(?Authenticatable $user, string $path): bool
     {
-        if (!$user || !$user->hasRole('cee-survey')) {
+        if (! $user || ! $user->hasRole('cee-survey')) {
             return true;
         }
 
         return collect(self::ALLOWED_PREFIXES)->contains(
-            fn ($prefix) => $path === $prefix || str_starts_with($path, rtrim($prefix, '/') . '/')
+            fn ($prefix) => $path === $prefix || str_starts_with($path, rtrim($prefix, '/').'/')
         );
     }
 }

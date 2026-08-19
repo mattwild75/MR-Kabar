@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Captions, CaptionsOff, ListVideo, Maximize, Minimize } from 'lucide-react';
 import chaptersData from '@/data/edu-video-chapters.json';
+import { Captions, CaptionsOff, ListVideo, Maximize, Minimize } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export interface EduVideoStems {
     narration: string;
@@ -104,29 +104,24 @@ export default function EduVideoPlayer({
         sfx: (gains?.sfx ?? 100) / 100,
     };
 
-    const babAktif = useMemo(
-        () => CHAPTERS.findIndex((c) => posisi >= c.mulai && posisi < c.selesai),
-        [posisi],
-    );
+    const babAktif = useMemo(() => CHAPTERS.findIndex((c) => posisi >= c.mulai && posisi < c.selesai), [posisi]);
 
     // "Semua" berarti tampilkan seluruh bab; filter lain menyaring per sasaran,
     // tapi bab bertanda "Semua" selalu ikut karena memang relevan untuk siapa pun.
-    const babTampil = useMemo(
-        () => CHAPTERS.filter((c) => filter === 'Semua' || c.sasaran === filter || c.sasaran === 'Semua'),
-        [filter],
-    );
+    const babTampil = useMemo(() => CHAPTERS.filter((c) => filter === 'Semua' || c.sasaran === filter || c.sasaran === 'Semua'), [filter]);
 
     // ── sinkronisasi video (master) dengan ketiga jalur audio ──
     useEffect(() => {
         const video = videoRef.current;
         if (!video || !stems) return;
 
-        const tracks = [narrationRef.current, musicRef.current, sfxRef.current].filter(
-            (t): t is HTMLAudioElement => t !== null,
-        );
+        const tracks = [narrationRef.current, musicRef.current, sfxRef.current].filter((t): t is HTMLAudioElement => t !== null);
         if (tracks.length !== 3) return;
 
-        const seekAll = () => tracks.forEach((t) => { t.currentTime = video.currentTime; });
+        const seekAll = () =>
+            tracks.forEach((t) => {
+                t.currentTime = video.currentTime;
+            });
 
         const onPlay = () => {
             // AudioContext hanya boleh di-resume dari gestur pengguna; klik
@@ -136,7 +131,10 @@ export default function EduVideoPlayer({
             tracks.forEach((t) => t.play().catch(() => undefined));
         };
         const onPause = () => tracks.forEach((t) => t.pause());
-        const onRate = () => tracks.forEach((t) => { t.playbackRate = video.playbackRate; });
+        const onRate = () =>
+            tracks.forEach((t) => {
+                t.playbackRate = video.playbackRate;
+            });
         // Tombol bisu & slider volume bawaan peramban milik elemen <video>,
         // sedangkan suara yang terdengar keluar dari tiga <audio> di sampingnya.
         // Tanpa penerusan ini, menekan bisu tidak berpengaruh sama sekali —
@@ -196,11 +194,11 @@ export default function EduVideoPlayer({
             ['sfx', sfxRef.current, BASE.sfx * pct.sfx * master],
         ];
 
-        const Ctx =
-            window.AudioContext ??
-            (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
         if (!Ctx) {
-            entries.forEach(([, el, g]) => { if (el) el.volume = Math.min(1, Math.max(0, g)); });
+            entries.forEach(([, el, g]) => {
+                if (el) el.volume = Math.min(1, Math.max(0, g));
+            });
             return;
         }
 
@@ -234,7 +232,9 @@ export default function EduVideoPlayer({
     const terapkanRef = useRef(terapkanGain);
     terapkanRef.current = terapkanGain;
 
-    useEffect(() => { terapkanGain(); }, [terapkanGain]);
+    useEffect(() => {
+        terapkanGain();
+    }, [terapkanGain]);
 
     // ── subtitle ──
     // Subtitle DIGAMBAR SENDIRI, tidak diserahkan ke peramban lewat ::cue.
@@ -312,9 +312,7 @@ export default function EduVideoPlayer({
         const ukur = () => {
             const { clientWidth: lebar, clientHeight: tinggi, videoWidth, videoHeight } = video;
             setTinggiKotak(tinggi);
-            setTinggiGambar(
-                videoWidth && videoHeight ? Math.min(tinggi, (lebar * videoHeight) / videoWidth) : tinggi,
-            );
+            setTinggiGambar(videoWidth && videoHeight ? Math.min(tinggi, (lebar * videoHeight) / videoWidth) : tinggi);
         };
         ukur();
         // ResizeObserver ikut terpicu saat masuk/keluar layar penuh, karena
@@ -457,7 +455,9 @@ export default function EduVideoPlayer({
                 return tangani(() => geserVolume(-0.1));
             case 'm':
             case 'M':
-                return tangani(() => { v.muted = !v.muted; });
+                return tangani(() => {
+                    v.muted = !v.muted;
+                });
             case 'f':
             case 'F':
                 return tangani(alihLayarPenuh);
@@ -510,9 +510,7 @@ export default function EduVideoPlayer({
                     crossOrigin="anonymous"
                     className={`eduvid-video ${layarPenuh ? 'h-full w-full object-contain' : 'aspect-video w-full bg-black'}`}
                 >
-                    {vtt && (
-                        <track kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />
-                    )}
+                    {vtt && <track kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />}
                 </video>
 
                 {/* Ditaruh di kanan BAWAH, tepat di atas baris kontrol bawaan —
@@ -563,11 +561,7 @@ export default function EduVideoPlayer({
                         aria-label={layarPenuh ? 'Keluar dari layar penuh' : 'Layar penuh'}
                         className={TOMBOL}
                     >
-                        {layarPenuh ? (
-                            <Minimize className="h-5 w-5" aria-hidden="true" />
-                        ) : (
-                            <Maximize className="h-5 w-5" aria-hidden="true" />
-                        )}
+                        {layarPenuh ? <Minimize className="h-5 w-5" aria-hidden="true" /> : <Maximize className="h-5 w-5" aria-hidden="true" />}
                     </button>
                 </div>
 
@@ -597,9 +591,7 @@ export default function EduVideoPlayer({
                                             i === babAktif ? 'bg-white/20 font-medium' : ''
                                         }`}
                                     >
-                                        <span className="w-10 shrink-0 text-right font-mono tabular-nums text-white/60">
-                                            {jam(c.mulai)}
-                                        </span>
+                                        <span className="w-10 shrink-0 text-right font-mono text-white/60 tabular-nums">{jam(c.mulai)}</span>
                                         <span className="flex-1">{c.judul}</span>
                                     </button>
                                 </li>
@@ -611,9 +603,7 @@ export default function EduVideoPlayer({
                 {/* Judul bab yang sedang berjalan. Di layar penuh tidak ada
                     petunjuk lain soal posisi kita di dalam video 29 menit. */}
                 {chapterNav && judulBab && tampilTombolPenuh && (
-                    <div className="pointer-events-none absolute top-3 left-3 rounded bg-black/60 px-2 py-1 text-xs text-white/90">
-                        {judulBab}
-                    </div>
+                    <div className="pointer-events-none absolute top-3 left-3 rounded bg-black/60 px-2 py-1 text-xs text-white/90">{judulBab}</div>
                 )}
 
                 {teksCue && (
@@ -687,9 +677,7 @@ export default function EduVideoPlayer({
                                             {jam(c.mulai)}
                                         </span>
                                         <span className="flex-1">{c.judul}</span>
-                                        <span className="text-muted-foreground shrink-0 text-[11px]">
-                                            {c.sasaran}
-                                        </span>
+                                        <span className="text-muted-foreground shrink-0 text-[11px]">{c.sasaran}</span>
                                     </button>
                                 </li>
                             );
@@ -700,28 +688,18 @@ export default function EduVideoPlayer({
                         klik videonya dulu. Ditulis di sini karena tanpa
                         disebutkan tidak ada yang akan menemukannya. */}
                     <p className="text-muted-foreground text-xs">
-                        Klik videonya dulu, lalu:{' '}
-                        <kbd className="rounded border px-1">spasi</kbd> putar/jeda ·{' '}
+                        Klik videonya dulu, lalu: <kbd className="rounded border px-1">spasi</kbd> putar/jeda ·{' '}
                         <kbd className="rounded border px-1">←</kbd>
-                        <kbd className="rounded border px-1">→</kbd> 5 detik ·{' '}
-                        <kbd className="rounded border px-1">J</kbd>
-                        <kbd className="rounded border px-1">L</kbd> 10 detik ·{' '}
-                        <kbd className="rounded border px-1">P</kbd>
-                        <kbd className="rounded border px-1">N</kbd> bab ·{' '}
-                        <kbd className="rounded border px-1">M</kbd> bisu ·{' '}
-                        <kbd className="rounded border px-1">C</kbd> subtitle ·{' '}
-                        <kbd className="rounded border px-1">F</kbd> layar penuh
+                        <kbd className="rounded border px-1">→</kbd> 5 detik · <kbd className="rounded border px-1">J</kbd>
+                        <kbd className="rounded border px-1">L</kbd> 10 detik · <kbd className="rounded border px-1">P</kbd>
+                        <kbd className="rounded border px-1">N</kbd> bab · <kbd className="rounded border px-1">M</kbd> bisu ·{' '}
+                        <kbd className="rounded border px-1">C</kbd> subtitle · <kbd className="rounded border px-1">F</kbd> layar penuh
                     </p>
 
                     {downloads && downloads.length > 0 && (
                         <div className="flex flex-wrap gap-3 text-sm">
                             {downloads.map((d) => (
-                                <a
-                                    key={d.href}
-                                    href={d.href}
-                                    download
-                                    className="text-primary underline underline-offset-4 hover:no-underline"
-                                >
+                                <a key={d.href} href={d.href} download className="text-primary underline underline-offset-4 hover:no-underline">
                                     {d.label}
                                 </a>
                             ))}

@@ -23,7 +23,7 @@ class TahunAktifController extends Controller
 {
     public function update(Request $request)
     {
-        if (!$request->user()->canViewAllOpd()) {
+        if (! $request->user()->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengubah Tahun Penilaian aktif Pemda.');
         }
 
@@ -33,6 +33,6 @@ class TahunAktifController extends Controller
 
         PengaturanPemda::current()->update(['tahun_penilaian' => $validated['tahun_penilaian']]);
 
-        return back()->with('success', 'Tahun aktif berhasil diperbarui menjadi ' . $validated['tahun_penilaian'] . '.');
+        return back()->with('success', 'Tahun aktif berhasil diperbarui menjadi '.$validated['tahun_penilaian'].'.');
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
@@ -24,7 +24,7 @@ return new class extends Migration
     public function up(): void
     {
         foreach (self::TABLES as $table) {
-            if (Schema::hasTable($table) && !Schema::hasColumn($table, 'delete_batch')) {
+            if (Schema::hasTable($table) && ! Schema::hasColumn($table, 'delete_batch')) {
                 Schema::table($table, function (Blueprint $t) {
                     $t->string('delete_batch', 36)->nullable()->index();
                 });

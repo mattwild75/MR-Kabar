@@ -39,7 +39,7 @@ class RtpKemiripanDiabaikan extends Model
      */
     public static function bakukan(string $tipeA, int $idA, string $tipeB, int $idB): array
     {
-        return strcmp($tipeA . ':' . $idA, $tipeB . ':' . $idB) <= 0
+        return strcmp($tipeA.':'.$idA, $tipeB.':'.$idB) <= 0
             ? [$tipeA, $idA, $tipeB, $idB]
             : [$tipeB, $idB, $tipeA, $idA];
     }

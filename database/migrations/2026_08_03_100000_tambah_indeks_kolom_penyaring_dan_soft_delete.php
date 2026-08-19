@@ -59,7 +59,7 @@ return new class extends Migration
     /** Nama indeks dibuat sendiri: nama kolom di sini memuat spasi. */
     private function nama(string $tabel, string $kolom): string
     {
-        return $tabel . '_' . str_replace(' ', '_', mb_strtolower($kolom)) . '_index';
+        return $tabel.'_'.str_replace(' ', '_', mb_strtolower($kolom)).'_index';
     }
 
     private function tambah(string $tabel, string $kolom): void

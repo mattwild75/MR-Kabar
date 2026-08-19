@@ -37,7 +37,7 @@ class CetakMonitoringEvaluasiController extends Controller
     private function opdOptions(Request $request)
     {
         $user = $request->user();
-        if ($user->opd_id && !$user->canViewAllOpd()) {
+        if ($user->opd_id && ! $user->canViewAllOpd()) {
             return Opd::where('id', $user->opd_id)->get(['id', 'nama']);
         }
 
@@ -54,7 +54,7 @@ class CetakMonitoringEvaluasiController extends Controller
      */
     private function formatTriwulanTahun(?string $triwulan, ?int $tahun): ?string
     {
-        if (!$triwulan && !$tahun) {
+        if (! $triwulan && ! $tahun) {
             return null;
         }
 
@@ -81,7 +81,7 @@ class CetakMonitoringEvaluasiController extends Controller
             default => null,
         };
 
-        if (!$sumber) {
+        if (! $sumber) {
             return null;
         }
 

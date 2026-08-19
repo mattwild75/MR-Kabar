@@ -55,13 +55,13 @@ abstract class QrLoginController extends Controller
     {
         $user = $request->user();
 
-        if ($user && !$this->bisaMengisiFormTujuan($user)) {
+        if ($user && ! $this->bisaMengisiFormTujuan($user)) {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
         }
 
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             Auth::attempt(['username' => $this->username(), 'password' => $this->sandi()]);
 
             $request->session()->regenerate();

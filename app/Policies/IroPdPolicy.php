@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class IroPdPolicy extends RiskOwnershipPolicy
-{
-}
+class IroPdPolicy extends RiskOwnershipPolicy {}

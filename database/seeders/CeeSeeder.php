@@ -129,7 +129,7 @@ class CeeSeeder extends Seeder
         // permission_name yg cocok utk menu /dashboard (dashboard-view),
         // jika tidak, akun ini 403 walau sudah di-redirect ke situ.
         $dashboardPermission = Permission::where('name', 'dashboard-view')->first();
-        if ($dashboardPermission && !$role->hasPermissionTo($dashboardPermission)) {
+        if ($dashboardPermission && ! $role->hasPermissionTo($dashboardPermission)) {
             $role->givePermissionTo($dashboardPermission);
         }
 
@@ -144,7 +144,7 @@ class CeeSeeder extends Seeder
                 'password' => env('CEE_SURVEY_ACCOUNT_PASSWORD', (string) str()->random(32)),
             ]
         );
-        if (!$user->hasRole('cee-survey')) {
+        if (! $user->hasRole('cee-survey')) {
             $user->assignRole($role);
         }
     }

@@ -16,9 +16,7 @@ class ProgramBupatiUsulanReviewed extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly ProgramBupatiRisikoUsulan $usulan)
-    {
-    }
+    public function __construct(private readonly ProgramBupatiRisikoUsulan $usulan) {}
 
     public function via(object $notifiable): array
     {
@@ -38,11 +36,11 @@ class ProgramBupatiUsulanReviewed extends Notification
             'aksi' => $this->usulan->aksi,
             'reviewer_name' => $this->usulan->peninjau?->name,
             'title' => $disetujui ? 'Usulan kaitan risiko disetujui' : 'Usulan kaitan risiko ditolak',
-            'body' => 'Usulan ' . ($tambah ? 'penambahan' : 'pelepasan')
-                . ' kaitan risiko pada Program #' . $nomor . ' '
-                . ($disetujui
+            'body' => 'Usulan '.($tambah ? 'penambahan' : 'pelepasan')
+                .' kaitan risiko pada Program #'.$nomor.' '
+                .($disetujui
                     ? 'telah disetujui dan sudah berlaku.'
-                    : 'ditolak.' . ($this->usulan->rejection_reason ? ' Alasan: ' . $this->usulan->rejection_reason : '')),
+                    : 'ditolak.'.($this->usulan->rejection_reason ? ' Alasan: '.$this->usulan->rejection_reason : '')),
             'url' => '/program-bupati-risiko',
         ];
     }

@@ -6,10 +6,6 @@ interface Props {
 
 export default function KroIroPdVisualisasi({ tahunOptions }: Props) {
     return (
-        <YearFilterVisualization
-            title="Diagram Hierarki KRO IRO PD"
-            tahunOptions={tahunOptions}
-            embedRouteName="kro_iro_pd.visualization.embed"
-        />
+        <YearFilterVisualization title="Diagram Hierarki KRO IRO PD" tahunOptions={tahunOptions} embedRouteName="kro_iro_pd.visualization.embed" />
     );
 }

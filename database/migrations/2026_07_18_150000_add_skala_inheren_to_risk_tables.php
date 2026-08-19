@@ -33,13 +33,13 @@ return new class extends Migration
     {
         foreach (['tbl_irs_pemda', 'tbl_irs_pd', 'tbl_iro_pd'] as $table) {
             Schema::table($table, function (Blueprint $t) use ($table) {
-                if (!Schema::hasColumn($table, 'SKALA DAMPAK INHEREN')) {
+                if (! Schema::hasColumn($table, 'SKALA DAMPAK INHEREN')) {
                     $t->unsignedTinyInteger('SKALA DAMPAK INHEREN')->nullable()->after('SKALA PRIORITAS');
                 }
-                if (!Schema::hasColumn($table, 'SKALA KEMUNGKINAN INHEREN')) {
+                if (! Schema::hasColumn($table, 'SKALA KEMUNGKINAN INHEREN')) {
                     $t->unsignedTinyInteger('SKALA KEMUNGKINAN INHEREN')->nullable()->after('SKALA DAMPAK INHEREN');
                 }
-                if (!Schema::hasColumn($table, 'SKALA RISIKO INHEREN')) {
+                if (! Schema::hasColumn($table, 'SKALA RISIKO INHEREN')) {
                     $t->unsignedTinyInteger('SKALA RISIKO INHEREN')->nullable()->after('SKALA KEMUNGKINAN INHEREN');
                 }
             });

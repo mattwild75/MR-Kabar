@@ -3,24 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
 use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\Opd;
+use App\Models\PengaturanPemda;
 use App\Services\KroIroPdSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class KroPdController extends Controller
 {
-    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
-
-    use MenyaringPeriodePenilaian;
-
     use HasOpdFillStatus;
+    use MemeriksaTabelTersedia;
+    use MenyaringPeriodePenilaian;
 
     private const FIELDS = [
         'SASARAN RENSTRA',
@@ -104,6 +103,7 @@ class KroPdController extends Controller
     private function isPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RENSTRA'});
+
         return $val !== '' && $val !== '-' && $val !== 'Tidak Ada Data';
     }
 
@@ -138,7 +138,7 @@ class KroPdController extends Controller
             // program/kegiatan yatim & "Undefined array key".
             $sasaranRenstraMk = $this->matchKey($sasaranRenstraVal);
             $sasaranRenstraKode = $sasaranRenstraKodes[$sasaranRenstraMk] ?? $sasaranRenstraVal;
-            if (!isset($sasaranRenstraIndex[$sasaranRenstraMk])) {
+            if (! isset($sasaranRenstraIndex[$sasaranRenstraMk])) {
                 $sasaranRenstraIndex[$sasaranRenstraMk] = true;
                 $sasaranRenstras[$sasaranRenstraKode] = [
                     'id' => $sasaranRenstraKode,
@@ -151,8 +151,8 @@ class KroPdController extends Controller
             $sasaranRenstraNo = $sasaranRenstraKode;
             $sasaranRenstra = &$sasaranRenstras[$sasaranRenstraNo];
 
-            $programKey = $sasaranRenstraNo . '|' . $programVal;
-            if (!isset($programIndex[$programKey])) {
+            $programKey = $sasaranRenstraNo.'|'.$programVal;
+            if (! isset($programIndex[$programKey])) {
                 $programNo = $sasaranRenstra['_nextProgramNo']++;
                 $programIndex[$programKey] = $programNo;
                 $programKode = "{$sasaranRenstraNo}.{$programNo}";
@@ -171,8 +171,8 @@ class KroPdController extends Controller
             }
             $programNo = $programIndex[$programKey];
 
-            $kegiatanKey = $programKey . '|' . $kegiatanVal;
-            if (!isset($kegiatanIndex[$kegiatanKey])) {
+            $kegiatanKey = $programKey.'|'.$kegiatanVal;
+            if (! isset($kegiatanIndex[$kegiatanKey])) {
                 $kegiatanNo = $sasaranRenstra['programs'][$programNo]['_nextKegiatanNo']++;
                 $kegiatanIndex[$kegiatanKey] = $kegiatanNo;
                 $kegiatanKode = "{$sasaranRenstraNo}.{$programNo}.{$kegiatanNo}";
@@ -225,6 +225,7 @@ class KroPdController extends Controller
                 }
                 $sr['programs'] = array_values($sr['programs']);
             }
+
             return array_values($sasaranRenstras);
         };
 
@@ -256,7 +257,7 @@ class KroPdController extends Controller
             $kegiatanVal = $this->removeLabel((string) $row->{'KEGIATAN PD'});
             $subkegiatanVal = $this->removeLabel((string) $row->{'SUBKEGIATAN PD'});
 
-            if (!isset($programIndex[$programVal])) {
+            if (! isset($programIndex[$programVal])) {
                 $programNo = $nextProgramNo++;
                 $programIndex[$programVal] = $programNo;
                 $programKode = "NP.{$programNo}";
@@ -276,8 +277,8 @@ class KroPdController extends Controller
             $programNo = $programIndex[$programVal];
             $programKode = $programs[$programNo]['kode'];
 
-            $kegiatanKey = $programNo . '|' . $kegiatanVal;
-            if (!isset($kegiatanIndex[$kegiatanKey])) {
+            $kegiatanKey = $programNo.'|'.$kegiatanVal;
+            if (! isset($kegiatanIndex[$kegiatanKey])) {
                 $kegiatanNo = $programs[$programNo]['_nextKegiatanNo']++;
                 $kegiatanIndex[$kegiatanKey] = $kegiatanNo;
                 $kegiatanKode = "{$programKode}.{$kegiatanNo}";
@@ -327,7 +328,7 @@ class KroPdController extends Controller
                 foreach ($k['subkegiatans'] as $sk) {
                     foreach (preg_split('/\r\n|\r|\n/', (string) $sk['opd_penanggungjawab']) as $o) {
                         $o = trim($o);
-                        if ($o !== '' && !in_array($o, $opds, true)) {
+                        if ($o !== '' && ! in_array($o, $opds, true)) {
                             $opds[] = $o;
                         }
                     }
@@ -354,7 +355,7 @@ class KroPdController extends Controller
         // super-admin yang melihat semua — konsisten dengan pembatasan
         // edit/hapus di RiskOwnershipPolicy.
         $query = KroPd::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
         $this->saringTahun($query, $tahun, 'TAHUN PENILAIAN');
@@ -371,7 +372,7 @@ class KroPdController extends Controller
         // RUJUKAN, bukan input bebas. Ikut dibatasi ke milik sendiri
         // supaya PIC tidak bisa merujuk Sasaran Renstra milik OPD lain.
         $sasaranRenstraQuery = KrsPd::query();
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $sasaranRenstraQuery->where('user_id', auth()->id());
         }
         $sasaranRenstraOptions = $sasaranRenstraQuery
@@ -419,7 +420,7 @@ class KroPdController extends Controller
     private function program2aMap(bool $isAdmin): array
     {
         $query = KrsPd::query();
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
 
@@ -453,7 +454,7 @@ class KroPdController extends Controller
      */
     private function sasaranRenstraKodes(): array
     {
-        if (!$this->tabelTersedia('tbl_krs_irs_pd')) {
+        if (! $this->tabelTersedia('tbl_krs_irs_pd')) {
             return [];
         }
 
@@ -520,7 +521,7 @@ class KroPdController extends Controller
         // Baris baru masuk ke tahun yang sedang dilihat; kalau sedang melihat
         // seluruh tahun, dipakai Tahun Aktif Pemda.
         $data['TAHUN PENILAIAN'] = $this->tahunTerpilih($request)
-            ?: (int) \App\Models\PengaturanPemda::current()->tahun_penilaian;
+            ?: (int) PengaturanPemda::current()->tahun_penilaian;
         KroPd::create($data);
         $sync->sync();
 
@@ -575,6 +576,7 @@ class KroPdController extends Controller
     private function rowIsNonPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RENSTRA'});
+
         return $val === '' || $val === '-' || $val === 'Tidak Ada Data';
     }
 
@@ -582,7 +584,7 @@ class KroPdController extends Controller
     private function findNodeRows(string $level, array $match, bool $isAdmin)
     {
         $query = KroPd::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
 
@@ -590,7 +592,7 @@ class KroPdController extends Controller
         $isNp = str_ends_with($level, '_np');
 
         return $query->get()->filter(function ($row) use ($matchFields, $match, $isNp) {
-            if ($isNp && !$this->rowIsNonPrioritas($row)) {
+            if ($isNp && ! $this->rowIsNonPrioritas($row)) {
                 return false;
             }
             foreach ($matchFields as $f) {
@@ -598,6 +600,7 @@ class KroPdController extends Controller
                     return false;
                 }
             }
+
             return true;
         });
     }
@@ -609,7 +612,7 @@ class KroPdController extends Controller
     public function updateNode(Request $request, KroIroPdSyncService $sync)
     {
         $level = (string) $request->input('level');
-        if (!isset(self::NODE_MATCH_FIELDS[$level])) {
+        if (! isset(self::NODE_MATCH_FIELDS[$level])) {
             abort(422, 'Level node tidak dikenal.');
         }
         $fieldsLevel = self::NODE_LEVEL_ALIAS[$level] ?? $level;
@@ -650,7 +653,7 @@ class KroPdController extends Controller
     public function deleteNode(Request $request, KroIroPdSyncService $sync)
     {
         $level = (string) $request->input('level');
-        if (!isset(self::NODE_MATCH_FIELDS[$level])) {
+        if (! isset(self::NODE_MATCH_FIELDS[$level])) {
             abort(422, 'Level node tidak dikenal.');
         }
 
@@ -708,7 +711,7 @@ class KroPdController extends Controller
         // lain tidak dianggap "sudah ada" hanya karena kebetulan sama teks.
         $krsPdQuery = KrsPd::orderBy('id');
         $kroPdQuery = KroPd::query();
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $krsPdQuery->where('user_id', $request->user()->id);
             $kroPdQuery->where('user_id', $request->user()->id);
         }

@@ -33,28 +33,28 @@ return new class extends Migration
     {
         foreach (['tbl_irs_pemda', 'tbl_irs_pd', 'tbl_iro_pd'] as $table) {
             Schema::table($table, function (Blueprint $t) use ($table) {
-                if (!Schema::hasColumn($table, 'KATEGORI PROYEKSI RTP')) {
+                if (! Schema::hasColumn($table, 'KATEGORI PROYEKSI RTP')) {
                     $t->string('KATEGORI PROYEKSI RTP')->nullable()->after('SKALA RISIKO INHEREN');
                 }
-                if (!Schema::hasColumn($table, 'SKALA DAMPAK TARGET')) {
+                if (! Schema::hasColumn($table, 'SKALA DAMPAK TARGET')) {
                     $t->unsignedTinyInteger('SKALA DAMPAK TARGET')->nullable()->after('KATEGORI PROYEKSI RTP');
                 }
-                if (!Schema::hasColumn($table, 'SKALA KEMUNGKINAN TARGET')) {
+                if (! Schema::hasColumn($table, 'SKALA KEMUNGKINAN TARGET')) {
                     $t->unsignedTinyInteger('SKALA KEMUNGKINAN TARGET')->nullable()->after('SKALA DAMPAK TARGET');
                 }
-                if (!Schema::hasColumn($table, 'SKALA RISIKO TARGET')) {
+                if (! Schema::hasColumn($table, 'SKALA RISIKO TARGET')) {
                     $t->unsignedTinyInteger('SKALA RISIKO TARGET')->nullable()->after('SKALA KEMUNGKINAN TARGET');
                 }
-                if (!Schema::hasColumn($table, 'KATEGORI EXISTING CONTROL AKTUAL')) {
+                if (! Schema::hasColumn($table, 'KATEGORI EXISTING CONTROL AKTUAL')) {
                     $t->string('KATEGORI EXISTING CONTROL AKTUAL')->nullable()->after('SKALA RISIKO TARGET');
                 }
-                if (!Schema::hasColumn($table, 'SKALA DAMPAK AKTUAL')) {
+                if (! Schema::hasColumn($table, 'SKALA DAMPAK AKTUAL')) {
                     $t->unsignedTinyInteger('SKALA DAMPAK AKTUAL')->nullable()->after('KATEGORI EXISTING CONTROL AKTUAL');
                 }
-                if (!Schema::hasColumn($table, 'SKALA KEMUNGKINAN AKTUAL')) {
+                if (! Schema::hasColumn($table, 'SKALA KEMUNGKINAN AKTUAL')) {
                     $t->unsignedTinyInteger('SKALA KEMUNGKINAN AKTUAL')->nullable()->after('SKALA DAMPAK AKTUAL');
                 }
-                if (!Schema::hasColumn($table, 'SKALA RISIKO AKTUAL')) {
+                if (! Schema::hasColumn($table, 'SKALA RISIKO AKTUAL')) {
                     $t->unsignedTinyInteger('SKALA RISIKO AKTUAL')->nullable()->after('SKALA KEMUNGKINAN AKTUAL');
                 }
             });

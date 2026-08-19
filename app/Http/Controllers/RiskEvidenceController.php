@@ -51,7 +51,7 @@ class RiskEvidenceController extends Controller
 
     private function resolveModel(string $type): string
     {
-        if (!isset(self::MODELS[$type])) {
+        if (! isset(self::MODELS[$type])) {
             abort(404, 'Jenis data tidak dikenal.');
         }
 
@@ -71,7 +71,7 @@ class RiskEvidenceController extends Controller
         $isAdmin = $request->user()->canViewAllOpd();
 
         $query = $modelClass::query()->whereKey($id);
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             if (in_array($modelClass, self::OWNERSHIP_VIA_OPD, true)) {
                 $query->where('opd_id', $request->user()->opd_id);
             } else {

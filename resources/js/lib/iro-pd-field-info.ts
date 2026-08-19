@@ -6,14 +6,14 @@ import { IRS_FIELD_INFO } from '@/lib/irs-field-info';
 // di level Strategis — sesuai Perdep PPKD No.4/2019 BPKP: objek risiko
 // operasional adalah Kegiatan pada Renja OPD, bukan Sasaran.
 export const IRO_PD_FIELD_INFO: Record<string, string> = {
-  ...IRS_FIELD_INFO,
-  'KEGIATAN PD': `Definisi: Kegiatan pada Renja/RKA Perangkat Daerah tahun berjalan, turunan dari Program PD — BUKAN input bebas, melainkan pilihan dari Kegiatan PD yang sudah dibuat di halaman III_a_KRO_PD.
+    ...IRS_FIELD_INFO,
+    'KEGIATAN PD': `Definisi: Kegiatan pada Renja/RKA Perangkat Daerah tahun berjalan, turunan dari Program PD — BUKAN input bebas, melainkan pilihan dari Kegiatan PD yang sudah dibuat di halaman III_a_KRO_PD.
 
 Fungsinya dalam Risiko Operasional PD: Menjadi objek yang dilindungi => karena risiko operasional muncul ketika ada ancaman terhadap pelaksanaan/pencapaian target Kegiatan tersebut, sesuai Perdep PPKD No.4/2019 BPKP (objek risiko operasional = Renja OPD, disusun per Kegiatan).
 
 Cara mengisi: pilih dari daftar dropdown, bukan mengetik teks baru. Jika Kegiatan yang dibutuhkan belum ada di daftar, tambahkan dulu di halaman III_a_KRO_PD.`,
 
-  TAHAP: `Definisi: Tahapan pelaksanaan Kegiatan/Operasional di mana risiko bisa muncul, mengikuti siklus pengelolaan keuangan daerah (Perencanaan, Penganggaran, Pengadaan, Pelaksanaan, Penatausahaan, Pemantauan dan Evaluasi, Pengawasan, Pertanggungjawaban / Pelaporan).
+    TAHAP: `Definisi: Tahapan pelaksanaan Kegiatan/Operasional di mana risiko bisa muncul, mengikuti siklus pengelolaan keuangan daerah (Perencanaan, Penganggaran, Pengadaan, Pelaksanaan, Penatausahaan, Pemantauan dan Evaluasi, Pengawasan, Pertanggungjawaban / Pelaporan).
 
 Fungsi: Agar jelas risiko muncul di bagian mana dari alur kerja Kegiatan tersebut, sehingga Rencana Tindak Pengendalian bisa lebih tepat sasaran.
 

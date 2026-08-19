@@ -97,6 +97,7 @@ class ProgramPembangunanBupatiSeeder extends Seeder
             return self::NAMA_OPD_MAP[$key];
         }
         $this->command?->warn("  Nama OPD tidak terpetakan (dibiarkan apa adanya): {$name}");
+
         return $name;
     }
 
@@ -125,11 +126,12 @@ class ProgramPembangunanBupatiSeeder extends Seeder
                     break;
                 }
             }
-            if (!$matched) {
+            if (! $matched) {
                 $mapped[] = $this->mapOpdName($parts[$i]);
                 $i++;
             }
         }
+
         return implode(', ', array_unique($mapped));
     }
 
@@ -264,6 +266,6 @@ class ProgramPembangunanBupatiSeeder extends Seeder
             );
         }
 
-        $this->command?->info('Program Pembangunan Bupati: ' . count($rows) . ' baris ter-seed (Tabel 3.7 RPJM 2025-2029).');
+        $this->command?->info('Program Pembangunan Bupati: '.count($rows).' baris ter-seed (Tabel 3.7 RPJM 2025-2029).');
     }
 }

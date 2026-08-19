@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\SharesCetakContext;
 use App\Models\CeeJawaban;
 use App\Models\CeeKelemahanDokumen;
 use App\Models\CeeSimpulan;
@@ -19,7 +20,7 @@ use Inertia\Inertia;
  */
 class CetakCeeController extends Controller
 {
-    use \App\Http\Controllers\Concerns\SharesCetakContext;
+    use SharesCetakContext;
 
     /**
      * Hanya yang berhak lintas OPD yang melihat seluruh daftar; sisanya

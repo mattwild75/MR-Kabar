@@ -2,6 +2,4 @@
 
 namespace App\Policies;
 
-class IrsPemdaPolicy extends RiskOwnershipPolicy
-{
-}
+class IrsPemdaPolicy extends RiskOwnershipPolicy {}

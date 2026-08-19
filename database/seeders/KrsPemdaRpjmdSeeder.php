@@ -82,6 +82,7 @@ class KrsPemdaRpjmdSeeder extends Seeder
             );
             if (isset($sudahAda[$t])) {
                 $lewat++;
+
                 continue;
             }
             KrsPemda::create($baris);
@@ -89,7 +90,7 @@ class KrsPemdaRpjmdSeeder extends Seeder
             $baru++;
         }
 
-        $this->command?->info("KRS Pemda: {$baru} baris ditambahkan, {$lewat} sudah ada (total sumber: " . count($data) . ').');
+        $this->command?->info("KRS Pemda: {$baru} baris ditambahkan, {$lewat} sudah ada (total sumber: ".count($data).').');
     }
 
     private function tanda(string ...$bagian): string

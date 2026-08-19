@@ -54,7 +54,10 @@ export function tambahTertunda(jenis: Jenis, berkas: File[]): void {
 }
 
 export function buangTertunda(jenis: Jenis, ke: number): void {
-    tertunda.set(jenis, ambilTertunda(jenis).filter((_, i) => i !== ke));
+    tertunda.set(
+        jenis,
+        ambilTertunda(jenis).filter((_, i) => i !== ke),
+    );
     beritahu();
 }
 

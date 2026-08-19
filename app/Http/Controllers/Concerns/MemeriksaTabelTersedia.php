@@ -25,7 +25,7 @@ trait MemeriksaTabelTersedia
     protected function tabelTersedia(string $tabel): bool
     {
         return Cache::rememberForever(
-            'skema.tabel-ada.' . $tabel,
+            'skema.tabel-ada.'.$tabel,
             fn () => Schema::hasTable($tabel),
         );
     }

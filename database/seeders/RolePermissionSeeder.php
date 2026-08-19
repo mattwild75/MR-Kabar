@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -87,11 +87,12 @@ class RolePermissionSeeder extends Seeder
                     if ($admin->hasPermissionTo($permission)) {
                         $admin->revokePermissionTo($permission);
                     }
+
                     continue;
                 }
 
                 // Assign ke admin
-                if (!$admin->hasPermissionTo($permission)) {
+                if (! $admin->hasPermissionTo($permission)) {
                     $admin->givePermissionTo($permission);
                 }
             }
@@ -109,9 +110,9 @@ class RolePermissionSeeder extends Seeder
         $izinAdmin = $admin->permissions()->pluck('name')->all();
         foreach (Permission::all() as $permission) {
             $boleh = in_array($permission->name, $izinAdmin, true);
-            if ($boleh && !$eksekutif->hasPermissionTo($permission)) {
+            if ($boleh && ! $eksekutif->hasPermissionTo($permission)) {
                 $eksekutif->givePermissionTo($permission);
-            } elseif (!$boleh && $eksekutif->hasPermissionTo($permission)) {
+            } elseif (! $boleh && $eksekutif->hasPermissionTo($permission)) {
                 $eksekutif->revokePermissionTo($permission);
             }
         }

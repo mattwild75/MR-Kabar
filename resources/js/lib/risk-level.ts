@@ -10,26 +10,26 @@
 // komentarnya) dan sekarang diterapkan konsisten lewat satu fungsi ini.
 
 export interface RiskLevelBand {
-  label: string;
-  skala_min: number;
-  skala_max: number;
-  warna_class: string;
+    label: string;
+    skala_min: number;
+    skala_max: number;
+    warna_class: string;
 }
 
 /** Cari band Level Risiko yang mencakup nilai skala tsb, atau undefined kalau di luar seluruh rentang/data kosong. */
 export function findRiskLevel(skala: number | null | undefined, riskLevels: RiskLevelBand[]): RiskLevelBand | undefined {
-  if (skala === null || skala === undefined) return undefined;
-  return riskLevels.find((level) => skala >= level.skala_min && skala <= level.skala_max);
+    if (skala === null || skala === undefined) return undefined;
+    return riskLevels.find((level) => skala >= level.skala_min && skala <= level.skala_max);
 }
 
 /** Kelas warna badge polos (tanpa hover) — fallback abu-abu kalau skala null atau di luar rentang. */
 export function riskLevelClassName(skala: number | null | undefined, riskLevels: RiskLevelBand[]): string {
-  return findRiskLevel(skala, riskLevels)?.warna_class ?? 'bg-muted text-muted-foreground';
+    return findRiskLevel(skala, riskLevels)?.warna_class ?? 'bg-muted text-muted-foreground';
 }
 
 /** Kelas warna badge + varian hover (dipakai baris tabel interaktif) — fallback abu-abu sama seperti riskLevelClassName(). */
 export function riskLevelClassNameWithHover(skala: number | null | undefined, riskLevels: RiskLevelBand[]): string {
-  const level = findRiskLevel(skala, riskLevels);
-  if (!level) return 'bg-muted text-muted-foreground';
-  return `${level.warna_class} hover:${level.warna_class.split(' ')[0]}`;
+    const level = findRiskLevel(skala, riskLevels);
+    if (!level) return 'bg-muted text-muted-foreground';
+    return `${level.warna_class} hover:${level.warna_class.split(' ')[0]}`;
 }

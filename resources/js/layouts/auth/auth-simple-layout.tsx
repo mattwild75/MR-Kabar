@@ -145,7 +145,8 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
             });
     };
 
-    const depth = (strength: number) => (prefersReducedMotion ? {} : { transform: `translate3d(${pointer.x * strength}px, ${pointer.y * strength}px, 0)` });
+    const depth = (strength: number) =>
+        prefersReducedMotion ? {} : { transform: `translate3d(${pointer.x * strength}px, ${pointer.y * strength}px, 0)` };
 
     // Seberapa besar kartu SEDANG dimiringkan sekarang (0 = pas tengah/diam,
     // 1 = miring penuh ke salah satu sudut) — dipakai supaya efek KACA
@@ -208,7 +209,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
         // mesh gradient warna identitas ditumpuk di atasnya via layer terpisah di bawah.
         <div
             ref={containerRef}
-            className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-aceh-cream p-6 dark:bg-aceh-black md:p-10"
+            className="bg-aceh-cream dark:bg-aceh-black relative flex min-h-svh flex-col items-center justify-center overflow-hidden p-6 md:p-10"
         >
             {/* mesh gradient lembut ala SIPD — beberapa radial-gradient warna
                 identitas bertumpuk, bukan lagi orb tunggal, supaya latar tidak polos.
@@ -279,7 +280,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                 aria-hidden="true"
             />
             <div
-                className="pointer-events-none absolute -bottom-40 -right-24 h-[28rem] w-[28rem] rounded-full opacity-[0.24] blur-3xl transition-transform duration-200 ease-out dark:opacity-[0.28]"
+                className="pointer-events-none absolute -right-24 -bottom-40 h-[28rem] w-[28rem] rounded-full opacity-[0.24] blur-3xl transition-transform duration-200 ease-out dark:opacity-[0.28]"
                 style={{ background: `radial-gradient(circle, ${primaryColor}, transparent 70%)`, ...depth(-24) }}
                 aria-hidden="true"
             />
@@ -298,7 +299,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                 aria-hidden="true"
             />
 
-            <div className="absolute right-4 top-4 z-10 flex items-center gap-2">
+            <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
                 {/* Tombol izin gyroscope — HANYA muncul di iOS 13+ (satu-
                     satunya platform yg mewajibkan gesture eksplisit sebelum
                     device orientation aktif). Android/desktop tidak pernah
@@ -307,7 +308,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                     <button
                         type="button"
                         onClick={requestGyroPermission}
-                        className="flex h-9 items-center gap-1.5 rounded-full border border-border bg-card/70 px-3 text-xs text-foreground backdrop-blur transition-all duration-200 hover:scale-105 hover:bg-card hover:shadow-md"
+                        className="border-border bg-card/70 text-foreground hover:bg-card flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs backdrop-blur transition-all duration-200 hover:scale-105 hover:shadow-md"
                     >
                         <RotateCcw className="h-3.5 w-3.5" />
                         Aktifkan efek miring
@@ -318,7 +319,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                     onClick={cycleAppearance}
                     aria-label={APPEARANCE_LABEL[appearance]}
                     title={APPEARANCE_LABEL[appearance]}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card/70 text-foreground backdrop-blur transition-all duration-200 hover:scale-105 hover:bg-card hover:shadow-md"
+                    className="border-border bg-card/70 text-foreground hover:bg-card flex h-9 w-9 items-center justify-center rounded-full border backdrop-blur transition-all duration-200 hover:scale-105 hover:shadow-md"
                 >
                     <AppearanceIcon className="h-4 w-4" />
                 </button>
@@ -340,7 +341,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                    memisahkan transform 3D dari backdrop-filter ke elemen
                    berbeda ini yg memperbaiki bug Chromium/Safari yg gagal
                    merender blur kalau keduanya digabung di elemen yg sama. */}
-            <div className="relative z-10 w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500" style={{ perspective: '1400px' }}>
+            <div className="animate-in fade-in slide-in-from-bottom-4 relative z-10 w-full max-w-md duration-500" style={{ perspective: '1400px' }}>
                 <div
                     style={{
                         transform: prefersReducedMotion ? undefined : `rotateX(${pointer.y * -12}deg) rotateY(${pointer.x * 12}deg)`,
@@ -348,7 +349,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                         transformStyle: 'preserve-3d',
                     }}
                 >
-                {/* Kartu kaca (glassmorphism) ala "kaca kamar mandi" — efek
+                    {/* Kartu kaca (glassmorphism) ala "kaca kamar mandi" — efek
                     kaca DITAUTKAN LANGSUNG ke gerakan tilt 3D (tiltMagnitude,
                     0 saat diam - 1 saat dimiringkan penuh), bukan transparansi
                     tetap: saat diam kartu HAMPIR SOLID (mudah dibaca, teks
@@ -362,83 +363,80 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                     SENDIRI tidak py transform apapun (perspective+rotate ada
                     di wrapper luar) — cukup overflow-hidden + backdrop-blur
                     dinamis. */}
-                <div
-                    className="overflow-hidden rounded-2xl border text-card-foreground shadow-2xl transition-[background-color,backdrop-filter] duration-200 ease-out"
-                    style={{
-                        borderColor: isDark ? `rgba(255,255,255,${0.12 - tiltMagnitude * 0.06})` : `rgba(255,255,255,${0.4 - tiltMagnitude * 0.18})`,
-                        backgroundColor: isDark
-                            ? `rgba(20,22,30,${0.14 - tiltMagnitude * 0.09})`
-                            : `rgba(255,255,255,${0.14 - tiltMagnitude * 0.09})`,
-                        backdropFilter: `blur(${4 + tiltMagnitude * 36}px)`,
-                        WebkitBackdropFilter: `blur(${4 + tiltMagnitude * 36}px)`,
-                        boxShadow: `0 20px 60px -15px ${primaryColor}33, 0 8px 24px -8px rgb(0 0 0 / 0.15)`,
-                    }}
-                >
-                    {/* strip aksen tipis di atas card, warna identitas */}
-                    <div className="h-1.5 w-full" style={{ background: `linear-gradient(90deg, ${primaryColor}, ${primaryColor}99)` }} />
-                    <div className="p-8 sm:p-10">
-                        <div className="flex flex-col gap-8">
-                            <div className="flex flex-col items-center gap-5">
-                                <Link
-                                    href={route('home')}
-                                    className="flex flex-col items-center gap-3 font-medium transition-transform duration-200 hover:scale-[1.02] hover:opacity-90"
-                                >
-                                    <div
-                                        className="rounded-2xl p-1 transition-shadow duration-300"
-                                        style={{ boxShadow: `0 0 0 1px ${primaryColor}22` }}
+                    <div
+                        className="text-card-foreground overflow-hidden rounded-2xl border shadow-2xl transition-[background-color,backdrop-filter] duration-200 ease-out"
+                        style={{
+                            borderColor: isDark
+                                ? `rgba(255,255,255,${0.12 - tiltMagnitude * 0.06})`
+                                : `rgba(255,255,255,${0.4 - tiltMagnitude * 0.18})`,
+                            backgroundColor: isDark
+                                ? `rgba(20,22,30,${0.14 - tiltMagnitude * 0.09})`
+                                : `rgba(255,255,255,${0.14 - tiltMagnitude * 0.09})`,
+                            backdropFilter: `blur(${4 + tiltMagnitude * 36}px)`,
+                            WebkitBackdropFilter: `blur(${4 + tiltMagnitude * 36}px)`,
+                            boxShadow: `0 20px 60px -15px ${primaryColor}33, 0 8px 24px -8px rgb(0 0 0 / 0.15)`,
+                        }}
+                    >
+                        {/* strip aksen tipis di atas card, warna identitas */}
+                        <div className="h-1.5 w-full" style={{ background: `linear-gradient(90deg, ${primaryColor}, ${primaryColor}99)` }} />
+                        <div className="p-8 sm:p-10">
+                            <div className="flex flex-col gap-8">
+                                <div className="flex flex-col items-center gap-5">
+                                    <Link
+                                        href={route('home')}
+                                        className="flex flex-col items-center gap-3 font-medium transition-transform duration-200 hover:scale-[1.02] hover:opacity-90"
                                     >
-                                        <AppLogoIcon className="size-36" />
-                                    </div>
-                                    {/* text-foreground: solid black-on-white / white-on-black,
+                                        <div
+                                            className="rounded-2xl p-1 transition-shadow duration-300"
+                                            style={{ boxShadow: `0 0 0 1px ${primaryColor}22` }}
+                                        >
+                                            <AppLogoIcon className="size-36" />
+                                        </div>
+                                        {/* text-foreground: solid black-on-white / white-on-black,
                                         not the buggy aceh-cream-as-text from before. */}
-                                    <span className="font-serif text-xl font-semibold tracking-tight text-foreground">
-                                        {setting?.nama_app}
-                                    </span>
-                                </Link>
+                                        <span className="text-foreground font-serif text-xl font-semibold tracking-tight">{setting?.nama_app}</span>
+                                    </Link>
 
-                                <div className="space-y-1.5 text-center">
-                                    <h1 className="text-2xl font-bold tracking-tight text-foreground">{title}</h1>
-                                    {description && (
-                                        <p className="text-center text-sm leading-5 text-muted-foreground">{description}</p>
-                                    )}
+                                    <div className="space-y-1.5 text-center">
+                                        <h1 className="text-foreground text-2xl font-bold tracking-tight">{title}</h1>
+                                        {description && <p className="text-muted-foreground text-center text-sm leading-5">{description}</p>}
+                                    </div>
+                                </div>
+
+                                <div className="space-y-6">{children}</div>
+                            </div>
+                        </div>
+
+                        <div className="border-border bg-muted/40 border-t px-8 py-5">
+                            <div className="flex items-center justify-center gap-4">
+                                <img
+                                    src="/images/hak-cipta-qr.png"
+                                    alt="QR verifikasi hak cipta"
+                                    className="border-border bg-background h-14 w-14 shrink-0 rounded border object-contain"
+                                    onError={(e) => {
+                                        (e.target as HTMLImageElement).style.display = 'none';
+                                    }}
+                                />
+                                <div className="text-muted-foreground space-y-1 text-left text-[11px] leading-relaxed">
+                                    <p>
+                                        Conceptor: Irwandi, S.E., CGCAE &amp; Tim Digitalisasi MR Kabar &middot; System Architect: Nurhikmat Muhammad,
+                                        A.Md.
+                                    </p>
+                                    <p>
+                                        Inspektorat Kabupaten Aceh Barat &middot; &copy; {new Date().getFullYear()} All Rights Reserved
+                                        {versi && (
+                                            <>
+                                                {' '}
+                                                &middot; <span className="font-medium">{versi}</span>
+                                            </>
+                                        )}
+                                    </p>
+                                    <p>Hak Cipta Republik Indonesia, Kementerian Hukum</p>
+                                    <p>No. Permohonan: EC002025134971 &middot; No. Pencatatan: 000975232</p>
                                 </div>
                             </div>
-
-                            <div className="space-y-6">{children}</div>
                         </div>
                     </div>
-
-                    <div className="border-t border-border bg-muted/40 px-8 py-5">
-                        <div className="flex items-center justify-center gap-4">
-                            <img
-                                src="/images/hak-cipta-qr.png"
-                                alt="QR verifikasi hak cipta"
-                                className="h-14 w-14 shrink-0 rounded border border-border bg-background object-contain"
-                                onError={(e) => {
-                                    (e.target as HTMLImageElement).style.display = 'none';
-                                }}
-                            />
-                            <div className="space-y-1 text-left text-[11px] leading-relaxed text-muted-foreground">
-                                <p>
-                                    Conceptor: Irwandi, S.E., CGCAE &amp; Tim Digitalisasi MR Kabar &middot; System Architect:
-                                    Nurhikmat Muhammad, A.Md.
-                                </p>
-                                <p>
-                                    Inspektorat Kabupaten Aceh Barat &middot; &copy; {new Date().getFullYear()} All Rights
-                                    Reserved
-                                    {versi && (
-                                        <>
-                                            {' '}
-                                            &middot; <span className="font-medium">{versi}</span>
-                                        </>
-                                    )}
-                                </p>
-                                <p>Hak Cipta Republik Indonesia, Kementerian Hukum</p>
-                                <p>No. Permohonan: EC002025134971 &middot; No. Pencatatan: 000975232</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 </div>
             </div>
         </div>

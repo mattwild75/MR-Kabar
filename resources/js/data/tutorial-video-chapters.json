@@ -1,138 +1,138 @@
 [
- {
-  "id": "bagian-i",
-  "judul": "I. Sebelum mulai",
-  "mulai": 0.0,
-  "selesai": 191.0,
-  "durasi": 191.0,
-  "sasaran": "Semua"
- },
- {
-  "id": "bagian-ii",
-  "judul": "II. Data Umum",
-  "mulai": 191.0,
-  "selesai": 457.23,
-  "durasi": 266.23,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-iii",
-  "judul": "III. CEE — mengenali kelemahan lingkungan pengendalian",
-  "mulai": 457.23,
-  "selesai": 1184.7,
-  "durasi": 727.47,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-iv",
-  "judul": "IV. Risiko Strategis Pemerintah Daerah",
-  "mulai": 1184.7,
-  "selesai": 1554.33,
-  "durasi": 369.63,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-v",
-  "judul": "V. Risiko Strategis Perangkat Daerah",
-  "mulai": 1554.33,
-  "selesai": 2162.13,
-  "durasi": 607.8,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-vi",
-  "judul": "VI. Risiko Operasional Perangkat Daerah",
-  "mulai": 2162.13,
-  "selesai": 2609.13,
-  "durasi": 447.0,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-vii",
-  "judul": "VII. Monitoring dan Evaluasi",
-  "mulai": 2609.13,
-  "selesai": 2750.17,
-  "durasi": 141.03,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-viii",
-  "judul": "VIII. Ketika risikonya benar-benar terjadi",
-  "mulai": 2750.17,
-  "selesai": 2855.73,
-  "durasi": 105.57,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-ix",
-  "judul": "IX. Pelapor: kejadian dari risiko yang sudah terdaftar",
-  "mulai": 2855.73,
-  "selesai": 3023.9,
-  "durasi": 168.17,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-x",
-  "judul": "X. PIC menelaah laporan pertama",
-  "mulai": 3023.9,
-  "selesai": 3120.07,
-  "durasi": 96.17,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-xi",
-  "judul": "XI. Pelapor: kejadian yang risikonya belum terdaftar",
-  "mulai": 3120.07,
-  "selesai": 3211.97,
-  "durasi": 91.9,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-xii",
-  "judul": "XII. PIC membuat risiko yang belum terdaftar",
-  "mulai": 3211.97,
-  "selesai": 3484.07,
-  "durasi": 272.1,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-xiii",
-  "judul": "XIII. Ke mana laporan kejadian bermuara",
-  "mulai": 3484.07,
-  "selesai": 3568.57,
-  "durasi": 84.5,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-xiv",
-  "judul": "XIV. Form Cetak",
-  "mulai": 3568.57,
-  "selesai": 3702.77,
-  "durasi": 134.2,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-xv",
-  "judul": "XV. Laporan",
-  "mulai": 3702.77,
-  "selesai": 3757.33,
-  "durasi": 54.57,
-  "sasaran": "PIC OPD"
- },
- {
-  "id": "bagian-xvi",
-  "judul": "XVI. Membaca data dan mengambil keputusan",
-  "mulai": 3757.33,
-  "selesai": 4635.83,
-  "durasi": 878.5,
-  "sasaran": "Pimpinan"
- },
- {
-  "id": "bagian-xvii",
-  "judul": "XVII. Penutup",
-  "mulai": 4635.83,
-  "selesai": 4775.07,
-  "durasi": 139.23,
-  "sasaran": "Semua"
- }
+    {
+        "id": "bagian-i",
+        "judul": "I. Sebelum mulai",
+        "mulai": 0.0,
+        "selesai": 191.0,
+        "durasi": 191.0,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "bagian-ii",
+        "judul": "II. Data Umum",
+        "mulai": 191.0,
+        "selesai": 457.23,
+        "durasi": 266.23,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-iii",
+        "judul": "III. CEE — mengenali kelemahan lingkungan pengendalian",
+        "mulai": 457.23,
+        "selesai": 1184.7,
+        "durasi": 727.47,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-iv",
+        "judul": "IV. Risiko Strategis Pemerintah Daerah",
+        "mulai": 1184.7,
+        "selesai": 1554.33,
+        "durasi": 369.63,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-v",
+        "judul": "V. Risiko Strategis Perangkat Daerah",
+        "mulai": 1554.33,
+        "selesai": 2162.13,
+        "durasi": 607.8,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-vi",
+        "judul": "VI. Risiko Operasional Perangkat Daerah",
+        "mulai": 2162.13,
+        "selesai": 2609.13,
+        "durasi": 447.0,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-vii",
+        "judul": "VII. Monitoring dan Evaluasi",
+        "mulai": 2609.13,
+        "selesai": 2750.17,
+        "durasi": 141.03,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-viii",
+        "judul": "VIII. Ketika risikonya benar-benar terjadi",
+        "mulai": 2750.17,
+        "selesai": 2855.73,
+        "durasi": 105.57,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-ix",
+        "judul": "IX. Pelapor: kejadian dari risiko yang sudah terdaftar",
+        "mulai": 2855.73,
+        "selesai": 3023.9,
+        "durasi": 168.17,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-x",
+        "judul": "X. PIC menelaah laporan pertama",
+        "mulai": 3023.9,
+        "selesai": 3120.07,
+        "durasi": 96.17,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-xi",
+        "judul": "XI. Pelapor: kejadian yang risikonya belum terdaftar",
+        "mulai": 3120.07,
+        "selesai": 3211.97,
+        "durasi": 91.9,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-xii",
+        "judul": "XII. PIC membuat risiko yang belum terdaftar",
+        "mulai": 3211.97,
+        "selesai": 3484.07,
+        "durasi": 272.1,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-xiii",
+        "judul": "XIII. Ke mana laporan kejadian bermuara",
+        "mulai": 3484.07,
+        "selesai": 3568.57,
+        "durasi": 84.5,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-xiv",
+        "judul": "XIV. Form Cetak",
+        "mulai": 3568.57,
+        "selesai": 3702.77,
+        "durasi": 134.2,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-xv",
+        "judul": "XV. Laporan",
+        "mulai": 3702.77,
+        "selesai": 3757.33,
+        "durasi": 54.57,
+        "sasaran": "PIC OPD"
+    },
+    {
+        "id": "bagian-xvi",
+        "judul": "XVI. Membaca data dan mengambil keputusan",
+        "mulai": 3757.33,
+        "selesai": 4635.83,
+        "durasi": 878.5,
+        "sasaran": "Pimpinan"
+    },
+    {
+        "id": "bagian-xvii",
+        "judul": "XVII. Penutup",
+        "mulai": 4635.83,
+        "selesai": 4775.07,
+        "durasi": 139.23,
+        "sasaran": "Semua"
+    }
 ]

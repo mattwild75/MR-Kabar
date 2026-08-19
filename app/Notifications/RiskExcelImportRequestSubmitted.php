@@ -15,9 +15,7 @@ class RiskExcelImportRequestSubmitted extends Notification
 {
     use Queueable;
 
-    public function __construct(private readonly RiskExcelImportRequest $importRequest)
-    {
-    }
+    public function __construct(private readonly RiskExcelImportRequest $importRequest) {}
 
     public function via(object $notifiable): array
     {
@@ -36,8 +34,8 @@ class RiskExcelImportRequestSubmitted extends Notification
             'original_filename' => $this->importRequest->original_filename,
             'title' => 'Permintaan impor Excel baru',
             'body' => ($this->importRequest->user?->name ?? 'Seseorang')
-                . ' mengajukan impor ' . ($isPicOpd ? 'KRS (Excel)' : 'Excel 6-modul')
-                . ' — menunggu persetujuan Anda.',
+                .' mengajukan impor '.($isPicOpd ? 'KRS (Excel)' : 'Excel 6-modul')
+                .' — menunggu persetujuan Anda.',
             'url' => $isPicOpd ? '/krs-excel' : '/backup/excel',
         ];
     }

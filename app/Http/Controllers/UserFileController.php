@@ -55,7 +55,7 @@ class UserFileController extends Controller
      */
     private function ensureCanViewTargetUser(User $requester, User $target): void
     {
-        if (!$requester->hasRole('super-admin') && $target->hasRole('super-admin') && $target->id !== $requester->id) {
+        if (! $requester->hasRole('super-admin') && $target->hasRole('super-admin') && $target->id !== $requester->id) {
             abort(403, 'Admin tidak dapat mengakses folder milik Super Admin.');
         }
     }
@@ -81,17 +81,18 @@ class UserFileController extends Controller
         // Cek folder aktif
         $currentFolder = $folderId ? $targetUser->mediaFolders()->find($folderId) : null;
 
-        if ($folderId && !$currentFolder) {
+        if ($folderId && ! $currentFolder) {
             // Jika folder tidak ada, redirect ke root
-            $redirectQuery = $isShared ? '?scope=shared' : ($isAdminOrSuperAdmin ? '?user_id=' . $targetUser->id : '');
-            return redirect('/files' . $redirectQuery);
+            $redirectQuery = $isShared ? '?scope=shared' : ($isAdminOrSuperAdmin ? '?user_id='.$targetUser->id : '');
+
+            return redirect('/files'.$redirectQuery);
         }
 
         $files = $targetUser
             ->media()
             ->where('collection_name', 'files')
             ->when($folderId, function ($query) use ($folderId) {
-                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.folder_id')) = ?", [(string)$folderId]);
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.folder_id')) = ?", [(string) $folderId]);
             }, function ($query) {
                 $query->where(function ($q) {
                     $q->whereNull('custom_properties->folder_id')
@@ -104,9 +105,10 @@ class UserFileController extends Controller
         // hanya boleh terlihat oleh pengunggahnya sendiri dan admin/super-admin
         // — bukan semua user, supaya konten belum diverifikasi tidak langsung
         // terekspos ke ruang kerja bersama.
-        if ($isShared && !$isAdminOrSuperAdmin) {
+        if ($isShared && ! $isAdminOrSuperAdmin) {
             $files = $files->filter(function ($media) use ($requester) {
                 $status = $media->getCustomProperty('approval_status', 'approved');
+
                 return $status === 'approved' || (int) $media->getCustomProperty('uploader_id') === $requester->id;
             })->values();
         }
@@ -115,7 +117,7 @@ class UserFileController extends Controller
             'folders' => $folders,
             'currentFolderId' => $folderId,
             'currentFolder' => $currentFolder,
-            'files' => $files->map(fn($media) => [
+            'files' => $files->map(fn ($media) => [
                 'id' => $media->id,
                 'name' => $media->name,
                 'size' => $media->humanReadableSize,
@@ -144,8 +146,8 @@ class UserFileController extends Controller
             // Admin (bukan super-admin) tidak boleh lihat/pilih folder milik
             // super-admin — disaring dari daftar combobox supaya tidak
             // menampilkan pilihan yang akan ditolak `ensureCanViewTargetUser()`.
-            'users' => $isAdminOrSuperAdmin && !$isShared
-                ? User::when(!$isSuperAdmin, fn ($q) => $q->whereDoesntHave('roles', fn ($r) => $r->where('name', 'super-admin')))
+            'users' => $isAdminOrSuperAdmin && ! $isShared
+                ? User::when(! $isSuperAdmin, fn ($q) => $q->whereDoesntHave('roles', fn ($r) => $r->where('name', 'super-admin')))
                     ->orderBy('name')->get(['id', 'name'])
                 : [],
             // Folder Umum digabung ke File Manager: node "Folder Umum" selalu
@@ -245,7 +247,7 @@ class UserFileController extends Controller
 
     private function ensureCanReviewSharedFile(Request $request): void
     {
-        if (!$request->user()?->canViewAllOpd()) {
+        if (! $request->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat menyetujui/menolak file Folder Umum.');
         }
     }
@@ -254,7 +256,7 @@ class UserFileController extends Controller
     {
         $uploaderId = $media->getCustomProperty('uploader_id');
 
-        if (!$uploaderId) {
+        if (! $uploaderId) {
             return;
         }
 
@@ -277,7 +279,7 @@ class UserFileController extends Controller
             $media = User::sharedFolderOwner()->media()->where('id', $id)->firstOrFail();
 
             $isUploader = (int) $media->getCustomProperty('uploader_id') === $requester->id;
-            if (!$isUploader && !$requester->canViewAllOpd()) {
+            if (! $isUploader && ! $requester->canViewAllOpd()) {
                 abort(403, 'Hanya Admin/Super Admin atau pengunggah file ini yang dapat menghapusnya.');
             }
         } else {
@@ -288,7 +290,7 @@ class UserFileController extends Controller
             // Admin (bukan super-admin) tidak boleh menghapus file milik
             // super-admin — sama seperti pembatasan lihat folder di
             // ensureCanViewTargetUser().
-            if (!$requester->hasRole('super-admin') && $media->model instanceof User && $media->model->hasRole('super-admin') && $media->model->id !== $requester->id) {
+            if (! $requester->hasRole('super-admin') && $media->model instanceof User && $media->model->hasRole('super-admin') && $media->model->id !== $requester->id) {
                 abort(403, 'Admin tidak dapat menghapus file milik Super Admin.');
             }
         }

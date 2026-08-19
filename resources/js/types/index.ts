@@ -26,20 +26,20 @@ export interface Setting {
     logo?: string;
     warna?: string;
     seo?: {
-      title?: string;
-      description?: string;
-      keywords?: string;
+        title?: string;
+        description?: string;
+        keywords?: string;
     };
-  }
-  
-  export interface SharedData {
-      name: string;
-      quote: { message: string; author: string };
-      auth: Auth;
-      setting?: Setting;
-      unreadNotificationsCount?: number;
-      [key: string]: unknown;
-  }
+}
+
+export interface SharedData {
+    name: string;
+    quote: { message: string; author: string };
+    auth: Auth;
+    setting?: Setting;
+    unreadNotificationsCount?: number;
+    [key: string]: unknown;
+}
 
 export interface User {
     id: number;
@@ -60,5 +60,4 @@ export interface Permission {
     guard_name?: string;
     created_at?: string;
     updated_at?: string;
-  }
-  
+}

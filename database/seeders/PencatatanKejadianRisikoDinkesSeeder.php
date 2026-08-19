@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\IrsPd;
 use App\Models\IroPd;
+use App\Models\IrsPd;
 use App\Models\LaporanKejadianRisiko;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
@@ -40,7 +40,7 @@ class PencatatanKejadianRisikoDinkesSeeder extends Seeder
     public function run(): void
     {
         $opd = Opd::where('nama', 'DINAS KESEHATAN')->first();
-        if (!$opd) {
+        if (! $opd) {
             return;
         }
 
@@ -117,7 +117,7 @@ class PencatatanKejadianRisikoDinkesSeeder extends Seeder
         $risiko = IroPd::whereHas('user', fn ($q) => $q->where('opd_id', $opd->id))
             ->where('URAIAN RISIKO', 'Pelaksanaan pembangunan/penyediaan tidak sesuai spesifikasi')
             ->first();
-        if (!$risiko) {
+        if (! $risiko) {
             return;
         }
 

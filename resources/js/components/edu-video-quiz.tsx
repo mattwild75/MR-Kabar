@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { router } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
+import { router } from '@inertiajs/react';
+import { useState } from 'react';
 
 /**
  * Uji pemahaman singkat setelah menonton video edukasi.
@@ -24,16 +24,14 @@ const SOAL: Soal[] = [
         tanya: 'Siapa Penanggung Jawab Pengelolaan Risiko di pemerintah kabupaten?',
         pilihan: ['Inspektorat', 'Kepala Daerah', 'Sekretaris Daerah', 'PIC di masing-masing OPD'],
         benar: 1,
-        alasan:
-            'Kepala Daerah — tunggal dan tidak didelegasikan. Sekretaris Daerah adalah Koordinator Penyelenggaraan, sedangkan Inspektorat berperan sebagai Lini Ketiga yang mengevaluasi secara independen.',
+        alasan: 'Kepala Daerah — tunggal dan tidak didelegasikan. Sekretaris Daerah adalah Koordinator Penyelenggaraan, sedangkan Inspektorat berperan sebagai Lini Ketiga yang mengevaluasi secara independen.',
         bab: '3:02 — Siapa yang bertanggung jawab',
     },
     {
         tanya: '"Anggaran tidak mencukupi" — dalam kertas kerja, ini termasuk apa?',
         pilihan: ['Risiko', 'Penyebab', 'Dampak', 'Rencana Tindak Pengendalian'],
         benar: 1,
-        alasan:
-            'Itu penyebab. Rumusnya: karena PENYEBAB, mungkin terjadi RISIKO, sehingga menimbulkan DAMPAK. Risikonya bisa berupa "keterlambatan penyelesaian pekerjaan fisik".',
+        alasan: 'Itu penyebab. Rumusnya: karena PENYEBAB, mungkin terjadi RISIKO, sehingga menimbulkan DAMPAK. Risikonya bisa berupa "keterlambatan penyelesaian pekerjaan fisik".',
         bab: '12:09 — Menulis pernyataan risiko',
     },
     {
@@ -45,16 +43,14 @@ const SOAL: Soal[] = [
             'Mencetak Form 3a',
         ],
         benar: 1,
-        alasan:
-            'Tahap 1 adalah Identifikasi Kelemahan Lingkungan Pengendalian lewat CEE (Form 1a, 1b, 1c). Menilai risiko tanpa itu seperti memasang atap sebelum memeriksa pondasi.',
+        alasan: 'Tahap 1 adalah Identifikasi Kelemahan Lingkungan Pengendalian lewat CEE (Form 1a, 1b, 1c). Menilai risiko tanpa itu seperti memasang atap sebelum memeriksa pondasi.',
         bab: '9:05 — Tahap 1 (CEE)',
     },
     {
         tanya: 'Dampak 5 dan Kemungkinan 1 menghasilkan Skala Risiko berapa?',
         pilihan: ['5', '9', '20', '25'],
         benar: 2,
-        alasan:
-            'Dua puluh. Matriksnya BUKAN perkalian, melainkan peringkat 1–25 yang sengaja memberi bobot lebih besar pada dampak. Bandingkan: Dampak 1 × Kemungkinan 5 hanya menghasilkan 9.',
+        alasan: 'Dua puluh. Matriksnya BUKAN perkalian, melainkan peringkat 1–25 yang sengaja memberi bobot lebih besar pada dampak. Bandingkan: Dampak 1 × Kemungkinan 5 hanya menghasilkan 9.',
         bab: '15:29 — Matriks 5×5',
     },
     {
@@ -66,8 +62,7 @@ const SOAL: Soal[] = [
             'Tergantung Selera Risiko yang ditetapkan Pemerintah Daerah',
         ],
         benar: 3,
-        alasan:
-            'Batasnya bukan angka tetap. Selera Risiko ditetapkan Pemerintah Daerah sendiri di menu Keterangan Pendukung, lalu tergambar sebagai garis putus-putus pada matriks: semua yang di atas garis wajib punya RTP. Setelan Aceh Barat saat ini menerima sampai dengan tingkat Sedang — jadi untuk sekarang jawabannya Sangat Tinggi dan Tinggi, tetapi itu bisa berubah bila seleranya digeser.',
+        alasan: 'Batasnya bukan angka tetap. Selera Risiko ditetapkan Pemerintah Daerah sendiri di menu Keterangan Pendukung, lalu tergambar sebagai garis putus-putus pada matriks: semua yang di atas garis wajib punya RTP. Setelan Aceh Barat saat ini menerima sampai dengan tingkat Sedang — jadi untuk sekarang jawabannya Sangat Tinggi dan Tinggi, tetapi itu bisa berubah bila seleranya digeser.',
         bab: '15:29 — Matriks 5×5',
     },
 ];
@@ -106,8 +101,7 @@ export default function EduVideoQuiz() {
             <div>
                 <h4 className="text-base font-semibold">Uji pemahaman — 5 pertanyaan</h4>
                 <p className="text-muted-foreground text-sm">
-                    Jawab tanpa memutar ulang videonya. Pertanyaan yang gagal menunjukkan bagian mana yang perlu
-                    ditonton sekali lagi.
+                    Jawab tanpa memutar ulang videonya. Pertanyaan yang gagal menunjukkan bagian mana yang perlu ditonton sekali lagi.
                 </p>
             </div>
 
@@ -139,9 +133,7 @@ export default function EduVideoQuiz() {
                                             className="mt-1"
                                             checked={dipilih === k}
                                             disabled={dikoreksi}
-                                            onChange={() =>
-                                                setJawaban((a) => a.map((v, idx) => (idx === i ? k : v)))
-                                            }
+                                            onChange={() => setJawaban((a) => a.map((v, idx) => (idx === i ? k : v)))}
                                         />
                                         <span>{p}</span>
                                     </label>
@@ -150,8 +142,7 @@ export default function EduVideoQuiz() {
                         </div>
                         {dikoreksi && (
                             <p className="text-muted-foreground border-l-2 pl-3 text-xs leading-relaxed">
-                                {s.alasan}{' '}
-                                <span className="font-medium">Tonton ulang: {s.bab}</span>
+                                {s.alasan} <span className="font-medium">Tonton ulang: {s.bab}</span>
                             </p>
                         )}
                     </div>
@@ -174,14 +165,10 @@ export default function EduVideoQuiz() {
                             Benar {benar} dari {SOAL.length}
                         </span>
                         <span className="text-muted-foreground text-sm">
-                            {benar === SOAL.length
-                                ? 'Lengkap — silakan mulai mengisi Data Umum.'
-                                : 'Tonton ulang bagian yang ditandai di atas.'}
+                            {benar === SOAL.length ? 'Lengkap — silakan mulai mengisi Data Umum.' : 'Tonton ulang bagian yang ditandai di atas.'}
                         </span>
                         {terkirim ? (
-                            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">
-                                Jawaban terkirim — terima kasih.
-                            </span>
+                            <span className="text-sm font-medium text-emerald-600 dark:text-emerald-400">Jawaban terkirim — terima kasih.</span>
                         ) : (
                             <Button type="button" size="sm" disabled={mengirim} onClick={kirim}>
                                 {mengirim ? 'Mengirim…' : 'Kirim jawaban'}

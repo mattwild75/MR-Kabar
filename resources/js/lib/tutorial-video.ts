@@ -1,6 +1,6 @@
-import { usePage } from '@inertiajs/react';
 import type { EduVideoStems } from '@/components/edu-video-player';
 import BAB_BAWAAN from '@/data/tutorial-video-chapters.json';
+import { usePage } from '@inertiajs/react';
 
 /**
  * Berkas video TUTORIAL PENGISIAN bawaan.
@@ -62,11 +62,7 @@ export function useTutorialVideo() {
                   music: TUTORIAL_STEM_BAWAAN.music + v,
                   sfx: TUTORIAL_STEM_BAWAAN.sfx + v,
               }) as EduVideoStems | null,
-        vtt: subtitleUnggahan
-            ? `/storage/${subtitleUnggahan}`
-            : berkasSendiri
-              ? null
-              : TUTORIAL_VTT_BAWAAN + v,
+        vtt: subtitleUnggahan ? `/storage/${subtitleUnggahan}` : berkasSendiri ? null : TUTORIAL_VTT_BAWAAN + v,
         gains: {
             narration: setting?.tutorial_video_gain_narration ?? 100,
             music: setting?.tutorial_video_gain_music ?? 100,

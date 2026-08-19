@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
@@ -19,7 +20,7 @@ class UserController extends Controller
         // super-admin dianggap identitas sensitif (pemegang kendali akses
         // tertinggi), konsisten dengan pembatasan edit/hapus/reset password
         // yang sudah ada di bawah. Super-admin sendiri tetap melihat semua.
-        if (!$request->user()->hasRole('super-admin')) {
+        if (! $request->user()->hasRole('super-admin')) {
             $query->whereDoesntHave('roles', fn ($q) => $q->where('name', 'super-admin'));
         }
 
@@ -50,17 +51,17 @@ class UserController extends Controller
         $forbiddenRoles = $request->user()->hasRole('super-admin') ? [] : ['super-admin'];
 
         $validated = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
-            'email'    => ['nullable', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
-            'role'     => ['required', Rule::exists('roles', 'name'), Rule::notIn($forbiddenRoles)],
+            'role' => ['required', Rule::exists('roles', 'name'), Rule::notIn($forbiddenRoles)],
         ]);
 
         $user = User::create([
-            'name'     => $validated['name'],
+            'name' => $validated['name'],
             'username' => $validated['username'],
-            'email'    => $validated['email'] ?? null,
+            'email' => $validated['email'] ?? null,
             'password' => Hash::make($validated['password']),
         ]);
 
@@ -73,16 +74,16 @@ class UserController extends Controller
     {
         $this->authorize('manageUsers');
 
-        if (!$request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
+        if (! $request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
             abort(403, 'Anda tidak dapat mengubah user super-admin.');
         }
 
         $roles = Role::all();
 
         return Inertia::render('users/Form', [
-            'user'         => $user->only(['id', 'name', 'username', 'email']),
-            'roles'        => $roles,
-            'currentRole'  => $user->roles->pluck('name')->first(), // satu role saja
+            'user' => $user->only(['id', 'name', 'username', 'email']),
+            'roles' => $roles,
+            'currentRole' => $user->roles->pluck('name')->first(), // satu role saja
         ]);
     }
 
@@ -94,23 +95,23 @@ class UserController extends Controller
 
         // Admin biasa tidak boleh menjadikan user (termasuk dirinya) sebagai
         // super-admin, dan tidak boleh mengubah user yang sudah super-admin.
-        if (!$requester->hasRole('super-admin') && $user->hasRole('super-admin')) {
+        if (! $requester->hasRole('super-admin') && $user->hasRole('super-admin')) {
             abort(403, 'Anda tidak dapat mengubah user super-admin.');
         }
         $forbiddenRoles = $requester->hasRole('super-admin') ? [] : ['super-admin'];
 
         $validated = $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($user->id)],
-            'email'    => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
+            'email' => ['nullable', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:8'],
-            'role'     => ['required', Rule::exists('roles', 'name'), Rule::notIn($forbiddenRoles)],
+            'role' => ['required', Rule::exists('roles', 'name'), Rule::notIn($forbiddenRoles)],
         ]);
 
         $user->update([
-            'name'     => $validated['name'],
+            'name' => $validated['name'],
             'username' => $validated['username'],
-            'email'    => $validated['email'] ?? null,
+            'email' => $validated['email'] ?? null,
             'password' => $validated['password']
                 ? Hash::make($validated['password'])
                 : $user->password,
@@ -131,7 +132,7 @@ class UserController extends Controller
             abort(403, 'Anda tidak dapat menghapus akun sendiri.');
         }
 
-        if ($user->hasRole('super-admin') && !$requester->hasRole('super-admin')) {
+        if ($user->hasRole('super-admin') && ! $requester->hasRole('super-admin')) {
             abort(403, 'Anda tidak dapat menghapus super-admin.');
         }
 
@@ -144,11 +145,11 @@ class UserController extends Controller
     {
         $this->authorize('manageUsers');
 
-        if (!$request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
+        if (! $request->user()->hasRole('super-admin') && $user->hasRole('super-admin')) {
             abort(403, 'Anda tidak dapat mereset password super-admin.');
         }
 
-        $tempPassword = \Illuminate\Support\Str::random(12);
+        $tempPassword = Str::random(12);
         $user->update([
             'password' => Hash::make($tempPassword),
         ]);

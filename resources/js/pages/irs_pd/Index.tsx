@@ -1,54 +1,55 @@
-import AppLayout from '@/layouts/app-layout';
-import { useIsViewer } from '@/hooks/use-viewer';
-import { Head, router, useForm } from '@inertiajs/react';
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import AutocompleteSelect from '@/components/ui/autocomplete-select';
+import AutocompleteTextarea from '@/components/ui/autocomplete-textarea';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import CategorizedTextarea from '@/components/ui/categorized-textarea';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import ExistingControlToggleSection from '@/components/ui/existing-control-toggle-section';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
+import HighlightText from '@/components/ui/highlight-text';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import AutocompleteTextarea from '@/components/ui/autocomplete-textarea';
-import AutocompleteSelect from '@/components/ui/autocomplete-select';
-import FieldInfoPopover from '@/components/ui/field-info-popover';
-import ReferenceDialogTrigger from '@/components/ui/reference-dialog-trigger';
-import HighlightText from '@/components/ui/highlight-text';
-import RtpCategoryText from '@/components/ui/rtp-category-text';
-import SortableTh from '@/components/ui/sortable-th';
-import { useSortableRows } from '@/hooks/use-sortable-rows';
-import { useRowSearch } from '@/hooks/use-row-search';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { unggahTertunda } from '@/lib/bukti-tertunda';
-import { IRS_PD_FIELD_INFO } from '@/lib/irs-pd-field-info';
-import { C_UC_OPTIONS, PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS, RESPON_RISIKO_KATEGORI, penyebabKategoriSuffix, computeSumberSebabRisiko } from '@/lib/irs-reference-data';
-import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
-import ExistingControlToggleSection from '@/components/ui/existing-control-toggle-section';
-import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
-import RiskCascadeInfo from '@/components/ui/risk-cascade-info';
-import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
 import OpdFillStatusPanel from '@/components/ui/opd-fill-status-panel';
-import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
 import OpdPicker, { type OpdOption } from '@/components/ui/opd-picker';
 import PeriodeTahunPicker from '@/components/ui/periode-tahun-picker';
+import ReferenceDialogTrigger from '@/components/ui/reference-dialog-trigger';
+import RiskCascadeInfo from '@/components/ui/risk-cascade-info';
+import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
+import RtpCategoryText from '@/components/ui/rtp-category-text';
+import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section';
+import SortableTh from '@/components/ui/sortable-th';
+import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
+import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
+import { useRowSearch } from '@/hooks/use-row-search';
+import { useSortableRows } from '@/hooks/use-sortable-rows';
+import { useIsViewer } from '@/hooks/use-viewer';
+import AppLayout from '@/layouts/app-layout';
+import { unggahTertunda } from '@/lib/bukti-tertunda';
+import { IRS_PD_FIELD_INFO } from '@/lib/irs-pd-field-info';
+import {
+    C_UC_OPTIONS,
+    PENYEBAB_5M_KATEGORI,
+    PENYEBAB_GROUP_LABELS,
+    RESPON_RISIKO_KATEGORI,
+    computeSumberSebabRisiko,
+    penyebabKategoriSuffix,
+} from '@/lib/irs-reference-data';
 import { canManageRow } from '@/lib/ownership';
 import { riskLevelClassNameWithHover } from '@/lib/risk-level';
-import { Plus, Edit, Trash2, Search, X, ChevronUp, ChevronDown, Grid3x3 } from 'lucide-react';
-import RiskMatrixPickerDialog from '@/components/ui/risk-matrix-picker-dialog';
+import { Head, router, useForm } from '@inertiajs/react';
+import { ChevronDown, ChevronUp, Edit, Grid3x3, Plus, Search, Trash2, X } from 'lucide-react';
 import { Fragment, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -56,1023 +57,1131 @@ import { toast } from 'sonner';
 // per kelompok Sasaran Renstra, bukan diinput manual. Sama pola dengan
 // irs/Index.tsx (IRS_Pemda), field pertama diganti ke Sasaran Renstra.
 const FIELDS = [
-  'SASARAN RENSTRA',
-  'URAIAN RISIKO',
-  'TAHUN DINILAI RISIKO',
-  'JENIS RISIKO',
-  'ENTITAS PD YANG MENILAI',
-  'PEMILIK RISIKO',
-  'URAIAN PENYEBAB RISIKO',
-  'SUMBER SEBAB RISIKO',
-  'C / UC',
-  'URAIAN DAMPAK RISIKO',
-  'PIHAK YANG TERKENA DAMPAK RISIKO',
-  'URAIAN PENGENDALIAN YANG SUDAH ADA',
-  'KATEGORI EXISTING CONTROL',
-  'CELAH PENGENDALIAN',
-  'RENCANA TINDAK PENGENDALIAN',
-  'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN',
-  'PENANGGUNG JAWAB PENGENDALIAN',
-  'TRIWULAN',
-  'TAHUN TARGET PENYELESAIAN',
+    'SASARAN RENSTRA',
+    'URAIAN RISIKO',
+    'TAHUN DINILAI RISIKO',
+    'JENIS RISIKO',
+    'ENTITAS PD YANG MENILAI',
+    'PEMILIK RISIKO',
+    'URAIAN PENYEBAB RISIKO',
+    'SUMBER SEBAB RISIKO',
+    'C / UC',
+    'URAIAN DAMPAK RISIKO',
+    'PIHAK YANG TERKENA DAMPAK RISIKO',
+    'URAIAN PENGENDALIAN YANG SUDAH ADA',
+    'KATEGORI EXISTING CONTROL',
+    'CELAH PENGENDALIAN',
+    'RENCANA TINDAK PENGENDALIAN',
+    'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN',
+    'PENANGGUNG JAWAB PENGENDALIAN',
+    'TRIWULAN',
+    'TAHUN TARGET PENYELESAIAN',
 ] as const;
 
 type FieldName = (typeof FIELDS)[number];
 
 interface IrsRow {
-  id: number;
-  [key: string]: string | number | null;
+    id: number;
+    [key: string]: string | number | null;
 }
 
 interface KriteriaDampakRow {
-  level: number;
-  label: string | null;
-  kerugian_negara: string | null;
-  penurunan_reputasi: string | null;
-  penurunan_kinerja: string | null;
-  gangguan_pelayanan: string | null;
-  tuntutan_hukum: string | null;
+    level: number;
+    label: string | null;
+    kerugian_negara: string | null;
+    penurunan_reputasi: string | null;
+    penurunan_kinerja: string | null;
+    gangguan_pelayanan: string | null;
+    tuntutan_hukum: string | null;
 }
 
 interface KriteriaKemungkinanRow {
-  level: number;
-  nama: string;
-  probabilitas: string | null;
-  frekuensi: string | null;
-  toleransi: string | null;
+    level: number;
+    nama: string;
+    probabilitas: string | null;
+    frekuensi: string | null;
+    toleransi: string | null;
 }
 
 interface MatrixCell {
-  dampak: number;
-  kemungkinan: number;
-  skala_risiko: number | null;
-  warna_class: string;
+    dampak: number;
+    kemungkinan: number;
+    skala_risiko: number | null;
+    warna_class: string;
 }
 
 interface RiskLevelRow {
-  label: string;
-  skala_min: number;
-  skala_max: number;
-  warna_class: string;
+    label: string;
+    skala_min: number;
+    skala_max: number;
+    warna_class: string;
 }
 
 interface RiskReference {
-  kriteriaDampak: KriteriaDampakRow[];
-  kriteriaKemungkinan: KriteriaKemungkinanRow[];
-  matriksRisiko: {
-    dampakLabels: string[];
-    kemungkinanLabels: string[];
-    cells: MatrixCell[];
-  };
-  riskLevels: RiskLevelRow[];
+    kriteriaDampak: KriteriaDampakRow[];
+    kriteriaKemungkinan: KriteriaKemungkinanRow[];
+    matriksRisiko: {
+        dampakLabels: string[];
+        kemungkinanLabels: string[];
+        cells: MatrixCell[];
+    };
+    riskLevels: RiskLevelRow[];
 }
 
 interface PageProps {
-  rows: IrsRow[];
-  fieldOptions: Record<string, string[]>;
-  opdOptions: string[];
-  opdList: { id: number; nama: string }[];
-  opdFillStatus: Record<number, { jumlah_baris: number; sudah_mulai: boolean }>;
-  jenisRisikoOptions: string[];
-  entitasPenilaiOptions: string[];
-  riskReference: RiskReference;
-  triwulanOptions: string[];
-  triwulanLabels: Record<string, string>;
-  sasaranRenstraKodes: Record<string, string>;
-  currentUserId: number | null;
-  isAdmin: boolean;
-  currentUserOpdNama: string | null;
-  tahunAktif: string | number;
-  tahun: number | null;
-  tahunOptions: number[];
-  opdId: number | null;
-  opdSaringanOptions: OpdOption[];
+    rows: IrsRow[];
+    fieldOptions: Record<string, string[]>;
+    opdOptions: string[];
+    opdList: { id: number; nama: string }[];
+    opdFillStatus: Record<number, { jumlah_baris: number; sudah_mulai: boolean }>;
+    jenisRisikoOptions: string[];
+    entitasPenilaiOptions: string[];
+    riskReference: RiskReference;
+    triwulanOptions: string[];
+    triwulanLabels: Record<string, string>;
+    sasaranRenstraKodes: Record<string, string>;
+    currentUserId: number | null;
+    isAdmin: boolean;
+    currentUserOpdNama: string | null;
+    tahunAktif: string | number;
+    tahun: number | null;
+    tahunOptions: number[];
+    opdId: number | null;
+    opdSaringanOptions: OpdOption[];
 }
 
 const EXTRA_SCALE_FIELDS = [
-  'SKALA DAMPAK',
-  'SKALA KEMUNGKINAN',
-  'SKALA DAMPAK INHEREN',
-  'SKALA KEMUNGKINAN INHEREN',
-  'KATEGORI PROYEKSI RTP',
-  'SKALA DAMPAK TARGET',
-  'SKALA KEMUNGKINAN TARGET',
+    'SKALA DAMPAK',
+    'SKALA KEMUNGKINAN',
+    'SKALA DAMPAK INHEREN',
+    'SKALA KEMUNGKINAN INHEREN',
+    'KATEGORI PROYEKSI RTP',
+    'SKALA DAMPAK TARGET',
+    'SKALA KEMUNGKINAN TARGET',
 ] as const;
 
 type FormData = Record<FieldName, string> & Record<(typeof EXTRA_SCALE_FIELDS)[number], string>;
 
 const emptyForm = (): FormData => {
-  const obj = {} as FormData;
-  FIELDS.forEach((f) => (obj[f] = ''));
-  EXTRA_SCALE_FIELDS.forEach((f) => (obj[f] = ''));
-  return obj;
+    const obj = {} as FormData;
+    FIELDS.forEach((f) => (obj[f] = ''));
+    EXTRA_SCALE_FIELDS.forEach((f) => (obj[f] = ''));
+    return obj;
 };
 
 // Logika lookup band diekstrak ke @/lib/risk-level.ts (SEBELUMNYA
 // diduplikasi persis di ~10 file — irs/iro_pd/dashboard/dst).
 const skalaBadgeClass = riskLevelClassNameWithHover;
 
-export default function IrsPdIndex({ rows, fieldOptions, opdOptions, opdList, opdFillStatus, jenisRisikoOptions, entitasPenilaiOptions, riskReference, triwulanOptions, triwulanLabels, sasaranRenstraKodes, currentUserId, isAdmin, currentUserOpdNama, tahunAktif, tahun, tahunOptions, opdId, opdSaringanOptions }: PageProps) {
-  const isViewer = useIsViewer();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [editing, setEditing] = useState<IrsRow | null>(null);
-  const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
-  const [matrixPickerOpen, setMatrixPickerOpen] = useState(false);
-  const [existingControlStatus, setExistingControlStatus] = useState<'ya' | 'tidak' | null>(null);
-  // true saat form dibuka dari tombol "Input ke Register Risiko" di Rekap
-  // Lapor Kejadian — Sumber Sebab & C/UC TIDAK ikut ter-prefill (butuh
-  // penilaian manual petugas), banner mengingatkan supaya tidak terlewat.
-  const [prefillFromLaporan, setPrefillFromLaporan] = useState(false);
+export default function IrsPdIndex({
+    rows,
+    fieldOptions,
+    opdOptions,
+    opdList,
+    opdFillStatus,
+    jenisRisikoOptions,
+    entitasPenilaiOptions,
+    riskReference,
+    triwulanOptions,
+    triwulanLabels,
+    sasaranRenstraKodes,
+    currentUserId,
+    isAdmin,
+    currentUserOpdNama,
+    tahunAktif,
+    tahun,
+    tahunOptions,
+    opdId,
+    opdSaringanOptions,
+}: PageProps) {
+    const isViewer = useIsViewer();
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [editing, setEditing] = useState<IrsRow | null>(null);
+    const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
+    const [matrixPickerOpen, setMatrixPickerOpen] = useState(false);
+    const [existingControlStatus, setExistingControlStatus] = useState<'ya' | 'tidak' | null>(null);
+    // true saat form dibuka dari tombol "Input ke Register Risiko" di Rekap
+    // Lapor Kejadian — Sumber Sebab & C/UC TIDAK ikut ter-prefill (butuh
+    // penilaian manual petugas), banner mengingatkan supaya tidak terlewat.
+    const [prefillFromLaporan, setPrefillFromLaporan] = useState(false);
 
-  const { data, setData, post, put, processing, reset, errors } = useForm<FormData>(emptyForm());
+    const { data, setData, post, put, processing, reset, errors } = useForm<FormData>(emptyForm());
 
-  const {
-    searchInput,
-    setSearchInput,
-    activeQuery,
-    matches,
-    matchedFieldsByRow,
-    currentMatchIndex,
-    currentMatchId,
-    registerRowRef,
-    runSearch,
-    searchFor,
-    highlightRow,
-    jumpToMatch,
-    clearSearch,
-    handleKeyDown,
-  } = useRowSearch(rows, [...FIELDS, 'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO', 'SKALA PRIORITAS', 'NOMOR URUT RISIKO']);
+    const {
+        searchInput,
+        setSearchInput,
+        activeQuery,
+        matches,
+        matchedFieldsByRow,
+        currentMatchIndex,
+        currentMatchId,
+        registerRowRef,
+        runSearch,
+        searchFor,
+        highlightRow,
+        jumpToMatch,
+        clearSearch,
+        handleKeyDown,
+    } = useRowSearch(rows, [...FIELDS, 'SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA RISIKO', 'SKALA PRIORITAS', 'NOMOR URUT RISIKO']);
 
-  // Dibuka dari widget rincian risiko Dashboard (tombol "Buka Daftar",
-  // ?highlight_id={id}) — langsung scroll+sorot baris tujuan tanpa perlu
-  // mengetik apapun di kolom pencarian, sama pola dgn hasil pencarian teks.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const highlightId = params.get('highlight_id');
-    if (highlightId) {
-      highlightRow(Number(highlightId));
-      // Bersihkan highlight_id dari URL (sama pola dgn prefill_uraian_risiko
-      // di bawah) supaya refresh halaman tidak memicu sorot ulang.
-      params.delete('highlight_id');
-      const qs = params.toString();
-      window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : ''));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    // Dibuka dari widget rincian risiko Dashboard (tombol "Buka Daftar",
+    // ?highlight_id={id}) — langsung scroll+sorot baris tujuan tanpa perlu
+    // mengetik apapun di kolom pencarian, sama pola dgn hasil pencarian teks.
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const highlightId = params.get('highlight_id');
+        if (highlightId) {
+            highlightRow(Number(highlightId));
+            // Bersihkan highlight_id dari URL (sama pola dgn prefill_uraian_risiko
+            // di bawah) supaya refresh halaman tidak memicu sorot ulang.
+            params.delete('highlight_id');
+            const qs = params.toString();
+            window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : ''));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  const { sortedRows, sortField, sortDirection, toggleSort } = useSortableRows(rows);
+    const { sortedRows, sortField, sortDirection, toggleSort } = useSortableRows(rows);
 
-  const VISIBLE_COLUMNS = new Set(['SASARAN RENSTRA', 'URAIAN RISIKO', 'JENIS RISIKO', 'ENTITAS PD YANG MENILAI', 'PEMILIK RISIKO', 'RENCANA TINDAK PENGENDALIAN', 'PENANGGUNG JAWAB PENGENDALIAN', 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN']);
+    const VISIBLE_COLUMNS = new Set([
+        'SASARAN RENSTRA',
+        'URAIAN RISIKO',
+        'JENIS RISIKO',
+        'ENTITAS PD YANG MENILAI',
+        'PEMILIK RISIKO',
+        'RENCANA TINDAK PENGENDALIAN',
+        'PENANGGUNG JAWAB PENGENDALIAN',
+        'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN',
+    ]);
 
-  const openCreate = () => {
-    setEditing(null);
-    setPrefillFromLaporan(false);
-    reset();
-    const values = emptyForm();
-    if (currentUserOpdNama) {
-      values['ENTITAS PD YANG MENILAI'] = currentUserOpdNama;
-    }
-    values['TAHUN DINILAI RISIKO'] = String(tahunAktif);
-    setData(values);
-    setDialogOpen(true);
-  };
+    const openCreate = () => {
+        setEditing(null);
+        setPrefillFromLaporan(false);
+        reset();
+        const values = emptyForm();
+        if (currentUserOpdNama) {
+            values['ENTITAS PD YANG MENILAI'] = currentUserOpdNama;
+        }
+        values['TAHUN DINILAI RISIKO'] = String(tahunAktif);
+        setData(values);
+        setDialogOpen(true);
+    };
 
-  // Prefill dari tombol "Input ke Register Risiko" di Rekap Lapor Kejadian
-  // Risiko (lihat lapor-kejadian/Rekap.tsx) — dibaca sekali saat mount, lalu
-  // query string dibersihkan dari URL supaya tidak ter-prefill ulang kalau
-  // halaman di-refresh manual.
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const uraian = params.get('prefill_uraian_risiko');
-    if (!uraian) return;
+    // Prefill dari tombol "Input ke Register Risiko" di Rekap Lapor Kejadian
+    // Risiko (lihat lapor-kejadian/Rekap.tsx) — dibaca sekali saat mount, lalu
+    // query string dibersihkan dari URL supaya tidak ter-prefill ulang kalau
+    // halaman di-refresh manual.
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const uraian = params.get('prefill_uraian_risiko');
+        if (!uraian) return;
 
-    openCreate();
-    setData((prev) => ({
-      ...prev,
-      'URAIAN RISIKO': uraian,
-      'URAIAN PENYEBAB RISIKO': params.get('prefill_penyebab_risiko') ?? '',
-      'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN': params.get('prefill_opd') ?? '',
-    }));
-    setPrefillFromLaporan(true);
+        openCreate();
+        setData((prev) => ({
+            ...prev,
+            'URAIAN RISIKO': uraian,
+            'URAIAN PENYEBAB RISIKO': params.get('prefill_penyebab_risiko') ?? '',
+            'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN': params.get('prefill_opd') ?? '',
+        }));
+        setPrefillFromLaporan(true);
 
-    window.history.replaceState({}, '', window.location.pathname);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        window.history.replaceState({}, '', window.location.pathname);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-  const openEdit = (row: IrsRow) => {
-    setPrefillFromLaporan(false);
-    setEditing(row);
-    const values = emptyForm();
-    FIELDS.forEach((f) => (values[f] = (row[f] as string) ?? ''));
-    EXTRA_SCALE_FIELDS.forEach((f) => (values[f] = row[f] != null ? String(row[f]) : ''));
-    setData(values);
-    setDialogOpen(true);
-  };
+    const openEdit = (row: IrsRow) => {
+        setPrefillFromLaporan(false);
+        setEditing(row);
+        const values = emptyForm();
+        FIELDS.forEach((f) => (values[f] = (row[f] as string) ?? ''));
+        EXTRA_SCALE_FIELDS.forEach((f) => (values[f] = row[f] != null ? String(row[f]) : ''));
+        setData(values);
+        setDialogOpen(true);
+    };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+    const handleSubmit = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
 
-    if (editing) {
-      put(`/irs_pd/${editing.id}`, {
-        onSuccess: () => {
-          toast.success('Data berhasil diperbarui.');
-          setDialogOpen(false);
-        },
-        onError: () => toast.error('Gagal memperbarui data.'),
-      });
-    } else {
-      post('/irs_pd', {
-        onSuccess: (halaman) => {
-          toast.success('Data berhasil ditambahkan.');
-          setDialogOpen(false);
-          // Bukti dukung yang tadi dipilih sebelum barisnya ada, kini punya
-          // nomor baris untuk ditempelkan - jadi terunggah sendiri, tanpa
-          // pengisinya perlu membuka barisnya lagi.
-          unggahTertunda('irs_pd', (halaman?.props as { flash?: { createdRiskId?: number } })?.flash?.createdRiskId);
-        },
-        onError: () => toast.error('Gagal menambahkan data.'),
-      });
-    }
-  };
+        if (editing) {
+            put(`/irs_pd/${editing.id}`, {
+                onSuccess: () => {
+                    toast.success('Data berhasil diperbarui.');
+                    setDialogOpen(false);
+                },
+                onError: () => toast.error('Gagal memperbarui data.'),
+            });
+        } else {
+            post('/irs_pd', {
+                onSuccess: (halaman) => {
+                    toast.success('Data berhasil ditambahkan.');
+                    setDialogOpen(false);
+                    // Bukti dukung yang tadi dipilih sebelum barisnya ada, kini punya
+                    // nomor baris untuk ditempelkan - jadi terunggah sendiri, tanpa
+                    // pengisinya perlu membuka barisnya lagi.
+                    unggahTertunda('irs_pd', (halaman?.props as { flash?: { createdRiskId?: number } })?.flash?.createdRiskId);
+                },
+                onError: () => toast.error('Gagal menambahkan data.'),
+            });
+        }
+    };
 
-  const handleDelete = (id: number) => {
-    router.delete(`/irs_pd/${id}`, {
-      onSuccess: () => toast.success('Data berhasil dihapus.'),
-      onError: () => toast.error('Gagal menghapus data.'),
-    });
-  };
+    const handleDelete = (id: number) => {
+        router.delete(`/irs_pd/${id}`, {
+            onSuccess: () => toast.success('Data berhasil dihapus.'),
+            onError: () => toast.error('Gagal menghapus data.'),
+        });
+    };
 
-  return (
-    <AppLayout>
-      <Head title="II_b_IRS_PD" />
+    return (
+        <AppLayout>
+            <Head title="II_b_IRS_PD" />
 
-      <div className="space-y-4 p-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold">II_b_IRS_PD</h1>
-            <p className="text-sm text-muted-foreground">
-              Identifikasi Risiko Strategis Perangkat Daerah — analisis risiko terhadap pencapaian Sasaran Renstra.
-            </p>
-            <div className="mt-2">
-              <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
-              {/* Penunjuk di kiri menetapkan tahun BAWAAN untuk baris baru;
+            <div className="space-y-4 p-4">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl font-semibold">II_b_IRS_PD</h1>
+                        <p className="text-muted-foreground text-sm">
+                            Identifikasi Risiko Strategis Perangkat Daerah — analisis risiko terhadap pencapaian Sasaran Renstra.
+                        </p>
+                        <div className="mt-2">
+                            <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
+                            {/* Penunjuk di kiri menetapkan tahun BAWAAN untuk baris baru;
                   pemilih di kanan menentukan tahun mana yang sedang DILIHAT.
                   Keduanya sengaja terpisah: melihat tahun lalu tidak boleh
                   ikut mengubah tahun aktif seluruh Pemda. */}
-              <OpdPicker
-                routeName="/irs_pd"
-                options={opdSaringanOptions}
-                nilai={opdId}
-                tambahan={{ tahun: tahun ?? 'semua' }}
-              />
-              <PeriodeTahunPicker
-                routeName="/irs_pd"
-                jenis="tahun"
-                options={tahunOptions}
-                nilai={tahun}
-                tambahan={{ opd_id: opdId ?? 'semua' }}
-              />
-            </div>
-          </div>
-          <Button onClick={openCreate}>
-            <Plus className="mr-2 h-4 w-4" />
-            Tambah Data
-          </Button>
-        </div>
-
-        <RiskCascadeInfo />
-        <StrukturPengelolaanRisikoInfo />
-
-        {isAdmin && (
-          <OpdFillStatusPanel
-            opdOptions={opdList}
-            opdStatus={opdFillStatus}
-            onSelect={searchFor}
-            selectedOpdNama={searchInput}
-          />
-        )}
-
-        <div className="flex items-center gap-2">
-          <div className="relative max-w-md flex-1">
-            <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Cari di semua kolom data risiko... (Enter untuk cari/lanjut)"
-              className="pr-9 pl-9"
-            />
-            {searchInput && (
-              <button
-                type="button"
-                onClick={clearSearch}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            )}
-          </div>
-          <Button type="button" onClick={runSearch}>
-            Cari
-          </Button>
-          {activeQuery && matches.length > 0 && (
-            <div className="flex items-center gap-1">
-              <span className="mr-1 text-sm text-muted-foreground whitespace-nowrap">
-                {currentMatchIndex + 1} / {matches.length}
-              </span>
-              <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex - 1)}>
-                <ChevronUp className="h-4 w-4" />
-              </Button>
-              <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex + 1)}>
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-        </div>
-        {activeQuery && (
-          <p className="text-sm text-muted-foreground">
-            {matches.length > 0 ? `Ditemukan ${matches.length} hasil untuk "${activeQuery}".` : `Tidak ada hasil untuk "${activeQuery}".`}
-          </p>
-        )}
-
-        <div className="max-h-[70vh] overflow-auto rounded-md border">
-          <table className="min-w-full text-sm">
-            <thead className="sticky top-0 z-10 bg-muted">
-              <tr>
-                <th className="border px-3 py-2 text-center font-semibold whitespace-nowrap">No</th>
-                <SortableTh field="SASARAN RENSTRA" label="Sasaran Renstra" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="URAIAN RISIKO" label="Uraian Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="TAHUN DINILAI RISIKO" label="Tahun" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="JENIS RISIKO" label="Jenis Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="ENTITAS PD YANG MENILAI" label="Entitas PD yang Menilai" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
-                <SortableTh field="PEMILIK RISIKO" label="Pemilik Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="SKALA RISIKO" label="Skala Risiko" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="SKALA PRIORITAS" label="Prioritas" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="RENCANA TINDAK PENGENDALIAN" label="RTP" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
-                <SortableTh field="PENANGGUNG JAWAB PENGENDALIAN" label="Penanggung Jawab Pengendalian" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
-                <SortableTh field="UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN" label="Unit/OPD Penanggung Jawab" activeField={sortField} direction={sortDirection} onSort={toggleSort} className="whitespace-normal max-w-[10rem]" />
-                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedRows.length > 0 ? (
-                sortedRows.map((row) => {
-                  const skalaRisiko = row['SKALA RISIKO'] != null ? Number(row['SKALA RISIKO']) : null;
-                  const isCurrent = currentMatchId === row.id;
-                  const hiddenFieldMatches = (matchedFieldsByRow.get(row.id) ?? []).filter((m) => !VISIBLE_COLUMNS.has(m.field));
-                  return (
-                    <Fragment key={row.id}>
-                    <tr
-                      ref={(el) => registerRowRef(row.id, el)}
-                      className={`border-t hover:bg-muted/10 ${isCurrent ? 'ring-2 ring-inset ring-orange-500' : ''}`}
-                    >
-                      <td className="border px-3 py-2 align-top text-center">{row['NOMOR URUT RISIKO'] ?? '-'}</td>
-                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
-                        {sasaranRenstraKodes[String(row['SASARAN RENSTRA'] ?? '')] && (
-                          <p className="mb-0.5 text-xs font-medium text-muted-foreground">
-                            Kode: {sasaranRenstraKodes[String(row['SASARAN RENSTRA'] ?? '')]}
-                          </p>
-                        )}
-                        <HighlightText text={String(row['SASARAN RENSTRA'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
-                        <HighlightText text={String(row['URAIAN RISIKO'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top text-center whitespace-nowrap">{row['TAHUN DINILAI RISIKO'] ?? '-'}</td>
-                      <td className="border px-3 py-2 align-top">
-                        <HighlightText text={String(row['JENIS RISIKO'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top">
-                        <HighlightText text={String(row['ENTITAS PD YANG MENILAI'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top">
-                        <HighlightText text={String(row['PEMILIK RISIKO'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top text-center">
-                        <Badge className={skalaBadgeClass(skalaRisiko, riskReference.riskLevels)}>{skalaRisiko ?? '-'}</Badge>
-                      </td>
-                      <td className="border px-3 py-2 align-top text-center">{row['SKALA PRIORITAS'] ?? '-'}</td>
-                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
-                        <RtpCategoryText text={String(row['RENCANA TINDAK PENGENDALIAN'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
-                        <HighlightText text={String(row['PENANGGUNG JAWAB PENGENDALIAN'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top whitespace-normal max-w-xs">
-                        <HighlightText text={String(row['UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN'] ?? '-')} query={activeQuery} />
-                      </td>
-                      <td className="border px-3 py-2 align-top">
-                        {canManageRow(row.user_id as number | null, currentUserId, isAdmin) ? (
-                          <div className="flex gap-1">
-                            <Button variant="ghost" size="icon" onClick={() => openEdit(row)}>
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Hapus data risiko ini?</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    Data risiko "{row['URAIAN RISIKO'] ?? '-'}" akan dihapus permanen.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Batal</AlertDialogCancel>
-                                  <AlertDialogAction
-                                    onClick={() => handleDelete(row.id)}
-                                    className="bg-destructive hover:bg-destructive/90"
-                                  >
-                                    Hapus
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
-                          </div>
-                        ) : (
-                          <span className="text-xs text-muted-foreground">Milik PIC lain</span>
-                        )}
-                      </td>
-                    </tr>
-                    {hiddenFieldMatches.length > 0 && (
-                      <tr className={isCurrent ? 'ring-2 ring-inset ring-orange-500' : ''}>
-                        <td colSpan={12} className="border-x border-b bg-orange-50 px-3 py-2 text-xs dark:bg-orange-950/20">
-                          {hiddenFieldMatches.map((m) => (
-                            <div key={m.field} className="flex flex-wrap items-baseline gap-1">
-                              <span className="font-semibold text-muted-foreground">Ditemukan di {m.field}:</span>
-                              <span className="whitespace-normal">
-                                <HighlightText text={m.snippet} query={activeQuery} />
-                              </span>
-                            </div>
-                          ))}
-                        </td>
-                      </tr>
-                    )}
-                    </Fragment>
-                  );
-                })
-              ) : (
-                <tr>
-                  <td colSpan={12} className="p-4 text-center text-sm text-muted-foreground">
-                    Tidak ada data.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Dialog Tambah/Edit Data */}
-      <Dialog open={dialogOpen} onOpenChange={(open) => open && setDialogOpen(true)}>
-        <DialogContent
-          className="max-h-[90vh] max-w-2xl overflow-y-auto"
-          hideClose
-          onPointerDownOutside={(e) => e.preventDefault()}
-          onEscapeKeyDown={(e) => e.preventDefault()}
-        >
-          <DialogHeader>
-            <DialogTitle>
-              {isViewer ? 'Detail Data Risiko' : editing ? 'Edit Data Risiko' : 'Tambah Data Risiko'}
-            </DialogTitle>
-          </DialogHeader>
-
-          <form onSubmit={handleSubmit} className="space-y-4 [&>div]:border-b [&>div]:border-border/50 [&>div]:pb-4 [&>div:last-child]:border-b-0 [&>div:last-child]:pb-0">
-            {prefillFromLaporan && (
-              <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-                Data ini diambil dari laporan warga — Uraian Risiko, Penyebab (7M+1E), dan OPD sudah terisi otomatis.
-                Lengkapi juga <strong>Sumber Sebab Risiko</strong> (Internal/Eksternal) dan <strong>C / UC</strong> di bawah
-                sebelum menyimpan — keduanya tidak dapat ditebak dari laporan warga dan butuh penilaian Anda.
-              </p>
-            )}
-            {FIELDS.map((field) => {
-              const info = IRS_PD_FIELD_INFO[field];
-              const value = data[field];
-
-              if (field === 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN') {
-                return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
+                            <OpdPicker routeName="/irs_pd" options={opdSaringanOptions} nilai={opdId} tambahan={{ tahun: tahun ?? 'semua' }} />
+                            <PeriodeTahunPicker
+                                routeName="/irs_pd"
+                                jenis="tahun"
+                                options={tahunOptions}
+                                nilai={tahun}
+                                tambahan={{ opd_id: opdId ?? 'semua' }}
+                            />
+                        </div>
                     </div>
-                    <AutocompleteSelect value={value} onChange={(val) => setData(field, val)} options={opdOptions} placeholder="Pilih OPD" />
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                  </div>
-                );
-              }
-
-              if (field === 'PENANGGUNG JAWAB PENGENDALIAN') {
-                return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <AutocompleteTextarea
-                      id={field}
-                      value={value}
-                      onChange={(val) => setData(field, val)}
-                      options={fieldOptions[field] ?? []}
-                      rows={1}
-                    />
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                  </div>
-                );
-              }
-
-              if (field === 'JENIS RISIKO') {
-                return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                      <ReferenceDialogTrigger label="Lihat daftar Jenis Risiko" onClick={() => setRefDialog('jenis')} />
-                    </div>
-                    <AutocompleteSelect
-                      value={value}
-                      onChange={(val) => setData(field, val)}
-                      options={jenisRisikoOptions}
-                      placeholder="Pilih Jenis Risiko"
-                      dropdownClassName="w-[32rem] max-w-[90vw]"
-                    />
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                  </div>
-                );
-              }
-
-              if (field === 'ENTITAS PD YANG MENILAI') {
-                return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                      <ReferenceDialogTrigger label="Lihat daftar Entitas Penilai Risiko" onClick={() => setRefDialog('entitas')} />
-                    </div>
-                    <AutocompleteSelect
-                      value={value}
-                      onChange={(val) => setData(field, val)}
-                      options={entitasPenilaiOptions}
-                      placeholder="Pilih Entitas"
-                      dropdownClassName="w-[32rem] max-w-[90vw]"
-                    />
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                  </div>
-                );
-              }
-
-              if (field === 'URAIAN PENYEBAB RISIKO') {
-                return (
-                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                    <div className="flex items-start gap-1.5 pt-2">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <div>
-                      <MultiCategoryTextarea
-                        id={field}
-                        value={value}
-                        onChange={(val) => {
-                          setData(field, val);
-                          setData('SUMBER SEBAB RISIKO', computeSumberSebabRisiko(val));
-                        }}
-                        categories={PENYEBAB_5M_KATEGORI}
-                        groupLabels={PENYEBAB_GROUP_LABELS}
-                        categorySuffix={penyebabKategoriSuffix}
-                        uraianPlaceholder="Uraian penyebab..."
-                      />
-                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                    </div>
-                  </div>
-                );
-              }
-
-              // SUMBER SEBAB RISIKO tidak lagi diisi manual — dihitung
-              // otomatis dari kategori Internal(7M+1E)/Eksternal(PESTLE) yg
-              // dicentang di URAIAN PENYEBAB RISIKO (lihat computeSumberSebabRisiko).
-              if (field === 'SUMBER SEBAB RISIKO') {
-                return null;
-              }
-
-              if (field === 'C / UC') {
-                return (
-                  <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                    <div className="flex items-center gap-1.5 pt-2">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <div>
-                      <CategorizedTextarea
-                        id={field}
-                        value={value}
-                        onChange={(val) => setData(field, val)}
-                        categories={C_UC_OPTIONS}
-                        hideUraian
-                      />
-                      {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                    </div>
-                  </div>
-                );
-              }
-
-              if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
-                return (
-                  <ExistingControlToggleSection
-                    key="existing-control-toggle"
-                    data={data}
-                    setData={setData}
-                    errors={errors}
-                    info={IRS_PD_FIELD_INFO}
-                    fieldOptions={fieldOptions}
-                    evidenceType="irs_pd"
-                    rowId={editing?.id ?? null}
-                    isNewRow={!editing}
-                    onToggleChange={setExistingControlStatus}
-                  />
-                );
-              }
-
-              if (field === 'KATEGORI EXISTING CONTROL' || field === 'CELAH PENGENDALIAN') {
-                return null;
-              }
-
-              if (field === 'RENCANA TINDAK PENGENDALIAN') {
-                return (
-                  <div key={field} className="space-y-2">
-                    <div className="flex flex-col items-end gap-1">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        size="sm"
-                        disabled={existingControlStatus === null}
-                        onClick={() => setMatrixPickerOpen(true)}
-                      >
-                        <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
-                        Isi Nilai Risiko
-                      </Button>
-                      {existingControlStatus === null && (
-                        <p className="text-xs text-muted-foreground">
-                          Pilih dulu "Apakah sudah ada Existing Control?" di atas.
-                        </p>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                      <div className="flex items-start gap-1.5 pt-2">
-                        <Label htmlFor={field}>{field}</Label>
-                        {info && <FieldInfoPopover text={info} />}
-                      </div>
-                      <div>
-                        <MultiCategoryTextarea
-                          id={field}
-                          value={value}
-                          onChange={(val) => setData(field, val)}
-                          categories={RESPON_RISIKO_KATEGORI}
-                          uraianPlaceholder="Uraian rencana tindak pengendalian..."
-                        />
-                        {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-
-              if (field === 'TRIWULAN') {
-                return (
-                  <div key={field} className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-1.5">
-                        <Label htmlFor="TRIWULAN">TRIWULAN</Label>
-                        {info && <FieldInfoPopover text={info} />}
-                      </div>
-                      <AutocompleteSelect
-                        value={value ? (triwulanLabels[value] ?? value) : ''}
-                        onChange={(val) => {
-                          const kode = Object.keys(triwulanLabels).find((k) => triwulanLabels[k] === val);
-                          setData('TRIWULAN', kode ?? val);
-                        }}
-                        options={triwulanOptions.map((k) => triwulanLabels[k] ?? k)}
-                        placeholder="Pilih Triwulan"
-                      />
-                      {errors['TRIWULAN'] && <p className="text-sm text-destructive">{errors['TRIWULAN']}</p>}
-                    </div>
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-1.5">
-                        <Label htmlFor="TAHUN TARGET PENYELESAIAN">TAHUN TARGET PENYELESAIAN</Label>
-                      </div>
-                      <Input
-                        id="TAHUN TARGET PENYELESAIAN"
-                        type="number"
-                        value={data['TAHUN TARGET PENYELESAIAN']}
-                        onChange={(e) => setData('TAHUN TARGET PENYELESAIAN', e.target.value)}
-                        placeholder="mis. 2026"
-                      />
-                      {errors['TAHUN TARGET PENYELESAIAN'] && (
-                        <p className="text-sm text-destructive">{errors['TAHUN TARGET PENYELESAIAN']}</p>
-                      )}
-                    </div>
-                  </div>
-                );
-              }
-
-              if (field === 'TAHUN TARGET PENYELESAIAN') {
-                return null;
-              }
-
-              if (field === 'TAHUN DINILAI RISIKO') {
-                // Default-nya ikut Tahun Aktif Pemda (lihat TahunAktifBadge
-                // & openCreate()), tapi PIC BEBAS mengganti ke tahun lain
-                // saat input — supaya OPD bisa melengkapi data tahun
-                // sebelumnya (mis. 2025) tanpa perlu Admin mengubah Tahun
-                // Aktif global lebih dulu. Beda dgn field Pemda-wide lain
-                // (mis. di Data Umum) yg memang harus satu nilai utk semua.
-                return (
-                  <div key={field} className="space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <Label htmlFor={field}>{field}</Label>
-                      {info && <FieldInfoPopover text={info} />}
-                    </div>
-                    <Input
-                      id={field}
-                      type="number"
-                      value={value}
-                      onChange={(e) => setData(field, e.target.value)}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain (mis. tahun sebelumnya).
-                    </p>
-                    {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
-                  </div>
-                );
-              }
-
-              // Sasaran Renstra adalah rujukan ke II_a_KRS_PD — value tetap
-              // teks bersih (tanpa kode), kodenya (mis. "1.1.1.1") cuma
-              // ditampilkan read-only untuk konteks, dari tbl_krs_irs_pd.
-              const kode = field === 'SASARAN RENSTRA' ? sasaranRenstraKodes[value] : undefined;
-
-              return (
-                <div key={field} className="space-y-1">
-                  <div className="flex items-center gap-1.5">
-                    <Label htmlFor={field}>{field}</Label>
-                    {info && <FieldInfoPopover text={info} />}
-                    {kode && <span className="text-xs font-medium text-muted-foreground">Kode: {kode}</span>}
-                  </div>
-                  <AutocompleteTextarea
-                    id={field}
-                    value={value}
-                    onChange={(val) => setData(field, val)}
-                    options={fieldOptions[field] ?? []}
-                    rows={2}
-                  />
-                  {errors[field] && <p className="text-sm text-destructive">{errors[field]}</p>}
+                    <Button onClick={openCreate}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        Tambah Data
+                    </Button>
                 </div>
-              );
-            })}
 
-            <SkorTargetAktualSection data={data} setData={setData} errors={errors} info={IRS_PD_FIELD_INFO} />
+                <RiskCascadeInfo />
+                <StrukturPengelolaanRisikoInfo />
 
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
-                Batal
-              </Button>
-              {!isViewer && (
-                <Button type="submit" disabled={processing}>
-                  {editing ? 'Simpan Perubahan' : 'Simpan'}
-                </Button>
-              )}
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+                {isAdmin && <OpdFillStatusPanel opdOptions={opdList} opdStatus={opdFillStatus} onSelect={searchFor} selectedOpdNama={searchInput} />}
 
-      {/* Dialog Referensi: Jenis Risiko */}
-      <Dialog open={refDialog === 'jenis'} onOpenChange={(o) => !o && setRefDialog(null)}>
-        <DialogContent className="max-h-[85vh] max-w-4xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Jenis Risiko</DialogTitle>
-          </DialogHeader>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-sm">
-              <thead className="bg-muted/50">
-                <tr>
-                  <th className="border px-3 py-2 text-center font-semibold">Kode</th>
-                  <th className="border px-3 py-2 text-left font-semibold">Deskripsi</th>
-                  <th className="border px-3 py-2 text-center font-semibold">Kode</th>
-                  <th className="border px-3 py-2 text-left font-semibold">Deskripsi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {(() => {
-                  const parsed = jenisRisikoOptions.map((opt) => {
-                    const [kode, ...rest] = opt.split(' - ');
-                    return { kode, deskripsi: rest.join(' - ') };
-                  });
-                  const half = Math.ceil(parsed.length / 2);
-                  const left = parsed.slice(0, half);
-                  const right = parsed.slice(half);
-
-                  return left.map((item, i) => {
-                    const pair = right[i];
-                    return (
-                      <tr key={item.kode}>
-                        <td className="border px-3 py-1.5 text-center">{item.kode}</td>
-                        <td className="border px-3 py-1.5">{item.deskripsi}</td>
-                        <td className="border px-3 py-1.5 text-center">{pair?.kode ?? ''}</td>
-                        <td className="border px-3 py-1.5">{pair?.deskripsi ?? ''}</td>
-                      </tr>
-                    );
-                  });
-                })()}
-              </tbody>
-            </table>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog Referensi: Entitas Penilai Risiko */}
-      <Dialog open={refDialog === 'entitas'} onOpenChange={(o) => !o && setRefDialog(null)}>
-        <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Entitas Penilai Risiko</DialogTitle>
-          </DialogHeader>
-          <div className="text-sm">
-            {entitasPenilaiOptions.map((opt, i) => (
-              <div key={opt} className="flex gap-3 border-b py-1.5">
-                <span className="w-6 shrink-0 text-muted-foreground">{i + 1}</span>
-                <span>{opt}</span>
-              </div>
-            ))}
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog Referensi: Kriteria Dampak */}
-      <Dialog open={refDialog === 'dampak'} onOpenChange={(o) => !o && setRefDialog(null)}>
-        <DialogContent className="max-h-[85vh] max-w-5xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Kriteria Dampak</DialogTitle>
-          </DialogHeader>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-sm">
-              <thead className="bg-muted/50">
-                <tr>
-                  <th className="border px-3 py-2 text-left font-semibold">Area Dampak</th>
-                  {riskReference.kriteriaDampak.map((row) => (
-                    <th key={row.level} className="border px-3 py-2 text-left font-semibold">
-                      {row.level} - {row.label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {([
-                  ['Jumlah Kerugian Negara / Daerah', 'kerugian_negara'],
-                  ['Penurunan Reputasi', 'penurunan_reputasi'],
-                  ['Penurunan Kinerja', 'penurunan_kinerja'],
-                  ['Gangguan Terhadap Pelayanan', 'gangguan_pelayanan'],
-                  ['Jumlah Tuntutan Hukum', 'tuntutan_hukum'],
-                ] as const).map(([area, field]) => (
-                  <tr key={area}>
-                    <td className="border px-3 py-2 align-top font-medium">{area}</td>
-                    {riskReference.kriteriaDampak.map((row) => (
-                      <td key={row.level} className="border px-3 py-2 align-top">
-                        {row[field]}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog Referensi: Kriteria Kemungkinan */}
-      <Dialog open={refDialog === 'kemungkinan'} onOpenChange={(o) => !o && setRefDialog(null)}>
-        <DialogContent className="max-h-[85vh] max-w-4xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Kriteria Kemungkinan</DialogTitle>
-          </DialogHeader>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-sm">
-              <thead className="bg-muted/50">
-                <tr>
-                  <th className="border px-3 py-2 text-left font-semibold">No</th>
-                  <th className="border px-3 py-2 text-left font-semibold">Level Kemungkinan</th>
-                  <th className="border px-3 py-2 text-left font-semibold">Probabilitas</th>
-                  <th className="border px-3 py-2 text-left font-semibold">Frekuensi dalam 1 Tahun</th>
-                  <th className="border px-3 py-2 text-left font-semibold">Kejadian Toleransi Rendah</th>
-                </tr>
-              </thead>
-              <tbody>
-                {riskReference.kriteriaKemungkinan.map((row) => (
-                  <tr key={row.level}>
-                    <td className="border px-3 py-2 align-top">{row.level}</td>
-                    <td className="border px-3 py-2 align-top font-medium">{row.nama}</td>
-                    <td className="border px-3 py-2 align-top">{row.probabilitas}</td>
-                    <td className="border px-3 py-2 align-top">{row.frekuensi}</td>
-                    <td className="border px-3 py-2 align-top">{row.toleransi}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Dialog Referensi: Matriks Analisis Risiko */}
-      <Dialog open={refDialog === 'matriks'} onOpenChange={(o) => !o && setRefDialog(null)}>
-        <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Matriks Analisis Risiko (5x5)</DialogTitle>
-          </DialogHeader>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse text-center text-sm">
-              <thead>
-                <tr>
-                  <th className="border px-3 py-2" rowSpan={2} colSpan={2}>
-                    Matriks
-                  </th>
-                  <th className="border px-3 py-2" colSpan={5}>
-                    Dampak
-                  </th>
-                </tr>
-                <tr>
-                  {riskReference.matriksRisiko.dampakLabels.map((label, i) => (
-                    <th key={label} className="border px-3 py-2 font-normal">
-                      {i + 1}
-                      <br />
-                      {label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {[5, 4, 3, 2, 1].map((kemungkinan, rowPos) => (
-                  <tr key={kemungkinan}>
-                    {rowPos === 0 && (
-                      <th className="border px-3 py-2 font-semibold" rowSpan={5}>
-                        Kemungkinan
-                      </th>
+                <div className="flex items-center gap-2">
+                    <div className="relative max-w-md flex-1">
+                        <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+                        <Input
+                            value={searchInput}
+                            onChange={(e) => setSearchInput(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                            placeholder="Cari di semua kolom data risiko... (Enter untuk cari/lanjut)"
+                            className="pr-9 pl-9"
+                        />
+                        {searchInput && (
+                            <button
+                                type="button"
+                                onClick={clearSearch}
+                                className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        )}
+                    </div>
+                    <Button type="button" onClick={runSearch}>
+                        Cari
+                    </Button>
+                    {activeQuery && matches.length > 0 && (
+                        <div className="flex items-center gap-1">
+                            <span className="text-muted-foreground mr-1 text-sm whitespace-nowrap">
+                                {currentMatchIndex + 1} / {matches.length}
+                            </span>
+                            <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex - 1)}>
+                                <ChevronUp className="h-4 w-4" />
+                            </Button>
+                            <Button type="button" variant="outline" size="icon" onClick={() => jumpToMatch(currentMatchIndex + 1)}>
+                                <ChevronDown className="h-4 w-4" />
+                            </Button>
+                        </div>
                     )}
-                    <th className="border px-3 py-2 font-normal whitespace-nowrap">
-                      {kemungkinan}
-                      <br />
-                      {riskReference.matriksRisiko.kemungkinanLabels[kemungkinan - 1]}
-                    </th>
-                    {[1, 2, 3, 4, 5].map((dampak) => {
-                      const cell = riskReference.matriksRisiko.cells.find((c) => c.dampak === dampak && c.kemungkinan === kemungkinan);
-                      return (
-                        <td key={dampak} className={`border px-3 py-2 font-semibold ${cell?.warna_class ?? 'bg-muted'}`}>
-                          {cell?.skala_risiko ?? '-'}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </DialogContent>
-      </Dialog>
+                </div>
+                {activeQuery && (
+                    <p className="text-muted-foreground text-sm">
+                        {matches.length > 0 ? `Ditemukan ${matches.length} hasil untuk "${activeQuery}".` : `Tidak ada hasil untuk "${activeQuery}".`}
+                    </p>
+                )}
 
-      <RiskMatrixPickerDialog
-        open={matrixPickerOpen}
-        onOpenChange={setMatrixPickerOpen}
-        matriks={riskReference.matriksRisiko}
-        kriteriaDampak={riskReference.kriteriaDampak}
-        kriteriaKemungkinan={riskReference.kriteriaKemungkinan}
-        existingControlDiisi={existingControlStatus === 'ya'}
-        nilai={{
-          inheren: { dampak: Number(data['SKALA DAMPAK INHEREN']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN INHEREN']) || null },
-          residual: { dampak: Number(data['SKALA DAMPAK']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN']) || null },
-          target: { dampak: Number(data['SKALA DAMPAK TARGET']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN TARGET']) || null },
-        }}
-        onPilih={(titik, dampak, kemungkinan) => {
-          if (titik === 'inheren' && existingControlStatus === 'tidak') {
-            setData('SKALA DAMPAK INHEREN', String(dampak));
-            setData('SKALA KEMUNGKINAN INHEREN', String(kemungkinan));
-            setData('SKALA DAMPAK', String(dampak));
-            setData('SKALA KEMUNGKINAN', String(kemungkinan));
-            return;
-          }
+                <div className="max-h-[70vh] overflow-auto rounded-md border">
+                    <table className="min-w-full text-sm">
+                        <thead className="bg-muted sticky top-0 z-10">
+                            <tr>
+                                <th className="border px-3 py-2 text-center font-semibold whitespace-nowrap">No</th>
+                                <SortableTh
+                                    field="SASARAN RENSTRA"
+                                    label="Sasaran Renstra"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="URAIAN RISIKO"
+                                    label="Uraian Risiko"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="TAHUN DINILAI RISIKO"
+                                    label="Tahun"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="JENIS RISIKO"
+                                    label="Jenis Risiko"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="ENTITAS PD YANG MENILAI"
+                                    label="Entitas PD yang Menilai"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                    className="max-w-[10rem] whitespace-normal"
+                                />
+                                <SortableTh
+                                    field="PEMILIK RISIKO"
+                                    label="Pemilik Risiko"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="SKALA RISIKO"
+                                    label="Skala Risiko"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="SKALA PRIORITAS"
+                                    label="Prioritas"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="RENCANA TINDAK PENGENDALIAN"
+                                    label="RTP"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                />
+                                <SortableTh
+                                    field="PENANGGUNG JAWAB PENGENDALIAN"
+                                    label="Penanggung Jawab Pengendalian"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                    className="max-w-[10rem] whitespace-normal"
+                                />
+                                <SortableTh
+                                    field="UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN"
+                                    label="Unit/OPD Penanggung Jawab"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                    className="max-w-[10rem] whitespace-normal"
+                                />
+                                <th className="border px-3 py-2 text-left font-semibold whitespace-nowrap">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {sortedRows.length > 0 ? (
+                                sortedRows.map((row) => {
+                                    const skalaRisiko = row['SKALA RISIKO'] != null ? Number(row['SKALA RISIKO']) : null;
+                                    const isCurrent = currentMatchId === row.id;
+                                    const hiddenFieldMatches = (matchedFieldsByRow.get(row.id) ?? []).filter((m) => !VISIBLE_COLUMNS.has(m.field));
+                                    return (
+                                        <Fragment key={row.id}>
+                                            <tr
+                                                ref={(el) => registerRowRef(row.id, el)}
+                                                className={`hover:bg-muted/10 border-t ${isCurrent ? 'ring-2 ring-orange-500 ring-inset' : ''}`}
+                                            >
+                                                <td className="border px-3 py-2 text-center align-top">{row['NOMOR URUT RISIKO'] ?? '-'}</td>
+                                                <td className="max-w-xs border px-3 py-2 align-top whitespace-normal">
+                                                    {sasaranRenstraKodes[String(row['SASARAN RENSTRA'] ?? '')] && (
+                                                        <p className="text-muted-foreground mb-0.5 text-xs font-medium">
+                                                            Kode: {sasaranRenstraKodes[String(row['SASARAN RENSTRA'] ?? '')]}
+                                                        </p>
+                                                    )}
+                                                    <HighlightText text={String(row['SASARAN RENSTRA'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="max-w-xs border px-3 py-2 align-top whitespace-normal">
+                                                    <HighlightText text={String(row['URAIAN RISIKO'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="border px-3 py-2 text-center align-top whitespace-nowrap">
+                                                    {row['TAHUN DINILAI RISIKO'] ?? '-'}
+                                                </td>
+                                                <td className="border px-3 py-2 align-top">
+                                                    <HighlightText text={String(row['JENIS RISIKO'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="border px-3 py-2 align-top">
+                                                    <HighlightText text={String(row['ENTITAS PD YANG MENILAI'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="border px-3 py-2 align-top">
+                                                    <HighlightText text={String(row['PEMILIK RISIKO'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="border px-3 py-2 text-center align-top">
+                                                    <Badge className={skalaBadgeClass(skalaRisiko, riskReference.riskLevels)}>
+                                                        {skalaRisiko ?? '-'}
+                                                    </Badge>
+                                                </td>
+                                                <td className="border px-3 py-2 text-center align-top">{row['SKALA PRIORITAS'] ?? '-'}</td>
+                                                <td className="max-w-xs border px-3 py-2 align-top whitespace-normal">
+                                                    <RtpCategoryText text={String(row['RENCANA TINDAK PENGENDALIAN'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="max-w-xs border px-3 py-2 align-top whitespace-normal">
+                                                    <HighlightText text={String(row['PENANGGUNG JAWAB PENGENDALIAN'] ?? '-')} query={activeQuery} />
+                                                </td>
+                                                <td className="max-w-xs border px-3 py-2 align-top whitespace-normal">
+                                                    <HighlightText
+                                                        text={String(row['UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN'] ?? '-')}
+                                                        query={activeQuery}
+                                                    />
+                                                </td>
+                                                <td className="border px-3 py-2 align-top">
+                                                    {canManageRow(row.user_id as number | null, currentUserId, isAdmin) ? (
+                                                        <div className="flex gap-1">
+                                                            <Button variant="ghost" size="icon" onClick={() => openEdit(row)}>
+                                                                <Edit className="h-4 w-4" />
+                                                            </Button>
+                                                            <AlertDialog>
+                                                                <AlertDialogTrigger asChild>
+                                                                    <Button
+                                                                        variant="ghost"
+                                                                        size="icon"
+                                                                        className="text-muted-foreground hover:text-destructive"
+                                                                    >
+                                                                        <Trash2 className="h-4 w-4" />
+                                                                    </Button>
+                                                                </AlertDialogTrigger>
+                                                                <AlertDialogContent>
+                                                                    <AlertDialogHeader>
+                                                                        <AlertDialogTitle>Hapus data risiko ini?</AlertDialogTitle>
+                                                                        <AlertDialogDescription>
+                                                                            Data risiko "{row['URAIAN RISIKO'] ?? '-'}" akan dihapus permanen.
+                                                                        </AlertDialogDescription>
+                                                                    </AlertDialogHeader>
+                                                                    <AlertDialogFooter>
+                                                                        <AlertDialogCancel>Batal</AlertDialogCancel>
+                                                                        <AlertDialogAction
+                                                                            onClick={() => handleDelete(row.id)}
+                                                                            className="bg-destructive hover:bg-destructive/90"
+                                                                        >
+                                                                            Hapus
+                                                                        </AlertDialogAction>
+                                                                    </AlertDialogFooter>
+                                                                </AlertDialogContent>
+                                                            </AlertDialog>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-muted-foreground text-xs">Milik PIC lain</span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                            {hiddenFieldMatches.length > 0 && (
+                                                <tr className={isCurrent ? 'ring-2 ring-orange-500 ring-inset' : ''}>
+                                                    <td
+                                                        colSpan={12}
+                                                        className="border-x border-b bg-orange-50 px-3 py-2 text-xs dark:bg-orange-950/20"
+                                                    >
+                                                        {hiddenFieldMatches.map((m) => (
+                                                            <div key={m.field} className="flex flex-wrap items-baseline gap-1">
+                                                                <span className="text-muted-foreground font-semibold">Ditemukan di {m.field}:</span>
+                                                                <span className="whitespace-normal">
+                                                                    <HighlightText text={m.snippet} query={activeQuery} />
+                                                                </span>
+                                                            </div>
+                                                        ))}
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </Fragment>
+                                    );
+                                })
+                            ) : (
+                                <tr>
+                                    <td colSpan={12} className="text-muted-foreground p-4 text-center text-sm">
+                                        Tidak ada data.
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-          const fieldMap = {
-            inheren: ['SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
-            residual: ['SKALA DAMPAK', 'SKALA KEMUNGKINAN'],
-            target: ['SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET'],
-            aktual: null,
-          } as const;
-          const fields = fieldMap[titik];
-          if (!fields) return;
-          const [fieldDampak, fieldKemungkinan] = fields;
-          setData(fieldDampak, String(dampak));
-          setData(fieldKemungkinan, String(kemungkinan));
-        }}
-      />
-    </AppLayout>
-  );
+            {/* Dialog Tambah/Edit Data */}
+            <Dialog open={dialogOpen} onOpenChange={(open) => open && setDialogOpen(true)}>
+                <DialogContent
+                    className="max-h-[90vh] max-w-2xl overflow-y-auto"
+                    hideClose
+                    onPointerDownOutside={(e) => e.preventDefault()}
+                    onEscapeKeyDown={(e) => e.preventDefault()}
+                >
+                    <DialogHeader>
+                        <DialogTitle>{isViewer ? 'Detail Data Risiko' : editing ? 'Edit Data Risiko' : 'Tambah Data Risiko'}</DialogTitle>
+                    </DialogHeader>
+
+                    <form
+                        onSubmit={handleSubmit}
+                        className="[&>div]:border-border/50 space-y-4 [&>div]:border-b [&>div]:pb-4 [&>div:last-child]:border-b-0 [&>div:last-child]:pb-0"
+                    >
+                        {prefillFromLaporan && (
+                            <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+                                Data ini diambil dari laporan warga — Uraian Risiko, Penyebab (7M+1E), dan OPD sudah terisi otomatis. Lengkapi juga{' '}
+                                <strong>Sumber Sebab Risiko</strong> (Internal/Eksternal) dan <strong>C / UC</strong> di bawah sebelum menyimpan —
+                                keduanya tidak dapat ditebak dari laporan warga dan butuh penilaian Anda.
+                            </p>
+                        )}
+                        {FIELDS.map((field) => {
+                            const info = IRS_PD_FIELD_INFO[field];
+                            const value = data[field];
+
+                            if (field === 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN') {
+                                return (
+                                    <div key={field} className="space-y-1">
+                                        <div className="flex items-center gap-1.5">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                        </div>
+                                        <AutocompleteSelect
+                                            value={value}
+                                            onChange={(val) => setData(field, val)}
+                                            options={opdOptions}
+                                            placeholder="Pilih OPD"
+                                        />
+                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'PENANGGUNG JAWAB PENGENDALIAN') {
+                                return (
+                                    <div key={field} className="space-y-1">
+                                        <div className="flex items-center gap-1.5">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                        </div>
+                                        <AutocompleteTextarea
+                                            id={field}
+                                            value={value}
+                                            onChange={(val) => setData(field, val)}
+                                            options={fieldOptions[field] ?? []}
+                                            rows={1}
+                                        />
+                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'JENIS RISIKO') {
+                                return (
+                                    <div key={field} className="space-y-1">
+                                        <div className="flex items-center gap-1.5">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                            <ReferenceDialogTrigger label="Lihat daftar Jenis Risiko" onClick={() => setRefDialog('jenis')} />
+                                        </div>
+                                        <AutocompleteSelect
+                                            value={value}
+                                            onChange={(val) => setData(field, val)}
+                                            options={jenisRisikoOptions}
+                                            placeholder="Pilih Jenis Risiko"
+                                            dropdownClassName="w-[32rem] max-w-[90vw]"
+                                        />
+                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'ENTITAS PD YANG MENILAI') {
+                                return (
+                                    <div key={field} className="space-y-1">
+                                        <div className="flex items-center gap-1.5">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                            <ReferenceDialogTrigger
+                                                label="Lihat daftar Entitas Penilai Risiko"
+                                                onClick={() => setRefDialog('entitas')}
+                                            />
+                                        </div>
+                                        <AutocompleteSelect
+                                            value={value}
+                                            onChange={(val) => setData(field, val)}
+                                            options={entitasPenilaiOptions}
+                                            placeholder="Pilih Entitas"
+                                            dropdownClassName="w-[32rem] max-w-[90vw]"
+                                        />
+                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'URAIAN PENYEBAB RISIKO') {
+                                return (
+                                    <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                                        <div className="flex items-start gap-1.5 pt-2">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                        </div>
+                                        <div>
+                                            <MultiCategoryTextarea
+                                                id={field}
+                                                value={value}
+                                                onChange={(val) => {
+                                                    setData(field, val);
+                                                    setData('SUMBER SEBAB RISIKO', computeSumberSebabRisiko(val));
+                                                }}
+                                                categories={PENYEBAB_5M_KATEGORI}
+                                                groupLabels={PENYEBAB_GROUP_LABELS}
+                                                categorySuffix={penyebabKategoriSuffix}
+                                                uraianPlaceholder="Uraian penyebab..."
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            // SUMBER SEBAB RISIKO tidak lagi diisi manual — dihitung
+                            // otomatis dari kategori Internal(7M+1E)/Eksternal(PESTLE) yg
+                            // dicentang di URAIAN PENYEBAB RISIKO (lihat computeSumberSebabRisiko).
+                            if (field === 'SUMBER SEBAB RISIKO') {
+                                return null;
+                            }
+
+                            if (field === 'C / UC') {
+                                return (
+                                    <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                                        <div className="flex items-center gap-1.5 pt-2">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                        </div>
+                                        <div>
+                                            <CategorizedTextarea
+                                                id={field}
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                categories={C_UC_OPTIONS}
+                                                hideUraian
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
+                                return (
+                                    <ExistingControlToggleSection
+                                        key="existing-control-toggle"
+                                        data={data}
+                                        setData={setData}
+                                        errors={errors}
+                                        info={IRS_PD_FIELD_INFO}
+                                        fieldOptions={fieldOptions}
+                                        evidenceType="irs_pd"
+                                        rowId={editing?.id ?? null}
+                                        isNewRow={!editing}
+                                        onToggleChange={setExistingControlStatus}
+                                    />
+                                );
+                            }
+
+                            if (field === 'KATEGORI EXISTING CONTROL' || field === 'CELAH PENGENDALIAN') {
+                                return null;
+                            }
+
+                            if (field === 'RENCANA TINDAK PENGENDALIAN') {
+                                return (
+                                    <div key={field} className="space-y-2">
+                                        <div className="flex flex-col items-end gap-1">
+                                            <Button
+                                                type="button"
+                                                variant="outline"
+                                                size="sm"
+                                                disabled={existingControlStatus === null}
+                                                onClick={() => setMatrixPickerOpen(true)}
+                                            >
+                                                <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
+                                                Isi Nilai Risiko
+                                            </Button>
+                                            {existingControlStatus === null && (
+                                                <p className="text-muted-foreground text-xs">
+                                                    Pilih dulu "Apakah sudah ada Existing Control?" di atas.
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                                            <div className="flex items-start gap-1.5 pt-2">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <div>
+                                                <MultiCategoryTextarea
+                                                    id={field}
+                                                    value={value}
+                                                    onChange={(val) => setData(field, val)}
+                                                    categories={RESPON_RISIKO_KATEGORI}
+                                                    uraianPlaceholder="Uraian rencana tindak pengendalian..."
+                                                />
+                                                {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'TRIWULAN') {
+                                return (
+                                    <div key={field} className="grid grid-cols-2 gap-3">
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor="TRIWULAN">TRIWULAN</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <AutocompleteSelect
+                                                value={value ? (triwulanLabels[value] ?? value) : ''}
+                                                onChange={(val) => {
+                                                    const kode = Object.keys(triwulanLabels).find((k) => triwulanLabels[k] === val);
+                                                    setData('TRIWULAN', kode ?? val);
+                                                }}
+                                                options={triwulanOptions.map((k) => triwulanLabels[k] ?? k)}
+                                                placeholder="Pilih Triwulan"
+                                            />
+                                            {errors['TRIWULAN'] && <p className="text-destructive text-sm">{errors['TRIWULAN']}</p>}
+                                        </div>
+                                        <div className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor="TAHUN TARGET PENYELESAIAN">TAHUN TARGET PENYELESAIAN</Label>
+                                            </div>
+                                            <Input
+                                                id="TAHUN TARGET PENYELESAIAN"
+                                                type="number"
+                                                value={data['TAHUN TARGET PENYELESAIAN']}
+                                                onChange={(e) => setData('TAHUN TARGET PENYELESAIAN', e.target.value)}
+                                                placeholder="mis. 2026"
+                                            />
+                                            {errors['TAHUN TARGET PENYELESAIAN'] && (
+                                                <p className="text-destructive text-sm">{errors['TAHUN TARGET PENYELESAIAN']}</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            if (field === 'TAHUN TARGET PENYELESAIAN') {
+                                return null;
+                            }
+
+                            if (field === 'TAHUN DINILAI RISIKO') {
+                                // Default-nya ikut Tahun Aktif Pemda (lihat TahunAktifBadge
+                                // & openCreate()), tapi PIC BEBAS mengganti ke tahun lain
+                                // saat input — supaya OPD bisa melengkapi data tahun
+                                // sebelumnya (mis. 2025) tanpa perlu Admin mengubah Tahun
+                                // Aktif global lebih dulu. Beda dgn field Pemda-wide lain
+                                // (mis. di Data Umum) yg memang harus satu nilai utk semua.
+                                return (
+                                    <div key={field} className="space-y-1">
+                                        <div className="flex items-center gap-1.5">
+                                            <Label htmlFor={field}>{field}</Label>
+                                            {info && <FieldInfoPopover text={info} />}
+                                        </div>
+                                        <Input id={field} type="number" value={value} onChange={(e) => setData(field, e.target.value)} />
+                                        <p className="text-muted-foreground text-xs">
+                                            Default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain (mis. tahun sebelumnya).
+                                        </p>
+                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                    </div>
+                                );
+                            }
+
+                            // Sasaran Renstra adalah rujukan ke II_a_KRS_PD — value tetap
+                            // teks bersih (tanpa kode), kodenya (mis. "1.1.1.1") cuma
+                            // ditampilkan read-only untuk konteks, dari tbl_krs_irs_pd.
+                            const kode = field === 'SASARAN RENSTRA' ? sasaranRenstraKodes[value] : undefined;
+
+                            return (
+                                <div key={field} className="space-y-1">
+                                    <div className="flex items-center gap-1.5">
+                                        <Label htmlFor={field}>{field}</Label>
+                                        {info && <FieldInfoPopover text={info} />}
+                                        {kode && <span className="text-muted-foreground text-xs font-medium">Kode: {kode}</span>}
+                                    </div>
+                                    <AutocompleteTextarea
+                                        id={field}
+                                        value={value}
+                                        onChange={(val) => setData(field, val)}
+                                        options={fieldOptions[field] ?? []}
+                                        rows={2}
+                                    />
+                                    {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                </div>
+                            );
+                        })}
+
+                        <SkorTargetAktualSection data={data} setData={setData} errors={errors} info={IRS_PD_FIELD_INFO} />
+
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
+                                Batal
+                            </Button>
+                            {!isViewer && (
+                                <Button type="submit" disabled={processing}>
+                                    {editing ? 'Simpan Perubahan' : 'Simpan'}
+                                </Button>
+                            )}
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            {/* Dialog Referensi: Jenis Risiko */}
+            <Dialog open={refDialog === 'jenis'} onOpenChange={(o) => !o && setRefDialog(null)}>
+                <DialogContent className="max-h-[85vh] max-w-4xl overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Jenis Risiko</DialogTitle>
+                    </DialogHeader>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border-collapse text-sm">
+                            <thead className="bg-muted/50">
+                                <tr>
+                                    <th className="border px-3 py-2 text-center font-semibold">Kode</th>
+                                    <th className="border px-3 py-2 text-left font-semibold">Deskripsi</th>
+                                    <th className="border px-3 py-2 text-center font-semibold">Kode</th>
+                                    <th className="border px-3 py-2 text-left font-semibold">Deskripsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {(() => {
+                                    const parsed = jenisRisikoOptions.map((opt) => {
+                                        const [kode, ...rest] = opt.split(' - ');
+                                        return { kode, deskripsi: rest.join(' - ') };
+                                    });
+                                    const half = Math.ceil(parsed.length / 2);
+                                    const left = parsed.slice(0, half);
+                                    const right = parsed.slice(half);
+
+                                    return left.map((item, i) => {
+                                        const pair = right[i];
+                                        return (
+                                            <tr key={item.kode}>
+                                                <td className="border px-3 py-1.5 text-center">{item.kode}</td>
+                                                <td className="border px-3 py-1.5">{item.deskripsi}</td>
+                                                <td className="border px-3 py-1.5 text-center">{pair?.kode ?? ''}</td>
+                                                <td className="border px-3 py-1.5">{pair?.deskripsi ?? ''}</td>
+                                            </tr>
+                                        );
+                                    });
+                                })()}
+                            </tbody>
+                        </table>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Dialog Referensi: Entitas Penilai Risiko */}
+            <Dialog open={refDialog === 'entitas'} onOpenChange={(o) => !o && setRefDialog(null)}>
+                <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Entitas Penilai Risiko</DialogTitle>
+                    </DialogHeader>
+                    <div className="text-sm">
+                        {entitasPenilaiOptions.map((opt, i) => (
+                            <div key={opt} className="flex gap-3 border-b py-1.5">
+                                <span className="text-muted-foreground w-6 shrink-0">{i + 1}</span>
+                                <span>{opt}</span>
+                            </div>
+                        ))}
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Dialog Referensi: Kriteria Dampak */}
+            <Dialog open={refDialog === 'dampak'} onOpenChange={(o) => !o && setRefDialog(null)}>
+                <DialogContent className="max-h-[85vh] max-w-5xl overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Kriteria Dampak</DialogTitle>
+                    </DialogHeader>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border-collapse text-sm">
+                            <thead className="bg-muted/50">
+                                <tr>
+                                    <th className="border px-3 py-2 text-left font-semibold">Area Dampak</th>
+                                    {riskReference.kriteriaDampak.map((row) => (
+                                        <th key={row.level} className="border px-3 py-2 text-left font-semibold">
+                                            {row.level} - {row.label}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {(
+                                    [
+                                        ['Jumlah Kerugian Negara / Daerah', 'kerugian_negara'],
+                                        ['Penurunan Reputasi', 'penurunan_reputasi'],
+                                        ['Penurunan Kinerja', 'penurunan_kinerja'],
+                                        ['Gangguan Terhadap Pelayanan', 'gangguan_pelayanan'],
+                                        ['Jumlah Tuntutan Hukum', 'tuntutan_hukum'],
+                                    ] as const
+                                ).map(([area, field]) => (
+                                    <tr key={area}>
+                                        <td className="border px-3 py-2 align-top font-medium">{area}</td>
+                                        {riskReference.kriteriaDampak.map((row) => (
+                                            <td key={row.level} className="border px-3 py-2 align-top">
+                                                {row[field]}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Dialog Referensi: Kriteria Kemungkinan */}
+            <Dialog open={refDialog === 'kemungkinan'} onOpenChange={(o) => !o && setRefDialog(null)}>
+                <DialogContent className="max-h-[85vh] max-w-4xl overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Kriteria Kemungkinan</DialogTitle>
+                    </DialogHeader>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border-collapse text-sm">
+                            <thead className="bg-muted/50">
+                                <tr>
+                                    <th className="border px-3 py-2 text-left font-semibold">No</th>
+                                    <th className="border px-3 py-2 text-left font-semibold">Level Kemungkinan</th>
+                                    <th className="border px-3 py-2 text-left font-semibold">Probabilitas</th>
+                                    <th className="border px-3 py-2 text-left font-semibold">Frekuensi dalam 1 Tahun</th>
+                                    <th className="border px-3 py-2 text-left font-semibold">Kejadian Toleransi Rendah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {riskReference.kriteriaKemungkinan.map((row) => (
+                                    <tr key={row.level}>
+                                        <td className="border px-3 py-2 align-top">{row.level}</td>
+                                        <td className="border px-3 py-2 align-top font-medium">{row.nama}</td>
+                                        <td className="border px-3 py-2 align-top">{row.probabilitas}</td>
+                                        <td className="border px-3 py-2 align-top">{row.frekuensi}</td>
+                                        <td className="border px-3 py-2 align-top">{row.toleransi}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            {/* Dialog Referensi: Matriks Analisis Risiko */}
+            <Dialog open={refDialog === 'matriks'} onOpenChange={(o) => !o && setRefDialog(null)}>
+                <DialogContent className="max-h-[85vh] max-w-3xl overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Matriks Analisis Risiko (5x5)</DialogTitle>
+                    </DialogHeader>
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border-collapse text-center text-sm">
+                            <thead>
+                                <tr>
+                                    <th className="border px-3 py-2" rowSpan={2} colSpan={2}>
+                                        Matriks
+                                    </th>
+                                    <th className="border px-3 py-2" colSpan={5}>
+                                        Dampak
+                                    </th>
+                                </tr>
+                                <tr>
+                                    {riskReference.matriksRisiko.dampakLabels.map((label, i) => (
+                                        <th key={label} className="border px-3 py-2 font-normal">
+                                            {i + 1}
+                                            <br />
+                                            {label}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {[5, 4, 3, 2, 1].map((kemungkinan, rowPos) => (
+                                    <tr key={kemungkinan}>
+                                        {rowPos === 0 && (
+                                            <th className="border px-3 py-2 font-semibold" rowSpan={5}>
+                                                Kemungkinan
+                                            </th>
+                                        )}
+                                        <th className="border px-3 py-2 font-normal whitespace-nowrap">
+                                            {kemungkinan}
+                                            <br />
+                                            {riskReference.matriksRisiko.kemungkinanLabels[kemungkinan - 1]}
+                                        </th>
+                                        {[1, 2, 3, 4, 5].map((dampak) => {
+                                            const cell = riskReference.matriksRisiko.cells.find(
+                                                (c) => c.dampak === dampak && c.kemungkinan === kemungkinan,
+                                            );
+                                            return (
+                                                <td key={dampak} className={`border px-3 py-2 font-semibold ${cell?.warna_class ?? 'bg-muted'}`}>
+                                                    {cell?.skala_risiko ?? '-'}
+                                                </td>
+                                            );
+                                        })}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            <RiskMatrixPickerDialog
+                open={matrixPickerOpen}
+                onOpenChange={setMatrixPickerOpen}
+                matriks={riskReference.matriksRisiko}
+                kriteriaDampak={riskReference.kriteriaDampak}
+                kriteriaKemungkinan={riskReference.kriteriaKemungkinan}
+                existingControlDiisi={existingControlStatus === 'ya'}
+                nilai={{
+                    inheren: { dampak: Number(data['SKALA DAMPAK INHEREN']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN INHEREN']) || null },
+                    residual: { dampak: Number(data['SKALA DAMPAK']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN']) || null },
+                    target: { dampak: Number(data['SKALA DAMPAK TARGET']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN TARGET']) || null },
+                }}
+                onPilih={(titik, dampak, kemungkinan) => {
+                    if (titik === 'inheren' && existingControlStatus === 'tidak') {
+                        setData('SKALA DAMPAK INHEREN', String(dampak));
+                        setData('SKALA KEMUNGKINAN INHEREN', String(kemungkinan));
+                        setData('SKALA DAMPAK', String(dampak));
+                        setData('SKALA KEMUNGKINAN', String(kemungkinan));
+                        return;
+                    }
+
+                    const fieldMap = {
+                        inheren: ['SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
+                        residual: ['SKALA DAMPAK', 'SKALA KEMUNGKINAN'],
+                        target: ['SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET'],
+                        aktual: null,
+                    } as const;
+                    const fields = fieldMap[titik];
+                    if (!fields) return;
+                    const [fieldDampak, fieldKemungkinan] = fields;
+                    setData(fieldDampak, String(dampak));
+                    setData(fieldKemungkinan, String(kemungkinan));
+                }}
+            />
+        </AppLayout>
+    );
 }

@@ -60,6 +60,7 @@ class PicOpdSeeder extends Seeder
                     ->whereNull('opd_id')
                     ->update(['opd_id' => $opd->id]);
                 $dilewati++;
+
                 continue;
             }
 
@@ -74,6 +75,7 @@ class PicOpdSeeder extends Seeder
                     $existing->update(['opd_id' => $opd->id]);
                 }
                 $dilewati++;
+
                 continue;
             }
 
@@ -84,8 +86,8 @@ class PicOpdSeeder extends Seeder
 
             $user = User::create([
                 'username' => $username,
-                'name' => 'PIC ' . $opd->nama,
-                'email' => Str::slug($username, '.') . '@mrkabar.local',
+                'name' => 'PIC '.$opd->nama,
+                'email' => Str::slug($username, '.').'@mrkabar.local',
                 'password' => $tempPassword,
                 'opd_id' => $opd->id,
             ]);
@@ -94,7 +96,7 @@ class PicOpdSeeder extends Seeder
             $dibuat++;
         }
 
-        if (!empty($createdCredentials)) {
+        if (! empty($createdCredentials)) {
             $this->command?->warn('Password sementara akun PIC baru (catat sekarang, tidak ditampilkan lagi):');
             foreach ($createdCredentials as $line) {
                 $this->command?->warn("  {$line}");
@@ -113,7 +115,7 @@ class PicOpdSeeder extends Seeder
     {
         $clean = preg_replace('/\s+/', '_', trim($namaOpd));
         $clean = preg_replace('/[^A-Za-z0-9_]/', '', $clean);
-        $username = 'PIC_' . $clean;
+        $username = 'PIC_'.$clean;
 
         // Batasi panjang supaya tidak berlebihan (nama OPD ada yg sangat
         // panjang, mis. "DINAS PEMBERDAYAAN PEREMPUAN PERLINDUNGAN ANAK DAN

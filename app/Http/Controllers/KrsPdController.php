@@ -3,24 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
 use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\KrsPd;
-use App\Models\Opd;
 use App\Models\KrsPemda;
+use App\Models\Opd;
 use App\Services\KrsIrsPdSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class KrsPdController extends Controller
 {
-    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
-
-    use MenyaringPeriodePenilaian;
-
     use HasOpdFillStatus;
+    use MemeriksaTabelTersedia;
+    use MenyaringPeriodePenilaian;
 
     private const FIELDS = [
         'SASARAN RPJMD',
@@ -118,6 +116,7 @@ class KrsPdController extends Controller
     private function isPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RPJMD'});
+
         return $val !== '' && $val !== '-' && $val !== 'Tidak Ada Data';
     }
 
@@ -163,7 +162,7 @@ class KrsPdController extends Controller
             $sasaranRpjmdMk = $this->matchKey($sasaranRpjmdVal);
             $sasaranRpjmdKode = $sasaranRpjmdKodes[$sasaranRpjmdMk] ?? $sasaranRpjmdVal;
 
-            if (!isset($sasaranRpjmdIndex[$sasaranRpjmdMk])) {
+            if (! isset($sasaranRpjmdIndex[$sasaranRpjmdMk])) {
                 $sasaranRpjmdIndex[$sasaranRpjmdMk] = true;
                 $sasaranRpjmds[$sasaranRpjmdKode] = [
                     'id' => $sasaranRpjmdKode,
@@ -176,8 +175,8 @@ class KrsPdController extends Controller
             $sasaranRpjmdNo = $sasaranRpjmdKode;
             $sasaranRpjmd = &$sasaranRpjmds[$sasaranRpjmdNo];
 
-            $tujuanKey = $sasaranRpjmdNo . '|' . $tujuanVal;
-            if (!isset($tujuanIndex[$tujuanKey])) {
+            $tujuanKey = $sasaranRpjmdNo.'|'.$tujuanVal;
+            if (! isset($tujuanIndex[$tujuanKey])) {
                 $tujuanNo = $sasaranRpjmd['_nextTujuanNo']++;
                 $tujuanIndex[$tujuanKey] = $tujuanNo;
                 $tujuanKode = "{$sasaranRpjmdNo}.{$tujuanNo}";
@@ -195,8 +194,8 @@ class KrsPdController extends Controller
             }
             $tujuanNo = $tujuanIndex[$tujuanKey];
 
-            $sasaranPdKey = $sasaranRpjmdNo . '|' . $tujuanNo . '|' . $sasaranPdVal;
-            if (!isset($sasaranPdIndex[$sasaranPdKey])) {
+            $sasaranPdKey = $sasaranRpjmdNo.'|'.$tujuanNo.'|'.$sasaranPdVal;
+            if (! isset($sasaranPdIndex[$sasaranPdKey])) {
                 $sasaranPdNo = $sasaranRpjmd['tujuans'][$tujuanNo]['_nextSasaranNo']++;
                 $sasaranPdIndex[$sasaranPdKey] = $sasaranPdNo;
                 $sasaranPdKode = "{$sasaranRpjmdNo}.{$tujuanNo}.{$sasaranPdNo}";
@@ -214,8 +213,8 @@ class KrsPdController extends Controller
             }
             $sasaranPdNo = $sasaranPdIndex[$sasaranPdKey];
 
-            $programKey = $sasaranRpjmdNo . '|' . $tujuanNo . '|' . $sasaranPdNo . '|' . $programVal;
-            if (!isset($programIndex[$programKey])) {
+            $programKey = $sasaranRpjmdNo.'|'.$tujuanNo.'|'.$sasaranPdNo.'|'.$programVal;
+            if (! isset($programIndex[$programKey])) {
                 $programNo = $sasaranRpjmd['tujuans'][$tujuanNo]['sasarans'][$sasaranPdNo]['_nextProgramNo']++;
                 $programIndex[$programKey] = $programNo;
                 $programKode = "{$sasaranRpjmdNo}.{$tujuanNo}.{$sasaranPdNo}.{$programNo}";
@@ -234,8 +233,8 @@ class KrsPdController extends Controller
             }
             $programNo = $programIndex[$programKey];
 
-            $kegiatanKey = $programKey . '|' . $kegiatanVal;
-            if (!isset($kegiatanIndex[$kegiatanKey])) {
+            $kegiatanKey = $programKey.'|'.$kegiatanVal;
+            if (! isset($kegiatanIndex[$kegiatanKey])) {
                 $kegiatanNo = $sasaranRpjmd['tujuans'][$tujuanNo]['sasarans'][$sasaranPdNo]['programs'][$programNo]['_nextKegiatanNo']++;
                 $kegiatanIndex[$kegiatanKey] = $kegiatanNo;
                 $kegiatanKode = "{$programKode}.{$kegiatanNo}";
@@ -296,6 +295,7 @@ class KrsPdController extends Controller
                 }
                 $sr['tujuans'] = array_values($sr['tujuans']);
             }
+
             return array_values($sasaranRpjmds);
         };
 
@@ -333,7 +333,7 @@ class KrsPdController extends Controller
             $kegiatanVal = $this->removeLabel((string) $row->{'KEGIATAN PD'});
             $subkegiatanVal = $this->removeLabel((string) $row->{'SUBKEGIATAN PD'});
 
-            if (!isset($programIndex[$programVal])) {
+            if (! isset($programIndex[$programVal])) {
                 $programNo = $nextProgramNo++;
                 $programIndex[$programVal] = $programNo;
                 $programKode = "NP.{$programNo}";
@@ -353,8 +353,8 @@ class KrsPdController extends Controller
             $programNo = $programIndex[$programVal];
             $programKode = $programs[$programNo]['kode'];
 
-            $kegiatanKey = $programNo . '|' . $kegiatanVal;
-            if (!isset($kegiatanIndex[$kegiatanKey])) {
+            $kegiatanKey = $programNo.'|'.$kegiatanVal;
+            if (! isset($kegiatanIndex[$kegiatanKey])) {
                 $kegiatanNo = $programs[$programNo]['_nextKegiatanNo']++;
                 $kegiatanIndex[$kegiatanKey] = $kegiatanNo;
                 $kegiatanKode = "{$programKode}.{$kegiatanNo}";
@@ -405,7 +405,7 @@ class KrsPdController extends Controller
                 foreach ($k['subkegiatans'] as $sk) {
                     foreach (preg_split('/\r\n|\r|\n/', (string) $sk['opd_penanggungjawab']) as $o) {
                         $o = trim($o);
-                        if ($o !== '' && !in_array($o, $opds, true)) {
+                        if ($o !== '' && ! in_array($o, $opds, true)) {
                             $opds[] = $o;
                         }
                     }
@@ -437,7 +437,7 @@ class KrsPdController extends Controller
         // dibangun HANYA dari rows yang lolos filter ini, jadi PIC melihat
         // pohon berisi rujukan miliknya sendiri saja.
         $query = KrsPd::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
         $this->saringPeriode($query, $periode);
@@ -525,7 +525,7 @@ class KrsPdController extends Controller
      */
     private function sasaranRpjmdKodes(): array
     {
-        if (!$this->tabelTersedia('tbl_krs_irs_pemda')) {
+        if (! $this->tabelTersedia('tbl_krs_irs_pemda')) {
             return [];
         }
 
@@ -663,6 +663,7 @@ class KrsPdController extends Controller
     private function rowIsNonPrioritas($row): bool
     {
         $val = $this->removeLabel((string) $row->{'SASARAN RPJMD'});
+
         return $val === '' || $val === '-' || $val === 'Tidak Ada Data';
     }
 
@@ -674,7 +675,7 @@ class KrsPdController extends Controller
     private function findNodeRows(string $level, array $match, bool $isAdmin)
     {
         $query = KrsPd::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
 
@@ -682,7 +683,7 @@ class KrsPdController extends Controller
         $isNp = str_ends_with($level, '_np');
 
         return $query->get()->filter(function ($row) use ($matchFields, $match, $isNp) {
-            if ($isNp && !$this->rowIsNonPrioritas($row)) {
+            if ($isNp && ! $this->rowIsNonPrioritas($row)) {
                 return false;
             }
             foreach ($matchFields as $f) {
@@ -690,6 +691,7 @@ class KrsPdController extends Controller
                     return false;
                 }
             }
+
             return true;
         });
     }
@@ -702,7 +704,7 @@ class KrsPdController extends Controller
     public function updateNode(Request $request, KrsIrsPdSyncService $sync)
     {
         $level = (string) $request->input('level');
-        if (!isset(self::NODE_MATCH_FIELDS[$level])) {
+        if (! isset(self::NODE_MATCH_FIELDS[$level])) {
             abort(422, 'Level node tidak dikenal.');
         }
         // Level "_np" (non-prioritas) memakai kolom edit yang sama dgn prioritasnya.
@@ -746,7 +748,7 @@ class KrsPdController extends Controller
     public function deleteNode(Request $request, KrsIrsPdSyncService $sync)
     {
         $level = (string) $request->input('level');
-        if (!isset(self::NODE_MATCH_FIELDS[$level])) {
+        if (! isset(self::NODE_MATCH_FIELDS[$level])) {
             abort(422, 'Level node tidak dikenal.');
         }
 

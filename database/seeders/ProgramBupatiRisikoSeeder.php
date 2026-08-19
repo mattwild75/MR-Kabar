@@ -18,15 +18,16 @@ class ProgramBupatiRisikoSeeder extends Seeder
 {
     public function run(): void
     {
-        $mapping = require __DIR__ . '/data/program_bupati_risiko_mapping.php';
+        $mapping = require __DIR__.'/data/program_bupati_risiko_mapping.php';
 
         $programsByNomor = ProgramPembangunanBupati::pluck('id', 'nomor');
 
         $total = 0;
         foreach ($mapping as $nomor => $risikoList) {
             $programId = $programsByNomor[$nomor] ?? null;
-            if (!$programId) {
+            if (! $programId) {
                 $this->command?->warn("  Program nomor {$nomor} tidak ditemukan di tabel program_pembangunan_bupati — dilewati.");
+
                 continue;
             }
 

@@ -5,32 +5,28 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Concerns\AppendsProgramBupatiTag;
 use App\Http\Controllers\Concerns\GeneratesKodeRisiko;
 use App\Http\Controllers\Concerns\HasOpdFillStatus;
+use App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
 use App\Http\Controllers\Concerns\MenyaringPeriodePenilaian;
 use App\Models\IrsPemda;
-use App\Models\Opd;
 use App\Models\KrsPemda;
+use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Services\KrsIrsSyncService;
 use App\Services\RiskReferenceDataService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class IrsPemdaController extends Controller
 {
-    use \App\Http\Controllers\Concerns\MemeriksaTabelTersedia;
-
+    use AppendsProgramBupatiTag;
+    use GeneratesKodeRisiko;
+    use HasOpdFillStatus;
+    use MemeriksaTabelTersedia;
     use MenyaringPeriodePenilaian;
 
-    use HasOpdFillStatus;
-    use GeneratesKodeRisiko;
-    use AppendsProgramBupatiTag;
-
-    public function __construct(private readonly RiskReferenceDataService $riskRef)
-    {
-    }
+    public function __construct(private readonly RiskReferenceDataService $riskRef) {}
 
     // "NOMOR URUT RISIKO" sengaja tidak ada di FIELDS — nilainya selalu
     // dihitung ulang otomatis oleh withNomorUrut() setiap render (meniru
@@ -138,7 +134,7 @@ class IrsPemdaController extends Controller
         // edit/hapus di RiskOwnershipPolicy (baris tanpa user_id juga
         // hanya terlihat oleh admin).
         $query = IrsPemda::orderBy('id');
-        if (!$isAdmin) {
+        if (! $isAdmin) {
             $query->where('user_id', auth()->id());
         }
         $this->saringTahun($query, $tahun, 'TAHUN DINILAI RISIKO');
@@ -167,6 +163,7 @@ class IrsPemdaController extends Controller
             ->filter(fn ($v) => $v !== '' && $v !== '-' && $v !== 'Tidak Ada Data')
             ->map(function ($v) {
                 $pos = strrpos($v, ':');
+
                 return $pos !== false ? trim(substr($v, $pos + 1)) : $v;
             })
             ->unique()
@@ -217,7 +214,7 @@ class IrsPemdaController extends Controller
      */
     private function sasaranRpjmdKodes(): array
     {
-        if (!$this->tabelTersedia('tbl_krs_irs_pemda')) {
+        if (! $this->tabelTersedia('tbl_krs_irs_pemda')) {
             return [];
         }
 

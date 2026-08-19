@@ -50,13 +50,13 @@ class MonitoringRtp2025Seeder extends Seeder
     /** Hasil uji coba penerapan pengendalian, langkah ke-4 dari enam langkah Perdep. */
     private const HASIL_UJI_COBA = [
         'Prosedur diuji pada satu bidang selama dua minggu. Alur berjalan, tetapi formulir isian terlalu '
-            . 'panjang sehingga petugas melewatkan kolom penerima. Formulir disederhanakan sebelum diberlakukan.',
+            .'panjang sehingga petugas melewatkan kolom penerima. Formulir disederhanakan sebelum diberlakukan.',
         'Uji coba menunjukkan pengendalian berjalan, namun waktu penyelesaian melampaui target karena '
-            . 'verifikasi bertingkat. Jenjang verifikasi dipangkas dari tiga menjadi dua sebelum ditetapkan.',
+            .'verifikasi bertingkat. Jenjang verifikasi dipangkas dari tiga menjadi dua sebelum ditetapkan.',
         'Diuji pada tiga kecamatan. Petugas memahami prosedur, tetapi belum ada penanggung jawab harian '
-            . 'sehingga berkas menumpuk di akhir minggu. Penanggung jawab harian ditetapkan dalam rancangan akhir.',
+            .'sehingga berkas menumpuk di akhir minggu. Penanggung jawab harian ditetapkan dalam rancangan akhir.',
         'Uji coba berjalan sesuai rancangan tanpa hambatan berarti; rancangan diteruskan ke penetapan '
-            . 'tanpa perubahan.',
+            .'tanpa perubahan.',
     ];
 
     public function run(): void
@@ -71,7 +71,7 @@ class MonitoringRtp2025Seeder extends Seeder
             return;
         }
 
-        $penyusun = User::whereHas('roles', fn($q) => $q->where('name', 'admin'))->value('id');
+        $penyusun = User::whereHas('roles', fn ($q) => $q->where('name', 'admin'))->value('id');
         $ringkas = ['lengkap' => 0, 'form8_saja' => 0, 'belum' => 0, 'uji_coba' => 0];
 
         foreach ($daftar as $rtp) {
@@ -81,6 +81,7 @@ class MonitoringRtp2025Seeder extends Seeder
 
             if ($bagian === 3) {
                 $ringkas['belum']++;
+
                 continue;
             }
 
@@ -95,7 +96,7 @@ class MonitoringRtp2025Seeder extends Seeder
                 'penerima_informasi' => 'Seluruh Kepala Bidang dan pelaksana terkait',
                 'triwulan_rencana_komunikasi' => $triwulan,
                 'tahun_rencana_komunikasi' => self::TAHUN,
-                'realisasi_waktu_komunikasi' => $this->bulanTriwulan($triwulan) . ' ' . self::TAHUN,
+                'realisasi_waktu_komunikasi' => $this->bulanTriwulan($triwulan).' '.self::TAHUN,
                 'keterangan_komunikasi' => 'Telah dikomunikasikan dan didokumentasikan.',
                 'submitted_by' => $penyusun,
             ];
@@ -104,6 +105,7 @@ class MonitoringRtp2025Seeder extends Seeder
                 // Baru Form 8 yang terisi — Form 9 sengaja dikosongkan.
                 MonitoringRtp::create($isian);
                 $ringkas['form8_saja']++;
+
                 continue;
             }
 
@@ -113,9 +115,9 @@ class MonitoringRtp2025Seeder extends Seeder
                 'penanggung_jawab_pemantauan' => 'Kepala Perangkat Daerah',
                 'triwulan_rencana_pemantauan' => $triwulanPantau,
                 'tahun_rencana_pemantauan' => self::TAHUN,
-                'realisasi_waktu_pemantauan' => $this->bulanTriwulan($triwulanPantau) . ' ' . self::TAHUN,
+                'realisasi_waktu_pemantauan' => $this->bulanTriwulan($triwulanPantau).' '.self::TAHUN,
                 'keterangan_pemantauan' => 'Pemantauan terlaksana, hasilnya didokumentasikan dan '
-                    . 'disampaikan kepada Unit Kepatuhan.',
+                    .'disampaikan kepada Unit Kepatuhan.',
             ];
 
             // Uji coba hanya untuk sebagian RTP — langkah ini memang tidak
@@ -135,9 +137,9 @@ class MonitoringRtp2025Seeder extends Seeder
         }
 
         $this->command?->info(
-            'Monitoring RTP 2025 dibuat dari ' . count($daftar) . " RTP: {$ringkas['lengkap']} lengkap Form 8 dan 9 "
-            . "(termasuk {$ringkas['uji_coba']} beruji coba), {$ringkas['form8_saja']} baru Form 8, "
-            . "{$ringkas['belum']} sengaja dibiarkan belum dipantau."
+            'Monitoring RTP 2025 dibuat dari '.count($daftar)." RTP: {$ringkas['lengkap']} lengkap Form 8 dan 9 "
+            ."(termasuk {$ringkas['uji_coba']} beruji coba), {$ringkas['form8_saja']} baru Form 8, "
+            ."{$ringkas['belum']} sengaja dibiarkan belum dipantau."
         );
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Akun sementara untuk mengambil tangkapan layar aplikasi.
  *
@@ -15,11 +16,12 @@
  *   php akun_sementara.php hapus  -> hapus akun itu sampai habis
  *   php akun_sementara.php cek    -> masih ada atau tidak
  */
-require __DIR__ . '/../../vendor/autoload.php';
-$app = require_once __DIR__ . '/../../bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+require __DIR__.'/../../vendor/autoload.php';
+$app = require_once __DIR__.'/../../bootstrap/app.php';
+$app->make(Kernel::class)->bootstrap();
 
 use App\Models\User;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -50,7 +52,7 @@ if ($aksi === 'buat') {
     // yang hanya terbuka bagi peran itu (Backup/Excel, Keterangan Pendukung,
     // Log Aktivitas).
     $u->assignRole('super-admin');
-    echo NAMA . ' ' . $sandi . "\n";
+    echo NAMA.' '.$sandi."\n";
     exit(0);
 }
 

@@ -113,7 +113,7 @@ return new class extends Migration
                 } else {
                     // Tidak bisa dipastikan - tidak dikarang, teks aslinya
                     // ikut disimpan supaya penilainya bisa membetulkan.
-                    $hasil = 'Pelaksanaan (' . $bersih . ')';
+                    $hasil = 'Pelaksanaan ('.$bersih.')';
                 }
             }
 

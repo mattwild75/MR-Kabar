@@ -18,8 +18,7 @@ class SharedFileUploadSubmitted extends Notification
     public function __construct(
         private readonly Media $media,
         private readonly string $uploaderName,
-    ) {
-    }
+    ) {}
 
     public function via(object $notifiable): array
     {
@@ -33,7 +32,7 @@ class SharedFileUploadSubmitted extends Notification
             'media_id' => $this->media->id,
             'file_name' => $this->media->file_name,
             'title' => 'File baru menunggu persetujuan di Folder Umum',
-            'body' => $this->uploaderName . ' mengunggah "' . $this->media->file_name . '" ke Folder Umum, menunggu persetujuan Anda.',
+            'body' => $this->uploaderName.' mengunggah "'.$this->media->file_name.'" ke Folder Umum, menunggu persetujuan Anda.',
             'url' => '/files?scope=shared',
         ];
     }

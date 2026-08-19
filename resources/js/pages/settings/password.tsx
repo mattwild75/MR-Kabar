@@ -8,8 +8,8 @@ import { FormEventHandler, useRef } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
 import { Button } from '@/components/ui/button';
-import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
+import { PasswordInput } from '@/components/ui/password-input';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -114,7 +114,7 @@ export default function Password() {
                                 leave="transition ease-in-out"
                                 leaveTo="opacity-0"
                             >
-                                <p className="text-sm text-muted-foreground">Saved</p>
+                                <p className="text-muted-foreground text-sm">Saved</p>
                             </Transition>
                         </div>
                     </form>

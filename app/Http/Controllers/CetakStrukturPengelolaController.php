@@ -31,7 +31,7 @@ class CetakStrukturPengelolaController extends Controller
      */
     private function ensureAdmin(): void
     {
-        if (!auth()->user()?->canViewAllOpd()) {
+        if (! auth()->user()?->canViewAllOpd()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat mengubah struktur pengelolaan Risiko.');
         }
     }
@@ -50,7 +50,7 @@ class CetakStrukturPengelolaController extends Controller
             ->orderBy('urutan')
             ->orderBy('id')
             ->get()
-            ->map(fn($r) => [
+            ->map(fn ($r) => [
                 'id' => $r->id,
                 'peran' => $r->peran,
                 'peran_label' => $r->peranLabel(),
@@ -174,8 +174,8 @@ class CetakStrukturPengelolaController extends Controller
 
         return back()->with(
             'success',
-            $sumber->count() . ' baris disalin dari tahun ' . $data['tahun_sumber']
-            . '. Periksa kembali namanya, sebab jabatan bisa berpindah.'
+            $sumber->count().' baris disalin dari tahun '.$data['tahun_sumber']
+            .'. Periksa kembali namanya, sebab jabatan bisa berpindah.'
         );
     }
 

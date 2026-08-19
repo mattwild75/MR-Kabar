@@ -18,7 +18,7 @@ class AuditLogController extends Controller
         // dikunci ke role super-admin secara eksplisit di kode, tidak hanya
         // bergantung pada assignment permission yang bisa berubah lewat UI
         // Permission Management.
-        if (!Auth::user()?->hasRole('super-admin')) {
+        if (! Auth::user()?->hasRole('super-admin')) {
             throw new AccessDeniedHttpException('Audit log hanya dapat diakses oleh Super Admin.');
         }
 

@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Services\KroIroPdSyncService;
 use App\Services\KrsIrsPdSyncService;
 use App\Services\KrsIrsSyncService;
-use App\Services\KroIroPdSyncService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -43,9 +43,7 @@ class RebuildHierarchyDiagramJob implements ShouldQueue
 
     public int $tries = 3;
 
-    public function __construct(private readonly string $serviceClass)
-    {
-    }
+    public function __construct(private readonly string $serviceClass) {}
 
     public function handle(): void
     {

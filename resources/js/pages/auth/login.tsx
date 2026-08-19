@@ -2,15 +2,15 @@ import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle, PlayCircle } from 'lucide-react';
 import { FormEventHandler, useState } from 'react';
 
+import EduVideoPlayer from '@/components/edu-video-player';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import EduVideoPlayer from '@/components/edu-video-player';
 import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/ui/password-input';
 import { Label } from '@/components/ui/label';
+import { PasswordInput } from '@/components/ui/password-input';
 import AuthLayout from '@/layouts/auth-layout';
 import { useEduVideo } from '@/lib/edu-video';
 
@@ -97,7 +97,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         />
                         {/* text-foreground: was text-aceh-black/70 dark:text-aceh-cream/70,
                             which resolved to near-invisible text in dark mode. */}
-                        <Label htmlFor="remember" className="text-sm font-normal text-foreground">
+                        <Label htmlFor="remember" className="text-foreground text-sm font-normal">
                             Ingat saya
                         </Label>
                     </div>
@@ -112,7 +112,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         Masuk
                     </Button>
                 </div>
-
             </form>
 
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
@@ -132,7 +131,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     <button
                         type="button"
                         onClick={() => setVideoOpen(true)}
-                        className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-background/60 px-3 py-1 text-xs font-medium text-foreground transition-colors hover:border-primary hover:bg-primary/10 hover:text-primary focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                        className="border-border bg-background/60 text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary focus-visible:ring-primary inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
                         title="Tonton video edukasi MR Kabar"
                         aria-label="Tonton video edukasi MR Kabar"
                     >
@@ -160,8 +159,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                             />
                             <p className="text-muted-foreground mt-3 text-xs">
                                 {video.bawaan && 'Durasi 29 menit. '}
-                                Versi dengan daftar bab, penyaring per peran, dan uji pemahaman
-                                tersedia di menu <span className="font-medium">Panduan</span> setelah Anda masuk.
+                                Versi dengan daftar bab, penyaring per peran, dan uji pemahaman tersedia di menu{' '}
+                                <span className="font-medium">Panduan</span> setelah Anda masuk.
                             </p>
                         </div>
                     </DialogContent>

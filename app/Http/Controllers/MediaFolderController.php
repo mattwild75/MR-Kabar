@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\MediaFolder;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class MediaFolderController extends Controller
 {
@@ -35,11 +36,11 @@ class MediaFolderController extends Controller
         // folder di akun super-admin; pengguna biasa selalu membuat folder
         // di akunnya sendiri.
         if ($request->string('scope')->toString() === 'shared') {
-            $targetUser = \App\Models\User::sharedFolderOwner();
+            $targetUser = User::sharedFolderOwner();
         } elseif ($requester->canViewAllOpd() && $request->filled('user_id')) {
-            $targetUser = \App\Models\User::findOrFail($request->input('user_id'));
+            $targetUser = User::findOrFail($request->input('user_id'));
 
-            if (!$requester->hasRole('super-admin') && $targetUser->hasRole('super-admin') && $targetUser->id !== $requester->id) {
+            if (! $requester->hasRole('super-admin') && $targetUser->hasRole('super-admin') && $targetUser->id !== $requester->id) {
                 abort(403, 'Admin tidak dapat membuat folder di akun Super Admin.');
             }
         } else {
@@ -64,15 +65,15 @@ class MediaFolderController extends Controller
         // mengelola folder siapa pun — TAPI admin (bukan super-admin)
         // tidak boleh menghapus folder milik super-admin.
         $requester = $request->user();
-        $isSharedFolder = $folder->user_id === \App\Models\User::sharedFolderOwner()->id;
+        $isSharedFolder = $folder->user_id === User::sharedFolderOwner()->id;
         $isOwner = $folder->user_id === $requester->id;
         $isAdminOrSuperAdmin = $requester->canViewAllOpd();
 
-        if (!$isSharedFolder && !$isOwner && !$isAdminOrSuperAdmin) {
+        if (! $isSharedFolder && ! $isOwner && ! $isAdminOrSuperAdmin) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus folder ini.');
         }
 
-        if (!$isSharedFolder && !$isOwner && !$requester->hasRole('super-admin') && $folder->user?->hasRole('super-admin')) {
+        if (! $isSharedFolder && ! $isOwner && ! $requester->hasRole('super-admin') && $folder->user?->hasRole('super-admin')) {
             abort(403, 'Admin tidak dapat menghapus folder milik Super Admin.');
         }
 
@@ -81,7 +82,7 @@ class MediaFolderController extends Controller
         // Hapus semua file dalam folder ini
         $files = $user->media()
             ->where('collection_name', 'files')
-            ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.folder_id')) = ?", [(string)$folder->id])
+            ->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(custom_properties, '$.folder_id')) = ?", [(string) $folder->id])
             ->get();
 
         foreach ($files as $file) {

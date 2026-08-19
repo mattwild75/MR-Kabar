@@ -14,6 +14,8 @@ use App\Models\KroPd;
 use App\Models\KrsPd;
 use App\Models\KrsPemda;
 use App\Models\LaporanKejadianRisiko;
+use App\Models\MonitoringRtp;
+use App\Models\PencatatanKejadianRisiko;
 use App\Models\ProgramBupatiRisiko;
 use App\Models\StrukturPengelolaRisiko;
 use App\Services\KroIroPdSyncService;
@@ -226,11 +228,11 @@ class TrashController extends Controller
         $model = $type['model'];
         $query = $model::onlyTrashed()->orderByDesc('deleted_at');
 
-        if (!$this->isAdmin()) {
-            if (!empty($type['opd_scoped'])) {
+        if (! $this->isAdmin()) {
+            if (! empty($type['opd_scoped'])) {
                 $opdId = auth()->user()?->opd_id;
                 $query->where('opd_id', $opdId ?? 0);
-            } elseif (!$type['owned']) {
+            } elseif (! $type['owned']) {
                 // Data lintas-OPD hanya boleh dilihat admin.
                 $query->whereRaw('1 = 0');
             } else {
@@ -245,7 +247,7 @@ class TrashController extends Controller
     {
         $types = $this->types();
         $active = (string) $request->query('type', array_key_first($types));
-        if (!isset($types[$active])) {
+        if (! isset($types[$active])) {
             $active = array_key_first($types);
         }
 
@@ -288,13 +290,13 @@ class TrashController extends Controller
     private function findTrashed(string $slug, int $id): array
     {
         $types = $this->types();
-        if (!isset($types[$slug])) {
+        if (! isset($types[$slug])) {
             abort(404, 'Jenis data tidak dikenal.');
         }
         $type = $types[$slug];
 
         $row = $this->trashedQuery($type)->whereKey($id)->first();
-        if (!$row) {
+        if (! $row) {
             abort(404, 'Data terhapus tidak ditemukan atau bukan milik Anda.');
         }
 
@@ -325,7 +327,7 @@ class TrashController extends Controller
     public function restoreBatch(Request $request, string $type, string $batch)
     {
         $types = $this->types();
-        if (!isset($types[$type])) {
+        if (! isset($types[$type])) {
             abort(404, 'Jenis data tidak dikenal.');
         }
         $typeDef = $types[$type];
@@ -340,13 +342,13 @@ class TrashController extends Controller
         }
         $this->runSync($typeDef['sync']);
 
-        return back()->with('success', $rows->count() . ' data berhasil dipulihkan.');
+        return back()->with('success', $rows->count().' data berhasil dipulihkan.');
     }
 
     public function forceDelete(Request $request, string $type, int $id)
     {
         // Hapus permanen hanya untuk admin/super-admin.
-        if (!$this->isAdmin()) {
+        if (! $this->isAdmin()) {
             abort(403, 'Hanya Admin/Super Admin yang dapat menghapus permanen.');
         }
 
@@ -369,18 +371,18 @@ class TrashController extends Controller
      */
     private function cleanupOrphanMonitoring(string $slug, int $rowId): void
     {
-        if (!in_array($slug, ['irs_pemda', 'irs_pd', 'iro_pd'], true)) {
+        if (! in_array($slug, ['irs_pemda', 'irs_pd', 'iro_pd'], true)) {
             return;
         }
 
         // Parent sudah hilang permanen → orphan jg dihapus permanen
         // (withTrashed + forceDelete), termasuk yg mungkin sudah soft-deleted.
-        \App\Models\MonitoringRtp::withTrashed()
+        MonitoringRtp::withTrashed()
             ->where('rtp_sumber_tipe', $slug)
             ->where('rtp_sumber_id', $rowId)
             ->forceDelete();
 
-        \App\Models\PencatatanKejadianRisiko::withTrashed()
+        PencatatanKejadianRisiko::withTrashed()
             ->where('risiko_tipe', $slug)
             ->where('risiko_id', $rowId)
             ->forceDelete();

@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Index komposit (TAHUN DINILAI RISIKO, deleted_at) pada tabel risiko
@@ -25,13 +25,13 @@ return new class extends Migration
     public function up(): void
     {
         foreach (self::TABLES as $table) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 continue;
             }
 
             Schema::table($table, function (Blueprint $t) use ($table) {
                 $indexName = "{$table}_tahun_deleted_at_index";
-                if (!$this->indexExists($table, $indexName)) {
+                if (! $this->indexExists($table, $indexName)) {
                     $t->index(['TAHUN DINILAI RISIKO', 'deleted_at'], $indexName);
                 }
             });
@@ -41,7 +41,7 @@ return new class extends Migration
     public function down(): void
     {
         foreach (self::TABLES as $table) {
-            if (!Schema::hasTable($table)) {
+            if (! Schema::hasTable($table)) {
                 continue;
             }
 

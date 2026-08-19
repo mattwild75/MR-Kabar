@@ -120,10 +120,18 @@ class RiskReferenceDataSeeder extends Seeder
 
     private function warnaForSkala(int $skala): string
     {
-        if ($skala >= 20) return 'bg-red-500 text-white';
-        if ($skala >= 16) return 'bg-orange-400 text-white';
-        if ($skala >= 11) return 'bg-yellow-300 text-black';
-        if ($skala >= 6) return 'bg-green-400 text-black';
+        if ($skala >= 20) {
+            return 'bg-red-500 text-white';
+        }
+        if ($skala >= 16) {
+            return 'bg-orange-400 text-white';
+        }
+        if ($skala >= 11) {
+            return 'bg-yellow-300 text-black';
+        }
+        if ($skala >= 6) {
+            return 'bg-green-400 text-black';
+        }
 
         return 'bg-sky-400 text-white';
     }

@@ -65,7 +65,7 @@ class SettingApp extends Model
 
     public static function cached(): ?SettingApp
     {
-        if (!static::$cachedResolved) {
+        if (! static::$cachedResolved) {
             static::$cached = static::first();
             static::$cachedResolved = true;
         }

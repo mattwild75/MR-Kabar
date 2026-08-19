@@ -68,14 +68,16 @@ class CelahPengendalianKriteria2025Seeder extends Seeder
 
             foreach ($baris as $r) {
                 $kategori = $this->kodeKategori($r->{'KATEGORI EXISTING CONTROL'});
-                if (!in_array($kategori, ['TE', 'KE'], true)) {
+                if (! in_array($kategori, ['TE', 'KE'], true)) {
                     $ringkas['bukan_te_ke']++;
+
                     continue;
                 }
 
                 $celah = trim((string) $r->{'CELAH PENGENDALIAN'});
                 if ($this->sudahBerkriteria($celah)) {
                     $ringkas['dilewati']++;
+
                     continue;
                 }
 
@@ -88,7 +90,7 @@ class CelahPengendalianKriteria2025Seeder extends Seeder
 
         $this->command?->info(
             "Celah pengendalian 2025: {$ringkas['diisi']} baris dilengkapi kriteria Perdep, "
-            . "{$ringkas['dilewati']} sudah berkriteria, {$ringkas['bukan_te_ke']} bukan TE/KE sehingga dibiarkan."
+            ."{$ringkas['dilewati']} sudah berkriteria, {$ringkas['bukan_te_ke']} bukan TE/KE sehingga dibiarkan."
         );
     }
 
@@ -140,7 +142,7 @@ class CelahPengendalianKriteria2025Seeder extends Seeder
         // Pengendalian yang dinilai Kurang Efektif berarti sudah berjalan
         // tetapi belum menutup seluruhnya — butir e adalah penanda khasnya,
         // jadi selalu disertakan.
-        if ($kategori === 'KE' && !in_array('e', $terpilih, true)) {
+        if ($kategori === 'KE' && ! in_array('e', $terpilih, true)) {
             $terpilih[] = 'e';
         }
 
@@ -151,10 +153,10 @@ class CelahPengendalianKriteria2025Seeder extends Seeder
     private function susun(array $terpilih, string $uraian): string
     {
         $daftar = collect(self::KRITERIA)
-            ->filter(fn($teks, $kode) => in_array($kode, $terpilih, true))
-            ->map(fn($teks, $kode) => "{$kode}. {$teks}")
+            ->filter(fn ($teks, $kode) => in_array($kode, $terpilih, true))
+            ->map(fn ($teks, $kode) => "{$kode}. {$teks}")
             ->implode("\n");
 
-        return $uraian === '' ? $daftar : $daftar . "\n\n" . $uraian;
+        return $uraian === '' ? $daftar : $daftar."\n\n".$uraian;
     }
 }
