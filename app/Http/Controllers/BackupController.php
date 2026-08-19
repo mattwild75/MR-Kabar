@@ -840,7 +840,7 @@ class BackupController extends Controller
     private function restoreFromSqlFile(string $sqlPath): int
     {
         $sql = File::get($sqlPath);
-        $statements = $this->splitSqlStatements($sql);
+        $statements = $this->tanpaPerpindahanBasisData($this->splitSqlStatements($sql));
 
         $pdo = DB::connection()->getPdo();
         $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
@@ -878,6 +878,81 @@ class BackupController extends Controller
      * ini melacak in-string/in-comment state karakter-per-karakter supaya
      * titik-koma di DALAM string literal tidak dianggap pemisah statement.
      */
+    /**
+     * Membuang pernyataan yang MEMINDAHKAN sasaran pemulihan.
+     *
+     * `mysqldump --databases` menyisipkan `USE \`mrkabar\`;` dan
+     * `CREATE DATABASE ...` ke dalam dumpnya. Keduanya dijalankan apa adanya
+     * oleh PDO, dan `USE` MEMINDAHKAN koneksi ke basis data yang namanya
+     * tertulis di dalam berkas — bukan basis data yang sedang dipakai
+     * aplikasi ini.
+     *
+     * Selama aplikasinya cuma satu, akibatnya tidak terasa: namanya kebetulan
+     * sama. Yang berbahaya adalah pemasangan kedua — salinan uji coba atau
+     * staging yang menunjuk basis data lain. Mengimpor cadangan produksi di
+     * sana akan menimpa PRODUKSI, dari dalam aplikasi, lewat tombol yang
+     * tampak aman. Persis kejadian yang menghapus 914 baris pada 17 Agustus
+     * 2026 lewat baris perintah; jalur tombol Impor masih terbuka sesudahnya.
+     *
+     * Penyaringnya di sini, bukan di splitSqlStatements(), supaya pemecahan
+     * pernyataan tetap satu-satunya urusan berkas itu.
+     *
+     * @param  array<int, string>  $statements
+     * @return array<int, string>
+     */
+    private function tanpaPerpindahanBasisData(array $statements): array
+    {
+        return array_values(array_filter(
+            $statements,
+            fn (string $s) => ! preg_match(
+                '/^(USE\s|CREATE\s+DATABASE\b|CREATE\s+SCHEMA\b)/i',
+                $this->tanpaKomentarDepan($s),
+            ),
+        ));
+    }
+
+    /**
+     * Membuang komentar dan spasi di depan sebuah pernyataan SQL.
+     *
+     * Dump sungguhan menaruh blok komentar tepat sebelum pernyataannya:
+     *
+     *     --
+     *     -- Current Database: `mrkabar`
+     *     --
+     *
+     *     USE `mrkabar`
+     *
+     * Tanpa dibuang lebih dulu, pemeriksaan "apakah pernyataan ini diawali
+     * USE" akan melihat tanda hubung, bukan kata USE-nya. Ditulis sebagai
+     * perulangan biasa, bukan satu regex besar: yang dicari cuma awalannya,
+     * dan regex yang harus mengurus dua bentuk komentar sekaligus lebih mudah
+     * salah daripada dibaca.
+     */
+    private function tanpaKomentarDepan(string $s): string
+    {
+        $sisa = ltrim($s);
+
+        while ($sisa !== '') {
+            if (str_starts_with($sisa, '--')) {
+                $akhir = strpos($sisa, "\n");
+                $sisa = $akhir === false ? '' : ltrim(substr($sisa, $akhir + 1));
+
+                continue;
+            }
+
+            if (str_starts_with($sisa, '/*')) {
+                $akhir = strpos($sisa, '*/');
+                $sisa = $akhir === false ? '' : ltrim(substr($sisa, $akhir + 2));
+
+                continue;
+            }
+
+            break;
+        }
+
+        return $sisa;
+    }
+
     private function splitSqlStatements(string $sql): array
     {
         $statements = [];
