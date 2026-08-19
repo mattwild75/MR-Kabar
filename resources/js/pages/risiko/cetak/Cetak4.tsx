@@ -239,7 +239,18 @@ function MatriksAnalisisRisiko({
               <th className="border border-black p-1 text-center font-semibold">{kemungkinanLabels[kemungkinan - 1]}</th>
               {[1, 2, 3, 4, 5].map((dampak) => {
                 const isi = matriks[`${kemungkinan}-${dampak}`] ?? [];
-                const skala = matriksSkalaRisiko[dampak]?.[kemungkinan] ?? dampak * kemungkinan;
+                // TIDAK ada fallback ke perkalian. Sebelumnya baris ini berbunyi
+                // `?? dampak * kemungkinan` - rumus yang justru dinyatakan SALAH
+                // oleh Perdep, dan yang dilarang komentar di atas berkas ini
+                // sendiri. Matriks Perdep adalah tabel peringkat 1-25 yang
+                // membobot dampak lebih berat; perkalian akan menuliskan 5 di
+                // tempat yang seharusnya 20.
+                //
+                // Yang dicetak berkas ini adalah DOKUMEN RESMI yang
+                // ditandatangani. Kalau petanya belum termuat, lebih baik selnya
+                // kosong dan terlihat janggal daripada diam-diam memuat angka
+                // yang melanggar Perdep di atas tanda tangan pejabat.
+                const skala = matriksSkalaRisiko[dampak]?.[kemungkinan] ?? null;
                 return (
                   <td key={dampak} className={`border border-black p-1 align-top ${skalaBadgeClass(skala, riskLevels)}`}>
                     {isi.length === 0 ? (
