@@ -58,10 +58,37 @@ class SettingApp extends Model
         'tutorial_video_subtitle_size' => 'integer',
     ];
 
-    /** Cache per-request agar baris setting tidak diquery berulang kali. */
+    /**
+     * Ingatan sebaris ini, agar baris setting tidak dikueri berulang kali
+     * dalam satu permintaan.
+     *
+     * Karena properti STATIS, umurnya mengikuti umur proses PHP, bukan umur
+     * permintaan. Pada PHP-FPM biasa keduanya kebetulan sama panjang, jadi
+     * tidak pernah terasa. Dua tempat yang tidak sama panjang:
+     *
+     *   - Pengujian. Seluruh rangkaian berjalan dalam SATU proses, jadi
+     *     setelan yang disimpan satu uji terbawa ke uji berikutnya. Temuan
+     *     R-21 audit: satu uji gagal di rangkaian penuh tetapi lulus kalau
+     *     dijalankan sendiri — gejala yang paling mudah disalahartikan
+     *     sebagai uji yang "kadang-kadang rewel".
+     *   - Octane, seandainya kelak dipakai. Prosesnya hidup terus, jadi
+     *     setelan basi akan disajikan sampai prosesnya dimatikan.
+     *
+     * Pembatalannya karena itu dipasang pada peristiwa model (lihat
+     * booted()), bukan diserahkan pada ingatan penulis kode untuk memanggil
+     * clearCached() di tiap tempat yang menyimpan. Sebelumnya hanya dua
+     * tempat yang memanggilnya; jalur ketiga yang lupa memanggil tidak akan
+     * memberi gejala apa pun sampai ada yang mengaudit.
+     */
     protected static ?SettingApp $cached = null;
 
     protected static bool $cachedResolved = false;
+
+    protected static function booted(): void
+    {
+        static::saved(static fn () => static::clearCached());
+        static::deleted(static fn () => static::clearCached());
+    }
 
     public static function cached(): ?SettingApp
     {

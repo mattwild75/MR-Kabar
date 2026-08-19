@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\SettingApp;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -24,5 +25,12 @@ abstract class TestCase extends BaseTestCase
         // daftarnya dapat ditentukan dari .env, satu salah ketik di server
         // sungguhan akan mematikan lapisan kedua tanpa suara.
         config(['mrkabar.dua_faktor.peran_wajib' => []]);
+
+        // Ingatan statis SettingApp hidup selama proses, sedangkan seluruh
+        // rangkaian uji berjalan dalam satu proses — tanpa ini, setelan yang
+        // disimpan satu uji terbawa ke uji berikutnya. Temuan R-21 audit,
+        // gejalanya satu uji yang gagal di rangkaian penuh tetapi lulus
+        // kalau dijalankan sendiri.
+        SettingApp::clearCached();
     }
 }
