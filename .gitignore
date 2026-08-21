@@ -1,7 +1,18 @@
 .DS_Store
-.env
-.env.backup
-.env.production
+# Seluruh varian .env, bukan tiga nama yang kebetulan terpikir. Isinya
+# APP_KEY, kredensial basis data, dan sandi akun bersama LAPOR/CEE_Survey —
+# dan repo ini PUBLIK.
+#
+# Ditulis begini sesudah kejadian nyata: sebuah salinan bernama
+# `.env.sebelum-tunnel` dibuat saat menyalakan tunnel, dan ia lolos ketiga
+# pola lama. Satu `git add -A` sudah cukup membocorkannya. Nama cadangan
+# berikutnya tidak akan tertebak juga — `.env.bak`, `.env.lama`, `.env.2026`.
+#
+# `!.env.example` mengecualikan berkas contoh, yang memang harus ikut
+# terlacak: ia tidak memuat rahasia, dan tanpanya orang tidak tahu variabel
+# apa saja yang perlu diisi saat memasang.
+.env*
+!.env.example
 .phpactor.json
 .phpunit.result.cache
 /.fleet
