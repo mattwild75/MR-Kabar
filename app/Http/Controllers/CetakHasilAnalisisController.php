@@ -367,10 +367,8 @@ class CetakHasilAnalisisController extends Controller
      */
     private function filterPrioritas(Collection $rows): Collection
     {
-        $ambangSelera = $this->riskRef->ambangSeleraRisiko();
-
         return $rows
-            ->filter(fn ($r) => (int) ($r['skala_risiko'] ?? 0) >= $ambangSelera)
+            ->filter(fn ($r) => $this->riskRef->adalahRisikoPrioritas($r['skala_risiko'] ?? null))
             ->sortByDesc(fn ($r) => (int) ($r['skala_risiko'] ?? 0))
             ->values();
     }

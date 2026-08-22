@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\RiskLevel;
+use App\Models\RiskMatrixCell;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -67,5 +70,15 @@ return new class extends Migration
                 DB::table($tabel)->where('warna_class', $dari)->update(['warna_class' => $ke]);
             }
         }
+
+        // Cache dibersihkan SENDIRI di sini. Daftar Level Risiko disimpan
+        // dengan Cache::rememberForever dan pembatalannya menempel pada
+        // peristiwa model — sedangkan migrasi ini memakai query builder, yang
+        // TIDAK memicu peristiwa apa pun. Tanpa baris ini, warna lama tetap
+        // tersaji sampai ada yang kebetulan menjalankan optimize:clear, dan
+        // migrasi yang "berhasil" tetapi tidak berpengaruh adalah jenis
+        // kegagalan yang paling sulit disadari.
+        Cache::forget(RiskLevel::CACHE_KEY);
+        Cache::forget(RiskMatrixCell::CACHE_KEY);
     }
 };

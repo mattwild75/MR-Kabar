@@ -212,7 +212,7 @@ class ProgramBupatiRisikoController extends Controller
             }
         }
 
-        $data = $programs->map(function (ProgramPembangunanBupati $program) use ($risikoByTipe, $nomorUrutByTipe, $ambangTinggi, $programSemuaByRisikoKey) {
+        $data = $programs->map(function (ProgramPembangunanBupati $program) use ($risikoByTipe, $nomorUrutByTipe, $programSemuaByRisikoKey) {
             $risikoRows = $program->risikoTerkait
                 ->map(function (ProgramBupatiRisiko $pivot) use ($risikoByTipe, $nomorUrutByTipe, $programSemuaByRisikoKey) {
                     $risiko = $risikoByTipe[$pivot->risiko_tipe][$pivot->risiko_id] ?? null;
@@ -265,7 +265,7 @@ class ProgramBupatiRisikoController extends Controller
                 'perangkat_daerah' => $program->perangkat_daerah,
                 'misi_urutan' => $program->misi_urutan,
                 'jumlah_risiko' => $risikoRows->count(),
-                'jumlah_risiko_prioritas' => $risikoRows->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi)->count(),
+                'jumlah_risiko_prioritas' => $risikoRows->filter(fn ($r) => app(RiskReferenceDataService::class)->adalahRisikoPrioritas($r['skala_risiko'] ?? null))->count(),
                 'risiko' => $risikoRows,
             ];
         });

@@ -236,7 +236,7 @@ class CetakRtpController extends Controller
 
         $sectionI = $strategisPemda
             ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
-            ->filter(fn ($r) => $ambangTinggi !== null && (int) $r->{'SKALA RISIKO'} >= $ambangTinggi)
+            ->filter(fn ($r) => app(RiskReferenceDataService::class)->adalahRisikoPrioritas($r->{'SKALA RISIKO'} ?? null))
             ->map(fn ($r) => $this->rtpRow($r, 'RSP', $namaPemda, $nomorPemda[$r->id] ?? null))
             ->sortByDesc('skala_risiko')
             ->values();
@@ -251,7 +251,7 @@ class CetakRtpController extends Controller
 
         $sectionII = $strategisOpd
             ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
-            ->filter(fn ($r) => $ambangTinggi !== null && (int) $r->{'SKALA RISIKO'} >= $ambangTinggi)
+            ->filter(fn ($r) => app(RiskReferenceDataService::class)->adalahRisikoPrioritas($r->{'SKALA RISIKO'} ?? null))
             ->map(fn ($r) => $this->rtpRow($r, 'RSO', $r->user?->opd?->nama, $nomorOpdStrategis[$r->id] ?? null))
             ->sortByDesc('skala_risiko')
             ->values();
@@ -266,7 +266,7 @@ class CetakRtpController extends Controller
 
         $sectionIII = $operasionalOpd
             ->filter(fn ($r) => ! $opdId || $r->user?->opd_id === $opdId)
-            ->filter(fn ($r) => $ambangTinggi !== null && (int) $r->{'SKALA RISIKO'} >= $ambangTinggi)
+            ->filter(fn ($r) => app(RiskReferenceDataService::class)->adalahRisikoPrioritas($r->{'SKALA RISIKO'} ?? null))
             ->map(fn ($r) => $this->rtpRow($r, 'ROO', $r->user?->opd?->nama, $nomorOpdOperasional[$r->id] ?? null))
             ->sortByDesc('skala_risiko')
             ->values();

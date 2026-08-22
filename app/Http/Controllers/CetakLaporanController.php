@@ -197,7 +197,7 @@ class CetakLaporanController extends Controller
     {
         $ambangTinggi = app(RiskReferenceDataService::class)->ambangSeleraRisiko();
 
-        $hitung = function (string $modelClass) use ($opdId, $tahun, $ambangTinggi) {
+        $hitung = function (string $modelClass) use ($opdId, $tahun) {
             // Filter OPD didorong ke SQL (tak ada penomoran kode risiko yg
             // bergantung pada set penuh di sini — cuma hitung jumlah).
             $rows = $modelClass::when(
@@ -212,7 +212,7 @@ class CetakLaporanController extends Controller
 
             return [
                 'jumlah' => $rows->count(),
-                'prioritas' => $rows->filter(fn ($r) => (int) ($r->{'SKALA RISIKO'} ?? 0) >= $ambangTinggi)->count(),
+                'prioritas' => $rows->filter(fn ($r) => app(RiskReferenceDataService::class)->adalahRisikoPrioritas($r->{'SKALA RISIKO'} ?? null))->count(),
             ];
         };
 
@@ -565,8 +565,8 @@ class CetakLaporanController extends Controller
         $rtpRisikoLengkapOpd = $rowsSemuaOpd
             ->filter(fn ($r) => $r['opd_id'] !== null)
             ->groupBy('opd_id')
-            ->filter(function ($g) use ($ambangTinggi) {
-                $prioritas = $g->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi);
+            ->filter(function ($g) {
+                $prioritas = $g->filter(fn ($r) => app(RiskReferenceDataService::class)->adalahRisikoPrioritas($r['skala_risiko'] ?? null));
 
                 return $prioritas->every(fn ($r) => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '');
             })

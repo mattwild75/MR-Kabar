@@ -330,7 +330,7 @@ class DashboardController extends Controller
 
     private function buildRingkasan(Collection $rows, int $ambangTinggi, array $kepatuhan): array
     {
-        $prioritas = $rows->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi);
+        $prioritas = $rows->filter(fn ($r) => $this->riskRef->adalahRisikoPrioritas($r['skala_risiko'] ?? null));
 
         // RTP tersusun: risiko prioritas yg field RTP-nya (IRS/IRO ATAU
         // sudah dilengkapi di MonitoringRtp) sudah terisi.
@@ -496,8 +496,8 @@ class DashboardController extends Controller
         $rtpRisikoLengkapOpd = $rowsSemuaOpd
             ->filter(fn ($r) => $r['opd_id'] !== null)
             ->groupBy('opd_id')
-            ->filter(function ($g) use ($ambangTinggiTahapan) {
-                $prioritas = $g->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggiTahapan);
+            ->filter(function ($g) {
+                $prioritas = $g->filter(fn ($r) => $this->riskRef->adalahRisikoPrioritas($r['skala_risiko'] ?? null));
 
                 return $prioritas->every(fn ($r) => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '');
             })
@@ -646,7 +646,7 @@ class DashboardController extends Controller
     private function buildRisikoPrioritas(Collection $rows, int $ambangTinggi): array
     {
         return $rows
-            ->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi)
+            ->filter(fn ($r) => $this->riskRef->adalahRisikoPrioritas($r['skala_risiko'] ?? null))
             ->sortByDesc('skala_risiko')
             ->map(fn ($r) => [
                 'id' => $r['id'],
@@ -842,12 +842,12 @@ class DashboardController extends Controller
         return $rows
             ->filter(fn ($r) => $r['opd_id'] !== null)
             ->groupBy('opd_id')
-            ->map(function ($g, $opdId) use ($ambangTinggi) {
+            ->map(function ($g, $opdId) {
                 return [
                     'opd_id' => (int) $opdId,
                     'opd_nama' => $g->first()['owner_opd_nama'],
                     'total_risiko' => $g->count(),
-                    'risiko_tinggi' => $g->filter(fn ($r) => ($r['skala_risiko'] ?? 0) >= $ambangTinggi)->count(),
+                    'risiko_tinggi' => $g->filter(fn ($r) => $this->riskRef->adalahRisikoPrioritas($r['skala_risiko'] ?? null))->count(),
                     // Σ skala_risiko — baris tanpa skala terisi (null,
                     // belum dianalisis) dihitung 0, tidak menambah eksposur
                     // (bukan dikecualikan dari grup, supaya total_risiko

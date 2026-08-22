@@ -442,6 +442,35 @@ class RiskReferenceDataService
     }
 
     /**
+     * Apakah satu baris risiko termasuk Risiko Prioritas?
+     *
+     * Aturannya sederhana — skala risikonya mencapai atau melewati ambang
+     * Selera Risiko — tetapi sebelumnya ditulis ulang di ENAM tempat pada tiga
+     * controller, dalam dua bentuk yang tidak sama:
+     *
+     *     (int) ($r->{'SKALA RISIKO'} ?? 0) >= $ambangTinggi
+     *     ($r['skala_risiko'] ?? 0)        >= $ambangTinggi
+     *
+     * Yang satu memaksa jadi bilangan bulat, yang satu tidak. Selama nilainya
+     * selalu angka, keduanya sepakat; begitu ada yang mengirim teks kosong
+     * atau null, keduanya mulai berbeda pendapat tentang risiko mana yang
+     * prioritas — dan yang berbeda pendapat adalah ANGKA YANG TERCETAK di
+     * dokumen resmi.
+     *
+     * Ambangnya ikut diambil di sini, jadi pemanggilnya tidak perlu
+     * mengambilnya sendiri lalu membandingkannya sendiri. Satu aturan, satu
+     * tempat.
+     */
+    public function adalahRisikoPrioritas(mixed $skalaRisiko): bool
+    {
+        if ($skalaRisiko === null || $skalaRisiko === '') {
+            return false;
+        }
+
+        return (int) $skalaRisiko >= $this->ambangSeleraRisiko();
+    }
+
+    /**
      * Level Risiko mana saja yang berada di luar Selera Risiko, dipakai
      * frontend untuk menggambar garis batas selera pada matriks.
      *
