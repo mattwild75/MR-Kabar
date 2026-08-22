@@ -118,13 +118,29 @@ class RiskReferenceDataSeeder extends Seeder
         }
     }
 
+    /**
+     * Warna sel matriks berikut warna teksnya.
+     *
+     * SELURUHNYA text-black, dan itu bukan selera. Diukur di peramban dengan
+     * rumus kontras WCAG, teks putih di atas ketiga warna terang ini tidak
+     * terbaca:
+     *
+     *   putih di atas sky-400    2,18   hitam  9,64
+     *   putih di atas orange-400 2,38   hitam  8,83
+     *   putih di atas red-500    3,81   hitam  5,52
+     *
+     * WCAG AA menuntut 4,5 untuk teks biasa. Ketiganya gagal dengan putih,
+     * ketiganya lulus dengan hitam. Dua warna sisanya (green-400, yellow-300)
+     * memang sudah memakai hitam sejak awal, jadi sekarang aturannya satu
+     * untuk semua dan tidak ada lagi yang perlu diingat-ingat.
+     */
     private function warnaForSkala(int $skala): string
     {
         if ($skala >= 20) {
-            return 'bg-red-500 text-white';
+            return 'bg-red-500 text-black';
         }
         if ($skala >= 16) {
-            return 'bg-orange-400 text-white';
+            return 'bg-orange-400 text-black';
         }
         if ($skala >= 11) {
             return 'bg-yellow-300 text-black';
@@ -133,17 +149,17 @@ class RiskReferenceDataSeeder extends Seeder
             return 'bg-green-400 text-black';
         }
 
-        return 'bg-sky-400 text-white';
+        return 'bg-sky-400 text-black';
     }
 
     private function seedRiskLevels(): void
     {
         $rows = [
-            ['label' => 'Sangat Tinggi', 'skala_min' => 20, 'skala_max' => 25, 'warna_class' => 'bg-red-500 text-white', 'urutan' => 1],
-            ['label' => 'Tinggi', 'skala_min' => 16, 'skala_max' => 19, 'warna_class' => 'bg-orange-400 text-white', 'urutan' => 2],
+            ['label' => 'Sangat Tinggi', 'skala_min' => 20, 'skala_max' => 25, 'warna_class' => 'bg-red-500 text-black', 'urutan' => 1],
+            ['label' => 'Tinggi', 'skala_min' => 16, 'skala_max' => 19, 'warna_class' => 'bg-orange-400 text-black', 'urutan' => 2],
             ['label' => 'Sedang', 'skala_min' => 11, 'skala_max' => 15, 'warna_class' => 'bg-yellow-300 text-black', 'urutan' => 3],
             ['label' => 'Rendah', 'skala_min' => 6, 'skala_max' => 10, 'warna_class' => 'bg-green-400 text-black', 'urutan' => 4],
-            ['label' => 'Sangat Rendah', 'skala_min' => 1, 'skala_max' => 5, 'warna_class' => 'bg-sky-400 text-white', 'urutan' => 5],
+            ['label' => 'Sangat Rendah', 'skala_min' => 1, 'skala_max' => 5, 'warna_class' => 'bg-sky-400 text-black', 'urutan' => 5],
         ];
 
         foreach ($rows as $data) {
