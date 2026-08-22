@@ -19,15 +19,15 @@ import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import AppLogo from './app-logo';
 
-// Mulai fetch chunk icon-list.ts (3500+ icon Lucide) begitu app-sidebar.tsx
-// diimpor — DILUAR komponen supaya panggilan sekali per load halaman, bukan
-// per-mount. Sebelumnya icon-list.ts di-import statis di sini sehingga ikut
-// terbundel ke chunk app-layout yg dimuat SEMUA halaman (~1MB); dipindah
-// jadi import() dinamis via iconMapper.ts supaya app-layout lebih kecil,
-// TANPA mengubah ikon yg akhirnya ditampilkan — preload dimulai sedini
-// mungkin (module scope) supaya biasanya sudah siap sebelum render pertama
-// sidebar selesai.
-preloadIconMap();
+// Ikon menu dimuat SATU PER SATU, hanya yang benar-benar dipakai.
+//
+// Dulu di sini dimuat icon-list.ts — satu bongkahan 759 KB berisi 3.500+ ikon
+// — di SETIAP halaman, karena sidebar ada di setiap halaman. Menu hanya
+// memakai 55 ikon; 98% unduhan itu tidak pernah terpakai.
+//
+// Preload-nya kini butuh daftar nama, dan daftar itu baru ada setelah props
+// menu terbaca — jadi dipanggil dari dalam komponen (lihat useEffect di
+// AppSidebar), bukan dari scope modul seperti dulu.
 
 // Layout memicu router.reload({ only: ['menus'] }) di setiap navigasi
 // (lihat app-sidebar-layout.tsx) supaya menu ikut permission terbaru —
@@ -499,6 +499,15 @@ export function AppSidebar() {
     // relevan pada kunjungan pertama sebelum chunk ke-cache browser.
     const [, forceRerenderAfterIconsReady] = useState(0);
     useEffect(() => onIconMapReady(() => forceRerenderAfterIconsReady((n) => n + 1)), []);
+
+    // Mulai mengunduh ikon yang dipakai menu ini, termasuk anak-anaknya.
+    // Dijalankan ulang setiap daftar menu berubah — menu yang baru
+    // ditambahkan Admin ikut terunduh tanpa perlu memuat ulang halaman.
+    useEffect(() => {
+        const kumpulkan = (daftar: MenuItem[]): (string | null | undefined)[] => daftar.flatMap((m) => [m.icon, ...kumpulkan(m.children ?? [])]);
+
+        preloadIconMap(kumpulkan(menus));
+    }, [menus]);
 
     // Pulihkan posisi scroll HANYA SEKALI saat mount (dependency array kosong)
     // — sebelumnya effect ini tidak punya dependency array sama sekali,
