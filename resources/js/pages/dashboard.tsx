@@ -560,7 +560,7 @@ export default function Dashboard({
                                     router.get('/dashboard', { tahun, opd_id: v === 'semua' ? undefined : v }, { preserveState: true })
                                 }
                             >
-                                <SelectTrigger className="w-56">
+                                <SelectTrigger className="w-56" aria-label="Saring menurut perangkat daerah">
                                     <SelectValue placeholder="OPD" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -577,7 +577,7 @@ export default function Dashboard({
                             value={String(tahun)}
                             onValueChange={(v) => router.get('/dashboard', { tahun: v, opd_id: opdId ?? undefined }, { preserveState: true })}
                         >
-                            <SelectTrigger className="w-32">
+                            <SelectTrigger className="w-32" aria-label="Pilih tahun penilaian">
                                 <SelectValue placeholder="Tahun" />
                             </SelectTrigger>
                             <SelectContent>

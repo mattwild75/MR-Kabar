@@ -168,7 +168,23 @@ class DashboardController extends Controller
             ->values()
             ->all();
 
-        return $tahuns ?: [(int) $this->pengaturan()->tahun_penilaian];
+        // Tahun Penilaian yang sedang aktif SELALU ikut, sekalipun belum ada
+        // satu pun baris risiko untuknya.
+        //
+        // Tanpa ini, pemilih tahun di Dasbor tampil KOSONG pada pergantian
+        // tahun: nilainya 2026, sedangkan daftarnya baru berisi 2025, dan
+        // kotak pilihan yang nilainya tidak ada di daftar tidak menampilkan
+        // apa pun — bahkan tulisan bantuannya pun tidak. Pemakainya melihat
+        // kotak kosong dan tidak tahu Dasbor sedang menampilkan tahun berapa.
+        // Ditemukan saat audit antarmuka PASS 6: kotak itu juga jadi satu-
+        // satunya kontrol di halaman yang tidak punya nama terbaca.
+        $aktif = (int) $this->pengaturan()->tahun_penilaian;
+        if ($aktif && ! in_array($aktif, $tahuns, true)) {
+            $tahuns[] = $aktif;
+            rsort($tahuns);
+        }
+
+        return $tahuns ?: [$aktif];
     }
 
     /**
