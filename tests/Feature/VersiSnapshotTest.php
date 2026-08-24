@@ -79,12 +79,12 @@ class VersiSnapshotTest extends TestCase
         // sekali tidak menunjuk ke sebabnya, dan membuat empat uji ini tampak
         // rusak acak.
         //
-        // Kenapa bisa gagal: folder versi ini folder SUNGGUHAN di storage,
-        // bukan disk palsu. Di Windows berkasnya bisa terkunci sesaat oleh
-        // pemindai virus atau oleh proses lain yang sedang menyibukkan disk.
-        // Terpantau dua kali dari sepuluh putaran, keduanya persis ketika
-        // mesin sedang penuh oleh render video. Karena itu dicoba ulang
-        // sebentar, lalu menyerah dengan pesan yang menyebut jalurnya.
+        // Kenapa bisa gagal: berkasnya nyata di disk, dan di Windows sebuah
+        // berkas bisa terkunci sesaat oleh pemindai virus atau proses lain
+        // yang sedang menyibukkan disk. Terpantau dua kali dari sepuluh
+        // putaran, keduanya persis ketika mesin sedang penuh oleh render
+        // video. Percobaan ulangnya dipertahankan sekalipun foldernya kini
+        // sementara — penyebabnya bukan folder mana yang dipakai.
         $zip = new ZipArchive;
         $dibuka = false;
         for ($percobaan = 1; $percobaan <= 5; $percobaan++) {
@@ -115,37 +115,133 @@ class VersiSnapshotTest extends TestCase
         return $berkas;
     }
 
-    /** Isi manifes milik pengguna sebelum pengujian menyentuhnya. */
-    private ?string $manifesAsli = null;
+    /** Folder versi khusus pengujian, dibuang utuh sesudahnya. */
+    private string $folderUji = '';
 
+    /**
+     * Pengujian ini TIDAK BOLEH menyentuh folder versi yang sesungguhnya.
+     *
+     * Sebelumnya ia memang menyentuhnya, dan dijinakkan dengan cara menyimpan
+     * manifes asli lalu mengembalikannya di tearDown. Itu bekerja selama
+     * segalanya berjalan mulus, tetapi menyisakan dua persoalan yang keduanya
+     * benar-benar muncul:
+     *
+     * 1. Rangkaian uji sesekali gagal tanpa sebab yang jelas — terpantau dua
+     *    kali, keduanya pada berkas ini. Sebabnya berkas yang sama diperebutkan
+     *    ketika ada dua jalan uji beririsan.
+     * 2. Kalau satu jalan uji terhenti di tengah, manifes sungguhan tertinggal
+     *    dalam keadaan tertulis separuh — dan isinya catatan snapshot database
+     *    milik pengguna, bukan data uji.
+     *
+     * Layanannya sendiri tidak diubah. Yang diganti hanya jawaban folder()
+     * lewat subkelas yang diikat ke container, sehingga BackupController yang
+     * menerimanya lewat injeksi konstruktor ikut memakai folder sementara ini.
+     */
     protected function setUp(): void
     {
         parent::setUp();
 
-        $berkas = $this->layanan()->folder().'/manifest.json';
-        $this->manifesAsli = File::exists($berkas) ? File::get($berkas) : null;
+        $this->sapuSisaLama();
+
+        $this->folderUji = storage_path('framework/testing/versi-'.bin2hex(random_bytes(6)));
+        File::ensureDirectoryExists($this->folderUji);
+
+        $folder = $this->folderUji;
+        $this->app->bind(VersiSnapshotService::class, fn () => new class($folder) extends VersiSnapshotService
+        {
+            public function __construct(private readonly string $folderUji) {}
+
+            public function folder(): string
+            {
+                return $this->folderUji;
+            }
+        });
     }
 
     protected function tearDown(): void
     {
-        // Folder versi berada di storage SUNGGUHAN, bukan disk palsu, dan
-        // isinya snapshot database milik pengguna. Yang dibuat pengujian harus
-        // dibersihkan, tetapi snapshot pengguna TIDAK BOLEH ikut terhapus.
+        // Aman menghapus seluruhnya: folder ini milik pengujian sendiri.
+        // Versi awal berkas ini menghapus folder versi SUNGGUHAN, dan itu
+        // benar-benar memusnahkan snapshot v1.0.3 milik pengguna.
         //
-        // Versi awal berkas ini menghapus seluruh folder, dan itu benar-benar
-        // memusnahkan snapshot v1.0.3 yang sesungguhnya begitu seluruh berkas
-        // pengujian dijalankan. Karena itu di sini hanya berkas bertag uji yang
-        // dihapus, dan manifes dikembalikan persis seperti semula.
-        File::delete($this->layanan()->berkasSnapshot(self::TAG_UJI));
-
-        $berkas = $this->layanan()->folder().'/manifest.json';
-        if ($this->manifesAsli !== null) {
-            File::put($berkas, $this->manifesAsli);
-        } else {
-            File::delete($berkas);
+        // Dicoba ulang karena penghapusannya bisa gagal di Windows: berkas zip
+        // yang baru ditutup masih terkunci sesaat, sama seperti yang membuat
+        // pembukaan arsip sesekali gagal di berkas ini.
+        //
+        // Catatan jujur: penelusuran dengan jejak sementara TIDAK pernah
+        // menangkap kegagalan yang sungguhan — lima belas hapus, lima belas
+        // berhasil pada percobaan pertama. Pengulangan ini dipertahankan
+        // sebagai jaminan yang murah, bukan sebagai perbaikan atas kegagalan
+        // yang terbukti terjadi di sini.
+        if ($this->folderUji !== '' && File::isDirectory($this->folderUji)) {
+            for ($percobaan = 1; $percobaan <= 5; $percobaan++) {
+                if (File::deleteDirectory($this->folderUji)) {
+                    break;
+                }
+                usleep(200_000);
+            }
         }
 
         parent::tearDown();
+    }
+
+    /**
+     * Penyapu terakhir, dijalankan sekali sesudah SELURUH kelas selesai.
+     *
+     * Penghapusan per-uji saja ternyata belum cukup: dari empat putaran penuh,
+     * satu folder tertinggal tiap putaran, selalu dalam keadaan kosong. Diuji
+     * satu per satu tidak ada yang bocor, jadi kebocorannya hanya muncul pada
+     * uji terakhir kelas ini — yang sesudahnya memang tidak ada setUp lagi
+     * untuk menyapunya.
+     *
+     * SEBABNYA SUDAH DITELUSURI dan bukan pada kode ini. Dengan jejak
+     * sementara yang mencatat tiap pembuatan dan penghapusan, satu putaran
+     * penuh menghasilkan 15 buat dan 15 hapus yang seluruhnya berhasil, dengan
+     * is_dir() langsung sesudahnya bernilai false, dan nol folder tersisa.
+     * Folder yang sempat tertinggal muncul justru ketika DUA putaran rangkaian
+     * uji berjalan bertumpang tindih — keadaan yang memang terjadi saat
+     * pengembangan, bukan saat dipakai biasa.
+     *
+     * Penyapu ini tetap dipertahankan: ia murah, dan ia tetap membereskan
+     * putaran yang terhenti di tengah.
+     *
+     * BATASNYA, dan ini konsekuensi langsung dari temuan di atas: penyapu ini
+     * menghapus SELURUH folder versi-*, termasuk milik proses lain. Selama
+     * rangkaian uji dijalankan satu per satu — sebagaimana biasanya — tidak
+     * ada proses lain yang memakai folder bernama sama, dan penyapuan ini
+     * aman. Menjalankan dua putaran sekaligus bukan hanya meninggalkan sisa,
+     * melainkan bisa membuat satu putaran menghapus folder kerja putaran yang
+     * lain. Jangan jalankan rangkaian uji ini bertumpang tindih.
+     */
+    public static function tearDownAfterClass(): void
+    {
+        $induk = storage_path('framework/testing');
+
+        if (is_dir($induk)) {
+            foreach (glob($induk.'/versi-*', GLOB_ONLYDIR) ?: [] as $folder) {
+                File::deleteDirectory($folder);
+            }
+        }
+
+        parent::tearDownAfterClass();
+    }
+
+    /** Buang folder uji milik putaran yang pernah terhenti di tengah. */
+    private function sapuSisaLama(): void
+    {
+        $induk = storage_path('framework/testing');
+        if (! File::isDirectory($induk)) {
+            return;
+        }
+
+        foreach (File::directories($induk) as $folder) {
+            if (! str_starts_with(basename($folder), 'versi-')) {
+                continue;
+            }
+            if (File::lastModified($folder) < now()->subHour()->getTimestamp()) {
+                File::deleteDirectory($folder);
+            }
+        }
     }
 
     // --- pola nama versi -------------------------------------------------
