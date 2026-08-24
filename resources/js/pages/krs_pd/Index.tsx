@@ -1484,10 +1484,17 @@ export default function KrsPdIndex({
                             Risiko Strategis Perangkat Daerah — Renstra OPD: Tujuan, Sasaran, Program, Kegiatan, dan SubKegiatan
                         </p>
                     </div>
-                    <Button onClick={openCreate}>
-                        <Plus className="mr-2 h-4 w-4" />
-                        Tambah Data
-                    </Button>
+                    {/* Disembunyikan untuk akun hanya-baca (peran eksekutif dan apip).
+                        Sebelumnya tombol ini selalu tampil: akun peninjau menekannya,
+                        dialognya terbuka, lalu penyimpanannya ditolak ViewerReadOnly di
+                        server. Larangannya memang sudah benar, yang keliru cuma tombolnya
+                        yang mengundang. */}
+                    {!isViewer && (
+                        <Button onClick={openCreate}>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Tambah Data
+                        </Button>
+                    )}
                 </div>
 
                 {isAdmin && <OpdFillStatusPanel opdOptions={opdList} opdStatus={opdFillStatus} onSelect={searchFor} selectedOpdNama={searchInput} />}

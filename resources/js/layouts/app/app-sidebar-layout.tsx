@@ -6,7 +6,7 @@ import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import { LoginSplash } from '@/components/login-splash';
 import { SessionTimeoutWarning } from '@/components/session-timeout-warning';
 import { Toaster } from '@/components/ui/sonner';
-import { useIsViewer } from '@/hooks/use-viewer';
+import { useIsApip, useIsViewer } from '@/hooks/use-viewer';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import { Eye } from 'lucide-react';
@@ -22,6 +22,7 @@ interface Props {
 export default function AppSidebarLayout({ children, breadcrumbs = [], title = 'Dashboard' }: Props) {
     const { props } = usePage();
     const isViewer = useIsViewer();
+    const isApip = useIsApip();
 
     const flash = (props?.flash as { success?: string; error?: string; warning?: string; justLoggedIn?: boolean }) ?? {};
     const setting = props?.setting as {
@@ -125,8 +126,18 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
                             <div className="mx-4 mt-3 flex items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-400 print:hidden">
                                 <Eye className="size-4 shrink-0" />
                                 <span>
-                                    <span className="font-medium">Mode Peninjau</span> — akun ini dapat melihat seluruh data, tetapi tidak dapat
-                                    menambah, mengubah, atau menghapus apa pun.
+                                    {isApip ? (
+                                        <>
+                                            <span className="font-medium">Mode APIP</span> — akun ini dapat melihat seluruh data MR Kabar, tetapi
+                                            hanya dapat mengubah data pada menu PKPT Berbasis Risiko. Register risiko diubah oleh pemilik
+                                            risikonya sendiri.
+                                        </>
+                                    ) : (
+                                        <>
+                                            <span className="font-medium">Mode Peninjau</span> — akun ini dapat melihat seluruh data, tetapi tidak
+                                            dapat menambah, mengubah, atau menghapus apa pun.
+                                        </>
+                                    )}
                                 </span>
                             </div>
                         )}

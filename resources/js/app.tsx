@@ -38,7 +38,10 @@ createInertiaApp({
  * Ini murni kenyamanan. Larangan yang sebenarnya ditegakkan middleware
  * ViewerReadOnly di server, yang tetap menolak walau JavaScript ini dilewati.
  */
-const AMAN_UNTUK_PENINJAU = ['logout', 'session-extend', 'notifications', 'settings/password'];
+// '/pkpt/' ikut aman karena peran apip memakai penjaga yang sama tetapi
+// memang berhak menulis di sana. Untuk peran eksekutif, penolakannya tetap
+// terjadi di server lewat ViewerReadOnly — penjaga di sini murni kenyamanan.
+const AMAN_UNTUK_PENINJAU = ['logout', 'session-extend', 'notifications', 'settings/password', '/pkpt'];
 
 // Perannya tidak berubah selama sesi berjalan (ganti akun = muat ulang penuh),
 // jadi cukup dibaca sekali dari props halaman pertama.
@@ -57,7 +60,7 @@ if (isViewer) {
         if (!method || method.toLowerCase() === 'get') return;
         if (AMAN_UNTUK_PENINJAU.some((s) => String(url).includes(s))) return;
 
-        toast.error('Mode Peninjau — akun ini hanya dapat melihat data, tidak dapat mengubahnya.');
+        toast.error('Akun ini hanya dapat melihat data MR Kabar, tidak dapat mengubahnya.');
         event.preventDefault();
     });
 }

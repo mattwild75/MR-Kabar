@@ -103,13 +103,31 @@ class User extends Authenticatable implements HasMedia
      */
     public function canViewAllOpd(): bool
     {
-        return $this->hasAnyRole(['admin', 'super-admin', 'eksekutif']);
+        return $this->hasAnyRole(['admin', 'super-admin', 'eksekutif', 'apip']);
     }
 
-    /** Akun hanya-baca (peran eksekutif). */
+    /**
+     * Akun hanya-baca terhadap data MR Kabar.
+     *
+     * Dua peran, dengan alasan berbeda:
+     *
+     * - `eksekutif` memang tidak boleh mengubah apa pun di mana pun.
+     * - `apip` perlu MEMBACA seluruh data risiko lintas-OPD karena itulah
+     *   bahan perencanaan pengawasannya, tetapi tidak boleh mengubah register
+     *   risiko milik SKPK. Sesuai BAB III Lampiran Keputusan Inspektur,
+     *   pemutakhiran register tetap dilakukan pemilik risikonya. Hak tulis
+     *   `apip` hanya berlaku di menu PKPT Berbasis Risiko, dikecualikan di
+     *   middleware ViewerReadOnly.
+     */
     public function isViewerOnly(): bool
     {
-        return $this->hasRole('eksekutif');
+        return $this->hasAnyRole(['eksekutif', 'apip']);
+    }
+
+    /** Peran yang hak tulisnya terbatas pada modul PKPT saja. */
+    public function isApip(): bool
+    {
+        return $this->hasRole('apip') && ! $this->hasAnyRole(['admin', 'super-admin']);
     }
 
     /**

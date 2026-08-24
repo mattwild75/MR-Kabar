@@ -54,7 +54,7 @@ class ViewerReadOnly
     {
         $user = $request->user();
 
-        if (! $user || ! $user->hasRole('eksekutif')) {
+        if (! $user || ! $user->isViewerOnly()) {
             return $next($request);
         }
 
@@ -68,9 +68,22 @@ class ViewerReadOnly
             return $next($request);
         }
 
-        $pesan = in_array($rute, self::ACCOUNT_ROUTES, true)
-            ? 'Akun peninjau dipakai bersama, jadi profil dan kata sandinya hanya dapat diubah oleh Admin.'
-            : 'Akun peninjau hanya dapat melihat data. Perubahan data tidak diizinkan.';
+        // Peran apip menumpang penjaga yang sama, tetapi hak tulisnya memang
+        // ada — hanya terbatas pada modul PKPT. Dikecualikan di sini, di satu
+        // titik yang sama, supaya tidak lahir penjaga kedua yang harus
+        // diingat setiap kali ada rute baru.
+        if ($user->isApip() && str_starts_with((string) $rute, 'pkpt.')) {
+            return $next($request);
+        }
+
+        $pesan = match (true) {
+            in_array($rute, self::ACCOUNT_ROUTES, true) => $user->isApip()
+                ? 'Profil dan kata sandi akun APIP hanya dapat diubah oleh Admin.'
+                : 'Akun peninjau dipakai bersama, jadi profil dan kata sandinya hanya dapat diubah oleh Admin.',
+            $user->isApip() => 'Akun APIP hanya dapat mengubah data pada menu PKPT Berbasis Risiko. '
+                .'Data risiko milik Perangkat Daerah diubah oleh pemilik risikonya sendiri.',
+            default => 'Akun peninjau hanya dapat melihat data. Perubahan data tidak diizinkan.',
+        };
 
         if ($request->expectsJson()) {
             return response()->json(['message' => $pesan], 403);

@@ -53,6 +53,10 @@ class HandleInertiaRequests extends Middleware
                 // MURNI kosmetik — penjaga sesungguhnya ada di middleware
                 // ViewerReadOnly di sisi server.
                 'isViewer' => (bool) $request->user()?->isViewerOnly(),
+                // Dibedakan dari isViewer supaya pita penjelasnya jujur: akun
+                // APIP memang tidak dapat mengubah data risiko, tetapi bukan
+                // berarti tidak dapat mengubah apa pun.
+                'isApip' => (bool) $request->user()?->isApip(),
             ],
             'flash' => [
                 'success' => session('success'),
