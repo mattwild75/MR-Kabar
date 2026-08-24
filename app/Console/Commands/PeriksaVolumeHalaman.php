@@ -27,8 +27,11 @@ use Illuminate\Support\Facades\DB;
  *   php artisan volume:periksa
  *
  * Dasar perhitungan diambil dari pengukuran 22 Agustus 2026 di peramban
- * sungguhan. Bita per baris dianggap tetap — memang tidak persis, tetapi
- * cukup untuk mengetahui kapan harus mulai khawatir.
+ * sungguhan untuk halaman risiko, dan 23 Agustus 2026 dari muatan Inertia
+ * sisi server untuk halaman PKPT — lihat catatan pada DASAR, termasuk titik
+ * kalibrasi yang menyamakan kedua skalanya. Bita per baris dianggap tetap:
+ * memang tidak persis, tetapi cukup untuk mengetahui kapan harus mulai
+ * khawatir.
  */
 class PeriksaVolumeHalaman extends Command
 {
@@ -54,6 +57,28 @@ class PeriksaVolumeHalaman extends Command
         ['nama' => 'KRS/IRS Pemda', 'tabel' => ['tbl_krs_pemda'], 'baris' => 372, 'kb' => 975],
         ['nama' => 'KRO/IRO PD', 'tabel' => ['tbl_kro_pd', 'tbl_iro_pd'], 'baris' => 308, 'kb' => 970],
         ['nama' => 'KRS/IRS PD', 'tabel' => ['tbl_krs_pd', 'tbl_irs_pd'], 'baris' => 158, 'kb' => 726],
+
+        // --- Halaman PKPT Berbasis Risiko, diukur 23 Agustus 2026 ---------
+        //
+        // CARA UKURNYA BERBEDA dari lima baris di atas, dan itu perlu
+        // disebut. Lima baris di atas diukur di peramban sungguhan; lima
+        // baris ini diukur dari muatan Inertia di sisi server, karena
+        // pengukuran peramban tidak berhasil memisahkan muatan per halaman
+        // pada aplikasi ini. Satu titik kalibrasi dipakai untuk menyamakan
+        // skalanya: KRS/IRS Pemda terukur 594 KB dengan cara baru dan 975 KB
+        // dengan cara lama pada cacah baris yang sama, jadi angka di bawah
+        // sudah dikalikan 1,64 dan dibulatkan ke atas.
+        //
+        // DUGAAN AWAL TERBANTAH. Desain memperkirakan halaman PKPT akan
+        // menjadi yang terberat di aplikasi ini karena barisnya paling banyak
+        // (300). Ternyata tidak: 300 baris berkolom pendek jauh lebih ringan
+        // daripada 258 baris register risiko yang berkolom teks panjang.
+        // Yang terberat tetap Monitoring 8-9.
+        ['nama' => 'PKPT Peta Auditan', 'tabel' => ['pkpt_area_pengawasan'], 'baris' => 300, 'kb' => 264],
+        ['nama' => 'PKPT Evaluasi Register', 'tabel' => ['tbl_irs_pemda', 'tbl_irs_pd', 'tbl_iro_pd'], 'baris' => 258, 'kb' => 262],
+        ['nama' => 'PKPT Total Nilai', 'tabel' => ['pkpt_penilaian'], 'baris' => 300, 'kb' => 377],
+        ['nama' => 'PKPT Peringkat', 'tabel' => ['pkpt_penilaian'], 'baris' => 300, 'kb' => 376],
+        ['nama' => 'PKPT Cetak F9', 'tabel' => ['pkpt_penilaian'], 'baris' => 300, 'kb' => 105],
     ];
 
     public function handle(): int
@@ -61,7 +86,8 @@ class PeriksaVolumeHalaman extends Command
         $ambang = max(1, (int) $this->option('ambang-kb'));
 
         $this->line("Ambang: {$ambang} KB per halaman.");
-        $this->line('Dasar ukur: pengukuran 22 Agustus 2026 di peramban sungguhan.');
+        $this->line('Dasar ukur: halaman risiko diukur 22 Agustus 2026 di peramban sungguhan;');
+        $this->line('halaman PKPT diukur 23 Agustus 2026 dari muatan Inertia, diskalakan ke ukuran yang sama.');
         $this->newLine();
 
         $baris = [];

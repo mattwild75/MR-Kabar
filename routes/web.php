@@ -475,5 +475,10 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::delete('risk-evidence/{type}/{id}/{mediaId}', [RiskEvidenceController::class, 'destroy'])->name('risk-evidence.destroy');
 });
 
+// PKPT Berbasis Risiko (Miscellaneous > PKPT Berbasis Risiko) — berkas rute
+// terpisah. Modul itu sengaja tidak mengubah berkas MR Kabar mana pun; baris
+// ini satu-satunya sentuhan yang dibutuhkannya di sini.
+require __DIR__.'/pkpt.php';
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

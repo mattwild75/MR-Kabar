@@ -110,7 +110,38 @@ lagi galat 500 pada pemasangan baru. Tetapi isinya kosong: VISI, MISI, dan
 sasaran RPJMD harus diisi lewat menu **I_a_KRS_Pemda** atau **Ekspor/Impor
 Excel** sebelum halaman itu menampilkan sesuatu yang berarti.
 
-### A5. Penjadwal tugas berkala
+### A5. PKPT Berbasis Risiko — dua seeder yang WAJIB dijalankan sendiri
+
+Modul PKPT sengaja memakai seeder terpisah supaya tidak mengubah berkas MR
+Kabar. Akibatnya ada satu langkah yang tidak terjadi dengan sendirinya:
+
+```bash
+php artisan db:seed --class=PkptPermissionSeeder --force
+php artisan db:seed --class=PkptMenuSeeder --force
+```
+
+**Pada pemasangan yang SUDAH BERJALAN, ini satu-satunya cara.** `db:seed`
+tanpa `--class` memang tidak dijalankan di sana (lihat A4), dan `migrate`
+hanya membuat empat belas tabel PKPT dalam keadaan kosong.
+
+Kalau dilewatkan, gejalanya menyesatkan: migrasinya sukses, tidak ada pesan
+galat apa pun, tetapi menu **Miscellaneous → PKPT Berbasis Risiko** tidak
+pernah muncul dan seluruh alamat `/pkpt/*` menjawab 403 — termasuk untuk Super
+Admin, karena menunya tidak ada dan izinnya belum pernah dibuat.
+
+Aman diulang: keduanya memakai `firstOrCreate`/`updateOrCreate`. Menjalankannya
+kembali tidak menggandakan menu dan tidak mengembalikan bobot yang sudah
+disesuaikan, karena bobot yang dipakai perhitungan tersimpan pada kertas
+kerjanya sendiri.
+
+**Cara memastikan berhasil:** masuk sebagai Super Admin, buka
+`Miscellaneous → PKPT Berbasis Risiko → Ikhtisar dan Periode`. Kalau halaman
+terbuka dan menawarkan tombol "Periode baru", langkah ini beres.
+
+Peran `apip` ikut dibuat oleh seeder pertama. Akun yang memakainya dibuat
+sendiri lewat menu Users — beri peran `apip`, dan biarkan kolom OPD kosong.
+
+### A6. Penjadwal tugas berkala
 
 Wajib, dan **tidak otomatis** meski server menyala 24 jam. Perintahnya ada di
 [PENJADWAL_SERVER.md](PENJADWAL_SERVER.md).
@@ -118,7 +149,7 @@ Wajib, dan **tidak otomatis** meski server menyala 24 jam. Perintahnya ada di
 Halaman **Backup** menampilkan pita kuning selama penjadwalnya belum hidup —
 itu cara tercepat memastikannya.
 
-### A6. Chromium untuk cetak PDF
+### A7. Chromium untuk cetak PDF
 
 Cetak PDF menjalankan Chromium lewat puppeteer. Di server Linux yang bersih,
 Chromium sering butuh pustaka sistem yang belum terpasang.
@@ -164,18 +195,19 @@ aplikasi gagal terbuka tanpa petunjuk. Caranya di
 
 ---
 
-## C. Lima pemeriksaan sesudah deploy
+## C. Tujuh pemeriksaan sesudah deploy
 
 Lakukan berurutan; masing-masing membuktikan satu hal yang berbeda.
 
 | # | Yang dibuka | Yang harus terjadi | Kalau gagal, artinya |
 |---|---|---|---|
 | 1 | `/up` | Balasan 200 | Aplikasi tidak boot — cek `storage/logs/laravel.log` |
-| 2 | Menu **Backup** | **Tidak ada** pita kuning | Penjadwal belum dipanggil cron (A5) |
+| 2 | Menu **Backup** | **Tidak ada** pita kuning | Penjadwal belum dipanggil cron (A6) |
 | 3 | `/login/cee-survey` dan `/login/lapor-kejadian` | Langsung masuk ke formulir | Sandi di `.env` tidak cocok dengan yang di basis data (A3) |
-| 4 | Form Cetak mana saja → **Unduh PDF** | Berkas PDF turun | Node/Chromium belum siap (A6) |
+| 4 | Form Cetak mana saja → **Unduh PDF** | Berkas PDF turun | Node/Chromium belum siap (A7) |
 | 5 | Menu **Panduan** | Video edukasi bisa diputar | Berkas LFS belum ditarik (A1) |
 | 6 | Form Input mana saja → kotak **Skala Dampak** | Kriteria 1–5 muncul, bukan daftar kosong | Data referensi Risiko belum terisi (A4) |
+| 7 | **Miscellaneous → PKPT Berbasis Risiko → Ikhtisar dan Periode** | Halaman terbuka, ada tombol **Periode baru** | Kedua seeder PKPT belum dijalankan (A5) — menunya tidak muncul dan `/pkpt/*` menjawab 403, termasuk untuk Super Admin |
 
 Satu hal yang **bukan** kegagalan: widget **Jadwal Penilaian Risiko** pada
 Dasbor tampil kosong sampai Arahan dan Kebijakan Penilaian Risiko tahun

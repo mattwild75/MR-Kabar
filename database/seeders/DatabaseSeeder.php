@@ -65,5 +65,26 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MenuSeeder::class,
         ]);
+
+        // PKPT Berbasis Risiko. Izinnya lebih dahulu, baru menunya, karena
+        // baris menu PKPT menunjuk permission_name yang harus sudah ada.
+        //
+        // Keduanya seeder TERPISAH — bukan digabung ke RolePermissionSeeder
+        // dan MenuSeeder — supaya modul PKPT tidak mengubah berkas MR Kabar.
+        // Konsekuensinya justru berbahaya kalau tidak dipanggil dari sini:
+        // migrasinya membuat empat belas tabel, tetapi tanpa kedua seeder ini
+        // menu PKPT tidak pernah muncul dan izinnya tidak pernah ada, sehingga
+        // fiturnya tidak terlihat oleh siapa pun — termasuk Super Admin —
+        // tanpa satu pun pesan galat yang menjelaskan kenapa.
+        //
+        // Aman diulang: keduanya memakai firstOrCreate/updateOrCreate.
+        //
+        // CATATAN PEMASANGAN YANG SUDAH BERJALAN: di sana `db:seed` memang
+        // TIDAK dijalankan, jadi kedua seeder ini harus dipanggil sendiri.
+        // Langkahnya ada di docs/CHECKLIST_GO_LIVE.md bagian A5.
+        $this->call([
+            PkptPermissionSeeder::class,
+            PkptMenuSeeder::class,
+        ]);
     }
 }
