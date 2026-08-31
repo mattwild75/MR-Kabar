@@ -20,58 +20,61 @@ Dua topik operasional yang sering dipakai bersamaan: menjalankan demo MR Kabar l
 
 Dipakai saat perlu membagikan akses sementara ke MR Kabar lewat internet publik, tanpa deploy ke hosting sungguhan.
 
-### Kembalikan ke mrkabar.test (setelah demo selesai)
+Seluruhnya sudah dibungkus dua berkas di folder **MR Kabar** pada Desktop:
 
-1. **Kembalikan APP_URL** — buka `.env`, ubah `APP_URL` kembali ke `http://mrkabar.test`. Simpan file.
-2. **Bersihkan cache konfigurasi** (Tab 3 — terminal bebas):
-   ```
-   php artisan optimize:clear
-   ```
-3. **Matikan tunnel** — di Tab 2 (terminal yang menjalankan cloudflared), tekan `Ctrl+C`.
-4. **Matikan server manual** — di Tab 1 (terminal yang menjalankan `php -S`), tekan `Ctrl+C`.
-5. **Verifikasi** — buka `http://mrkabar.test/login`, pastikan tampil normal.
+| Berkas | Gunanya |
+|---|---|
+| `TUNNEL_ON.bat` | Menyalakan tunnel, membuktikan alamatnya hidup, lalu membukanya di Chrome |
+| `TUNNEL_OFF.bat` | Mematikan tunnel |
 
-### Langkah lengkap untuk demo berikutnya (dari awal)
+Klik dua kali `TUNNEL_ON.bat`, tunggu 8-15 detik. Alamatnya muncul di layar dan
+peramban terbuka sendiri. Selesai demo, klik dua kali `TUNNEL_OFF.bat`. Itu saja.
 
-**Tab 1 — PHP Server**
-```
-cd "C:\Users\Nurhikmat Muhammad\Herd\mrkabar\public"
-php -S 127.0.0.1:8080
-```
-Biarkan tab ini tetap terbuka, jangan ketik apa-apa lagi di sini.
+### Tidak ada langkah manual, dan itu memang berubah
 
-> **Catatan:** kalau server mati mendadak (bukan `Ctrl+C` rapi) dan port 8080 masih "nyangkut" dianggap terpakai saat dijalankan ulang, langsung ganti ke port lain (8081, 8899, dst) daripada didiagnosa panjang — itu fix tercepat yang sudah terbukti jalan.
+Versi lama panduan ini menyuruh menjalankan `php -S` di port 8080, mengedit
+`APP_URL` di `.env`, lalu `optimize:clear` — tiga tab terminal yang harus
+terbuka bersamaan, berikut serangkaian langkah pemulihan sesudahnya.
 
-**Tab 2 — Tunnel**
-```
-& "$env:USERPROFILE\cloudflared.exe" tunnel --url http://127.0.0.1:8080
-```
-Tunggu sampai muncul URL seperti `https://xxxx-xxxx.trycloudflare.com`. Catat URL ini. Biarkan tab tetap terbuka.
+**Jangan diikuti lagi.** Sejak temuan audit R-12 ditutup 22 Agustus 2026,
+seluruh urusan itu dicabut dari skrip tunnel, dan mengikutinya sekarang justru
+merusak: mengubah `APP_URL`/`ASSET_URL` membuat `https://mrkabar.test` tampil
+KOSONG tanpa pesan galat. Ikut hilang bersamanya risiko cadangan `.env`
+tertimpa, yang melekat pada cara lama.
 
-**Tab 3 — Konfigurasi**
-```
-cd "C:\Users\Nurhikmat Muhammad\Herd\mrkabar"
-```
-Edit `.env` di VS Code, ubah baris:
-```
-APP_URL=https://xxxx-xxxx.trycloudflare.com
-```
-(ganti dengan URL asli dari Tab 2), simpan file, lalu:
-```
-php artisan optimize:clear
-```
+Yang membuatnya tidak perlu lagi adalah proksi tepercaya di
+`bootstrap/app.php`. Laravel kini membaca `X-Forwarded-Host` yang dititipkan
+`cloudflared`, jadi ia tahu sendiri alamat mana yang dipakai TIAP pengunjung.
+Akibatnya alamat lokal dan alamat tunnel benar **sekaligus** — sebelumnya
+mustahil. Berkas `.env` tidak disentuh sama sekali.
 
-**Test akhir** — buka `https://xxxx-xxxx.trycloudflare.com/login` (pakai URL dari Tab 2), cek tampilan normal, coba login.
+### Yang dikerjakan TUNNEL_ON.bat
 
-> **Layar blank putih?** Buka DevTools (`F12`) → tab Console → cari tulisan merah "Mixed Content". Kalau ada, pastikan `APP_URL` di `.env` sudah pakai `https`, bukan `http`.
+1. Menolak jalan kalau `cloudflared` masih hidup — kalau dipaksa, ia membaca
+   alamat lama dari log yang gagal dihapus dan menyatakan siap atas alamat
+   yang sudah mati.
+2. Menyalakan `cloudflared` menunjuk `https://mrkabar.test`, yaitu Herd —
+   bukan server PHP manual. Karena itu `--http-host-header` dan
+   `--no-tls-verify` wajib ada.
+3. Menunggu alamat `*.trycloudflare.com` terbit di log.
+4. **Membuktikan alamat itu menjawab 200** sebelum menyatakan siap. Membaca
+   alamat dari log hanya membuktikan `cloudflared` menuliskannya, bukan bahwa
+   tunnelnya terbentuk.
+5. Mengulang sampai tiga kali kalau gagal. Kegagalan tunnel cepat Cloudflare
+   kerap sementara.
+6. Membuka alamatnya di Chrome.
 
-### Catatan penting
+### Catatan
 
-- Total 3 tab terminal harus terbuka bersamaan selama demo berlangsung.
-- Jangan ketik command lain di Tab 1/Tab 2 — bisa mematikan proses yang sedang jalan.
-- Semua command tambahan (artisan, edit env, dll) selalu di Tab 3.
-- URL tunnel berubah setiap kali Tab 2 dimatikan & dijalankan ulang.
-- Setelah demo selesai, jalankan langkah rollback di atas supaya development lokal normal kembali ke `mrkabar.test`.
+- Alamat tunnel berubah setiap kali dinyalakan ulang.
+- `https://mrkabar.test` tetap jalan seperti biasa selama tunnel hidup.
+- Selama tunnel hidup aplikasi terbuka ke internet: siapa pun yang tahu
+  alamatnya dapat membuka halaman login.
+- Yang tersaji lewat tunnel adalah direktori kerja apa adanya, **termasuk
+  cabang git yang sedang aktif**. Periksa `git branch --show-current` sebelum
+  berdemo, supaya tidak menayangkan pekerjaan yang belum siap dilihat orang.
+- Gagal tiga kali berturut-turut berarti masalah jaringan, bukan berkasnya.
+  Tunggu beberapa menit lalu ulangi.
 
 ---
 
