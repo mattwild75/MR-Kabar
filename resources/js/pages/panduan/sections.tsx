@@ -595,6 +595,11 @@ export const SECTIONS: Section[] = [
                     bisa tambah/hapus baris) yang dipakai otomatis sebagai header &amp; blok tanda tangan di seluruh Form Cetak CEE dan Form Cetak
                     Risiko 6/7. Diisi sekali per akun PIC, sebaiknya di awal sebelum mencetak apa pun.
                 </p>
+                <Screenshot
+                    src="/images/panduan/data-umum.png"
+                    alt="Halaman Form Input Data Umum: identitas kertas kerja dan daftar penanda tangan"
+                    caption="Form Input -> Data Umum — identitas kertas kerja dan daftar Penanda Tangan yang dipakai ulang oleh seluruh Form Cetak"
+                />
                 <Kotak title="Admin/Super Admin: bisa mengisi Data Umum OPD mana pun" tone="accent">
                     <p>
                         PIC biasa hanya melihat/mengubah Data Umum miliknya sendiri (1 OPD). Admin/Super Admin punya selector tambahan{' '}
@@ -679,6 +684,11 @@ export const SECTIONS: Section[] = [
                         1c (unsur ber-simpulan Memadai tidak perlu RTP). Hasilnya dicetak lewat Form Cetak 6.
                     </li>
                 </ul>
+                <Screenshot
+                    src="/images/panduan/cee-1a.png"
+                    alt="Halaman 1a Kuesioner Penilaian Lingkungan Pengendalian, memperlihatkan identitas responden dan pertanyaan unsur A dengan skala 1 sampai 4"
+                    caption="1a_Kuesioner CEE — identitas responden, penghitung jawaban, lalu 37 pertanyaan yang dikelompokkan per unsur A-H dengan skala 1-4"
+                />
                 <Kotak title="Sinkronisasi dua arah: Penandatangan Form 1c ↔ Data Umum" tone="accent">
                     Kartu &quot;Penandatangan&quot; di Form 1c (Nama &amp; Jabatan Penyusun/Sekretaris, Nama &amp; Jabatan Kepala OPD) otomatis terisi
                     dari daftar Penanda Tangan di <code>Data Umum</code> OPD tersebut saat pertama kali dibuka. Sebaliknya, kalau PIC mengubah
@@ -874,6 +884,12 @@ export const SECTIONS: Section[] = [
                     (Miscellaneous, Access, Settings, Utilities) sebagian besar hanya terlihat penuh oleh Admin/Super Admin — kecuali{' '}
                     <strong>Miscellaneous</strong> yang justru sengaja dibuka untuk SEMUA pengguna login (lihat kartu di bawah).
                 </p>
+                <Screenshot
+                    src="/images/panduan/peta-sidebar.png"
+                    alt="Bagian atas sidebar MR Kabar dengan grup Form Input terbuka, memperlihatkan Data Umum, CEE, Risiko, dan Ekspor/Impor KRS"
+                    caption="Bagian atas sidebar yang sesungguhnya, dengan grup Form Input terbuka. Aplikasi hanya membuka satu grup pada satu waktu; peta selengkapnya ada pada kartu di bawah ini."
+                    tegak
+                />
                 <MenuMapGrid
                     groups={[
                         {
@@ -1946,6 +1962,11 @@ export const SECTIONS: Section[] = [
                     (Latar Belakang, Dasar Hukum, Hambatan, dst) yang
                     <strong> otomatis terisi template default</strong> saat pertama dibuka, lalu bisa diedit sesuai kondisi nyata.
                 </p>
+                <Screenshot
+                    src="/images/panduan/laporan-11.png"
+                    alt="Pratinjau cetak Form 11 Laporan Pelaksanaan Penilaian Risiko dengan bagian Pendahuluan, Latar Belakang, dan Dasar Hukum"
+                    caption="Form 11 — pratinjau A4 dengan narasi bawaan yang sudah terisi (Latar Belakang, Dasar Hukum, Maksud dan Tujuan), siap disunting lewat tombol Edit Narasi"
+                />
 
                 <SimpleTable
                     headers={['', 'Form 11', 'Form 12', 'Form 13']}

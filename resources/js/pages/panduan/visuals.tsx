@@ -592,11 +592,54 @@ export function DataPipeline({ nodes }: { nodes: PipelineNode[] }) {
 // cukup besar dan halaman /panduan ini single-page-scroll berisi 19 section
 // sekaligus — tanpa lazy, semua screenshot ikut di-load di awal walau belum
 // terlihat.
-export function Screenshot({ src, alt, caption }: { src: string; alt: string; caption?: string }) {
+/**
+ * `tegak` untuk tangkapan layar yang JAUH lebih tinggi daripada lebarnya,
+ * misalnya potongan sidebar. Tanpa itu, `w-full` merentangkan gambar 478x1449
+ * menjadi sekitar 640x1940 piksel - lebih tinggi daripada satu halaman A4,
+ * sehingga `break-inside: avoid` pada figure membuatnya mustahil ditempatkan
+ * dan Chromium MENGHILANGKANNYA dari cetakan tanpa pesan apa pun. Yang
+ * tertinggal cuma keterangannya, mengambang di bawah garis kosong.
+ *
+ * Gambar tegak karena itu dibatasi TINGGINYA, dengan lebar mengikuti nisbah.
+ *
+ * Dua kekeliruan sempat terjadi dan keduanya menghasilkan gejala yang sama -
+ * kotak bergaris tanpa isi, dengan keterangan mengambang di bawahnya:
+ *
+ *   1. Mengira kerapatan 2x membuat gambar 478x1468 tampil separuhnya. Tidak.
+ *      Kerapatan itu hanya berlaku saat menangkap; bagi CSS ukurannya tetap
+ *      1468 piksel, yaitu sekitar 388mm - masih lebih tinggi daripada satu
+ *      halaman A4.
+ *   2. Menengahkannya dengan `flex justify-center` tanpa menyetel
+ *      align-items. Bawaannya `stretch`, sehingga gambar direntangkan pada
+ *      sumbu silang terhadap wadah yang tingginya belum tentu - dan runtuh
+ *      jadi nol. Ditengahkan dengan `mx-auto` pada elemen block, bukan flex.
+ *   3. Memakai `w-auto`. Ini yang paling menipu. Diukur di peramban, gambar
+ *      ber-`w-full` melaporkan lebar 724 piksel MESKI BELUM TERMUAT, sedangkan
+ *      yang ber-`w-auto` melaporkan 0 - sebab lebar otomatis diambil dari
+ *      ukuran alami, dan gambar yang belum termuat tidak punya ukuran alami.
+ *      Kotak berukuran nol tidak pernah memicu pemuatan `loading="lazy"`,
+ *      sehingga gambarnya tidak pernah diambil dan selamanya tetap nol.
+ *
+ * Karena itu lebarnya DITETAPKAN, bukan dibiarkan otomatis: tata letaknya jadi
+ * pasti sejak sebelum berkasnya tiba.
+ */
+export function Screenshot({ src, alt, caption, tegak }: { src: string; alt: string; caption?: string; tegak?: boolean }) {
     return (
         <figure className="not-prose my-3">
-            <div className="bg-muted/10 overflow-hidden rounded-lg border shadow-sm">
-                <img src={src} alt={alt} loading="lazy" className="w-full" />
+            <div className={`bg-muted/10 overflow-hidden rounded-lg border shadow-sm ${tegak ? 'py-3' : ''}`}>
+                <img
+                    src={src}
+                    alt={alt}
+                    // Gambar tegak dimuat SEGERA, bukan ditunda. Diukur di peramban,
+                    // versi tertundanya tampil sempurna di layar (260x798,
+                    // complete=true) tetapi HILANG dari cetakan - kotaknya tercetak,
+                    // isinya tidak. Yang lain selamat karena ber-`w-full`: lebarnya
+                    // sudah pasti sebelum berkasnya tiba, sedangkan yang ini
+                    // tingginya bergantung pada berkas yang belum tentu sempat
+                    // diambil pada satu lintasan cetak tanpa penggulingan.
+                    loading={tegak ? 'eager' : 'lazy'}
+                    className={tegak ? 'mx-auto block h-auto w-[260px] max-w-full' : 'w-full'}
+                />
             </div>
             {caption && <figcaption className="text-muted-foreground mt-1.5 text-center text-xs">{caption}</figcaption>}
         </figure>
