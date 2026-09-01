@@ -50,18 +50,30 @@ if (!sandi) {
         // Diperiksa SEBELUM disimpan. Tanpa ini, pemantulan diam-diam
         // menghasilkan empat berkas berisi halaman yang sama, dan itu hanya
         // ketahuan kalau seseorang membukanya satu per satu.
+        const diminta = jalur.split('?')[0];
         const mendarat = new URL(page.url()).pathname;
-        if (mendarat !== jalur) {
-            throw new Error(`${jalur} memantul ke ${mendarat} - tangkapan dibatalkan`);
+        if (mendarat !== diminta) {
+            throw new Error(`${diminta} memantul ke ${mendarat} - tangkapan dibatalkan`);
         }
         const h1 = await page.locator('h1').first().textContent().catch(() => null);
         await page.screenshot({ path: `${TUJUAN}/${nama}.png` });
         console.log(`  ${nama}.png  <- ${jalur}  (judul: ${(h1 || '?').trim().slice(0, 50)})`);
     };
 
-    await ambil('/data-umum', 'data-umum');
-    await ambil('/cee/1a', 'cee-1a');
-    await ambil('/cetak/laporan/1', 'laporan-11');
+    // TAHUN 2025, bukan tahun aktif aplikasi. Diperiksa di basis data:
+    // data_umum dan tbl_irs_pd HANYA berisi 2025; tahun berjalan masih kosong.
+    // Tangkapan pertama memakai tahun aktif dan hasilnya formulir kosong
+    // melompong - benar secara teknis, tetapi tidak menjelaskan apa pun kepada
+    // pembaca panduan.
+    //
+    // Dipilih lewat parameter ?tahun=, BUKAN dengan mengubah Tahun Aktif
+    // aplikasi: yang kedua itu setelan sungguhan milik seluruh pengguna, dan
+    // mengubahnya demi sebuah tangkapan layar berarti menyentuh yang bukan
+    // urusan skrip ini.
+    const TAHUN = 2025;
+    await ambil(`/data-umum?tahun=${TAHUN}`, 'data-umum');
+    await ambil(`/cee/1a?tahun=${TAHUN}`, 'cee-1a');
+    await ambil(`/cetak/laporan/1?tahun=${TAHUN}`, 'laporan-11');
 
     // Peta sidebar. Diambil sebagai POTONGAN elemen sidebarnya saja, bukan
     // bingkai jendela: yang hendak ditunjukkan adalah pohon menunya utuh, dan
