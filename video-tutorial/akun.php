@@ -25,13 +25,21 @@
  *   php akun.php sandi USERNAME        -> cetak sandi sementara akun itu
  *   php akun.php sandi-lapor           -> cetak sandi akun bersama LAPOR
  */
-require __DIR__.'/../vendor/autoload.php';
-$app = require_once __DIR__.'/../bootstrap/app.php';
-$app->make(Kernel::class)->bootstrap();
-
+// PENTING: ketiga `use` di bawah harus berada DI ATAS baris yang memakainya.
+// PHP mengurai berkas dari atas ke bawah, sehingga alias yang dideklarasikan
+// SESUDAH tempat pemakaiannya belum dikenal saat baris itu diurai -- dan
+// `Kernel::class` diam-diam bernilai 'Kernel' tanpa namespace. Akibatnya skrip
+// ini mati di bootstrap dengan "Target class [Kernel] does not exist", tanpa
+// pernah sampai ke perintah yang diminta. Pernah terjadi: urutannya terbalik
+// ketika 172 berkas dirapikan sekaligus pada R-15, dan tidak ada uji maupun CI
+// yang menjalankan skrip ini, jadi rusaknya tidak ketahuan sampai dipakai.
 use App\Models\User;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Str;
+
+require __DIR__.'/../vendor/autoload.php';
+$app = require_once __DIR__.'/../bootstrap/app.php';
+$app->make(Kernel::class)->bootstrap();
 
 const BAWAAN = 'PIC_INSPEKTORAT';
 const SIMPANAN = __DIR__.'/.sandi-lama';
