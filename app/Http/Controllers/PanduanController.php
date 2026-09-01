@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KuisVideoHasil;
+use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -41,6 +42,34 @@ class PanduanController extends Controller
             'bolehLihatRekap' => $bolehLihatRekap,
             'rekapKuis' => $bolehLihatRekap ? $this->rekap() : null,
         ]);
+    }
+
+    /**
+     * Panduan dalam bentuk PDF, terbuka untuk umum.
+     *
+     * Sumbernya halaman /panduan-publik yang sama, BUKAN salinan tersendiri.
+     * SECTIONS pada sections.tsx adalah satu-satunya sumber kebenaran, jadi
+     * berkas ini selalu selengkap dan sebaru halaman webnya pada detik ia
+     * diunduh. Tidak ada berkas tersimpan yang bisa diam-diam basi, dan tidak
+     * ada naskah kedua yang harus diingat untuk ikut diperbarui.
+     *
+     * Versi login (/panduan) sengaja TIDAK dipakai sebagai sumber walau
+     * halamannya memuat lebih banyak. Yang lebih itu dua pemutar video, yang
+     * tidak dapat dicetak; sebaliknya mengambil dari sana akan menyeret
+     * sidebar aplikasi berikut struktur menu internal ke dalam berkas yang
+     * justru dibagikan ke luar.
+     *
+     * TANPA autentikasi, sama seperti halaman sumbernya — lihat catatan
+     * keamanan pada rutenya di routes/web.php.
+     */
+    public function pdf(Request $request)
+    {
+        return PdfPrintService::downloadDokumen(
+            $request,
+            url('/panduan-publik'),
+            'Panduan MR Kabar - Manajemen Risiko Pemerintah Daerah',
+            'MR Kabar - Panduan Manajemen Risiko'
+        );
     }
 
     public function simpanKuis(Request $request)

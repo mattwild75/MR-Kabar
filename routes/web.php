@@ -88,8 +88,28 @@ Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
 // Utilities, dst) TETAP terkunci di dalam grup middleware ['auth',
 // 'menu.permission'] di bawah — tidak ada perubahan apa pun ke situ.
 Route::get('/panduan-publik', function () {
-    return Inertia::render('panduan/Public');
+    return Inertia::render('panduan/Public', [
+        // Dua keterangan yang hanya muncul pada versi CETAK halaman ini. Sebuah
+        // PDF berpindah tangan lepas dari halaman asalnya, jadi ia harus
+        // menyebut sendiri dari mana dan kapan ia diambil.
+        'dicetakPada' => now()->locale('id')->translatedFormat('j F Y'),
+        'sumberUrl' => url('/panduan-publik'),
+    ]);
 })->name('panduan.public');
+
+// Panduan versi PDF — juga tanpa login, karena gunanya memang dibagikan
+// kepada orang yang belum tentu punya akun: sosialisasi, rapat, arsip luring.
+//
+// Dicetak dari /panduan-publik di atas, bukan dari berkas PDF yang disimpan,
+// supaya isinya tidak pernah tertinggal dari halaman webnya.
+//
+// Dibatasi lajunya, dan pembatas itu BUKAN sekadar kehati-hatian: tiap
+// permintaan menjalankan satu Chromium tersendiri selama puluhan detik.
+// PdfPrintService memang sudah menolak permintaan yang bertumpuk lewat
+// kuncinya, tetapi kunci itu melindungi mesin cetaknya, bukan pintunya.
+Route::get('/panduan-publik/pdf', [PanduanController::class, 'pdf'])
+    ->middleware('throttle:6,1')
+    ->name('panduan.public.pdf');
 
 // Layar tantangan dua faktor. SENGAJA di luar grup 'menu.permission':
 // pengguna yang sampai ke sini belum boleh menyentuh apa pun, dan

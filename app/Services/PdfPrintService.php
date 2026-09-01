@@ -72,6 +72,15 @@ class PdfPrintService
     private const UMUR_KUNCI = 150;
 
     /**
+     * Umur kunci untuk dokumen panjang, lebih longgar.
+     *
+     * Panduan memuat dua puluh bagian berikut tiga belas gambar; terukur,
+     * satu pencetakannya jauh lebih lama daripada satu formulir. Batas yang
+     * sama akan memutusnya di tengah render.
+     */
+    private const UMUR_KUNCI_DOKUMEN = 300;
+
+    /**
      * @param  string  $url  URL lengkap halaman React yg mau dicetak (mis. url()->to('/cetak/risiko/2a?tahun=2026')).
      * @param  string  $filename  Nama file unduhan, TANPA ekstensi .pdf.
      */
@@ -105,7 +114,86 @@ class PdfPrintService
         ]);
     }
 
-    private static function render(Request $request, string $url): string
+    /**
+     * Varian untuk DOKUMEN PANJANG yang dibaca sebagai bacaan, bukan formulir.
+     *
+     * Bedanya dengan downloadFromUrl() ada pada siapa yang menentukan ukuran
+     * dan tepi kertas. Pada Form Cetak, halaman React-nya sendiri yang
+     * memegang `@page`, karena tiap formulir punya tuntutan tata letaknya
+     * sendiri dan hasil cetaknya wajib sama persis dengan yang dilihat di
+     * layar.
+     *
+     * Dokumen panjang menuntut satu hal yang tidak dapat diberikan CSS:
+     * NOMOR HALAMAN. Chromium tidak mendukung kotak tepi `@page`
+     * (`@bottom-center { content: counter(page) }` diabaikan diam-diam), jadi
+     * satu-satunya jalan adalah kaki halaman bawaan Puppeteer — dan itu hanya
+     * bekerja bila tepi kertas ditentukan DARI SINI, bukan dari CSS halaman.
+     *
+     * Akibatnya halaman yang dicetak lewat jalur ini TIDAK BOLEH
+     * mendefinisikan `@page` sendiri: yang ditentukan di sini akan
+     * menimpanya, sehingga aturan yang tertulis di CSS halaman cuma
+     * menyesatkan siapa pun yang membacanya kelak.
+     *
+     * @param  string  $judulKaki  Teks kiri pada kaki halaman, sebagai penanda asal berkas.
+     */
+    public static function downloadDokumen(Request $request, string $url, string $filename, string $judulKaki)
+    {
+        set_time_limit(self::UMUR_KUNCI_DOKUMEN);
+
+        $kunci = Cache::lock(self::KUNCI, self::UMUR_KUNCI_DOKUMEN);
+
+        if (! $kunci->get()) {
+            abort(response(view('pdf-sibuk'), 503, ['Retry-After' => 30]));
+        }
+
+        try {
+            $pdf = self::render($request, $url, function (Browsershot $b) use ($judulKaki) {
+                $b->format('A4')
+                    // Tepi bawah dilebihkan supaya kaki halaman punya ruang
+                    // sendiri dan tidak menindih baris terakhir.
+                    ->margins(15, 15, 20, 15)
+                    ->showBrowserHeaderAndFooter()
+                    ->hideHeader()
+                    ->footerHtml(self::kakiHalaman($judulKaki))
+                    ->timeout(self::UMUR_KUNCI_DOKUMEN - 30);
+            });
+        } finally {
+            $kunci->release();
+        }
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.pdf"',
+        ]);
+    }
+
+    /**
+     * Kaki halaman bawaan Puppeteer.
+     *
+     * Gayanya WAJIB ditulis sebaris di dalam atribut style: potongan ini
+     * dirender Chromium di dokumen terpisah yang tidak memuat CSS halaman
+     * sama sekali, jadi kelas Tailwind apa pun di sini tidak berarti apa-apa.
+     * Ukuran hurufnya pun harus disebut eksplisit — bawaannya sangat kecil.
+     *
+     * Kelas `pageNumber` dan `totalPages` dikenali Chromium sendiri dan
+     * diisinya saat mencetak; keduanya bukan kelas milik aplikasi ini.
+     */
+    private static function kakiHalaman(string $judul): string
+    {
+        $judul = e($judul);
+
+        return <<<HTML
+        <div style="width:100%;font-size:8px;color:#6b7280;padding:0 15mm;display:flex;justify-content:space-between;font-family:sans-serif;">
+            <span>{$judul}</span>
+            <span>Halaman <span class="pageNumber"></span> dari <span class="totalPages"></span></span>
+        </div>
+        HTML;
+    }
+
+    /**
+     * @param  ?callable  $penyesuai  Kesempatan mengubah setelan sebelum dicetak, dipakai downloadDokumen().
+     */
+    private static function render(Request $request, string $url, ?callable $penyesuai = null): string
     {
         // PENTING: pakai cookie MENTAH dari header HTTP (belum didekripsi),
         // BUKAN $request->cookies->all() — Laravel mendekripsi nilai cookie
@@ -141,6 +229,10 @@ class PdfPrintService
             // Dibatasi di bawah umur kunci: kalau Chromium tersangkut, yang
             // mati harus prosesnya, bukan giliran orang berikutnya.
             ->timeout(self::UMUR_KUNCI - 30);
+
+        if ($penyesuai) {
+            $penyesuai($browsershot);
+        }
 
         // Override opsional lewat .env (BROWSERSHOT_NODE_BINARY /
         // BROWSERSHOT_NPM_BINARY) kalau Browsershot gagal auto-detect node/
