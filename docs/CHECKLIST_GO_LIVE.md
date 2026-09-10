@@ -303,6 +303,34 @@ fastcgi_busy_buffers_size 32k;
 > tail -20 /var/log/nginx/error.log | grep -i "too big header"
 > ```
 
+> **Jebakan kedua: batas unggah PHP, bukan nginx.** `client_max_body_size 100M`
+> di nginx TIDAK ada gunanya kalau PHP masih memakai bawaannya
+> (`upload_max_filesize = 2M`, `post_max_size = 8M`). Yang terjadi: berkas di
+> atas 2 MB ditolak PHP sebelum Laravel sempat melihatnya, dan kalau seluruh
+> kiriman melewati `post_max_size`, **badan permintaan datang KOSONG** — validasi
+> lalu mengeluh "kolom wajib diisi" pada kolom yang jelas-jelas sudah diisi
+> pengguna. Gejalanya menyesatkan sepenuhnya.
+>
+> Terbukti di produksi 11 September 2026: aplikasi menjanjikan 10 MB per berkas
+> (Bukti Dukung Risiko dan bukti Lapor Kecurangan), sementara PHP diam-diam
+> memotongnya di 2 MB sejak pemasangan.
+>
+> Setel di `/etc/php/8.4/fpm/php.ini`, lalu **restart** (bukan reload):
+>
+> ```ini
+> upload_max_filesize = 10M   ; sama dengan yang divalidasi aplikasi (max:10240)
+> post_max_size = 60M         ; lima berkas sekaligus plus isian formulirnya
+> max_file_uploads = 30
+> ```
+>
+> ```bash
+> systemctl restart php8.4-fpm
+> php -c /etc/php/8.4/fpm/php.ini -i | grep -E "^upload_max_filesize|^post_max_size"
+> ```
+>
+> Baris kedua itu penting: `php -i` biasa membaca ini CLI, **bukan** ini yang
+> dipakai FPM — memeriksanya lewat situ akan menyesatkan.
+
 Uji dulu, baru terapkan — `nginx -t` harus menjawab `test is successful`
 sebelum `systemctl reload nginx`.
 
