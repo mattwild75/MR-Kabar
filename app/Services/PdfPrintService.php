@@ -226,6 +226,26 @@ class PdfPrintService
             // supaya warna latar (highlight kuning Sumber Data, dll) ikut
             // tercetak, bukan cuma teks hitam-putih (default Chrome print).
             ->showBackground()
+            // WAJIB di server Linux, dan bukan sekadar kehati-hatian: tanpa
+            // ini Chromium menolak jalan sama sekali dengan
+            // "FATAL: No usable sandbox!", dan seluruh Form Cetak menjawab
+            // 500. Terbukti di server produksi 10 September 2026.
+            //
+            // Sebabnya bukan setelan kernel yang keliru — diperiksa di sana,
+            // `kernel.unprivileged_userns_clone` sudah 1. Sebabnya paket
+            // `chrome-headless-shell` yang dipakai Puppeteer TIDAK membawa
+            // biner pendamping `chrome-sandbox` ber-SUID, sehingga Chromium
+            // tidak punya sandbox untuk dipakai sama sekali.
+            //
+            // RISIKONYA TERBATAS, dan itu yang membuatnya dapat diterima:
+            // Browsershot di aplikasi ini HANYA membuka alamat milik aplikasi
+            // sendiri (mis. /cetak/risiko/2a, /panduan-publik) — tidak pernah
+            // merender HTML kiriman pengguna. Sandbox Chromium melindungi dari
+            // halaman jahat pihak ketiga, dan di sini tidak ada pihak ketiga.
+            //
+            // Di Windows/Herd bendera ini tidak berpengaruh apa-apa, jadi aman
+            // dipasang di satu tempat untuk kedua lingkungan.
+            ->noSandbox()
             // Dibatasi di bawah umur kunci: kalau Chromium tersangkut, yang
             // mati harus prosesnya, bukan giliran orang berikutnya.
             ->timeout(self::UMUR_KUNCI - 30);
