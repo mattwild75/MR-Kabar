@@ -278,12 +278,30 @@ Inspektorat — bukan layanan yang mereka sediakan.
 
 Berkas `server` Nginx: docroot `public/`, dan **soket PHP-FPM harus cocok
 dengan versi PHP yang benar-benar terpasang** (`php8.4-fpm.sock`, bukan 8.3 —
-lihat A2). Dua baris yang mudah terlewat dan keduanya punya akibat nyata:
+lihat A2). Baris-baris berikut mudah terlewat dan semuanya punya akibat nyata:
 
 ```nginx
 client_max_body_size 100M;   # unggahan bukti dukung & video
 fastcgi_read_timeout 300;    # cetak PDF bisa 30-60 detik; jangan diputus
+
+fastcgi_buffer_size 32k;     # header balasan; bawaan 4k TIDAK cukup
+fastcgi_buffers 16 16k;
+fastcgi_busy_buffers_size 32k;
 ```
+
+> **Jebakan penyangga header.** Bawaan nginx cuma 4k, dan **seluruh header
+> balasan harus muat di satu penyangga itu**. Kalau lewat, nginx memutus dengan
+> **502 Bad Gateway** dan menulis `upstream sent too big header` di
+> `/var/log/nginx/error.log` — sementara PHP-FPM tetap hidup dan **log Laravel
+> bersih tanpa satu pun galat**. Gejalanya karena itu menyesatkan: halaman lain
+> normal, dan tidak ada apa pun di sisi aplikasi yang bisa disalahkan. Terjadi
+> di produksi 10 September 2026 pada `/iro_pd?highlight_id=72`.
+>
+> Kalau 502 muncul, periksa log nginx dulu — bukan log Laravel:
+>
+> ```bash
+> tail -20 /var/log/nginx/error.log | grep -i "too big header"
+> ```
 
 Uji dulu, baru terapkan — `nginx -t` harus menjawab `test is successful`
 sebelum `systemctl reload nginx`.
