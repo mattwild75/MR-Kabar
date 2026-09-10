@@ -139,12 +139,18 @@ class FraudRisiko extends Model
     /**
      * Level risiko dari besaran, lewat `risk_levels`.
      *
-     * CATATAN SELISIH. Kertas kerja FRA menulis Sedang 12-15 dan Rendah 6-11,
-     * sedangkan `risk_levels` aplikasi memakai Sedang 11-15 dan Rendah 6-10 —
-     * jadi besaran 11 dibaca berbeda oleh keduanya. Yang dipakai di sini
-     * tabel aplikasi, supaya MR Fraud dan MR Kabar tidak pernah memberi dua
-     * jawaban untuk satu angka. Kalau Perbup menghendaki batas kertas kerja,
-     * yang diubah `risk_levels`-nya, bukan kode ini.
+     * KEPUTUSAN: IKUT SKORING MR KABAR. Kertas kerja FRA menulis Sedang 12-15
+     * dan Rendah 6-11, sedangkan `risk_levels` aplikasi memakai Sedang 11-15
+     * dan Rendah 6-10 — jadi besaran 11 dibaca berbeda oleh keduanya. Selisih
+     * ini diangkat 10 September 2026 dan diputuskan mengikuti skoring MR
+     * Kabar, supaya satu angka tidak pernah punya dua jawaban di dua menu
+     * aplikasi yang sama.
+     *
+     * Akibatnya konkret dan sengaja: besaran 11 di MR Fraud berbunyi "Sedang",
+     * berbeda satu tingkat dari kertas kerja Excel. Kalau kelak diputuskan
+     * sebaliknya, yang diubah ISI `risk_levels` lewat Keterangan Pendukung —
+     * bukan kode ini, dan bukan dengan menambahkan tabel level kedua khusus
+     * MR Fraud.
      */
     private function level(?int $besaran): ?RiskLevel
     {

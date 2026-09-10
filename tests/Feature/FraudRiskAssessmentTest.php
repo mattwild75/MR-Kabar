@@ -6,6 +6,7 @@ use App\Models\FraudKamusRisiko;
 use App\Models\FraudRisiko;
 use App\Models\Opd;
 use App\Models\User;
+use Database\Seeders\RiskReferenceDataSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -38,7 +39,7 @@ class FraudRiskAssessmentTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(\Database\Seeders\RiskReferenceDataSeeder::class);
+        $this->seed(RiskReferenceDataSeeder::class);
     }
 
     private function opd(string $nama = 'DINAS KESEHATAN'): Opd
@@ -103,6 +104,29 @@ class FraudRiskAssessmentTest extends TestCase
         $this->assertSame(22, $r->besaran_residual, 'probabilitas 3 x dampak 5 harus 22 menurut matriks resmi');
         $this->assertNotNull($r->level_inheren);
         $this->assertNotNull($r->level_residual);
+    }
+
+    /**
+     * MR Fraud memakai SKORING MR KABAR, bukan batas level di kertas kerja.
+     *
+     * Kertas kerja FRA menulis Sedang 12-15 dan Rendah 6-11; `risk_levels`
+     * aplikasi memakai Sedang 11-15 dan Rendah 6-10. Besaran 11 karena itu
+     * satu-satunya angka yang dibaca berbeda, dan diputuskan 10 September 2026
+     * mengikuti MR Kabar supaya satu angka tidak punya dua jawaban.
+     *
+     * Probabilitas 2 x dampak 3 menghasilkan besaran 11 — tepat di titik
+     * selisih itu. Tes ini yang menahannya supaya tidak bergeser diam-diam
+     * kalau `risk_levels` kelak disunting lewat Keterangan Pendukung.
+     */
+    public function test_besaran_sebelas_mengikuti_skoring_mr_kabar(): void
+    {
+        $r = $this->risiko($this->pic($this->opd()), [
+            'probabilitas_inheren' => 2,
+            'dampak_inheren' => 3,
+        ]);
+
+        $this->assertSame(11, $r->besaran_inheren);
+        $this->assertSame('Sedang', $r->level_inheren, 'besaran 11 harus "Sedang" mengikuti skoring MR Kabar, bukan "Rendah" seperti kertas kerja FRA');
     }
 
     public function test_besaran_kosong_selama_salah_satu_skor_belum_diisi(): void
