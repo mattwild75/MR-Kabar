@@ -55,13 +55,19 @@ interface Props {
         menitLalu: number | null;
         sehat: boolean;
     };
+    pemeriksaan: {
+        judul: string;
+        sehat: boolean;
+        terakhir: string;
+        hariLalu: number;
+    }[];
     versi: Versi[];
     commitSekarang: string | null;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Backup', href: '/backup' }];
 
-export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal, versi, commitSekarang }: Props) {
+export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal, pemeriksaan, versi, commitSekarang }: Props) {
     const [gitMessage, setGitMessage] = useState('');
     const [pushing, setPushing] = useState(false);
     const [pulling, setPulling] = useState(false);
@@ -251,6 +257,47 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                         </p>
                     </div>
                 )}
+
+                {/* Hasil pemeriksaan keutuhan data mingguan (routes/console.php).
+            Ketiganya menjawab temuan audit yang gejalanya tidak terlihat oleh
+            pengguna: rujukan OPD yang meleset, simpul hierarki yang pecah, dan
+            halaman yang membengkak. Ditampilkan juga ketika semuanya sehat —
+            justru itu yang membuat "belum pernah diperiksa" kelihatan sebagai
+            keadaan yang berbeda dari "diperiksa dan bersih". */}
+                <div className="rounded-md border p-4 text-sm">
+                    <p className="font-medium">Pemeriksaan keutuhan data</p>
+                    {pemeriksaan.length === 0 ? (
+                        <p className="text-muted-foreground mt-1">
+                            Belum pernah diperiksa. Berjalan otomatis tiap Senin pukul 05.30, selama penjadwal server hidup.
+                        </p>
+                    ) : (
+                        <ul className="mt-2 space-y-1">
+                            {pemeriksaan.map((p) => (
+                                <li key={p.judul} className="flex flex-wrap items-baseline gap-x-2">
+                                    <span
+                                        className={
+                                            p.sehat
+                                                ? 'font-medium text-emerald-700 dark:text-emerald-400'
+                                                : 'font-medium text-red-700 dark:text-red-400'
+                                        }
+                                    >
+                                        {p.sehat ? 'Bersih' : 'Perlu diperiksa'}
+                                    </span>
+                                    <span>{p.judul}</span>
+                                    <span className="text-muted-foreground">
+                                        {p.terakhir} ({p.hariLalu} hari lalu)
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                    {pemeriksaan.some((p) => !p.sehat) && (
+                        <p className="text-muted-foreground mt-2">
+                            Rinciannya ada di keluaran perintahnya, mis.{' '}
+                            <code className="bg-muted rounded px-1 py-0.5">php artisan rujukan:periksa</code>.
+                        </p>
+                    )}
+                </div>
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">

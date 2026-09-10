@@ -140,6 +140,7 @@ class BackupController extends Controller
             'gitSyncEnabled' => (bool) SettingApp::cached()?->git_sync_enabled,
             'gitTags' => $this->listGitTags(),
             'penjadwal' => $this->statusPenjadwal(),
+            'pemeriksaan' => $this->statusPemeriksaan(),
             'versi' => $this->daftarVersi(),
             'commitSekarang' => $this->versi->commitSekarang(),
         ]);
@@ -195,6 +196,35 @@ class BackupController extends Controller
             'menitLalu' => $detak ? (int) Carbon::createFromTimestamp($detak)->diffInMinutes(now(), true) : null,
             'sehat' => $detak !== null && Carbon::createFromTimestamp($detak)->greaterThan(now()->subHour()),
         ];
+    }
+
+    /**
+     * Hasil pemeriksaan keutuhan data mingguan (lihat routes/console.php).
+     *
+     * Tiga pemeriksaan — rujukan OPD, hierarki, dan volume halaman — masing
+     * masing menjawab satu temuan audit yang gejalanya TIDAK terlihat oleh
+     * pengguna. Karena itu hasilnya harus punya tempat untuk ditampilkan;
+     * pemeriksaan yang jalan tiap Senin tetapi tak pernah dibaca sama tidak
+     * berguna dengan pemeriksaan yang tak pernah jalan.
+     *
+     * Kembali array kosong kalau belum pernah ada tik mingguan yang lewat —
+     * halaman Backup menampilkannya sebagai "belum pernah diperiksa", bukan
+     * sebagai sehat.
+     *
+     * @return array<int, array{judul: string, sehat: bool, terakhir: string, hariLalu: int}>
+     */
+    private function statusPemeriksaan(): array
+    {
+        return collect(Cache::get('pemeriksaan_keutuhan', []))
+            ->map(fn (array $h) => [
+                'judul' => $h['judul'],
+                'sehat' => $h['sehat'],
+                'terakhir' => Carbon::createFromTimestamp($h['waktu'])->toDateTimeString(),
+                'hariLalu' => (int) Carbon::createFromTimestamp($h['waktu'])->diffInDays(now(), true),
+            ])
+            ->sortBy('judul')
+            ->values()
+            ->all();
     }
 
     /**
