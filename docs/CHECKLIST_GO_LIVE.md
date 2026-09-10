@@ -52,6 +52,7 @@ membutuhkan devDependencies. Paket `puppeteer` sendiri ada di
 
 | Kunci | Nilai | Kalau salah |
 |---|---|---|
+| `APP_NAME` | `"MR KABAR"` | Judul tab peramban berbunyi **"Masuk - Laravel"**. Nilainya mengalir ke `VITE_APP_NAME`, lalu ke `resources/js/app.tsx` — dan karena ditanam saat **build**, mengubahnya menuntut `npm run build` ulang, bukan sekadar `optimize` |
 | `APP_ENV` | `production` | — |
 | `APP_DEBUG` | `false` | Jejak galat & isi konfigurasi terlihat oleh siapa pun yang memicu error |
 | `APP_URL` | domain sungguhan, lengkap dengan `https://` | Cetak PDF gagal — Browsershot memakai alamat ini untuk memanggil halaman cetaknya sendiri |
@@ -63,6 +64,17 @@ membutuhkan devDependencies. Paket `puppeteer` sendiri ada di
 Dua baris terakhir itu penyebab kegagalan yang paling membingungkan, karena
 gejalanya menyerupai "salah sandi" padahal penggunanya tidak pernah mengetik
 apa pun.
+
+**Jangan pernah menyimpan `.env` dengan BOM.** Sebagian penyunting Windows
+(Notepad, PowerShell `Out-File` tanpa `-Encoding utf8NoBOM`) menyisipkan tiga
+bita tak terlihat di awal berkas. Akibatnya Dotenv membaca kunci baris pertama
+sebagai `﻿APP_NAME`, bukan `APP_NAME` — nilainya tidak pernah ditemukan,
+dan gejalanya sama persis dengan nilai yang salah padahal isinya benar.
+Terjadi sungguhan pada `.env` mesin pengembang, 10 September 2026. Memeriksanya:
+
+```bash
+head -c 3 .env | xxd     # kalau muncul "efbb bf", itu BOM — buang baris itu
+```
 
 ### A4. Basis data & penyimpanan
 
@@ -149,20 +161,149 @@ Wajib, dan **tidak otomatis** meski server menyala 24 jam. Perintahnya ada di
 Halaman **Backup** menampilkan pita kuning selama penjadwalnya belum hidup —
 itu cara tercepat memastikannya.
 
-### A7. Chromium untuk cetak PDF
-
-Cetak PDF menjalankan Chromium lewat puppeteer. Di server Linux yang bersih,
-Chromium sering butuh pustaka sistem yang belum terpasang.
+**Tanpa membuka peramban**, detaknya bisa diperiksa langsung; angkanya harus
+di bawah 60 detik:
 
 ```bash
-npx puppeteer browsers install chrome
+php artisan tinker --execute="
+\$t = \Illuminate\Support\Facades\Cache::get('penjadwal_detak_terakhir');
+echo \$t ? (time()-\$t).' detik lalu' : 'TIDAK ADA DETAK - cron mati';
+"
 ```
 
-Kalau cetak PDF masih gagal, jalankan sekali cetak dari aplikasi lalu baca
-`storage/logs/laravel.log` — pesan galat Chromium menyebutkan nama pustaka
-yang kurang, dan itu yang dipasang. Kalau `node` tidak ketemu oleh PHP (PATH
-milik PHP-FPM berbeda dari PATH shell), isi `BROWSERSHOT_NODE_BINARY` di
-`.env` dengan path lengkap `node`.
+### A6b. Pencadangan harian — dan jebakan yang membuatnya diam-diam tak jalan
+
+Ini **bukan** bagian dari penjadwal aplikasi. Ia tugas cron tersendiri milik
+`root`, dan surat Diskominsa menegaskannya sebagai tanggung jawab Inspektorat:
+snapshot VM milik mereka hanya untuk bencana skala sistem.
+
+Skripnya `/usr/local/bin/backup-mrkabar.sh` (dump basis data + `storage/app`,
+menyimpan 14 hari terakhir). Pasang lewat crontab **root**:
+
+```cron
+0 1 * * * /usr/local/bin/backup-mrkabar.sh >> /var/log/backup-mrkabar.log 2>&1
+```
+
+**PERIKSA, jangan dianggap beres setelah `crontab -e` ditutup.** Pemasangan 4
+September 2026 gagal persis di sini: perintahnya diberikan, penyuntingnya
+dibuka, tetapi barisnya tidak pernah tersimpan. Yang diverifikasi saat itu
+hanyalah crontab `www-data` (penjadwal aplikasi), sehingga **enam hari berlalu
+tanpa satu pun cadangan** dan tidak ada gejala apa pun yang memberi tahu.
+Dua-duanya harus diperiksa, dan keduanya milik pengguna yang berbeda:
+
+```bash
+crontab -l              # root   -> harus memuat baris cadangan di atas
+crontab -u www-data -l  # aplikasi -> harus memuat schedule:run tiap menit
+ls -lh /var/backups/mrkabar/   # harus ada berkas BARU tiap hari
+```
+
+Dua hal yang mudah terlewat pada skripnya sendiri: `mysqldump` memerlukan
+`--no-tablespaces` (tanpa itu ia menolak dengan galat `PROCESS privilege`
+karena pengguna basis datanya hanya berhak atas satu basis data), dan
+`set -euo pipefail` diperlukan supaya kegagalan `mysqldump` benar-benar
+menghentikan skrip — tanpa `pipefail`, yang diperiksa hanyalah status `gzip`,
+sehingga dump yang gagal tetap menghasilkan berkas dan terlihat berhasil.
+
+**Cadangan yang tidak pernah keluar dari VM tidak menolong saat VM-nya yang
+hilang.** Salin isi `/var/backups/mrkabar` ke luar secara berkala.
+
+### A7. Chromium untuk cetak PDF
+
+Cetak PDF menjalankan Chromium lewat puppeteer. Bagian ini punya **empat**
+jebakan yang masing-masing membuat SELURUH Form Cetak menjawab 500, dan tak
+satu pun memberi petunjuk dari layar aplikasi. Keempatnya ditemukan saat
+pemasangan sungguhan 4–10 September 2026.
+
+**1. Pasang DUA komponen, bukan satu.** Puppeteer versi sekarang mencetak
+memakai `chrome-headless-shell`, yang terpisah dari `chrome`. Memasang
+`chrome` saja menghasilkan galat `Could not find chrome-headless-shell`.
+
+```bash
+export PUPPETEER_CACHE_DIR=/var/www/mrkabar/.cache/puppeteer
+npx puppeteer browsers install chrome
+npx puppeteer browsers install chrome-headless-shell
+chown -R www-data:www-data /var/www/mrkabar/.cache
+```
+
+**2. Letakkan cache-nya di tempat yang bisa dibaca `www-data`.** Kalau
+dipasang sebagai `root` tanpa `PUPPETEER_CACHE_DIR`, berkasnya mendarat di
+`/root/.cache/puppeteer` — dan PHP-FPM yang berjalan sebagai `www-data` tidak
+akan pernah menemukannya. Karena itu jalurnya dikunci lewat pool PHP-FPM
+(`/etc/php/8.4/fpm/pool.d/www.conf`):
+
+```ini
+env[PUPPETEER_CACHE_DIR] = /var/www/mrkabar/.cache/puppeteer
+env[HOME] = /var/www/mrkabar/.chrome-home
+```
+
+**3. `HOME` milik `www-data` tidak bisa ditulis.** Bawaannya `/var/www`, dan
+Chromium gagal berangkat dengan `Fontconfig error: No writable cache
+directories`. Karena itu baris `env[HOME]` di atas menunjuk folder tersendiri
+yang harus dibuat dan diberi kepemilikan:
+
+```bash
+mkdir -p /var/www/mrkabar/.chrome-home
+chown www-data:www-data /var/www/mrkabar/.chrome-home
+systemctl restart php8.4-fpm      # env[] baru hanya terbaca setelah restart
+```
+
+**4. Sandbox Chromium.** Sudah ditangani di kode (`PdfPrintService::render()`
+memanggil `noSandbox()`), jadi tidak ada yang perlu dikerjakan di server —
+disebut di sini supaya tidak dikira kelalaian. Sebabnya bukan setelan kernel:
+`kernel.unprivileged_userns_clone` sudah bernilai 1, tetapi paket
+`chrome-headless-shell` tidak membawa biner pendamping `chrome-sandbox`
+ber-SUID, sehingga Chromium tidak punya sandbox untuk dipakai sama sekali dan
+mati dengan `FATAL: No usable sandbox!`. Alasan lengkapnya ada di komentar
+kodenya.
+
+**Membuktikannya tanpa membuka aplikasi** — halaman ini publik dan memakai
+jalur Browsershot yang sama dengan seluruh Form Cetak:
+
+```bash
+curl -s -o /tmp/uji.pdf -w '%{http_code}\n' https://<domain>/panduan-publik/pdf
+file /tmp/uji.pdf     # harus "PDF document", bukan "HTML document"
+```
+
+Kalau masih gagal, baca `storage/logs/laravel.log` dan cari baris
+`Error Output:` — pesan Chromium yang sebenarnya ada di situ, beberapa baris
+sesudahnya, bukan di pesan pengecualian Laravel. Kalau `node` tidak ketemu
+oleh PHP (PATH milik PHP-FPM berbeda dari PATH shell), isi
+`BROWSERSHOT_NODE_BINARY` di `.env` dengan path lengkap `node`.
+
+### A8. Nginx dan HTTPS
+
+Bagian ini tadinya tidak ada di checklist sama sekali, padahal surat
+Diskominsa menegaskan pemasangan sertifikat SSL sebagai tanggung jawab
+Inspektorat — bukan layanan yang mereka sediakan.
+
+Berkas `server` Nginx: docroot `public/`, dan **soket PHP-FPM harus cocok
+dengan versi PHP yang benar-benar terpasang** (`php8.4-fpm.sock`, bukan 8.3 —
+lihat A2). Dua baris yang mudah terlewat dan keduanya punya akibat nyata:
+
+```nginx
+client_max_body_size 100M;   # unggahan bukti dukung & video
+fastcgi_read_timeout 300;    # cetak PDF bisa 30-60 detik; jangan diputus
+```
+
+Uji dulu, baru terapkan — `nginx -t` harus menjawab `test is successful`
+sebelum `systemctl reload nginx`.
+
+**HTTPS baru bisa dipasang setelah DNS benar-benar menjawab.** Ini titik
+berhenti wajib; certbot pasti gagal kalau dilewati:
+
+```bash
+nslookup <domain>          # harus menjawab IP publik server
+certbot --nginx -d <domain> --agree-tos --redirect
+certbot renew --dry-run    # harus "all simulated renewals succeeded"
+systemctl is-active certbot.timer
+```
+
+`--redirect` yang membuat HTTP dialihkan ke HTTPS. Perpanjangan berjalan
+sendiri lewat `certbot.timer`; yang perlu dipastikan hanyalah timer itu aktif.
+
+**Proksi tepercaya tidak perlu diubah.** Aplikasi hanya mempercayai
+`127.0.0.1`/`::1` (`bootstrap/app.php`), dan itu memang tepat selama Nginx
+berjalan di mesin yang sama serta meneruskan ke PHP-FPM lokal.
 
 ---
 
@@ -208,6 +349,23 @@ Lakukan berurutan; masing-masing membuktikan satu hal yang berbeda.
 | 5 | Menu **Panduan** | Video edukasi bisa diputar | Berkas LFS belum ditarik (A1) |
 | 6 | Form Input mana saja → kotak **Skala Dampak** | Kriteria 1–5 muncul, bukan daftar kosong | Data referensi Risiko belum terisi (A4) |
 | 7 | **Miscellaneous → PKPT Berbasis Risiko → Ikhtisar dan Periode** | Halaman terbuka, ada tombol **Periode baru** | Kedua seeder PKPT belum dijalankan (A5) — menunya tidak muncul dan `/pkpt/*` menjawab 403, termasuk untuk Super Admin |
+
+**Lima dari tujuh bisa dibuktikan dari terminal**, tanpa menunggu seseorang
+membuka peramban dan masuk — berguna ketika domain belum aktif, atau ketika
+yang memasang bukan yang punya akun:
+
+```bash
+curl -s -o /dev/null -w '%{http_code}\n' https://<domain>/up            # 1
+php artisan tinker --execute="echo (time()-\Cache::get('penjadwal_detak_terakhir')).' detik'"   # 2
+curl -s -o /dev/null -w '%{redirect_url}\n' https://<domain>/login/cee-survey        # 3
+curl -s -o /tmp/u.pdf -w '%{http_code}\n' https://<domain>/panduan-publik/pdf        # 4
+curl -sI https://<domain>/video/video-edukasi-mr-kabar-720p.mp4 | head -1            # 5
+```
+
+Nomor 3 harus mengalihkan ke `/cee/1a` (dan `/lapor-kejadian` untuk yang satu
+lagi) — kalau ia balik ke `/login`, sandi di `.env` tidak cocok dengan yang di
+basis data. Nomor 5 harus menyebut ukuran ratusan MB; kalau hanya beberapa KB,
+berkas LFS belum tertarik.
 
 Satu hal yang **bukan** kegagalan: widget **Jadwal Penilaian Risiko** pada
 Dasbor tampil kosong sampai Arahan dan Kebijakan Penilaian Risiko tahun
