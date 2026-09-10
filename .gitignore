@@ -43,3 +43,13 @@ dev/
 # laporan PASS 1 ke atas memuat lokasi kelemahan keamanan sampai nomor
 # barisnya - persis peta yang dibutuhkan penyerang.
 docs/audit/
+
+# Direktori kerja Chromium di server produksi. Dibuat karena Browsershot
+# menuntut keduanya: PUPPETEER_CACHE_DIR menampung chrome-headless-shell, dan
+# HOME menampung cache fontconfig (www-data tidak bisa menulis ke /var/www).
+# Keduanya diarahkan ke dalam direktori aplikasi lewat env[] di pool PHP-FPM,
+# sehingga muncul sebagai berkas tak terlacak di sana selamanya - dan itu
+# mengaburkan `git status`, yang justru dipakai prosedur pemulihan rilis untuk
+# memastikan tidak ada perubahan yang belum tersimpan sebelum mundur versi.
+.cache/
+.chrome-home/
