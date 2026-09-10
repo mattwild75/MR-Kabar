@@ -257,7 +257,11 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
     const bukaRisikoTerdaftar = (l: Laporan) => {
         if (!l.risiko_terdaftar_tipe || !l.risiko_terdaftar_id) return;
         const tipe = l.risiko_terdaftar_tipe as 'irs_pemda' | 'irs_pd' | 'iro_pd';
-        window.open(`${RISIKO_ROUTE[tipe]}?highlight_id=${l.risiko_terdaftar_id}`, '_blank');
+        // `tahun=semua` karena tahun risiko yg ditaut tidak dibawa ke rekap
+        // ini. Tanpa parameter itu halaman tujuan membuka pada Tahun Aktif,
+        // dan risiko tahun lain tidak ikut termuat — yang terlihat hanya
+        // "Tidak ada data", tanpa galat apa pun.
+        window.open(`${RISIKO_ROUTE[tipe]}?highlight_id=${l.risiko_terdaftar_id}&tahun=semua`, '_blank');
     };
 
     const simpanTindakLanjut = () => {

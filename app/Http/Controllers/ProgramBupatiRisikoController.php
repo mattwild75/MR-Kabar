@@ -249,7 +249,13 @@ class ProgramBupatiRisikoController extends Controller
                         // risikonya justru dikendalikan "DINAS KESEHATAN").
                         'opd_penanggung_jawab' => $risiko->{'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN'} ?? null,
                         'skala_risiko' => $risiko->{'SKALA RISIKO'} !== null ? (int) $risiko->{'SKALA RISIKO'} : null,
-                        'url' => self::URL_INDEX_BY_TIPE[$pivot->risiko_tipe]."?highlight_id={$pivot->risiko_id}",
+                        // `tahun` WAJIB ikut: halaman tujuan menyekat daftarnya
+                        // per Tahun Penilaian dan tanpa ini membuka pada Tahun
+                        // Aktif, sehingga risiko tahun lain tidak ikut termuat
+                        // dan yang terlihat hanya "Tidak ada data".
+                        'url' => self::URL_INDEX_BY_TIPE[$pivot->risiko_tipe]
+                            ."?highlight_id={$pivot->risiko_id}&tahun="
+                            .(trim((string) $risiko->{'TAHUN DINILAI RISIKO'}) ?: 'semua'),
                         'program_semua' => $programSemua,
                     ];
                 })

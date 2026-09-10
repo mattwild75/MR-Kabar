@@ -122,7 +122,12 @@ function TabelRisiko({
     registerRowRef: (id: number, el: HTMLElement | null) => void;
 }) {
     const lihatData = (row: SearchableRow) => {
-        router.visit(`${lihatDataHref}?highlight_id=${row.id}`);
+        // `tahun` WAJIB ikut: halaman tujuan menyekat daftarnya per Tahun
+        // Penilaian, dan tanpa ini ia membuka pada Tahun Aktif. Kalau baris
+        // yang dituju tahun lain, ia tidak ikut termuat sama sekali dan yang
+        // terlihat cuma "Tidak ada data" — tanpa galat, tanpa petunjuk bahwa
+        // yang salah hanya penyaring tahunnya.
+        router.visit(`${lihatDataHref}?highlight_id=${row.id}&tahun=${row.tahun ?? 'semua'}`);
     };
 
     return (

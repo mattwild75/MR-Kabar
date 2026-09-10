@@ -258,6 +258,9 @@ class DashboardController extends Controller
                     'skala_risiko_target' => $r->{'SKALA RISIKO TARGET'} ? (int) $r->{'SKALA RISIKO TARGET'} : null,
                     'skala_risiko_aktual' => $rtpSumberTipe ? $skalaAktualMax->get("{$rtpSumberTipe}:{$r->id}") : null,
                     'jenis_risiko' => $r->{'JENIS RISIKO'},
+                    // Dipakai urlKeBarisRisiko() supaya tautan "Buka Daftar"
+                    // membuka halaman pada tahun baris ini.
+                    'tahun' => $r->{'TAHUN DINILAI RISIKO'},
                     'uraian_risiko' => $r->{'URAIAN RISIKO'},
                     'rencana_tindak_pengendalian' => $r->{'RENCANA TINDAK PENGENDALIAN'},
                 ]);
@@ -397,7 +400,7 @@ class DashboardController extends Controller
                         'opd_nama' => $r['owner_opd_nama'],
                         'uraian_risiko' => $r['uraian_risiko'],
                         'rtp_terisi' => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '',
-                        'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id']),
+                        'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id'], $r['tahun'] ?? null),
                     ])
                     ->values()
                     ->all();
@@ -413,12 +416,27 @@ class DashboardController extends Controller
      * sama tampilan dgn hasil pencarian teks), TANPA pengguna perlu
      * mengetik apapun di kolom pencarian. Lihat highlightRow() di
      * use-row-search.ts.
+     *
+     * `?tahun=` WAJIB ikut, dan bukan sekadar kerapian. Halaman index menyekat
+     * daftarnya per Tahun Penilaian, dan tanpa parameter ini ia membuka pada
+     * Tahun Aktif — sementara risiko yang diklik di dasbor bisa saja tahun
+     * lain. Kalau tahunnya tidak cocok, barisnya TIDAK IKUT TERMUAT sama
+     * sekali: highlightRow() mencari baris yang tidak ada, dan yang dilihat
+     * pengguna adalah "Tidak ada data" — tanpa galat, tanpa petunjuk bahwa
+     * yang salah cuma penyaring tahunnya. Terjadi 10 September 2026 pada
+     * risiko 2025 yang diklik saat Tahun Aktif 2026.
      */
-    private function urlKeBarisRisiko(string $tipe, int $id): string
+    private function urlKeBarisRisiko(string $tipe, int $id, string|int|null $tahun = null): string
     {
         $base = self::URL_INDEX_BY_TIPE[$tipe] ?? '/irs_pemda';
 
-        return "{$base}?highlight_id={$id}";
+        $tahun = trim((string) $tahun);
+
+        // Tanpa tahun yang diketahui, "semua" lebih baik daripada menebak:
+        // barisnya pasti termuat, dan pengguna tetap bisa menyaring sendiri.
+        $tahun = $tahun === '' ? 'semua' : $tahun;
+
+        return "{$base}?highlight_id={$id}&tahun={$tahun}";
     }
 
     /** Skala & warna resmi tiap sel matriks, dari RiskMatrixCell (lihat buildMatriks()). */
@@ -586,7 +604,7 @@ class DashboardController extends Controller
                     'uraian_risiko' => $r['uraian_risiko'],
                     'skala_risiko' => $r['skala_risiko'],
                     'rtp_terisi' => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '',
-                    'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id']),
+                    'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id'], $r['tahun'] ?? null),
                 ])->values()->all(),
             ])
             ->sortByDesc('jumlah')
@@ -629,7 +647,7 @@ class DashboardController extends Controller
                 'skala_target' => $r['skala_risiko_target'],
                 'skala_aktual' => $r['skala_risiko_aktual'],
                 'rtp_terisi' => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '',
-                'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id']),
+                'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id'], $r['tahun'] ?? null),
             ])
             ->sortByDesc(fn ($r) => $r['skala_inheren'] - $r['skala_residual'])
             ->values()
@@ -657,7 +675,7 @@ class DashboardController extends Controller
                 'skala_risiko' => $r['skala_risiko'],
                 'rtp_status' => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '' ? 'RTP Tersusun' : 'Belum RTP',
                 'rtp_terisi' => trim((string) ($r['rencana_tindak_pengendalian'] ?? '')) !== '',
-                'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id']),
+                'url' => $this->urlKeBarisRisiko($r['tipe'], $r['id'], $r['tahun'] ?? null),
             ])
             ->values()
             ->all();
