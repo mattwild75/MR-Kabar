@@ -6,6 +6,7 @@ use App\Models\Opd;
 use App\Models\Pkpt\PkptAreaPengawasan;
 use App\Models\Pkpt\PkptPeriode;
 use App\Models\ProgramPembangunanBupati;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -32,13 +33,13 @@ class PkptPetaAuditanService
      * sehingga tidak pernah memperoleh bobot — terukur 98 Area menggantung
      * pada penarikan pertama.
      */
-    private function petaOpd(): \Illuminate\Support\Collection
+    private function petaOpd(): Collection
     {
         return Opd::all()->keyBy(fn ($o) => $this->hitung->kunciCocok($o->nama));
     }
 
     /** Id Perangkat Daerah yang namanya cocok, tidak peka kapitalisasi. */
-    private function opdDariNama(\Illuminate\Support\Collection $peta, ?string $nama): ?int
+    private function opdDariNama(Collection $peta, ?string $nama): ?int
     {
         $kunci = $this->hitung->kunciCocok($nama);
 

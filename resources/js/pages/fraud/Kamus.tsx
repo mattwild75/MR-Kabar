@@ -47,20 +47,15 @@ export default function Kamus({ butir, areas, areaTerpilih }: Props) {
                 <div>
                     <h1 className="text-2xl font-bold">Kamus Risiko Kecurangan</h1>
                     <p className="text-muted-foreground text-sm">
-                        Daftar risiko kecurangan baku yang boleh dipungut saat mengisi Identifikasi Risiko. Gunanya bukan mempercepat
-                        pengetikan: tanpa kamus, tiap Perangkat Daerah merumuskan sendiri risiko yang sebenarnya sama, dan register
-                        gabungannya tidak bisa dihitung lintas OPD.
+                        Daftar risiko kecurangan baku yang boleh dipungut saat mengisi Identifikasi Risiko. Gunanya bukan mempercepat pengetikan:
+                        tanpa kamus, tiap Perangkat Daerah merumuskan sendiri risiko yang sebenarnya sama, dan register gabungannya tidak bisa
+                        dihitung lintas OPD.
                     </p>
                 </div>
 
                 <div className="relative max-w-xl">
                     <Search className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
-                    <Input
-                        className="pl-9"
-                        placeholder="Cari risiko atau area…"
-                        value={cari}
-                        onChange={(e) => setCari(e.target.value)}
-                    />
+                    <Input className="pl-9" placeholder="Cari risiko atau area…" value={cari} onChange={(e) => setCari(e.target.value)} />
                 </div>
 
                 <div className="flex flex-wrap gap-2">
@@ -119,9 +114,8 @@ export default function Kamus({ butir, areas, areaTerpilih }: Props) {
                 </div>
 
                 <p className="text-muted-foreground text-xs">
-                    Sumber MCP KPK 2025 berasal dari Monitoring Centre for Prevention — pemantauan aksi pencegahan korupsi oleh KPK
-                    berdasarkan Perpres No. 54 Tahun 2018. Ketiga belas areanya adalah area yang memang diperiksa, sehingga daftar ini bukan
-                    sekadar contoh.
+                    Sumber MCP KPK 2025 berasal dari Monitoring Centre for Prevention — pemantauan aksi pencegahan korupsi oleh KPK berdasarkan
+                    Perpres No. 54 Tahun 2018. Ketiga belas areanya adalah area yang memang diperiksa, sehingga daftar ini bukan sekadar contoh.
                 </p>
             </div>
         </AppLayout>

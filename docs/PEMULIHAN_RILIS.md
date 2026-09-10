@@ -195,6 +195,19 @@ echo 'IRS PD: '.\Illuminate\Support\Facades\DB::table('tbl_irs_pd')->count().PHP
 php artisan migrate:status | tail -3
 ```
 
+> **Cadangan yang diambil sebelum 11 September 2026 berisi cap waktu UTC.**
+> Sejak tanggal itu aplikasi berjalan pada Asia/Jakarta, dan sebuah migrasi
+> menggeser seluruh kolom datetime +7 jam. Memulihkan cadangan LAMA ke kode
+> BARU karena itu membuat setiap cap waktu tertinggal tujuh jam — tidak ada
+> galat, hanya riwayat yang meleset. Kalau itu terjadi, jalankan ulang
+> migrasinya saja:
+>
+> ```bash
+> php artisan migrate:refresh --path=database/migrations/2026_09_11_000000_pindahkan_zona_waktu_ke_asia_jakarta.php --force
+> ```
+>
+> Periksa dulu satu baris rujukan sebelum dan sesudah, jangan menebak.
+
 Angka rujukan per 10 September 2026: **56 pengguna, 49 OPD, 95 baris IRS PD**.
 Kalau jauh berbeda tanpa alasan yang Anda ketahui, berhenti dan periksa lagi
 sebelum `php artisan up`.

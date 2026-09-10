@@ -119,5 +119,15 @@ class AppServiceProvider extends ServiceProvider
             Limit::perMinute(30)->by($r->session()->getId()),
             Limit::perMinute(200)->by($r->ip()),
         ]);
+
+        // Pemeriksaan nomor tiket + KODE AKSES laporan kecurangan. Jatahnya
+        // paling ketat di berkas ini, dan itu disengaja: endpoint lain menerima
+        // data, endpoint ini MEMERIKSA RAHASIA. Tanpa batas yang ketat, kode
+        // akses delapan huruf bisa ditebak berurutan — dan yang terbuka
+        // bukan sekadar sebuah baris, melainkan utas seorang pelapor anonim.
+        RateLimiter::for('lapor-tiket', fn (Request $r) => [
+            Limit::perMinute(5)->by($r->session()->getId()),
+            Limit::perMinute(20)->by($r->ip()),
+        ]);
     }
 }

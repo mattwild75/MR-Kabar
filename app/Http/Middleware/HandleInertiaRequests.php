@@ -80,6 +80,14 @@ class HandleInertiaRequests extends Middleware
                 // dimuat ulang.
                 'duaFaktorSiap' => session('duaFaktorSiap'),
                 'duaFaktorKodePemulihan' => session('duaFaktorKodePemulihan'),
+                // Nomor tiket + kode akses laporan kecurangan yang baru
+                // dikirim, dan hasil pemeriksaan tiket. Keduanya lewat flash
+                // dengan alasan yang sama seperti kode dua faktor di atas:
+                // kode aksesnya hanya boleh muncul SEKALI, dan tidak boleh
+                // ikut termuat lagi ketika halamannya dibuka ulang — sebab
+                // yang tersimpan di server hanya hashnya.
+                'tiketBaru' => session('tiketBaru'),
+                'hasilTiket' => session('hasilTiket'),
             ],
             // TIDAK dibagikan ke /panduan-publik. Halaman itu terbuka tanpa
             // login, dan baris settingapp memuat 32 kolom — di antaranya

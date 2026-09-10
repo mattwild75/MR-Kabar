@@ -36,7 +36,12 @@ export default function LaporQrCode() {
                 </p>
                 <p>
                     Satu kode QR untuk keduanya — pelapor memilih setelah membacanya, sebab yang menyaksikan sesuatu belum tentu tahu lebih dulu
-                    apakah yang dilihatnya "risiko" atau "kecurangan". Laporan dugaan kecurangan boleh dikirim <strong>anonim</strong>.
+                    apakah yang dilihatnya "risiko" atau "kecurangan".
+                </p>
+                <p>
+                    Laporan dugaan kecurangan boleh dikirim <strong>anonim</strong>. Pelapor menerima <strong>nomor tiket dan kode akses</strong>,
+                    lalu memakai QR yang sama untuk kembali ke tab <strong>Cek Status Laporan</strong> — melihat perkembangan dan menjawab pertanyaan
+                    penindaklanjut, tanpa pernah menyebut siapa dirinya. Kode akses tidak dapat dipulihkan bila hilang.
                 </p>
                 <p className="text-xs text-neutral-500">
                     Atau buka langsung:{' '}
@@ -45,8 +50,8 @@ export default function LaporQrCode() {
                     </a>
                 </p>
                 <p className="text-xs text-neutral-500">
-                    Akun bersama: <code className="rounded bg-neutral-100 px-1">LAPOR</code> — dipakai bergantian oleh siapa saja. Akun ini hanya
-                    bisa MENGIRIM laporan; rekap dan identitas pelapor tidak bisa dibuka dengannya.
+                    Akun bersama: <code className="rounded bg-neutral-100 px-1">LAPOR</code> — dipakai bergantian oleh siapa saja. Akun ini hanya bisa
+                    MENGIRIM laporan; rekap dan identitas pelapor tidak bisa dibuka dengannya.
                 </p>
             </div>
         </div>

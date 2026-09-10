@@ -294,8 +294,8 @@ export function FormRisiko({
                             </fieldset>
 
                             <p className="text-muted-foreground text-xs">
-                                Besaran dan level risiko tidak diisi di sini — keduanya turunan dari matriks 5×5 resmi, dan dihitung sendiri
-                                begitu kedua skor terisi.
+                                Besaran dan level risiko tidak diisi di sini — keduanya turunan dari matriks 5×5 resmi, dan dihitung sendiri begitu
+                                kedua skor terisi.
                             </p>
                         </>
                     )}
@@ -304,11 +304,7 @@ export function FormRisiko({
                         <>
                             <div>
                                 <Label>Pernyataan Penyebab</Label>
-                                <Textarea
-                                    rows={3}
-                                    value={nilai.pernyataan_penyebab}
-                                    onChange={(e) => ubah('pernyataan_penyebab', e.target.value)}
-                                />
+                                <Textarea rows={3} value={nilai.pernyataan_penyebab} onChange={(e) => ubah('pernyataan_penyebab', e.target.value)} />
                             </div>
                             <div>
                                 <Label>Rencana Pengendalian / Mitigasi Risiko</Label>

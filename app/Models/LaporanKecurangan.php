@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -21,7 +22,6 @@ class LaporanKecurangan extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'anonim' => 'boolean',
         'dugaan_kelompok' => 'array',
         'waktu_kejadian' => 'datetime',
         'ditindaklanjuti_at' => 'datetime',
@@ -35,6 +35,28 @@ class LaporanKecurangan extends Model
      * membuat penindaklanjut harus mengingat mana yang sedang dibuka.
      */
     public const STATUS = ['baru', 'diverifikasi', 'ditindaklanjuti', 'selesai'];
+
+    /**
+     * Tiga tingkat kerahasiaan pelapor.
+     *
+     * `anonim_kontak` ada karena "anonim" saja menggabungkan dua orang yang
+     * berbeda kebutuhan: yang tidak mau namanya muncul di berkas, dan yang
+     * tidak mau dihubungi sama sekali. Yang pertama umumnya bersedia dihubungi
+     * Inspektorat; memaksanya memilih salah satu ujung membuat sebagian orang
+     * memilih tidak melapor.
+     */
+    public const MODE_TERBUKA = 'terbuka';
+
+    public const MODE_ANONIM_KONTAK = 'anonim_kontak';
+
+    public const MODE_ANONIM_PENUH = 'anonim_penuh';
+
+    public const MODE = [self::MODE_TERBUKA, self::MODE_ANONIM_KONTAK, self::MODE_ANONIM_PENUH];
+
+    public function pesan(): HasMany
+    {
+        return $this->hasMany(PesanLaporanKecurangan::class)->orderBy('created_at');
+    }
 
     public function opd(): BelongsTo
     {
@@ -60,6 +82,16 @@ class LaporanKecurangan extends Model
      */
     public function getPelaporAttribute(): string
     {
-        return $this->anonim ? 'Anonim' : ($this->nama_pelapor ?: 'Tidak disebutkan');
+        return match ($this->mode_pelapor) {
+            self::MODE_ANONIM_PENUH => 'Anonim',
+            self::MODE_ANONIM_KONTAK => 'Anonim (bisa dihubungi)',
+            default => $this->nama_pelapor ?: 'Tidak disebutkan',
+        };
+    }
+
+    /** Nama pelapor tidak pernah disimpan pada kedua mode anonim. */
+    public function getAnonimAttribute(): bool
+    {
+        return $this->mode_pelapor !== self::MODE_TERBUKA;
     }
 }

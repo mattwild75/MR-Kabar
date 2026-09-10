@@ -217,6 +217,23 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/lapor-kecurangan', [LaporanKecuranganController::class, 'store'])
         ->middleware('throttle:lapor-submit')
         ->name('lapor-kecurangan.store');
+
+    // Cek status laporan lewat nomor tiket + kode akses. Inilah yang membuat
+    // laporan anonim tidak putus: pelapor kembali membaca perkembangan dan
+    // menjawab pertanyaan penindaklanjut tanpa menyebut siapa dirinya.
+    //
+    // Throttle-nya lebih ketat daripada pengiriman laporan, dan itu penting:
+    // keduanya menerima tebakan berulang, tetapi endpoint ini memeriksa KODE
+    // AKSES — tanpa batas laju, kodenya bisa ditebak berurutan.
+    Route::post('/lapor-kecurangan/status', [LaporanKecuranganController::class, 'cekStatus'])
+        ->middleware('throttle:lapor-tiket')
+        ->name('lapor-kecurangan.status');
+    Route::post('/lapor-kecurangan/balas', [LaporanKecuranganController::class, 'balasTiket'])
+        ->middleware('throttle:lapor-tiket')
+        ->name('lapor-kecurangan.balas');
+
+    Route::post('/fraud/rekap-lapor/{laporanKecurangan}/tanya', [LaporanKecuranganController::class, 'tanya'])
+        ->name('fraud.rekap-lapor.tanya');
     Route::post('/fraud', [FraudRisikoController::class, 'store'])->name('fraud.store');
     Route::put('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'update'])->name('fraud.update');
     Route::delete('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'destroy'])->name('fraud.destroy');

@@ -4,8 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\LaporanKecurangan;
 use App\Models\Opd;
+use App\Models\PesanLaporanKecurangan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 /**
@@ -28,13 +30,6 @@ class LaporKecuranganTest extends TestCase
         return User::factory()->create();
     }
 
-    private function pengelola(): User
-    {
-        // canViewAllOpd() menandai admin/super-admin; di sini cukup pengguna
-        // tanpa OPD yang perannya disetel lewat helper aplikasi.
-        return User::factory()->create();
-    }
-
     public function test_halaman_lapor_memuat_kedua_formulir_dalam_satu_halaman(): void
     {
         $this->actingAs($this->pelapor());
@@ -48,7 +43,7 @@ class LaporKecuranganTest extends TestCase
         $opd = Opd::create(['nama' => 'DINAS KESEHATAN']);
 
         $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
-            'anonim' => false,
+            'mode_pelapor' => 'terbuka',
             'nama_pelapor' => 'Budi',
             'email' => 'budi@example.test',
             'uraian_kejadian' => 'Dugaan mark up harga pada pengadaan alat kesehatan',
@@ -72,7 +67,7 @@ class LaporKecuranganTest extends TestCase
     public function test_laporan_anonim_tidak_menyimpan_identitas_sama_sekali(): void
     {
         $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
-            'anonim' => true,
+            'mode_pelapor' => 'anonim_penuh',
             // Sengaja tetap dikirim: peramban yang keliru urutan, atau yang
             // sengaja mengirimnya, tidak boleh membuat identitas tersimpan.
             'nama_pelapor' => 'Budi',
@@ -93,7 +88,7 @@ class LaporKecuranganTest extends TestCase
     public function test_uraian_kejadian_wajib_diisi(): void
     {
         $this->actingAs($this->pelapor())
-            ->post('/lapor-kecurangan', ['uraian_kejadian' => ''])
+            ->post('/lapor-kecurangan', ['mode_pelapor' => 'terbuka', 'uraian_kejadian' => ''])
             ->assertSessionHasErrors('uraian_kejadian');
 
         $this->assertDatabaseCount('laporan_kecurangan', 0);
@@ -102,6 +97,7 @@ class LaporKecuranganTest extends TestCase
     public function test_dugaan_delik_di_luar_tujuh_pilihan_ditolak(): void
     {
         $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'terbuka',
             'uraian_kejadian' => 'Sesuatu terjadi',
             'dugaan_kelompok' => ['Korupsi biasa'],
         ])->assertSessionHasErrors('dugaan_kelompok.0');
@@ -121,7 +117,134 @@ class LaporKecuranganTest extends TestCase
 
     public function test_tamu_tidak_bisa_mengirim_laporan(): void
     {
-        $this->post('/lapor-kecurangan', ['uraian_kejadian' => 'Sesuatu'])
+        $this->post('/lapor-kecurangan', ['mode_pelapor' => 'terbuka', 'uraian_kejadian' => 'Sesuatu'])
             ->assertRedirect('/login');
+    }
+
+    /**
+     * Mode tengah: nama tidak disimpan, tetapi kanal kontak tetap ada.
+     *
+     * Ini yang dibutuhkan orang yang bersedia dihubungi Inspektorat tetapi
+     * tidak mau namanya muncul di berkas — dan yang sebelumnya terpaksa
+     * memilih salah satu ujung.
+     */
+    public function test_anonim_kontak_menyimpan_kontak_tanpa_nama(): void
+    {
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_kontak',
+            'nama_pelapor' => 'Budi',
+            'email' => 'budi@example.test',
+            'uraian_kejadian' => 'Dugaan benturan kepentingan pada pemilihan penyedia',
+        ])->assertRedirect();
+
+        $l = LaporanKecurangan::first();
+
+        $this->assertNull($l->nama_pelapor, 'nama tidak boleh tersimpan pada mode anonim');
+        $this->assertSame('budi@example.test', $l->email, 'kontak justru harus tersimpan pada mode ini');
+        $this->assertTrue($l->anonim);
+    }
+
+    /** Tiap laporan mendapat nomor tiket, dan kode aksesnya TIDAK disimpan mentah. */
+    public function test_tiket_terbit_dan_kode_akses_hanya_tersimpan_sebagai_hash(): void
+    {
+        $respons = $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Dugaan pemerasan pada pelayanan perizinan',
+        ]);
+
+        $tiket = session('tiketBaru');
+
+        $this->assertNotNull($tiket, 'nomor tiket harus dikembalikan ke pelapor sekali jalan');
+        $this->assertMatchesRegularExpression('/^FRA-\d{4}-\d{4}$/', $tiket['nomor_tiket']);
+
+        $l = LaporanKecurangan::first();
+
+        $this->assertSame($tiket['nomor_tiket'], $l->nomor_tiket);
+        $this->assertNotSame($tiket['kode_akses'], $l->kode_akses_hash, 'kode akses tidak boleh tersimpan apa adanya');
+        $this->assertTrue(Hash::check($tiket['kode_akses'], $l->kode_akses_hash));
+
+        $respons->assertRedirect();
+    }
+
+    /**
+     * Inti jawaban atas "kalau anonim, bagaimana menindaklanjutinya": pelapor
+     * kembali dengan tiketnya, membaca pertanyaan, dan menjawab.
+     */
+    public function test_pelapor_anonim_bisa_kembali_dan_menjawab_lewat_tiket(): void
+    {
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Dugaan mark up pada pengadaan',
+        ]);
+
+        $tiket = session('tiketBaru');
+        $l = LaporanKecurangan::first();
+
+        // Penindaklanjut bertanya.
+        $l->pesan()->create([
+            'dari' => PesanLaporanKecurangan::DARI_PENINDAKLANJUT,
+            'isi' => 'Pada tanggal berapa pengadaan itu berlangsung?',
+        ]);
+
+        // Pelapor membuka status dengan tiketnya dan melihat pertanyaan itu.
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan/status', [
+            'nomor_tiket' => $tiket['nomor_tiket'],
+            'kode_akses' => $tiket['kode_akses'],
+        ])->assertRedirect();
+
+        $hasil = session('hasilTiket');
+        $this->assertNotNull($hasil);
+        $this->assertCount(1, $hasil['pesan']);
+
+        // Lalu menjawabnya.
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan/balas', [
+            'nomor_tiket' => $tiket['nomor_tiket'],
+            'kode_akses' => $tiket['kode_akses'],
+            'isi' => 'Sekitar Maret 2026.',
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('pesan_laporan_kecurangan', [
+            'laporan_kecurangan_id' => $l->id,
+            'dari' => 'pelapor',
+            'isi' => 'Sekitar Maret 2026.',
+        ]);
+
+        // Jawaban pelapor tidak menautkan akun mana pun — akun yang dipakai
+        // adalah akun bersama LAPOR, dan mencatatnya tidak menambah keterangan
+        // apa pun yang berguna.
+        $this->assertNull(
+            PesanLaporanKecurangan::where('dari', 'pelapor')->value('user_id'),
+            'pesan pelapor tidak boleh menyimpan user_id'
+        );
+    }
+
+    public function test_kode_akses_salah_ditolak(): void
+    {
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Dugaan gratifikasi',
+        ]);
+
+        $tiket = session('tiketBaru');
+
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan/status', [
+            'nomor_tiket' => $tiket['nomor_tiket'],
+            'kode_akses' => 'SALAHSEKALI',
+        ])->assertSessionHasErrors('nomor_tiket');
+
+        $this->assertNull(session('hasilTiket'));
+    }
+
+    /**
+     * Tiket yang tidak ada dan kode yang salah menghasilkan pesan yang SAMA —
+     * supaya endpoint ini tidak bisa dipakai menebak tiket mana yang benar-benar
+     * ada.
+     */
+    public function test_tiket_tak_dikenal_tidak_membocorkan_keberadaannya(): void
+    {
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan/status', [
+            'nomor_tiket' => 'FRA-2026-9999',
+            'kode_akses' => 'APASAJA',
+        ])->assertSessionHasErrors('nomor_tiket');
     }
 }

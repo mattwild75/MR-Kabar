@@ -6,8 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useForm } from '@inertiajs/react';
-import { ShieldAlert } from 'lucide-react';
+import { useForm, usePage } from '@inertiajs/react';
+import { Copy, ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface OpdOption {
@@ -22,6 +22,32 @@ interface Props {
 }
 
 /**
+ * Tiga tingkat kerahasiaan pelapor.
+ *
+ * "Anonim" saja menggabungkan dua orang yang berbeda kebutuhan: yang tidak mau
+ * namanya muncul di berkas, dan yang tidak mau dihubungi sama sekali. Yang
+ * pertama umumnya bersedia dihubungi Inspektorat — memaksanya memilih salah
+ * satu ujung membuat sebagian orang memilih tidak melapor.
+ */
+const MODE = [
+    {
+        kunci: 'terbuka' as const,
+        judul: 'Terbuka',
+        ringkas: 'Nama dan kontak Anda tersimpan. Penindaklanjut dapat menghubungi Anda langsung.',
+    },
+    {
+        kunci: 'anonim_kontak' as const,
+        judul: 'Anonim, tetapi bisa dihubungi',
+        ringkas: 'Nama Anda tidak disimpan. Kontak Anda tersimpan dan hanya terbaca penindaklanjut.',
+    },
+    {
+        kunci: 'anonim_penuh' as const,
+        judul: 'Anonim penuh',
+        ringkas: 'Nama maupun kontak tidak disimpan sama sekali. Hubungan hanya lewat nomor tiket.',
+    },
+];
+
+/**
  * Isi tab "Dugaan Kecurangan" pada halaman Lapor.
  *
  * Dasar: Perdep BPKP Bidang Investigasi No. 1 Tahun 2019 dan Perbup Aceh Barat
@@ -34,8 +60,13 @@ interface Props {
  * membuat orang mengurungkan laporan.
  */
 export default function FormKecurangan({ opdList, tahapanOptions, kelompokOptions }: Props) {
+    // Nomor tiket + kode akses hasil pengiriman barusan. Lewat flash, bukan
+    // prop tetap: kode aksesnya hanya boleh muncul SEKALI, sebab yang tersimpan
+    // di server cuma hashnya dan tidak ada cara memulihkannya.
+    const tiketBaru = (usePage().props as unknown as { flash?: { tiketBaru?: { nomor_tiket: string; kode_akses: string } } }).flash?.tiketBaru;
+
     const { data, setData, post, processing, errors, reset } = useForm({
-        anonim: false as boolean,
+        mode_pelapor: 'terbuka' as 'terbuka' | 'anonim_kontak' | 'anonim_penuh',
         nama_pelapor: '',
         email: '',
         no_hp: '',
@@ -65,6 +96,42 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
 
     return (
         <form onSubmit={kirim} className="mx-auto max-w-2xl space-y-4">
+            {tiketBaru && (
+                <div className="rounded-md border-2 border-emerald-500/60 bg-emerald-50 p-4 dark:bg-emerald-950/30">
+                    <p className="font-semibold text-emerald-900 dark:text-emerald-200">Laporan terkirim. Simpan dua baris ini sekarang.</p>
+                    <dl className="mt-3 space-y-2">
+                        <div>
+                            <dt className="text-xs text-emerald-800 dark:text-emerald-300">Nomor Tiket</dt>
+                            <dd className="font-mono text-lg font-bold tracking-wider">{tiketBaru.nomor_tiket}</dd>
+                        </div>
+                        <div>
+                            <dt className="text-xs text-emerald-800 dark:text-emerald-300">Kode Akses</dt>
+                            <dd className="font-mono text-lg font-bold tracking-widest">{tiketBaru.kode_akses}</dd>
+                        </div>
+                    </dl>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-3"
+                        onClick={() => {
+                            navigator.clipboard
+                                ?.writeText(`${tiketBaru.nomor_tiket} / ${tiketBaru.kode_akses}`)
+                                .then(() => toast.success('Tersalin.'))
+                                .catch(() => toast.error('Gagal menyalin. Catat manual.'));
+                        }}
+                    >
+                        <Copy className="mr-2 h-4 w-4" />
+                        Salin
+                    </Button>
+                    <p className="mt-3 text-xs text-emerald-900 dark:text-emerald-300">
+                        Kode akses <strong>tidak bisa dipulihkan</strong> kalau hilang — memulihkannya menuntut identitas Anda, dan itu persis yang
+                        sedang dijaga. Pakai keduanya di tab <strong>Cek Status Laporan</strong> untuk melihat perkembangan dan menjawab pertanyaan
+                        penindaklanjut.
+                    </p>
+                </div>
+            )}
+
             <div className="flex items-start gap-2">
                 <ShieldAlert className="text-destructive mt-0.5 h-6 w-6 shrink-0" />
                 <div>
@@ -81,44 +148,61 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
                     <CardTitle className="text-base">Identitas Pelapor</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <label className="flex items-start gap-2 rounded-md border p-3 text-sm">
-                        <Checkbox
-                            checked={data.anonim}
-                            onCheckedChange={(c) => {
-                                const anonim = c === true;
-                                // Saat anonim dipilih, identitasnya DIKOSONGKAN,
-                                // bukan sekadar disembunyikan dari layar — data
-                                // yang tersimpan tetap terbaca oleh siapa pun
-                                // yang bisa membuka basis data.
-                                setData((d) => ({
-                                    ...d,
-                                    anonim,
-                                    nama_pelapor: anonim ? '' : d.nama_pelapor,
-                                    email: anonim ? '' : d.email,
-                                    no_hp: anonim ? '' : d.no_hp,
-                                }));
-                            }}
-                        />
-                        <span>
-                            <span className="font-medium">Laporkan secara anonim</span>
-                            <span className="text-muted-foreground block text-xs">
-                                Identitas Anda tidak akan diminta maupun disimpan. Konsekuensinya, penindaklanjut tidak dapat menghubungi Anda untuk
-                                meminta keterangan tambahan.
-                            </span>
-                        </span>
-                    </label>
+                    <div className="space-y-2">
+                        {MODE.map((m) => {
+                            const aktif = data.mode_pelapor === m.kunci;
+                            return (
+                                <label
+                                    key={m.kunci}
+                                    className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 text-sm ${
+                                        aktif ? 'border-primary bg-primary/5' : ''
+                                    }`}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="mode_pelapor"
+                                        className="mt-1"
+                                        checked={aktif}
+                                        onChange={() =>
+                                            // Identitas dikosongkan saat berpindah ke mode
+                                            // anonim. Server juga membersihkannya sendiri —
+                                            // ini hanya supaya yang terlihat di layar jujur
+                                            // dengan apa yang akan tersimpan.
+                                            setData((d) => ({
+                                                ...d,
+                                                mode_pelapor: m.kunci,
+                                                nama_pelapor: m.kunci === 'terbuka' ? d.nama_pelapor : '',
+                                                email: m.kunci === 'anonim_penuh' ? '' : d.email,
+                                                no_hp: m.kunci === 'anonim_penuh' ? '' : d.no_hp,
+                                            }))
+                                        }
+                                    />
+                                    <span>
+                                        <span className="font-medium">{m.judul}</span>
+                                        <span className="text-muted-foreground block text-xs">{m.ringkas}</span>
+                                    </span>
+                                </label>
+                            );
+                        })}
+                    </div>
 
-                    {!data.anonim && (
+                    {data.mode_pelapor === 'anonim_penuh' && (
+                        <p className="rounded-md border border-amber-500/50 bg-amber-50 p-3 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+                            Tidak ada seorang pun yang dapat menghubungi Anda untuk meminta keterangan tambahan. Karena itu, lengkapi keterangan di
+                            bawah sedetail yang Anda ketahui — kelengkapan sekarang menentukan bisa atau tidaknya laporan ini ditelaah. Anda tetap
+                            dapat kembali membaca perkembangannya dan menjawab pertanyaan lewat nomor tiket yang muncul setelah mengirim.
+                        </p>
+                    )}
+
+                    {data.mode_pelapor !== 'anonim_penuh' && (
                         <div className="space-y-4">
-                            <div>
-                                <Label htmlFor="nama_pelapor">Nama Lengkap</Label>
-                                <Input
-                                    id="nama_pelapor"
-                                    value={data.nama_pelapor}
-                                    onChange={(e) => setData('nama_pelapor', e.target.value)}
-                                />
-                                {errors.nama_pelapor && <p className="text-destructive text-xs">{errors.nama_pelapor}</p>}
-                            </div>
+                            {data.mode_pelapor === 'terbuka' && (
+                                <div>
+                                    <Label htmlFor="nama_pelapor">Nama Lengkap</Label>
+                                    <Input id="nama_pelapor" value={data.nama_pelapor} onChange={(e) => setData('nama_pelapor', e.target.value)} />
+                                    {errors.nama_pelapor && <p className="text-destructive text-xs">{errors.nama_pelapor}</p>}
+                                </div>
+                            )}
                             <div className="grid gap-4 sm:grid-cols-2">
                                 <div>
                                     <Label htmlFor="email_fraud">Email</Label>
@@ -246,10 +330,7 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
                                     <Checkbox
                                         checked={data.dugaan_kelompok.includes(k)}
                                         onCheckedChange={(c) =>
-                                            setData(
-                                                'dugaan_kelompok',
-                                                c ? [...data.dugaan_kelompok, k] : data.dugaan_kelompok.filter((x) => x !== k),
-                                            )
+                                            setData('dugaan_kelompok', c ? [...data.dugaan_kelompok, k] : data.dugaan_kelompok.filter((x) => x !== k))
                                         }
                                     />
                                     <span>{k}</span>

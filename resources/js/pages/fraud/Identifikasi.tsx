@@ -129,8 +129,8 @@ export default function Identifikasi(props: Props) {
                     <AlertDialogHeader>
                         <AlertDialogTitle>Hapus risiko ini?</AlertDialogTitle>
                         <AlertDialogDescription>
-                            Analisis dan rencana tindak pada baris yang sama ikut terhapus, karena ketiganya satu baris. Baris masih bisa
-                            dipulihkan lewat Data Terhapus.
+                            Analisis dan rencana tindak pada baris yang sama ikut terhapus, karena ketiganya satu baris. Baris masih bisa dipulihkan
+                            lewat Data Terhapus.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>

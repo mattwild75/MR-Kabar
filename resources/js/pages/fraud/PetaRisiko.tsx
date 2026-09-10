@@ -55,7 +55,10 @@ export default function PetaRisiko(props: Props) {
                         <div key={l.label} className="flex items-center gap-2">
                             <span className={`inline-block h-4 w-8 rounded ${l.warna_class}`} />
                             <span>
-                                {l.label} <span className="text-muted-foreground">({l.skala_min}–{l.skala_max})</span>
+                                {l.label}{' '}
+                                <span className="text-muted-foreground">
+                                    ({l.skala_min}–{l.skala_max})
+                                </span>
                             </span>
                         </div>
                     ))}
@@ -69,17 +72,8 @@ export default function PetaRisiko(props: Props) {
     );
 }
 
-function Matriks({
-    judul,
-    props,
-    pilih,
-}: {
-    judul: string;
-    props: Props;
-    pilih: (r: FraudRow) => [number | null, number | null];
-}) {
-    const sel = (kemungkinan: number, dampak: number) =>
-        props.matrixCells.find((c) => c.kemungkinan === kemungkinan && c.dampak === dampak);
+function Matriks({ judul, props, pilih }: { judul: string; props: Props; pilih: (r: FraudRow) => [number | null, number | null] }) {
+    const sel = (kemungkinan: number, dampak: number) => props.matrixCells.find((c) => c.kemungkinan === kemungkinan && c.dampak === dampak);
 
     const isi = (kemungkinan: number, dampak: number) =>
         props.rows.filter((r) => {
@@ -119,7 +113,7 @@ function Matriks({
                             <tr key={p.skor}>
                                 {idx === 0 && (
                                     <th className="border px-1 py-1 align-middle" rowSpan={5}>
-                                        <span className="[writing-mode:vertical-rl] rotate-180 whitespace-nowrap">
+                                        <span className="rotate-180 whitespace-nowrap [writing-mode:vertical-rl]">
                                             Tingkat Frekuensi / Probabilitas
                                         </span>
                                     </th>

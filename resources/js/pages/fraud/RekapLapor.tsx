@@ -21,8 +21,16 @@ import { ChevronDown, ChevronRight, Trash2, UserX } from 'lucide-react';
 import { Fragment, useState } from 'react';
 import { toast } from 'sonner';
 
+interface Pesan {
+    dari: string;
+    isi: string;
+    pada: string | null;
+}
+
 interface Laporan {
     id: number;
+    nomor_tiket: string | null;
+    mode_pelapor: string;
     anonim: boolean;
     pelapor: string;
     email: string | null;
@@ -42,6 +50,7 @@ interface Laporan {
     penindaklanjut: string | null;
     risiko_terdaftar: string | null;
     dilaporkan_pada: string | null;
+    pesan: Pesan[];
 }
 
 interface Props {
@@ -66,6 +75,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
     const [buka, setBuka] = useState<number | null>(null);
     const [suntingStatus, setSuntingStatus] = useState<Laporan | null>(null);
     const [hapus, setHapus] = useState<Laporan | null>(null);
+    const [tanya, setTanya] = useState<Record<number, string>>({});
 
     const [statusBaru, setStatusBaru] = useState('');
     const [catatan, setCatatan] = useState('');
@@ -92,8 +102,24 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
         );
     };
 
-    const saring = (s: string) =>
-        router.get('/fraud/rekap-lapor', s === 'semua' ? {} : { status: s }, { preserveState: true, preserveScroll: true });
+    const kirimTanya = (l: Laporan) => {
+        const isi = (tanya[l.id] ?? '').trim();
+        if (isi === '') return;
+        router.post(
+            `/fraud/rekap-lapor/${l.id}/tanya`,
+            { isi },
+            {
+                preserveScroll: true,
+                onSuccess: () => {
+                    toast.success('Pertanyaan terkirim ke utas laporan.');
+                    setTanya((t) => ({ ...t, [l.id]: '' }));
+                },
+                onError: () => toast.error('Gagal mengirim pertanyaan.'),
+            },
+        );
+    };
+
+    const saring = (s: string) => router.get('/fraud/rekap-lapor', s === 'semua' ? {} : { status: s }, { preserveState: true, preserveScroll: true });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -133,6 +159,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                         <thead className="bg-muted">
                             <tr>
                                 <th className="border px-2 py-2" />
+                                <th className="border px-3 py-2 text-left">Tiket</th>
                                 <th className="border px-3 py-2 text-left">Masuk</th>
                                 <th className="border px-3 py-2 text-left">Pelapor</th>
                                 <th className="border px-3 py-2 text-left">Uraian Kejadian</th>
@@ -145,7 +172,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                         <tbody>
                             {laporan.length === 0 ? (
                                 <tr>
-                                    <td colSpan={8} className="text-muted-foreground border px-3 py-8 text-center">
+                                    <td colSpan={9} className="text-muted-foreground border px-3 py-8 text-center">
                                         Belum ada laporan dugaan kecurangan.
                                     </td>
                                 </tr>
@@ -161,6 +188,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                                                     {buka === l.id ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
                                                 </button>
                                             </td>
+                                            <td className="border px-3 py-2 font-mono text-xs whitespace-nowrap">{l.nomor_tiket ?? '-'}</td>
                                             <td className="border px-3 py-2 whitespace-nowrap">{l.dilaporkan_pada ?? '-'}</td>
                                             <td className="border px-3 py-2 whitespace-nowrap">
                                                 {l.anonim ? (
@@ -206,7 +234,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                                         </tr>
                                         {buka === l.id && (
                                             <tr>
-                                                <td colSpan={8} className="bg-muted/40 border px-6 py-4">
+                                                <td colSpan={9} className="bg-muted/40 border px-6 py-4">
                                                     <dl className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
                                                         <Rinci judul="Di mana" isi={l.tempat} />
                                                         <Rinci judul="Kapan" isi={l.waktu_kejadian} />
@@ -215,11 +243,63 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                                                         <Rinci judul="Kronologi" isi={l.kronologi} lebar />
                                                         <Rinci judul="Perkiraan kerugian" isi={l.perkiraan_kerugian} />
                                                         <Rinci judul="Bukti yang dimiliki pelapor" isi={l.bukti_keterangan} lebar />
-                                                        {!l.anonim && <Rinci judul="Kontak pelapor" isi={[l.email, l.no_hp].filter(Boolean).join(' · ') || null} />}
+                                                        {!l.anonim && (
+                                                            <Rinci
+                                                                judul="Kontak pelapor"
+                                                                isi={[l.email, l.no_hp].filter(Boolean).join(' · ') || null}
+                                                            />
+                                                        )}
                                                         <Rinci judul="Risiko terdaftar terkait" isi={l.risiko_terdaftar} />
                                                         <Rinci judul="Catatan tindak lanjut" isi={l.catatan_tindak_lanjut} lebar />
                                                         <Rinci judul="Ditindaklanjuti oleh" isi={l.penindaklanjut} />
                                                     </dl>
+
+                                                    {/* Utas inilah yang membuat laporan anonim
+                                                        tetap bisa ditelaah: pertanyaan ditulis di
+                                                        sini, dan pelapor menjawabnya lewat nomor
+                                                        tiketnya — tanpa pernah menyebut siapa
+                                                        dirinya. */}
+                                                    <div className="mt-4 border-t pt-4">
+                                                        <p className="mb-2 text-sm font-medium">Tanya-jawab dengan pelapor</p>
+                                                        {l.pesan.length === 0 ? (
+                                                            <p className="text-muted-foreground text-sm">Belum ada pertanyaan maupun jawaban.</p>
+                                                        ) : (
+                                                            <ul className="mb-3 space-y-2">
+                                                                {l.pesan.map((m, i) => (
+                                                                    <li
+                                                                        key={i}
+                                                                        className={`rounded-md border p-2 text-sm ${
+                                                                            m.dari === 'pelapor' ? 'bg-background mr-8' : 'bg-muted/60 ml-8'
+                                                                        }`}
+                                                                    >
+                                                                        <p className="text-muted-foreground mb-1 text-xs">
+                                                                            {m.dari === 'pelapor' ? 'Pelapor' : 'Penindaklanjut'} · {m.pada ?? '-'}
+                                                                        </p>
+                                                                        <p className="whitespace-pre-line">{m.isi}</p>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+
+                                                        {l.nomor_tiket ? (
+                                                            <div className="flex gap-2">
+                                                                <Textarea
+                                                                    rows={2}
+                                                                    placeholder="Tulis pertanyaan untuk pelapor…"
+                                                                    value={tanya[l.id] ?? ''}
+                                                                    onChange={(e) => setTanya((t) => ({ ...t, [l.id]: e.target.value }))}
+                                                                />
+                                                                <Button onClick={() => kirimTanya(l)} disabled={(tanya[l.id] ?? '').trim() === ''}>
+                                                                    Kirim
+                                                                </Button>
+                                                            </div>
+                                                        ) : (
+                                                            <p className="text-muted-foreground text-xs">
+                                                                Laporan ini masuk sebelum nomor tiket diberlakukan, jadi pelapornya tidak punya jalan
+                                                                kembali untuk menjawab.
+                                                            </p>
+                                                        )}
+                                                    </div>
                                                 </td>
                                             </tr>
                                         )}
