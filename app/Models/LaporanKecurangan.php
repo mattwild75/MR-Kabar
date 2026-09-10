@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Satu laporan dugaan kecurangan dari publik — pintu masuk MR Fraud.
@@ -13,9 +16,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Dasar: Perdep BPKP Bidang Investigasi No. 1 Tahun 2019 dan Perbup Aceh Barat
  * No. 6 Tahun 2025 tentang Pengendalian Kecurangan.
  */
-class LaporanKecurangan extends Model
+class LaporanKecurangan extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use InteractsWithMedia, SoftDeletes;
 
     protected $table = 'laporan_kecurangan';
 
@@ -56,6 +59,39 @@ class LaporanKecurangan extends Model
     public function pesan(): HasMany
     {
         return $this->hasMany(PesanLaporanKecurangan::class)->orderBy('created_at');
+    }
+
+    /**
+     * Berkas bukti yang dilampirkan pelapor.
+     *
+     * Pemiliknya LAPORAN, bukan akun pengunggah — dan itu penting. Unggahan
+     * lewat QR dikirim memakai akun bersama LAPOR; kalau berkasnya melekat ke
+     * akun itu, seluruh bukti dari semua pelapor akan berkumpul pada satu akun
+     * yang kredensialnya dipegang publik, dan ikut muncul di File Manager.
+     *
+     * Disknya `local` (privat, tidak ter-mount ke /storage publik), sama dengan
+     * bukti dukung risiko. Satu-satunya jalan mengunduhnya adalah rute
+     * lapor-kecurangan.bukti, yang hanya terbuka bagi penindaklanjut.
+     */
+    public const KOLEKSI_BUKTI = 'bukti';
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::KOLEKSI_BUKTI)
+            ->useDisk(config('media-library.disk_name'));
+    }
+
+    /** Ringkasan berkas bukti untuk ditampilkan, tanpa membocorkan jalurnya. */
+    public function daftarBukti(): array
+    {
+        return $this->getMedia(self::KOLEKSI_BUKTI)
+            ->map(fn (Media $m) => [
+                'id' => $m->id,
+                'nama' => $m->file_name,
+                'ukuran' => $m->size,
+                'mime' => $m->mime_type,
+            ])
+            ->all();
     }
 
     public function opd(): BelongsTo

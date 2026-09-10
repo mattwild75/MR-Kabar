@@ -234,6 +234,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
 
     Route::post('/fraud/rekap-lapor/{laporanKecurangan}/tanya', [LaporanKecuranganController::class, 'tanya'])
         ->name('fraud.rekap-lapor.tanya');
+
+    // Unduhan berkas bukti laporan kecurangan. Terpisah dari media.download
+    // karena penjagaannya berbeda: yang ini bukan milik seorang pengguna,
+    // melainkan milik LAPORAN, dan hanya penindaklanjut yang boleh membukanya.
+    Route::get('/fraud/rekap-lapor/{laporanKecurangan}/bukti/{media}', [LaporanKecuranganController::class, 'unduhBukti'])
+        ->name('fraud.rekap-lapor.bukti');
     Route::post('/fraud', [FraudRisikoController::class, 'store'])->name('fraud.store');
     Route::put('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'update'])->name('fraud.update');
     Route::delete('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'destroy'])->name('fraud.destroy');

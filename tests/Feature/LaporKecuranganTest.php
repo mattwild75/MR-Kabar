@@ -7,7 +7,9 @@ use App\Models\Opd;
 use App\Models\PesanLaporanKecurangan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
@@ -246,5 +248,106 @@ class LaporKecuranganTest extends TestCase
             'nomor_tiket' => 'FRA-2026-9999',
             'kode_akses' => 'APASAJA',
         ])->assertSessionHasErrors('nomor_tiket');
+    }
+
+    /**
+     * Berkas bukti melekat pada LAPORAN, bukan pada akun pengunggah.
+     *
+     * Unggahan lewat QR dikirim memakai akun bersama LAPOR. Kalau berkasnya
+     * melekat ke akun itu, seluruh bukti dari semua pelapor berkumpul pada satu
+     * akun yang kredensialnya dipegang publik — dan ikut muncul di File Manager.
+     */
+    public function test_berkas_bukti_melekat_pada_laporan_bukan_pada_akun(): void
+    {
+        Storage::fake(config('media-library.disk_name'));
+
+        $pelapor = $this->pelapor();
+
+        $this->actingAs($pelapor)->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Dugaan mark up disertai bukti',
+            'bukti' => [UploadedFile::fake()->image('nota.jpg')],
+        ])->assertRedirect();
+
+        $l = LaporanKecurangan::first();
+
+        $this->assertCount(1, $l->daftarBukti());
+        $this->assertSame(0, $pelapor->getMedia('files')->count(), 'berkas tidak boleh melekat ke akun pengunggah');
+    }
+
+    public function test_berkas_selain_gambar_dan_pdf_ditolak(): void
+    {
+        Storage::fake(config('media-library.disk_name'));
+
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'terbuka',
+            'uraian_kejadian' => 'Sesuatu',
+            'bukti' => [UploadedFile::fake()->create('skrip.exe', 10)],
+        ])->assertSessionHasErrors('bukti.0');
+
+        $this->assertDatabaseCount('laporan_kecurangan', 0);
+    }
+
+    public function test_lebih_dari_lima_berkas_ditolak(): void
+    {
+        Storage::fake(config('media-library.disk_name'));
+
+        $berkas = [];
+        for ($i = 0; $i < 6; $i++) {
+            $berkas[] = UploadedFile::fake()->image("bukti{$i}.jpg");
+        }
+
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'terbuka',
+            'uraian_kejadian' => 'Sesuatu',
+            'bukti' => $berkas,
+        ])->assertSessionHasErrors('bukti');
+    }
+
+    /**
+     * Akun bersama LAPOR tidak boleh mengunduh bukti. Kalau bisa, siapa pun
+     * yang memindai QR bisa membaca bukti milik pelapor lain.
+     */
+    public function test_pelapor_biasa_tidak_bisa_mengunduh_bukti(): void
+    {
+        Storage::fake(config('media-library.disk_name'));
+
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Dugaan suap disertai bukti',
+            'bukti' => [UploadedFile::fake()->image('bukti.jpg')],
+        ]);
+
+        $l = LaporanKecurangan::first();
+        $mediaId = $l->daftarBukti()[0]['id'];
+
+        $this->actingAs($this->pelapor())
+            ->get("/fraud/rekap-lapor/{$l->id}/bukti/{$mediaId}")
+            ->assertForbidden();
+    }
+
+    /**
+     * Pelapor anonim harus bisa menyerahkan bukti SESUDAH diminta — sebab
+     * penindaklanjut sering baru memintanya setelah membaca laporannya.
+     */
+    public function test_pelapor_anonim_bisa_melampirkan_bukti_lewat_tiket(): void
+    {
+        Storage::fake(config('media-library.disk_name'));
+
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Dugaan gratifikasi',
+        ]);
+
+        $tiket = session('tiketBaru');
+
+        $this->actingAs($this->pelapor())->post('/lapor-kecurangan/balas', [
+            'nomor_tiket' => $tiket['nomor_tiket'],
+            'kode_akses' => $tiket['kode_akses'],
+            'isi' => 'Ini buktinya.',
+            'bukti' => [UploadedFile::fake()->image('percakapan.png')],
+        ])->assertRedirect();
+
+        $this->assertCount(1, LaporanKecurangan::first()->daftarBukti());
     }
 }

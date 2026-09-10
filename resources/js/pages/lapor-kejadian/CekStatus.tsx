@@ -4,8 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { router, useForm, usePage } from '@inertiajs/react';
-import { KeyRound } from 'lucide-react';
-import { useState } from 'react';
+import { KeyRound, Paperclip, X } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 interface Pesan {
@@ -14,12 +14,19 @@ interface Pesan {
     pada: string | null;
 }
 
+interface Bukti {
+    id: number;
+    nama: string;
+    ukuran: number;
+}
+
 interface Hasil {
     nomor_tiket: string;
     status: string;
     uraian_kejadian: string;
     dilaporkan_pada: string | null;
     catatan_tindak_lanjut: string | null;
+    bukti: Bukti[];
     pesan: Pesan[];
 }
 
@@ -46,6 +53,8 @@ export default function CekStatus() {
 
     const [balasan, setBalasan] = useState('');
     const [mengirim, setMengirim] = useState(false);
+    const [lampiran, setLampiran] = useState<File[]>([]);
+    const berkasRef = useRef<HTMLInputElement>(null);
 
     const cek = (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,12 +66,17 @@ export default function CekStatus() {
         setMengirim(true);
         router.post(
             '/lapor-kecurangan/balas',
-            { nomor_tiket: data.nomor_tiket, kode_akses: data.kode_akses, isi: balasan },
+            { nomor_tiket: data.nomor_tiket, kode_akses: data.kode_akses, isi: balasan, bukti: lampiran },
             {
+                // Wajib begitu ada berkas — tanpa ini Inertia mengirim JSON dan
+                // lampirannya hilang tanpa pesan apa pun.
+                forceFormData: true,
                 preserveScroll: true,
                 onSuccess: () => {
                     toast.success('Jawaban Anda terkirim.');
                     setBalasan('');
+                    setLampiran([]);
+                    if (berkasRef.current) berkasRef.current.value = '';
                     // Muat ulang utasnya supaya jawaban yang baru dikirim
                     // langsung terlihat — tanpa ini pelapor tidak punya bukti
                     // apa pun bahwa jawabannya masuk.
@@ -165,8 +179,64 @@ export default function CekStatus() {
                         </div>
 
                         <div>
+                            <p className="text-muted-foreground text-xs">Berkas bukti yang sudah Anda lampirkan</p>
+                            {hasil.bukti.length === 0 ? (
+                                <p className="text-muted-foreground text-sm">Belum ada.</p>
+                            ) : (
+                                <ul className="text-sm">
+                                    {hasil.bukti.map((b) => (
+                                        <li key={b.id}>
+                                            {b.nama} <span className="text-muted-foreground">({Math.round(b.ukuran / 1024)} KB)</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            <p className="text-muted-foreground mt-1 text-xs">
+                                Berkasnya tidak dapat diunduh kembali dari sini — hanya penindaklanjut yang bisa membukanya.
+                            </p>
+                        </div>
+
+                        <div>
                             <Label htmlFor="balasan">Jawaban Anda</Label>
                             <Textarea id="balasan" rows={3} value={balasan} onChange={(e) => setBalasan(e.target.value)} />
+
+                            <div className="mt-2">
+                                <button
+                                    type="button"
+                                    className="text-primary inline-flex items-center gap-1 text-sm underline"
+                                    onClick={() => berkasRef.current?.click()}
+                                >
+                                    <Paperclip className="h-4 w-4" />
+                                    Lampirkan berkas bukti
+                                </button>
+                                <input
+                                    ref={berkasRef}
+                                    type="file"
+                                    multiple
+                                    accept="image/jpeg,image/png,image/jpg,application/pdf"
+                                    className="hidden"
+                                    onChange={(e) => setLampiran(Array.from(e.target.files ?? []).slice(0, 5))}
+                                />
+                                {lampiran.length > 0 && (
+                                    <ul className="mt-1 space-y-1">
+                                        {lampiran.map((f, i) => (
+                                            <li key={`${f.name}-${i}`} className="flex items-center justify-between rounded border px-2 py-1 text-sm">
+                                                <span className="truncate">
+                                                    {f.name} <span className="text-muted-foreground">({Math.round(f.size / 1024)} KB)</span>
+                                                </span>
+                                                <button
+                                                    type="button"
+                                                    aria-label="Buang berkas"
+                                                    onClick={() => setLampiran(lampiran.filter((_, j) => j !== i))}
+                                                >
+                                                    <X className="h-4 w-4" />
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
                             <Button onClick={kirimBalasan} disabled={mengirim || balasan.trim() === ''} className="mt-2">
                                 {mengirim ? 'Mengirim…' : 'Kirim Jawaban'}
                             </Button>

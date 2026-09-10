@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Lapor Dugaan Kecurangan — pintu masuk publik MR Fraud, dan rekapnya.
@@ -24,6 +26,26 @@ use Inertia\Inertia;
  */
 class LaporanKecuranganController extends Controller
 {
+    /**
+     * Aturan berkas bukti, sama dengan bukti dukung risiko: gambar dan PDF
+     * saja, 10 MB per berkas.
+     *
+     * Dibatasi lima berkas karena formulir ini terbuka untuk publik lewat akun
+     * bersama — tanpa batas, satu kiriman bisa mengisi cakram server.
+     */
+    private const ATURAN_BUKTI = [
+        'bukti' => ['nullable', 'array', 'max:5'],
+        'bukti.*' => ['file', 'max:10240', 'mimes:jpg,jpeg,png,pdf'],
+    ];
+
+    /** Melampirkan berkas bukti ke laporan (bukan ke akun pengunggah). */
+    private function lampirkanBukti(Request $request, LaporanKecurangan $laporan): void
+    {
+        foreach ((array) $request->file('bukti', []) as $berkas) {
+            $laporan->addMedia($berkas)->toMediaCollection(LaporanKecurangan::KOLEKSI_BUKTI);
+        }
+    }
+
     /**
      * Menerima laporan dari publik.
      *
@@ -52,7 +74,10 @@ class LaporanKecuranganController extends Controller
             'kronologi' => ['nullable', 'string'],
             'perkiraan_kerugian' => ['nullable', 'string', 'max:255'],
             'bukti_keterangan' => ['nullable', 'string'],
-        ]);
+        ] + self::ATURAN_BUKTI);
+
+        // Berkas tidak masuk kolom tabel; ia dilampirkan setelah barisnya ada.
+        unset($data['bukti']);
 
         // Nama TIDAK PERNAH disimpan pada kedua mode anonim, dan pembersihan
         // ini dilakukan di server — bukan dengan mengandalkan peramban
@@ -79,7 +104,9 @@ class LaporanKecuranganController extends Controller
         $data['status'] = 'baru';
         $data['dilaporkan_oleh_user_id'] = auth()->id();
 
-        LaporanKecurangan::create($data);
+        $laporan = LaporanKecurangan::create($data);
+
+        $this->lampirkanBukti($request, $laporan);
 
         // Dititipkan ke sesi sekali jalan: pelapor harus menyalinnya sekarang,
         // karena tidak ada cara memulihkannya nanti.
@@ -138,6 +165,7 @@ class LaporanKecuranganController extends Controller
             'uraian_kejadian' => $laporan->uraian_kejadian,
             'dilaporkan_pada' => $laporan->created_at?->toDateTimeString(),
             'catatan_tindak_lanjut' => $laporan->catatan_tindak_lanjut,
+            'bukti' => $laporan->daftarBukti(),
             'pesan' => $laporan->pesan->map(fn (PesanLaporanKecurangan $p) => [
                 'dari' => $p->dari,
                 'isi' => $p->isi,
@@ -153,7 +181,7 @@ class LaporanKecuranganController extends Controller
             'nomor_tiket' => ['required', 'string'],
             'kode_akses' => ['required', 'string'],
             'isi' => ['required', 'string'],
-        ]);
+        ] + self::ATURAN_BUKTI);
 
         $laporan = LaporanKecurangan::where('nomor_tiket', trim($data['nomor_tiket']))->first();
 
@@ -168,6 +196,10 @@ class LaporanKecuranganController extends Controller
             'dari' => PesanLaporanKecurangan::DARI_PELAPOR,
             'isi' => $data['isi'],
         ]);
+
+        // Penindaklanjut sering baru meminta bukti SESUDAH membaca laporannya.
+        // Tanpa ini, pelapor anonim tidak punya cara menyerahkannya sama sekali.
+        $this->lampirkanBukti($request, $laporan);
 
         return back()->with('success', 'Jawaban Anda terkirim.');
     }
@@ -186,6 +218,31 @@ class LaporanKecuranganController extends Controller
         ]);
 
         return back()->with('success', 'Pertanyaan terkirim ke utas laporan.');
+    }
+
+    /**
+     * Mengunduh satu berkas bukti.
+     *
+     * HANYA penindaklanjut. Berkasnya diunggah lewat akun bersama LAPOR yang
+     * kredensialnya dipegang publik — kalau akun itu bisa mengunduh, siapa pun
+     * yang memindai QR bisa membaca bukti milik pelapor lain.
+     *
+     * Berkas dialirkan dari disk privat, bukan ditautkan langsung: disk `local`
+     * memang tidak ter-mount ke /storage publik, dan itu yang membuat tautan
+     * tebakan tidak berguna.
+     */
+    public function unduhBukti(LaporanKecurangan $laporanKecurangan, Media $media): StreamedResponse
+    {
+        $this->pastikanBolehMengelola();
+
+        // Media harus benar-benar milik laporan ini. Tanpa pemeriksaan ini,
+        // nomor media dari laporan lain bisa dipasangkan ke laporan mana pun.
+        abort_unless(
+            $media->model_type === LaporanKecurangan::class && (int) $media->model_id === $laporanKecurangan->id,
+            404
+        );
+
+        return $media->toResponse(request());
     }
 
     /** Rekap Lapor Kejadian Fraud — submenu MR Fraud. */
@@ -218,6 +275,7 @@ class LaporanKecuranganController extends Controller
                 'kronologi' => $l->kronologi,
                 'perkiraan_kerugian' => $l->perkiraan_kerugian,
                 'bukti_keterangan' => $l->bukti_keterangan,
+                'bukti' => $l->daftarBukti(),
                 'status' => $l->status,
                 'catatan_tindak_lanjut' => $l->catatan_tindak_lanjut,
                 'penindaklanjut' => $l->penindaklanjut?->name,

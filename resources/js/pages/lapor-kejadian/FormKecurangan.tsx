@@ -7,7 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm, usePage } from '@inertiajs/react';
-import { Copy, ShieldAlert } from 'lucide-react';
+import { Copy, Paperclip, ShieldAlert, X } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 interface OpdOption {
@@ -80,15 +81,23 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
         kronologi: '',
         perkiraan_kerugian: '',
         bukti_keterangan: '',
+        bukti: [] as File[],
     });
+
+    const berkasRef = useRef<HTMLInputElement>(null);
+    const [seret, setSeret] = useState(false);
 
     const kirim = (e: React.FormEvent) => {
         e.preventDefault();
         post('/lapor-kecurangan', {
+            // Wajib: tanpa ini Inertia mengirim JSON dan berkasnya hilang
+            // diam-diam — formulirnya tetap tersimpan, hanya tanpa bukti.
+            forceFormData: true,
             preserveScroll: true,
             onSuccess: () => {
                 toast.success('Laporan dugaan kecurangan terkirim. Terima kasih.');
                 reset();
+                if (berkasRef.current) berkasRef.current.value = '';
             },
             onError: () => toast.error('Gagal mengirim laporan. Periksa kembali isian Anda.'),
         });
@@ -356,12 +365,84 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
                             rows={3}
                             value={data.bukti_keterangan}
                             onChange={(e) => setData('bukti_keterangan', e.target.value)}
-                            placeholder="Sebutkan jenis buktinya (dokumen, foto, percakapan). Jangan unggah di sini — penindaklanjut akan menghubungi Anda."
+                            placeholder="Sebutkan jenis buktinya (dokumen, foto, percakapan) dan apa yang ditunjukkannya."
                         />
-                        <p className="text-muted-foreground mt-1 text-xs">
-                            Formulir ini sengaja tidak menerima unggahan berkas. Bukti kecurangan sering memuat data pribadi pihak ketiga, dan
-                            penyerahannya perlu jalur yang bisa dipertanggungjawabkan.
+                    </div>
+
+                    <div>
+                        <Label>Lampirkan berkas bukti</Label>
+                        <div
+                            onDragOver={(e) => {
+                                e.preventDefault();
+                                setSeret(true);
+                            }}
+                            onDragLeave={() => setSeret(false)}
+                            onDrop={(e) => {
+                                e.preventDefault();
+                                setSeret(false);
+                                const jatuh = Array.from(e.dataTransfer.files ?? []);
+                                setData('bukti', [...data.bukti, ...jatuh].slice(0, 5));
+                            }}
+                            className={`mt-1 rounded-md border-2 border-dashed p-4 text-center text-sm transition ${
+                                seret ? 'border-primary bg-primary/5' : 'hover:bg-muted/40'
+                            }`}
+                        >
+                            <Paperclip className="text-muted-foreground mx-auto mb-2 h-5 w-5" />
+                            <button type="button" className="text-primary underline" onClick={() => berkasRef.current?.click()}>
+                                Pilih berkas
+                            </button>{' '}
+                            atau seret ke sini
+                            <p className="text-muted-foreground mt-1 text-xs">
+                                JPG, PNG, atau PDF · maksimal 10 MB per berkas · paling banyak 5 berkas
+                            </p>
+                            <input
+                                ref={berkasRef}
+                                type="file"
+                                multiple
+                                accept="image/jpeg,image/png,image/jpg,application/pdf"
+                                className="hidden"
+                                onChange={(e) => setData('bukti', Array.from(e.target.files ?? []).slice(0, 5))}
+                            />
+                        </div>
+
+                        {data.bukti.length > 0 && (
+                            <ul className="mt-2 space-y-1">
+                                {data.bukti.map((f, i) => (
+                                    <li key={`${f.name}-${i}`} className="flex items-center justify-between rounded border px-2 py-1 text-sm">
+                                        <span className="truncate">
+                                            {f.name} <span className="text-muted-foreground">({Math.round(f.size / 1024)} KB)</span>
+                                        </span>
+                                        <button
+                                            type="button"
+                                            aria-label="Buang berkas"
+                                            onClick={() =>
+                                                setData(
+                                                    'bukti',
+                                                    data.bukti.filter((_, j) => j !== i),
+                                                )
+                                            }
+                                        >
+                                            <X className="h-4 w-4" />
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        {errors.bukti && <p className="text-destructive mt-1 text-xs">{errors.bukti}</p>}
+
+                        <p className="text-muted-foreground mt-2 text-xs">
+                            Berkas disimpan di penyimpanan tertutup dan hanya dapat dibuka penindaklanjut — tidak dapat diakses lewat tautan umum, dan
+                            tidak muncul di File Manager siapa pun.
                         </p>
+
+                        {data.mode_pelapor !== 'terbuka' && (
+                            <p className="mt-2 rounded-md border border-amber-500/50 bg-amber-50 p-3 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+                                Anda melapor tanpa nama. Perlu diketahui: <strong>foto sering membawa data tersembunyi</strong> — lokasi pengambilan,
+                                jenis ponsel, waktu — dan dokumen kantor sering memuat nama penyuntingnya. Keduanya dapat menunjuk balik ke Anda. Bila
+                                itu mengkhawatirkan, kirim tangkapan layar alih-alih berkas aslinya.
+                            </p>
+                        )}
                     </div>
                 </CardContent>
             </Card>

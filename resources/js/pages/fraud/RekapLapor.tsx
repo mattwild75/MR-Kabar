@@ -17,9 +17,16 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { ChevronDown, ChevronRight, Trash2, UserX } from 'lucide-react';
+import { ChevronDown, ChevronRight, Download, Trash2, UserX } from 'lucide-react';
 import { Fragment, useState } from 'react';
 import { toast } from 'sonner';
+
+interface Bukti {
+    id: number;
+    nama: string;
+    ukuran: number;
+    mime: string;
+}
 
 interface Pesan {
     dari: string;
@@ -45,6 +52,7 @@ interface Laporan {
     kronologi: string | null;
     perkiraan_kerugian: string | null;
     bukti_keterangan: string | null;
+    bukti: Bukti[];
     status: string;
     catatan_tindak_lanjut: string | null;
     penindaklanjut: string | null;
@@ -243,6 +251,31 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                                                         <Rinci judul="Kronologi" isi={l.kronologi} lebar />
                                                         <Rinci judul="Perkiraan kerugian" isi={l.perkiraan_kerugian} />
                                                         <Rinci judul="Bukti yang dimiliki pelapor" isi={l.bukti_keterangan} lebar />
+                                                        <div className="sm:col-span-2">
+                                                            <dt className="text-muted-foreground text-xs">Berkas bukti terlampir</dt>
+                                                            <dd>
+                                                                {l.bukti.length === 0 ? (
+                                                                    <span className="text-muted-foreground">-</span>
+                                                                ) : (
+                                                                    <ul className="mt-1 space-y-1">
+                                                                        {l.bukti.map((b) => (
+                                                                            <li key={b.id}>
+                                                                                <a
+                                                                                    href={`/fraud/rekap-lapor/${l.id}/bukti/${b.id}`}
+                                                                                    className="text-primary inline-flex items-center gap-1 underline"
+                                                                                >
+                                                                                    <Download className="h-3.5 w-3.5" />
+                                                                                    {b.nama}
+                                                                                </a>{' '}
+                                                                                <span className="text-muted-foreground text-xs">
+                                                                                    ({Math.round(b.ukuran / 1024)} KB)
+                                                                                </span>
+                                                                            </li>
+                                                                        ))}
+                                                                    </ul>
+                                                                )}
+                                                            </dd>
+                                                        </div>
                                                         {!l.anonim && (
                                                             <Rinci
                                                                 judul="Kontak pelapor"
