@@ -990,6 +990,52 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Miscellaneous > MR Fraud — Penilaian Risiko Kecurangan (Fraud Risk
+        // Assessment). Dasar: Perdep BPKP Bidang Investigasi No. 1 Tahun 2019
+        // tentang Pedoman Penilaian Risiko Kecurangan (padanan Perdep PPKD
+        // No. 4/2019 yang mendasari MR Kabar) dan Perbup Aceh Barat No. 6
+        // Tahun 2025 tentang Pengendalian Kecurangan.
+        //
+        // Urutan submenu MENGIKUTI URUTAN LANGKAH penilaian pada pedoman
+        // (identifikasi -> analisis -> rencana tindak -> register), bukan
+        // urutan abjad. Register sengaja di bawah ketiganya karena isinya
+        // gabungan hasil ketiga tahap itu, bukan tempat mengisi.
+        $mrFraud = Menu::updateOrCreate(
+            ['title' => 'MR Fraud', 'parent_id' => $miscellaneous->id],
+            [
+                'icon' => 'ShieldAlert',
+                'route' => '#',
+                // 4, bukan 3: PKPT Berbasis Risiko sudah memakai 3 di grup
+                // yang sama, dan dua menu berurutan sama membuat urutannya
+                // ditentukan id — berubah diam-diam kalau salah satu di-seed
+                // ulang.
+                'order' => 4,
+                'permission_name' => null,
+            ]
+        );
+
+        $fraudMenus = [
+            ['/fraud/identifikasi', 'Identifikasi Risiko (IR)', 'FileSearch', 1],
+            ['/fraud/analisis', 'Analisis Risiko (AR)', 'Scale', 2],
+            ['/fraud/rtp', 'Rencana Tindak Pengendalian', 'ListChecks', 3],
+            ['/fraud/register', 'Register Risiko Kecurangan', 'BookText', 4],
+            ['/fraud/peta-risiko', 'Peta Risiko Kecurangan', 'Grid3x3', 5],
+            ['/fraud/kamus', 'Kamus Risiko Kecurangan', 'BookMarked', 6],
+        ];
+
+        foreach ($fraudMenus as [$route, $title, $icon, $order]) {
+            Menu::updateOrCreate(
+                ['route' => $route],
+                [
+                    'title' => $title,
+                    'parent_id' => $mrFraud->id,
+                    'icon' => $icon,
+                    'order' => $order,
+                    'permission_name' => null,
+                ]
+            );
+        }
+
         $visualisasiHirarki = Menu::updateOrCreate(
             ['title' => 'Hirarki', 'parent_id' => $visualisasi->id],
             [

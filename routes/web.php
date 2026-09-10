@@ -17,6 +17,7 @@ use App\Http\Controllers\CetakStrukturPengelolaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\FraudRisikoController;
 use App\Http\Controllers\IroPdController;
 use App\Http\Controllers\IrsPdController;
 use App\Http\Controllers\IrsPemdaController;
@@ -194,6 +195,20 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/program-bupati-risiko/usulan/{usulan}/tolak', [ProgramBupatiRisikoController::class, 'tolakUsulan'])->name('program-bupati-risiko.usulan.tolak');
     Route::get('/program-bupati-risiko/cetak', [ProgramBupatiRisikoController::class, 'cetak'])->name('program-bupati-risiko.cetak');
     Route::get('/program-bupati-risiko/cetak/pdf', [ProgramBupatiRisikoController::class, 'pdf'])->name('program-bupati-risiko.cetak.pdf');
+
+    // Miscellaneous > MR Fraud — Penilaian Risiko Kecurangan (Fraud Risk
+    // Assessment). Dasar: Perdep BPKP Bidang Investigasi No. 1 Tahun 2019 dan
+    // Perbup Aceh Barat No. 6 Tahun 2025. Empat halaman pengisian memandang
+    // SATU tabel dari tiga tahap; lihat FraudRisikoController.
+    Route::get('/fraud/identifikasi', [FraudRisikoController::class, 'identifikasi'])->name('fraud.identifikasi');
+    Route::get('/fraud/analisis', [FraudRisikoController::class, 'analisis'])->name('fraud.analisis');
+    Route::get('/fraud/rtp', [FraudRisikoController::class, 'rtp'])->name('fraud.rtp');
+    Route::get('/fraud/register', [FraudRisikoController::class, 'register'])->name('fraud.register');
+    Route::get('/fraud/peta-risiko', [FraudRisikoController::class, 'peta'])->name('fraud.peta');
+    Route::get('/fraud/kamus', [FraudRisikoController::class, 'kamus'])->name('fraud.kamus');
+    Route::post('/fraud', [FraudRisikoController::class, 'store'])->name('fraud.store');
+    Route::put('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'update'])->name('fraud.update');
+    Route::delete('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'destroy'])->name('fraud.destroy');
 
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 

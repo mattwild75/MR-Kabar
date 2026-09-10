@@ -86,5 +86,14 @@ class DatabaseSeeder extends Seeder
             PkptPermissionSeeder::class,
             PkptMenuSeeder::class,
         ]);
+
+        // MR Fraud — Kamus Risiko Kecurangan. Bukan data contoh: 165 butir
+        // Referensi MCP KPK 2025 adalah daftar risiko yang memang diperiksa
+        // KPK, dan menjadi acuan bersama 49 Perangkat Daerah saat mengisi
+        // Identifikasi Risiko. Tanpa ini tiap OPD merumuskan sendiri risiko
+        // yang sebenarnya sama, dan register gabungannya tidak bisa dihitung.
+        $this->call([
+            FraudKamusMcpSeeder::class,
+        ]);
     }
 }
