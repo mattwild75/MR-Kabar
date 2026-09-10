@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FraudRisiko;
 use App\Models\IroPd;
 use App\Models\IrsPd;
 use App\Models\IrsPemda;
@@ -29,8 +30,13 @@ class LaporanKejadianController extends Controller
     /** Form lapor kejadian risiko — bisa diakses siapa pun yang login (termasuk akun bersama LAPOR). */
     public function create(Request $request)
     {
-        return Inertia::render('lapor-kejadian/Form', [
+        // Satu halaman, dua jenis laporan (kejadian risiko dan dugaan
+        // kecurangan) dalam tab — dan karena itu tetap SATU kode QR. Lihat
+        // alasannya di resources/js/pages/lapor-kejadian/Index.tsx.
+        return Inertia::render('lapor-kejadian/Index', [
             'opdList' => Opd::orderBy('nama')->get(['id', 'nama']),
+            'tahapanOptions' => FraudRisiko::TAHAPAN,
+            'kelompokOptions' => FraudRisiko::KELOMPOK_RISIKO,
         ]);
     }
 

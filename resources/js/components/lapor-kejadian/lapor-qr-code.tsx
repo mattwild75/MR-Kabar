@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 
 /**
  * QR code yang mengarah ke auto-login akun bersama LAPOR (role
- * 'lapor-risiko') lalu langsung redirect ke Form Lapor Kejadian Risiko —
+ * 'lapor-risiko') lalu langsung redirect ke halaman Lapor — yang sejak
+ * September 2026 memuat DUA formulir dalam tab (Kejadian Risiko dan Dugaan
+ * Kecurangan). Tujuannya tetap URL yang sama, dan itu disengaja: QR yang sudah
+ * tercetak dan tersebar tidak perlu ditarik atau dicetak ulang —
  * lihat routes/web.php (login.lapor-kejadian) & LaporQrLoginController.
  * Dipakai di halaman /panduan DAN /panduan-publik (lewat sections.tsx yg
  * dipakai bersama) — halaman publik di-SSR (lihat resources/js/ssr.jsx),
@@ -25,8 +28,16 @@ export default function LaporQrCode() {
                 <QrCodeWithLogo value={url} size={160} />
             </div>
             <div className="space-y-1.5 text-sm text-neutral-700">
-                <p className="font-semibold text-neutral-900">Scan untuk Lapor Kejadian Risiko</p>
-                <p>Pindai kode QR ini dengan kamera HP untuk langsung membuka Form Lapor Kejadian Risiko — tanpa perlu login manual.</p>
+                <p className="font-semibold text-neutral-900">Scan untuk Lapor</p>
+                <p>
+                    Pindai kode QR ini dengan kamera HP untuk langsung membuka halaman Lapor — tanpa perlu login manual. Di sana tersedia{' '}
+                    <strong>dua jenis laporan</strong> dalam tab: <strong>Kejadian Risiko</strong> (risiko yang sedang atau telah terjadi) dan{' '}
+                    <strong>Dugaan Kecurangan</strong> (penyuapan, gratifikasi, mark up, benturan kepentingan).
+                </p>
+                <p>
+                    Satu kode QR untuk keduanya — pelapor memilih setelah membacanya, sebab yang menyaksikan sesuatu belum tentu tahu lebih dulu
+                    apakah yang dilihatnya "risiko" atau "kecurangan". Laporan dugaan kecurangan boleh dikirim <strong>anonim</strong>.
+                </p>
                 <p className="text-xs text-neutral-500">
                     Atau buka langsung:{' '}
                     <a href="/login/lapor-kejadian" className="break-all text-sky-600 underline">
@@ -34,8 +45,8 @@ export default function LaporQrCode() {
                     </a>
                 </p>
                 <p className="text-xs text-neutral-500">
-                    Akun bersama: <code className="rounded bg-neutral-100 px-1">LAPOR</code> — dipakai bergantian oleh siapa saja untuk melaporkan
-                    kejadian risiko yang sedang/telah terjadi.
+                    Akun bersama: <code className="rounded bg-neutral-100 px-1">LAPOR</code> — dipakai bergantian oleh siapa saja. Akun ini hanya
+                    bisa MENGIRIM laporan; rekap dan identitas pelapor tidak bisa dibuka dengannya.
                 </p>
             </div>
         </div>

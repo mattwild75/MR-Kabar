@@ -29,6 +29,7 @@ use App\Http\Controllers\KroPdController;
 use App\Http\Controllers\KrsPdController;
 use App\Http\Controllers\KrsPemdaController;
 use App\Http\Controllers\KrsPicExcelController;
+use App\Http\Controllers\LaporanKecuranganController;
 use App\Http\Controllers\LaporanKejadianController;
 use App\Http\Controllers\MediaDownloadController;
 use App\Http\Controllers\MediaFolderController;
@@ -206,6 +207,16 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/fraud/register', [FraudRisikoController::class, 'register'])->name('fraud.register');
     Route::get('/fraud/peta-risiko', [FraudRisikoController::class, 'peta'])->name('fraud.peta');
     Route::get('/fraud/kamus', [FraudRisikoController::class, 'kamus'])->name('fraud.kamus');
+    Route::get('/fraud/rekap-lapor', [LaporanKecuranganController::class, 'index'])->name('fraud.rekap-lapor');
+    Route::put('/fraud/rekap-lapor/{laporanKecurangan}/status', [LaporanKecuranganController::class, 'updateStatus'])->name('fraud.rekap-lapor.status');
+    Route::delete('/fraud/rekap-lapor/{laporanKecurangan}', [LaporanKecuranganController::class, 'destroy'])->name('fraud.rekap-lapor.destroy');
+
+    // Penerimaan laporan dugaan kecurangan dari publik. Throttle-nya sama
+    // dengan lapor kejadian risiko: keduanya dikirim lewat akun bersama LAPOR
+    // yang kredensialnya dipegang publik lewat QR code.
+    Route::post('/lapor-kecurangan', [LaporanKecuranganController::class, 'store'])
+        ->middleware('throttle:lapor-submit')
+        ->name('lapor-kecurangan.store');
     Route::post('/fraud', [FraudRisikoController::class, 'store'])->name('fraud.store');
     Route::put('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'update'])->name('fraud.update');
     Route::delete('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'destroy'])->name('fraud.destroy');

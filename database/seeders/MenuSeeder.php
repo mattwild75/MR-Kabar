@@ -1021,6 +1021,12 @@ class MenuSeeder extends Seeder
             ['/fraud/register', 'Register Risiko Kecurangan', 'BookText', 4],
             ['/fraud/peta-risiko', 'Peta Risiko Kecurangan', 'Grid3x3', 5],
             ['/fraud/kamus', 'Kamus Risiko Kecurangan', 'BookMarked', 6],
+            // Muara dari tab "Dugaan Kecurangan" pada halaman Lapor
+            // (/lapor-kejadian). Sengaja di sini, bukan di bawah Utilities
+            // bersama Rekap Lapor Kejadian Risiko: yang ditangani berbeda
+            // orang, dan mencampur keduanya dalam satu rekap membuat laporan
+            // kecurangan terbaca siapa pun yang membuka rekap biasa.
+            ['/fraud/rekap-lapor', 'Rekap Lapor Kejadian Fraud', 'Inbox', 7],
         ];
 
         foreach ($fraudMenus as [$route, $title, $icon, $order]) {

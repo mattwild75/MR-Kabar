@@ -8,11 +8,9 @@ import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { TimePicker } from '@/components/ui/time-picker';
-import AppLayout from '@/layouts/app-layout';
 import { PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS } from '@/lib/irs-reference-data';
 import { LAPOR_KEJADIAN_FIELD_INFO } from '@/lib/lapor-kejadian-field-info';
-import { type BreadcrumbItem } from '@/types';
-import { Head, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { Search, Siren, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -35,18 +33,22 @@ interface Props {
     opdList: Opd[];
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Utilities', href: '#' },
-    { title: 'Lapor Kejadian Risiko', href: '/lapor-kejadian' },
-];
-
 const TIPE_LABEL: Record<RisikoHasil['tipe'], string> = {
     irs_pemda: 'Risiko Strategis Pemda',
     irs_pd: 'Risiko Strategis PD',
     iro_pd: 'Risiko Operasional PD',
 };
 
-export default function LaporKejadianForm({ opdList }: Props) {
+/**
+ * Isi tab "Kejadian Risiko" pada halaman Lapor.
+ *
+ * Dulu ini halaman utuh di /lapor-kejadian. Sejak halaman itu memuat DUA jenis
+ * laporan (kejadian risiko dan dugaan kecurangan) dalam satu tab, kerangka
+ * halaman — AppLayout, judul tab peramban, remah roti — pindah ke Index.tsx,
+ * dan berkas ini tinggal isinya. Satu QR tetap satu QR; yang bertambah pilihan
+ * di dalamnya.
+ */
+export default function FormKejadianRisiko({ opdList }: Props) {
     const [mode, setMode] = useState<'terdaftar' | 'baru'>('baru');
     const [query, setQuery] = useState('');
     const [hasil, setHasil] = useState<RisikoHasil[]>([]);
@@ -128,10 +130,7 @@ export default function LaporKejadianForm({ opdList }: Props) {
     };
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Lapor Kejadian Risiko" />
-
-            <div className="mx-auto max-w-2xl space-y-4 p-4">
+        <div className="mx-auto max-w-2xl space-y-4">
                 <div className="flex items-center gap-2">
                     <Siren className="text-destructive h-6 w-6" />
                     <div>
@@ -341,7 +340,6 @@ export default function LaporKejadianForm({ opdList }: Props) {
                         </CardContent>
                     </Card>
                 </form>
-            </div>
-        </AppLayout>
+        </div>
     );
 }
