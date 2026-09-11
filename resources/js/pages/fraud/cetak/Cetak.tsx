@@ -38,6 +38,7 @@ interface Props {
     isAdmin: boolean;
     opdList: { id: number; nama: string }[];
     lembar: Lembar;
+    tanggalBulanTahun: string | null;
 }
 
 type Lembar = 'semua' | 'ir' | 'ar' | 'rtp' | 'rr' | 'peta';
@@ -97,6 +98,7 @@ export default function CetakFra({
     isAdmin,
     opdList,
     lembar: lembarAwal,
+    tanggalBulanTahun,
 }: Props) {
     const [lembar, setLembar] = useState<Lembar>(lembarAwal);
 
@@ -394,7 +396,7 @@ export default function CetakFra({
                                 ))}
                             </tbody>
                         </table>
-                        <TandaTangan dataUmum={dataUmum} opd={opd} />
+                        <TandaTangan dataUmum={dataUmum} opd={opd} tanggal={tanggalBulanTahun} />
                     </section>
                 )}
 
@@ -477,7 +479,7 @@ export default function CetakFra({
                             </tbody>
                         </table>
 
-                        <TandaTangan dataUmum={dataUmum} opd={opd} />
+                        <TandaTangan dataUmum={dataUmum} opd={opd} tanggal={tanggalBulanTahun} />
                     </section>
                 )}
             </div>
@@ -596,12 +598,12 @@ function Keterangan({ baris }: { baris: string[] }) {
  * pada kertas kerja aslinya. Tempat, tanggal, jabatan, nama, dan NIP diambil
  * dari Data Umum OPD tahun itu.
  */
-function TandaTangan({ dataUmum, opd }: { dataUmum: DataUmum | null; opd: { nama: string } }) {
+function TandaTangan({ dataUmum, opd, tanggal }: { dataUmum: DataUmum | null; opd: { nama: string }; tanggal: string | null }) {
     return (
         <div className="mt-10 flex justify-end text-[10px]">
             <div className="w-72 text-center">
                 <p>
-                    {dataUmum?.tempat_pembuatan ?? 'Meulaboh'}, {dataUmum?.tanggal_pembuatan ?? ''}
+                    {dataUmum?.tempat_pembuatan ?? 'Meulaboh'}, {tanggal ?? ''}
                 </p>
                 <p className="whitespace-pre-line">{dataUmum?.jabatan_kepala_dinas ?? `Kepala ${opd.nama}`}</p>
                 <div className="h-16" />

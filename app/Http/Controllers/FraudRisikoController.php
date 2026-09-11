@@ -195,7 +195,11 @@ class FraudRisikoController extends Controller
             'tahun' => $tahun,
             'opd' => $opd->only(['id', 'nama']),
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
-            'dataUmum' => $this->dataUmumForInertia(DataUmum::forOpdAndTahun($opdId, $tahun)),
+            'dataUmum' => $this->dataUmumForInertia($dataUmum = DataUmum::forOpdAndTahun($opdId, $tahun)),
+            // Kertas kerja FRA yang asli bertanggal "Meulaboh, Maret 2026" —
+            // bulan dan tahun saja, tanpa hari. Berbeda dari Form Cetak MR Kabar
+            // yang mencetak tanggal penuh; di sini mengikuti bentuk aslinya.
+            'tanggalBulanTahun' => $dataUmum?->tanggal_pembuatan?->locale('id')->translatedFormat('F Y'),
             'rows' => $rows,
             'matrixCells' => RiskMatrixCell::all(['dampak', 'kemungkinan', 'skala_risiko', 'warna_class']),
             'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
