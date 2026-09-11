@@ -8,6 +8,7 @@ use App\Models\Opd;
 use App\Models\User;
 use Database\Seeders\RiskReferenceDataSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
@@ -269,5 +270,31 @@ class FraudRiskAssessmentTest extends TestCase
 
         $this->actingAs($picA)->get("/fraud/cetak?opd_id={$opdB->id}")->assertForbidden();
         $this->actingAs($picA)->get('/fraud/cetak')->assertOk();
+    }
+
+    /**
+     * Super Admin tidak punya OPD dan membuka Form Cetak dari menu, tanpa
+     * parameter. Versi pertama menjawab 422 — yang terlihat pengguna hanya
+     * "Oops! An Error Occurred" (11 September 2026). Harus mendapat halaman,
+     * dengan OPD yang sudah punya data FRA dipilihkan lebih dulu.
+     */
+    public function test_admin_tanpa_opd_membuka_cetak_dari_menu_mendapat_halaman(): void
+    {
+        Role::findOrCreate('super-admin', 'web');
+        $opdA = $this->opd('DINAS KESEHATAN');
+        $opdB = $this->opd('INSPEKTORAT');
+        $this->risiko($this->pic($opdB), ['nama_risiko' => 'Risiko milik Inspektorat']);
+
+        $admin = User::factory()->create(['opd_id' => null]);
+        $admin->assignRole('super-admin');
+
+        $this->actingAs($admin)
+            ->get('/fraud/cetak?tahun=2026')
+            ->assertOk()
+            // OPD yang dipilihkan adalah yang sudah punya data, bukan yang
+            // pertama menurut abjad.
+            ->assertSee('Risiko milik Inspektorat');
+
+        $this->assertNotSame($opdA->id, $opdB->id);
     }
 }

@@ -178,9 +178,19 @@ class FraudRisikoController extends Controller
 
         $opdId = $request->integer('opd_id') ?: $user->opd_id;
 
+        // Admin/Super Admin tidak punya OPD, dan membuka menu ini tanpa
+        // parameter. Versi pertama menjawab 422 "Pilih Perangkat Daerah" —
+        // yang dilihat pengguna hanya "Oops! An Error Occurred" (terjadi 11
+        // September 2026). Yang benar: pilihkan OPD yang sudah punya data FRA
+        // tahun itu (atau OPD pertama), lalu pemilih di layar mengambil alih.
+        if (! $opdId && $user->canViewAllOpd()) {
+            $opdId = FraudRisiko::where('tahun_penilaian', $tahun)->orderBy('opd_id')->value('opd_id')
+                ?? Opd::orderBy('nama')->value('id');
+        }
+
         $this->tolakOpdLain($request, $opdId, 'Anda hanya dapat mencetak kertas kerja FRA perangkat daerah Anda sendiri.');
 
-        abort_if(! $opdId, 422, 'Pilih Perangkat Daerah yang akan dicetak.');
+        abort_if(! $opdId, 404, 'Belum ada Perangkat Daerah yang terdaftar.');
 
         $opd = Opd::findOrFail($opdId);
         $pengaturan = $this->pengaturan();
@@ -218,6 +228,11 @@ class FraudRisikoController extends Controller
     {
         $tahun = $this->tahun($request);
         $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+
+        if (! $opdId && $request->user()->canViewAllOpd()) {
+            $opdId = FraudRisiko::where('tahun_penilaian', $tahun)->orderBy('opd_id')->value('opd_id')
+                ?? Opd::orderBy('nama')->value('id');
+        }
 
         $this->tolakOpdLain($request, $opdId, 'Anda hanya dapat mencetak kertas kerja FRA perangkat daerah Anda sendiri.');
 
