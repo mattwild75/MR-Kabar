@@ -95,5 +95,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FraudKamusMcpSeeder::class,
         ]);
+
+        // ERPIKA > Perencanaan > RPP: kategori RPP adalah data acuan, bukan
+        // contoh. Contoh RPP dari proyek asalnya sengaja TIDAK dibawa.
+        $this->call([
+            RppCategorySeeder::class,
+        ]);
     }
 }

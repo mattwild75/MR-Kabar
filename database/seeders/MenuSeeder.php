@@ -1043,6 +1043,51 @@ class MenuSeeder extends Seeder
             );
         }
 
+        // Miscellaneous > ERPIKA — modul-modul administrasi internal
+        // Inspektorat yang berasal dari proyek ERPIKA (Herd/erpika), dipasang
+        // di sini supaya satu aplikasi. Pertama: Perencanaan > RPP.
+        $erpika = Menu::updateOrCreate(
+            ['title' => 'ERPIKA', 'parent_id' => $miscellaneous->id],
+            [
+                'icon' => 'Briefcase',
+                'route' => '#',
+                'order' => 5,
+                'permission_name' => null,
+            ]
+        );
+
+        $erpikaPerencanaan = Menu::updateOrCreate(
+            ['title' => 'Perencanaan', 'parent_id' => $erpika->id],
+            [
+                'icon' => 'ClipboardList',
+                'route' => '#',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/rpp'],
+            [
+                'title' => 'Input RPP',
+                'parent_id' => $erpikaPerencanaan->id,
+                'icon' => 'FilePlus',
+                'order' => 1,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/rpp-cetak'],
+            [
+                'title' => 'Cetak RPP',
+                'parent_id' => $erpikaPerencanaan->id,
+                'icon' => 'Printer',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
         $visualisasiHirarki = Menu::updateOrCreate(
             ['title' => 'Hirarki', 'parent_id' => $visualisasi->id],
             [

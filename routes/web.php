@@ -42,6 +42,8 @@ use App\Http\Controllers\ProgramBupatiRisikoController;
 use App\Http\Controllers\RiskEvidenceController;
 use App\Http\Controllers\RiskExcelController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RppController;
+use App\Http\Controllers\RppPrintController;
 use App\Http\Controllers\SessionStatusController;
 use App\Http\Controllers\SettingAppController;
 use App\Http\Controllers\TahunAktifController;
@@ -245,6 +247,19 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/fraud', [FraudRisikoController::class, 'store'])->name('fraud.store');
     Route::put('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'update'])->name('fraud.update');
     Route::delete('/fraud/{fraudRisiko}', [FraudRisikoController::class, 'destroy'])->name('fraud.destroy');
+
+    // Miscellaneous > ERPIKA > Perencanaan — modul Rencana Program Pengawasan
+    // (RPP), dipindahkan dari proyek ERPIKA (Herd/erpika) 12 September 2026.
+    // Input RPP (CRUD) dan Cetak RPP (rekap + PDF) memakai prefix berbeda
+    // (/rpp vs /rpp-cetak) supaya izin menunya bisa dibedakan per prefix.
+    // Cetaknya lewat Browsershot dari halaman pratinjau React — bukan dompdf
+    // seperti di asalnya — mengikuti aturan seluruh Form Cetak MR Kabar.
+    Route::resource('rpp', RppController::class)->except(['show']);
+    Route::get('/rpp-cetak', [RppPrintController::class, 'index'])->name('rpp-cetak.index');
+    Route::get('/rpp-cetak/{rpp}/tabel/preview', [RppPrintController::class, 'previewTabel'])->name('rpp-cetak.tabel.preview');
+    Route::get('/rpp-cetak/{rpp}/pengantar/preview', [RppPrintController::class, 'previewPengantar'])->name('rpp-cetak.pengantar.preview');
+    Route::get('/rpp-cetak/{rpp}/tabel', [RppPrintController::class, 'tabel'])->name('rpp-cetak.tabel');
+    Route::get('/rpp-cetak/{rpp}/pengantar', [RppPrintController::class, 'pengantar'])->name('rpp-cetak.pengantar');
 
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 
