@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Jobs\RebuildHierarchyDiagramJob;
 use App\Models\IrsPemda;
 use App\Models\KrsPemda;
+use App\Services\Concerns\MemetakanPemilikKeOpd;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Schema;
  */
 class KrsIrsSyncService
 {
+    use MemetakanPemilikKeOpd;
+
     private const TARGET_TABLE = 'tbl_krs_irs_pemda';
 
     /**
@@ -326,6 +329,11 @@ class KrsIrsSyncService
             'BASELINE_IK_PROGRAM_PRIORITAS' => $this->simpleFormat($get('BASELINE IK PROGRAM')),
             'TARGET_IK_PROGRAM_PRIORITAS' => $this->simpleFormat($get('TARGET IK PROGRAM')),
             'OPD_PENANGGUNGJAWAB_PROGRAM' => trim((string) ($row->{'OPD PENANGGUNGJAWAB PROGRAM'} ?? '')),
+            // Hierarki Pemda milik kabupaten, bukan satu OPD, jadi opd_id di
+            // sini adalah OPD PEMILIK RISIKONYA (PIC yang menilai). Null pada
+            // baris hierarki yang belum punya risiko — dan itu benar, bukan
+            // kekurangan (temuan audit R-08).
+            'opd_id' => $this->opdIdDariPemilik($irs?->user_id ?? null),
             'URAIAN_RISIKO' => $irs?->{'URAIAN RISIKO'},
             'TINGKAT_RISIKO' => $irs?->{'TINGKAT RISIKO'},
             'TAHUN_DINILAI_RISIKO' => $this->toIntOrNull($irs?->{'TAHUN DINILAI RISIKO'}),

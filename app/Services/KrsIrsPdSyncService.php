@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Jobs\RebuildHierarchyDiagramJob;
 use App\Models\IrsPd;
 use App\Models\KrsPd;
+use App\Services\Concerns\MemetakanPemilikKeOpd;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Schema;
  */
 class KrsIrsPdSyncService
 {
+    use MemetakanPemilikKeOpd;
+
     private const TARGET_TABLE = 'tbl_krs_irs_pd';
 
     /** Lock bersama dgn KrsIrsSyncService/KroIroPdSyncService — lihat komentar di KrsIrsSyncService::LOCK_KEY. */
@@ -387,6 +390,10 @@ class KrsIrsPdSyncService
             'BASELINE_IK_SUBKEGIATAN_PD' => $this->simpleFormat($get('BASELINE IK SUBKEGIATAN PD')),
             'TARGET_IK_SUBKEGIATAN_PD' => $this->simpleFormat($get('TARGET IK SUBKEGIATAN PD')),
             'OPD_PENANGGUNGJAWAB_KEGIATAN' => trim((string) ($row->{'OPD PENANGGUNG JAWAB KEGIATAN'} ?? '')),
+            // Kunci asing sungguhan, diturunkan dari AKUN pemilik baris KRS —
+            // bukan dari kolom teks di atasnya (temuan audit R-08).
+            'opd_id' => $this->opdIdDariPemilik($row->user_id ?? null) ?? $this->opdIdDariPemilik($irs?->user_id ?? null)
+                ?? $this->opdIdDariNama($row->{'OPD PENANGGUNG JAWAB KEGIATAN'} ?? null),
             'URAIAN_RISIKO' => $irs?->{'URAIAN RISIKO'},
             'TINGKAT_RISIKO' => $irs?->{'TINGKAT RISIKO'},
             'TAHUN_DINILAI_RISIKO' => $this->toIntOrNull($irs?->{'TAHUN DINILAI RISIKO'}),

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Jobs\RebuildHierarchyDiagramJob;
 use App\Models\IroPd;
 use App\Models\KroPd;
+use App\Services\Concerns\MemetakanPemilikKeOpd;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -23,6 +24,8 @@ use Illuminate\Support\Facades\Schema;
  */
 class KroIroPdSyncService
 {
+    use MemetakanPemilikKeOpd;
+
     private const TARGET_TABLE = 'tbl_kro_iro_pd';
 
     /** Lock bersama dgn KrsIrsSyncService/KrsIrsPdSyncService — lihat komentar di KrsIrsSyncService::LOCK_KEY. */
@@ -346,6 +349,10 @@ class KroIroPdSyncService
             'BASELINE_IK_SUBKEGIATAN_PD' => $this->simpleFormat($get('BASELINE IK SUBKEGIATAN PD')),
             'TARGET_IK_SUBKEGIATAN_PD' => $this->simpleFormat($get('TARGET IK SUBKEGIATAN PD')),
             'OPD_PENANGGUNGJAWAB_KEGIATAN' => trim((string) ($row->{'OPD PENANGGUNG JAWAB KEGIATAN'} ?? '')),
+            // Kunci asing sungguhan, diturunkan dari AKUN pemilik baris KRO —
+            // bukan dari kolom teks di atasnya (temuan audit R-08).
+            'opd_id' => $this->opdIdDariPemilik($row->user_id ?? null) ?? $this->opdIdDariPemilik($iro?->user_id ?? null)
+                ?? $this->opdIdDariNama($row->{'OPD PENANGGUNG JAWAB KEGIATAN'} ?? null),
             'URAIAN_RISIKO' => $iro?->{'URAIAN RISIKO'},
             'TINGKAT_RISIKO' => $iro?->{'TINGKAT RISIKO'},
             'TAHUN_DINILAI_RISIKO' => $this->toIntOrNull($iro?->{'TAHUN DINILAI RISIKO'}),
