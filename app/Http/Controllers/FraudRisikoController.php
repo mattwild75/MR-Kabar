@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Concerns\SharesCetakContext;
+use App\Models\DataUmum;
 use App\Models\FraudKamusRisiko;
 use App\Models\FraudRisiko;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Models\RiskLevel;
 use App\Models\RiskMatrixCell;
+use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -27,6 +30,8 @@ use Inertia\Inertia;
  */
 class FraudRisikoController extends Controller
 {
+    use SharesCetakContext;
+
     /** Tahun penilaian yang sedang dilihat; bawaannya Tahun Aktif Pemda. */
     private function tahun(Request $request): int
     {
@@ -91,10 +96,13 @@ class FraudRisikoController extends Controller
     public function identifikasi(Request $request)
     {
         return Inertia::render('fraud/Identifikasi', $this->propBersama($request) + [
-            // Area kamus dikirim supaya PIC bisa memungut risiko baku alih-alih
-            // merumuskan sendiri risiko yang sebenarnya sama dengan OPD lain.
-            'kamusAreas' => FraudKamusRisiko::query()
-                ->select('area')->distinct()->orderBy('area')->pluck('area'),
+            // Seluruh kamus dikirim (165 butir, ringan) supaya PIC bisa
+            // MEMUNGUT risiko baku langsung dari formulir, alih-alih merumuskan
+            // sendiri risiko yang sebenarnya sama dengan OPD lain — dan
+            // membuat register gabungannya tak bisa dihitung lintas OPD.
+            'kamus' => FraudKamusRisiko::query()
+                ->orderBy('area')->orderBy('nomor')
+                ->get(['id', 'area', 'tahapan_proses', 'uraian']),
         ]);
     }
 
@@ -145,6 +153,66 @@ class FraudRisikoController extends Controller
                 ->select('area')->distinct()->orderBy('area')->pluck('area'),
             'areaTerpilih' => $area,
         ]);
+    }
+
+    /**
+     * Form Cetak FRA — kertas kerja per Perangkat Daerah, lima lembar.
+     *
+     * Urutan dan judul kolom mengikuti Format Kertas Kerja FRA (lembar IR, AR,
+     * RTP, RR, PR) apa adanya, supaya hasil cetaknya dikenali oleh yang biasa
+     * memakai versi Excel-nya. Header, penanda tangan, dan tempat/tanggal
+     * diambil dari Data Umum OPD tahun itu — TIDAK ada "Data Umum FRA"
+     * tersendiri, sebab identitas kertas kerja sebuah OPD memang satu, bukan
+     * satu per modul.
+     *
+     * Per OPD, bukan gabungan: kertas kerja FRA ditandatangani Kepala OPD
+     * masing-masing. Rekap lintas OPD ada di Register (layar), bukan di cetakan.
+     */
+    public function cetak(Request $request)
+    {
+        $tahun = $this->tahun($request);
+        $user = $request->user();
+
+        $opdId = $request->integer('opd_id') ?: $user->opd_id;
+
+        $this->tolakOpdLain($request, $opdId, 'Anda hanya dapat mencetak kertas kerja FRA perangkat daerah Anda sendiri.');
+
+        abort_if(! $opdId, 422, 'Pilih Perangkat Daerah yang akan dicetak.');
+
+        $opd = Opd::findOrFail($opdId);
+        $pengaturan = $this->pengaturan();
+
+        $rows = FraudRisiko::query()
+            ->where('opd_id', $opdId)
+            ->where('tahun_penilaian', $tahun)
+            ->orderBy('tahapan_proses')->orderBy('id')
+            ->get();
+
+        return Inertia::render('fraud/cetak/Cetak', [
+            'tahun' => $tahun,
+            'opd' => $opd->only(['id', 'nama']),
+            'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
+            'dataUmum' => $this->dataUmumForInertia(DataUmum::forOpdAndTahun($opdId, $tahun)),
+            'rows' => $rows,
+            'matrixCells' => RiskMatrixCell::all(['dampak', 'kemungkinan', 'skala_risiko', 'warna_class']),
+            'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
+            'isAdmin' => $user->canViewAllOpd(),
+            'opdList' => $user->canViewAllOpd() ? Opd::orderBy('nama')->get(['id', 'nama']) : [],
+        ]);
+    }
+
+    public function pdf(Request $request)
+    {
+        $tahun = $this->tahun($request);
+        $opdId = $request->integer('opd_id') ?: $request->user()->opd_id;
+
+        $this->tolakOpdLain($request, $opdId, 'Anda hanya dapat mencetak kertas kerja FRA perangkat daerah Anda sendiri.');
+
+        $url = url('/fraud/cetak?'.http_build_query(['tahun' => $tahun, 'opd_id' => $opdId]));
+
+        $namaOpd = str(Opd::find($opdId)?->nama ?? 'OPD')->slug()->limit(40, '');
+
+        return PdfPrintService::downloadFromUrl($request, $url, "FRA-{$namaOpd}-{$tahun}");
     }
 
     public function store(Request $request)

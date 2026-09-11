@@ -207,6 +207,8 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/fraud/register', [FraudRisikoController::class, 'register'])->name('fraud.register');
     Route::get('/fraud/peta-risiko', [FraudRisikoController::class, 'peta'])->name('fraud.peta');
     Route::get('/fraud/kamus', [FraudRisikoController::class, 'kamus'])->name('fraud.kamus');
+    Route::get('/fraud/cetak', [FraudRisikoController::class, 'cetak'])->name('fraud.cetak');
+    Route::get('/fraud/cetak/pdf', [FraudRisikoController::class, 'pdf'])->name('fraud.cetak.pdf');
     Route::get('/fraud/rekap-lapor', [LaporanKecuranganController::class, 'index'])->name('fraud.rekap-lapor');
     Route::put('/fraud/rekap-lapor/{laporanKecurangan}/status', [LaporanKecuranganController::class, 'updateStatus'])->name('fraud.rekap-lapor.status');
     Route::delete('/fraud/rekap-lapor/{laporanKecurangan}', [LaporanKecuranganController::class, 'destroy'])->name('fraud.rekap-lapor.destroy');

@@ -1027,6 +1027,7 @@ class MenuSeeder extends Seeder
             // orang, dan mencampur keduanya dalam satu rekap membuat laporan
             // kecurangan terbaca siapa pun yang membuka rekap biasa.
             ['/fraud/rekap-lapor', 'Rekap Lapor Kejadian Fraud', 'Inbox', 7],
+            ['/fraud/cetak', 'Form Cetak FRA', 'Printer', 8],
         ];
 
         foreach ($fraudMenus as [$route, $title, $icon, $order]) {

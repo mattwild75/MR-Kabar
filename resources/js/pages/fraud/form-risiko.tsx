@@ -6,11 +6,19 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { router } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { BookMarked, Search } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { type FraudRow, type FraudSharedProps } from './shell';
 
 export type Tahap = 'identifikasi' | 'analisis' | 'rtp';
+
+export interface KamusButir {
+    id: number;
+    area: string;
+    tahapan_proses: string | null;
+    uraian: string;
+}
 
 const KOSONG = {
     tahapan_proses: '',
@@ -66,6 +74,7 @@ export function FormRisiko({
     shared,
     pengendalianAdaOptions = ['Ada', 'Belum Ada'],
     pengendalianMemadaiOptions = ['Memadai', 'Belum Memadai'],
+    kamus = [],
 }: {
     tahap: Tahap;
     baris: FraudRow | null;
@@ -74,9 +83,11 @@ export function FormRisiko({
     shared: FraudSharedProps;
     pengendalianAdaOptions?: string[];
     pengendalianMemadaiOptions?: string[];
+    kamus?: KamusButir[];
 }) {
     const [nilai, setNilai] = useState<Nilai>(KOSONG);
     const [menyimpan, setMenyimpan] = useState(false);
+    const [kamusTerbuka, setKamusTerbuka] = useState(false);
 
     useEffect(() => {
         setNilai(baris ? dariBaris(baris) : KOSONG);
@@ -174,7 +185,19 @@ export function FormRisiko({
                             </div>
 
                             <div>
-                                <Label>Nama Risiko *</Label>
+                                <div className="mb-1 flex items-center justify-between">
+                                    <Label>Nama Risiko *</Label>
+                                    {kamus.length > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => setKamusTerbuka(true)}
+                                            className="text-primary inline-flex items-center gap-1 text-xs underline"
+                                        >
+                                            <BookMarked className="h-3.5 w-3.5" />
+                                            Pungut dari Kamus
+                                        </button>
+                                    )}
+                                </div>
                                 <Textarea rows={2} value={nilai.nama_risiko} onChange={(e) => ubah('nama_risiko', e.target.value)} />
                             </div>
 
@@ -336,6 +359,101 @@ export function FormRisiko({
                         {menyimpan ? 'Menyimpan…' : 'Simpan'}
                     </Button>
                 </DialogFooter>
+            </DialogContent>
+
+            <PemungutKamus
+                kamus={kamus}
+                terbuka={kamusTerbuka}
+                tutup={() => setKamusTerbuka(false)}
+                pilih={(b) => {
+                    // Nama risiko diisi dari kamus; tahapan ikut terisi kalau
+                    // butirnya memang punya, dan HANYA kalau tahapannya masih
+                    // kosong — pilihan PIC tidak boleh ditimpa diam-diam.
+                    setNilai((n) => ({
+                        ...n,
+                        nama_risiko: b.uraian,
+                        tahapan_proses: n.tahapan_proses || b.tahapan_proses || '',
+                    }));
+                    setKamusTerbuka(false);
+                }}
+            />
+        </Dialog>
+    );
+}
+
+/**
+ * Pemungut butir kamus: cari teks + saring area, klik untuk memakai.
+ *
+ * Gunanya bukan mempercepat pengetikan. Tanpa ini tiap OPD merumuskan sendiri
+ * risiko yang sebenarnya sama, dengan kata-kata berbeda, dan register
+ * gabungannya tak bisa dihitung lintas OPD.
+ */
+function PemungutKamus({
+    kamus,
+    terbuka,
+    tutup,
+    pilih,
+}: {
+    kamus: KamusButir[];
+    terbuka: boolean;
+    tutup: () => void;
+    pilih: (b: KamusButir) => void;
+}) {
+    const [cari, setCari] = useState('');
+    const [area, setArea] = useState('');
+
+    const areas = useMemo(() => [...new Set(kamus.map((k) => k.area))], [kamus]);
+
+    const tersaring = useMemo(() => {
+        const q = cari.trim().toLowerCase();
+        return kamus.filter((k) => (area === '' || k.area === area) && (q === '' || k.uraian.toLowerCase().includes(q)));
+    }, [kamus, cari, area]);
+
+    return (
+        <Dialog open={terbuka} onOpenChange={(o) => !o && tutup()}>
+            <DialogContent className="max-h-[85vh] max-w-2xl overflow-hidden">
+                <DialogHeader>
+                    <DialogTitle>Pungut dari Kamus Risiko Kecurangan</DialogTitle>
+                </DialogHeader>
+
+                <div className="space-y-3">
+                    <div className="relative">
+                        <Search className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
+                        <Input className="pl-9" placeholder="Cari kata kunci…" value={cari} onChange={(e) => setCari(e.target.value)} autoFocus />
+                    </div>
+
+                    <Select value={area === '' ? 'semua' : area} onValueChange={(v) => setArea(v === 'semua' ? '' : v)}>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Semua area" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="semua">Semua area</SelectItem>
+                            {areas.map((a) => (
+                                <SelectItem key={a} value={a}>
+                                    {a}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    <p className="text-muted-foreground text-xs">{tersaring.length} butir</p>
+
+                    <ul className="max-h-[50vh] space-y-1 overflow-y-auto pr-1">
+                        {tersaring.map((b) => (
+                            <li key={b.id}>
+                                <button
+                                    type="button"
+                                    onClick={() => pilih(b)}
+                                    className="hover:bg-muted w-full rounded-md border px-3 py-2 text-left text-sm"
+                                >
+                                    <span className="block">{b.uraian}</span>
+                                    <span className="text-muted-foreground block text-xs">{b.area}</span>
+                                </button>
+                            </li>
+                        ))}
+                        {tersaring.length === 0 && <li className="text-muted-foreground py-6 text-center text-sm">Tidak ada butir yang cocok.</li>}
+                    </ul>
+                </div>
             </DialogContent>
         </Dialog>
     );

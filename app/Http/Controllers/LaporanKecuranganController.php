@@ -6,6 +6,7 @@ use App\Models\FraudRisiko;
 use App\Models\LaporanKecurangan;
 use App\Models\Opd;
 use App\Models\PesanLaporanKecurangan;
+use App\Services\PembersihMetadataGambar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -38,10 +39,22 @@ class LaporanKecuranganController extends Controller
         'bukti.*' => ['file', 'max:10240', 'mimes:jpg,jpeg,png,pdf'],
     ];
 
-    /** Melampirkan berkas bukti ke laporan (bukan ke akun pengunggah). */
+    /**
+     * Melampirkan berkas bukti ke laporan (bukan ke akun pengunggah).
+     *
+     * Foto dibersihkan metadatanya DULU — koordinat GPS, seri ponsel, waktu
+     * pemotretan — sebelum disimpan. Untuk pelapor anonim, satu foto bisa
+     * menunjuk balik ke dirinya lebih pasti daripada namanya. Dilakukan untuk
+     * semua mode, bukan hanya anonim: pelapor terbuka pun tidak bermaksud
+     * menyerahkan koordinat rumahnya.
+     */
     private function lampirkanBukti(Request $request, LaporanKecurangan $laporan): void
     {
+        $pembersih = app(PembersihMetadataGambar::class);
+
         foreach ((array) $request->file('bukti', []) as $berkas) {
+            $pembersih->bersihkan($berkas);
+
             $laporan->addMedia($berkas)->toMediaCollection(LaporanKecurangan::KOLEKSI_BUKTI);
         }
     }

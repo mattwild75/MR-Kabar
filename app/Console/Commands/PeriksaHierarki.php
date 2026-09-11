@@ -49,6 +49,24 @@ class PeriksaHierarki extends Command
         'tbl_kro_pd' => ['SASARAN RENSTRA', 'PROGRAM PD', 'KEGIATAN PD'],
     ];
 
+    /**
+     * Tabel yang hierarkinya BERBEDA per Perangkat Daerah.
+     *
+     * Pemeriksaan pertama di produksi (10 September 2026) melaporkan empat
+     * simpul "pecah": "2.1 Pengelolaan Persampahan" vs "1.1 Pengelolaan
+     * Persampahan", dan sepasang lagi untuk koordinasi pemerintahan kecamatan.
+     * Ditelusuri, keduanya berasal dari OPD BERBEDA — DLH vs PUPR, Kecamatan
+     * Johan Pahlawan vs Pante Ceureumen. Tiap OPD memberi nomor kegiatannya
+     * sendiri mengikuti Renstra-nya, jadi 1.1 dan 2.1 sama-sama benar.
+     *
+     * Pemeriksa yang membandingkan teks lintas OPD akan terus berteriak
+     * untuk hal yang wajar, dan pemeriksa yang tidak dipercaya sama tak
+     * bergunanya dengan yang tidak ada. Untuk tabel ini, simpul dibandingkan
+     * HANYA di dalam OPD yang sama. tbl_krs_pemda tidak termasuk: hierarkinya
+     * memang satu untuk seluruh kabupaten.
+     */
+    private const PER_OPD = ['tbl_krs_pd', 'tbl_kro_pd'];
+
     public function handle(): int
     {
         $tabelDiminta = $this->option('tabel');
@@ -181,26 +199,46 @@ class PeriksaHierarki extends Command
      */
     private function simpulPecah(string $tabel, string $kolom, ?string $indukKolom): Collection
     {
+        $perOpd = in_array($tabel, self::PER_OPD, true);
+
         $pilih = $indukKolom
-            ? "`{$kolom}` as teks, `{$indukKolom}` as induk, COUNT(*) as jumlah"
-            : "`{$kolom}` as teks, '' as induk, COUNT(*) as jumlah";
+            ? "t.`{$kolom}` as teks, t.`{$indukKolom}` as induk, COUNT(*) as jumlah"
+            : "t.`{$kolom}` as teks, '' as induk, COUNT(*) as jumlah";
 
-        $kelompokkan = $indukKolom ? [$kolom, $indukKolom] : [$kolom];
+        $kelompokkan = $indukKolom ? ["t.{$kolom}", "t.{$indukKolom}"] : ["t.{$kolom}"];
 
-        return DB::table($tabel)
-            ->whereNull('deleted_at')
-            ->whereNotNull($kolom)
-            ->where($kolom, '<>', '')
+        if ($perOpd) {
+            // OPD diambil dari AKUN pemilik baris, bukan dari kolom teks di
+            // dalam barisnya — kolom teks itu diisi bebas dan ejaannya
+            // berbeda-beda (temuan audit R-08).
+            $pilih .= ', COALESCE(u.opd_id, 0) as pemilik';
+            $kelompokkan[] = 'u.opd_id';
+        } else {
+            $pilih .= ', 0 as pemilik';
+        }
+
+        $query = DB::table("{$tabel} as t")
+            ->whereNull('t.deleted_at')
+            ->whereNotNull("t.{$kolom}")
+            ->where("t.{$kolom}", '<>', '');
+
+        if ($perOpd) {
+            $query->leftJoin('users as u', 'u.id', '=', 't.user_id');
+        }
+
+        return $query
             ->selectRaw($pilih)
             ->groupBy($kelompokkan)
             ->get()
             ->map(fn ($r) => [
                 'teks' => trim((string) $r->teks),
                 'induk' => self::kunci((string) $r->induk),
+                'pemilik' => (int) $r->pemilik,
                 'jumlah' => (int) $r->jumlah,
             ])
-            // Satu simpul = satu induk + satu bentuk teks yang dinormalkan.
-            ->groupBy(fn ($r) => $r['induk'].'|'.self::kunci($r['teks']))
+            // Satu simpul = satu pemilik + satu induk + satu bentuk teks
+            // yang dinormalkan.
+            ->groupBy(fn ($r) => $r['pemilik'].'|'.$r['induk'].'|'.self::kunci($r['teks']))
             ->filter(fn ($g) => $g->pluck('teks')->unique()->count() > 1)
             ->values();
     }

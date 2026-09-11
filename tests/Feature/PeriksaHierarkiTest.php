@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Console\Commands\PeriksaHierarki;
+use App\Models\Opd;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -102,5 +104,41 @@ class PeriksaHierarkiTest extends TestCase
             PeriksaHierarki::kunci('Pengelolaan Persampahan'),
             PeriksaHierarki::kunci('Pengelolaan Air Limbah'),
         );
+    }
+
+    /**
+     * Dua OPD berbeda boleh punya kegiatan bernama sama dengan nomor berbeda.
+     *
+     * Kasus sungguhan di produksi 10 September 2026: "1.1 Pengelolaan
+     * Persampahan" milik DLH dan "2.1 Pengelolaan Persampahan" milik PUPR,
+     * di bawah program yang namanya sama. Tiap OPD menomori kegiatannya
+     * sendiri mengikuti Renstra-nya — keduanya benar. Versi pertama pemeriksa
+     * ini menuduhnya pecah, dan pemeriksa yang berteriak untuk hal yang wajar
+     * akan berhenti dipercaya.
+     */
+    public function test_kegiatan_sama_di_opd_berbeda_tidak_dituduh_pecah(): void
+    {
+        $dlh = User::factory()->create(['opd_id' => Opd::create(['nama' => 'DINAS LINGKUNGAN HIDUP'])->id]);
+        $pupr = User::factory()->create(['opd_id' => Opd::create(['nama' => 'DINAS PEKERJAAN UMUM'])->id]);
+
+        DB::table('tbl_krs_pd')->insert([
+            ['user_id' => $dlh->id, 'PROGRAM PD' => 'Program Pengelolaan Persampahan', 'KEGIATAN PD' => '1.1 Pengelolaan Persampahan'],
+            ['user_id' => $pupr->id, 'PROGRAM PD' => 'Program Pengelolaan Persampahan', 'KEGIATAN PD' => '2.1 Pengelolaan Persampahan'],
+        ]);
+
+        $this->artisan('hierarki:periksa', ['--tabel' => 'tbl_krs_pd'])->assertSuccessful();
+    }
+
+    /** Tetapi di DALAM satu OPD, dua penulisan untuk satu kegiatan tetap pecah. */
+    public function test_kegiatan_beda_tulisan_di_opd_yang_sama_tetap_pecah(): void
+    {
+        $dlh = User::factory()->create(['opd_id' => Opd::create(['nama' => 'DINAS LINGKUNGAN HIDUP'])->id]);
+
+        DB::table('tbl_krs_pd')->insert([
+            ['user_id' => $dlh->id, 'PROGRAM PD' => 'Program Pengelolaan Persampahan', 'KEGIATAN PD' => '1.1 Pengelolaan Persampahan'],
+            ['user_id' => $dlh->id, 'PROGRAM PD' => 'Program Pengelolaan Persampahan', 'KEGIATAN PD' => '1.1 Pengelolaan  Persampahan'],
+        ]);
+
+        $this->artisan('hierarki:periksa', ['--tabel' => 'tbl_krs_pd'])->assertFailed();
     }
 }

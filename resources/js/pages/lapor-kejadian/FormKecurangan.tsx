@@ -438,9 +438,9 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
 
                         {data.mode_pelapor !== 'terbuka' && (
                             <p className="mt-2 rounded-md border border-amber-500/50 bg-amber-50 p-3 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-                                Anda melapor tanpa nama. Perlu diketahui: <strong>foto sering membawa data tersembunyi</strong> — lokasi pengambilan,
-                                jenis ponsel, waktu — dan dokumen kantor sering memuat nama penyuntingnya. Keduanya dapat menunjuk balik ke Anda. Bila
-                                itu mengkhawatirkan, kirim tangkapan layar alih-alih berkas aslinya.
+                                Anda melapor tanpa nama. <strong>Foto (JPG/PNG) dibersihkan otomatis</strong> dari data tersembunyi — lokasi
+                                pengambilan, jenis ponsel, waktu — sebelum disimpan. <strong>PDF tidak bisa dibersihkan</strong> dan sering memuat
+                                nama penyusunnya; bila itu mengkhawatirkan, kirim tangkapan layarnya sebagai gambar.
                             </p>
                         )}
                     </div>

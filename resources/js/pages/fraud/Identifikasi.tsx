@@ -14,11 +14,11 @@ import { Link, router } from '@inertiajs/react';
 import { BookMarked, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { FormRisiko } from './form-risiko';
+import { FormRisiko, type KamusButir } from './form-risiko';
 import { FraudShell, TeksPanjang, type FraudRow, type FraudSharedProps } from './shell';
 
 interface Props extends FraudSharedProps {
-    kamusAreas: string[];
+    kamus: KamusButir[];
 }
 
 export default function Identifikasi(props: Props) {
@@ -122,7 +122,7 @@ export default function Identifikasi(props: Props) {
                 </table>
             </div>
 
-            <FormRisiko tahap="identifikasi" baris={sunting} terbuka={terbuka} tutup={() => setTerbuka(false)} shared={props} />
+            <FormRisiko tahap="identifikasi" baris={sunting} terbuka={terbuka} tutup={() => setTerbuka(false)} shared={props} kamus={props.kamus} />
 
             <AlertDialog open={hapus !== null} onOpenChange={(o) => !o && setHapus(null)}>
                 <AlertDialogContent>

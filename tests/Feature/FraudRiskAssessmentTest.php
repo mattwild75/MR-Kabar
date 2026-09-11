@@ -256,4 +256,18 @@ class FraudRiskAssessmentTest extends TestCase
             ->assertSee('gratifikasi dalam proses pengelolaan ASN')
             ->assertDontSee('kebutuhan penerima hibah');
     }
+
+    /**
+     * Form Cetak FRA per OPD memakai penjaga akses tunggal (MembatasiAksesOpd).
+     * PIC tidak boleh mencetak kertas kerja OPD lain hanya dengan mengganti
+     * opd_id di URL — bentuk IDOR yang persis pernah ditemukan audit R-01.
+     */
+    public function test_pic_tidak_bisa_mencetak_kertas_kerja_opd_lain(): void
+    {
+        $picA = $this->pic($this->opd('DINAS KESEHATAN'));
+        $opdB = $this->opd('INSPEKTORAT');
+
+        $this->actingAs($picA)->get("/fraud/cetak?opd_id={$opdB->id}")->assertForbidden();
+        $this->actingAs($picA)->get('/fraud/cetak')->assertOk();
+    }
 }
