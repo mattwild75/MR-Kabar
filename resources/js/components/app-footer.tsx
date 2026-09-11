@@ -24,7 +24,10 @@ export function AppFooter({ contactEmail, contactEmailSecondary, footerCredit }:
     const recipients = [contactEmail || DEFAULT_CONTACT_EMAIL, contactEmailSecondary].filter((v): v is string => !!v);
 
     return (
-        <footer className="border-border/70 bg-background/95 text-muted-foreground flex flex-col items-center justify-between gap-3 border-t px-4 py-3 text-sm md:flex-row md:px-6">
+        // print:hidden — footer ini ikut tercetak di setiap Form Cetak dan, pada
+        // lembar yang pendek, sendirian menghasilkan satu halaman tambahan yang
+        // kosong. Kertas kerja tidak butuh alamat surel kontak di kakinya.
+        <footer className="border-border/70 bg-background/95 text-muted-foreground flex flex-col items-center justify-between gap-3 border-t px-4 py-3 text-sm md:flex-row md:px-6 print:hidden">
             <div className="flex flex-col items-center gap-1 md:items-start">
                 <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 md:justify-start">
                     <span className="text-foreground font-medium">Copyright © {year}</span>

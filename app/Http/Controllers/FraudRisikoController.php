@@ -57,7 +57,10 @@ class FraudRisikoController extends Controller
         $query = FraudRisiko::query()
             ->with(['opd:id,nama', 'user:id,name'])
             ->where('tahun_penilaian', $this->tahun($request))
-            ->orderBy('tahapan_proses')
+            // Urutan PENGISIAN, bukan abjad tahapan: nomor risiko di kertas
+            // kerja mengikuti urutan proses bisnisnya (pendaftaran -> seleksi
+            // -> pengumuman), dan itu urutan orang mengisinya.
+            ->orderBy('kegiatan_dinilai')
             ->orderBy('id');
 
         if (! $isAdmin) {
@@ -185,7 +188,7 @@ class FraudRisikoController extends Controller
         $rows = FraudRisiko::query()
             ->where('opd_id', $opdId)
             ->where('tahun_penilaian', $tahun)
-            ->orderBy('tahapan_proses')->orderBy('id')
+            ->orderBy('kegiatan_dinilai')->orderBy('id')
             ->get();
 
         return Inertia::render('fraud/cetak/Cetak', [
@@ -198,6 +201,12 @@ class FraudRisikoController extends Controller
             'riskLevels' => RiskLevel::orderBy('urutan')->get(['label', 'skala_min', 'skala_max', 'warna_class']),
             'isAdmin' => $user->canViewAllOpd(),
             'opdList' => $user->canViewAllOpd() ? Opd::orderBy('nama')->get(['id', 'nama']) : [],
+            // Lembar yang diminta ikut lewat URL supaya Browsershot — yang
+            // membuka URL ini sendiri, tanpa keadaan peramban pengguna —
+            // merender lembar yang sama dengan yang dipilih di layar.
+            'lembar' => in_array($request->query('lembar'), ['ir', 'ar', 'rtp', 'rr', 'peta'], true)
+                ? $request->query('lembar')
+                : 'semua',
         ]);
     }
 
@@ -208,11 +217,14 @@ class FraudRisikoController extends Controller
 
         $this->tolakOpdLain($request, $opdId, 'Anda hanya dapat mencetak kertas kerja FRA perangkat daerah Anda sendiri.');
 
-        $url = url('/fraud/cetak?'.http_build_query(['tahun' => $tahun, 'opd_id' => $opdId]));
+        $lembar = (string) $request->query('lembar', 'semua');
+
+        $url = url('/fraud/cetak?'.http_build_query(['tahun' => $tahun, 'opd_id' => $opdId, 'lembar' => $lembar]));
 
         $namaOpd = str(Opd::find($opdId)?->nama ?? 'OPD')->slug()->limit(40, '');
+        $akhiran = $lembar === 'semua' ? '' : '-'.strtoupper($lembar);
 
-        return PdfPrintService::downloadFromUrl($request, $url, "FRA-{$namaOpd}-{$tahun}");
+        return PdfPrintService::downloadFromUrl($request, $url, "FRA-{$namaOpd}-{$tahun}{$akhiran}");
     }
 
     public function store(Request $request)
@@ -279,7 +291,13 @@ class FraudRisikoController extends Controller
             'tahun_penilaian' => ['required', 'integer', 'min:2000', 'max:2100'],
             'nomor_urut' => ['nullable', 'integer', 'min:1'],
 
-            'tahapan_proses' => ['nullable', Rule::in(FraudRisiko::TAHAPAN)],
+            'kegiatan_dinilai' => ['nullable', 'string', 'max:255'],
+            // Teks bebas, BUKAN pilihan tetap. Kertas kerja yang sungguhan
+            // (Register Risiko Fraud Disdik 2026) memakai tahapan khas
+            // kegiatannya: "Pendaftaran & Verifikasi Berkas", "Seleksi &
+            // Penentuan Kelulusan" — bukan empat tahapan generik. Empat yang
+            // generik tetap ditawarkan sebagai saran di formulir.
+            'tahapan_proses' => ['nullable', 'string', 'max:255'],
             'nama_risiko' => ['required', 'string'],
             'skenario_risiko' => ['nullable', 'string'],
             'uraian_penyebab' => ['nullable', 'string'],

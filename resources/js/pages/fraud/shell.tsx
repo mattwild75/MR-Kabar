@@ -15,6 +15,7 @@ export interface FraudRow {
     opd_id: number;
     tahun_penilaian: number;
     nomor_urut: number | null;
+    kegiatan_dinilai: string | null;
 
     tahapan_proses: string | null;
     nama_risiko: string;

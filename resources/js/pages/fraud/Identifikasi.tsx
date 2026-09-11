@@ -57,6 +57,7 @@ export default function Identifikasi(props: Props) {
                     <thead className="bg-muted">
                         <tr>
                             <th className="border px-3 py-2 text-left">No</th>
+                            <th className="border px-3 py-2 text-left">Kegiatan yang Dinilai</th>
                             <th className="border px-3 py-2 text-left">Tahapan Proses</th>
                             <th className="border px-3 py-2 text-left">Nama Risiko</th>
                             <th className="border px-3 py-2 text-left">Skenario Risiko</th>
@@ -70,7 +71,7 @@ export default function Identifikasi(props: Props) {
                     <tbody>
                         {props.rows.length === 0 ? (
                             <tr>
-                                <td colSpan={props.isAdmin ? 9 : 8} className="text-muted-foreground border px-3 py-8 text-center">
+                                <td colSpan={props.isAdmin ? 10 : 9} className="text-muted-foreground border px-3 py-8 text-center">
                                     Belum ada risiko kecurangan untuk tahun {props.tahun}.
                                 </td>
                             </tr>
@@ -78,6 +79,7 @@ export default function Identifikasi(props: Props) {
                             props.rows.map((r, i) => (
                                 <tr key={r.id} className="align-top">
                                     <td className="border px-3 py-2">{i + 1}</td>
+                                    <td className="border px-3 py-2">{r.kegiatan_dinilai ?? '-'}</td>
                                     <td className="border px-3 py-2 whitespace-nowrap">{r.tahapan_proses ?? '-'}</td>
                                     <td className="border px-3 py-2 font-medium">
                                         <TeksPanjang isi={r.nama_risiko} />

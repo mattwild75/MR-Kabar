@@ -21,6 +21,7 @@ export interface KamusButir {
 }
 
 const KOSONG = {
+    kegiatan_dinilai: '',
     tahapan_proses: '',
     nama_risiko: '',
     skenario_risiko: '',
@@ -44,6 +45,7 @@ const KOSONG = {
 type Nilai = typeof KOSONG;
 
 const dariBaris = (r: FraudRow): Nilai => ({
+    kegiatan_dinilai: r.kegiatan_dinilai ?? '',
     tahapan_proses: r.tahapan_proses ?? '',
     nama_risiko: r.nama_risiko ?? '',
     skenario_risiko: r.skenario_risiko ?? '',
@@ -169,19 +171,37 @@ export function FormRisiko({
                             )}
 
                             <div>
+                                <Label>Kegiatan / Proses Bisnis yang Dinilai</Label>
+                                <Input
+                                    value={nilai.kegiatan_dinilai}
+                                    onChange={(e) => ubah('kegiatan_dinilai', e.target.value)}
+                                    placeholder="mis. Kegiatan Seleksi Penerimaan Murid Baru (SPMB) TA. 2026/2027"
+                                />
+                                <p className="text-muted-foreground mt-1 text-xs">
+                                    Menjadi baris ketiga judul kertas kerja. Satu kertas kerja untuk satu kegiatan; tahapan prosesnya menjadi
+                                    baris-barisnya.
+                                </p>
+                            </div>
+
+                            <div>
                                 <Label>Tahapan Proses</Label>
-                                <Select value={nilai.tahapan_proses} onValueChange={(v) => ubah('tahapan_proses', v)}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Pilih tahapan" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {shared.tahapanOptions.map((t) => (
-                                            <SelectItem key={t} value={t}>
-                                                {t}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                <Input
+                                    list="fraud-tahapan-saran"
+                                    value={nilai.tahapan_proses}
+                                    onChange={(e) => ubah('tahapan_proses', e.target.value)}
+                                    placeholder="mis. Pendaftaran & Verifikasi Berkas"
+                                />
+                                {/* Teks bebas dengan saran, bukan pilihan tetap: kertas kerja
+                                    sungguhan memakai tahapan khas kegiatannya, bukan empat
+                                    tahapan generik. */}
+                                <datalist id="fraud-tahapan-saran">
+                                    {shared.tahapanOptions.map((t) => (
+                                        <option key={t} value={t} />
+                                    ))}
+                                </datalist>
+                                <p className="text-muted-foreground mt-1 text-xs">
+                                    Tahapan proses bisnis kegiatan ini, berurut. Nomor risiko di kertas kerja mengikuti urutan pengisian.
+                                </p>
                             </div>
 
                             <div>
