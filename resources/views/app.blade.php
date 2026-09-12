@@ -11,7 +11,24 @@
         $favicon = $setting['favicon'] ?? null;
     @endphp
 
+    @php
+        $seo = $setting['seo'] ?? [];
+        $deskripsi = $seo['description'] ?? 'MR Kabar (Manajemen Risiko terKabar) — sistem manajemen risiko Pemerintah Kabupaten Aceh Barat: identifikasi, analisis, dan pemantauan risiko 49 perangkat daerah oleh Inspektorat. Risiko terKabar, Daerah Terjaga.';
+        $publik = in_array(request()->path(), ['login', 'panduan-publik'], true);
+    @endphp
+
     <title inertia>{{ $appName }}</title>
+    <meta name="description" content="{{ $deskripsi }}">
+    @if(!empty($seo['keywords']))<meta name="keywords" content="{{ $seo['keywords'] }}">@endif
+    {{-- Halaman di balik login tidak untuk mesin pencari; robots.txt sudah
+         melarangnya, tag ini memastikannya walau halaman sempat terjangkau. --}}
+    <meta name="robots" content="{{ $publik ? 'index, follow' : 'noindex, nofollow' }}">
+    <meta property="og:site_name" content="{{ $appName }}">
+    <meta property="og:title" content="{{ $seo['title'] ?? $appName }}">
+    <meta property="og:description" content="{{ $deskripsi }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    @if($publik)<link rel="canonical" href="{{ url()->current() }}">@endif
 
     {{-- Apply the stored appearance preference before first paint, so the
          page never flashes the wrong theme while React boots and runs

@@ -96,6 +96,38 @@ Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
 // SELURUH fitur lain (Dashboard, Form Input/Cetak, Access/Settings/
 // Utilities, dst) TETAP terkunci di dalam grup middleware ['auth',
 // 'menu.permission'] di bawah — tidak ada perubahan apa pun ke situ.
+// robots.txt dan sitemap.xml dibuat dari APP_URL, bukan berkas statis — berkas
+// statis lama masih menunjuk mrkabar.test setelah go-live, sehingga Google tidak
+// pernah mendapat alamat yang benar. Hanya dua halaman publik yang boleh
+// diindeks; selebihnya di balik login (dan dilarang di sini sekadar penegasan).
+Route::get('/robots.txt', function () {
+    $isi = implode('
+', [
+        'User-agent: *',
+        'Allow: /panduan-publik',
+        'Allow: /login',
+        'Disallow: /',
+        '',
+        'Sitemap: '.url('/sitemap.xml'),
+        '',
+    ]);
+
+    return response($isi, 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+})->name('robots');
+
+Route::get('/sitemap.xml', function () {
+    $url = fn (string $path, string $prio) => '  <url><loc>'.e(url($path)).'</loc><changefreq>monthly</changefreq><priority>'.$prio.'</priority></url>';
+    $isi = '<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+'
+        .$url('/panduan-publik', '1.0').'
+'.$url('/login', '0.5').'
+</urlset>
+';
+
+    return response($isi, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
+})->name('sitemap');
+
 Route::get('/panduan-publik', function () {
     return Inertia::render('panduan/Public', [
         // Dua keterangan yang hanya muncul pada versi CETAK halaman ini. Sebuah
