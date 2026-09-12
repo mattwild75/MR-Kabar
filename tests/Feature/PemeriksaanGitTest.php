@@ -39,19 +39,19 @@ class PemeriksaanGitTest extends TestCase
         return is_array($p->command) ? implode(' ', $p->command) : (string) $p->command;
     }
 
-    /** Palsukan git: status bersih, remote sama persis kecuali $ubah. Pola mengikuti getCommandLine() Symfony (di Windows path git & repo dikutip). */
+    /** Palsukan git: status bersih, remote sama persis kecuali $ubah. Pola memakai * di antara argumen karena Symfony mengutip argumen berbeda di Windows (") dan Linux ('). */
     private function palsukanGit(array $ubah = []): void
     {
         $jawab = array_merge([
-            '*git* -C * remote get-url origin' => 'https://github.com/mattwild75/MR-Kabar.git',
-            '*git* -C * rev-parse --abbrev-ref HEAD' => 'main',
-            '*git* -C * rev-parse --short HEAD' => 'abc1234',
-            '*git* -C * status --porcelain' => '',
-            '*git* -C * fetch --quiet origin main' => '',
-            '*git* -C * rev-parse --short *origin/main*' => 'abc1234',
-            '*git* -C * rev-list --left-right --count *HEAD...origin/main*' => "0\t0",
-            '*git* -C * merge-base --is-ancestor HEAD *origin/main*' => '',
-            '*git* -C * diff --name-only HEAD *origin/main*' => '',
+            '*remote*get-url*origin*' => 'https://github.com/mattwild75/MR-Kabar.git',
+            '*rev-parse*--abbrev-ref*HEAD*' => 'main',
+            '*rev-parse*--short*HEAD*' => 'abc1234',
+            '*status*--porcelain*' => '',
+            '*fetch*--quiet*origin*main*' => '',
+            '*rev-parse*--short*origin/main*' => 'abc1234',
+            '*rev-list*--left-right*--count*HEAD...origin/main*' => "0\t0",
+            '*merge-base*--is-ancestor*HEAD*origin/main*' => '',
+            '*diff*--name-only*HEAD*origin/main*' => '',
         ], $ubah);
 
         $peta = [];
@@ -68,7 +68,7 @@ class PemeriksaanGitTest extends TestCase
     {
         // Stub Http yang terdaftar lebih dulu yang menang, jadi dipasang sebelum palsukanGit().
         Http::fake(['api.github.com/*' => Http::response(['check_runs' => [['status' => 'completed', 'conclusion' => 'failure', 'html_url' => 'https://github.com/x']]])]);
-        $this->palsukanGit(['*git* -C * rev-parse *origin/main*' => 'abc1234abc1234abc1234abc1234abc1234abc12']);
+        $this->palsukanGit(['*rev-parse*origin/main*' => 'abc1234abc1234abc1234abc1234abc1234abc12']);
         Cache::flush();
         $hasil = app(PemeriksaanGitService::class)->periksa();
 
@@ -88,7 +88,7 @@ class PemeriksaanGitTest extends TestCase
 
     public function test_berkas_berubah_di_server_menjadi_halangan(): void
     {
-        $this->palsukanGit(['*git* -C * status --porcelain' => " M app/Http/Kernel.php\n?? catatan.txt"]);
+        $this->palsukanGit(['*status*--porcelain*' => " M app/Http/Kernel.php\n?? catatan.txt"]);
         $hasil = app(PemeriksaanGitService::class)->periksa();
 
         $this->assertCount(1, $hasil['halangan']);
@@ -100,8 +100,8 @@ class PemeriksaanGitTest extends TestCase
     public function test_commit_lokal_yang_tidak_ada_di_github_menjadi_halangan(): void
     {
         $this->palsukanGit([
-            '*git* -C * rev-list --left-right --count *HEAD...origin/main*' => "3\t5",
-            '*git* -C * merge-base --is-ancestor HEAD *origin/main*' => Process::result('', '', 1),
+            '*rev-list*--left-right*--count*HEAD...origin/main*' => "3\t5",
+            '*merge-base*--is-ancestor*HEAD*origin/main*' => Process::result('', '', 1),
         ]);
         $hasil = app(PemeriksaanGitService::class)->periksa();
 
@@ -112,7 +112,7 @@ class PemeriksaanGitTest extends TestCase
 
     public function test_github_tidak_terjangkau_menjadi_halangan(): void
     {
-        $this->palsukanGit(['*git* -C * fetch --quiet origin main' => Process::result('', 'Could not resolve host: github.com', 128)]);
+        $this->palsukanGit(['*fetch*--quiet*origin*main*' => Process::result('', 'Could not resolve host: github.com', 128)]);
         $hasil = app(PemeriksaanGitService::class)->periksa();
 
         $this->assertStringContainsString('tidak terjangkau', $hasil['halangan'][0]);
@@ -121,9 +121,9 @@ class PemeriksaanGitTest extends TestCase
     public function test_pembaruan_masuk_dihitung_migrasi_dan_lock(): void
     {
         $this->palsukanGit([
-            '*git* -C * rev-parse --short *origin/main*' => 'def5678',
-            '*git* -C * rev-list --left-right --count *HEAD...origin/main*' => "0\t2",
-            '*git* -C * diff --name-only HEAD *origin/main*' => "database/migrations/2026_10_01_000000_x.php\ncomposer.lock\napp/A.php",
+            '*rev-parse*--short*origin/main*' => 'def5678',
+            '*rev-list*--left-right*--count*HEAD...origin/main*' => "0\t2",
+            '*diff*--name-only*HEAD*origin/main*' => "database/migrations/2026_10_01_000000_x.php\ncomposer.lock\napp/A.php",
         ]);
         $hasil = app(PemeriksaanGitService::class)->periksa();
 
@@ -134,7 +134,7 @@ class PemeriksaanGitTest extends TestCase
 
     public function test_deploy_ditolak_bila_ada_halangan_dan_tidak_menjalankan_apa_pun(): void
     {
-        $this->palsukanGit(['*git* -C * status --porcelain' => ' M app/A.php']);
+        $this->palsukanGit(['*status*--porcelain*' => ' M app/A.php']);
 
         $this->actingAs($this->superAdmin())
             ->from('/backup')
@@ -149,7 +149,7 @@ class PemeriksaanGitTest extends TestCase
 
     public function test_push_ditolak_bila_github_lebih_maju(): void
     {
-        $this->palsukanGit(['*git* -C * rev-list --left-right --count *HEAD...origin/main*' => "0\t4"]);
+        $this->palsukanGit(['*rev-list*--left-right*--count*HEAD...origin/main*' => "0\t4"]);
 
         $this->actingAs($this->superAdmin())
             ->from('/backup')

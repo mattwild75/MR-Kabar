@@ -104,6 +104,16 @@ jobs:
       - name: Pasang dependensi
         run: npm install --no-audit --no-fund
 
+      # ziggy-js dipetakan tsconfig ke vendor/tightenco/ziggy (paket Composer),
+      # jadi pemeriksaan tipe dan build butuh vendor PHP walau tidak menjalankan PHP.
+      - name: Siapkan PHP untuk vendor (ziggy)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+      - name: Pasang dependensi PHP (hanya untuk vendor/tightenco/ziggy)
+        run: composer install --no-interaction --prefer-dist --no-progress --no-scripts
+
       - name: Periksa tipe
         run: npx tsc --noEmit
 
