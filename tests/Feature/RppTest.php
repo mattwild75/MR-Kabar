@@ -57,7 +57,7 @@ class RppTest extends TestCase
                 'status' => 'draft',
                 'obriks' => ['Dinas Pangan', 'Dinas Pertanian'],
                 'tim' => [
-                    ['role' => 'pj', 'nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197205042001121002', 'hari_kantor' => 1, 'hari_lapangan' => 1],
+                    ['role' => 'pj', 'nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197001011990031001', 'hari_kantor' => 1, 'hari_lapangan' => 1],
                     ['role' => 'kt', 'nama' => 'Budi Santoso', 'nip' => '198001012005011001', 'hari_kantor' => 2, 'hari_lapangan' => 12],
                 ],
             ]],
@@ -85,13 +85,13 @@ class RppTest extends TestCase
     public function test_cetakan_memakai_inspektur_sebagai_satu_satunya_penanda_tangan(): void
     {
         $pengguna = User::factory()->create();
-        Employee::create(['nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197205042001121002', 'jabatan' => 'Inspektur']);
+        Employee::create(['nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197001011990031001', 'jabatan' => 'Inspektur']);
         $this->actingAs($pengguna)->post('/rpp', $this->muatanRpp())->assertRedirect();
         $rpp = Rpp::first();
 
         $this->actingAs($pengguna)->get("/rpp-cetak/{$rpp->id}/tabel/preview")->assertOk()->assertInertia(fn ($page) => $page
             ->where('inspektur.nama', 'Zakaria, S.E., CGCAE')
-            ->where('inspektur.nip_rapat', '197205042001121002')
+            ->where('inspektur.nip_rapat', '197001011990031001')
             ->where('rpp.sub_judul', 'BULAN MARET 2026')
             ->where('rpp.penugasan.0.tim.0.peran', 'Penanggung Jawab'));
 

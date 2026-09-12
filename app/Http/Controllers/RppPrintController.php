@@ -125,7 +125,7 @@ class RppPrintController extends Controller
 
     /**
      * Nama pada tanda tangan ditulis kapital dan NIP tanpa spasi di lembar
-     * tabel ("ZAKARIA, SE., CGCAE." / "NIP 197205042001121002"), tetapi NIP
+     * tabel ("ZAKARIA, SE., CGCAE." / "NIP 197001011990031001"), tetapi NIP
      * berspasi di surat pengantar ("NIP.19720504 200112 1 002") — keduanya
      * mengikuti berkas aslinya.
      */
