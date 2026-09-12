@@ -37,6 +37,7 @@ class RppPengaturanController extends Controller
 
         $data = $request->validate([
             'tarif_per_hari' => ['required', 'integer', 'min:0'],
+            'tarif_luar_kota' => ['required', 'integer', 'min:0'],
         ]);
 
         RppSetting::current()->update($data);

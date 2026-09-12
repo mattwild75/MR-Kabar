@@ -8,11 +8,11 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { toast } from 'sonner';
 
 interface Props {
-    setting: { tarif_per_hari: number };
+    setting: { tarif_per_hari: number; tarif_luar_kota: number };
     inspektur: { id: number; nama: string; nip: string | null; pangkat: string | null; golongan: string | null } | null;
 }
 
-type FormPengaturan = { tarif_per_hari: number; [key: string]: number };
+type FormPengaturan = { tarif_per_hari: number; tarif_luar_kota: number; [key: string]: number };
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'ERPIKA', href: '#' },
@@ -25,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
  * hanya Inspektur, yaitu pegawai berjabatan "Inspektur" di ERPIKA > Pegawai.
  */
 export default function Pengaturan({ setting, inspektur }: Props) {
-    const form = useForm<FormPengaturan>({ tarif_per_hari: setting.tarif_per_hari });
+    const form = useForm<FormPengaturan>({ tarif_per_hari: setting.tarif_per_hari, tarif_luar_kota: setting.tarif_luar_kota });
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -38,22 +38,35 @@ export default function Pengaturan({ setting, inspektur }: Props) {
 
                 <Card>
                     <CardHeader>
-                        <CardTitle className="text-base">Tarif per hari</CardTitle>
+                        <CardTitle className="text-base">Tarif SPPD per hari (hanya hari Luar Kantor)</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                        <div className="max-w-xs space-y-1">
-                            <Label htmlFor="tarif">Rupiah per orang per hari</Label>
-                            <Input
-                                id="tarif"
-                                type="number"
-                                min={0}
-                                value={form.data.tarif_per_hari}
-                                onChange={(e) => form.setData('tarif_per_hari', Number(e.target.value))}
-                            />
-                            <p className="text-muted-foreground text-xs">
-                                Dipakai bila dokumen RPP atau anggota tim tidak menetapkan tarifnya sendiri.
-                            </p>
+                        <div className="grid max-w-lg gap-3 sm:grid-cols-2">
+                            <div className="space-y-1">
+                                <Label htmlFor="tarif">Dalam Kec. Johan Pahlawan (Rp)</Label>
+                                <Input
+                                    id="tarif"
+                                    type="number"
+                                    min={0}
+                                    value={form.data.tarif_per_hari}
+                                    onChange={(e) => form.setData('tarif_per_hari', Number(e.target.value))}
+                                />
+                            </div>
+                            <div className="space-y-1">
+                                <Label htmlFor="tarif-luar">Luar Kec. Johan Pahlawan (Rp)</Label>
+                                <Input
+                                    id="tarif-luar"
+                                    type="number"
+                                    min={0}
+                                    value={form.data.tarif_luar_kota}
+                                    onChange={(e) => form.setData('tarif_luar_kota', Number(e.target.value))}
+                                />
+                            </div>
                         </div>
+                        <p className="text-muted-foreground text-xs">
+                            Biaya SPPD = hari Luar Kantor (LK) x tarif; hari Dalam Kantor (DK) tidak dibayar. Lokasi tiap penugasan ditebak dari teks
+                            obrik (gampong, kecamatan, puskesmas, sekolah di luar Meulaboh = luar kota) dan bisa ditetapkan sendiri di formulir RPP.
+                        </p>
                         <Button
                             onClick={() =>
                                 form.put('/rpp-pengaturan', { preserveScroll: true, onSuccess: () => toast.success('Pengaturan disimpan.') })

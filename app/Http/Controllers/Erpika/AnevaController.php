@@ -147,6 +147,9 @@ class AnevaController extends Controller
             'laporan_lain' => $p->laporans->whereNull('rpp_obrik_id')->values()->map(fn ($l) => ['nomor' => $l->nomor_laporan, 'tanggal' => $l->tanggal_laporan?->toDateString(), 'jenis' => $l->jenis])->all(),
             'jumlah_laporan_terbit' => $p->laporans->count(),
             'sifat' => $p->sifat,
+            'lokasi' => $p->lokasiTampil(),
+            'tarif_sppd' => $p->tarifSppd(),
+            'biaya_sppd' => $p->biayaSppd(),
             'tim' => $p->teamMembers->map(fn ($m) => ['nama' => $m->nama, 'role' => $m->role, 'peran' => $m->peranTampil(), 'singkat' => RppTeamMember::PERAN_SINGKAT[$m->role] ?? '', 'dk' => (int) $m->hari_kantor, 'lk' => (int) $m->hari_lapangan])->all(),
             'tmt' => $p->tmtTampil(),
             'capaian_output' => $p->capaian_output,
@@ -177,6 +180,8 @@ class AnevaController extends Controller
             'batal' => $penugasan->where('status', 'batal')->count(),
             'laporan' => $penugasan->sum(fn ($p) => $p->laporans->count()),
             'orang_hari' => $penugasan->sum(fn ($p) => $p->teamMembers->sum(fn ($m) => (int) $m->hari_kantor + (int) $m->hari_lapangan)),
+            'hari_lk' => $penugasan->sum(fn ($p) => $p->teamMembers->sum(fn ($m) => (int) $m->hari_lapangan)),
+            'biaya_sppd' => $penugasan->sum(fn ($p) => $p->biayaSppd()),
             'per_jenis' => $perJenis,
         ];
     }

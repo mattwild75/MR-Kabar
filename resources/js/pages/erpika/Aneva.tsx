@@ -31,6 +31,9 @@ interface Baris {
     laporan_lain: Laporan[];
     jumlah_laporan_terbit: number;
     sifat: string | null;
+    lokasi: 'dalam' | 'luar';
+    tarif_sppd: number;
+    biaya_sppd: number;
     tim: { nama: string; role: string; peran: string; singkat: string; dk: number; lk: number }[];
     tmt: string | null;
     capaian_output: string | null;
@@ -49,6 +52,8 @@ interface Props {
         batal: number;
         laporan: number;
         orang_hari: number;
+        hari_lk: number;
+        biaya_sppd: number;
         per_jenis: { jenis: string; penugasan: number; terbit: number; kuning: number; merah: number; batal: number; laporan: number }[];
     };
     nomorTerakhir: { jenis: string; jumlah: number; nomor: string; tanggal: string | null }[];
@@ -168,11 +173,32 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                 {/* Ringkasan tahun */}
                 <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
                     <Kpi label="Penugasan (ST)" nilai={ringkasan.penugasan} />
-                    <Kpi label="Hijau — laporan terbit, masuk aneva" nilai={`${ringkasan.terbit} (${persen}%)`} warna="text-emerald-700 dark:text-emerald-300" onClick={() => terapkan({ status: 'hijau' })} aktif={filters.status === 'hijau'} />
-                    <Kpi label="Kuning — nomor laporan diminta" nilai={ringkasan.kuning} warna="text-amber-700 dark:text-amber-300" onClick={() => terapkan({ status: 'kuning' })} aktif={filters.status === 'kuning'} />
-                    <Kpi label="Merah — baru ST / sedang bertugas" nilai={ringkasan.merah} warna="text-red-700 dark:text-red-300" onClick={() => terapkan({ status: 'merah' })} aktif={filters.status === 'merah'} />
+                    <Kpi
+                        label="Hijau — laporan terbit, masuk aneva"
+                        nilai={`${ringkasan.terbit} (${persen}%)`}
+                        warna="text-emerald-700 dark:text-emerald-300"
+                        onClick={() => terapkan({ status: 'hijau' })}
+                        aktif={filters.status === 'hijau'}
+                    />
+                    <Kpi
+                        label="Kuning — nomor laporan diminta"
+                        nilai={ringkasan.kuning}
+                        warna="text-amber-700 dark:text-amber-300"
+                        onClick={() => terapkan({ status: 'kuning' })}
+                        aktif={filters.status === 'kuning'}
+                    />
+                    <Kpi
+                        label="Merah — baru ST / sedang bertugas"
+                        nilai={ringkasan.merah}
+                        warna="text-red-700 dark:text-red-300"
+                        onClick={() => terapkan({ status: 'merah' })}
+                        aktif={filters.status === 'merah'}
+                    />
                     <Kpi label="Batal" nilai={ringkasan.batal} onClick={() => terapkan({ status: 'batal' })} aktif={filters.status === 'batal'} />
-                    <Kpi label="Laporan terbit · orang-hari" nilai={`${ringkasan.laporan} · ${ringkasan.orang_hari}`} />
+                    <Kpi
+                        label="Laporan · hari LK · biaya SPPD"
+                        nilai={`${ringkasan.laporan} · ${ringkasan.hari_lk} · Rp ${ringkasan.biaya_sppd.toLocaleString('id-ID')}`}
+                    />
                 </div>
 
                 <div className="grid gap-3 lg:grid-cols-3">
@@ -180,9 +206,9 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                     <div className="bg-card rounded-md border p-3 lg:col-span-2">
                         <div className="mb-1 text-sm font-semibold">Capaian per jenis penugasan {labelTahun}</div>
                         <p className="text-muted-foreground mb-2 text-xs">
-                            Angka = jumlah penugasan (ST); persen = yang sudah <span className="text-emerald-700 dark:text-emerald-300">hijau</span> (laporan terbit, masuk aneva).
-                            Batang: hijau / <span className="text-amber-700 dark:text-amber-300">kuning</span> (sudah minta nomor laporan) /{' '}
-                            <span className="text-red-700 dark:text-red-300">merah</span> (baru ST, sedang bertugas).
+                            Angka = jumlah penugasan (ST); persen = yang sudah <span className="text-emerald-700 dark:text-emerald-300">hijau</span>{' '}
+                            (laporan terbit, masuk aneva). Batang: hijau / <span className="text-amber-700 dark:text-amber-300">kuning</span> (sudah
+                            minta nomor laporan) / <span className="text-red-700 dark:text-red-300">merah</span> (baru ST, sedang bertugas).
                         </p>
                         <div className="space-y-1.5">
                             {ringkasan.per_jenis.map((j) => {
@@ -191,16 +217,23 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                 return (
                                     <div key={j.jenis} className="grid grid-cols-[150px_90px_1fr_auto] items-center gap-2 text-xs">
                                         <span className="truncate">{j.jenis}</span>
-                                        <span className="font-medium tabular-nums" title={`${j.penugasan} penugasan (ST), ${p}% sudah terbit laporan dan masuk aneva`}>
+                                        <span
+                                            className="font-medium tabular-nums"
+                                            title={`${j.penugasan} penugasan (ST), ${p}% sudah terbit laporan dan masuk aneva`}
+                                        >
                                             {j.penugasan} ({p}%)
                                         </span>
-                                        <div className="bg-muted flex h-2.5 overflow-hidden rounded" title={`hijau ${j.terbit} · kuning ${j.kuning} · merah ${j.merah}${j.batal ? ` · batal ${j.batal}` : ''}`}>
+                                        <div
+                                            className="bg-muted flex h-2.5 overflow-hidden rounded"
+                                            title={`hijau ${j.terbit} · kuning ${j.kuning} · merah ${j.merah}${j.batal ? ` · batal ${j.batal}` : ''}`}
+                                        >
                                             <div className="h-full bg-emerald-500" style={{ width: lebar(j.terbit) }} />
                                             <div className="h-full bg-amber-400" style={{ width: lebar(j.kuning) }} />
                                             <div className="h-full bg-red-500" style={{ width: lebar(j.merah) }} />
                                         </div>
-                                        <span className="text-muted-foreground tabular-nums whitespace-nowrap">
-                                            <span className="text-emerald-700 dark:text-emerald-300">{j.terbit}</span> / <span className="text-amber-700 dark:text-amber-300">{j.kuning}</span> /{' '}
+                                        <span className="text-muted-foreground whitespace-nowrap tabular-nums">
+                                            <span className="text-emerald-700 dark:text-emerald-300">{j.terbit}</span> /{' '}
+                                            <span className="text-amber-700 dark:text-amber-300">{j.kuning}</span> /{' '}
                                             <span className="text-red-700 dark:text-red-300">{j.merah}</span>
                                             {j.batal ? ` · ${j.batal} batal` : ''}
                                         </span>
@@ -343,7 +376,9 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                                 <div className="line-clamp-2">{b.uraian}</div>
                                                 {b.obriks.length > 0 && (
                                                     <div className="text-muted-foreground text-xs">
-                                                        {b.obriks.length} obrik{b.sifat ? ` · ${b.sifat}` : ''}
+                                                        {b.obriks.length} obrik{b.sifat ? ` · ${b.sifat}` : ''} ·{' '}
+                                                        {b.lokasi === 'luar' ? 'luar kota' : 'dalam kota'} · SPPD Rp{' '}
+                                                        {b.biaya_sppd.toLocaleString('id-ID')}
                                                     </div>
                                                 )}
                                             </td>

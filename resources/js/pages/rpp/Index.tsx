@@ -40,6 +40,9 @@ interface Penugasan {
     uraian: string | null;
     obriks: string[];
     sifat: string | null;
+    lokasi: 'dalam' | 'luar';
+    tarif_sppd: number;
+    biaya_sppd: number;
     jumlah_laporan: number | null;
     tmt: string | null;
     nomor_st: string | null;
@@ -58,7 +61,7 @@ interface Rpp {
     tarif_per_hari: number;
     category: { id: number | null; name: string | null; kode_nomor: string | null };
     pembuat: string | null;
-    ringkasan: { hari: number; biaya: number; tim: number; laporan: number; penugasan: number };
+    ringkasan: { hari: number; hari_lk: number; biaya: number; tim: number; laporan: number; penugasan: number };
     penugasan: Penugasan[];
 }
 
@@ -233,9 +236,9 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                 <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-5">
                     <Ringkas label="Dokumen RPP" nilai={rpps.length} />
                     <Ringkas label="Penugasan" nilai={total.penugasan} />
-                    <Ringkas label="Orang-hari" nilai={total.hari} />
+                    <Ringkas label="Orang-hari (LK)" nilai={`${total.hari} (${rpps.reduce((a, r) => a + r.ringkasan.hari_lk, 0)})`} />
                     <Ringkas label="Laporan direncanakan" nilai={total.laporan} />
-                    <Ringkas label="Perkiraan biaya" nilai={rupiah(total.biaya)} />
+                    <Ringkas label="Biaya SPPD (LK x tarif)" nilai={rupiah(total.biaya)} />
                 </div>
 
                 {/* Tabel */}
@@ -258,7 +261,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                 />
                                 <ThUrut
                                     field="s_biaya"
-                                    label="Biaya"
+                                    label="Biaya SPPD"
                                     activeField={sortField}
                                     direction={sortDirection}
                                     onSort={toggleSort}
@@ -380,6 +383,10 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                                     </div>
                                                                     <div className="flex flex-wrap gap-1 text-xs">
                                                                         {p.sifat && <Badge variant="outline">{p.sifat}</Badge>}
+                                                                        <Badge variant="outline" title={`Tarif SPPD ${rupiah(p.tarif_sppd)}/hari LK`}>
+                                                                            {p.lokasi === 'luar' ? 'Luar kota' : 'Dalam kota'} ·{' '}
+                                                                            {rupiah(p.biaya_sppd)}
+                                                                        </Badge>
                                                                         {p.jumlah_laporan != null && (
                                                                             <Badge variant="outline">{p.jumlah_laporan} laporan</Badge>
                                                                         )}
@@ -402,8 +409,8 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                             </div>
                                                         ))}
                                                         <div className="text-muted-foreground text-xs">
-                                                            Tarif {rupiah(r.tarif_per_hari)}/hari · {r.ringkasan.tim} orang · dibuat oleh{' '}
-                                                            {r.pembuat ?? '-'} ·{' '}
+                                                            SPPD {rupiah(r.ringkasan.biaya)} untuk {r.ringkasan.hari_lk} hari LK · {r.ringkasan.tim}{' '}
+                                                            orang · dibuat oleh {r.pembuat ?? '-'} ·{' '}
                                                             <a href={`/rpp-cetak/${r.id}/tabel`} className="underline">
                                                                 <Printer className="mr-0.5 inline h-3 w-3" />
                                                                 PDF tabel

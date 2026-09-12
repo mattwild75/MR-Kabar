@@ -54,6 +54,7 @@ type Penugasan = {
     uraian: string;
     obriks_teks: string;
     sifat: string;
+    lokasi: '' | 'dalam' | 'luar';
     jumlah_laporan: number | '';
     masa_tugas_mulai: string;
     masa_tugas_selesai: string;
@@ -104,6 +105,7 @@ interface RppMasuk {
     penugasan: {
         uraian: string | null;
         sifat: string | null;
+        lokasi: 'dalam' | 'luar' | null;
         jumlah_laporan: number | null;
         masa_tugas_mulai: string | null;
         masa_tugas_selesai: string | null;
@@ -140,6 +142,8 @@ interface Props {
     sifatTersedia: string[];
     tahunBerjalan: number;
     urutanTerakhir: Record<string, number>;
+    tarifLuarKota: number;
+    kecamatanLuar: string[];
 }
 
 const BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -182,7 +186,18 @@ const anggotaKosong = (role: Peran = 'at'): Anggota => ({
  * obrik, sifat, jumlah laporan, TMT, dan tim ber-DK/LK. Surat pengantarnya
  * diisi di kartu tersendiri; yang tidak diisi jatuh ke kalimat baku jenisnya.
  */
-export default function RppForm({ rpp, categories, employees, tarifBaku, inspektur, sifatTersedia, tahunBerjalan, urutanTerakhir }: Props) {
+export default function RppForm({
+    rpp,
+    categories,
+    employees,
+    tarifBaku,
+    inspektur,
+    sifatTersedia,
+    tahunBerjalan,
+    urutanTerakhir,
+    tarifLuarKota,
+    kecamatanLuar,
+}: Props) {
     const timBaku = (): Anggota[] => [
         inspektur
             ? {
@@ -207,6 +222,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
         uraian: '',
         obriks_teks: '',
         sifat: '',
+        lokasi: '',
         jumlah_laporan: 1,
         masa_tugas_mulai: '',
         masa_tugas_selesai: '',
@@ -240,6 +256,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                   uraian: p.uraian ?? '',
                   obriks_teks: p.obriks.join('\n'),
                   sifat: p.sifat ?? '',
+                  lokasi: p.lokasi ?? '',
                   jumlah_laporan: p.jumlah_laporan ?? '',
                   masa_tugas_mulai: p.masa_tugas_mulai ?? '',
                   masa_tugas_selesai: p.masa_tugas_selesai ?? '',
@@ -300,21 +317,37 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
         ubahPenugasan(i, { tim });
     };
 
-    const tarifDok = Number(data.tarif_per_hari || tarifBaku);
-    const hitung = (p: Penugasan) =>
-        p.tim.reduce(
-            (a, m) => {
-                const h = Number(m.hari_kantor || 0) + Number(m.hari_lapangan || 0);
-                return { hari: a.hari + h, biaya: a.biaya + h * Number(m.tarif_per_hari || tarifDok) };
-            },
-            { hari: 0, biaya: 0 },
+    // Lokasi penugasan: ditebak dari teks obrik/objek (sama dengan RppPenugasan::tebakLokasi
+    // di server) bila tidak ditetapkan; luar Kec. Johan Pahlawan = tarif luar kota.
+    const tebakLokasi = (p: Penugasan): 'dalam' | 'luar' => {
+        const t = `${p.uraian} ${p.obriks_teks}`.toLowerCase();
+        if (kecamatanLuar.some((k) => t.includes(k))) return 'luar';
+        if (/\b(gampong|desa|mukim|keuchik|kecamatan|kec\.|camat|puskesmas|pustu)\b/.test(t)) {
+            return t.includes('johan pahlawan') && !/\b(gampong|desa|mukim)\b/.test(t) ? 'dalam' : 'luar';
+        }
+        if (/\b(sdn?|smpn?|sman?|smkn?|sekolah|mts|min|man)\b/.test(t) && !t.includes('meulaboh') && !t.includes('johan pahlawan')) return 'luar';
+        return 'dalam';
+    };
+    const lokasiEfektif = (p: Penugasan) => p.lokasi || tebakLokasi(p);
+    const tarifPenugasan = (p: Penugasan) => (lokasiEfektif(p) === 'luar' ? tarifLuarKota : tarifBaku);
+    // Biaya = SPPD: hanya hari Luar Kantor (LK) yang dibayar
+    const hitung = (p: Penugasan) => {
+        const tarif = tarifPenugasan(p);
+        return p.tim.reduce(
+            (a, m) => ({
+                hari: a.hari + Number(m.hari_kantor || 0) + Number(m.hari_lapangan || 0),
+                lk: a.lk + Number(m.hari_lapangan || 0),
+                biaya: a.biaya + Number(m.hari_lapangan || 0) * Number(m.tarif_per_hari || tarif),
+            }),
+            { hari: 0, lk: 0, biaya: 0 },
         );
+    };
     const totalDok = data.penugasan.reduce(
         (a, p) => {
             const h = hitung(p);
-            return { hari: a.hari + h.hari, biaya: a.biaya + h.biaya };
+            return { hari: a.hari + h.hari, lk: a.lk + h.lk, biaya: a.biaya + h.biaya };
         },
-        { hari: 0, biaya: 0 },
+        { hari: 0, lk: 0, biaya: 0 },
     );
 
     // Nomor berikutnya untuk jenis+tahun terpilih; diisi otomatis selama nomor
@@ -336,7 +369,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
             ...d,
             rpp_category_id: Number(d.rpp_category_id),
             bulan: d.bulan ? Number(d.bulan) : null,
-            tarif_per_hari: d.tarif_per_hari === '' ? null : Number(d.tarif_per_hari),
+            tarif_per_hari: null,
             penugasan: d.penugasan.map((p) => ({
                 ...p,
                 obriks: p.obriks_teks
@@ -445,16 +478,6 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                             <Label>Tanggal RPP</Label>
                             <DatePicker value={data.tanggal_rpp} onChange={(v) => setData('tanggal_rpp', v)} />
                         </div>
-                        <div className="space-y-1">
-                            <Label>Tarif per hari (Rp)</Label>
-                            <Input
-                                type="number"
-                                min={0}
-                                value={data.tarif_per_hari}
-                                onChange={(e) => setData('tarif_per_hari', e.target.value === '' ? '' : Number(e.target.value))}
-                            />
-                            <p className="text-muted-foreground text-xs">Baku {rupiah(tarifBaku)}; bisa diganti per anggota.</p>
-                        </div>
                         <div className="space-y-1 md:col-span-2">
                             <Label>Judul di kepala tabel</Label>
                             <Input value={data.judul} onChange={(e) => setData('judul', e.target.value)} placeholder="RENCANA PENUGASAN PENGAWASAN" />
@@ -485,7 +508,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                 <CardTitle className="text-base">
                                     Penugasan {i + 1}
                                     <span className="text-muted-foreground ml-2 text-xs font-normal">
-                                        {h.hari} hari · {rupiah(h.biaya)}
+                                        {h.hari} hari ({h.lk} LK) · SPPD {rupiah(h.biaya)} @ {rupiah(tarifPenugasan(p))}
                                     </span>
                                 </CardTitle>
                                 <div className="flex gap-1">
@@ -548,6 +571,25 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                                 <option key={s} value={s} />
                                             ))}
                                         </datalist>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <Label>Lokasi penugasan (tarif SPPD)</Label>
+                                        <Select
+                                            value={p.lokasi || 'otomatis'}
+                                            onValueChange={(v) => ubahPenugasan(i, { lokasi: v === 'otomatis' ? '' : (v as 'dalam' | 'luar') })}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="otomatis">
+                                                    Otomatis dari teks obrik ({tebakLokasi(p) === 'luar' ? 'luar' : 'dalam'} kota)
+                                                </SelectItem>
+                                                <SelectItem value="dalam">Dalam Kec. Johan Pahlawan — {rupiah(tarifBaku)}/hari LK</SelectItem>
+                                                <SelectItem value="luar">Luar Kec. Johan Pahlawan — {rupiah(tarifLuarKota)}/hari LK</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <p className="text-muted-foreground text-xs">Hanya hari LK yang dibayar SPPD; DK tidak dihitung.</p>
                                     </div>
                                     <div className="space-y-1 md:col-span-2">
                                         <Label>Daftar objek (satu per baris, opsional)</Label>
@@ -733,7 +775,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                                                 min={0}
                                                                 className="h-8 text-xs"
                                                                 value={m.tarif_per_hari}
-                                                                placeholder={String(tarifDok)}
+                                                                placeholder={String(tarifPenugasan(p))}
                                                                 onChange={(e) =>
                                                                     ubahAnggota(i, j, {
                                                                         tarif_per_hari: e.target.value === '' ? '' : Number(e.target.value),
@@ -939,7 +981,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                         <Badge variant="secondary" className="mr-2">
                             {data.penugasan.length} penugasan
                         </Badge>
-                        {totalDok.hari} orang-hari · <span className="font-medium">{rupiah(totalDok.biaya)}</span>
+                        {totalDok.hari} orang-hari ({totalDok.lk} LK) · SPPD <span className="font-medium">{rupiah(totalDok.biaya)}</span>
                     </div>
                     <div className="flex gap-2">
                         <Link href="/rpp">

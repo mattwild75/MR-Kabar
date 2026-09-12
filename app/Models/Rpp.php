@@ -64,7 +64,11 @@ class Rpp extends Model
         return $this->hasManyThrough(RppTeamMember::class, RppPenugasan::class);
     }
 
-    /** Tarif yang berlaku untuk dokumen ini: kolom sendiri, atau pengaturan. */
+    /**
+     * Tarif dokumen lama (berkas 2025 mencantumkan 100.000/140.000 per dokumen).
+     * Sejak 12 September 2026 tarif ditentukan per penugasan lewat lokasinya
+     * (RppPenugasan::tarifSppd); kolom ini tinggal jejak.
+     */
     public function tarifBerlaku(): int
     {
         return (int) ($this->tarif_per_hari ?: RppSetting::current()->tarif_per_hari);
@@ -101,21 +105,22 @@ class Rpp extends Model
     /** Ringkasan angka untuk tabel daftar: hari, biaya, jumlah tim, laporan. */
     public function ringkasan(): array
     {
-        $tarifDok = $this->tarifBerlaku();
         $hari = 0;
+        $hariLk = 0;
         $biaya = 0;
         $tim = 0;
         $laporan = 0;
         foreach ($this->penugasan as $p) {
             $laporan += (int) ($p->jumlah_laporan ?? 0);
+            // biaya = SPPD: hanya hari Luar Kantor, tarif menurut lokasi penugasan
+            $biaya += $p->biayaSppd();
             foreach ($p->teamMembers as $m) {
                 $tim++;
-                $h = (int) $m->hari_kantor + (int) $m->hari_lapangan;
-                $hari += $h;
-                $biaya += $h * (int) ($m->tarif_per_hari ?: $tarifDok);
+                $hari += (int) $m->hari_kantor + (int) $m->hari_lapangan;
+                $hariLk += (int) $m->hari_lapangan;
             }
         }
 
-        return ['hari' => $hari, 'biaya' => $biaya, 'tim' => $tim, 'laporan' => $laporan, 'penugasan' => $this->penugasan->count()];
+        return ['hari' => $hari, 'hari_lk' => $hariLk, 'biaya' => $biaya, 'tim' => $tim, 'laporan' => $laporan, 'penugasan' => $this->penugasan->count()];
     }
 }

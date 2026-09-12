@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RppSetting extends Model
 {
-    protected $fillable = ['tarif_per_hari'];
+    protected $fillable = ['tarif_per_hari', 'tarif_luar_kota'];
 
     public static function current(): self
     {
