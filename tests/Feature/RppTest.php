@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Models\Employee;
 use App\Models\Rpp;
 use App\Models\RppCategory;
 use App\Models\User;
 use Database\Seeders\RppCategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
@@ -75,5 +77,73 @@ class RppTest extends TestCase
         $this->actingAs($lain)->get("/rpp/{$rpp->id}/edit")->assertForbidden();
         $this->actingAs($lain)->get("/rpp-cetak/{$rpp->id}/tabel/preview")->assertForbidden();
         $this->actingAs($pemilik)->get("/rpp/{$rpp->id}/edit")->assertOk();
+    }
+
+    private function admin(): User
+    {
+        Role::findOrCreate('super-admin', 'web');
+        $a = User::factory()->create(['opd_id' => null]);
+        $a->assignRole('super-admin');
+
+        return $a;
+    }
+
+    public function test_pengaturan_rpp_hanya_untuk_admin(): void
+    {
+        $this->actingAs(User::factory()->create())->get('/rpp-pengaturan')->assertForbidden();
+        $this->actingAs(User::factory()->create())->get('/erpika/pegawai')->assertForbidden();
+        $admin = $this->admin();
+        $this->actingAs($admin)->get('/rpp-pengaturan')->assertOk();
+        $this->actingAs($admin)->get('/erpika/pegawai')->assertOk();
+    }
+
+    /**
+     * Perbaikan data pegawai harus ikut ke baris tim yang memakainya — kalau
+     * tidak, NIP yang baru diisi tidak pernah muncul di cetakan mana pun.
+     */
+    public function test_mengubah_pegawai_memperbarui_baris_tim_yang_memakainya(): void
+    {
+        $admin = $this->admin();
+        $pegawai = Employee::create(['nama' => 'Rufran, S.Ag.,M.Si']);
+
+        $rpp = Rpp::create([
+            'rpp_category_id' => RppCategory::first()->id,
+            'user_id' => $admin->id,
+            'year' => 2026,
+            'nomor_rpp' => 'RPP-003/2026',
+            'status' => 'draft',
+        ]);
+        $rpp->teamMembers()->create(['employee_id' => $pegawai->id, 'role' => 'ketua_tim', 'nama' => $pegawai->nama]);
+
+        $this->actingAs($admin)->put("/erpika/pegawai/{$pegawai->id}", [
+            'nama' => 'Rufran, S.Ag., M.Si',
+            'nip' => '197001012000031001',
+        ])->assertRedirect();
+
+        $this->assertDatabaseHas('rpp_team_members', [
+            'employee_id' => $pegawai->id,
+            'nama' => 'Rufran, S.Ag., M.Si',
+            'nip' => '197001012000031001',
+        ]);
+    }
+
+    /** Pegawai yang masih dipakai tim tidak boleh hilang diam-diam. */
+    public function test_pegawai_yang_dipakai_tim_tidak_bisa_dihapus(): void
+    {
+        $admin = $this->admin();
+        $pegawai = Employee::create(['nama' => 'Zakaria, S.E., CGCAE']);
+
+        $rpp = Rpp::create([
+            'rpp_category_id' => RppCategory::first()->id,
+            'user_id' => $admin->id,
+            'year' => 2026,
+            'nomor_rpp' => 'RPP-004/2026',
+            'status' => 'draft',
+        ]);
+        $rpp->teamMembers()->create(['employee_id' => $pegawai->id, 'role' => 'anggota_tim', 'nama' => $pegawai->nama]);
+
+        $this->actingAs($admin)->delete("/erpika/pegawai/{$pegawai->id}")->assertRedirect();
+
+        $this->assertDatabaseHas('employees', ['id' => $pegawai->id]);
     }
 }

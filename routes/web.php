@@ -17,6 +17,7 @@ use App\Http\Controllers\CetakStrukturPengelolaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\Erpika\PegawaiController;
 use App\Http\Controllers\FraudRisikoController;
 use App\Http\Controllers\IroPdController;
 use App\Http\Controllers\IrsPdController;
@@ -43,6 +44,7 @@ use App\Http\Controllers\RiskEvidenceController;
 use App\Http\Controllers\RiskExcelController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RppController;
+use App\Http\Controllers\RppPengaturanController;
 use App\Http\Controllers\RppPrintController;
 use App\Http\Controllers\SessionStatusController;
 use App\Http\Controllers\SettingAppController;
@@ -260,6 +262,18 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/rpp-cetak/{rpp}/pengantar/preview', [RppPrintController::class, 'previewPengantar'])->name('rpp-cetak.pengantar.preview');
     Route::get('/rpp-cetak/{rpp}/tabel', [RppPrintController::class, 'tabel'])->name('rpp-cetak.tabel');
     Route::get('/rpp-cetak/{rpp}/pengantar', [RppPrintController::class, 'pengantar'])->name('rpp-cetak.pengantar');
+    // Pengaturan RPP (tarif, Inspektur penanda tangan) + daftar pegawai —
+    // admin saja. Prefix sendiri supaya izin menunya terpisah dari Input/Cetak.
+    Route::get('/rpp-pengaturan', [RppPengaturanController::class, 'index'])->name('rpp-pengaturan.index');
+    Route::put('/rpp-pengaturan', [RppPengaturanController::class, 'updateSetting'])->name('rpp-pengaturan.update');
+
+    // ERPIKA > Pegawai — daftar pegawai Inspektorat, milik seluruh ERPIKA.
+    // Segala yang eksklusif ERPIKA memakai prefix /erpika dan hidup hanya di
+    // bawah menu ERPIKA (arahan 12 September 2026).
+    Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
+    Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');
+    Route::put('/erpika/pegawai/{employee}', [PegawaiController::class, 'update'])->name('erpika.pegawai.update');
+    Route::delete('/erpika/pegawai/{employee}', [PegawaiController::class, 'destroy'])->name('erpika.pegawai.destroy');
 
     Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
 

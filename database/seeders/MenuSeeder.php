@@ -1088,6 +1088,29 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Pegawai: saudara Perencanaan, bukan anaknya — dipakai seluruh ERPIKA.
+        Menu::updateOrCreate(
+            ['route' => '/erpika/pegawai'],
+            [
+                'title' => 'Pegawai',
+                'parent_id' => $erpika->id,
+                'icon' => 'Users',
+                'order' => 2,
+                'permission_name' => null,
+            ]
+        );
+
+        Menu::updateOrCreate(
+            ['route' => '/rpp-pengaturan'],
+            [
+                'title' => 'Pengaturan RPP',
+                'parent_id' => $erpikaPerencanaan->id,
+                'icon' => 'Settings2',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
         $visualisasiHirarki = Menu::updateOrCreate(
             ['title' => 'Hirarki', 'parent_id' => $visualisasi->id],
             [
