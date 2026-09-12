@@ -32,6 +32,14 @@ class CadanganService
      */
     public function folderCadangan(): string
     {
+        // Saat pengujian, folder cadangan dipisah: pengujian pemulihan membuat
+        // cadangan pengaman dari basis data UJI, dan simpanHanyaTerbaru()
+        // sesudahnya akan menghapus cadangan sungguhan bila folder yang
+        // dipakai sama (terjadi 13 September 2026).
+        if (app()->runningUnitTests()) {
+            return storage_path('framework/testing/cadangan');
+        }
+
         return storage_path('app/private/'.config('backup.backup.name', 'Laravel'));
     }
 

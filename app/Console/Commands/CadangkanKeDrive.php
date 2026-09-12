@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Services\CadanganDriveService;
 use App\Services\CadanganService;
+use App\Services\PeringatanServerService;
 use Illuminate\Console\Command;
 
 /**
@@ -41,6 +42,7 @@ class CadangkanKeDrive extends Command
             $hasil = $cadangan->denganKunci(fn () => $drive->cadangkanKeDrive($cadangan));
         } catch (\Throwable $e) {
             $this->error('Gagal: '.$e->getMessage());
+            app(PeringatanServerService::class)->kirim('drive-gagal', 'Cadangan ke Google Drive gagal', $e->getMessage(), [], '/backup');
 
             return self::FAILURE;
         }

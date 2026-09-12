@@ -380,6 +380,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/backup/git-push', [BackupController::class, 'gitPush'])->name('backup.git-push');
     Route::post('/backup/git-pull', [BackupController::class, 'gitPull'])->name('backup.git-pull');
     Route::get('/backup/git-periksa', [BackupController::class, 'gitPeriksa'])->name('backup.git-periksa');
+    Route::post('/backup/kesehatan', [BackupController::class, 'periksaKesehatan'])->name('backup.kesehatan');
     Route::post('/backup/git-checkout-tag', [BackupController::class, 'checkoutTag'])->name('backup.git-checkout-tag');
     Route::post('/backup/git-sync-toggle', [BackupController::class, 'toggleGitSync'])->name('backup.git-sync-toggle');
     Route::post('/backup/import', [BackupController::class, 'importDatabase'])->name('backup.import');

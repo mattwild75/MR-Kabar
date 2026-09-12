@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
 use App\Services\CadanganService;
+use App\Services\KesehatanServerService;
 use App\Services\PemeriksaanGitService;
+use App\Services\PeringatanServerService;
 use App\Services\VersiSnapshotService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -132,6 +134,7 @@ class BackupController extends Controller
             'gitSyncEnabled' => (bool) SettingApp::cached()?->git_sync_enabled,
             'gitTags' => $this->listGitTags(),
             'penjadwal' => $this->statusPenjadwal(),
+            'kesehatan' => Cache::get('kesehatan_server_terakhir'),
             'pemeriksaan' => $this->statusPemeriksaan(),
             'versi' => $this->daftarVersi(),
             'commitSekarang' => $this->versi->commitSekarang(),
@@ -374,6 +377,15 @@ class BackupController extends Controller
      * halangan. Pengaman sebenarnya ada di gitPull()/gitPush() yang
      * mengulang pemeriksaan ini di server sebelum menyentuh apa pun.
      */
+    /** Jalankan pemeriksaan kesehatan server sekarang (kartu Kesehatan Server). */
+    public function periksaKesehatan(KesehatanServerService $kesehatan)
+    {
+        $this->ensureSuperAdmin();
+        Cache::forever('kesehatan_server_terakhir', $kesehatan->potret());
+
+        return redirect()->back()->with('success', 'Kesehatan server diperiksa.');
+    }
+
     public function gitPeriksa(PemeriksaanGitService $periksa)
     {
         $this->ensureSuperAdmin();
@@ -400,6 +412,8 @@ class BackupController extends Controller
                         .($hasil['berubah'] !== [] ? PHP_EOL.PHP_EOL.'Berkas yang berbeda:'.PHP_EOL.implode(PHP_EOL, $hasil['berubah']) : ''),
                     'oleh' => auth()->user()?->name,
                 ]);
+
+                app(PeringatanServerService::class)->kirim('deploy-ditolak', 'Deploy ditolak: kode server berbeda dari GitHub', $hasil['halangan'][0], $hasil['halangan'], '/backup', 1);
 
                 return redirect()->back()->with('error', 'Deploy ditolak: '.$hasil['halangan'][0].' Rapikan repo di server lewat terminal sampai pemeriksaan bersih.');
             }

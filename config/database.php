@@ -29,6 +29,10 @@ return [
     |
     */
 
+    // Basis data UJI untuk perintah cadangan:uji-pulih — wajib berbeda dari
+    // basis data hidup dan mengandung kata "uji"; lihat perintahnya.
+    'uji_pulih' => env('DB_UJI_PULIH'),
+
     'connections' => [
 
         'sqlite' => [

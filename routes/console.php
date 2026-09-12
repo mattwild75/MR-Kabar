@@ -98,3 +98,12 @@ collect([
         ->onSuccess(fn () => $catatHasilPemeriksaan($perintah, $judul, true))
         ->onFailure(fn () => $catatHasilPemeriksaan($perintah, $judul, false));
 });
+
+// Kesehatan server: tiap jam periksa cepat (peringatan hanya bila ada
+// bahaya, dijeda 12 jam per butir), Senin 06:00 laporan lengkap ke Super
+// Admin apa pun hasilnya, dan tiap tanggal 1 pukul 02:30 uji pemulihan
+// cadangan terbaru ke basis data uji terpisah (setelah cadangan 01:00 dan
+// unggahan Drive 01:30 selesai).
+Schedule::command('kesehatan:laporan')->hourlyAt(17)->name('kesehatan-jam')->withoutOverlapping(10);
+Schedule::command('kesehatan:laporan --mingguan')->weeklyOn(1, '06:00')->name('kesehatan-mingguan');
+Schedule::command('cadangan:uji-pulih')->monthlyOn(1, '02:30')->name('uji-pulih')->withoutOverlapping(60);

@@ -20,6 +20,7 @@ import { formatTanggalWaktu } from '@/lib/date';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import {
+    Activity,
     DatabaseBackup,
     Download,
     FileSpreadsheet,
@@ -58,6 +59,12 @@ interface Versi {
     unduh_url: string;
 }
 
+interface KesehatanServer {
+    butir: { kode: string; judul: string; status: 'baik' | 'perhatian' | 'bahaya' | 'tidak_berlaku'; nilai: string; keterangan: string }[];
+    terburuk: string;
+    diperiksa_pada: string;
+}
+
 interface PeriksaGit {
     remote: string;
     cabang: string;
@@ -94,6 +101,7 @@ interface Props {
     drive: DriveProps;
     arsipTerkunci: boolean;
     deployTerakhir: { waktu: string; sukses: boolean; log: string; oleh: string | null } | null;
+    kesehatan: KesehatanServer | null;
     adaSkripDeploy: boolean;
 }
 
@@ -111,6 +119,7 @@ export default function BackupIndex({
     drive,
     arsipTerkunci,
     deployTerakhir,
+    kesehatan,
     adaSkripDeploy,
 }: Props) {
     const [gitMessage, setGitMessage] = useState('');
@@ -209,6 +218,18 @@ export default function BackupIndex({
         if (canPushGit && gitSyncEnabled) jalankanPeriksa();
     }, [canPushGit, gitSyncEnabled, jalankanPeriksa]);
     const adaHalangan = periksa === null || periksa.halangan.length > 0;
+
+    const [memeriksaKesehatan, setMemeriksaKesehatan] = useState(false);
+    const periksaKesehatan = () => {
+        setMemeriksaKesehatan(true);
+        router.post('/backup/kesehatan', {}, { preserveScroll: true, onFinish: () => setMemeriksaKesehatan(false) });
+    };
+    const warnaStatus: Record<string, string> = {
+        baik: 'bg-emerald-500',
+        perhatian: 'bg-amber-500',
+        bahaya: 'bg-red-600',
+        tidak_berlaku: 'bg-muted-foreground/40',
+    };
 
     const handleGitPull = () => {
         setPulling(true);
@@ -338,6 +359,57 @@ export default function BackupIndex({
                         </p>
                     </div>
                 )}
+
+                {/* Kesehatan server: disk, sertifikat, penjadwal, umur cadangan,
+            Drive, deploy, uji pemulihan. Diperbarui tiap jam oleh
+            kesehatan:laporan; peringatan BAHAYA dikirim ke lonceng Super
+            Admin (dan surel bila SMTP disetel). */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2 text-xl font-bold">
+                            <Activity className="h-5 w-5" />
+                            Kesehatan Server
+                            {kesehatan && (
+                                <span
+                                    className={`ml-1 inline-block h-3 w-3 rounded-full ${warnaStatus[kesehatan.terburuk] ?? ''}`}
+                                    title={kesehatan.terburuk}
+                                />
+                            )}
+                        </CardTitle>
+                        <p className="text-muted-foreground text-sm">
+                            {kesehatan
+                                ? `Diperiksa ${formatTanggalWaktu(kesehatan.diperiksa_pada)}; diperbarui otomatis tiap jam, laporan lengkap tiap Senin 06:00, uji pemulihan cadangan tiap tanggal 1.`
+                                : 'Belum pernah diperiksa. Pemeriksaan otomatis berjalan tiap jam lewat penjadwal; atau tekan tombol di bawah.'}
+                        </p>
+                    </CardHeader>
+                    <Separator />
+                    <CardContent className="space-y-3 pt-4">
+                        {kesehatan && (
+                            <div className="grid gap-2 sm:grid-cols-2">
+                                {kesehatan.butir.map((b) => (
+                                    <div key={b.kode} className="flex items-start gap-2 rounded border p-2 text-sm">
+                                        <span className={`mt-1.5 inline-block h-2.5 w-2.5 shrink-0 rounded-full ${warnaStatus[b.status]}`} />
+                                        <div className="min-w-0">
+                                            <div className="font-medium">
+                                                {b.judul}
+                                                <span className="text-muted-foreground ml-2 font-normal">{b.nilai}</span>
+                                            </div>
+                                            {b.keterangan && (
+                                                <div className={`text-xs ${b.status === 'bahaya' ? 'text-destructive' : 'text-muted-foreground'}`}>
+                                                    {b.keterangan}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <Button variant="outline" size="sm" onClick={periksaKesehatan} disabled={memeriksaKesehatan}>
+                            <RefreshCw className={`mr-2 h-4 w-4 ${memeriksaKesehatan ? 'animate-spin' : ''}`} />
+                            Periksa sekarang
+                        </Button>
+                    </CardContent>
+                </Card>
 
                 {/* Hasil pemeriksaan keutuhan data mingguan (routes/console.php).
             Ketiganya menjawab temuan audit yang gejalanya tidak terlihat oleh
