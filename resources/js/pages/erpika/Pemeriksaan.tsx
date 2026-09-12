@@ -26,7 +26,14 @@ interface Props {
             st_tanpa_tanggal: Rujukan[];
             masa_tanpa_st: Rujukan[];
             status_tidak_selaras: Rujukan[];
-            tumpang_tindih: { employee_id: number; nama: string; a: Rujukan; b: Rujukan }[];
+            tumpang_tindih: {
+                employee_id: number;
+                nama: string;
+                lk: number;
+                hari_kalender: number;
+                a: Rujukan & { lk: number };
+                b: Rujukan & { lk: number };
+            }[];
             pegawai_tanpa_nip: { id: number; nama: string; jabatan: string | null }[];
             belum_sinkron_aneva: Rujukan[];
         };
@@ -50,8 +57,8 @@ const JUDUL: Record<string, { judul: string; arti: string }> = {
         arti: 'Laporan sudah tercatat tetapi status belum "LHP terbit", atau sebaliknya.',
     },
     tumpang_tindih: {
-        judul: 'Satu orang di dua penugasan yang beririsan',
-        arti: 'Masa tugas dua penugasan bertumpuk untuk orang yang sama, keduanya dengan hari lapangan.',
+        judul: 'Jadwal seseorang mustahil dijalani',
+        arti: 'Dua penugasan orang yang sama beririsan dan jumlah hari lapangannya melebihi hari kalender gabungan — jadwal yang mustahil dijalani.',
     },
     pegawai_tanpa_nip: { judul: 'Pegawai dalam tim tanpa NIP', arti: 'NIP kosong membuat kolom NIP pada cetakan RPP kosong.' },
     belum_sinkron_aneva: {
@@ -164,7 +171,12 @@ export default function Pemeriksaan({ hasil, tahunTersedia, filters }: Props) {
                                             {k.kode === 'tumpang_tindih' &&
                                                 t.tumpang_tindih.map((x, i) => (
                                                     <tr key={i} className="border-t">
-                                                        <td className="py-1 pr-3 font-medium whitespace-nowrap">{x.nama}</td>
+                                                        <td className="py-1 pr-3 font-medium whitespace-nowrap">
+                                                            {x.nama}
+                                                            <div className="text-destructive text-xs font-normal">
+                                                                LK {x.lk} hari dalam {x.hari_kalender} hari kalender
+                                                            </div>
+                                                        </td>
                                                         <td className="py-1">
                                                             <div>
                                                                 <Tautan r={x.a} /> {x.a.nomor_st} ({x.a.mulai} s.d. {x.a.selesai}) — {x.a.uraian}

@@ -91,7 +91,14 @@ class AnalisisController extends Controller
                 $o['tumpang_tindih'] = 0;
                 for ($i = 0; $i < count($o['penugasan']); $i++) {
                     for ($j = $i + 1; $j < count($o['penugasan']); $j++) {
-                        if ($o['penugasan'][$j]['mulai'] <= $o['penugasan'][$i]['selesai'] && $o['penugasan'][$i]['lk'] > 0 && $o['penugasan'][$j]['lk'] > 0) {
+                        $pi = $o['penugasan'][$i];
+                        $pj = $o['penugasan'][$j];
+                        if ($pj['mulai'] > $pi['selesai'] || $pi['lk'] <= 0 || $pj['lk'] <= 0) {
+                            continue;
+                        }
+                        // Mustahil dijalani: hari lapangan gabungan > hari kalender gabungan.
+                        $hariKalender = (int) (strtotime(max($pi['selesai'], $pj['selesai'])) - strtotime(min($pi['mulai'], $pj['mulai']))) / 86400 + 1;
+                        if ($hariKalender < $pi['lk'] + $pj['lk']) {
                             $o['tumpang_tindih']++;
                         }
                     }

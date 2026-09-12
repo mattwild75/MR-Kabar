@@ -20,9 +20,9 @@ use Illuminate\Support\Collection;
  *  - ST tanpa tanggal / masa tugas tanpa ST;
  *  - status tidak selaras: laporan sudah ada tetapi status belum lhp_terbit,
  *    atau status lhp_terbit tanpa satu pun laporan;
- *  - tumpang tindih: satu pegawai berada di dua penugasan yang masa tugasnya
- *    beririsan (hari lapangan > 0 di keduanya);
- *  - pegawai tanpa NIP yang masih dipakai dalam tim;
+ *  - tumpang tindih mustahil: satu pegawai di dua penugasan beririsan yang
+ *    jumlah hari lapangannya melebihi hari kalender gabungan;
+ *  - pegawai aktif tanpa NIP yang dipakai dalam tim;
  *  - selisih RPP-Aneva: penugasan yang tidak pernah disinkron dari aneva pada
  *    tahun yang seluruh penugasan lainnya sudah disinkron.
  */
@@ -99,6 +99,13 @@ class PemeriksaanErpikaService
         })->map(fn ($p) => [...$this->rujukan($p), 'jumlah_laporan' => $p->laporans->count()])->values()->all();
     }
 
+    /**
+     * Tumpang tindih yang MUSTAHIL dijalani, bukan sekadar beririsan: dua
+     * penugasan orang yang sama saling beririsan DAN jumlah hari lapangannya
+     * melebihi hari kalender gabungan kedua masa tugas. Irisan biasa wajar
+     * (seseorang memang memegang beberapa penugasan sekaligus), jadi tidak
+     * ditandai.
+     */
     private function tumpangTindih(Collection $penugasan): array
     {
         $perOrang = [];
@@ -110,7 +117,7 @@ class PemeriksaanErpikaService
                 if ((int) $m->hari_lapangan <= 0 || ! $m->employee_id) {
                     continue;
                 }
-                $perOrang[$m->employee_id][] = ['nama' => $m->nama, 'p' => $p];
+                $perOrang[$m->employee_id][] = ['nama' => $m->nama, 'lk' => (int) $m->hari_lapangan, 'p' => $p];
             }
         }
         $hasil = [];
@@ -123,11 +130,20 @@ class PemeriksaanErpikaService
                     if ($b->masa_tugas_mulai > $a->masa_tugas_selesai) {
                         break;
                     }
+                    $mulai = min($a->masa_tugas_mulai, $b->masa_tugas_mulai);
+                    $selesai = max($a->masa_tugas_selesai, $b->masa_tugas_selesai);
+                    $hariKalender = $mulai->diffInDays($selesai) + 1;
+                    $lk = $daftar[$i]['lk'] + $daftar[$j]['lk'];
+                    if ($lk <= $hariKalender) {
+                        continue;
+                    }
                     $hasil[] = [
                         'employee_id' => $employeeId,
                         'nama' => $daftar[$i]['nama'],
-                        'a' => [...$this->rujukan($a), 'mulai' => $a->masa_tugas_mulai?->toDateString(), 'selesai' => $a->masa_tugas_selesai?->toDateString()],
-                        'b' => [...$this->rujukan($b), 'mulai' => $b->masa_tugas_mulai?->toDateString(), 'selesai' => $b->masa_tugas_selesai?->toDateString()],
+                        'lk' => $lk,
+                        'hari_kalender' => $hariKalender,
+                        'a' => [...$this->rujukan($a), 'mulai' => $a->masa_tugas_mulai?->toDateString(), 'selesai' => $a->masa_tugas_selesai?->toDateString(), 'lk' => $daftar[$i]['lk']],
+                        'b' => [...$this->rujukan($b), 'mulai' => $b->masa_tugas_mulai?->toDateString(), 'selesai' => $b->masa_tugas_selesai?->toDateString(), 'lk' => $daftar[$j]['lk']],
                     ];
                 }
             }
@@ -140,7 +156,7 @@ class PemeriksaanErpikaService
     {
         $dipakai = RppTeamMember::query()->whereNotNull('employee_id')->distinct()->pluck('employee_id');
 
-        return Employee::query()->whereIn('id', $dipakai)->where(fn ($q) => $q->whereNull('nip')->orWhere('nip', ''))
+        return Employee::query()->whereIn('id', $dipakai)->where('aktif', true)->where(fn ($q) => $q->whereNull('nip')->orWhere('nip', ''))
             ->orderBy('nama')->get(['id', 'nama', 'jabatan'])->map(fn ($e) => $e->only(['id', 'nama', 'jabatan']))->all();
     }
 

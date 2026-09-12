@@ -39,7 +39,7 @@ class ErpikaAnalisisTest extends TestCase
         $p1->teamMembers()->create(['employee_id' => $tanpaNip->id, 'role' => 'at', 'nama' => $tanpaNip->nama, 'hari_kantor' => 0, 'hari_lapangan' => 8, 'order' => 1]);
         // penugasan kedua: ST sama (ganda), beririsan dengan p1 untuk Erfendi, tanpa uraian, ST tanpa tanggal
         $p2 = $rpp->penugasan()->create(['urutan' => 2, 'uraian' => '-', 'nomor_st' => 'ST-01/Rev-INS/2026', 'status' => 'st_terbit', 'masa_tugas_mulai' => '2026-01-25', 'masa_tugas_selesai' => '2026-02-05']);
-        $p2->teamMembers()->create(['employee_id' => $erfendi->id, 'role' => 'at', 'nama' => $erfendi->nama, 'hari_kantor' => 1, 'hari_lapangan' => 5, 'order' => 0]);
+        $p2->teamMembers()->create(['employee_id' => $erfendi->id, 'role' => 'at', 'nama' => $erfendi->nama, 'hari_kantor' => 1, 'hari_lapangan' => 12, 'order' => 0]);
         $rpp->penugasan()->create(['urutan' => 3, 'uraian' => 'Dibatalkan', 'status' => 'batal', 'masa_tugas_mulai' => '2026-01-01', 'masa_tugas_selesai' => '2026-01-31']);
 
         return [$rpp, $erfendi];
@@ -93,8 +93,8 @@ class ErpikaAnalisisTest extends TestCase
             ->where('baris.0.nama', 'Erfendi, S.E')
             ->where('baris.0.penugasan', 2)
             ->where('baris.0.dk', 3)
-            ->where('baris.0.lk', 13)
-            ->where('total.lk', 21)
+            ->where('baris.0.lk', 20)
+            ->where('total.lk', 28)
             ->where('total.penugasan', 2));
     }
 }
