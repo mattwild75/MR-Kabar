@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Erpika;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use App\Models\RppPenugasan;
+use App\Services\IngatanRingkasanService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -24,13 +25,14 @@ use Inertia\Inertia;
  */
 class PegawaiController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, IngatanRingkasanService $ingat)
     {
         $this->pastikanAdmin($request);
 
         return Inertia::render('erpika/Pegawai', [
-            'employees' => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('nama')->get()
-                ->map(fn (Employee $e) => [...$e->toArray(), 'penugasan' => $this->ringkasanPenugasan($e)]),
+            'employees' => $ingat->ingat('pegawai.index', ['employees', 'rpp_team_members', 'rpp_penugasan', 'rpps', 'rpp_obriks'], [],
+                fn () => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('nama')->get()
+                    ->map(fn (Employee $e) => [...$e->toArray(), 'penugasan' => $this->ringkasanPenugasan($e)])),
         ]);
     }
 

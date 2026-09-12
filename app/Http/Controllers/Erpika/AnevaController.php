@@ -9,6 +9,7 @@ use App\Models\RppLaporan;
 use App\Models\RppPenugasan;
 use App\Models\RppTeamMember;
 use App\Services\AnevaExcelService;
+use App\Services\IngatanRingkasanService;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -26,7 +27,7 @@ use Inertia\Inertia;
  */
 class AnevaController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, IngatanRingkasanService $ingat)
     {
         $tahunMasuk = $request->input('tahun', Rpp::max('year') ?: now()->year);
         $tahun = $tahunMasuk === 'semua' ? 'semua' : (int) $tahunMasuk; // 'semua' = seluruh tahun
@@ -34,22 +35,27 @@ class AnevaController extends Controller
         $status = $request->input('status'); // terbit | belum | batal
         $cari = trim((string) $request->input('cari', ''));
 
-        $penugasan = $this->kueri($tahun, $jenis, $cari)->get();
-        // merah = baru ST/sedang bertugas, kuning = nomor laporan diminta, hijau = laporan masuk aneva
-        $penugasan = match ($status) {
-            'hijau', 'terbit' => $penugasan->where('status', 'lhp_terbit'),
-            'kuning' => $penugasan->where('status', 'nomor_diminta'),
-            'merah', 'belum' => $penugasan->whereNotIn('status', ['lhp_terbit', 'nomor_diminta', 'batal']),
-            'batal' => $penugasan->where('status', 'batal'),
-            default => $penugasan,
-        };
+        $tabel = ['rpps', 'rpp_penugasan', 'rpp_team_members', 'rpp_obriks', 'rpp_laporans', 'rpp_categories'];
+        [$baris, $ringkasan, $nomorTerakhir] = $ingat->ingat('aneva.index', $tabel, compact('tahun', 'jenis', 'status', 'cari'), function () use ($tahun, $jenis, $status, $cari) {
+            $penugasan = $this->kueri($tahun, $jenis, $cari)->get();
+            // merah = baru ST/sedang bertugas, kuning = nomor laporan diminta, hijau = laporan masuk aneva
+            $penugasan = match ($status) {
+                'hijau', 'terbit' => $penugasan->where('status', 'lhp_terbit'),
+                'kuning' => $penugasan->where('status', 'nomor_diminta'),
+                'merah', 'belum' => $penugasan->whereNotIn('status', ['lhp_terbit', 'nomor_diminta', 'batal']),
+                'batal' => $penugasan->where('status', 'batal'),
+                default => $penugasan,
+            };
 
-        $baris = $penugasan->values()->map(fn (RppPenugasan $p, int $i) => $this->baris($p, $i + 1));
+            $baris = $penugasan->values()->map(fn (RppPenugasan $p, int $i) => $this->baris($p, $i + 1));
+
+            return [$baris, $this->ringkasan($this->kueri($tahun, null, '')->get()), $this->nomorLaporanTerakhir($tahun)];
+        });
 
         return Inertia::render('erpika/Aneva', [
             'baris' => $baris,
-            'ringkasan' => $this->ringkasan($this->kueri($tahun, null, '')->get()),
-            'nomorTerakhir' => $this->nomorLaporanTerakhir($tahun),
+            'ringkasan' => $ringkasan,
+            'nomorTerakhir' => $nomorTerakhir,
             'categories' => RppCategory::orderBy('order')->get(['id', 'code', 'name', 'kode_nomor']),
             'tahunTersedia' => Rpp::select('year')->distinct()->orderByDesc('year')->pluck('year')->all(),
             'filters' => ['tahun' => $tahun, 'jenis' => $jenis, 'status' => $status, 'cari' => $cari],

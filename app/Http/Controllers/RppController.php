@@ -8,6 +8,7 @@ use App\Models\RppCategory;
 use App\Models\RppPenugasan;
 use App\Models\RppSetting;
 use App\Models\RppTeamMember;
+use App\Services\IngatanRingkasanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -23,7 +24,7 @@ use Inertia\Inertia;
  */
 class RppController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, IngatanRingkasanService $ingat)
     {
         // tahun = angka, atau 'semua' untuk seluruh tahun sekaligus
         $tahunMasuk = $request->input('tahun', Rpp::max('year') ?: now()->year);
@@ -52,41 +53,44 @@ class RppController extends Controller
             });
         }
 
-        $rpps = $query->get()->map(function (Rpp $r) {
-            $ringkas = $r->ringkasan();
+        // Daftar RPP dihitung ulang hanya bila tabel RPP berubah (sidik jari tabel).
+        $rpps = $ingat->ingat('rpp.index', ['rpps', 'rpp_penugasan', 'rpp_team_members', 'rpp_obriks', 'rpp_categories', 'rpp_settings'],
+            ['tahun' => $tahun, 'jenis' => $jenis, 'cari' => $cari, 'user' => $request->user()->canViewAllOpd() ? 0 : $request->user()->id],
+            fn () => $query->get()->map(function (Rpp $r) {
+                $ringkas = $r->ringkasan();
 
-            return [
-                'id' => $r->id,
-                'nomor_rpp' => $r->nomor_rpp,
-                'year' => $r->year,
-                'bulan' => $r->bulan,
-                'sub_judul' => $r->subJudulTampil(),
-                'tanggal_rpp' => $r->tanggal_rpp?->toDateString(),
-                'tarif_per_hari' => $r->tarifBerlaku(),
-                'hari_lk' => $ringkas['hari_lk'],
-                'category' => ['id' => $r->category?->id, 'name' => $r->category?->name, 'kode_nomor' => $r->category?->kode_nomor],
-                'pembuat' => $r->user?->name,
-                'ringkasan' => $ringkas,
-                'penugasan' => $r->penugasan->map(fn (RppPenugasan $p) => [
-                    'id' => $p->id,
-                    'urutan' => $p->urutan,
-                    'uraian' => $p->uraian,
-                    'obriks' => $p->obriks->pluck('nama')->all(),
-                    'sifat' => $p->sifat,
-                    'lokasi' => $p->lokasiTampil(),
-                    'tarif_sppd' => $p->tarifSppd(),
-                    'biaya_sppd' => $p->biayaSppd(),
-                    'jumlah_laporan' => $p->jumlah_laporan,
-                    'tmt' => $p->tmtTampil(),
-                    'nomor_st' => $p->nomor_st,
-                    'status' => $p->status,
-                    'ketua_tim' => $p->teamMembers->firstWhere('role', 'kt')?->nama,
-                    'tim' => $p->teamMembers->map(fn (RppTeamMember $m) => [
-                        'nama' => $m->nama, 'peran' => $m->peranTampil(), 'hari' => (int) $m->hari_kantor + (int) $m->hari_lapangan,
+                return [
+                    'id' => $r->id,
+                    'nomor_rpp' => $r->nomor_rpp,
+                    'year' => $r->year,
+                    'bulan' => $r->bulan,
+                    'sub_judul' => $r->subJudulTampil(),
+                    'tanggal_rpp' => $r->tanggal_rpp?->toDateString(),
+                    'tarif_per_hari' => $r->tarifBerlaku(),
+                    'hari_lk' => $ringkas['hari_lk'],
+                    'category' => ['id' => $r->category?->id, 'name' => $r->category?->name, 'kode_nomor' => $r->category?->kode_nomor],
+                    'pembuat' => $r->user?->name,
+                    'ringkasan' => $ringkas,
+                    'penugasan' => $r->penugasan->map(fn (RppPenugasan $p) => [
+                        'id' => $p->id,
+                        'urutan' => $p->urutan,
+                        'uraian' => $p->uraian,
+                        'obriks' => $p->obriks->pluck('nama')->all(),
+                        'sifat' => $p->sifat,
+                        'lokasi' => $p->lokasiTampil(),
+                        'tarif_sppd' => $p->tarifSppd(),
+                        'biaya_sppd' => $p->biayaSppd(),
+                        'jumlah_laporan' => $p->jumlah_laporan,
+                        'tmt' => $p->tmtTampil(),
+                        'nomor_st' => $p->nomor_st,
+                        'status' => $p->status,
+                        'ketua_tim' => $p->teamMembers->firstWhere('role', 'kt')?->nama,
+                        'tim' => $p->teamMembers->map(fn (RppTeamMember $m) => [
+                            'nama' => $m->nama, 'peran' => $m->peranTampil(), 'hari' => (int) $m->hari_kantor + (int) $m->hari_lapangan,
+                        ])->all(),
                     ])->all(),
-                ])->all(),
-            ];
-        });
+                ];
+            }));
 
         return Inertia::render('rpp/Index', [
             'rpps' => $rpps,

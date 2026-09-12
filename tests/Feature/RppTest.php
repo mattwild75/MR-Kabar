@@ -96,7 +96,7 @@ class RppTest extends TestCase
             ->where('rpp.penugasan.0.tim.0.peran', 'Penanggung Jawab'));
 
         $this->actingAs($pengguna)->get("/rpp-cetak/{$rpp->id}/pengantar/preview")->assertOk()->assertInertia(fn ($page) => $page
-            ->where('inspektur.nip_spasi', '19720504 200112 1 002')
+            ->where('inspektur.nip_spasi', '19700101 199003 1 001')
             ->where('rpp.tujuan', 'Ketua Tim Audit Kinerja')
             ->where('rpp.hal', 'Penyampaian Rencana Penugasan Audit Kinerja Tahun 2026'));
     }
