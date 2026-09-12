@@ -12,6 +12,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import ThUrut from '@/components/ui/th-urut';
+import { useSortableRows } from '@/hooks/use-sortable-rows';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -132,6 +134,22 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
         setTerbuka(s);
     };
 
+    // kunci datar untuk pengurutan klik-kepala-kolom
+    const barisUrut = useMemo(
+        () =>
+            rpps.map((r) => ({
+                ...r,
+                s_nomor: r.nomor_rpp,
+                s_periode: r.tanggal_rpp ?? `${r.year}-${String(r.bulan ?? 0).padStart(2, '0')}`,
+                s_penugasan: r.ringkasan.penugasan,
+                s_ketua: (Array.from(new Set(r.penugasan.map((p) => p.ketua_tim).filter(Boolean))) as string[]).join(', '),
+                s_hari: r.ringkasan.hari,
+                s_biaya: r.ringkasan.biaya,
+            })),
+        [rpps],
+    );
+    const { sortedRows, sortField, sortDirection, toggleSort } = useSortableRows(barisUrut);
+
     const semuaTerbuka = rpps.length > 0 && rpps.every((r) => terbuka.has(r.id));
 
     const tahunPilihan = tahunTersedia.includes(filters.tahun) ? tahunTersedia : [filters.tahun, ...tahunTersedia];
@@ -218,12 +236,26 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                         <thead className="bg-muted/60 text-muted-foreground text-left text-xs uppercase">
                             <tr>
                                 <th className="w-8 px-2 py-2"></th>
-                                <th className="px-3 py-2">Nomor RPP</th>
-                                <th className="px-3 py-2">Periode</th>
-                                <th className="px-3 py-2">Penugasan</th>
-                                <th className="px-3 py-2">Ketua tim</th>
-                                <th className="px-3 py-2 text-right">Hari</th>
-                                <th className="px-3 py-2 text-right">Biaya</th>
+                                <ThUrut field="s_nomor" label="Nomor RPP" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_periode" label="Periode" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_penugasan" label="Penugasan" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_ketua" label="Ketua tim" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut
+                                    field="s_hari"
+                                    label="Hari"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                    className="text-right"
+                                />
+                                <ThUrut
+                                    field="s_biaya"
+                                    label="Biaya"
+                                    activeField={sortField}
+                                    direction={sortDirection}
+                                    onSort={toggleSort}
+                                    className="text-right"
+                                />
                                 <th className="px-3 py-2 text-right">Aksi</th>
                             </tr>
                         </thead>
@@ -237,7 +269,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                     </td>
                                 </tr>
                             )}
-                            {rpps.map((r) => {
+                            {sortedRows.map((r) => {
                                 const buka = terbuka.has(r.id);
                                 const ketua = Array.from(new Set(r.penugasan.map((p) => p.ketua_tim).filter(Boolean))) as string[];
                                 return (

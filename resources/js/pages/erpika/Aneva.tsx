@@ -2,11 +2,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import ThUrut from '@/components/ui/th-urut';
+import { useSortableRows } from '@/hooks/use-sortable-rows';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { ChevronDown, ChevronRight, FileText, Pencil, Printer, Search } from 'lucide-react';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 
 interface Laporan {
     nomor: string;
@@ -104,6 +106,22 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
         else s.add(id);
         setTerbuka(s);
     };
+    const barisUrut = useMemo(
+        () =>
+            baris.map((b) => ({
+                ...b,
+                s_no: b.no,
+                s_rpp: b.nomor_st ?? b.nomor_rpp,
+                s_obrik: b.uraian ?? '',
+                s_tim: b.tim.find((m) => m.role === 'kt')?.nama ?? '',
+                s_tmt: b.tmt ?? '',
+                s_laporan: b.jumlah_laporan_terbit,
+                s_status: b.status,
+            })),
+        [baris],
+    );
+    const { sortedRows, sortField, sortDirection, toggleSort } = useSortableRows(barisUrut);
+
     const semuaTerbuka = baris.length > 0 && baris.every((b) => terbuka.has(b.id));
     const persen = ringkasan.penugasan ? Math.round((ringkasan.terbit / ringkasan.penugasan) * 100) : 0;
     const tahunPilihan = tahunTersedia.includes(filters.tahun) ? tahunTersedia : [filters.tahun, ...tahunTersedia];
@@ -272,13 +290,13 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                         <thead className="bg-muted/60 text-muted-foreground text-left text-xs uppercase">
                             <tr>
                                 <th className="w-8 px-2 py-2"></th>
-                                <th className="px-3 py-2">No</th>
-                                <th className="px-3 py-2">RPP / ST</th>
-                                <th className="px-3 py-2">Obrik</th>
-                                <th className="px-3 py-2">Tim</th>
-                                <th className="px-3 py-2">TMT</th>
-                                <th className="px-3 py-2">Laporan</th>
-                                <th className="px-3 py-2">Status</th>
+                                <ThUrut field="s_no" label="No" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_rpp" label="RPP / ST" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_obrik" label="Obrik" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_tim" label="Tim" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_tmt" label="TMT" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_laporan" label="Laporan" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
+                                <ThUrut field="s_status" label="Status" activeField={sortField} direction={sortDirection} onSort={toggleSort} />
                                 <th className="px-3 py-2"></th>
                             </tr>
                         </thead>
@@ -290,10 +308,10 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                     </td>
                                 </tr>
                             )}
-                            {baris.map((b) => {
+                            {sortedRows.map((b) => {
                                 const buka = terbuka.has(b.id);
                                 const st = STATUS[b.status] ?? STATUS.draft;
-                                const kepalaJenis = b.jenis.name !== jenisSebelumnya;
+                                const kepalaJenis = !sortField && b.jenis.name !== jenisSebelumnya;
                                 jenisSebelumnya = b.jenis.name;
                                 const ketua = b.tim.find((m) => m.role === 'kt')?.nama;
                                 return (
