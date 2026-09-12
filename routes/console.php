@@ -111,3 +111,7 @@ Schedule::command('cadangan:uji-pulih')->monthlyOn(1, '02:30')->name('uji-pulih'
 // Arsip log audit ke berkas bulanan (ikut tercadangkan bersama storage/app),
 // tiap hari sebelum pembersihan tabel activitylog:clean.
 Schedule::command('audit:arsip')->dailyAt('00:40')->name('audit-arsip')->withoutOverlapping(30);
+
+// Pengingat ERPIKA ke lonceng Super Admin: laporan terlambat (>14 hari
+// setelah masa tugas) dan ST belum terbit menjelang masa tugas.
+Schedule::command('erpika:ingatkan')->dailyAt('07:00')->name('erpika-ingatkan');

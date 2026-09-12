@@ -31,58 +31,10 @@ parameters:
 			path: app/Http/Controllers/CadanganDriveController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CeeFormController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CeeFormController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$username\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CeeFormController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\CeeJawaban\>\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
 			path: app/Http/Controllers/CeeFormController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/CeeFormController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakCeeController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakHasilAnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd_id\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/CetakHasilAnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakLaporanController.php
 
 		-
 			message: '#^Cannot call method locale\(\) on string\.$#'
@@ -109,142 +61,16 @@ parameters:
 			path: app/Http/Controllers/CetakMonitoringEvaluasiController.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$MISI\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$OPD IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$OPD IK SASARAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$OPD IK TUJUAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$OPD PENANGGUNGJAWAB PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$PROGRAM PRIORITAS\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$SASARAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$TUJUAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/CetakRtpController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd_id\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/CetakRtpController.php
-
-		-
 			message: '#^Method App\\Http\\Controllers\\CetakRtpController\:\:ambangPrioritas\(\) never returns null so it can be removed from the return type\.$#'
 			identifier: return.unusedType
 			count: 1
 			path: app/Http/Controllers/CetakRtpController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/CetakStrukturPengelolaController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\StrukturPengelolaRisiko\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
 			path: app/Http/Controllers/CetakStrukturPengelolaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/DataRisikoGabunganController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/DataUmumController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$category\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$employee_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_kantor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_lapangan\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tarif_per_hari\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnalisisController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:peranTampil\(\)\.$#'
@@ -263,84 +89,6 @@ parameters:
 			identifier: argument.unresolvableType
 			count: 1
 			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Erpika/AnalisisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$category\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_kantor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_lapangan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$jenis\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_laporan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$role\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tanggal_laporan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tanggal_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$year\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:peranTampil\(\)\.$#'
@@ -361,52 +109,10 @@ parameters:
 			path: app/Http/Controllers/Erpika/AnevaController.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>code" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Http/Controllers/Erpika/AnevaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$deleted_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Erpika/DataTerhapusController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/DataTerhapusController.php
-
-		-
 			message: '#^Call to an undefined static method Illuminate\\Database\\Eloquent\\Model\:\:onlyTrashed\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Controllers/Erpika/DataTerhapusController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_rpp\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/PegawaiController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tanggal_rpp\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Erpika/PegawaiController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$year\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Http/Controllers/Erpika/PegawaiController.php
 
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\RppPenugasan\>\>\:\:map\(\) contains unresolvable type\.$#'
@@ -421,166 +127,10 @@ parameters:
 			path: app/Http/Controllers/Erpika/PegawaiController.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Erpika/PegawaiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/FraudRisikoController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/FraudRisikoController.php
-
-		-
-			message: '#^Using nullsafe property access on non\-nullable type App\\Models\\User\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/FraudRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/IroPdController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/IroPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/IrsPdController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/IrsPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/IrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/IrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KaeresPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KaeresRoController.php
-
-		-
 			message: '#^Parameter \#2 \$value of method Illuminate\\Support\\Collection\<string,int\>\:\:put\(\) expects int, true given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/KroPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$BASELINE IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$PROGRAM PRIORITAS\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$SATUAN IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$TARGET IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPdController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$BASELINE IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$MISI\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$OPD PENANGGUNGJAWAB PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$SASARAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$SATUAN IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$TARGET IK PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$TUJUAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/KrsPemdaController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KrsPemda\:\:\$VISI\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/KrsPemdaController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
@@ -595,24 +145,6 @@ parameters:
 			path: app/Http/Controllers/KrsPicExcelController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKecuranganController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama_risiko\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKecuranganController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKecuranganController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\LaporanKecurangan\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
@@ -623,36 +155,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: app/Http/Controllers/LaporanKecuranganController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$KEGIATAN PD\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKejadianController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SASARAN RENSTRA\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKejadianController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKejadianController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKejadianController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/LaporanKejadianController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
@@ -697,114 +199,6 @@ parameters:
 			path: app/Http/Controllers/MediaFolderController.php
 
 		-
-			message: '#^Access to an undefined property App\\Models\\IroPd\:\:\$SKALA DAMPAK INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IroPd\:\:\$SKALA DAMPAK TARGET\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IroPd\:\:\$SKALA KEMUNGKINAN INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IroPd\:\:\$SKALA KEMUNGKINAN TARGET\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IroPd\|App\\Models\\IrsPd\|App\\Models\\IrsPemda\:\:\$SKALA DAMPAK INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IroPd\|App\\Models\\IrsPd\|App\\Models\\IrsPemda\:\:\$SKALA KEMUNGKINAN INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPd\:\:\$SKALA DAMPAK INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPd\:\:\$SKALA DAMPAK TARGET\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPd\:\:\$SKALA KEMUNGKINAN INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPd\:\:\$SKALA KEMUNGKINAN TARGET\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA DAMPAK INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA DAMPAK TARGET\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA KEMUNGKINAN INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA KEMUNGKINAN TARGET\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kode\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 6
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd_id\.$#'
-			identifier: property.notFound
-			count: 7
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
 			message: '#^Parameter \#1 \$array of function usort contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 2
@@ -815,72 +209,6 @@ parameters:
 			identifier: argument.unresolvableType
 			count: 2
 			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>kode" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/MonitoringEvaluasiController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\User\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/PanduanController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/PencarianController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/PencarianController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/PencarianController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nomor_rpp" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/PencarianController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA DAMPAK INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA KEMUNGKINAN INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA RISIKO INHEREN\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
 
 		-
 			message: '#^Match expression does not handle remaining value\: string$#'
@@ -895,196 +223,16 @@ parameters:
 			path: app/Http/Controllers/Pkpt/CetakPkptController.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>jumlah_penugasan_sejenis" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>level_mr" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 6
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nilai_fr2" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nilai_fr3" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nilai_fr4" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nilai_risiko_evaluasi" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>pagu_anggaran" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_dampak_evaluasi" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_fr1" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_fr2" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_fr3" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_fr4" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_kemungkinan_evaluasi" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_pengalaman" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_tahun_terakhir" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>tahun_terakhir_diawasi" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/CetakPkptController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA DAMPAK INHEREN\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA KEMUNGKINAN INHEREN\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPemda\:\:\$SKALA RISIKO INHEREN\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$opd\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
-
-		-
 			message: '#^Property App\\Http\\Controllers\\Pkpt\\PkptEvaluasiRisikoController\:\:\$hitung is never read, only written\.$#'
 			identifier: property.onlyWritten
 			count: 1
 			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptEvaluasiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptFaktorRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tahun_pkpt\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptFaktorRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$total_belanja_langsung\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptFaktorRisikoController.php
-
-		-
 			message: '#^Parameter \#2 \$periode of method App\\Http\\Controllers\\Pkpt\\PkptFaktorRisikoController\:\:pastikanBolehMengisi\(\) expects App\\Models\\Pkpt\\PkptPeriode, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/Pkpt/PkptFaktorRisikoController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPd\:\:\$n\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptKematanganController.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\IrsPd\:\:\$opd_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Pkpt/PkptKematanganController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kelompok\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptPenilaianController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptPenilaianController.php
 
 		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Pkpt\\PkptPenilaian\>\:\:map\(\) contains unresolvable type\.$#'
@@ -1095,12 +243,6 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$periode of method App\\Http\\Controllers\\Pkpt\\PkptPenilaianController\:\:pastikanPeriodeTerbuka\(\) expects App\\Models\\Pkpt\\PkptPeriode, Illuminate\\Database\\Eloquent\\Model\|null given\.$#'
 			identifier: argument.type
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptPenilaianController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Http/Controllers/Pkpt/PkptPenilaianController.php
 
@@ -1117,12 +259,6 @@ parameters:
 			path: app/Http/Controllers/Pkpt/PkptPetaAuditanController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/Pkpt/PkptRencanaController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,App\\Models\\Pkpt\\PkptPenilaian\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
@@ -1133,60 +269,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: app/Http/Controllers/Pkpt/PkptRencanaController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/Pkpt/PkptRencanaController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$URAIAN RISIKO\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$program_pembangunan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$risiko_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$risiko_tipe\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user_id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/ProgramBupatiRisikoController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
@@ -1249,12 +331,6 @@ parameters:
 			path: app/Http/Controllers/ProgramBupatiRisikoController.php
 
 		-
-			message: '#^Access to an undefined property Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:\$humanReadableSize\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RiskEvidenceController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
@@ -1273,58 +349,10 @@ parameters:
 			path: app/Http/Controllers/RiskExcelController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RiwayatBarisController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Spatie\\Activitylog\\Models\\Activity\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
 			path: app/Http/Controllers/RiwayatBarisController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/RiwayatBarisController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RppController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$kode_nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RppController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RppController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/RppController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_laporan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RppController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tanggal_laporan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RppController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:laporans\(\)\.$#'
@@ -1381,18 +409,6 @@ parameters:
 			path: app/Http/Controllers/RppController.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Http/Controllers/RppPrintController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sebutan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/RppPrintController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<int,Illuminate\\Database\\Eloquent\\Model\>\:\:map\(\) expects callable\(Illuminate\\Database\\Eloquent\\Model, int\)\: array\{no\: int, nama\: string, nip\: string\|null, pangkat\: string\|null, golongan\: string\|null, peran\: string, dk\: int\<0, max\>, lk\: int\<0, max\>\}, Closure\(App\\Models\\RppTeamMember, int\)\: array\{no\: int, nama\: string, nip\: string\|null, pangkat\: string\|null, golongan\: string\|null, peran\: string, dk\: int\<0, max\>, lk\: int\<0, max\>\} given\.$#'
 			identifier: argument.type
 			count: 1
@@ -1405,46 +421,10 @@ parameters:
 			path: app/Http/Controllers/RppPrintController.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/RppPrintController.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nip" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Http/Controllers/RppPrintController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$delete_batch\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TrashController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$deleted_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TrashController.php
-
-		-
 			message: '#^Call to an undefined static method Illuminate\\Database\\Eloquent\\Model\:\:onlyTrashed\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Controllers/TrashController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TroubleshootReportController.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/TroubleshootReportController.php
 
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:notify\(\)\.$#'
@@ -1459,12 +439,6 @@ parameters:
 			path: app/Http/Controllers/TroubleshootReportController.php
 
 		-
-			message: '#^Access to an undefined property Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\:\:\$humanReadableSize\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Http/Controllers/UserFileController.php
-
-		-
 			message: '#^Parameter \#1 \$callback of method Illuminate\\Database\\Eloquent\\Collection\<\(int\|string\),Spatie\\MediaLibrary\\MediaCollections\\Models\\Media\>\:\:map\(\) contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
@@ -1477,226 +451,16 @@ parameters:
 			path: app/Http/Middleware/ShareMenus.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$URAIAN RISIKO\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/ProgramBupatiRisiko.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/ProgramBupatiRisiko.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>\(Expression\)" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Models/ProgramBupatiRisiko.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Rpp.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sebutan\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Models/Rpp.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$teamMembers\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Rpp.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tujuan_surat\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/Rpp.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:biayaSppd\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Models/Rpp.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>sebutan" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Models/Rpp.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_lapangan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/RppPenugasan.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tarif_per_hari\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Models/RppPenugasan.php
-
-		-
 			message: '#^Offset ''anggota_tim''\|''ketua_tim''\|''koordinator''\|''ppj'' on array\{pj\: ''Penanggung Jawab'', wpj\: ''Wakil Penanggung…'', dalnis\: ''Pengendali Teknis'', kt\: ''Ketua Tim'', at\: ''Anggota Tim''\} on left side of \?\? does not exist\.$#'
 			identifier: nullCoalesce.offset
 			count: 1
 			path: app/Models/RppTeamMember.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/ProgramBupatiUsulanReviewed.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/ProgramBupatiUsulanReviewed.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nomor" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Notifications/ProgramBupatiUsulanReviewed.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/ProgramBupatiUsulanSubmitted.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/ProgramBupatiUsulanSubmitted.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Notifications/ProgramBupatiUsulanSubmitted.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nomor" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Notifications/ProgramBupatiUsulanSubmitted.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Notifications/RiskExcelImportRequestReviewed.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Notifications/RiskExcelImportRequestReviewed.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/RiskExcelImportRequestSubmitted.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Notifications/RiskExcelImportRequestSubmitted.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Notifications/TroubleshootReportSubmitted.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Notifications/TroubleshootReportSubmitted.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\KroPd\|App\\Models\\KrsPd\|App\\Models\\KrsPemda\:\:\$OPD PENANGGUNGJAWAB PROGRAM\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Observers/OpdSyncObserver.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$user_id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Policies/RiskOwnershipPolicy.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$category\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_kantor\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$hari_lapangan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nama\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_laporan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$role\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tanggal_laporan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tanggal_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/AnevaExcelService.php
 
 		-
 			message: '#^Offset ''draft''\|''lhp_terbit''\|''selesai''\|''st_terbit'' on array\{lhp_terbit\: array\{''M'', ''FF00B050''\}, nomor_diminta\: array\{''N'', ''FFFFFF00''\}, st_terbit\: array\{''O'', ''FFFF0000''\}, draft\: array\{''O'', ''FFFF0000''\}, selesai\: array\{''O'', ''FFFF0000''\}\} in isset\(\) always exists and is not nullable\.$#'
@@ -1711,127 +475,13 @@ parameters:
 			path: app/Services/AnevaExcelService.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>code" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>name" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/AnevaExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$nomor_rpp\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Erpika/PemeriksaanErpikaService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$year\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Erpika/PemeriksaanErpikaService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>year" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/Erpika/PemeriksaanErpikaService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>user_id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/KroIroPdSyncService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>SASARAN_RPJMD" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/KrsIrsPdSyncService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>user_id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/KrsIrsPdSyncService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>user_id" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/KrsIrsSyncService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$SASARAN RPJMD\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/Pkpt/PkptPerhitunganService.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:skala\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: app/Services/Pkpt/PkptPerhitunganService.php
 
 		-
-			message: '#^Using nullsafe property access "\?\-\>skala_dampak_evaluasi" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/Pkpt/PkptPerhitunganService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>skala_kemungkinan_evaluasi" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/Pkpt/PkptPerhitunganService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>warna_class" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 2
-			path: app/Services/RiskReferenceDataService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$jumlah_laporan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/RppExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$obriks\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/RppExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$teamMembers\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/RppExcelService.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$urutan\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Services/RppExcelService.php
-
-		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:tmtTampil\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: app/Services/RppExcelService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nama" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: app/Services/RppExcelService.php
-
-		-
-			message: '#^Using nullsafe property access "\?\-\>nip" on left side of \?\? is unnecessary\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
 			count: 1
 			path: app/Services/RppExcelService.php

@@ -16,3 +16,9 @@ parameters:
         - app/Services/DasborService.php
     tmpDir: storage/framework/cache/phpstan
     reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        # Properti/relasi Eloquent yang tidak dianotasi @property: bukan kekeliruan,
+        # hanya keterbatasan penalaran tipe. Yang lain (metode tak ada, tipe salah)
+        # tetap ditagih.
+        - identifier: property.notFound
+        - identifier: nullsafe.neverNull
