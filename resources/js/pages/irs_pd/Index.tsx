@@ -32,6 +32,7 @@ import SkorTargetAktualSection from '@/components/ui/skor-target-aktual-section'
 import SortableTh from '@/components/ui/sortable-th';
 import StrukturPengelolaanRisikoInfo from '@/components/ui/struktur-pengelolaan-risiko-info';
 import TahunAktifBadge from '@/components/ui/tahun-aktif-badge';
+import { useDrafFormulir } from '@/hooks/use-draf-formulir';
 import { useRowSearch } from '@/hooks/use-row-search';
 import { useSortableRows } from '@/hooks/use-sortable-rows';
 import { useIsViewer } from '@/hooks/use-viewer';
@@ -206,6 +207,8 @@ export default function IrsPdIndex({
     const [prefillFromLaporan, setPrefillFromLaporan] = useState(false);
 
     const { data, setData, post, put, processing, reset, errors } = useForm<FormData>(emptyForm());
+    // Draf otomatis per baris (localStorage) selama dialog terbuka; dihapus setelah tersimpan.
+    const { hapusDraf } = useDrafFormulir('irs-pd-' + (editing?.id ?? 'baru'), data, (d) => setData(d), dialogOpen);
 
     const {
         searchInput,
@@ -306,6 +309,7 @@ export default function IrsPdIndex({
             put(`/irs_pd/${editing.id}`, {
                 onSuccess: () => {
                     toast.success('Data berhasil diperbarui.');
+                    hapusDraf();
                     setDialogOpen(false);
                 },
                 onError: () => toast.error('Gagal memperbarui data.'),
@@ -314,6 +318,7 @@ export default function IrsPdIndex({
             post('/irs_pd', {
                 onSuccess: (halaman) => {
                     toast.success('Data berhasil ditambahkan.');
+                    hapusDraf();
                     setDialogOpen(false);
                     // Bukti dukung yang tadi dipilih sebelum barisnya ada, kini punya
                     // nomor baris untuk ditempelkan - jadi terunggah sendiri, tanpa

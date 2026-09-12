@@ -1,6 +1,7 @@
 import AppearanceDropdown from '@/components/appearance-dropdown';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import NotificationBell from '@/components/notification-bell';
+import { PencarianGlobal } from '@/components/pencarian-global';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
@@ -26,8 +27,9 @@ export function AppSidebarHeader({ breadcrumbs = [] }: { breadcrumbs?: Breadcrum
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
             </div>
 
-            {/* Right: Language + Theme */}
+            {/* Right: Search + Language + Theme */}
             <div className="relative flex items-center gap-3">
+                <PencarianGlobal />
                 <Select value={lang} onValueChange={setLang}>
                     <SelectTrigger className="bg-background w-[120px]">
                         <SelectValue placeholder="Language" />

@@ -170,6 +170,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Pencarian global Ctrl+K — hasil disekat per pengguna di dalam controllernya.
+    Route::get('pencarian', App\Http\Controllers\PencarianController::class)->name('pencarian');
 
     // Halaman panduan/dokumentasi statis (5W1H manajemen risiko Pemda +
     // cara pakai MR Kabar) — tidak ada data dinamis dari DB, cukup render

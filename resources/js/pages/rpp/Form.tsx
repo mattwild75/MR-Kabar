@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { useDrafFormulir } from '@/hooks/use-draf-formulir';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -285,6 +286,8 @@ export default function RppForm({
     });
 
     const { data, setData, errors, processing } = form;
+    // Draf otomatis (localStorage) per RPP; dihapus setelah tersimpan ke server.
+    const { hapusDraf } = useDrafFormulir('rpp-' + (rpp?.id ?? 'baru'), data, (d) => form.setData(d));
     const kategori = categories.find((c) => String(c.id) === data.rpp_category_id);
     const namaPegawai = useMemo(() => employees.map((e) => e.nama), [employees]);
 
@@ -387,6 +390,7 @@ export default function RppForm({
         }));
         const opsi = {
             preserveScroll: true,
+            onSuccess: () => hapusDraf(),
             onError: (e: Record<string, string>) => toast.error(Object.values(e)[0] ?? 'Periksa isian yang ditandai.'),
         };
         if (rpp) form.put(`/rpp/${rpp.id}`, opsi);
