@@ -27,7 +27,8 @@ class AnevaController extends Controller
 {
     public function index(Request $request)
     {
-        $tahun = (int) $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahunMasuk = $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahun = $tahunMasuk === 'semua' ? 'semua' : (int) $tahunMasuk; // 'semua' = seluruh tahun
         $jenis = $request->input('jenis');
         $status = $request->input('status'); // terbit | belum | batal
         $cari = trim((string) $request->input('cari', ''));
@@ -56,7 +57,8 @@ class AnevaController extends Controller
 
     public function previewCetak(Request $request)
     {
-        $tahun = (int) $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahunMasuk = $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahun = $tahunMasuk === 'semua' ? 'semua' : (int) $tahunMasuk;
         $jenis = $request->input('jenis');
         $semua = $this->kueri($tahun, $jenis, '')->get();
 
@@ -82,23 +84,26 @@ class AnevaController extends Controller
 
     public function cetak(Request $request)
     {
-        $tahun = (int) $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahun = $request->input('tahun', Rpp::max('year') ?: now()->year);
         $url = url('/erpika/aneva/cetak/preview?'.http_build_query($request->only(['tahun', 'jenis'])));
 
         return PdfPrintService::downloadFromUrl($request, $url, 'Rekap-Laporan-RPP-'.$tahun);
     }
 
-    private function kueri(int $tahun, $jenis, string $cari)
+    private function kueri(int|string $tahun, $jenis, string $cari)
     {
         $q = RppPenugasan::with(['rpp.category', 'teamMembers', 'obriks', 'laporans'])
             ->whereHas('rpp', function ($r) use ($tahun, $jenis) {
-                $r->where('year', $tahun);
+                if ($tahun !== 'semua') {
+                    $r->where('year', $tahun);
+                }
                 if ($jenis) {
                     $r->where('rpp_category_id', $jenis);
                 }
             })
             ->join('rpps', 'rpps.id', '=', 'rpp_penugasan.rpp_id')
             ->join('rpp_categories', 'rpp_categories.id', '=', 'rpps.rpp_category_id')
+            ->orderByDesc('rpps.year')
             ->orderBy('rpp_categories.order')
             ->orderByRaw('COALESCE(rpp_penugasan.tanggal_st, rpps.tanggal_rpp)')
             ->orderBy('rpps.nomor_rpp')
@@ -129,6 +134,7 @@ class AnevaController extends Controller
             'rpp_id' => $p->rpp_id,
             'jenis' => ['code' => $p->rpp->category?->code, 'name' => $p->rpp->category?->name],
             'nomor_rpp' => $p->rpp->nomor_rpp,
+            'tahun' => $p->rpp->year,
             'tanggal_rpp' => $p->rpp->tanggal_rpp?->toDateString(),
             'nomor_st' => $p->nomor_st,
             'tanggal_st' => $p->tanggal_st?->toDateString(),
@@ -175,9 +181,9 @@ class AnevaController extends Controller
      * lembar "Rekap Pengambilan Nomor" pada berkas asli: nomor urut terbesar
      * dari seluruh laporan tahun itu.
      */
-    private function nomorLaporanTerakhir(int $tahun): array
+    private function nomorLaporanTerakhir(int|string $tahun): array
     {
-        return RppLaporan::whereHas('penugasan.rpp', fn ($r) => $r->where('year', $tahun))
+        return RppLaporan::whereHas('penugasan.rpp', fn ($r) => $tahun === 'semua' ? $r : $r->where('year', $tahun))
             ->get(['nomor_laporan', 'jenis', 'tanggal_laporan'])
             ->filter(fn ($l) => $l->jenis)
             ->groupBy('jenis')

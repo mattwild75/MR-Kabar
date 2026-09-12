@@ -22,6 +22,7 @@ interface Baris {
     rpp_id: number;
     jenis: { code: string | null; name: string | null };
     nomor_rpp: string;
+    tahun: number;
     tanggal_rpp: string | null;
     nomor_st: string | null;
     tanggal_st: string | null;
@@ -51,7 +52,7 @@ interface Props {
     nomorTerakhir: { jenis: string; jumlah: number; nomor: string; tanggal: string | null }[];
     categories: { id: number; code: string; name: string; kode_nomor: string | null }[];
     tahunTersedia: number[];
-    filters: { tahun: number; jenis: string | null; status: string | null; cari: string };
+    filters: { tahun: number | 'semua'; jenis: string | null; status: string | null; cari: string };
     terakhirSinkron: string | null;
 }
 
@@ -124,7 +125,8 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
 
     const semuaTerbuka = baris.length > 0 && baris.every((b) => terbuka.has(b.id));
     const persen = ringkasan.penugasan ? Math.round((ringkasan.terbit / ringkasan.penugasan) * 100) : 0;
-    const tahunPilihan = tahunTersedia.includes(filters.tahun) ? tahunTersedia : [filters.tahun, ...tahunTersedia];
+    const tahunPilihan = filters.tahun === 'semua' || tahunTersedia.includes(filters.tahun) ? tahunTersedia : [filters.tahun, ...tahunTersedia];
+    const labelTahun = filters.tahun === 'semua' ? 'semua tahun' : String(filters.tahun);
     const cetakQuery = `tahun=${filters.tahun}${filters.jenis ? `&jenis=${filters.jenis}` : ''}`;
 
     let jenisSebelumnya: string | null = null;
@@ -191,7 +193,7 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                 <div className="grid gap-3 lg:grid-cols-3">
                     {/* Per jenis */}
                     <div className="bg-card rounded-md border p-3 lg:col-span-2">
-                        <div className="mb-2 text-sm font-semibold">Capaian per jenis penugasan {filters.tahun}</div>
+                        <div className="mb-2 text-sm font-semibold">Capaian per jenis penugasan {labelTahun}</div>
                         <div className="space-y-1.5">
                             {ringkasan.per_jenis.map((j) => {
                                 const p = j.penugasan ? Math.round((j.terbit / j.penugasan) * 100) : 0;
@@ -211,7 +213,7 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                     </div>
                     {/* Nomor terakhir */}
                     <div className="bg-card rounded-md border p-3">
-                        <div className="mb-2 text-sm font-semibold">Nomor laporan terakhir {filters.tahun}</div>
+                        <div className="mb-2 text-sm font-semibold">Nomor laporan terakhir {labelTahun}</div>
                         {nomorTerakhir.length === 0 ? (
                             <p className="text-muted-foreground text-xs">Belum ada laporan.</p>
                         ) : (
@@ -239,6 +241,7 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="semua">Semua tahun</SelectItem>
                             {tahunPilihan.map((t) => (
                                 <SelectItem key={t} value={String(t)}>
                                     {t}
@@ -311,7 +314,7 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                             {sortedRows.map((b) => {
                                 const buka = terbuka.has(b.id);
                                 const st = STATUS[b.status] ?? STATUS.draft;
-                                const kepalaJenis = !sortField && b.jenis.name !== jenisSebelumnya;
+                                const kepalaJenis = !sortField && b.jenis.name !== jenisSebelumnya && filters.tahun !== 'semua';
                                 jenisSebelumnya = b.jenis.name;
                                 const ketua = b.tim.find((m) => m.role === 'kt')?.nama;
                                 return (
@@ -330,6 +333,7 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                             <td className="px-3 py-2 tabular-nums">{b.no}</td>
                                             <td className="px-3 py-2 whitespace-nowrap">
                                                 <div className="font-mono text-xs">{b.nomor_rpp}</div>
+                                                {filters.tahun === 'semua' && <div className="text-xs font-semibold">{b.tahun}</div>}
                                                 <div className="text-muted-foreground text-xs">{tgl(b.tanggal_rpp)}</div>
                                                 <div className="mt-1 font-mono text-xs">
                                                     {b.nomor_st ?? <span className="text-muted-foreground">ST belum ada</span>}

@@ -25,12 +25,15 @@ class RppController extends Controller
 {
     public function index(Request $request)
     {
-        $tahun = (int) $request->input('tahun', Rpp::max('year') ?: now()->year);
+        // tahun = angka, atau 'semua' untuk seluruh tahun sekaligus
+        $tahunMasuk = $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahun = $tahunMasuk === 'semua' ? 'semua' : (int) $tahunMasuk;
         $jenis = $request->input('jenis');
         $cari = trim((string) $request->input('cari', ''));
 
         $query = Rpp::with(['category', 'user:id,name', 'penugasan.teamMembers', 'penugasan.obriks'])
-            ->where('year', $tahun)
+            ->when($tahun !== 'semua', fn ($q) => $q->where('year', $tahun))
+            ->orderByDesc('year')
             ->orderByRaw('COALESCE(tanggal_rpp, created_at)')
             ->orderBy('nomor_rpp');
 
@@ -168,6 +171,12 @@ class RppController extends Controller
             'inspektur' => RppSetting::inspektur()?->only(['id', 'nama', 'nip', 'pangkat', 'golongan']),
             'sifatTersedia' => RppPenugasan::whereNotNull('sifat')->distinct()->orderBy('sifat')->pluck('sifat')->all(),
             'tahunBerjalan' => now()->year,
+            // Nomor urut RPP terakhir per (kategori, tahun): formulir mengusulkan
+            // nomor berikutnya "700/NN/RPP-<kode>/INS/<tahun>" saat jenis/tahun dipilih.
+            'urutanTerakhir' => Rpp::withTrashed()->get(['rpp_category_id', 'year', 'nomor_rpp'])
+                ->groupBy(fn ($r) => $r->rpp_category_id.'|'.$r->year)
+                ->map(fn ($k) => $k->max(fn ($r) => preg_match('~^700/(\d+)/~', $r->nomor_rpp, $m) ? (int) $m[1] : 0))
+                ->all(),
         ];
     }
 

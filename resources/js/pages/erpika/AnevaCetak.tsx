@@ -28,7 +28,7 @@ interface Baris {
 }
 
 interface Props {
-    tahun: number;
+    tahun: number | 'semua';
     perTanggal: string;
     seksi: { kode: string; nama: string; baris: Baris[] }[];
     ringkasan: { penugasan: number; terbit: number; laporan: number };
@@ -96,7 +96,8 @@ export default function AnevaCetak({ tahun, perTanggal, seksi, ringkasan }: Prop
 
             <div className="rekap mx-auto w-[277mm] max-w-full bg-white p-[8mm] text-black print:w-auto">
                 <div className="text-center text-[10pt] font-bold">
-                    REKAPITULASI LAPORAN HASIL AUDIT/REVIU/MONITORING/EVALUASI TERBIT BERDASARKAN RPP TAHUN ANGGARAN {tahun}
+                    REKAPITULASI LAPORAN HASIL AUDIT/REVIU/MONITORING/EVALUASI TERBIT BERDASARKAN RPP{' '}
+                    {tahun === 'semua' ? 'SELURUH TAHUN' : `TAHUN ANGGARAN ${tahun}`}
                 </div>
                 <div className="mb-2 text-center text-[9pt] font-bold">PER TANGGAL {perTanggal.toUpperCase()}</div>
 

@@ -66,7 +66,7 @@ interface Props {
     rpps: Rpp[];
     categories: Kategori[];
     tahunTersedia: number[];
-    filters: { tahun: number; jenis: string | null; cari: string };
+    filters: { tahun: number | 'semua'; jenis: string | null; cari: string };
     inspektur: { nama: string; nip: string | null } | null;
 }
 
@@ -152,7 +152,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
 
     const semuaTerbuka = rpps.length > 0 && rpps.every((r) => terbuka.has(r.id));
 
-    const tahunPilihan = tahunTersedia.includes(filters.tahun) ? tahunTersedia : [filters.tahun, ...tahunTersedia];
+    const tahunPilihan = filters.tahun === 'semua' || tahunTersedia.includes(filters.tahun) ? tahunTersedia : [filters.tahun, ...tahunTersedia];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -186,6 +186,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                             <SelectValue placeholder="Tahun" />
                         </SelectTrigger>
                         <SelectContent>
+                            <SelectItem value="semua">Semua tahun</SelectItem>
                             {tahunPilihan.map((t) => (
                                 <SelectItem key={t} value={String(t)}>
                                     {t}
@@ -263,7 +264,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                             {rpps.length === 0 && (
                                 <tr>
                                     <td colSpan={8} className="text-muted-foreground py-10 text-center">
-                                        Tidak ada RPP tahun {filters.tahun}
+                                        Tidak ada RPP {filters.tahun === 'semua' ? 'di tahun mana pun' : `tahun ${filters.tahun}`}
                                         {filters.jenis ? ' untuk jenis ini' : ''}
                                         {filters.cari ? ` yang cocok dengan “${filters.cari}”` : ''}.
                                     </td>
@@ -280,6 +281,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                             </td>
                                             <td className="px-3 py-3">
                                                 <div className="font-mono font-medium whitespace-nowrap">{r.nomor_rpp}</div>
+                                                {filters.tahun === 'semua' && <span className="text-muted-foreground mr-1 text-xs">{r.year}</span>}
                                                 <Badge variant="secondary" className="mt-1 text-xs font-normal">
                                                     {r.category.name ?? '-'}
                                                 </Badge>

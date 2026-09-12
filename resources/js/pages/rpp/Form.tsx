@@ -12,7 +12,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowDown, ArrowUp, Copy, Plus, Trash2, Users } from 'lucide-react';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
 
 interface Kategori {
@@ -138,6 +138,7 @@ interface Props {
     inspektur: { id: number; nama: string; nip: string | null; pangkat: string | null; golongan: string | null } | null;
     sifatTersedia: string[];
     tahunBerjalan: number;
+    urutanTerakhir: Record<string, number>;
 }
 
 const BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
@@ -173,7 +174,7 @@ const anggotaKosong = (role: Peran = 'at'): Anggota => ({
  * obrik, sifat, jumlah laporan, TMT, dan tim ber-DK/LK. Surat pengantarnya
  * diisi di kartu tersendiri; yang tidak diisi jatuh ke kalimat baku jenisnya.
  */
-export default function RppForm({ rpp, categories, employees, tarifBaku, inspektur, sifatTersedia, tahunBerjalan }: Props) {
+export default function RppForm({ rpp, categories, employees, tarifBaku, inspektur, sifatTersedia, tahunBerjalan, urutanTerakhir }: Props) {
     const timBaku = (): Anggota[] => [
         inspektur
             ? {
@@ -308,7 +309,17 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
         { hari: 0, biaya: 0 },
     );
 
-    const contohNomor = `700/01/RPP-${kategori?.kode_nomor ?? 'XX'}/INS/${data.year}`;
+    // Nomor berikutnya untuk jenis+tahun terpilih; diisi otomatis selama nomor
+    // masih kosong atau masih hasil usulan sebelumnya (ketikan sendiri tidak ditimpa).
+    const terakhir = kategori ? (urutanTerakhir[`${kategori.id}|${data.year}`] ?? 0) : 0;
+    const nomorUsulan = kategori ? `700/${String(terakhir + 1).padStart(2, '0')}/RPP-${kategori.kode_nomor ?? 'XX'}/INS/${data.year}` : '';
+    const contohNomor = nomorUsulan || `700/01/RPP-XX/INS/${data.year}`;
+    useEffect(() => {
+        if (rpp || !nomorUsulan) return;
+        const otomatis = data.nomor_rpp === '' || /^700\/\d+\/RPP-[A-Za-z]+\/INS\/\d{4}$/.test(data.nomor_rpp);
+        if (otomatis && data.nomor_rpp !== nomorUsulan) setData('nomor_rpp', nomorUsulan);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [nomorUsulan]);
     const halBaku = `Penyampaian Rencana Penugasan ${kategori?.sebutan ?? kategori?.name ?? '…'} Tahun ${data.year}`;
 
     const simpan = () => {
