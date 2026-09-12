@@ -14,7 +14,16 @@ export interface RingkasanPenugasan {
         hijau: number;
         kuning: number;
         merah: number;
-        daftar: { tahun: number; rpp: string; st: string | null; uraian: string | null; objek: string[]; status: string }[];
+        daftar: {
+            tahun: number;
+            rpp: string;
+            st: string | null;
+            tanggal_st: string | null;
+            tmt: string | null;
+            uraian: string | null;
+            objek: string[];
+            status: string;
+        }[];
     }[];
     per_tahun: Record<string, number>;
     terakhir: {
@@ -96,6 +105,17 @@ export function TabelPerJenis({ p }: { p: RingkasanPenugasan }) {
                                                                     ? 'batal'
                                                                     : 'merah'}
                                                         </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="font-medium">Tanggal ST:</span>{' '}
+                                                        {d.tanggal_st
+                                                            ? new Date(d.tanggal_st + 'T00:00:00').toLocaleDateString('id-ID', {
+                                                                  day: '2-digit',
+                                                                  month: 'long',
+                                                                  year: 'numeric',
+                                                              })
+                                                            : '. . . . .'}
+                                                        {d.tmt && <span className="text-muted-foreground"> ({d.tmt})</span>}
                                                     </div>
                                                     <div>
                                                         <span className="font-medium">Obrik:</span> {d.uraian ?? '-'}

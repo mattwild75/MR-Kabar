@@ -43,7 +43,16 @@ interface Employee {
             hijau: number;
             kuning: number;
             merah: number;
-            daftar: { tahun: number; rpp: string; st: string | null; uraian: string | null; objek: string[]; status: string }[];
+            daftar: {
+                tahun: number;
+                rpp: string;
+                st: string | null;
+                tanggal_st: string | null;
+                tmt: string | null;
+                uraian: string | null;
+                objek: string[];
+                status: string;
+            }[];
         }[];
         per_tahun: Record<string, number>;
         terakhir: {

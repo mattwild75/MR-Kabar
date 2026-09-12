@@ -145,6 +145,8 @@ class PegawaiController extends Controller
                             'tahun' => $p->rpp->year,
                             'rpp' => $p->rpp->nomor_rpp,
                             'st' => $p->nomor_st,
+                            'tanggal_st' => ($p->tanggal_st ?? $p->rpp->tanggal_rpp)?->toDateString(),
+                            'tmt' => $p->tmtTampil(),
                             'uraian' => $p->uraian,
                             'objek' => $p->obriks->pluck('nama')->all(),
                             'status' => $p->status,
