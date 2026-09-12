@@ -14,6 +14,9 @@ use Inertia\Inertia;
 
 class BackupController extends Controller
 {
+    /** Skrip deploy milik root di server produksi (docs/server/deploy-mrkabar.sh). */
+    private const SKRIP_DEPLOY = '/usr/local/bin/deploy-mrkabar.sh';
+
     public function __construct(
         private readonly VersiSnapshotService $versi,
         private readonly CadanganService $cadangan,
@@ -132,6 +135,8 @@ class BackupController extends Controller
             'versi' => $this->daftarVersi(),
             'commitSekarang' => $this->versi->commitSekarang(),
             'drive' => $this->drive->ringkasan(),
+            'deployTerakhir' => Cache::get('deploy_terakhir'),
+            'adaSkripDeploy' => PHP_OS_FAMILY !== 'Windows' && is_file(self::SKRIP_DEPLOY),
             'arsipTerkunci' => $this->cadangan->arsipTerkunci(),
         ]);
     }
@@ -338,13 +343,21 @@ class BackupController extends Controller
     }
 
     /**
-     * Tarik commit terbaru dari GitHub ke working directory server ini
-     * (kebalikan dari gitPush) — didahului backup database, TIDAK mengubah
-     * isi database sendiri.
-     * Bukan deploy: cuma menyamakan kode lokal dengan remote HEAD branch
-     * yang sedang aktif. Kalau ada perubahan lokal belum di-commit yang
-     * konflik dengan pull, git akan menolak & kita tampilkan error apa
-     * adanya — tidak ada --force/reset otomatis di sini.
+     * Deploy dari GitHub — satu tombol untuk seluruh langkah yang membuat
+     * kode baru benar-benar hidup: pull, migrasi, build tampilan, optimize,
+     * reload PHP-FPM. Didahului backup database (kode yang masuk bisa
+     * membawa migrasi yang mengubah skema).
+     *
+     * Di server produksi langkah-langkah itu ada di skrip milik root
+     * (/usr/local/bin/deploy-mrkabar.sh, salinannya di docs/server/) yang
+     * boleh dijalankan www-data lewat satu baris sudoers tanpa argumen —
+     * karena repo di server milik root dan reload PHP-FPM butuh root. Di
+     * lingkungan tanpa skrip itu (laptop pengembang) yang dijalankan hanya
+     * `git pull`, sebab lokal adalah sumber kode, bukan tujuan deploy.
+     *
+     * Bukan deploy ke server lain: yang berubah adalah server tempat tombol
+     * ini diklik. Log langkah terakhir disimpan di cache dan tampil di
+     * halaman Backup.
      */
     public function gitPull(Request $request)
     {
@@ -352,31 +365,34 @@ class BackupController extends Controller
         $this->ensureGitSyncEnabled();
 
         return $this->cadangan->denganKunci(function () {
-            // Backup dulu, baru tarik. Kode yang masuk dari remote bisa membawa
-            // migrasi yang mengubah skema begitu dijalankan, dan sesudah itu
-            // tidak ada lagi cadangan atas keadaan sebelum penarikan. Sama
-            // prinsipnya dengan urutan di gitPush() dan checkoutTag().
             try {
                 $this->cadangan->buatCadanganDb();
             } catch (\Throwable $e) {
-                return redirect()->back()->with('error', 'Backup database gagal, git pull dibatalkan: '.$e->getMessage());
+                return redirect()->back()->with('error', 'Backup database gagal, deploy dibatalkan: '.$e->getMessage());
             }
 
-            $base = base_path();
-            $result = Process::timeout(120)->run(['git', '-C', $base, 'pull', '--tags', 'origin', 'HEAD']);
+            $skrip = self::SKRIP_DEPLOY;
+            if (PHP_OS_FAMILY !== 'Windows' && is_file($skrip)) {
+                $result = Process::timeout(900)->run(['sudo', '-n', $skrip]);
+            } else {
+                $result = Process::timeout(120)->run(['git', '-C', base_path(), 'pull', '--tags', 'origin', 'HEAD']);
+            }
+
+            $log = trim($result->output().'
+'.$result->errorOutput());
+            Cache::forever('deploy_terakhir', [
+                'waktu' => now()->toDateTimeString(),
+                'sukses' => $result->successful(),
+                'log' => mb_substr($log, -4000),
+                'oleh' => auth()->user()?->name,
+            ]);
 
             if (! $result->successful()) {
-                return redirect()->back()->with(
-                    'error',
-                    'Git pull gagal: '.trim($result->errorOutput() ?: $result->output())
-                );
+                return redirect()->back()->with('error', 'Deploy gagal — lihat log di kartu Deploy. Backup sebelum deploy tersimpan di daftar backup.');
             }
 
-            return redirect()->back()->with(
-                'success',
-                'Kode berhasil ditarik dari GitHub: '.trim($result->output())
-                .' Backup database sebelum penarikan tersimpan di daftar backup.'
-            );
+            return redirect()->back()->with('success', 'Deploy selesai: '.(collect(explode('
+', $log))->last() ?: 'kode ditarik').'. Backup sebelum deploy tersimpan di daftar backup.');
         });
     }
 

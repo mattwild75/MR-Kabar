@@ -66,11 +66,26 @@ interface Props {
     commitSekarang: string | null;
     drive: DriveProps;
     arsipTerkunci: boolean;
+    deployTerakhir: { waktu: string; sukses: boolean; log: string; oleh: string | null } | null;
+    adaSkripDeploy: boolean;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Backup', href: '/backup' }];
 
-export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal, pemeriksaan, versi, commitSekarang, drive, arsipTerkunci }: Props) {
+export default function BackupIndex({
+    backups,
+    canPushGit,
+    gitSyncEnabled,
+    gitTags,
+    penjadwal,
+    pemeriksaan,
+    versi,
+    commitSekarang,
+    drive,
+    arsipTerkunci,
+    deployTerakhir,
+    adaSkripDeploy,
+}: Props) {
     const [gitMessage, setGitMessage] = useState('');
     const [pushing, setPushing] = useState(false);
     const [pulling, setPulling] = useState(false);
@@ -141,8 +156,8 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
             '/backup/git-pull',
             {},
             {
-                onSuccess: () => toast.success('Kode berhasil ditarik dari GitHub.'),
-                onError: () => toast.error('Git pull gagal — cek pesan error di halaman.'),
+                onSuccess: () => toast.success('Deploy selesai.'),
+                onError: () => toast.error('Deploy gagal — lihat log di halaman.'),
                 onFinish: () => setPulling(false),
                 preserveScroll: true,
             },
@@ -311,7 +326,9 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                                 {arsipTerkunci ? (
                                     <span className="font-medium text-emerald-700 dark:text-emerald-300">Arsip terkunci AES-256</span>
                                 ) : (
-                                    <span className="font-medium text-amber-700 dark:text-amber-300">Arsip belum terkunci — isi BACKUP_ARCHIVE_PASSWORD</span>
+                                    <span className="font-medium text-amber-700 dark:text-amber-300">
+                                        Arsip belum terkunci — isi BACKUP_ARCHIVE_PASSWORD
+                                    </span>
                                 )}
                             </p>
                         </div>
@@ -632,20 +649,44 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2 text-xl font-bold">
                                 <GitPullRequestArrow className="h-5 w-5" />
-                                Tarik Kode Terbaru dari GitHub
+                                Deploy dari GitHub
                             </CardTitle>
                             <p className="text-muted-foreground text-sm">
-                                Kebalikan dari push di atas: menarik commit terbaru dari branch remote ke kode di server ini (
-                                <code>git pull --tags origin HEAD</code>). Database di-backup otomatis lebih dulu — kode yang masuk bisa membawa
-                                migrasi yang mengubah skema — tetapi isinya sendiri tidak diubah. Bukan deploy ke server produksi manapun.
+                                {adaSkripDeploy ? (
+                                    <>
+                                        Satu klik menghidupkan kode terbaru dari GitHub di server ini: tarik kode (<code>git pull</code>), jalankan
+                                        migrasi, build tampilan, optimize, dan muat ulang PHP. Database di-backup otomatis lebih dulu; isinya tidak
+                                        diubah. Yang belum di-push ke GitHub tidak ikut.
+                                    </>
+                                ) : (
+                                    <>
+                                        Di komputer ini hanya menarik kode terbaru dari GitHub (<code>git pull</code>) — lingkungan pengembangan
+                                        adalah sumber kode, bukan tujuan deploy. Deploy penuh (migrasi, build, optimize) berjalan di server produksi.
+                                    </>
+                                )}
                             </p>
                         </CardHeader>
                         <Separator />
-                        <CardContent className="pt-4">
-                            <Button onClick={handleGitPull} disabled={pulling} variant="outline">
+                        <CardContent className="space-y-3 pt-4">
+                            <Button onClick={handleGitPull} disabled={pulling}>
                                 <GitPullRequestArrow className="mr-2 h-4 w-4" />
-                                {pulling ? 'Menarik kode...' : 'Pull dari GitHub'}
+                                {pulling ? 'Sedang deploy… (bisa 1-2 menit)' : adaSkripDeploy ? 'Deploy dari GitHub' : 'Pull dari GitHub'}
                             </Button>
+                            {deployTerakhir && (
+                                <div className={`rounded border p-3 text-xs ${deployTerakhir.sukses ? '' : 'border-destructive/50'}`}>
+                                    <div className="mb-1 font-medium">
+                                        Deploy terakhir: {formatTanggalWaktu(deployTerakhir.waktu)} oleh {deployTerakhir.oleh ?? '-'} —{' '}
+                                        {deployTerakhir.sukses ? (
+                                            <span className="text-emerald-700 dark:text-emerald-300">berhasil</span>
+                                        ) : (
+                                            <span className="text-destructive">gagal</span>
+                                        )}
+                                    </div>
+                                    <pre className="bg-muted max-h-64 overflow-auto rounded p-2 font-mono whitespace-pre-wrap">
+                                        {deployTerakhir.log}
+                                    </pre>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
                 )}
