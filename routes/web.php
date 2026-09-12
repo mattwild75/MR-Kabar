@@ -320,6 +320,10 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/data-terhapus', [DataTerhapusController::class, 'index'])->name('erpika.data-terhapus.index');
     Route::put('/erpika/data-terhapus/{type}/{id}/restore', [DataTerhapusController::class, 'restore'])->name('erpika.data-terhapus.restore');
     Route::delete('/erpika/data-terhapus/{type}/{id}', [DataTerhapusController::class, 'forceDelete'])->name('erpika.data-terhapus.force-delete');
+    // Tampilan turunan (hanya membaca): pemeriksaan keutuhan, kalender, beban kerja.
+    Route::get('/erpika/pemeriksaan', [App\Http\Controllers\Erpika\AnalisisController::class, 'pemeriksaan'])->name('erpika.pemeriksaan');
+    Route::get('/erpika/kalender', [App\Http\Controllers\Erpika\AnalisisController::class, 'kalender'])->name('erpika.kalender');
+    Route::get('/erpika/beban-kerja', [App\Http\Controllers\Erpika\AnalisisController::class, 'bebanKerja'])->name('erpika.beban-kerja');
     Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
     Route::get('/erpika/pegawai/{employee}/ringkasan', [PegawaiController::class, 'ringkasan'])->name('erpika.pegawai.ringkasan');
     Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');
