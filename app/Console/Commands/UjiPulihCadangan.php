@@ -75,7 +75,10 @@ class UjiPulihCadangan extends Command
             $jumlah = 0;
             $contohGagal = null;
             foreach ($this->pernyataan(File::get($sqlSementara)) as $stmt) {
-                if (preg_match('/^\s*(USE|CREATE\s+DATABASE|DROP\s+DATABASE)\b/i', $stmt)) {
+                // Lewati perpindahan basis data dan pengaturan sesi mysqldump
+                // (/*!40101 SET ... */): keduanya bukan data, dan pemulihan
+                // variabel sesi @OLD_* bisa gagal tanpa arti.
+                if (preg_match('/^\s*(USE|CREATE\s+DATABASE|DROP\s+DATABASE)\b/i', $stmt) || preg_match('/^\s*\/\*!\d+\s+SET\s/i', $stmt)) {
                     continue;
                 }
                 $jumlah++;
