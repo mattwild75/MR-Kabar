@@ -57,8 +57,8 @@ class RppTest extends TestCase
                 'status' => 'draft',
                 'obriks' => ['Dinas Pangan', 'Dinas Pertanian'],
                 'tim' => [
-                    ['role' => 'penanggung_jawab', 'nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197205042001121002', 'hari_kantor' => 1, 'hari_lapangan' => 1],
-                    ['role' => 'ketua_tim', 'nama' => 'Budi Santoso', 'nip' => '198001012005011001', 'hari_kantor' => 2, 'hari_lapangan' => 12],
+                    ['role' => 'pj', 'nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197205042001121002', 'hari_kantor' => 1, 'hari_lapangan' => 1],
+                    ['role' => 'kt', 'nama' => 'Budi Santoso', 'nip' => '198001012005011001', 'hari_kantor' => 2, 'hari_lapangan' => 12],
                 ],
             ]],
         ], $ubah);
@@ -93,7 +93,7 @@ class RppTest extends TestCase
             ->where('inspektur.nama', 'Zakaria, S.E., CGCAE')
             ->where('inspektur.nip_rapat', '197205042001121002')
             ->where('rpp.sub_judul', 'BULAN MARET 2026')
-            ->where('rpp.penugasan.0.tim.0.peran', 'Penanggungjawab'));
+            ->where('rpp.penugasan.0.tim.0.peran', 'Penanggung Jawab'));
 
         $this->actingAs($pengguna)->get("/rpp-cetak/{$rpp->id}/pengantar/preview")->assertOk()->assertInertia(fn ($page) => $page
             ->where('inspektur.nip_spasi', '19720504 200112 1 002')
@@ -162,7 +162,7 @@ class RppTest extends TestCase
             'year' => 2026,
             'nomor_rpp' => 'RPP-003/2026',
         ]);
-        $rpp->penugasan()->create(['uraian' => 'uji'])->teamMembers()->create(['employee_id' => $pegawai->id, 'role' => 'ketua_tim', 'nama' => $pegawai->nama]);
+        $rpp->penugasan()->create(['uraian' => 'uji'])->teamMembers()->create(['employee_id' => $pegawai->id, 'role' => 'kt', 'nama' => $pegawai->nama]);
 
         $this->actingAs($admin)->put("/erpika/pegawai/{$pegawai->id}", [
             'nama' => 'Rufran, S.Ag., M.Si',
@@ -188,7 +188,7 @@ class RppTest extends TestCase
             'year' => 2026,
             'nomor_rpp' => 'RPP-004/2026',
         ]);
-        $rpp->penugasan()->create(['uraian' => 'uji'])->teamMembers()->create(['employee_id' => $pegawai->id, 'role' => 'anggota_tim', 'nama' => $pegawai->nama]);
+        $rpp->penugasan()->create(['uraian' => 'uji'])->teamMembers()->create(['employee_id' => $pegawai->id, 'role' => 'at', 'nama' => $pegawai->nama]);
 
         $this->actingAs($admin)->delete("/erpika/pegawai/{$pegawai->id}")->assertRedirect();
 

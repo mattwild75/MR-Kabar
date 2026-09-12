@@ -27,6 +27,8 @@ interface Employee {
     pangkat: string | null;
     golongan: string | null;
     jabatan: string | null;
+    unit_kerja: string | null;
+    aktif: boolean;
     team_memberships_count: number;
 }
 
@@ -56,12 +58,19 @@ export default function Pegawai({ employees }: Props) {
     const [tambah, setTambah] = useState(false);
     const [hapus, setHapus] = useState<Employee | null>(null);
 
+    const [tampilNonaktif, setTampilNonaktif] = useState(false);
+
     const tersaring = useMemo(() => {
         const q = cari.trim().toLowerCase();
-        return q === '' ? employees : employees.filter((e) => e.nama.toLowerCase().includes(q) || (e.nip ?? '').includes(q));
-    }, [employees, cari]);
+        return employees
+            .filter((e) => tampilNonaktif || e.aktif)
+            .filter(
+                (e) => q === '' || e.nama.toLowerCase().includes(q) || (e.nip ?? '').includes(q) || (e.unit_kerja ?? '').toLowerCase().includes(q),
+            );
+    }, [employees, cari, tampilNonaktif]);
 
-    const tanpaNip = employees.filter((e) => !e.nip).length;
+    const aktif = employees.filter((e) => e.aktif);
+    const tanpaNip = aktif.filter((e) => !e.nip).length;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -78,7 +87,10 @@ export default function Pegawai({ employees }: Props) {
                         <div>
                             <CardTitle className="text-base">Daftar Pegawai</CardTitle>
                             <p className="text-muted-foreground text-xs">
-                                {employees.length} pegawai · {tanpaNip} belum punya NIP
+                                {aktif.length} pegawai aktif (roster Analisis dan Evaluasi 2026) · {tanpaNip} belum punya NIP ·{' '}
+                                <button type="button" className="underline" onClick={() => setTampilNonaktif(!tampilNonaktif)}>
+                                    {tampilNonaktif ? 'sembunyikan' : 'tampilkan'} {employees.length - aktif.length} pegawai lama
+                                </button>
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -106,6 +118,7 @@ export default function Pegawai({ employees }: Props) {
                                         <th className="border px-3 py-2 text-left">NIP</th>
                                         <th className="border px-3 py-2 text-left">Pangkat</th>
                                         <th className="border px-3 py-2 text-left">Gol.</th>
+                                        <th className="border px-3 py-2 text-left">Unit kerja</th>
                                         <th className="border px-3 py-2 text-left">Jabatan</th>
                                         <th className="border px-3 py-2 text-right">Dipakai di tim</th>
                                         <th className="border px-3 py-2 text-left">Aksi</th>
@@ -121,7 +134,15 @@ export default function Pegawai({ employees }: Props) {
                                             <td className="border px-3 py-2">{e.pangkat ?? '-'}</td>
                                             <td className="border px-3 py-2">{e.golongan ?? '-'}</td>
                                             <td className="border px-3 py-2">
-                                                {e.jabatan === 'Inspektur' ? <span className="font-medium">Inspektur (penanda tangan RPP)</span> : (e.jabatan ?? '-')}
+                                                {e.unit_kerja ?? '-'}
+                                                {!e.aktif && <span className="text-muted-foreground ml-1 text-xs">(tidak aktif)</span>}
+                                            </td>
+                                            <td className="border px-3 py-2">
+                                                {e.jabatan === 'Inspektur' ? (
+                                                    <span className="font-medium">Inspektur (penanda tangan RPP)</span>
+                                                ) : (
+                                                    (e.jabatan ?? '-')
+                                                )}
                                             </td>
                                             <td className="border px-3 py-2 text-right tabular-nums">{e.team_memberships_count}</td>
                                             <td className="border px-3 py-2">
@@ -186,7 +207,7 @@ export default function Pegawai({ employees }: Props) {
 }
 
 function FormPegawai({ terbuka, pegawai, tutup }: { terbuka: boolean; pegawai: Employee | null; tutup: () => void }) {
-    const [nilai, setNilai] = useState({ nama: '', nip: '', pangkat: '', golongan: '', jabatan: '' });
+    const [nilai, setNilai] = useState({ nama: '', nip: '', pangkat: '', golongan: '', jabatan: '', unit_kerja: '', aktif: true });
     const [menyimpan, setMenyimpan] = useState(false);
     const [kunciSebelumnya, setKunciSebelumnya] = useState<string>('');
 
@@ -195,7 +216,15 @@ function FormPegawai({ terbuka, pegawai, tutup }: { terbuka: boolean; pegawai: E
     const kunci = `${terbuka}-${pegawai?.id ?? 'baru'}`;
     if (kunci !== kunciSebelumnya) {
         setKunciSebelumnya(kunci);
-        setNilai({ nama: pegawai?.nama ?? '', nip: pegawai?.nip ?? '', pangkat: pegawai?.pangkat ?? '', golongan: pegawai?.golongan ?? '', jabatan: pegawai?.jabatan ?? '' });
+        setNilai({
+            nama: pegawai?.nama ?? '',
+            nip: pegawai?.nip ?? '',
+            pangkat: pegawai?.pangkat ?? '',
+            golongan: pegawai?.golongan ?? '',
+            jabatan: pegawai?.jabatan ?? '',
+            unit_kerja: pegawai?.unit_kerja ?? '',
+            aktif: pegawai?.aktif ?? true,
+        });
     }
 
     const simpan = () => {
@@ -206,6 +235,8 @@ function FormPegawai({ terbuka, pegawai, tutup }: { terbuka: boolean; pegawai: E
             pangkat: nilai.pangkat || null,
             golongan: nilai.golongan || null,
             jabatan: nilai.jabatan || null,
+            unit_kerja: nilai.unit_kerja || null,
+            aktif: nilai.aktif,
         };
         const opsi = {
             preserveScroll: true,
@@ -261,14 +292,46 @@ function FormPegawai({ terbuka, pegawai, tutup }: { terbuka: boolean; pegawai: E
                         </div>
                         <div className="sm:col-span-2">
                             <Label>Jabatan</Label>
-                            <Input list="jabatan-pegawai" value={nilai.jabatan} onChange={(e) => setNilai({ ...nilai, jabatan: e.target.value })} placeholder="mis. Inspektur, Auditor Muda" />
+                            <Input
+                                list="jabatan-pegawai"
+                                value={nilai.jabatan}
+                                onChange={(e) => setNilai({ ...nilai, jabatan: e.target.value })}
+                                placeholder="mis. Inspektur, Auditor Muda"
+                            />
                             <datalist id="jabatan-pegawai">
                                 {['Inspektur', 'Sekretaris', 'Inspektur Pembantu', 'Kasubbag', 'Auditor', 'P2UPD', 'Staf'].map((j) => (
                                     <option key={j} value={j} />
                                 ))}
                             </datalist>
-                            <p className="text-muted-foreground mt-1 text-xs">Pegawai berjabatan “Inspektur” menjadi penanda tangan seluruh RPP — hanya boleh satu.</p>
+                            <p className="text-muted-foreground mt-1 text-xs">
+                                Pegawai berjabatan “Inspektur” menjadi penanda tangan seluruh RPP — hanya boleh satu.
+                            </p>
                         </div>
+                        <div>
+                            <Label>Unit kerja</Label>
+                            <Input
+                                list="unit-pegawai"
+                                value={nilai.unit_kerja}
+                                onChange={(e) => setNilai({ ...nilai, unit_kerja: e.target.value })}
+                                placeholder="mis. Inspektur Pembantu II"
+                            />
+                            <datalist id="unit-pegawai">
+                                {[
+                                    'Sekretariat',
+                                    'Inspektur Pembantu I',
+                                    'Inspektur Pembantu II',
+                                    'Inspektur Pembantu III',
+                                    'Inspektur Pembantu IV',
+                                    'Inspektur Pembantu Khusus',
+                                ].map((u) => (
+                                    <option key={u} value={u} />
+                                ))}
+                            </datalist>
+                        </div>
+                        <label className="flex items-center gap-2 text-sm">
+                            <input type="checkbox" checked={nilai.aktif} onChange={(e) => setNilai({ ...nilai, aktif: e.target.checked })} />
+                            Masih aktif (ditawarkan saat menyusun tim)
+                        </label>
                     </div>
                     {pegawai && pegawai.team_memberships_count > 0 && (
                         <p className="text-muted-foreground text-xs">

@@ -28,7 +28,7 @@ class PegawaiController extends Controller
         $this->pastikanAdmin($request);
 
         return Inertia::render('erpika/Pegawai', [
-            'employees' => Employee::withCount('teamMemberships')->orderBy('nama')->get(),
+            'employees' => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('unit_kerja')->orderBy('nama')->get(),
         ]);
     }
 
@@ -90,6 +90,8 @@ class PegawaiController extends Controller
             'nip' => ['nullable', 'string', 'max:30', 'unique:employees,nip'.($kecuali ? ','.$kecuali->id : '')],
             'pangkat' => ['nullable', 'string', 'max:100'],
             'golongan' => ['nullable', 'string', 'max:20'],
+            'unit_kerja' => ['nullable', 'string', 'max:100'],
+            'aktif' => ['nullable', 'boolean'],
             // "Inspektur" hanya boleh satu: dialah penanda tangan seluruh RPP.
             'jabatan' => ['nullable', 'string', 'max:100', Rule::when($request->input('jabatan') === 'Inspektur', ['unique:employees,jabatan'.($kecuali ? ','.$kecuali->id : '')])],
         ], ['jabatan.unique' => 'Sudah ada pegawai berjabatan Inspektur; ubah dulu jabatannya.']);

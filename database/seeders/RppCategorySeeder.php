@@ -24,6 +24,7 @@ class RppCategorySeeder extends Seeder
             ['code' => 'I', 'name' => 'Kinerja', 'kode_nomor' => 'AKJ', 'sebutan' => 'Audit Kinerja', 'tujuan_surat' => 'Ketua Tim Audit Kinerja'],
             ['code' => 'J', 'name' => 'Kepatuhan Gampong', 'kode_nomor' => 'AKG', 'sebutan' => 'Audit Kepatuhan Gampong', 'tujuan_surat' => 'Ketua Tim Audit Kepatuhan'],
             ['code' => 'K', 'name' => 'Tujuan Tertentu', 'kode_nomor' => 'ADT', 'sebutan' => 'Audit dengan Tujuan Tertentu', 'tujuan_surat' => 'Ketua Tim Audit Dengan Tujuan Tertentu'],
+            ['code' => 'L', 'name' => 'Opname Kas', 'kode_nomor' => 'OK', 'sebutan' => 'Opname Kas', 'tujuan_surat' => 'Ketua Tim Opname Kas'],
         ];
 
         foreach ($categories as $i => $category) {

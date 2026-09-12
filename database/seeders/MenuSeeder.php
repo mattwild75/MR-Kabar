@@ -481,7 +481,7 @@ class MenuSeeder extends Seeder
         $formCetakHasilAnalisis = Menu::updateOrCreate(
             ['title' => 'Hasil Analisis Risiko', 'parent_id' => $formCetakRisiko->id],
             [
-                'icon' => 'ChartNoAxesCombined',
+                'icon' => 'BarChart3',
                 'route' => '#',
                 'order' => 3,
                 'permission_name' => null,
@@ -1081,6 +1081,26 @@ class MenuSeeder extends Seeder
         // baris RPP Perencanaan (12 September 2026).
         Menu::where('route', '/rpp-cetak')->delete();
 
+        // Rantai ERPIKA: Perencanaan (1) -> AREP/pelaksanaan (2) -> Laporan Penugasan (3)
+        // -> RPP Analisis dan Evaluasi (4); Pegawai (5) dipakai semuanya.
+        Menu::updateOrCreate(
+            ['route' => '/erpika/arep'],
+            ['title' => 'AREP', 'parent_id' => $erpika->id, 'icon' => 'ClipboardCheck', 'order' => 2, 'permission_name' => null]
+        );
+        Menu::updateOrCreate(
+            ['route' => '/erpika/laporan-penugasan'],
+            ['title' => 'Laporan Penugasan', 'parent_id' => $erpika->id, 'icon' => 'FileCheck', 'order' => 3, 'permission_name' => null]
+        );
+        // ANEVA (Analisis dan Evaluasi) = kelompok; RPP Aneva anak pertamanya.
+        $erpikaAneva = Menu::updateOrCreate(
+            ['title' => 'ANEVA', 'parent_id' => $erpika->id],
+            ['icon' => 'BarChart3', 'route' => '#', 'order' => 4, 'permission_name' => null]
+        );
+        Menu::updateOrCreate(
+            ['route' => '/erpika/aneva'],
+            ['title' => 'RPP Aneva', 'parent_id' => $erpikaAneva->id, 'icon' => 'LineChart', 'order' => 1, 'permission_name' => null]
+        );
+
         // Pegawai: saudara Perencanaan, bukan anaknya — dipakai seluruh ERPIKA.
         Menu::updateOrCreate(
             ['route' => '/erpika/pegawai'],
@@ -1088,7 +1108,7 @@ class MenuSeeder extends Seeder
                 'title' => 'Pegawai',
                 'parent_id' => $erpika->id,
                 'icon' => 'Users',
-                'order' => 2,
+                'order' => 5,
                 'permission_name' => null,
             ]
         );

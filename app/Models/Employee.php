@@ -13,7 +13,11 @@ class Employee extends Model
         'pangkat',
         'golongan',
         'jabatan',
+        'unit_kerja',
+        'aktif',
     ];
+
+    protected $casts = ['aktif' => 'boolean'];
 
     public function teamMemberships(): HasMany
     {

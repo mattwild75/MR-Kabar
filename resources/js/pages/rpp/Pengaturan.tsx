@@ -43,10 +43,23 @@ export default function Pengaturan({ setting, inspektur }: Props) {
                     <CardContent className="space-y-3">
                         <div className="max-w-xs space-y-1">
                             <Label htmlFor="tarif">Rupiah per orang per hari</Label>
-                            <Input id="tarif" type="number" min={0} value={form.data.tarif_per_hari} onChange={(e) => form.setData('tarif_per_hari', Number(e.target.value))} />
-                            <p className="text-muted-foreground text-xs">Dipakai bila dokumen RPP atau anggota tim tidak menetapkan tarifnya sendiri.</p>
+                            <Input
+                                id="tarif"
+                                type="number"
+                                min={0}
+                                value={form.data.tarif_per_hari}
+                                onChange={(e) => form.setData('tarif_per_hari', Number(e.target.value))}
+                            />
+                            <p className="text-muted-foreground text-xs">
+                                Dipakai bila dokumen RPP atau anggota tim tidak menetapkan tarifnya sendiri.
+                            </p>
                         </div>
-                        <Button onClick={() => form.put('/rpp-pengaturan', { preserveScroll: true, onSuccess: () => toast.success('Pengaturan disimpan.') })} disabled={form.processing}>
+                        <Button
+                            onClick={() =>
+                                form.put('/rpp-pengaturan', { preserveScroll: true, onSuccess: () => toast.success('Pengaturan disimpan.') })
+                            }
+                            disabled={form.processing}
+                        >
                             Simpan
                         </Button>
                     </CardContent>
@@ -69,7 +82,8 @@ export default function Pengaturan({ setting, inspektur }: Props) {
                             <div className="text-destructive">Belum ada pegawai berjabatan Inspektur — cetakan RPP akan bertitik-titik.</div>
                         )}
                         <p className="text-muted-foreground text-xs">
-                            Semua tabel dan surat pengantar RPP ditandatangani Inspektur; tidak ada pilihan lain. Untuk menggantinya, ubah jabatan pegawai di{' '}
+                            Semua tabel dan surat pengantar RPP ditandatangani Inspektur; tidak ada pilihan lain. Untuk menggantinya, ubah jabatan
+                            pegawai di{' '}
                             <Link href="/erpika/pegawai" className="underline">
                                 ERPIKA → Pegawai
                             </Link>

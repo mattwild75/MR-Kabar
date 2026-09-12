@@ -7,13 +7,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RppTeamMember extends Model
 {
+    /** Susunan baku tim penugasan APIP (arahan 12 September 2026). */
     public const PERAN = [
-        'penanggung_jawab' => 'Penanggungjawab',
-        'koordinator' => 'Koordinator',
-        'ppj' => 'PPJ/Pengendali Teknis',
-        'ketua_tim' => 'Ketua Tim',
-        'anggota_tim' => 'Anggota Tim',
+        'pj' => 'Penanggung Jawab',
+        'wpj' => 'Wakil Penanggung Jawab',
+        'dalnis' => 'Pengendali Teknis',
+        'kt' => 'Ketua Tim',
+        'at' => 'Anggota Tim',
     ];
+
+    public const PERAN_SINGKAT = ['pj' => 'PJ', 'wpj' => 'WPJ', 'dalnis' => 'Dalnis', 'kt' => 'KT', 'at' => 'AT'];
 
     protected $fillable = [
         'rpp_penugasan_id',

@@ -32,7 +32,7 @@ interface Pegawai {
     jabatan: string | null;
 }
 
-type Peran = 'penanggung_jawab' | 'koordinator' | 'ppj' | 'ketua_tim' | 'anggota_tim';
+type Peran = 'pj' | 'wpj' | 'dalnis' | 'kt' | 'at';
 
 type Anggota = {
     employee_id: number | null;
@@ -143,18 +143,18 @@ interface Props {
 const BULAN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
 const PERAN: Record<Peran, string> = {
-    penanggung_jawab: 'Penanggungjawab',
-    koordinator: 'Koordinator',
-    ppj: 'PPJ/Pengendali Teknis',
-    ketua_tim: 'Ketua Tim',
-    anggota_tim: 'Anggota Tim',
+    pj: 'Penanggung Jawab (PJ)',
+    wpj: 'Wakil Penanggung Jawab (WPJ)',
+    dalnis: 'Pengendali Teknis (Dalnis)',
+    kt: 'Ketua Tim (KT)',
+    at: 'Anggota Tim (AT)',
 };
 
 const STATUS: Record<Penugasan['status'], string> = { draft: 'Draft', st_terbit: 'ST terbit', selesai: 'Selesai', lhp_terbit: 'LHP terbit' };
 
 const rupiah = (n: number) => 'Rp ' + n.toLocaleString('id-ID');
 
-const anggotaKosong = (role: Peran = 'anggota_tim'): Anggota => ({
+const anggotaKosong = (role: Peran = 'at'): Anggota => ({
     employee_id: null,
     role,
     peran_teks: '',
@@ -177,7 +177,7 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
     const timBaku = (): Anggota[] => [
         inspektur
             ? {
-                  ...anggotaKosong('penanggung_jawab'),
+                  ...anggotaKosong('pj'),
                   employee_id: inspektur.id,
                   nama: inspektur.nama,
                   nip: inspektur.nip ?? '',
@@ -186,11 +186,12 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                   hari_kantor: 1,
                   hari_lapangan: 1,
               }
-            : anggotaKosong('penanggung_jawab'),
-        { ...anggotaKosong('ppj'), hari_kantor: 1 },
-        anggotaKosong('ketua_tim'),
-        anggotaKosong('anggota_tim'),
-        anggotaKosong('anggota_tim'),
+            : anggotaKosong('pj'),
+        { ...anggotaKosong('wpj'), hari_kantor: 1 },
+        { ...anggotaKosong('dalnis'), hari_kantor: 1 },
+        anggotaKosong('kt'),
+        anggotaKosong('at'),
+        anggotaKosong('at'),
     ];
 
     const penugasanKosong = (): Penugasan => ({
@@ -274,7 +275,13 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
     };
     const pilihPegawai = (i: number, j: number, nama: string) => {
         const e = employees.find((x) => x.nama === nama);
-        ubahAnggota(i, j, e ? { employee_id: e.id, nama: e.nama, nip: e.nip ?? '', pangkat: e.pangkat ?? '', golongan: e.golongan ?? '' } : { employee_id: null, nama });
+        ubahAnggota(
+            i,
+            j,
+            e
+                ? { employee_id: e.id, nama: e.nama, nip: e.nip ?? '', pangkat: e.pangkat ?? '', golongan: e.golongan ?? '' }
+                : { employee_id: null, nama },
+        );
     };
     const geserAnggota = (i: number, j: number, arah: -1 | 1) => {
         const tim = [...data.penugasan[i].tim];
@@ -348,7 +355,9 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
             <div className="space-y-5 p-4 pb-28 md:p-6">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">{rpp ? `Ubah RPP ${rpp.nomor_rpp}` : 'Tambah RPP'}</h1>
-                    <p className="text-muted-foreground text-sm">Satu dokumen RPP bisa memuat beberapa penugasan; tiap penugasan punya tim dan hari pemeriksaannya sendiri.</p>
+                    <p className="text-muted-foreground text-sm">
+                        Satu dokumen RPP bisa memuat beberapa penugasan; tiap penugasan punya tim dan hari pemeriksaannya sendiri.
+                    </p>
                 </div>
 
                 {/* ---- Dokumen ---- */}
@@ -395,8 +404,17 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                         </div>
                         <div className="space-y-1 md:col-span-2">
                             <Label>Nomor RPP</Label>
-                            <Input value={data.nomor_rpp} onChange={(e) => setData('nomor_rpp', e.target.value)} placeholder={contohNomor} className="font-mono" />
-                            {galat('nomor_rpp') ? <p className="text-destructive text-xs">{galat('nomor_rpp')}</p> : <p className="text-muted-foreground text-xs">Pola: {contohNomor}</p>}
+                            <Input
+                                value={data.nomor_rpp}
+                                onChange={(e) => setData('nomor_rpp', e.target.value)}
+                                placeholder={contohNomor}
+                                className="font-mono"
+                            />
+                            {galat('nomor_rpp') ? (
+                                <p className="text-destructive text-xs">{galat('nomor_rpp')}</p>
+                            ) : (
+                                <p className="text-muted-foreground text-xs">Pola: {contohNomor}</p>
+                            )}
                         </div>
                         <div className="space-y-1">
                             <Label>Tanggal RPP</Label>
@@ -404,18 +422,31 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                         </div>
                         <div className="space-y-1">
                             <Label>Tarif per hari (Rp)</Label>
-                            <Input type="number" min={0} value={data.tarif_per_hari} onChange={(e) => setData('tarif_per_hari', e.target.value === '' ? '' : Number(e.target.value))} />
+                            <Input
+                                type="number"
+                                min={0}
+                                value={data.tarif_per_hari}
+                                onChange={(e) => setData('tarif_per_hari', e.target.value === '' ? '' : Number(e.target.value))}
+                            />
                             <p className="text-muted-foreground text-xs">Baku {rupiah(tarifBaku)}; bisa diganti per anggota.</p>
                         </div>
                         <div className="space-y-1 md:col-span-2">
                             <Label>Judul di kepala tabel</Label>
                             <Input value={data.judul} onChange={(e) => setData('judul', e.target.value)} placeholder="RENCANA PENUGASAN PENGAWASAN" />
-                            <p className="text-muted-foreground text-xs">Kosongkan untuk judul baku. Contoh varian: RENCANA PENUGASAN PENGAWASAN- KINERJA SKPK.</p>
+                            <p className="text-muted-foreground text-xs">
+                                Kosongkan untuk judul baku. Contoh varian: RENCANA PENUGASAN PENGAWASAN- KINERJA SKPK.
+                            </p>
                         </div>
                         <div className="space-y-1 md:col-span-2">
                             <Label>Baris kedua kepala tabel</Label>
-                            <Input value={data.sub_judul} onChange={(e) => setData('sub_judul', e.target.value)} placeholder={`BULAN ${(BULAN[Number(data.bulan) - 1] ?? '').toUpperCase()} ${data.year}`} />
-                            <p className="text-muted-foreground text-xs">Kosongkan untuk “BULAN … TAHUN”. Contoh varian: EVALUASI LAKIP TAHUN 2025.</p>
+                            <Input
+                                value={data.sub_judul}
+                                onChange={(e) => setData('sub_judul', e.target.value)}
+                                placeholder={`BULAN ${(BULAN[Number(data.bulan) - 1] ?? '').toUpperCase()} ${data.year}`}
+                            />
+                            <p className="text-muted-foreground text-xs">
+                                Kosongkan untuk “BULAN … TAHUN”. Contoh varian: EVALUASI LAKIP TAHUN 2025.
+                            </p>
                         </div>
                     </CardContent>
                 </Card>
@@ -438,7 +469,13 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                         size="sm"
                                         variant="ghost"
                                         title="Salin penugasan ini"
-                                        onClick={() => setData('penugasan', [...data.penugasan.slice(0, i + 1), JSON.parse(JSON.stringify(p)), ...data.penugasan.slice(i + 1)])}
+                                        onClick={() =>
+                                            setData('penugasan', [
+                                                ...data.penugasan.slice(0, i + 1),
+                                                JSON.parse(JSON.stringify(p)),
+                                                ...data.penugasan.slice(i + 1),
+                                            ])
+                                        }
                                     >
                                         <Copy className="h-4 w-4" />
                                     </Button>
@@ -463,12 +500,24 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                 <div className="grid gap-4 md:grid-cols-3">
                                     <div className="space-y-1 md:col-span-2">
                                         <Label>Obrik / uraian penugasan</Label>
-                                        <Textarea rows={2} value={p.uraian} onChange={(e) => ubahPenugasan(i, { uraian: e.target.value })} placeholder="mis. Audit Kinerja atas Program Ketahanan Pangan TA 2024" />
-                                        {galat(`penugasan.${i}.uraian`) && <p className="text-destructive text-xs">{galat(`penugasan.${i}.uraian`)}</p>}
+                                        <Textarea
+                                            rows={2}
+                                            value={p.uraian}
+                                            onChange={(e) => ubahPenugasan(i, { uraian: e.target.value })}
+                                            placeholder="mis. Audit Kinerja atas Program Ketahanan Pangan TA 2024"
+                                        />
+                                        {galat(`penugasan.${i}.uraian`) && (
+                                            <p className="text-destructive text-xs">{galat(`penugasan.${i}.uraian`)}</p>
+                                        )}
                                     </div>
                                     <div className="space-y-1">
                                         <Label>Sifat audit</Label>
-                                        <Input list={`sifat-${i}`} value={p.sifat} onChange={(e) => ubahPenugasan(i, { sifat: e.target.value })} placeholder="Kinerja / Kepatuhan / Reviu" />
+                                        <Input
+                                            list={`sifat-${i}`}
+                                            value={p.sifat}
+                                            onChange={(e) => ubahPenugasan(i, { sifat: e.target.value })}
+                                            placeholder="Kinerja / Kepatuhan / Reviu"
+                                        />
                                         <datalist id={`sifat-${i}`}>
                                             {sifatTersedia.map((s) => (
                                                 <option key={s} value={s} />
@@ -477,13 +526,27 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                     </div>
                                     <div className="space-y-1 md:col-span-2">
                                         <Label>Daftar objek (satu per baris, opsional)</Label>
-                                        <Textarea rows={3} value={p.obriks_teks} onChange={(e) => ubahPenugasan(i, { obriks_teks: e.target.value })} placeholder={'1. Dinas Pendidikan dan Kebudayaan\n2. Dinas Sosial'} />
-                                        <p className="text-muted-foreground text-xs">Dicetak bernomor di bawah uraian, seperti daftar OPD pada evaluasi LAKIP.</p>
+                                        <Textarea
+                                            rows={3}
+                                            value={p.obriks_teks}
+                                            onChange={(e) => ubahPenugasan(i, { obriks_teks: e.target.value })}
+                                            placeholder={'1. Dinas Pendidikan dan Kebudayaan\n2. Dinas Sosial'}
+                                        />
+                                        <p className="text-muted-foreground text-xs">
+                                            Dicetak bernomor di bawah uraian, seperti daftar OPD pada evaluasi LAKIP.
+                                        </p>
                                     </div>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="space-y-1">
                                             <Label>Jumlah laporan</Label>
-                                            <Input type="number" min={0} value={p.jumlah_laporan} onChange={(e) => ubahPenugasan(i, { jumlah_laporan: e.target.value === '' ? '' : Number(e.target.value) })} />
+                                            <Input
+                                                type="number"
+                                                min={0}
+                                                value={p.jumlah_laporan}
+                                                onChange={(e) =>
+                                                    ubahPenugasan(i, { jumlah_laporan: e.target.value === '' ? '' : Number(e.target.value) })
+                                                }
+                                            />
                                         </div>
                                         <div className="space-y-1">
                                             <Label>Status</Label>
@@ -507,7 +570,9 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                         <div className="space-y-1">
                                             <Label>TMT selesai</Label>
                                             <DatePicker value={p.masa_tugas_selesai} onChange={(v) => ubahPenugasan(i, { masa_tugas_selesai: v })} />
-                                            {galat(`penugasan.${i}.masa_tugas_selesai`) && <p className="text-destructive text-xs">Selesai harus sesudah mulai.</p>}
+                                            {galat(`penugasan.${i}.masa_tugas_selesai`) && (
+                                                <p className="text-destructive text-xs">Selesai harus sesudah mulai.</p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -522,7 +587,12 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                             <Button type="button" size="sm" variant="outline" onClick={() => ubahPenugasan(i, { tim: timBaku() })}>
                                                 Susunan baku
                                             </Button>
-                                            <Button type="button" size="sm" variant="outline" onClick={() => ubahPenugasan(i, { tim: [...p.tim, anggotaKosong()] })}>
+                                            <Button
+                                                type="button"
+                                                size="sm"
+                                                variant="outline"
+                                                onClick={() => ubahPenugasan(i, { tim: [...p.tim, anggotaKosong()] })}
+                                            >
                                                 <Plus className="mr-1 h-3.5 w-3.5" /> Anggota
                                             </Button>
                                         </div>
@@ -549,17 +619,37 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                                     <tr key={j} className="align-top">
                                                         <td className="px-2 py-1.5 tabular-nums">{j + 1}</td>
                                                         <td className="px-2 py-1.5">
-                                                            <AutocompleteSelect value={m.nama} onChange={(v) => pilihPegawai(i, j, v)} options={namaPegawai} placeholder="Ketik nama pegawai…" />
-                                                            {galat(`penugasan.${i}.tim.${j}.nama`) && <p className="text-destructive">{galat(`penugasan.${i}.tim.${j}.nama`)}</p>}
+                                                            <AutocompleteSelect
+                                                                value={m.nama}
+                                                                onChange={(v) => pilihPegawai(i, j, v)}
+                                                                options={namaPegawai}
+                                                                placeholder="Ketik nama pegawai…"
+                                                            />
+                                                            {galat(`penugasan.${i}.tim.${j}.nama`) && (
+                                                                <p className="text-destructive">{galat(`penugasan.${i}.tim.${j}.nama`)}</p>
+                                                            )}
                                                         </td>
                                                         <td className="px-2 py-1.5">
-                                                            <Input className="h-8 font-mono text-xs" value={m.nip} onChange={(e) => ubahAnggota(i, j, { nip: e.target.value })} />
+                                                            <Input
+                                                                className="h-8 font-mono text-xs"
+                                                                value={m.nip}
+                                                                onChange={(e) => ubahAnggota(i, j, { nip: e.target.value })}
+                                                            />
                                                         </td>
                                                         <td className="px-2 py-1.5">
-                                                            <Input className="h-8 text-xs" value={m.pangkat} onChange={(e) => ubahAnggota(i, j, { pangkat: e.target.value })} />
+                                                            <Input
+                                                                className="h-8 text-xs"
+                                                                value={m.pangkat}
+                                                                onChange={(e) => ubahAnggota(i, j, { pangkat: e.target.value })}
+                                                            />
                                                         </td>
                                                         <td className="px-2 py-1.5">
-                                                            <Input className="h-8 text-xs" value={m.golongan} onChange={(e) => ubahAnggota(i, j, { golongan: e.target.value })} placeholder="IV/a" />
+                                                            <Input
+                                                                className="h-8 text-xs"
+                                                                value={m.golongan}
+                                                                onChange={(e) => ubahAnggota(i, j, { golongan: e.target.value })}
+                                                                placeholder="IV/a"
+                                                            />
                                                         </td>
                                                         <td className="px-2 py-1.5">
                                                             <Select value={m.role} onValueChange={(v) => ubahAnggota(i, j, { role: v as Peran })}>
@@ -582,23 +672,72 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                                             />
                                                         </td>
                                                         <td className="px-2 py-1.5">
-                                                            <Input type="number" min={0} className="h-8 text-center text-xs" value={m.hari_kantor} onChange={(e) => ubahAnggota(i, j, { hari_kantor: e.target.value === '' ? '' : Number(e.target.value) })} />
+                                                            <Input
+                                                                type="number"
+                                                                min={0}
+                                                                className="h-8 text-center text-xs"
+                                                                value={m.hari_kantor}
+                                                                onChange={(e) =>
+                                                                    ubahAnggota(i, j, {
+                                                                        hari_kantor: e.target.value === '' ? '' : Number(e.target.value),
+                                                                    })
+                                                                }
+                                                            />
                                                         </td>
                                                         <td className="px-2 py-1.5">
-                                                            <Input type="number" min={0} className="h-8 text-center text-xs" value={m.hari_lapangan} onChange={(e) => ubahAnggota(i, j, { hari_lapangan: e.target.value === '' ? '' : Number(e.target.value) })} />
+                                                            <Input
+                                                                type="number"
+                                                                min={0}
+                                                                className="h-8 text-center text-xs"
+                                                                value={m.hari_lapangan}
+                                                                onChange={(e) =>
+                                                                    ubahAnggota(i, j, {
+                                                                        hari_lapangan: e.target.value === '' ? '' : Number(e.target.value),
+                                                                    })
+                                                                }
+                                                            />
                                                         </td>
                                                         <td className="px-2 py-1.5">
-                                                            <Input type="number" min={0} className="h-8 text-xs" value={m.tarif_per_hari} placeholder={String(tarifDok)} onChange={(e) => ubahAnggota(i, j, { tarif_per_hari: e.target.value === '' ? '' : Number(e.target.value) })} />
+                                                            <Input
+                                                                type="number"
+                                                                min={0}
+                                                                className="h-8 text-xs"
+                                                                value={m.tarif_per_hari}
+                                                                placeholder={String(tarifDok)}
+                                                                onChange={(e) =>
+                                                                    ubahAnggota(i, j, {
+                                                                        tarif_per_hari: e.target.value === '' ? '' : Number(e.target.value),
+                                                                    })
+                                                                }
+                                                            />
                                                         </td>
                                                         <td className="px-1 py-1.5">
                                                             <div className="flex">
-                                                                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={() => geserAnggota(i, j, -1)}>
+                                                                <Button
+                                                                    type="button"
+                                                                    size="icon"
+                                                                    variant="ghost"
+                                                                    className="h-7 w-7"
+                                                                    onClick={() => geserAnggota(i, j, -1)}
+                                                                >
                                                                     <ArrowUp className="h-3.5 w-3.5" />
                                                                 </Button>
-                                                                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={() => geserAnggota(i, j, 1)}>
+                                                                <Button
+                                                                    type="button"
+                                                                    size="icon"
+                                                                    variant="ghost"
+                                                                    className="h-7 w-7"
+                                                                    onClick={() => geserAnggota(i, j, 1)}
+                                                                >
                                                                     <ArrowDown className="h-3.5 w-3.5" />
                                                                 </Button>
-                                                                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={() => ubahPenugasan(i, { tim: p.tim.filter((_, k) => k !== j) })}>
+                                                                <Button
+                                                                    type="button"
+                                                                    size="icon"
+                                                                    variant="ghost"
+                                                                    className="h-7 w-7"
+                                                                    onClick={() => ubahPenugasan(i, { tim: p.tim.filter((_, k) => k !== j) })}
+                                                                >
                                                                     <Trash2 className="text-destructive h-3.5 w-3.5" />
                                                                 </Button>
                                                             </div>
@@ -608,20 +747,33 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                             </tbody>
                                         </table>
                                     </div>
-                                    <p className="text-muted-foreground text-xs">Pilih nama dari daftar pegawai supaya NIP/pangkat/golongan terisi sendiri; nama di luar daftar tetap boleh diketik.</p>
+                                    <p className="text-muted-foreground text-xs">
+                                        Pilih nama dari daftar pegawai supaya NIP/pangkat/golongan terisi sendiri; nama di luar daftar tetap boleh
+                                        diketik.
+                                    </p>
                                 </div>
 
                                 {/* Naskah dinas & laporan */}
                                 <details className="rounded border p-3">
-                                    <summary className="cursor-pointer text-sm font-medium">Naskah dinas & laporan (SP, ST, KP, LHP) — opsional</summary>
+                                    <summary className="cursor-pointer text-sm font-medium">
+                                        Naskah dinas & laporan (SP, ST, KP, LHP) — opsional
+                                    </summary>
                                     <div className="mt-3 grid gap-3 md:grid-cols-4">
                                         <div className="space-y-1">
                                             <Label>Nomor SP</Label>
-                                            <Input value={p.nomor_sp} onChange={(e) => ubahPenugasan(i, { nomor_sp: e.target.value })} className="font-mono text-xs" />
+                                            <Input
+                                                value={p.nomor_sp}
+                                                onChange={(e) => ubahPenugasan(i, { nomor_sp: e.target.value })}
+                                                className="font-mono text-xs"
+                                            />
                                         </div>
                                         <div className="space-y-1">
                                             <Label>Nomor ST</Label>
-                                            <Input value={p.nomor_st} onChange={(e) => ubahPenugasan(i, { nomor_st: e.target.value })} className="font-mono text-xs" />
+                                            <Input
+                                                value={p.nomor_st}
+                                                onChange={(e) => ubahPenugasan(i, { nomor_st: e.target.value })}
+                                                className="font-mono text-xs"
+                                            />
                                         </div>
                                         <div className="space-y-1">
                                             <Label>Tanggal ST</Label>
@@ -629,7 +781,11 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                         </div>
                                         <div className="space-y-1">
                                             <Label>Nomor KP</Label>
-                                            <Input value={p.nomor_kp} onChange={(e) => ubahPenugasan(i, { nomor_kp: e.target.value })} className="font-mono text-xs" />
+                                            <Input
+                                                value={p.nomor_kp}
+                                                onChange={(e) => ubahPenugasan(i, { nomor_kp: e.target.value })}
+                                                className="font-mono text-xs"
+                                            />
                                         </div>
                                         <div className="space-y-1 md:col-span-2">
                                             <Label>Capaian output</Label>
@@ -637,20 +793,54 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                         </div>
                                         <div className="space-y-1 md:col-span-2">
                                             <Label>Teks TMT khusus (opsional)</Label>
-                                            <Input value={p.tmt_teks} onChange={(e) => ubahPenugasan(i, { tmt_teks: e.target.value })} placeholder="mis. TMT 12 Maret - 9 April 2025" />
+                                            <Input
+                                                value={p.tmt_teks}
+                                                onChange={(e) => ubahPenugasan(i, { tmt_teks: e.target.value })}
+                                                placeholder="mis. TMT 12 Maret - 9 April 2025"
+                                            />
                                         </div>
                                         <div className="space-y-2 md:col-span-4">
                                             <div className="flex items-center justify-between">
                                                 <Label>Laporan (LHP) terbit</Label>
-                                                <Button type="button" size="sm" variant="outline" onClick={() => ubahPenugasan(i, { laporans: [...p.laporans, { nomor_laporan: '', tanggal_laporan: '' }] })}>
+                                                <Button
+                                                    type="button"
+                                                    size="sm"
+                                                    variant="outline"
+                                                    onClick={() =>
+                                                        ubahPenugasan(i, { laporans: [...p.laporans, { nomor_laporan: '', tanggal_laporan: '' }] })
+                                                    }
+                                                >
                                                     <Plus className="mr-1 h-3.5 w-3.5" /> Laporan
                                                 </Button>
                                             </div>
                                             {p.laporans.map((l, k) => (
                                                 <div key={k} className="flex flex-wrap items-center gap-2">
-                                                    <Input className="flex-1 font-mono text-xs" placeholder="Nomor laporan" value={l.nomor_laporan} onChange={(e) => ubahPenugasan(i, { laporans: p.laporans.map((x, y) => (y === k ? { ...x, nomor_laporan: e.target.value } : x)) })} />
-                                                    <DatePicker value={l.tanggal_laporan} onChange={(v) => ubahPenugasan(i, { laporans: p.laporans.map((x, y) => (y === k ? { ...x, tanggal_laporan: v } : x)) })} />
-                                                    <Button type="button" size="icon" variant="ghost" onClick={() => ubahPenugasan(i, { laporans: p.laporans.filter((_, y) => y !== k) })}>
+                                                    <Input
+                                                        className="flex-1 font-mono text-xs"
+                                                        placeholder="Nomor laporan"
+                                                        value={l.nomor_laporan}
+                                                        onChange={(e) =>
+                                                            ubahPenugasan(i, {
+                                                                laporans: p.laporans.map((x, y) =>
+                                                                    y === k ? { ...x, nomor_laporan: e.target.value } : x,
+                                                                ),
+                                                            })
+                                                        }
+                                                    />
+                                                    <DatePicker
+                                                        value={l.tanggal_laporan}
+                                                        onChange={(v) =>
+                                                            ubahPenugasan(i, {
+                                                                laporans: p.laporans.map((x, y) => (y === k ? { ...x, tanggal_laporan: v } : x)),
+                                                            })
+                                                        }
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        size="icon"
+                                                        variant="ghost"
+                                                        onClick={() => ubahPenugasan(i, { laporans: p.laporans.filter((_, y) => y !== k) })}
+                                                    >
                                                         <Trash2 className="text-destructive h-4 w-4" />
                                                     </Button>
                                                 </div>
@@ -670,12 +860,18 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                 <Card>
                     <CardHeader>
                         <CardTitle className="text-base">Surat pengantar</CardTitle>
-                        <p className="text-muted-foreground text-sm">Ditujukan kepada Ketua Tim; kalimat pembuka (dasar penugasan) diketik di sini, sisanya kalimat baku.</p>
+                        <p className="text-muted-foreground text-sm">
+                            Ditujukan kepada Ketua Tim; kalimat pembuka (dasar penugasan) diketik di sini, sisanya kalimat baku.
+                        </p>
                     </CardHeader>
                     <CardContent className="grid gap-4 md:grid-cols-3">
                         <div className="space-y-1">
                             <Label>Tanggal surat</Label>
-                            <DatePicker value={data.tanggal_surat} onChange={(v) => setData('tanggal_surat', v)} placeholder="sama dengan tanggal RPP" />
+                            <DatePicker
+                                value={data.tanggal_surat}
+                                onChange={(v) => setData('tanggal_surat', v)}
+                                placeholder="sama dengan tanggal RPP"
+                            />
                         </div>
                         <div className="space-y-1">
                             <Label>Hal</Label>
@@ -683,7 +879,11 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                         </div>
                         <div className="space-y-1">
                             <Label>Yang terhormat</Label>
-                            <Input value={data.tujuan_surat} onChange={(e) => setData('tujuan_surat', e.target.value)} placeholder={`Ketua Tim ${kategori?.sebutan ?? '…'}`} />
+                            <Input
+                                value={data.tujuan_surat}
+                                onChange={(e) => setData('tujuan_surat', e.target.value)}
+                                placeholder={`Ketua Tim ${kategori?.sebutan ?? '…'}`}
+                            />
                         </div>
                         <div className="space-y-1 md:col-span-3">
                             <Label>Paragraf 1 — dasar penugasan</Label>

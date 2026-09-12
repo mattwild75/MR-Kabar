@@ -21,18 +21,19 @@ class RppPenugasan extends Model
         9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember',
     ];
 
-    public const STATUS = ['draft', 'st_terbit', 'selesai', 'lhp_terbit'];
+    public const STATUS = ['draft', 'st_terbit', 'selesai', 'lhp_terbit', 'batal'];
 
     protected $fillable = [
         'rpp_id', 'urutan', 'uraian', 'sifat', 'jumlah_laporan',
         'masa_tugas_mulai', 'masa_tugas_selesai', 'tmt_teks',
-        'nomor_sp', 'nomor_st', 'tanggal_st', 'nomor_kp', 'capaian_output', 'status',
+        'nomor_sp', 'nomor_st', 'tanggal_st', 'nomor_kp', 'capaian_output', 'status', 'keterangan', 'sinkron_aneva_pada',
     ];
 
     protected $casts = [
         'masa_tugas_mulai' => 'date',
         'masa_tugas_selesai' => 'date',
         'tanggal_st' => 'date',
+        'sinkron_aneva_pada' => 'datetime',
     ];
 
     public function rpp(): BelongsTo

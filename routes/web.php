@@ -18,6 +18,7 @@ use App\Http\Controllers\CetakStrukturPengelolaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\Erpika\AnevaController;
 use App\Http\Controllers\Erpika\PegawaiController;
 use App\Http\Controllers\FraudRisikoController;
 use App\Http\Controllers\IroPdController;
@@ -270,6 +271,13 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // ERPIKA > Pegawai — daftar pegawai Inspektorat, milik seluruh ERPIKA.
     // Segala yang eksklusif ERPIKA memakai prefix /erpika dan hidup hanya di
     // bawah menu ERPIKA (arahan 12 September 2026).
+    // ERPIKA > RPP Analisis dan Evaluasi — realisasi tiap ST (data yang sama dengan RPP Perencanaan).
+    Route::get('/erpika/aneva', [AnevaController::class, 'index'])->name('erpika.aneva.index');
+    Route::get('/erpika/aneva/cetak/preview', [AnevaController::class, 'previewCetak'])->name('erpika.aneva.cetak.preview');
+    Route::get('/erpika/aneva/cetak', [AnevaController::class, 'cetak'])->name('erpika.aneva.cetak');
+    // ERPIKA > AREP dan Laporan Penugasan — disiapkan kosong (arahan 12 September 2026).
+    Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
+    Route::get('/erpika/laporan-penugasan', fn () => Inertia::render('erpika/LaporanPenugasan'))->name('erpika.laporan-penugasan');
     Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
     Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');
     Route::put('/erpika/pegawai/{employee}', [PegawaiController::class, 'update'])->name('erpika.pegawai.update');

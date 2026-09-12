@@ -72,7 +72,11 @@ export default function RppPreviewPengantar({ rpp, inspektur }: Props) {
             </div>
 
             <div className="surat mx-auto w-[210mm] max-w-full bg-white px-[12mm] py-[10mm] text-black print:w-auto">
-                <img src="/images/erpika/kop-inspektorat.png" alt="Kop Inspektorat Kabupaten Aceh Barat" className="-mx-[6mm] mb-3 w-[calc(100%+12mm)] max-w-none" />
+                <img
+                    src="/images/erpika/kop-inspektorat.png"
+                    alt="Kop Inspektorat Kabupaten Aceh Barat"
+                    className="-mx-[6mm] mb-3 w-[calc(100%+12mm)] max-w-none"
+                />
 
                 <table className="w-full border-collapse">
                     <tbody className="align-top">
@@ -110,9 +114,9 @@ export default function RppPreviewPengantar({ rpp, inspektur }: Props) {
                 <ol className="mt-5 ml-[10mm] list-decimal space-y-3 pl-5">
                     <li>{rpp.dasar}</li>
                     <li>
-                        Berkaitan hal tersebut diatas, disampaikan kepada Saudara tentang Rencana Penugasan {rpp.sebutan} (terlampir), dan untuk memenuhi
-                        hal tersebut di atas diminta kepada Saudara untuk segera membuat dan menyampaikan Surat Tugas (ST) kepada kami, dengan
-                        mempedomani PERMENPAN-RB Nomor 19 Tahun 2009 tentang Pedoman Kendali Mutu Audit Aparat Pengawasan Intern Pemerintah.
+                        Berkaitan hal tersebut diatas, disampaikan kepada Saudara tentang Rencana Penugasan {rpp.sebutan} (terlampir), dan untuk
+                        memenuhi hal tersebut di atas diminta kepada Saudara untuk segera membuat dan menyampaikan Surat Tugas (ST) kepada kami,
+                        dengan mempedomani PERMENPAN-RB Nomor 19 Tahun 2009 tentang Pedoman Kendali Mutu Audit Aparat Pengawasan Intern Pemerintah.
                     </li>
                     {rpp.dengan_penutup && <li>Demikian untuk dilaksanakan sebagaimana mestinya, terima kasih.</li>}
                 </ol>

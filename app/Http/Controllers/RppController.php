@@ -73,7 +73,7 @@ class RppController extends Controller
                     'tmt' => $p->tmtTampil(),
                     'nomor_st' => $p->nomor_st,
                     'status' => $p->status,
-                    'ketua_tim' => $p->teamMembers->firstWhere('role', 'ketua_tim')?->nama,
+                    'ketua_tim' => $p->teamMembers->firstWhere('role', 'kt')?->nama,
                     'tim' => $p->teamMembers->map(fn (RppTeamMember $m) => [
                         'nama' => $m->nama, 'peran' => $m->peranTampil(), 'hari' => (int) $m->hari_kantor + (int) $m->hari_lapangan,
                     ])->all(),
@@ -163,7 +163,7 @@ class RppController extends Controller
                 ])->all(),
             ] : null,
             'categories' => RppCategory::orderBy('order')->get(['id', 'code', 'name', 'kode_nomor', 'sebutan']),
-            'employees' => Employee::orderBy('nama')->get(['id', 'nama', 'nip', 'pangkat', 'golongan', 'jabatan']),
+            'employees' => Employee::orderByDesc('aktif')->orderBy('nama')->get(['id', 'nama', 'nip', 'pangkat', 'golongan', 'jabatan', 'unit_kerja', 'aktif']),
             'tarifBaku' => (int) RppSetting::current()->tarif_per_hari,
             'inspektur' => RppSetting::inspektur()?->only(['id', 'nama', 'nip', 'pangkat', 'golongan']),
             'sifatTersedia' => RppPenugasan::whereNotNull('sifat')->distinct()->orderBy('sifat')->pluck('sifat')->all(),

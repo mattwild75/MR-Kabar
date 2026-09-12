@@ -191,7 +191,12 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                     </Select>
                     <div className="relative min-w-[220px] flex-1">
                         <Search className="text-muted-foreground absolute top-2.5 left-3 h-4 w-4" />
-                        <Input className="pl-9" placeholder="Cari nomor, obrik, atau nama anggota tim…" value={cari} onChange={(e) => setCari(e.target.value)} />
+                        <Input
+                            className="pl-9"
+                            placeholder="Cari nomor, obrik, atau nama anggota tim…"
+                            value={cari}
+                            onChange={(e) => setCari(e.target.value)}
+                        />
                     </div>
                     <Button variant="ghost" size="sm" onClick={() => setTerbuka(semuaTerbuka ? new Set() : new Set(rpps.map((r) => r.id)))}>
                         {semuaTerbuka ? 'Tutup semua' : 'Buka semua'}
@@ -256,10 +261,15 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                     {r.ringkasan.penugasan} penugasan · {r.ringkasan.laporan} laporan
                                                 </div>
                                                 <div className="text-muted-foreground line-clamp-2 text-xs">
-                                                    {r.penugasan.map((p) => p.uraian).filter(Boolean).join(' · ')}
+                                                    {r.penugasan
+                                                        .map((p) => p.uraian)
+                                                        .filter(Boolean)
+                                                        .join(' · ')}
                                                 </div>
                                             </td>
-                                            <td className="max-w-[220px] px-3 py-3 text-xs">{ketua.length ? ketua.join(', ') : <span className="text-muted-foreground">-</span>}</td>
+                                            <td className="max-w-[220px] px-3 py-3 text-xs">
+                                                {ketua.length ? ketua.join(', ') : <span className="text-muted-foreground">-</span>}
+                                            </td>
                                             <td className="px-3 py-3 text-right tabular-nums">{r.ringkasan.hari}</td>
                                             <td className="px-3 py-3 text-right whitespace-nowrap tabular-nums">{rupiah(r.ringkasan.biaya)}</td>
                                             <td className="px-3 py-3" onClick={(e) => e.stopPropagation()}>
@@ -309,9 +319,13 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                                     </div>
                                                                     <div className="flex flex-wrap gap-1 text-xs">
                                                                         {p.sifat && <Badge variant="outline">{p.sifat}</Badge>}
-                                                                        {p.jumlah_laporan != null && <Badge variant="outline">{p.jumlah_laporan} laporan</Badge>}
+                                                                        {p.jumlah_laporan != null && (
+                                                                            <Badge variant="outline">{p.jumlah_laporan} laporan</Badge>
+                                                                        )}
                                                                         {p.tmt && <Badge variant="outline">{p.tmt}</Badge>}
-                                                                        <Badge variant={p.status === 'lhp_terbit' ? 'default' : 'secondary'}>{statusLabel[p.status] ?? p.status}</Badge>
+                                                                        <Badge variant={p.status === 'lhp_terbit' ? 'default' : 'secondary'}>
+                                                                            {statusLabel[p.status] ?? p.status}
+                                                                        </Badge>
                                                                     </div>
                                                                 </div>
                                                                 <div className="mt-2 grid gap-x-4 gap-y-0.5 text-xs sm:grid-cols-2 lg:grid-cols-3">
@@ -327,7 +341,8 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                             </div>
                                                         ))}
                                                         <div className="text-muted-foreground text-xs">
-                                                            Tarif {rupiah(r.tarif_per_hari)}/hari · {r.ringkasan.tim} orang · dibuat oleh {r.pembuat ?? '-'} ·{' '}
+                                                            Tarif {rupiah(r.tarif_per_hari)}/hari · {r.ringkasan.tim} orang · dibuat oleh{' '}
+                                                            {r.pembuat ?? '-'} ·{' '}
                                                             <a href={`/rpp-cetak/${r.id}/tabel`} className="underline">
                                                                 <Printer className="mr-0.5 inline h-3 w-3" />
                                                                 PDF tabel
