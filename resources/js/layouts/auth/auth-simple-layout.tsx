@@ -1,7 +1,7 @@
 import AppLogoIcon from '@/components/app-logo-icon';
 import { useAppearance } from '@/hooks/use-appearance';
 import { Link, usePage } from '@inertiajs/react';
-import { Monitor, Moon, RotateCcw, Sun } from 'lucide-react';
+import { Monitor, Moon, Sun } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 interface AuthLayoutProps {
@@ -125,6 +125,22 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
         window.addEventListener('deviceorientation', handleOrientation);
         return () => window.removeEventListener('deviceorientation', handleOrientation);
     }, [prefersReducedMotion, gyroGranted]);
+
+    // Selalu aktif tanpa tombol: iOS mewajibkan requestPermission() dipanggil
+    // dari dalam gesture pengguna, tetapi gesture apa pun boleh — sentuhan
+    // pertama di halaman (mengetuk kolom surel, layar, dsb.) dipakai untuk
+    // meminta izin, sehingga efek miring menyala sendiri tanpa tombol khusus.
+    useEffect(() => {
+        if (!needsGyroPermission) return;
+        const sekali = () => requestGyroPermission();
+        window.addEventListener('pointerdown', sekali, { once: true, capture: true });
+        window.addEventListener('touchend', sekali, { once: true, capture: true });
+        return () => {
+            window.removeEventListener('pointerdown', sekali, { capture: true });
+            window.removeEventListener('touchend', sekali, { capture: true });
+        };
+         
+    }, [needsGyroPermission]);
 
     const requestGyroPermission = () => {
         const RequestableDeviceOrientationEvent = DeviceOrientationEvent as unknown as {
@@ -304,16 +320,7 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
                     satunya platform yg mewajibkan gesture eksplisit sebelum
                     device orientation aktif). Android/desktop tidak pernah
                     melihat tombol ini krn needsGyroPermission tetap false. */}
-                {needsGyroPermission && (
-                    <button
-                        type="button"
-                        onClick={requestGyroPermission}
-                        className="border-border bg-card/70 text-foreground hover:bg-card flex h-9 items-center gap-1.5 rounded-full border px-3 text-xs backdrop-blur transition-all duration-200 hover:scale-105 hover:shadow-md"
-                    >
-                        <RotateCcw className="h-3.5 w-3.5" />
-                        Aktifkan efek miring
-                    </button>
-                )}
+                {/* Izin gyroscope iOS diminta otomatis pada sentuhan pertama (lihat effect di atas); tidak ada tombol. */}
                 <button
                     type="button"
                     onClick={cycleAppearance}
