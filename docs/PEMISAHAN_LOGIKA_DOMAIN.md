@@ -17,7 +17,7 @@ Dua belas controller terberat menampung **hampir separuh** seluruh baris:
 | Controller | Baris | Yang sebenarnya ada di dalamnya |
 | --- | ---: | --- |
 | CetakRisikoController | 1.174 | perakitan data cetak 10 form — kandidat `CetakRisikoService` |
-| DashboardController | 1.082 | 16 pembangun widget (`buildMatriks`, `buildRingkasan`, …) — kandidat `DasborService` |
+| ~~DashboardController~~ | ~~1.082~~ → 103 | **SELESAI 12 Sep 2026** — 16 pembangun widget kini di `DasborService` (1.006 baris) |
 | BackupController | 1.066 | git, snapshot, pemulihan — sebagian sudah di `VersiSnapshotService` |
 | CeeFormController | 949 | penilaian 8 unsur, simpulan — kandidat `CeeSimpulanService` |
 | KrsPemdaController | 818 | hierarki + impor Excel (3 controller KRS/KRO nyaris identik) |
@@ -54,10 +54,13 @@ banyak duplikatnya** — di situ pemisahan langsung mengurangi pekerjaan:
    Satu `HierarkiRisikoService` menggantikan tiga — perbaikan hierarki
    berikutnya cukup di satu tempat. Tes jaring pengaman: `PeriksaHierarkiTest`,
    tes impor Excel.
-2. **DashboardController** — 16 `build*()` adalah fungsi murni dari koleksi
-   baris; pindah ke `DasborService` nyaris tanpa risiko, dan dasbor adalah
-   halaman yang paling sering diminta berubah. Tes: `DashboardTest`,
-   `TautanSorotBarisRisikoTest`.
+2. ~~**DashboardController**~~ — **selesai 12 September 2026.** 16 `build*()`
+   pindah ke `DasborService`; controller tinggal 103 baris (`scopedOpdId` dan
+   perangkaian). Diverifikasi: 325 tes lulus, dan JSON prop Inertia
+   `/dashboard` untuk tiga kombinasi tahun/OPD identik byte-per-byte
+   sebelum/sesudah. Irisan berikutnya: `CetakLaporanController::
+   buildProgresTahapan` dan `ProgramBupatiRisikoController::collectRiskRows`
+   masih menyalin logika yang sama — buat keduanya memanggil layanan ini.
 3. **CetakRisikoController** — perakitan data cetak; hasilnya harus identik
    byte-per-byte dengan sekarang (uji dengan membandingkan JSON prop Inertia
    sebelum/sesudah).
@@ -77,3 +80,8 @@ ls app/Services | wc -l                                          # naik
 ```
 
 Angka awal: **21.390** baris controller, **13** layanan.
+
+| Tanggal | Baris controller | Layanan | Catatan |
+| --- | ---: | ---: | --- |
+| 11 Sep 2026 | 21.390 | 13 | awal |
+| 12 Sep 2026 | 20.948 | 14 | DashboardController → DasborService (−979); sementara itu masuk modul RPP/ERPIKA (+~1.100) |
