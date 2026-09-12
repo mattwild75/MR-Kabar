@@ -78,6 +78,11 @@ jobs:
       - name: Periksa gaya PHP (Pint)
         run: ./vendor/bin/pint --test
 
+      # Analisis statis tingkat 5; temuan lama dibekukan di phpstan-baseline.neon
+      # sehingga yang ditagih hanya kode baru.
+      - name: Analisis statis PHP (PHPStan)
+        run: ./vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+
       # Memakai `audit` biasa, bukan `--locked`: yang ingin diketahui adalah
       # kerentanan pada yang BENAR-BENAR terpasang.
       - name: Periksa kerentanan dependensi PHP

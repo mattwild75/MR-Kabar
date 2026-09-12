@@ -33,6 +33,7 @@ class KesehatanServerService
             $this->drive(),
             $this->deploy(),
             $this->ujiPemulihan(),
+            $this->umurKunci(),
         ];
         $urut = ['bahaya' => 3, 'perhatian' => 2, 'baik' => 1, 'tidak_berlaku' => 0];
         $terburuk = 'baik';
@@ -169,6 +170,23 @@ class KesehatanServerService
 
         return $this->butir('deploy', 'Deploy terakhir', $d['sukses'] ? 'baik' : 'perhatian', $d['waktu'].' oleh '.($d['oleh'] ?? '-'),
             $d['sukses'] ? '' : 'Deploy terakhir gagal atau ditolak — lihat log di kartu Deploy.');
+    }
+
+    /** Umur kunci cadangan: rotasi tahunan (docs/PEMULIHAN_RILIS.md). */
+    private function umurKunci(): array
+    {
+        $jalur = '/etc/mrkabar/kunci-cadangan';
+        if (PHP_OS_FAMILY === 'Windows' || ! @is_readable($jalur) && ! @file_exists($jalur)) {
+            return $this->butir('kunci', 'Umur kunci cadangan', 'tidak_berlaku', 'bukan server produksi');
+        }
+        $mtime = @filemtime($jalur);
+        if (! $mtime) {
+            return $this->butir('kunci', 'Umur kunci cadangan', 'perhatian', 'tidak terbaca');
+        }
+        $hari = (int) floor((time() - $mtime) / 86400);
+        $status = $hari > 400 ? 'perhatian' : 'baik';
+
+        return $this->butir('kunci', 'Umur kunci cadangan', $status, $hari.' hari', $status === 'baik' ? '' : 'Rotasi kunci tahunan: lihat docs/PEMULIHAN_RILIS.md bagian Rotasi Kunci.');
     }
 
     private function ujiPemulihan(): array

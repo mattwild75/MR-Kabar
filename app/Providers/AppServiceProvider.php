@@ -27,6 +27,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -52,6 +53,14 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') !== 'local' || str_contains(config('app.url'), 'https://')) {
             URL::forceScheme('https');
         }
+
+        // Aturan sandi baku untuk SANDI BARU (ganti sandi, reset, akun baru):
+        // minimal 10 karakter dengan huruf dan angka. Sandi yang sudah ada
+        // tidak dipaksa berubah. Di produksi juga ditolak bila pernah bocor
+        // (basis Have I Been Pwned; hanya potongan hash yang dikirim).
+        Password::defaults(fn () => app()->isProduction()
+            ? Password::min(10)->letters()->numbers()->uncompromised()
+            : Password::min(10)->letters()->numbers());
 
         User::observe(GlobalActivityLogger::class);
         Role::observe(GlobalActivityLogger::class);

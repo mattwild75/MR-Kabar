@@ -1,3 +1,4 @@
+import { RiwayatBaris } from '@/components/riwayat-baris';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -587,6 +588,11 @@ export default function IrsIndex({
                                                 <td className="border px-3 py-2 align-top">
                                                     {canManageRow(row.user_id as number | null, currentUserId, isAdmin) ? (
                                                         <div className="flex gap-1">
+                                                            <RiwayatBaris
+                                                                jenis="irs_pemda"
+                                                                id={row.id as number}
+                                                                judul={String(row['URAIAN RISIKO'] ?? '')}
+                                                            />
                                                             <Button variant="ghost" size="icon" onClick={() => openEdit(row)}>
                                                                 <Edit className="h-4 w-4" />
                                                             </Button>

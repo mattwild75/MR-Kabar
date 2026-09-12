@@ -3,6 +3,7 @@ import { AppFooter } from '@/components/app-footer';
 import { AppShell } from '@/components/app-shell';
 import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
+import { BantuanPintasan } from '@/components/bantuan-pintasan';
 import { LoginSplash } from '@/components/login-splash';
 import { SessionTimeoutWarning } from '@/components/session-timeout-warning';
 import { Toaster } from '@/components/ui/sonner';
@@ -132,37 +133,46 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
             Browsershot screenshot APA ADANYA yg dirender saat emulateMedia
             ('print') aktif — sidebar/navbar yg tidak diberi print:hidden
             ikut tercetak persis spt terlihat di layar biasa. */}
-                <AppShell variant="sidebar">
-                    <div className="print:hidden">
-                        <AppSidebar />
-                    </div>
-                    <AppContent variant="sidebar" className="flex min-w-0 flex-col print:w-full print:max-w-none">
+                <>
+                    {/* Tautan lompat ke isi untuk pembaca layar/papan ketik; tampak hanya saat difokus. */}
+                    <a
+                        href="#isi-utama"
+                        className="bg-background focus:ring-primary sr-only rounded px-3 py-2 text-sm focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:ring-2"
+                    >
+                        Lompat ke isi
+                    </a>
+                    <BantuanPintasan />
+                    <AppShell variant="sidebar">
                         <div className="print:hidden">
-                            <AppSidebarHeader breadcrumbs={breadcrumbs} />
+                            <AppSidebar />
                         </div>
-                        {isViewer && (
-                            // Ditampilkan permanen supaya pengguna eksekutif tahu sejak awal
-                            // kenapa tombol-tombol aksi tidak ada — bukan mengira aplikasinya
-                            // rusak. Larangan sesungguhnya ada di sisi server.
-                            <div className="mx-4 mt-3 flex items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-400 print:hidden">
-                                <Eye className="size-4 shrink-0" />
-                                <span>
-                                    {isApip ? (
-                                        <>
-                                            <span className="font-medium">Mode APIP</span> — akun ini dapat melihat seluruh data MR Kabar, tetapi
-                                            hanya dapat mengubah data pada menu PKPT Berbasis Risiko. Register risiko diubah oleh pemilik risikonya
-                                            sendiri.
-                                        </>
-                                    ) : (
-                                        <>
-                                            <span className="font-medium">Mode Peninjau</span> — akun ini dapat melihat seluruh data, tetapi tidak
-                                            dapat menambah, mengubah, atau menghapus apa pun.
-                                        </>
-                                    )}
-                                </span>
+                        <AppContent variant="sidebar" className="flex min-w-0 flex-col print:w-full print:max-w-none">
+                            <div className="print:hidden">
+                                <AppSidebarHeader breadcrumbs={breadcrumbs} />
                             </div>
-                        )}
-                        {/* max-w dibatasi HANYA di layar sangat lebar (ultrawide
+                            {isViewer && (
+                                // Ditampilkan permanen supaya pengguna eksekutif tahu sejak awal
+                                // kenapa tombol-tombol aksi tidak ada — bukan mengira aplikasinya
+                                // rusak. Larangan sesungguhnya ada di sisi server.
+                                <div className="mx-4 mt-3 flex items-center gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-700 dark:text-amber-400 print:hidden">
+                                    <Eye className="size-4 shrink-0" />
+                                    <span>
+                                        {isApip ? (
+                                            <>
+                                                <span className="font-medium">Mode APIP</span> — akun ini dapat melihat seluruh data MR Kabar, tetapi
+                                                hanya dapat mengubah data pada menu PKPT Berbasis Risiko. Register risiko diubah oleh pemilik
+                                                risikonya sendiri.
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="font-medium">Mode Peninjau</span> — akun ini dapat melihat seluruh data, tetapi tidak
+                                                dapat menambah, mengubah, atau menghapus apa pun.
+                                            </>
+                                        )}
+                                    </span>
+                                </div>
+                            )}
+                            {/* max-w dibatasi HANYA di layar sangat lebar (ultrawide
                 2560px+) — di bawah itu (termasuk desktop 1920px biasa)
                 nilainya lebih besar dari lebar viewport jadi tidak
                 berpengaruh sama sekali, TIDAK mengurangi ruang tabel lebar
@@ -173,16 +183,17 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
                 screenshot 2560px & 3440px). mx-auto menjaga konten tetap
                 di tengah, bukan menempel ke kiri, saat max-w ini aktif.
                 print:max-w-none supaya Form Cetak tetap tidak terpengaruh. */}
-                        <div className="max-w-[1800px] min-w-0 flex-1 xl:mx-auto xl:w-full print:max-w-none">{children}</div>
-                        <div className="print:hidden">
-                            <AppFooter
-                                contactEmail={setting?.contact_email}
-                                contactEmailSecondary={setting?.contact_email_secondary}
-                                footerCredit={setting?.footer_credit}
-                            />
-                        </div>
-                    </AppContent>
-                </AppShell>
+                            <div className="max-w-[1800px] min-w-0 flex-1 xl:mx-auto xl:w-full print:max-w-none">{children}</div>
+                            <div className="print:hidden">
+                                <AppFooter
+                                    contactEmail={setting?.contact_email}
+                                    contactEmailSecondary={setting?.contact_email_secondary}
+                                    footerCredit={setting?.footer_credit}
+                                />
+                            </div>
+                        </AppContent>
+                    </AppShell>
+                </>
             </div>
 
             <Toaster />

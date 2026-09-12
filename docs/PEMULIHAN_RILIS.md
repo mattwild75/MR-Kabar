@@ -239,3 +239,24 @@ rilis berikutnya mengulangi sebabnya.
 Dan jangan biarkan versi bermasalah tetap berada di `main` GitHub — kalau
 sebabnya ada di kode, perbaikannya harus di-push juga, atau pemasangan
 berikutnya akan menariknya kembali.
+
+## Rotasi kunci cadangan (setahun sekali)
+
+Kartu Kesehatan Server memberi tanda "perhatian" bila kunci lebih tua dari 400
+hari. Urutannya, di VM sebagai root:
+
+```bash
+# 1. Kunci baru
+openssl rand -base64 32 > /etc/mrkabar/kunci-cadangan.baru && chmod 600 /etc/mrkabar/kunci-cadangan.baru
+# 2. Ganti BACKUP_ARCHIVE_PASSWORD di /var/www/mrkabar/.env dengan isi kunci baru, lalu:
+cd /var/www/mrkabar && php artisan optimize
+# 3. Berlakukan untuk cron
+mv /etc/mrkabar/kunci-cadangan /etc/mrkabar/kunci-cadangan.lama && mv /etc/mrkabar/kunci-cadangan.baru /etc/mrkabar/kunci-cadangan
+# 4. Buat cadangan baru dengan kunci baru dan uji
+/usr/local/bin/backup-mrkabar.sh && php artisan cadangan:uji-pulih
+```
+
+Cadangan lama tetap terbuka dengan kunci lama — simpan `kunci-cadangan.lama`
+dan salinannya di luar VM (KUNCI-CADANGAN.txt, beri tanggal) sampai seluruh
+cadangan lama (14 hari cron, Drive) sudah tergantikan. Ganti juga kunci di
+`.env` lokal supaya zip lokal dan produksi memakai kunci yang sama.

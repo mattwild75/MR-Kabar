@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - phpstan-baseline.neon
+
+# Analisis statis PHP. Tingkat 5 adalah titik yang menangkap kekeliruan
+# nyata (metode tak ada, tipe salah, variabel tak terdefinisi) tanpa
+# memaksa anotasi tipe di seluruh kode lama. Temuan lama dibekukan di
+# phpstan-baseline.neon supaya CI menagih hanya kode BARU; kurangi baseline
+# itu sedikit demi sedikit, jangan ditambah.
+parameters:
+    level: 5
+    paths:
+        - app
+        - routes
+    excludePaths:
+        - app/Services/DasborService.php
+    tmpDir: storage/framework/cache/phpstan
+    reportUnmatchedIgnoredErrors: false

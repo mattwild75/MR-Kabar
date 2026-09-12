@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
+import { useIngatan } from '@/hooks/use-ingatan';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
 
 interface Penugasan {
     id: number;
@@ -58,7 +58,7 @@ export default function Kalender({ penugasan, perOrang, bulan, tahun, jumlahHari
         { title: 'ERPIKA', href: '#' },
         { title: 'Kalender Penugasan', href: '/erpika/kalender' },
     ];
-    const [mode, setMode] = useState<'penugasan' | 'orang'>('penugasan');
+    const [mode, setMode] = useIngatan<'penugasan' | 'orang'>('kalender-mode', 'penugasan');
     const pindah = (b: number, t: number) => {
         if (b < 1) {
             b = 12;

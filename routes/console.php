@@ -107,3 +107,7 @@ collect([
 Schedule::command('kesehatan:laporan')->hourlyAt(17)->name('kesehatan-jam')->withoutOverlapping(10);
 Schedule::command('kesehatan:laporan --mingguan')->weeklyOn(1, '06:00')->name('kesehatan-mingguan');
 Schedule::command('cadangan:uji-pulih')->monthlyOn(1, '02:30')->name('uji-pulih')->withoutOverlapping(60);
+
+// Arsip log audit ke berkas bulanan (ikut tercadangkan bersama storage/app),
+// tiap hari sebelum pembersihan tabel activitylog:clean.
+Schedule::command('audit:arsip')->dailyAt('00:40')->name('audit-arsip')->withoutOverlapping(30);

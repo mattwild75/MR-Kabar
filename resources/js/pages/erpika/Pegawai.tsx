@@ -15,6 +15,7 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { useIngatan } from '@/hooks/use-ingatan';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
@@ -93,7 +94,7 @@ export default function Pegawai({ employees }: Props) {
     const [tambah, setTambah] = useState(false);
     const [hapus, setHapus] = useState<Employee | null>(null);
 
-    const [tampilNonaktif, setTampilNonaktif] = useState(false);
+    const [tampilNonaktif, setTampilNonaktif] = useIngatan('pegawai-tampil-nonaktif', false);
 
     const tersaring = useMemo(() => {
         const q = cari.trim().toLowerCase();

@@ -47,6 +47,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProgramBupatiRisikoController;
 use App\Http\Controllers\RiskEvidenceController;
 use App\Http\Controllers\RiskExcelController;
+use App\Http\Controllers\RiwayatBarisController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RppController;
 use App\Http\Controllers\RppPengaturanController;
@@ -175,6 +176,8 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // Pencarian global Ctrl+K — hasil disekat per pengguna di dalam controllernya.
     Route::get('pencarian', PencarianController::class)->name('pencarian');
+    // Riwayat perubahan satu baris (dari activity_log), untuk dialog Riwayat di tabel.
+    Route::get('riwayat/{jenis}/{id}', RiwayatBarisController::class)->whereNumber('id')->name('riwayat.baris');
 
     // Halaman panduan/dokumentasi statis (5W1H manajemen risiko Pemda +
     // cara pakai MR Kabar) — tidak ada data dinamis dari DB, cukup render
