@@ -23,6 +23,7 @@
     {{-- Halaman di balik login tidak untuk mesin pencari; robots.txt sudah
          melarangnya, tag ini memastikannya walau halaman sempat terjangkau. --}}
     <meta name="robots" content="{{ $publik ? 'index, follow' : 'noindex, nofollow' }}">
+    <meta name="google-site-verification" content="NcqvasuBZ9fxoHtlgqwt4fy_ITa4fzdnO1YAxczZwbw">
     <meta property="og:site_name" content="{{ $appName }}">
     <meta property="og:title" content="{{ $seo['title'] ?? $appName }}">
     <meta property="og:description" content="{{ $deskripsi }}">
