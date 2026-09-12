@@ -93,4 +93,15 @@ class AnevaTest extends TestCase
         $this->assertDatabaseHas('rpps', ['id' => $rpp->id, 'deleted_at' => null]);
         $this->assertCount(3, $rpp->fresh()->penugasan);
     }
+
+    public function test_unduh_excel_rekap_dan_tabel_rpp_menghasilkan_berkas_xlsx(): void
+    {
+        $u = User::factory()->create();
+        $rpp = $this->rppContoh($u);
+
+        $this->actingAs($u)->get('/erpika/aneva/cetak/excel?tahun=2026')->assertOk()
+            ->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $this->actingAs($u)->get("/rpp-cetak/{$rpp->id}/tabel/excel")->assertOk()
+            ->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }
 }

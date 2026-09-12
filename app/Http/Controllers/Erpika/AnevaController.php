@@ -8,6 +8,7 @@ use App\Models\RppCategory;
 use App\Models\RppLaporan;
 use App\Models\RppPenugasan;
 use App\Models\RppTeamMember;
+use App\Services\AnevaExcelService;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -81,6 +82,18 @@ class AnevaController extends Controller
             'seksi' => $seksi,
             'ringkasan' => $this->ringkasan($semua),
         ]);
+    }
+
+    /** Rekap dalam Excel — tata letak sel demi sel sama dengan REKAP LAPORAN RPP <tahun>.xlsx asli. */
+    public function excel(Request $request, AnevaExcelService $excel)
+    {
+        $tahunMasuk = $request->input('tahun', Rpp::max('year') ?: now()->year);
+        $tahun = $tahunMasuk === 'semua' ? 'semua' : (int) $tahunMasuk;
+        $penugasan = $this->kueri($tahun, $request->input('jenis'), '')->get();
+        $sementara = tempnam(sys_get_temp_dir(), 'aneva');
+        $excel->simpanKe($tahun, $penugasan, now()->day.' '.RppPenugasan::BULAN[now()->month].' '.now()->year, $sementara);
+
+        return response()->download($sementara, "Rekap-Laporan-RPP-{$tahun}.xlsx", ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend(true);
     }
 
     public function cetak(Request $request)

@@ -416,6 +416,10 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                                 PDF tabel
                                                             </a>{' '}
                                                             ·{' '}
+                                                            <a href={`/rpp-cetak/${r.id}/tabel/excel`} className="underline">
+                                                                Excel tabel
+                                                            </a>{' '}
+                                                            ·{' '}
                                                             <a href={`/rpp-cetak/${r.id}/pengantar`} className="underline">
                                                                 <Printer className="mr-0.5 inline h-3 w-3" />
                                                                 PDF pengantar

@@ -263,6 +263,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/rpp-cetak/{rpp}/tabel/preview', [RppPrintController::class, 'previewTabel'])->name('rpp-cetak.tabel.preview');
     Route::get('/rpp-cetak/{rpp}/pengantar/preview', [RppPrintController::class, 'previewPengantar'])->name('rpp-cetak.pengantar.preview');
     Route::get('/rpp-cetak/{rpp}/tabel', [RppPrintController::class, 'tabel'])->name('rpp-cetak.tabel');
+    Route::get('/rpp-cetak/{rpp}/tabel/excel', [RppPrintController::class, 'excel'])->name('rpp-cetak.tabel.excel');
     Route::get('/rpp-cetak/{rpp}/pengantar', [RppPrintController::class, 'pengantar'])->name('rpp-cetak.pengantar');
     // Pengaturan RPP (tarif, Inspektur penanda tangan) + daftar pegawai —
     // admin saja. Prefix sendiri supaya izin menunya terpisah dari Input/Cetak.
@@ -276,6 +277,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/aneva', [AnevaController::class, 'index'])->name('erpika.aneva.index');
     Route::get('/erpika/aneva/cetak/preview', [AnevaController::class, 'previewCetak'])->name('erpika.aneva.cetak.preview');
     Route::get('/erpika/aneva/cetak', [AnevaController::class, 'cetak'])->name('erpika.aneva.cetak');
+    Route::get('/erpika/aneva/cetak/excel', [AnevaController::class, 'excel'])->name('erpika.aneva.cetak.excel');
     // ERPIKA > AREP dan Laporan Penugasan — disiapkan kosong (arahan 12 September 2026).
     Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
     Route::get('/erpika/laporan-penugasan', fn () => Inertia::render('erpika/LaporanPenugasan'))->name('erpika.laporan-penugasan');

@@ -98,6 +98,11 @@ export default function RppPreviewTabel({ rpp, inspektur }: Props) {
                                 Surat pengantar
                             </Button>
                         </Link>
+                        <a href={`/rpp-cetak/${rpp.id}/tabel/excel`}>
+                            <Button variant="outline" size="sm">
+                                Unduh Excel
+                            </Button>
+                        </a>
                         <a href={`/rpp-cetak/${rpp.id}/tabel`}>
                             <Button size="sm">Unduh PDF</Button>
                         </a>

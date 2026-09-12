@@ -7,6 +7,7 @@ use App\Models\RppPenugasan;
 use App\Models\RppSetting;
 use App\Models\RppTeamMember;
 use App\Services\PdfPrintService;
+use App\Services\RppExcelService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -40,6 +41,18 @@ class RppPrintController extends Controller
         $this->authorizeView($request, $rpp);
 
         return PdfPrintService::downloadFromUrl($request, url("/rpp-cetak/{$rpp->id}/tabel/preview"), 'RPP-Tabel-'.str($rpp->nomor_rpp)->slug()->limit(40, ''));
+    }
+
+    /** Lembar tabel dalam Excel — tata letak sel demi sel sama dengan berkas RPP*.xls asli. */
+    public function excel(Request $request, Rpp $rpp, RppExcelService $excel)
+    {
+        $this->authorizeView($request, $rpp);
+
+        $nama = 'RPP-Tabel-'.str($rpp->nomor_rpp)->slug()->limit(40, '').'.xlsx';
+        $sementara = tempnam(sys_get_temp_dir(), 'rpp');
+        $excel->simpanKe($rpp, $sementara);
+
+        return response()->download($sementara, $nama, ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend(true);
     }
 
     public function pengantar(Request $request, Rpp $rpp)
