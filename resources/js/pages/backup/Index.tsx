@@ -19,8 +19,20 @@ import AppLayout from '@/layouts/app-layout';
 import { formatTanggalWaktu } from '@/lib/date';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { DatabaseBackup, Download, FileSpreadsheet, Github, GitPullRequestArrow, History, Tags, TriangleAlert, Upload } from 'lucide-react';
-import { useState } from 'react';
+import {
+    DatabaseBackup,
+    Download,
+    FileSpreadsheet,
+    Github,
+    GitPullRequestArrow,
+    History,
+    RefreshCw,
+    ShieldCheck,
+    Tags,
+    TriangleAlert,
+    Upload,
+} from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import CadanganDrive, { type DriveProps } from './CadanganDrive';
 
@@ -44,6 +56,21 @@ interface Versi {
     catatan: string | null;
     ada_snapshot: boolean;
     unduh_url: string;
+}
+
+interface PeriksaGit {
+    remote: string;
+    cabang: string;
+    lokal: string;
+    jauh: string;
+    berubah: string[];
+    di_depan: number;
+    di_belakang: number;
+    bisa_maju: boolean;
+    migrasi_masuk: number;
+    lock_berubah: string[];
+    halangan: string[];
+    diperiksa_pada: string;
 }
 
 interface Props {
@@ -150,13 +177,49 @@ export default function BackupIndex({
         );
     };
 
+    // Pemeriksaan repo sebelum deploy: dijalankan saat kartu tampil, dan
+    // diulang server-side di dalam gitPull() — ini hanya supaya tombolnya
+    // mati lebih dulu dan alasannya terbaca sebelum diklik.
+    const [periksa, setPeriksa] = useState<PeriksaGit | null>(null);
+    const [memeriksa, setMemeriksa] = useState(false);
+    const jalankanPeriksa = useCallback(() => {
+        setMemeriksa(true);
+        fetch('/backup/git-periksa', { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
+            .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+            .then((d: PeriksaGit) => setPeriksa(d))
+            .catch(() =>
+                setPeriksa({
+                    remote: '',
+                    cabang: '',
+                    lokal: '',
+                    jauh: '',
+                    berubah: [],
+                    di_depan: 0,
+                    di_belakang: 0,
+                    bisa_maju: false,
+                    migrasi_masuk: 0,
+                    lock_berubah: [],
+                    halangan: ['Pemeriksaan repo gagal dijalankan. Deploy tidak diizinkan sampai pemeriksaan bisa berjalan.'],
+                    diperiksa_pada: '',
+                }),
+            )
+            .finally(() => setMemeriksa(false));
+    }, []);
+    useEffect(() => {
+        if (canPushGit && gitSyncEnabled) jalankanPeriksa();
+    }, [canPushGit, gitSyncEnabled, jalankanPeriksa]);
+    const adaHalangan = periksa === null || periksa.halangan.length > 0;
+
     const handleGitPull = () => {
         setPulling(true);
         router.post(
             '/backup/git-pull',
             {},
             {
-                onSuccess: () => toast.success('Deploy selesai.'),
+                onSuccess: () => {
+                    toast.success('Deploy selesai.');
+                    jalankanPeriksa();
+                },
                 onError: () => toast.error('Deploy gagal — lihat log di halaman.'),
                 onFinish: () => setPulling(false),
                 preserveScroll: true,
@@ -636,7 +699,12 @@ export default function BackupIndex({
                                     placeholder="mis. Update fitur CEE — 10 Juli 2026"
                                 />
                             </div>
-                            <Button onClick={handleGitPush} disabled={pushing}>
+                            {periksa !== null && periksa.di_belakang > 0 && (
+                                <p className="text-destructive text-xs">
+                                    GitHub punya {periksa.di_belakang} commit yang belum ada di sini — push dikunci sampai ditarik dulu.
+                                </p>
+                            )}
+                            <Button onClick={handleGitPush} disabled={pushing || (periksa !== null && periksa.di_belakang > 0)}>
                                 <Github className="mr-2 h-4 w-4" />
                                 {pushing ? 'Membackup & push...' : 'Backup & Push ke GitHub'}
                             </Button>
@@ -668,7 +736,82 @@ export default function BackupIndex({
                         </CardHeader>
                         <Separator />
                         <CardContent className="space-y-3 pt-4">
-                            <Button onClick={handleGitPull} disabled={pulling}>
+                            <div
+                                className={`rounded border p-3 text-xs ${
+                                    periksa === null
+                                        ? ''
+                                        : adaHalangan
+                                          ? 'border-destructive/60 bg-destructive/5'
+                                          : 'border-emerald-500/50 bg-emerald-500/5'
+                                }`}
+                            >
+                                <div className="mb-1 flex flex-wrap items-center justify-between gap-2 font-medium">
+                                    <span className="flex items-center gap-1">
+                                        {periksa !== null && !adaHalangan ? (
+                                            <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                                        ) : (
+                                            <TriangleAlert className="text-destructive h-4 w-4" />
+                                        )}
+                                        {periksa === null
+                                            ? 'Memeriksa kode server terhadap GitHub…'
+                                            : adaHalangan
+                                              ? 'Deploy dikunci: kode di server ini berbeda dari GitHub'
+                                              : periksa.di_belakang === 0
+                                                ? 'Kode server sama persis dengan GitHub — tidak ada yang perlu ditarik'
+                                                : `Aman: ${periksa.di_belakang} commit baru siap ditarik`}
+                                    </span>
+                                    <Button variant="ghost" size="sm" onClick={jalankanPeriksa} disabled={memeriksa} className="h-7 px-2">
+                                        <RefreshCw className={`mr-1 h-3.5 w-3.5 ${memeriksa ? 'animate-spin' : ''}`} />
+                                        Periksa ulang
+                                    </Button>
+                                </div>
+                                {periksa !== null && (
+                                    <>
+                                        <div className="text-muted-foreground">
+                                            {periksa.remote && (
+                                                <>
+                                                    Sumber: <code>{periksa.remote}</code>
+                                                    {periksa.cabang && (
+                                                        <>
+                                                            {' '}
+                                                            cabang <code>{periksa.cabang}</code>
+                                                        </>
+                                                    )}
+                                                    {' · '}
+                                                </>
+                                            )}
+                                            server <code>{periksa.lokal || '-'}</code> · GitHub <code>{periksa.jauh || '-'}</code>
+                                            {periksa.di_belakang > 0 && !adaHalangan && (
+                                                <>
+                                                    {' · '}
+                                                    {periksa.migrasi_masuk} migrasi baru
+                                                    {periksa.lock_berubah.length > 0 && <>, {periksa.lock_berubah.join(' & ')} berubah</>}
+                                                </>
+                                            )}
+                                        </div>
+                                        {adaHalangan && (
+                                            <ul className="text-destructive mt-2 list-disc space-y-1 pl-4">
+                                                {periksa.halangan.map((h) => (
+                                                    <li key={h}>{h}</li>
+                                                ))}
+                                            </ul>
+                                        )}
+                                        {periksa.berubah.length > 0 && (
+                                            <pre className="bg-muted mt-2 max-h-40 overflow-auto rounded p-2 font-mono whitespace-pre-wrap">
+                                                {periksa.berubah.join('\n')}
+                                            </pre>
+                                        )}
+                                        {adaHalangan && (
+                                            <p className="mt-2">
+                                                Tidak ada tombol paksa. Rapikan repo di server lewat terminal (commit dan push ke repo sendiri, atau{' '}
+                                                <code>git stash</code> / <code>git reset --hard origin/{periksa.cabang || 'main'}</code> bila
+                                                perubahan itu tidak diperlukan), lalu Periksa ulang.
+                                            </p>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                            <Button onClick={handleGitPull} disabled={pulling || memeriksa || adaHalangan}>
                                 <GitPullRequestArrow className="mr-2 h-4 w-4" />
                                 {pulling ? 'Sedang deploy… (bisa 1-2 menit)' : adaSkripDeploy ? 'Deploy dari GitHub' : 'Pull dari GitHub'}
                             </Button>

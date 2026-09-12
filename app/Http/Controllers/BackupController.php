@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
 use App\Services\CadanganService;
+use App\Services\PemeriksaanGitService;
 use App\Services\VersiSnapshotService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -253,12 +254,20 @@ class BackupController extends Controller
      * manapun). Hanya admin/super-admin — mengirim seluruh riwayat kode ke
      * internet adalah aksi sensitif.
      */
-    public function gitPush(Request $request)
+    public function gitPush(Request $request, PemeriksaanGitService $periksa)
     {
         $this->ensureSuperAdmin();
         $this->ensureGitSyncEnabled();
 
-        return $this->cadangan->denganKunci(function () use ($request) {
+        return $this->cadangan->denganKunci(function () use ($request, $periksa) {
+            // Pengaman: jangan mendorong bila GitHub sudah lebih maju atau
+            // riwayatnya bercabang — push akan ditolak git, atau lebih buruk,
+            // menimpa pekerjaan yang masuk dari tempat lain.
+            $halangan = $periksa->halanganPush($periksa->periksa());
+            if ($halangan !== []) {
+                return redirect()->back()->with('error', 'Push ditolak: '.$halangan[0]);
+            }
+
             // Langkah 1: backup database dulu — kalau ini gagal, batalkan push
             // supaya tidak ada snapshot kode tanpa cadangan data yg sepadan.
             try {
@@ -359,12 +368,42 @@ class BackupController extends Controller
      * ini diklik. Log langkah terakhir disimpan di cache dan tampil di
      * halaman Backup.
      */
-    public function gitPull(Request $request)
+    /**
+     * Pemeriksaan keadaan repo sebelum Deploy/Pull/Push — dipanggil kartu
+     * Deploy saat halaman dibuka supaya tombolnya mati lebih dulu bila ada
+     * halangan. Pengaman sebenarnya ada di gitPull()/gitPush() yang
+     * mengulang pemeriksaan ini di server sebelum menyentuh apa pun.
+     */
+    public function gitPeriksa(PemeriksaanGitService $periksa)
     {
         $this->ensureSuperAdmin();
         $this->ensureGitSyncEnabled();
 
-        return $this->cadangan->denganKunci(function () {
+        return response()->json($periksa->periksa());
+    }
+
+    public function gitPull(Request $request, PemeriksaanGitService $periksa)
+    {
+        $this->ensureSuperAdmin();
+        $this->ensureGitSyncEnabled();
+
+        return $this->cadangan->denganKunci(function () use ($periksa) {
+            // Pengaman: kode di server ini harus persis sama dengan commit
+            // GitHub yang menjadi dasarnya. Perbedaan apa pun menghentikan
+            // deploy sebelum backup dan sebelum git pull — tidak ada paksa.
+            $hasil = $periksa->periksa();
+            if ($hasil['halangan'] !== []) {
+                Cache::forever('deploy_terakhir', [
+                    'waktu' => now()->toDateTimeString(),
+                    'sukses' => false,
+                    'log' => 'DEPLOY DITOLAK - kode server ini berbeda dari GitHub:'.PHP_EOL.'- '.implode(PHP_EOL.'- ', $hasil['halangan'])
+                        .($hasil['berubah'] !== [] ? PHP_EOL.PHP_EOL.'Berkas yang berbeda:'.PHP_EOL.implode(PHP_EOL, $hasil['berubah']) : ''),
+                    'oleh' => auth()->user()?->name,
+                ]);
+
+                return redirect()->back()->with('error', 'Deploy ditolak: '.$hasil['halangan'][0].' Rapikan repo di server lewat terminal sampai pemeriksaan bersih.');
+            }
+
             try {
                 $this->cadangan->buatCadanganDb();
             } catch (\Throwable $e) {

@@ -4,8 +4,18 @@
 # dijalankan manual oleh root. Terpasang di /usr/local/bin/deploy-mrkabar.sh
 # (milik root, 755); salinan ini ada di repo supaya terlacak.
 #
-# Aturan sudoers yang mengizinkannya (satu baris, tanpa argumen):
+# Aturan sudoers yang mengizinkannya (/etc/sudoers.d/mrkabar-deploy):
 #   www-data ALL=(root) NOPASSWD: /usr/local/bin/deploy-mrkabar.sh
+#   www-data ALL=(root) NOPASSWD: /usr/bin/git -C /var/www/mrkabar fetch --quiet origin main
+# Baris kedua dipakai pemeriksaan sebelum deploy (PemeriksaanGitService):
+# www-data membandingkan kode server dengan GitHub, dan fetch butuh menulis
+# .git milik root. Argumennya persis, tidak bisa dipakai untuk perintah lain.
+# Selain itu git harus mengenal repo milik root saat dijalankan www-data:
+#   git config --system --add safe.directory /var/www/mrkabar
+#
+# Pengaman: tombol Deploy menolak berjalan bila kode di server berbeda dari
+# GitHub (berkas berubah, commit lokal, riwayat bercabang) — skrip ini
+# sendiri tetap berhenti pada galat pertama bila dipanggil manual.
 #
 # Langkah: pull --ff-only origin main -> composer install (bila composer.lock
 # berubah) -> migrate --force -> npm install (bila package-lock berubah) ->
