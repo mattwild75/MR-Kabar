@@ -301,12 +301,22 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                 <div className="font-medium">
                                                     {r.ringkasan.penugasan} penugasan · {r.ringkasan.laporan} laporan
                                                 </div>
-                                                <div className="text-muted-foreground line-clamp-2 text-xs">
-                                                    {r.penugasan
-                                                        .map((p) => p.uraian)
-                                                        .filter(Boolean)
-                                                        .join(' · ')}
-                                                </div>
+                                                {/* satu penugasan satu baris; lebih dari 6 diringkas, selebihnya di baris terbuka */}
+                                                <ol
+                                                    className={`text-muted-foreground text-xs ${r.penugasan.length > 1 ? 'list-decimal pl-4' : 'list-none'}`}
+                                                >
+                                                    {r.penugasan.slice(0, buka ? undefined : 6).map((p) => (
+                                                        <li key={p.id} className="truncate" title={p.uraian ?? ''}>
+                                                            {p.uraian || '-'}
+                                                            {p.obriks.length > 0 && <span className="opacity-70"> ({p.obriks.length} objek)</span>}
+                                                        </li>
+                                                    ))}
+                                                    {!buka && r.penugasan.length > 6 && (
+                                                        <li className="list-none italic">
+                                                            … {r.penugasan.length - 6} lagi (klik baris untuk membuka)
+                                                        </li>
+                                                    )}
+                                                </ol>
                                             </td>
                                             <td className="max-w-[220px] px-3 py-3 text-xs">
                                                 {ketua.length ? (
