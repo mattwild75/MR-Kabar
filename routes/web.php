@@ -19,6 +19,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\Erpika\AnevaController;
+use App\Http\Controllers\Erpika\DataTerhapusController;
 use App\Http\Controllers\Erpika\PegawaiController;
 use App\Http\Controllers\FraudRisikoController;
 use App\Http\Controllers\IroPdController;
@@ -278,6 +279,10 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // ERPIKA > AREP dan Laporan Penugasan — disiapkan kosong (arahan 12 September 2026).
     Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
     Route::get('/erpika/laporan-penugasan', fn () => Inertia::render('erpika/LaporanPenugasan'))->name('erpika.laporan-penugasan');
+    // ERPIKA > Data Terhapus — soft delete milik ERPIKA sendiri (dokumen RPP, pegawai).
+    Route::get('/erpika/data-terhapus', [DataTerhapusController::class, 'index'])->name('erpika.data-terhapus.index');
+    Route::put('/erpika/data-terhapus/{type}/{id}/restore', [DataTerhapusController::class, 'restore'])->name('erpika.data-terhapus.restore');
+    Route::delete('/erpika/data-terhapus/{type}/{id}', [DataTerhapusController::class, 'forceDelete'])->name('erpika.data-terhapus.force-delete');
     Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
     Route::get('/erpika/pegawai/{employee}/ringkasan', [PegawaiController::class, 'ringkasan'])->name('erpika.pegawai.ringkasan');
     Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');

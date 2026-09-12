@@ -76,7 +76,8 @@ class Rpp extends Model
         if (filled($this->sub_judul)) {
             return strtoupper($this->sub_judul);
         }
-        $bulan = $this->bulan ? strtoupper(RppPenugasan::BULAN[$this->bulan] ?? '') : '';
+        $nomorBulan = $this->bulan ?: $this->tanggal_rpp?->month;
+        $bulan = $nomorBulan ? strtoupper(RppPenugasan::BULAN[$nomorBulan] ?? '') : '';
 
         return trim('BULAN '.$bulan.' '.$this->year);
     }

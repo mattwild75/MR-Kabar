@@ -1105,6 +1105,10 @@ class MenuSeeder extends Seeder
                 'permission_name' => null,
             ]
         );
+        Menu::updateOrCreate(
+            ['route' => '/erpika/data-terhapus'],
+            ['title' => 'Data Terhapus', 'parent_id' => $erpika->id, 'icon' => 'Trash2', 'order' => 6, 'permission_name' => null]
+        );
 
         Menu::updateOrCreate(
             ['route' => '/rpp-pengaturan'],

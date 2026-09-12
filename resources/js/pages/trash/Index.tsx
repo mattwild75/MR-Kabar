@@ -37,16 +37,19 @@ interface PageProps {
     activeType: string;
     rows: TrashRow[];
     isAdmin: boolean;
+    /** Awalan rute; ERPIKA punya Data Terhapus sendiri di /erpika/data-terhapus. */
+    basePath?: string;
+    judul?: string;
 }
 
-export default function TrashIndex({ tabs, activeType, rows, isAdmin }: PageProps) {
+export default function TrashIndex({ tabs, activeType, rows, isAdmin, basePath = '/trash', judul = 'Data Terhapus' }: PageProps) {
     const switchTab = (slug: string) => {
-        router.get('/trash', { type: slug }, { preserveState: true, replace: true, preserveScroll: true });
+        router.get(basePath, { type: slug }, { preserveState: true, replace: true, preserveScroll: true });
     };
 
     const restore = (id: number) => {
         router.put(
-            `/trash/${activeType}/${id}/restore`,
+            `${basePath}/${activeType}/${id}/restore`,
             {},
             {
                 preserveScroll: true,
@@ -58,7 +61,7 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin }: PageProp
 
     const restoreBatch = (batch: string) => {
         router.put(
-            `/trash/${activeType}/batch/${batch}/restore`,
+            `${basePath}/${activeType}/batch/${batch}/restore`,
             {},
             {
                 preserveScroll: true,
@@ -86,7 +89,7 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin }: PageProp
     }
 
     const forceDelete = (id: number) => {
-        router.delete(`/trash/${activeType}/${id}`, {
+        router.delete(`${basePath}/${activeType}/${id}`, {
             preserveScroll: true,
             onSuccess: () => toast.success('Data dihapus permanen.'),
             onError: () => toast.error('Gagal menghapus permanen.'),
@@ -95,10 +98,10 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin }: PageProp
 
     return (
         <AppLayout>
-            <Head title="Data Terhapus" />
+            <Head title={judul} />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">Data Terhapus</h1>
+                    <h1 className="text-2xl font-semibold">{judul}</h1>
                     <p className="text-muted-foreground text-sm">
                         Data yang dihapus tidak langsung hilang — bisa dipulihkan di sini. Hapus permanen
                         {isAdmin ? '' : ' hanya dapat dilakukan Admin'}.

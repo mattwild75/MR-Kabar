@@ -76,4 +76,21 @@ class AnevaTest extends TestCase
         $this->actingAs($u)->get('/erpika/arep')->assertOk();
         $this->actingAs($u)->get('/erpika/laporan-penugasan')->assertOk();
     }
+
+    public function test_data_terhapus_erpika_memulihkan_dokumen_rpp_berikut_penugasannya(): void
+    {
+        $u = User::factory()->create();
+        $rpp = $this->rppContoh($u);
+        $this->actingAs($u)->delete("/rpp/{$rpp->id}")->assertRedirect();
+        $this->assertSoftDeleted('rpps', ['id' => $rpp->id]);
+
+        $this->actingAs($u)->get('/erpika/data-terhapus')->assertOk()->assertInertia(fn ($page) => $page
+            ->where('basePath', '/erpika/data-terhapus')
+            ->has('rows', 1)
+            ->where('rows.0.title', '700/01/RPP-Rev/INS/2026 — BULAN JANUARI 2026'));
+
+        $this->actingAs($u)->put("/erpika/data-terhapus/rpp/{$rpp->id}/restore")->assertRedirect();
+        $this->assertDatabaseHas('rpps', ['id' => $rpp->id, 'deleted_at' => null]);
+        $this->assertCount(3, $rpp->fresh()->penugasan);
+    }
 }
