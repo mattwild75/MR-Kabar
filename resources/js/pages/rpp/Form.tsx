@@ -431,7 +431,13 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                             {galat('nomor_rpp') ? (
                                 <p className="text-destructive text-xs">{galat('nomor_rpp')}</p>
                             ) : (
-                                <p className="text-muted-foreground text-xs">Pola: {contohNomor}</p>
+                                <p className="text-muted-foreground text-xs">
+                                    {kategori
+                                        ? terakhir === 0
+                                            ? `Belum ada RPP ${kategori.name} tahun ${data.year}; nomor diusulkan ${nomorUsulan} — boleh diubah.`
+                                            : `Nomor terakhir: 700/${String(terakhir).padStart(2, '0')}/RPP-${kategori.kode_nomor ?? 'XX'}/INS/${data.year} — diusulkan ${nomorUsulan}, boleh diubah.`
+                                        : `Pilih jenis penugasan; pola nomor ${contohNomor}`}
+                                </p>
                             )}
                         </div>
                         <div className="space-y-1">
