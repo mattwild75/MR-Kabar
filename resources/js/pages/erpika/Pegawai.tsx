@@ -1,3 +1,4 @@
+import { TabelPerJenis } from '@/components/erpika/info-pegawai';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -13,10 +14,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { Info, Pencil, Plus, Search, Trash2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -35,6 +37,8 @@ interface Employee {
         kuning: number;
         hijau: number;
         merah: number;
+        per_jenis: { jenis: string; total: number; hijau: number; kuning: number; merah: number }[];
+        per_tahun: Record<string, number>;
         terakhir: {
             rpp: string;
             st: string | null;
@@ -160,14 +164,41 @@ export default function Pegawai({ employees }: Props) {
                                                 )}
                                             </td>
                                             <td className="border px-3 py-2 align-top">
-                                                <div
-                                                    className="font-medium tabular-nums"
-                                                    title="total / minta nomor laporan (kuning) / selesai terbit laporan (hijau) / masih bertugas (merah)"
-                                                >
-                                                    {e.penugasan.total} /{' '}
-                                                    <span className="text-amber-700 dark:text-amber-300">{e.penugasan.kuning}</span> /{' '}
-                                                    <span className="text-emerald-700 dark:text-emerald-300">{e.penugasan.hijau}</span> /{' '}
-                                                    <span className="text-red-700 dark:text-red-300">{e.penugasan.merah}</span>
+                                                <div className="flex items-center gap-1">
+                                                    <div
+                                                        className="font-medium tabular-nums"
+                                                        title="total / minta nomor laporan (kuning) / selesai terbit laporan (hijau) / masih bertugas (merah)"
+                                                    >
+                                                        {e.penugasan.total} /{' '}
+                                                        <span className="text-amber-700 dark:text-amber-300">{e.penugasan.kuning}</span> /{' '}
+                                                        <span className="text-emerald-700 dark:text-emerald-300">{e.penugasan.hijau}</span> /{' '}
+                                                        <span className="text-red-700 dark:text-red-300">{e.penugasan.merah}</span>
+                                                    </div>
+                                                    <Popover>
+                                                        <PopoverTrigger asChild>
+                                                            <Button
+                                                                type="button"
+                                                                size="icon"
+                                                                variant="ghost"
+                                                                className="h-6 w-6"
+                                                                title="Pembagian per jenis penugasan"
+                                                            >
+                                                                <Info className="h-3.5 w-3.5" />
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent align="start" className="w-[360px]">
+                                                            <div className="mb-1 text-sm font-semibold">{e.nama}</div>
+                                                            <TabelPerJenis p={e.penugasan} />
+                                                            {Object.keys(e.penugasan.per_tahun).length > 0 && (
+                                                                <p className="text-muted-foreground mt-2 text-xs">
+                                                                    Per tahun:{' '}
+                                                                    {Object.entries(e.penugasan.per_tahun)
+                                                                        .map(([t, n]) => `${t}: ${n}`)
+                                                                        .join(' · ')}
+                                                                </p>
+                                                            )}
+                                                        </PopoverContent>
+                                                    </Popover>
                                                 </div>
                                                 {e.penugasan.terakhir ? (
                                                     <div className="text-muted-foreground mt-1 max-w-[360px] space-y-0.5 text-xs">

@@ -1,3 +1,4 @@
+import InfoPegawai from '@/components/erpika/info-pegawai';
 import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -643,12 +644,17 @@ export default function RppForm({ rpp, categories, employees, tarifBaku, inspekt
                                                     <tr key={j} className="align-top">
                                                         <td className="px-2 py-1.5 tabular-nums">{j + 1}</td>
                                                         <td className="px-2 py-1.5">
-                                                            <AutocompleteSelect
-                                                                value={m.nama}
-                                                                onChange={(v) => pilihPegawai(i, j, v)}
-                                                                options={namaPegawai}
-                                                                placeholder="Ketik nama pegawai…"
-                                                            />
+                                                            <div className="flex items-center gap-1">
+                                                                <div className="min-w-0 flex-1">
+                                                                    <AutocompleteSelect
+                                                                        value={m.nama}
+                                                                        onChange={(v) => pilihPegawai(i, j, v)}
+                                                                        options={namaPegawai}
+                                                                        placeholder="Ketik nama pegawai…"
+                                                                    />
+                                                                </div>
+                                                                <InfoPegawai employeeId={m.employee_id} nama={m.nama} />
+                                                            </div>
                                                             {galat(`penugasan.${i}.tim.${j}.nama`) && (
                                                                 <p className="text-destructive">{galat(`penugasan.${i}.tim.${j}.nama`)}</p>
                                                             )}

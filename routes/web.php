@@ -279,6 +279,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
     Route::get('/erpika/laporan-penugasan', fn () => Inertia::render('erpika/LaporanPenugasan'))->name('erpika.laporan-penugasan');
     Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
+    Route::get('/erpika/pegawai/{employee}/ringkasan', [PegawaiController::class, 'ringkasan'])->name('erpika.pegawai.ringkasan');
     Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');
     Route::put('/erpika/pegawai/{employee}', [PegawaiController::class, 'update'])->name('erpika.pegawai.update');
     Route::delete('/erpika/pegawai/{employee}', [PegawaiController::class, 'destroy'])->name('erpika.pegawai.destroy');

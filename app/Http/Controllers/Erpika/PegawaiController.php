@@ -110,10 +110,19 @@ class PegawaiController extends Controller
      * terbit laporan (hijau), dan penugasan terakhirnya (RPP, ST, obrik,
      * objek) — dari tabel yang sama dengan RPP Perencanaan/Aneva.
      */
+    /** Info ringkas satu pegawai (dipakai tombol info di formulir RPP). */
+    public function ringkasan(Request $request, Employee $employee)
+    {
+        return response()->json([
+            ...$employee->only(['id', 'nama', 'nip', 'pangkat', 'golongan', 'jabatan', 'unit_kerja', 'aktif']),
+            'penugasan' => $this->ringkasanPenugasan($employee),
+        ]);
+    }
+
     private function ringkasanPenugasan(Employee $e): array
     {
         $daftar = RppPenugasan::whereHas('teamMembers', fn ($q) => $q->where('employee_id', $e->id))
-            ->with(['rpp:id,nomor_rpp,year,tanggal_rpp', 'obriks:id,rpp_penugasan_id,nama,order'])
+            ->with(['rpp:id,nomor_rpp,year,tanggal_rpp,rpp_category_id', 'rpp.category:id,name', 'obriks:id,rpp_penugasan_id,nama,order'])
             ->get();
         $terakhir = $daftar->sortByDesc(fn ($p) => ($p->tanggal_st?->toDateString() ?? $p->rpp->tanggal_rpp?->toDateString() ?? $p->rpp->year.'-00-00').'|'.$p->id)->first();
 
@@ -122,6 +131,16 @@ class PegawaiController extends Controller
             'kuning' => $daftar->where('status', 'nomor_diminta')->count(),
             'hijau' => $daftar->where('status', 'lhp_terbit')->count(),
             'merah' => $daftar->whereNotIn('status', ['nomor_diminta', 'lhp_terbit', 'batal'])->count(),
+            // pembagian per jenis penugasan (Reviu, Khusus, ...) berikut warnanya
+            'per_jenis' => $daftar->groupBy(fn ($p) => $p->rpp->category?->name ?? 'Lain-lain')
+                ->map(fn ($k, $nama) => [
+                    'jenis' => $nama,
+                    'total' => $k->count(),
+                    'hijau' => $k->where('status', 'lhp_terbit')->count(),
+                    'kuning' => $k->where('status', 'nomor_diminta')->count(),
+                    'merah' => $k->whereNotIn('status', ['nomor_diminta', 'lhp_terbit', 'batal'])->count(),
+                ])->sortByDesc('total')->values()->all(),
+            'per_tahun' => $daftar->groupBy(fn ($p) => $p->rpp->year)->map(fn ($k) => $k->count())->sortKeysDesc()->all(),
             'terakhir' => $terakhir ? [
                 'rpp' => $terakhir->rpp->nomor_rpp,
                 'st' => $terakhir->nomor_st,
