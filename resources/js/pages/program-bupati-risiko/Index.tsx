@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { riskLevelClassName, type RiskLevelBand } from '@/lib/risk-level';
 import { Head, Link, router } from '@inertiajs/react';
-import { ChevronDown, ChevronRight, Plus, Search, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, Plus, Printer, Search, Trash2 } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -235,13 +235,31 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
             <Head title="Risiko 100 Program Bupati" />
 
             <div className="space-y-4 p-4">
-                <div>
-                    <h1 className="text-2xl font-semibold">Risiko 100 Program Bupati</h1>
-                    <p className="text-muted-foreground text-sm">
-                        Untuk tiap Program Pembangunan Bupati (Tabel 3.7 RPJM Kabupaten Aceh Barat 2025-2029), ditampilkan risiko yang teridentifikasi
-                        tahun 2025 (IRS Pemda/IRS PD/IRO PD) yang secara nyata dapat mengganggu pencapaian program tersebut. Klik satu risiko untuk
-                        membuka baris aslinya di Form Input yang tersorot. Visi &amp; Misi diambil LIVE dari data KRS Pemda (I_a).
-                    </p>
+                <div className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
+                    <div>
+                        <h1 className="text-2xl font-semibold">Risiko 100 Program Bupati</h1>
+                        <p className="text-muted-foreground text-sm">
+                            Untuk tiap Program Pembangunan Bupati (Tabel 3.7 RPJM Kabupaten Aceh Barat 2025-2029), ditampilkan risiko yang
+                            teridentifikasi tahun 2025 (IRS Pemda/IRS PD/IRO PD) yang secara nyata dapat mengganggu pencapaian program tersebut. Klik
+                            satu risiko untuk membuka baris aslinya di Form Input yang tersorot. Visi &amp; Misi diambil LIVE dari data KRS Pemda
+                            (I_a).
+                        </p>
+                    </div>
+                    {/* Cetak langsung dari sini; tidak ada menu cetak terpisah. */}
+                    <div className="flex shrink-0 gap-2">
+                        <Link href="/program-bupati-risiko/cetak">
+                            <Button variant="outline" size="sm">
+                                <FileText className="mr-1.5 h-4 w-4" />
+                                Pratinjau cetak
+                            </Button>
+                        </Link>
+                        <a href="/program-bupati-risiko/cetak/pdf">
+                            <Button size="sm">
+                                <Printer className="mr-1.5 h-4 w-4" />
+                                Unduh PDF
+                            </Button>
+                        </a>
+                    </div>
                 </div>
 
                 <div className="flex flex-wrap gap-3 text-sm">

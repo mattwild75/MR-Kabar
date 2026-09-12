@@ -979,16 +979,9 @@ class MenuSeeder extends Seeder
             ]
         );
 
-        Menu::updateOrCreate(
-            ['route' => '/program-bupati-risiko/cetak'],
-            [
-                'title' => 'Risiko 100 Program Bupati_Cetak',
-                'parent_id' => $miscellaneous->id,
-                'icon' => 'Printer',
-                'order' => 2,
-                'permission_name' => null,
-            ]
-        );
+        // Cetak Risiko 100 Program Bupati bukan menu sendiri lagi: tombol
+        // Pratinjau/PDF ada di halaman Risiko 100 Program Bupati (12 Sep 2026).
+        Menu::where('route', '/program-bupati-risiko/cetak')->delete();
 
         // Miscellaneous > MR Fraud — Penilaian Risiko Kecurangan (Fraud Risk
         // Assessment). Dasar: Perdep BPKP Bidang Investigasi No. 1 Tahun 2019

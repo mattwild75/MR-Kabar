@@ -1,6 +1,7 @@
 import { MultiPenandatangan } from '@/components/cee/multi-penandatangan';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 
 import UnduhPdfButton from '@/components/ui/unduh-pdf-button';
 
@@ -171,7 +172,12 @@ export default function CetakProgramBupatiRisiko({
                         Pratinjau cetak ukuran A4 portrait — Tahun {tahun}. Level Pemerintah Daerah, dikelompokkan per Misi RPJMD.
                     </p>
                 </div>
-                <div className="flex justify-end">
+                <div className="flex flex-wrap justify-between gap-2">
+                    <Link href="/program-bupati-risiko">
+                        <Button variant="secondary" size="sm">
+                            Kembali
+                        </Button>
+                    </Link>
                     <UnduhPdfButton href={pdfHref} />
                 </div>
             </div>
