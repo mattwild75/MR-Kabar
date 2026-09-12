@@ -1069,24 +1069,17 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['route' => '/rpp'],
             [
-                'title' => 'Input RPP',
+                'title' => 'RPP Perencanaan',
                 'parent_id' => $erpikaPerencanaan->id,
-                'icon' => 'FilePlus',
+                'icon' => 'CalendarRange',
                 'order' => 1,
                 'permission_name' => null,
             ]
         );
 
-        Menu::updateOrCreate(
-            ['route' => '/rpp-cetak'],
-            [
-                'title' => 'Cetak RPP',
-                'parent_id' => $erpikaPerencanaan->id,
-                'icon' => 'Printer',
-                'order' => 2,
-                'permission_name' => null,
-            ]
-        );
+        // Cetak RPP tidak lagi menu sendiri: tombol Tabel/Pengantar ada di tiap
+        // baris RPP Perencanaan (12 September 2026).
+        Menu::where('route', '/rpp-cetak')->delete();
 
         // Pegawai: saudara Perencanaan, bukan anaknya — dipakai seluruh ERPIKA.
         Menu::updateOrCreate(
@@ -1106,7 +1099,7 @@ class MenuSeeder extends Seeder
                 'title' => 'Pengaturan RPP',
                 'parent_id' => $erpikaPerencanaan->id,
                 'icon' => 'Settings2',
-                'order' => 3,
+                'order' => 2,
                 'permission_name' => null,
             ]
         );

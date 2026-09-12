@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Erpika;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 /**
@@ -89,7 +90,9 @@ class PegawaiController extends Controller
             'nip' => ['nullable', 'string', 'max:30', 'unique:employees,nip'.($kecuali ? ','.$kecuali->id : '')],
             'pangkat' => ['nullable', 'string', 'max:100'],
             'golongan' => ['nullable', 'string', 'max:20'],
-        ]);
+            // "Inspektur" hanya boleh satu: dialah penanda tangan seluruh RPP.
+            'jabatan' => ['nullable', 'string', 'max:100', Rule::when($request->input('jabatan') === 'Inspektur', ['unique:employees,jabatan'.($kecuali ? ','.$kecuali->id : '')])],
+        ], ['jabatan.unique' => 'Sudah ada pegawai berjabatan Inspektur; ubah dulu jabatannya.']);
     }
 
     private function pastikanAdmin(Request $request): void

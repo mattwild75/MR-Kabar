@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use App\Models\RppSetting;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -25,10 +24,10 @@ class RppPengaturanController extends Controller
         $this->pastikanAdmin($request);
 
         return Inertia::render('rpp/Pengaturan', [
-            'setting' => RppSetting::current()->load('inspektur'),
-            // Daftar pilihan Inspektur — pengelolaan pegawainya sendiri ada di
-            // ERPIKA > Pegawai, bukan di sini.
-            'employees' => Employee::orderBy('nama')->get(['id', 'nama', 'nip']),
+            'setting' => RppSetting::current(),
+            // Penanda tangan hanya Inspektur — bukan pilihan. Diambil dari pegawai
+            // berjabatan "Inspektur" di ERPIKA > Pegawai.
+            'inspektur' => RppSetting::inspektur()?->only(['id', 'nama', 'nip', 'pangkat', 'golongan']),
         ]);
     }
 
@@ -38,7 +37,6 @@ class RppPengaturanController extends Controller
 
         $data = $request->validate([
             'tarif_per_hari' => ['required', 'integer', 'min:0'],
-            'inspektur_employee_id' => ['nullable', 'exists:employees,id'],
         ]);
 
         RppSetting::current()->update($data);

@@ -258,7 +258,6 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // Cetaknya lewat Browsershot dari halaman pratinjau React — bukan dompdf
     // seperti di asalnya — mengikuti aturan seluruh Form Cetak MR Kabar.
     Route::resource('rpp', RppController::class)->except(['show']);
-    Route::get('/rpp-cetak', [RppPrintController::class, 'index'])->name('rpp-cetak.index');
     Route::get('/rpp-cetak/{rpp}/tabel/preview', [RppPrintController::class, 'previewTabel'])->name('rpp-cetak.tabel.preview');
     Route::get('/rpp-cetak/{rpp}/pengantar/preview', [RppPrintController::class, 'previewPengantar'])->name('rpp-cetak.pengantar.preview');
     Route::get('/rpp-cetak/{rpp}/tabel', [RppPrintController::class, 'tabel'])->name('rpp-cetak.tabel');

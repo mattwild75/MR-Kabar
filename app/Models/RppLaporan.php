@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class RppLaporan extends Model
 {
     protected $fillable = [
-        'rpp_id',
+        'rpp_penugasan_id',
         'nomor_laporan',
         'tanggal_laporan',
         'order',
@@ -18,8 +18,8 @@ class RppLaporan extends Model
         'tanggal_laporan' => 'date',
     ];
 
-    public function rpp(): BelongsTo
+    public function penugasan(): BelongsTo
     {
-        return $this->belongsTo(Rpp::class);
+        return $this->belongsTo(RppPenugasan::class, 'rpp_penugasan_id');
     }
 }

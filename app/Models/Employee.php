@@ -12,6 +12,7 @@ class Employee extends Model
         'nip',
         'pangkat',
         'golongan',
+        'jabatan',
     ];
 
     public function teamMemberships(): HasMany

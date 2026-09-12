@@ -2,273 +2,238 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import React from 'react';
+import { Fragment } from 'react';
 
-interface Category {
-    id: number;
-    code: string;
-    name: string;
-}
-
-interface TeamMember {
-    id: number;
-    role: 'koordinator' | 'ppj' | 'ketua_tim' | 'anggota_tim';
+interface Anggota {
+    no: number;
     nama: string;
     nip: string | null;
     pangkat: string | null;
     golongan: string | null;
-    hari_kantor: number | null;
-    hari_lapangan: number | null;
+    peran: string;
+    dk: number;
+    lk: number;
 }
 
-interface Obrik {
-    id: number;
-    nama: string;
-}
-
-interface Laporan {
-    id: number;
-}
-
-interface Rpp {
-    id: number;
-    year: number;
-    nomor_rpp: string;
-    tanggal_rpp: string | null;
+interface Penugasan {
+    urutan: number;
     uraian: string | null;
-    category: Category;
-    team_members: TeamMember[];
-    obriks: Obrik[];
-    laporans: Laporan[];
-}
-
-interface Setting {
-    inspektur: { nama: string; nip: string | null } | null;
+    obriks: string[];
+    sifat: string | null;
+    jumlah_laporan: number | null;
+    tmt: string | null;
+    tim: Anggota[];
 }
 
 interface Props {
-    rpp: Rpp;
-    setting: Setting;
-    tarifPerHari: number;
-    totalBiaya: number;
-    bulanNama: string | null;
+    rpp: {
+        id: number;
+        nomor_rpp: string;
+        judul: string;
+        sub_judul: string;
+        tanggal: string;
+        jenis: string | null;
+        penugasan: Penugasan[];
+    };
+    inspektur: { nama: string; nip_rapat: string; nip_spasi: string };
 }
 
-const roleLabel: Record<string, string> = {
-    koordinator: 'Koordinator',
-    ppj: 'PPJ',
-    ketua_tim: 'Ketua Tim',
-    anggota_tim: 'Anggota Tim',
-};
-
-function rupiah(n: number) {
-    return 'Rp ' + n.toLocaleString('id-ID');
+/** NIP 18 digit ditulis berspasi seperti di berkas asli: 19720504 200112 1 002. */
+function nipSpasi(nip: string | null) {
+    const d = (nip ?? '').replace(/\D/g, '');
+    if (d.length !== 18) return nip ?? '';
+    return `${d.slice(0, 8)} ${d.slice(8, 14)} ${d.slice(14, 15)} ${d.slice(15)}`;
 }
 
-function formatTanggal(d: string | null) {
-    if (!d) return '............';
-    return new Date(d).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
-}
-
-export default function RppPreviewTabel({ rpp, setting, tarifPerHari, totalBiaya, bulanNama }: Props) {
+/**
+ * Lembar tabel RPP — tata letak disalin dari berkas RPP*.xls Bagian
+ * Perencanaan (A4 mendatar): kepala tiga baris, tabel 8 kolom dengan tiap
+ * anggota dua baris (nama/NIP, pangkat/golongan), SIFAT AUDIT merentang satu
+ * penugasan, JUMLAH LAPORAN dua sel (jumlah, lalu TMT), keterangan DK/LK di
+ * kiri dan tanda tangan Inspektur di kanan. Kolom tarif/biaya berkas asli
+ * berada di luar area cetak, jadi tidak ada di sini.
+ */
+export default function RppPreviewTabel({ rpp, inspektur }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
-        { title: 'Perencanaan', href: '#' },
-        { title: 'Cetak RPP', href: '/rpp-cetak' },
-        { title: 'Preview Tabel', href: '#' },
+        { title: 'ERPIKA', href: '#' },
+        { title: 'RPP Perencanaan', href: '/rpp' },
+        { title: 'Tabel ' + rpp.nomor_rpp, href: '#' },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Preview Tabel RPP ${rpp.nomor_rpp}`} />
+            <Head title={`Tabel RPP ${rpp.nomor_rpp}`} />
             <style>{`
-        @media print {
-          @page { size: A4 landscape; margin: 10mm; }
-          body { background: white; }
-        }
-      `}</style>
+                @page { size: A4 landscape; margin: 10mm 10mm 10mm 12mm; }
+                .rpp-sheet { font-family: Arial, 'Liberation Sans', Helvetica, sans-serif; color: #000; }
+                .rpp-sheet .bk { font-family: 'Bookman Old Style', 'URW Bookman', Bookman, 'DejaVu Serif', serif; }
+                .rpp-tabel { border-collapse: collapse; width: 100%; table-layout: fixed; }
+                .rpp-tabel th, .rpp-tabel td { border: 1px solid #000; padding: 1px 3px; vertical-align: middle; }
+                .rpp-tabel th { font-family: 'Bookman Old Style', 'URW Bookman', Bookman, 'DejaVu Serif', serif; font-weight: 700; font-size: 7pt; text-align: center; line-height: 1.15; }
+                .rpp-tabel td { font-size: 7.5pt; line-height: 1.15; }
+                .rpp-tabel td.nip { border-top: none; padding-top: 0; }
+                .rpp-tabel td.nama { border-bottom: none; padding-bottom: 0; }
+                .rpp-tabel td.hari { text-align: center; white-space: nowrap; }
+                .rpp-tabel td.peran { text-align: center; font-family: 'Bookman Old Style', 'URW Bookman', Bookman, 'DejaVu Serif', serif; font-size: 7pt; }
+                .rpp-tabel td.pangkat { text-align: center; }
+                .rpp-tabel td.sifat { text-align: center; font-weight: 700; }
+                .rpp-tabel td.lap { text-align: center; }
+                @media print {
+                    body { background: #fff; }
+                    .rpp-sheet { padding: 0 !important; margin: 0 !important; max-width: none !important; box-shadow: none !important; }
+                    .min-h-svh { min-height: 0 !important; }
+                }
+            `}</style>
 
             <div className="space-y-4 p-4 md:p-6 print:hidden">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                    <Link href="/rpp-cetak">
+                    <Link href="/rpp">
                         <Button variant="secondary" size="sm">
                             Kembali
                         </Button>
                     </Link>
-                    <a href={`/rpp-cetak/${rpp.id}/tabel`}>
-                        <Button size="sm">Unduh PDF</Button>
-                    </a>
+                    <div className="flex gap-2">
+                        <Link href={`/rpp-cetak/${rpp.id}/pengantar/preview`}>
+                            <Button variant="outline" size="sm">
+                                Surat pengantar
+                            </Button>
+                        </Link>
+                        <a href={`/rpp-cetak/${rpp.id}/tabel`}>
+                            <Button size="sm">Unduh PDF</Button>
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <div className="rpp-print-sheet mx-auto max-w-[1400px] bg-white p-8 text-black print:m-0 print:max-w-none print:p-0 print:shadow-none">
-                <h1 className="text-center text-base font-bold">RENCANA PENUGASAN PENGAWASAN</h1>
-                <h2 className="text-center text-sm">
-                    BULAN {(bulanNama ?? '-').toUpperCase()} {rpp.year}
-                </h2>
-                <p className="mb-4 text-center text-sm">Nomor : {rpp.nomor_rpp}</p>
+            <div className="rpp-sheet mx-auto w-[277mm] max-w-full bg-white p-[8mm] text-black print:w-auto">
+                <div className="bk text-center text-[10.5pt] leading-tight font-bold">{rpp.judul}</div>
+                <div className="bk text-center text-[10.5pt] leading-tight font-bold">{rpp.sub_judul}</div>
+                <div className="bk mt-3 mb-1 text-[8pt] font-bold">Nomor : {rpp.nomor_rpp}</div>
 
-                <table className="w-full border-collapse text-xs">
+                <table className="rpp-tabel">
+                    <colgroup>
+                        <col style={{ width: '5.5mm' }} />
+                        <col style={{ width: '62mm' }} />
+                        <col style={{ width: '47mm' }} />
+                        <col style={{ width: '27mm' }} />
+                        <col style={{ width: '30mm' }} />
+                        <col style={{ width: '11mm' }} />
+                        <col style={{ width: '11mm' }} />
+                        <col style={{ width: '11mm' }} />
+                        <col style={{ width: '16mm' }} />
+                        <col style={{ width: '23mm' }} />
+                    </colgroup>
                     <thead>
-                        <tr className="bg-gray-100">
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                NO.
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                OBRIK
-                            </th>
-                            <th colSpan={2} rowSpan={2} className="border border-gray-700 p-1">
-                                TIM {rpp.category.name.toUpperCase()}
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                PANGKAT/GOL. RUANG
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                PERAN DALAM TIM
-                            </th>
-                            <th colSpan={6} className="border border-gray-700 p-1">
-                                HARI PEMERIKSAAN
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                SIFAT PENUGASAN
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                JUMLAH LAPORAN
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                TARIF/HARI
-                            </th>
-                            <th rowSpan={2} className="border border-gray-700 p-1">
-                                JUMLAH BIAYA
+                        <tr>
+                            <th rowSpan={2}>NO.</th>
+                            <th rowSpan={2}>OBRIK</th>
+                            <th rowSpan={2}>TIM PEMERIKSA</th>
+                            <th rowSpan={2}>PANGKAT/GOL. RUANG</th>
+                            <th rowSpan={2}>PERAN DALAM TIM</th>
+                            <th colSpan={3}>HARI PEMERIKSAAN</th>
+                            <th rowSpan={2}>SIFAT AUDIT</th>
+                            <th rowSpan={2}>
+                                JUMLAH
+                                <br />
+                                LAPORAN
                             </th>
                         </tr>
-                        <tr className="bg-gray-100">
-                            <th colSpan={2} className="border border-gray-700 p-1">
-                                DK
-                            </th>
-                            <th colSpan={2} className="border border-gray-700 p-1">
-                                LK
-                            </th>
-                            <th colSpan={2} className="border border-gray-700 p-1">
-                                JLH
-                            </th>
+                        <tr>
+                            <th>DK</th>
+                            <th>LK</th>
+                            <th>JLH</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {rpp.team_members.length === 0 ? (
-                            <tr>
-                                <td className="border border-gray-700 p-1 text-center">1</td>
-                                <td className="border border-gray-700 p-1 text-left">
-                                    {rpp.uraian}
-                                    {rpp.obriks.map((o, i) => (
-                                        <div key={o.id} className="text-[10px] text-gray-600">
-                                            {i + 1}. {o.nama}
-                                        </div>
+                        {rpp.penugasan.map((p) => {
+                            const baris = p.tim.length * 2; // dua baris per anggota
+                            const barisLaporan = p.tim.length >= 2 ? 3 : 1; // sel "n Laporan" setinggi ±1,5 anggota, sisanya TMT
+                            return (
+                                <Fragment key={p.urutan}>
+                                    {p.tim.map((m, i) => (
+                                        <Fragment key={i}>
+                                            <tr>
+                                                {i === 0 && (
+                                                    <>
+                                                        <td rowSpan={baris} className="text-center">
+                                                            {p.urutan}
+                                                        </td>
+                                                        <td rowSpan={baris} className="align-middle">
+                                                            {p.uraian}
+                                                            {p.obriks.length > 0 && (
+                                                                <div className="mt-0.5">
+                                                                    {p.obriks.map((o, k) => (
+                                                                        <div key={k}>
+                                                                            {k + 1}.{o}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                    </>
+                                                )}
+                                                <td className="nama">
+                                                    {m.no} {m.nama}
+                                                </td>
+                                                <td className="pangkat nama">{m.pangkat}</td>
+                                                <td rowSpan={2} className="peran">
+                                                    {m.peran}
+                                                </td>
+                                                <td rowSpan={2} className="hari">
+                                                    {m.dk} Hari
+                                                </td>
+                                                <td rowSpan={2} className="hari">
+                                                    {m.lk} Hari
+                                                </td>
+                                                <td rowSpan={2} className="hari">
+                                                    {m.dk + m.lk} Hari
+                                                </td>
+                                                {i === 0 && (
+                                                    <>
+                                                        <td rowSpan={baris} className="sifat">
+                                                            {p.sifat}
+                                                        </td>
+                                                        <td rowSpan={barisLaporan} className="lap">
+                                                            {p.jumlah_laporan != null ? `${p.jumlah_laporan} Laporan` : ''}
+                                                        </td>
+                                                    </>
+                                                )}
+                                            </tr>
+                                            <tr>
+                                                <td className="nip">
+                                                    <span className="invisible">{m.no} </span>
+                                                    {nipSpasi(m.nip)}
+                                                </td>
+                                                <td className="pangkat nip">{m.golongan ? `(${m.golongan})` : ''}</td>
+                                                {/* sel TMT dimulai tepat sesudah sel "n Laporan" berakhir */}
+                                                {i * 2 + 1 === barisLaporan && barisLaporan < baris && (
+                                                    <td rowSpan={baris - barisLaporan} className="lap">
+                                                        {p.tmt}
+                                                    </td>
+                                                )}
+                                            </tr>
+                                        </Fragment>
                                     ))}
-                                </td>
-                                <td colSpan={9} className="border border-gray-700 p-1 text-center">
-                                    Belum ada tim ditambahkan.
-                                </td>
-                                <td className="border border-gray-700 p-1 text-center">{rpp.category.name}</td>
-                                <td className="border border-gray-700 p-1 text-center">{rpp.laporans.length} Laporan</td>
-                                <td className="border border-gray-700 p-1 text-center">{rupiah(tarifPerHari)}</td>
-                                <td className="border border-gray-700 p-1 text-center">Rp 0</td>
-                            </tr>
-                        ) : (
-                            rpp.team_members.map((member, i) => (
-                                <React.Fragment key={member.id}>
-                                    <tr>
-                                        {i === 0 && (
-                                            <>
-                                                <td rowSpan={rpp.team_members.length * 2} className="border border-gray-700 p-1 text-center">
-                                                    1
-                                                </td>
-                                                <td rowSpan={rpp.team_members.length * 2} className="border border-gray-700 p-1 text-left align-top">
-                                                    {rpp.uraian}
-                                                    {rpp.obriks.map((o, oi) => (
-                                                        <div key={o.id} className="text-[10px] text-gray-600">
-                                                            {oi + 1}. {o.nama}
-                                                        </div>
-                                                    ))}
-                                                </td>
-                                            </>
-                                        )}
-                                        <td colSpan={2} className="border border-gray-700 p-1 text-center">
-                                            {i + 1}
-                                        </td>
-                                        <td className="border border-gray-700 p-1 text-left">{member.nama}</td>
-                                        <td className="border border-gray-700 p-1 text-center">
-                                            {[member.pangkat, member.golongan ? `(${member.golongan})` : ''].filter(Boolean).join(' ') || '-'}
-                                        </td>
-                                        <td className="border border-gray-700 p-1 text-center">{roleLabel[member.role]}</td>
-                                        <td colSpan={2} className="border border-gray-700 p-1 text-center">
-                                            {member.hari_kantor ?? 0} Hari
-                                        </td>
-                                        <td colSpan={2} className="border border-gray-700 p-1 text-center">
-                                            {member.hari_lapangan ?? 0} Hari
-                                        </td>
-                                        <td colSpan={2} className="border border-gray-700 p-1 text-center">
-                                            {(member.hari_kantor ?? 0) + (member.hari_lapangan ?? 0)} Hari
-                                        </td>
-                                        {i === 0 && (
-                                            <>
-                                                <td rowSpan={rpp.team_members.length * 2} className="border border-gray-700 p-1 text-center">
-                                                    {rpp.category.name}
-                                                </td>
-                                                <td rowSpan={rpp.team_members.length * 2} className="border border-gray-700 p-1 text-center">
-                                                    {rpp.laporans.length} Laporan
-                                                </td>
-                                            </>
-                                        )}
-                                        <td className="border border-gray-700 p-1 text-center">{rupiah(tarifPerHari)}</td>
-                                        <td className="border border-gray-700 p-1 text-center">
-                                            {rupiah(((member.hari_kantor ?? 0) + (member.hari_lapangan ?? 0)) * tarifPerHari)}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2} className="border border-gray-700 p-1 text-[10px] text-gray-600">
-                                            NIP. {member.nip ?? '-'}
-                                        </td>
-                                        <td colSpan={10} className="border border-gray-700 p-1"></td>
-                                    </tr>
-                                </React.Fragment>
-                            ))
-                        )}
+                                </Fragment>
+                            );
+                        })}
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colSpan={15} className="border border-gray-700 p-1 text-left font-bold">
-                                JUMLAH
-                            </td>
-                            <td className="border border-gray-700 p-1 text-center font-bold">{rupiah(totalBiaya)}</td>
-                        </tr>
-                    </tfoot>
                 </table>
 
-                <div className="mt-3 text-[10px]">
-                    <div>KETERANGAN :</div>
-                    <div>DK = Dalam Kantor</div>
-                    <div>LK = Luar Kantor</div>
+                <div className="mt-2 flex justify-between text-[8pt]">
+                    <div className="bk mt-5">
+                        <div className="font-bold underline">KETERANGAN :</div>
+                        <div>DK = Dalam Kantor</div>
+                        <div>LK = Luar Kantor</div>
+                    </div>
+                    <div className="mr-[40mm] text-center">
+                        <div>Meulaboh, {rpp.tanggal}</div>
+                        <div>INSPEKTUR KABUPATEN ACEH BARAT</div>
+                        <div className="h-[18mm]" />
+                        <div className="font-bold underline">{inspektur.nama.toUpperCase()}.</div>
+                        <div>NIP {inspektur.nip_rapat}</div>
+                    </div>
                 </div>
-
-                <table className="mt-8 w-full">
-                    <tbody>
-                        <tr>
-                            <td className="w-1/2"></td>
-                            <td className="w-1/2 text-center text-sm">
-                                Meulaboh, {formatTanggal(rpp.tanggal_rpp)}
-                                <br />
-                                INSPEKTUR KABUPATEN ACEH BARAT,
-                                <br />
-                                <br />
-                                <br />
-                                <br />
-                                <strong>{(setting.inspektur?.nama ?? '............').toUpperCase()}</strong>
-                                <br />
-                                NIP. {setting.inspektur?.nip ?? '............'}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </AppLayout>
     );
