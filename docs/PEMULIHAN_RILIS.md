@@ -135,7 +135,7 @@ terburuknya adalah pekerjaan satu hari. Timbang itu sebelum melangkah.
 
 **Sejak 12 September 2026 semua cadangan terkunci AES-256** dengan SATU kunci:
 `/etc/mrkabar/kunci-cadangan` (root, 600) = `BACKUP_ARCHIVE_PASSWORD` di
-`.env`. Salinan kuncinya di luar VM ada di `Backup MR Kabar\KUNCI-CADANGAN.txt`
+`.env`. Salinan kuncinya di luar VM ada di `OneDrive\Desktop\MR Kabar\Cadangan\KUNCI-CADANGAN.txt`
 di laptop pengelola. Tanpa kunci itu tidak satu pun cadangan bisa dibuka —
 kunci lebih penting daripada cadangannya.
 
