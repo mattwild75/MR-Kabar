@@ -73,6 +73,7 @@ class UjiPulihCadangan extends Command
             }
             $gagal = 0;
             $jumlah = 0;
+            $contohGagal = null;
             foreach ($this->pernyataan(File::get($sqlSementara)) as $stmt) {
                 if (preg_match('/^\s*(USE|CREATE\s+DATABASE|DROP\s+DATABASE)\b/i', $stmt)) {
                     continue;
@@ -82,6 +83,7 @@ class UjiPulihCadangan extends Command
                     $pdo->exec($stmt);
                 } catch (\Throwable $e) {
                     $gagal++;
+                    $contohGagal ??= mb_substr($stmt, 0, 120).' => '.$e->getMessage();
                 }
             }
             $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
@@ -95,7 +97,7 @@ class UjiPulihCadangan extends Command
                 }
             }
             $pesan = count($tabelUji).' tabel, '.array_sum($tabelUji).' baris dipulihkan dari '.$jumlah.' pernyataan'
-                .($gagal ? ", {$gagal} pernyataan gagal" : '')
+                .($gagal ? ", {$gagal} pernyataan gagal (".$contohGagal.')' : '')
                 .($selisih ? '; selisih wajar sejak cadangan dibuat: '.implode(', ', $selisih) : '; jumlah baris tabel kunci sama dengan basis data hidup');
             $sukses = $gagal === 0 && count($tabelUji) >= max(1, (int) (count($tabelHidup) * 0.9));
             $this->catat($sukses, $nama, $pesan);
