@@ -35,7 +35,15 @@ interface Employee {
         kuning: number;
         hijau: number;
         merah: number;
-        terakhir: { rpp: string; st: string | null; obrik: string | null; objek: string[]; status: string } | null;
+        terakhir: {
+            rpp: string;
+            st: string | null;
+            tanggal: string | null;
+            tmt: string | null;
+            obrik: string | null;
+            objek: string[];
+            status: string;
+        } | null;
     };
 }
 
@@ -154,11 +162,12 @@ export default function Pegawai({ employees }: Props) {
                                             <td className="border px-3 py-2 align-top">
                                                 <div
                                                     className="font-medium tabular-nums"
-                                                    title="total / minta nomor laporan (kuning) / selesai terbit laporan (hijau)"
+                                                    title="total / minta nomor laporan (kuning) / selesai terbit laporan (hijau) / masih bertugas (merah)"
                                                 >
                                                     {e.penugasan.total} /{' '}
                                                     <span className="text-amber-700 dark:text-amber-300">{e.penugasan.kuning}</span> /{' '}
-                                                    <span className="text-emerald-700 dark:text-emerald-300">{e.penugasan.hijau}</span>
+                                                    <span className="text-emerald-700 dark:text-emerald-300">{e.penugasan.hijau}</span> /{' '}
+                                                    <span className="text-red-700 dark:text-red-300">{e.penugasan.merah}</span>
                                                 </div>
                                                 {e.penugasan.terakhir ? (
                                                     <div className="text-muted-foreground mt-1 max-w-[360px] space-y-0.5 text-xs">
@@ -169,6 +178,17 @@ export default function Pegawai({ employees }: Props) {
                                                         <div>
                                                             <span className="font-medium">ST:</span>{' '}
                                                             <span className="font-mono">{e.penugasan.terakhir.st ?? '-'}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span className="font-medium">Tanggal:</span>{' '}
+                                                            {e.penugasan.terakhir.tanggal
+                                                                ? new Date(e.penugasan.terakhir.tanggal + 'T00:00:00').toLocaleDateString('id-ID', {
+                                                                      day: '2-digit',
+                                                                      month: 'long',
+                                                                      year: 'numeric',
+                                                                  })
+                                                                : '. . . . .'}
+                                                            {e.penugasan.terakhir.tmt && <span className="ml-1">({e.penugasan.terakhir.tmt})</span>}
                                                         </div>
                                                         <div className="line-clamp-2">
                                                             <span className="font-medium">Obrik:</span> {e.penugasan.terakhir.obrik ?? '-'}

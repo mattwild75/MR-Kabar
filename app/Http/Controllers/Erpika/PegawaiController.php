@@ -29,7 +29,7 @@ class PegawaiController extends Controller
         $this->pastikanAdmin($request);
 
         return Inertia::render('erpika/Pegawai', [
-            'employees' => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('unit_kerja')->orderBy('nama')->get()
+            'employees' => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('nama')->get()
                 ->map(fn (Employee $e) => [...$e->toArray(), 'penugasan' => $this->ringkasanPenugasan($e)]),
         ]);
     }
@@ -125,6 +125,8 @@ class PegawaiController extends Controller
             'terakhir' => $terakhir ? [
                 'rpp' => $terakhir->rpp->nomor_rpp,
                 'st' => $terakhir->nomor_st,
+                'tanggal' => ($terakhir->tanggal_st ?? $terakhir->rpp->tanggal_rpp)?->toDateString(),
+                'tmt' => $terakhir->tmtTampil(),
                 'obrik' => $terakhir->uraian,
                 'objek' => $terakhir->obriks->pluck('nama')->all(),
                 'status' => $terakhir->status,
