@@ -22,6 +22,7 @@ import { Head, router } from '@inertiajs/react';
 import { DatabaseBackup, Download, FileSpreadsheet, Github, GitPullRequestArrow, History, Tags, TriangleAlert, Upload } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
+import CadanganDrive, { type DriveProps } from './CadanganDrive';
 
 interface Backup {
     name: string;
@@ -63,11 +64,13 @@ interface Props {
     }[];
     versi: Versi[];
     commitSekarang: string | null;
+    drive: DriveProps;
+    arsipTerkunci: boolean;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Backup', href: '/backup' }];
 
-export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal, pemeriksaan, versi, commitSekarang }: Props) {
+export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTags, penjadwal, pemeriksaan, versi, commitSekarang, drive, arsipTerkunci }: Props) {
     const [gitMessage, setGitMessage] = useState('');
     const [pushing, setPushing] = useState(false);
     const [pulling, setPulling] = useState(false);
@@ -303,7 +306,14 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                     <CardHeader className="flex flex-row items-center justify-between">
                         <div>
                             <CardTitle className="text-2xl font-bold">Database Backups</CardTitle>
-                            <p className="text-muted-foreground text-sm">Manage system backup files</p>
+                            <p className="text-muted-foreground text-sm">
+                                Dump seluruh tabel (termasuk akun dan hash sandi).{' '}
+                                {arsipTerkunci ? (
+                                    <span className="font-medium text-emerald-700 dark:text-emerald-300">Arsip terkunci AES-256</span>
+                                ) : (
+                                    <span className="font-medium text-amber-700 dark:text-amber-300">Arsip belum terkunci — isi BACKUP_ARCHIVE_PASSWORD</span>
+                                )}
+                            </p>
                         </div>
                         <div className="flex gap-2">
                             <a href="/backup/excel">
@@ -374,6 +384,8 @@ export default function BackupIndex({ backups, canPushGit, gitSyncEnabled, gitTa
                         )}
                     </CardContent>
                 </Card>
+
+                <CadanganDrive drive={drive} />
 
                 {/* Versi = tag git + snapshot database yang sepadan dengannya. Dijadikan
             satu kartu supaya jelas keduanya tidak pernah terpisah: tag tanpa

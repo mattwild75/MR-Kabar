@@ -3,23 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\SettingApp;
+use App\Services\CadanganService;
 use App\Services\VersiSnapshotService;
 use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Schema;
 use Inertia\Inertia;
-use ZipArchive;
 
 class BackupController extends Controller
 {
-    public function __construct(private readonly VersiSnapshotService $versi) {}
+    public function __construct(
+        private readonly VersiSnapshotService $versi,
+        private readonly CadanganService $cadangan,
+        private readonly CadanganDriveController $drive,
+    ) {}
 
     /**
      * Lapis kedua di luar permission_name menu — backup database (dump
@@ -94,22 +93,11 @@ class BackupController extends Controller
         );
     }
 
-    /**
-     * Folder tujuan backup Spatie ikut config('backup.backup.name'), yang
-     * defaultnya env('APP_NAME') — BUKAN selalu "Laravel". Sempat hardcode
-     * 'private/Laravel' di sini, jadi setelah APP_NAME diubah ke "MR KABAR"
-     * backup baru tertulis ke folder lain & terlihat seolah gagal/hilang.
-     */
-    protected function backupPath(): string
-    {
-        return 'private/'.config('backup.backup.name', 'Laravel');
-    }
-
     public function index()
     {
         $this->ensureSuperAdmin();
 
-        $realPath = storage_path('app/'.$this->backupPath());
+        $realPath = $this->cadangan->folderCadangan();
 
         $files = File::exists($realPath) ? File::files($realPath) : [];
 
@@ -143,6 +131,8 @@ class BackupController extends Controller
             'pemeriksaan' => $this->statusPemeriksaan(),
             'versi' => $this->daftarVersi(),
             'commitSekarang' => $this->versi->commitSekarang(),
+            'drive' => $this->drive->ringkasan(),
+            'arsipTerkunci' => $this->cadangan->arsipTerkunci(),
         ]);
     }
 
@@ -250,52 +240,6 @@ class BackupController extends Controller
     }
 
     /**
-     * Kunci bersama utk SEMUA aksi yang menulis ke folder backup dan/atau
-     * working directory git (run/gitPush/gitPull/importDatabase) — tanpa
-     * ini, dua super-admin yang mengklik aksi berbeda hampir bersamaan bisa
-     * saling menghapus snapshot penyelamat satu sama lain lewat
-     * keepOnlyLatestBackup() (dipanggil dari 3 method berbeda), atau
-     * menjalankan restore PDO paralel yang saling bentrok DROP/CREATE TABLE
-     * pada tabel yang sama. Timeout 10 menit cukup longgar utk backup+push
-     * database besar sambil tetap mencegah lock macet permanen kalau
-     * request sebelumnya crash tanpa sempat release.
-     */
-    private function withBackupLock(callable $callback)
-    {
-        $lock = Cache::lock('backup-operation-lock', 600);
-
-        if (! $lock->get()) {
-            abort(409, 'Sedang ada operasi backup/restore/git lain yang berjalan. Coba lagi sebentar.');
-        }
-
-        try {
-            return $callback();
-        } finally {
-            $lock->release();
-        }
-    }
-
-    /**
-     * Hapus semua backup KECUALI yang paling baru — dipanggil setelah tiap
-     * backup:run supaya daftar backup tidak menumpuk & membingungkan.
-     * Selalu maksimal 1 file backup tersimpan setiap saat.
-     */
-    private function keepOnlyLatestBackup(): void
-    {
-        $realPath = storage_path('app/'.$this->backupPath());
-        if (! File::exists($realPath)) {
-            return;
-        }
-
-        $zips = collect(File::files($realPath))
-            ->filter(fn ($file) => $file->getExtension() === 'zip')
-            ->sortByDesc(fn ($file) => $file->getMTime())
-            ->values();
-
-        $zips->skip(1)->each(fn ($file) => File::delete($file->getPathname()));
-    }
-
-    /**
      * Satu tombol, dua langkah: (1) backup database — TETAP LOKAL saja,
      * TIDAK PERNAH ikut ke GitHub (storage/app/private/.gitignore = "*"
      * mengabaikan seluruh isi folder itu, termasuk file .sql/.zip backup);
@@ -309,12 +253,11 @@ class BackupController extends Controller
         $this->ensureSuperAdmin();
         $this->ensureGitSyncEnabled();
 
-        return $this->withBackupLock(function () use ($request) {
+        return $this->cadangan->denganKunci(function () use ($request) {
             // Langkah 1: backup database dulu — kalau ini gagal, batalkan push
             // supaya tidak ada snapshot kode tanpa cadangan data yg sepadan.
             try {
-                Artisan::call('backup:run', ['--only-db' => true]);
-                $this->keepOnlyLatestBackup();
+                $this->cadangan->buatCadanganDb();
             } catch (\Throwable $e) {
                 return redirect()->back()->with('error', 'Backup database gagal, push dibatalkan: '.$e->getMessage());
             }
@@ -349,9 +292,8 @@ class BackupController extends Controller
     {
         $this->ensureSuperAdmin();
 
-        return $this->withBackupLock(function () {
-            Artisan::call('backup:run', ['--only-db' => true]);
-            $this->keepOnlyLatestBackup();
+        return $this->cadangan->denganKunci(function () {
+            $this->cadangan->buatCadanganDb();
 
             return redirect()->back()->with('success', 'Backup berhasil dibuat.');
         });
@@ -366,7 +308,7 @@ class BackupController extends Controller
             abort(404, 'File tidak ditemukan.');
         }
 
-        $path = storage_path('app/'.$this->backupPath().'/'.$file);
+        $path = $this->cadangan->folderCadangan().'/'.$file;
 
         if (! file_exists($path)) {
             abort(404, 'File tidak ditemukan.');
@@ -384,7 +326,7 @@ class BackupController extends Controller
             return redirect()->back()->with('error', 'File tidak ditemukan.');
         }
 
-        $path = storage_path('app/'.$this->backupPath().'/'.$file);
+        $path = $this->cadangan->folderCadangan().'/'.$file;
 
         if (! file_exists($path)) {
             return redirect()->back()->with('error', 'File tidak ditemukan.');
@@ -409,14 +351,13 @@ class BackupController extends Controller
         $this->ensureSuperAdmin();
         $this->ensureGitSyncEnabled();
 
-        return $this->withBackupLock(function () {
+        return $this->cadangan->denganKunci(function () {
             // Backup dulu, baru tarik. Kode yang masuk dari remote bisa membawa
             // migrasi yang mengubah skema begitu dijalankan, dan sesudah itu
             // tidak ada lagi cadangan atas keadaan sebelum penarikan. Sama
             // prinsipnya dengan urutan di gitPush() dan checkoutTag().
             try {
-                Artisan::call('backup:run', ['--only-db' => true]);
-                $this->keepOnlyLatestBackup();
+                $this->cadangan->buatCadanganDb();
             } catch (\Throwable $e) {
                 return redirect()->back()->with('error', 'Backup database gagal, git pull dibatalkan: '.$e->getMessage());
             }
@@ -474,10 +415,9 @@ class BackupController extends Controller
             return redirect()->back()->with('error', 'Tag "'.$data['tag'].'" tidak ditemukan di repository ini.');
         }
 
-        return $this->withBackupLock(function () use ($data) {
+        return $this->cadangan->denganKunci(function () use ($data) {
             try {
-                Artisan::call('backup:run', ['--only-db' => true]);
-                $this->keepOnlyLatestBackup();
+                $this->cadangan->buatCadanganDb();
             } catch (\Throwable $e) {
                 return redirect()->back()->with('error', 'Backup database gagal, checkout tag dibatalkan: '.$e->getMessage());
             }
@@ -518,12 +458,12 @@ class BackupController extends Controller
                 }
 
                 try {
-                    $sql = $this->sqlDariZip($this->versi->berkasSnapshot($data['tag']));
+                    $sql = $this->cadangan->sqlDariZip($this->versi->berkasSnapshot($data['tag']));
                 } catch (\RuntimeException $e) {
                     return redirect()->back()->with('error', $pesan.' Database TIDAK dipulihkan: '.$e->getMessage());
                 }
 
-                return $this->timpaDatabaseDariSql($sql, 'snapshot versi '.$data['tag']);
+                return $this->timpaDatabase($sql, 'snapshot versi '.$data['tag']);
             }
 
             $selisih = $this->versi->selisihMigrasi($data['tag']);
@@ -579,7 +519,7 @@ class BackupController extends Controller
             $this->ensureGitSyncEnabled();
         }
 
-        return $this->withBackupLock(function () use ($data, $wajibPush) {
+        return $this->cadangan->denganKunci(function () use ($data, $wajibPush) {
             $base = base_path();
             $pesanCommit = 'Tandai versi '.$data['tag'].($data['catatan'] ? ' — '.$data['catatan'] : '');
 
@@ -610,8 +550,8 @@ class BackupController extends Controller
 
             // Langkah 3: snapshot database. Gagal di sini berarti tag dibatalkan.
             try {
-                $catatan = $this->versi->rekam($data['tag'], storage_path('app/'.$this->backupPath()), $data['catatan'] ?? null);
-                $this->keepOnlyLatestBackup();
+                $catatan = $this->versi->rekam($data['tag'], $this->cadangan->folderCadangan(), $data['catatan'] ?? null);
+                $this->cadangan->simpanHanyaTerbaru();
             } catch (\Throwable $e) {
                 Process::timeout(60)->run(['git', '-C', $base, 'tag', '-d', $data['tag']]);
 
@@ -685,12 +625,12 @@ class BackupController extends Controller
         }
 
         try {
-            $sql = $this->sqlDariZip($this->versi->berkasSnapshot($tag));
+            $sql = $this->cadangan->sqlDariZip($this->versi->berkasSnapshot($tag));
         } catch (\RuntimeException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
 
-        return $this->withBackupLock(fn () => $this->timpaDatabaseDariSql($sql, 'snapshot versi '.$tag));
+        return $this->cadangan->denganKunci(fn () => $this->timpaDatabase($sql, 'snapshot versi '.$tag));
     }
 
     /**
@@ -715,352 +655,24 @@ class BackupController extends Controller
         $uploaded = $request->file('backup_file');
 
         try {
-            $sqlContent = $this->sqlDariZip($uploaded->getRealPath());
+            $sqlContent = $this->cadangan->sqlDariZip($uploaded->getRealPath());
         } catch (\RuntimeException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
 
-        return $this->withBackupLock(function () use ($uploaded, $sqlContent) {
-            return $this->timpaDatabaseDariSql($sqlContent, $uploaded->getClientOriginalName());
+        return $this->cadangan->denganKunci(function () use ($uploaded, $sqlContent) {
+            return $this->timpaDatabase($sqlContent, $uploaded->getClientOriginalName());
         });
     }
 
     /**
-     * Ambil isi satu-satunya berkas .sql dari dalam zip backup.
-     *
-     * Dipakai bersama oleh impor berkas unggahan dan pemulihan snapshot versi,
-     * karena keduanya membaca format zip yang sama persis — hasil Spatie Backup
-     * `--only-db`. Menolak zip berisi lebih dari satu .sql adalah pengaman
-     * sengaja: backup PENUH (berisi kode project) juga berekstensi .zip dan
-     * kalau lolos akan dijalankan sebagai dump, merusak database.
-     *
-     * @throws \RuntimeException dengan pesan yang sudah layak ditampilkan
+     * Timpa database lewat CadanganService dan ubah hasilnya menjadi redirect.
+     * WAJIB dipanggil dari dalam denganKunci().
      */
-    private function sqlDariZip(string $zipPath): string
+    private function timpaDatabase(string $sqlContent, string $namaSumber)
     {
-        $zip = new ZipArchive;
-        if ($zip->open($zipPath) !== true) {
-            throw new \RuntimeException('File zip tidak valid atau rusak.');
-        }
+        $hasil = $this->cadangan->timpaDatabaseDariSql($sqlContent, $namaSumber);
 
-        $sqlEntryName = null;
-        for ($i = 0; $i < $zip->numFiles; $i++) {
-            $name = $zip->getNameIndex($i);
-            if (str_ends_with(strtolower($name), '.sql')) {
-                if ($sqlEntryName !== null) {
-                    $zip->close();
-
-                    throw new \RuntimeException('Zip berisi lebih dari satu file .sql — format tidak dikenali.');
-                }
-                $sqlEntryName = $name;
-            }
-        }
-
-        if ($sqlEntryName === null) {
-            $zip->close();
-
-            throw new \RuntimeException('Zip tidak berisi file .sql — pastikan ini file backup database yang benar.');
-        }
-
-        $sqlContent = $zip->getFromName($sqlEntryName);
-        $zip->close();
-
-        if ($sqlContent === false || trim($sqlContent) === '') {
-            throw new \RuntimeException('Gagal membaca isi dump SQL dari zip.');
-        }
-
-        return $sqlContent;
-    }
-
-    /**
-     * Timpa seluruh database dengan isi satu dump SQL, didahului backup
-     * pengaman atas keadaan sekarang.
-     *
-     * WAJIB dipanggil dari dalam withBackupLock() — tidak mengunci sendiri,
-     * supaya pemanggil bisa membungkus beberapa langkah (mis. checkout tag lalu
-     * pulihkan database) dalam satu kunci yang sama.
-     *
-     * @return RedirectResponse
-     */
-    private function timpaDatabaseDariSql(string $sqlContent, string $namaSumber)
-    {
-        // Safety net: backup kondisi SEKARANG dulu sebelum ditimpa — kalau
-        // gagal, batalkan sepenuhnya (sama prinsipnya dengan urutan di
-        // gitPush()).
-        try {
-            Artisan::call('backup:run', ['--only-db' => true]);
-            $this->keepOnlyLatestBackup();
-        } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Backup pengaman sebelum menimpa database gagal, proses dibatalkan: '.$e->getMessage());
-        }
-
-        $tmpSqlPath = storage_path('app/private/import-'.uniqid().'.sql');
-        File::put($tmpSqlPath, $sqlContent);
-
-        try {
-            $failedStatements = $this->restoreFromSqlFile($tmpSqlPath);
-        } catch (\Throwable $e) {
-            return redirect()->back()->with(
-                'error',
-                'Pemulihan database gagal total: '.$e->getMessage().' — database mungkin dalam kondisi tidak konsisten. '
-                .'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini).'
-            );
-        } finally {
-            File::delete($tmpSqlPath);
-        }
-
-        // Smoke-test: pastikan tabel inti benar-benar terisi setelah
-        // restore, bukan cuma "tidak melempar exception". DDL MySQL
-        // auto-commit per statement dan tidak bisa di-rollback — kalau
-        // satu statement di tengah gagal (mis. data mengandung ";\n"
-        // yang salah displit jadi 2 statement), sisa tabel setelahnya
-        // tidak akan pernah dibuat ulang, tapi loop di
-        // restoreFromSqlFile() tetap lanjut sampai akhir tanpa
-        // melempar exception. Smoke-test ini yang mendeteksi hasil
-        // restore rusak sebelum terlanjur dilaporkan "berhasil".
-        $missingTables = [];
-        foreach (['users', 'menus'] as $table) {
-            if (! Schema::hasTable($table)) {
-                $missingTables[] = $table;
-            }
-        }
-
-        if (! empty($missingTables) || DB::table('users')->count() === 0) {
-            return redirect()->back()->with(
-                'error',
-                'Pemulihan selesai TAPI database hasilnya tampak tidak lengkap (tabel inti kosong/hilang: '
-                .(empty($missingTables) ? 'users' : implode(', ', $missingTables))
-                .'). Kemungkinan ada statement SQL yang gagal di tengah proses. '
-                .'SEGERA pulihkan dari backup pengaman di daftar backup (dibuat tepat sebelum proses ini) via menu Import lagi.'
-            );
-        }
-
-        $message = 'Database berhasil dipulihkan dari '.$namaSumber.'. Backup kondisi sebelumnya tersimpan di daftar backup.';
-        if ($failedStatements > 0) {
-            $message .= " Peringatan: {$failedStatements} statement SQL dilewati karena error (lihat log) — periksa data hasil pemulihan.";
-        }
-
-        return redirect()->back()->with('success', $message);
-    }
-
-    /**
-     * Jalankan dump SQL langsung lewat PDO (koneksi Laravel yang sudah
-     * ada) — TIDAK memanggil binary `mysql` CLI eksternal. Environment
-     * dev/prod aplikasi ini (Laravel Herd di Windows) tidak selalu punya
-     * `mysql.exe` di PATH; percobaan sebelumnya via Process::run(['mysql',
-     * ...]) gagal SENYAP (proses drop-tabel manual sudah kadung jalan
-     * duluan, lalu restore-nya sendiri gagal karena binary tidak
-     * ditemukan) dan meninggalkan database KOSONG TOTAL tanpa rollback —
-     * insiden nyata, bukan risiko teoretis. Drop tabel manual terpisah
-     * SENGAJA DIHAPUS di sini: dump Spatie sudah menyertakan
-     * `DROP TABLE IF EXISTS` persis sebelum tiap `CREATE TABLE`, jadi drop
-     * & re-create terjadi tabel-per-tabel dalam satu urutan statement yang
-     * sama — tidak ada lagi jeda "semua tabel sudah didrop, belum ada yang
-     * dibuat ulang" seperti pola lama.
-     *
-     * Return: jumlah statement yang GAGAL dieksekusi (dicatat ke log,
-     * bukan diam) — dipakai pemanggil utk memberi peringatan eksplisit
-     * alih-alih melaporkan "berhasil" begitu saja meski ada baris yg gagal.
-     * DDL MySQL auto-commit per statement & tidak bisa di-rollback, jadi
-     * satu statement gagal tidak membatalkan statement lain yg sudah
-     * jalan — loop sengaja TETAP LANJUT ke statement berikutnya (drop satu
-     * tabel yang gagal dibuat ulang lebih baik daripada seluruh restore
-     * berhenti di tengah dgn separuh tabel hilang total).
-     */
-    private function restoreFromSqlFile(string $sqlPath): int
-    {
-        $sql = File::get($sqlPath);
-        $statements = $this->tanpaPerpindahanBasisData($this->splitSqlStatements($sql));
-
-        $pdo = DB::connection()->getPdo();
-        $pdo->exec('SET FOREIGN_KEY_CHECKS=0');
-
-        $failed = 0;
-        try {
-            foreach ($statements as $statement) {
-                try {
-                    $pdo->exec($statement);
-                } catch (\Throwable $e) {
-                    $failed++;
-                    Log::error('BackupController::restoreFromSqlFile — statement gagal', [
-                        'error' => $e->getMessage(),
-                        'statement_preview' => substr($statement, 0, 200),
-                    ]);
-                }
-            }
-        } finally {
-            $pdo->exec('SET FOREIGN_KEY_CHECKS=1');
-        }
-
-        return $failed;
-    }
-
-    /**
-     * Pisahkan dump SQL jadi daftar statement individual, sadar-quote —
-     * BUKAN regex naif berbasis ";\n" seperti sebelumnya. mysqldump
-     * membungkus SEMUA nilai teks dalam kutip tunggal (dgn escaping `\'`
-     * dan `''`), tapi field-field risiko di aplikasi ini (URAIAN RISIKO,
-     * RENCANA TINDAK PENGENDALIAN, dst) adalah `text` panjang yang bisa
-     * memuat APA SAJA termasuk pola literal ";\n" di dalam nilainya —
-     * regex lama akan memotong statement INSERT di tengah string itu,
-     * menghasilkan 2 "statement" yang keduanya SQL tidak valid, dan
-     * proses restore gagal di titik yg sebenarnya datanya valid. Splitter
-     * ini melacak in-string/in-comment state karakter-per-karakter supaya
-     * titik-koma di DALAM string literal tidak dianggap pemisah statement.
-     */
-    /**
-     * Membuang pernyataan yang MEMINDAHKAN sasaran pemulihan.
-     *
-     * `mysqldump --databases` menyisipkan `USE \`mrkabar\`;` dan
-     * `CREATE DATABASE ...` ke dalam dumpnya. Keduanya dijalankan apa adanya
-     * oleh PDO, dan `USE` MEMINDAHKAN koneksi ke basis data yang namanya
-     * tertulis di dalam berkas — bukan basis data yang sedang dipakai
-     * aplikasi ini.
-     *
-     * Selama aplikasinya cuma satu, akibatnya tidak terasa: namanya kebetulan
-     * sama. Yang berbahaya adalah pemasangan kedua — salinan uji coba atau
-     * staging yang menunjuk basis data lain. Mengimpor cadangan produksi di
-     * sana akan menimpa PRODUKSI, dari dalam aplikasi, lewat tombol yang
-     * tampak aman. Persis kejadian yang menghapus 914 baris pada 17 Agustus
-     * 2026 lewat baris perintah; jalur tombol Impor masih terbuka sesudahnya.
-     *
-     * Penyaringnya di sini, bukan di splitSqlStatements(), supaya pemecahan
-     * pernyataan tetap satu-satunya urusan berkas itu.
-     *
-     * @param  array<int, string>  $statements
-     * @return array<int, string>
-     */
-    private function tanpaPerpindahanBasisData(array $statements): array
-    {
-        return array_values(array_filter(
-            $statements,
-            fn (string $s) => ! preg_match(
-                '/^(USE\s|CREATE\s+DATABASE\b|CREATE\s+SCHEMA\b)/i',
-                $this->tanpaKomentarDepan($s),
-            ),
-        ));
-    }
-
-    /**
-     * Membuang komentar dan spasi di depan sebuah pernyataan SQL.
-     *
-     * Dump sungguhan menaruh blok komentar tepat sebelum pernyataannya:
-     *
-     *     --
-     *     -- Current Database: `mrkabar`
-     *     --
-     *
-     *     USE `mrkabar`
-     *
-     * Tanpa dibuang lebih dulu, pemeriksaan "apakah pernyataan ini diawali
-     * USE" akan melihat tanda hubung, bukan kata USE-nya. Ditulis sebagai
-     * perulangan biasa, bukan satu regex besar: yang dicari cuma awalannya,
-     * dan regex yang harus mengurus dua bentuk komentar sekaligus lebih mudah
-     * salah daripada dibaca.
-     */
-    private function tanpaKomentarDepan(string $s): string
-    {
-        $sisa = ltrim($s);
-
-        while ($sisa !== '') {
-            if (str_starts_with($sisa, '--')) {
-                $akhir = strpos($sisa, "\n");
-                $sisa = $akhir === false ? '' : ltrim(substr($sisa, $akhir + 1));
-
-                continue;
-            }
-
-            if (str_starts_with($sisa, '/*')) {
-                $akhir = strpos($sisa, '*/');
-                $sisa = $akhir === false ? '' : ltrim(substr($sisa, $akhir + 2));
-
-                continue;
-            }
-
-            break;
-        }
-
-        return $sisa;
-    }
-
-    private function splitSqlStatements(string $sql): array
-    {
-        $statements = [];
-        $current = '';
-        $length = strlen($sql);
-        $inString = null; // null | "'" | '"' — kutip yang sedang aktif
-        $inLineComment = false;
-
-        for ($i = 0; $i < $length; $i++) {
-            $char = $sql[$i];
-            $next = $i + 1 < $length ? $sql[$i + 1] : '';
-
-            if ($inLineComment) {
-                $current .= $char;
-                if ($char === "\n") {
-                    $inLineComment = false;
-                }
-
-                continue;
-            }
-
-            if ($inString !== null) {
-                $current .= $char;
-                if ($char === '\\' && $next !== '') {
-                    // Escape backslash — ikutkan karakter berikutnya apa
-                    // adanya supaya tidak salah dianggap penutup quote.
-                    $current .= $next;
-                    $i++;
-
-                    continue;
-                }
-                if ($char === $inString) {
-                    // Quote ganda ('' atau "") = escaped quote literal,
-                    // bukan penutup — cek karakter berikutnya.
-                    if ($next === $inString) {
-                        $current .= $next;
-                        $i++;
-
-                        continue;
-                    }
-                    $inString = null;
-                }
-
-                continue;
-            }
-
-            if ($char === "'" || $char === '"') {
-                $inString = $char;
-                $current .= $char;
-
-                continue;
-            }
-
-            if ($char === '-' && $next === '-') {
-                $inLineComment = true;
-                $current .= $char;
-
-                continue;
-            }
-
-            if ($char === ';') {
-                $trimmed = trim($current);
-                if ($trimmed !== '' && ! str_starts_with($trimmed, '--')) {
-                    $statements[] = $trimmed;
-                }
-                $current = '';
-
-                continue;
-            }
-
-            $current .= $char;
-        }
-
-        $trimmed = trim($current);
-        if ($trimmed !== '' && ! str_starts_with($trimmed, '--')) {
-            $statements[] = $trimmed;
-        }
-
-        return $statements;
+        return redirect()->back()->with($hasil['sukses'] ? 'success' : 'error', $hasil['pesan']);
     }
 }

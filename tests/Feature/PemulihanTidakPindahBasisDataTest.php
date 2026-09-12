@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\Controllers\BackupController;
+use App\Services\CadanganService;
 use Tests\TestCase;
 
 /**
@@ -25,10 +25,7 @@ class PemulihanTidakPindahBasisDataTest extends TestCase
     /** @return array<int, string> */
     private function saring(array $statements): array
     {
-        $metode = new \ReflectionMethod(BackupController::class, 'tanpaPerpindahanBasisData');
-        $metode->setAccessible(true);
-
-        return $metode->invoke(app(BackupController::class), $statements);
+        return app(CadanganService::class)->tanpaPerpindahanBasisData($statements);
     }
 
     public function test_pernyataan_use_dan_create_database_dibuang(): void

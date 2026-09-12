@@ -129,8 +129,15 @@ Cara terberat, dan satu-satunya yang benar ketika data sudah rusak atau
 migrasinya merusak isi. **Harganya nyata: seluruh perubahan yang dibuat
 pengguna sejak cadangan itu diambil akan hilang.**
 
-Cadangan berjalan tiap hari pukul 01:00, jadi kerugian terburuknya adalah
-pekerjaan satu hari. Timbang itu sebelum melangkah.
+Cadangan berjalan tiap hari pukul 01:00 WIB (cron root, di dalam VM) dan
+01:30 WIB (ke Google Drive yang tertaut di halaman Backup), jadi kerugian
+terburuknya adalah pekerjaan satu hari. Timbang itu sebelum melangkah.
+
+**Sejak 12 September 2026 semua cadangan terkunci AES-256** dengan SATU kunci:
+`/etc/mrkabar/kunci-cadangan` (root, 600) = `BACKUP_ARCHIVE_PASSWORD` di
+`.env`. Salinan kuncinya di luar VM ada di `Backup MR Kabar\KUNCI-CADANGAN.txt`
+di laptop pengelola. Tanpa kunci itu tidak satu pun cadangan bisa dibuka —
+kunci lebih penting daripada cadangannya.
 
 ```bash
 php artisan down --secret="pemulihan-sekarang"
@@ -139,10 +146,15 @@ php artisan down --secret="pemulihan-sekarang"
 /usr/local/bin/backup-mrkabar.sh
 
 # 2. Pilih cadangan tujuan
-ls -lh /var/backups/mrkabar/db-*.sql.gz
+ls -lh /var/backups/mrkabar/db-*.sql.gz.enc
 
-# 3. Pulihkan
-zcat /var/backups/mrkabar/db-<TANGGAL>.sql.gz | mysql -u mrkabar -p mrkabar
+# 3. Buka kuncinya, lalu pulihkan (kredensial MySQL di /etc/mrkabar/mysql-cadangan.cnf)
+openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass file:/etc/mrkabar/kunci-cadangan   -in /var/backups/mrkabar/db-<TANGGAL>.sql.gz.enc | gunzip   | mysql --defaults-extra-file=/etc/mrkabar/mysql-cadangan.cnf mrkabar
+
+# 3b. Alternatif tanpa baris perintah: halaman Backup → "Cadangan di Google
+#     Drive" → Pulihkan (ketik TIMPA); atau unduh zip dari Drive lalu Import.
+#     Zip dari halaman Backup dibuka dengan sandi yang sama (aplikasi
+#     melakukannya sendiri bila BACKUP_ARCHIVE_PASSWORD terisi).
 
 # 4. Kembalikan kode ke versi yang sejalan dengan cadangan itu
 git reset --hard <commit-tujuan>
@@ -166,8 +178,9 @@ Basis data dan berkas dicadangkan terpisah. Memulihkan basis data saja
 membuat baris `media` menunjuk berkas yang tidak ada.
 
 ```bash
-tar tzf /var/backups/mrkabar/berkas-<TANGGAL>.tar.gz | head     # lihat isinya dulu
-tar xzf /var/backups/mrkabar/berkas-<TANGGAL>.tar.gz -C /var/www/mrkabar
+BUKA="openssl enc -d -aes-256-cbc -pbkdf2 -iter 200000 -pass file:/etc/mrkabar/kunci-cadangan"
+$BUKA -in /var/backups/mrkabar/berkas-<TANGGAL>.tar.gz.enc | tar tzf - | head   # lihat isinya dulu
+$BUKA -in /var/backups/mrkabar/berkas-<TANGGAL>.tar.gz.enc | tar xzf - -C /var/www/mrkabar
 chown -R www-data:www-data /var/www/mrkabar/storage
 ```
 

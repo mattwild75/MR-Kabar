@@ -34,6 +34,17 @@ Schedule::call(fn () => Cache::forever('penjadwal_detak_terakhir', now()->timest
     ->everyMinute()
     ->name('detak-penjadwal');
 
+// Cadangan basis data ke Google Drive, tiap hari 01:30 WIB — setengah jam
+// sesudah cron root (01:00) menulis cadangan di dalam VM. Dua salinan di dua
+// tempat yang tidak saling bergantung: cron root tidak butuh internet, Drive
+// tidak butuh VM-nya masih ada. Perintahnya diam bila Drive belum ditautkan
+// (lihat CadangkanKeDrive), jadi aman terdaftar sejak awal.
+// withoutOverlapping: unggahan ke Drive bisa berlangsung lebih dari semenit.
+Schedule::command('cadangan:drive')
+    ->dailyAt('01:30')
+    ->name('cadangan-drive')
+    ->withoutOverlapping(30);
+
 // Pemeriksaan keutuhan data — temuan audit R-08, R-09, dan R-17.
 //
 // Ketiga perintah ini sudah ada sebelum baris-baris di bawah ditulis, tetapi

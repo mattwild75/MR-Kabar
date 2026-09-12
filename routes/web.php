@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\CeeSurveyQrLoginController;
 use App\Http\Controllers\Auth\DuaFaktorTantanganController;
 use App\Http\Controllers\Auth\LaporQrLoginController;
 use App\Http\Controllers\BackupController;
+use App\Http\Controllers\CadanganDriveController;
 use App\Http\Controllers\CeeFormController;
 use App\Http\Controllers\CeePertanyaanController;
 use App\Http\Controllers\CetakCeeController;
@@ -334,6 +335,15 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::post('/backup/git-checkout-tag', [BackupController::class, 'checkoutTag'])->name('backup.git-checkout-tag');
     Route::post('/backup/git-sync-toggle', [BackupController::class, 'toggleGitSync'])->name('backup.git-sync-toggle');
     Route::post('/backup/import', [BackupController::class, 'importDatabase'])->name('backup.import');
+
+    // Cadangan ke Google Drive — akun Google milik instansi, lihat CadanganDriveController.
+    Route::post('/backup/drive/kredensial', [CadanganDriveController::class, 'simpanKredensial'])->name('backup.drive.kredensial');
+    Route::get('/backup/drive/tautkan', [CadanganDriveController::class, 'tautkan'])->name('backup.drive.tautkan');
+    Route::get('/backup/drive/callback', [CadanganDriveController::class, 'callback'])->name('backup.drive.callback');
+    Route::post('/backup/drive/putus', [CadanganDriveController::class, 'putus'])->name('backup.drive.putus');
+    Route::post('/backup/drive/unggah', [CadanganDriveController::class, 'unggah'])->name('backup.drive.unggah');
+    Route::post('/backup/drive/{idBerkas}/pulihkan', [CadanganDriveController::class, 'pulihkan'])->name('backup.drive.pulihkan');
+    Route::delete('/backup/drive/{idBerkas}', [CadanganDriveController::class, 'hapus'])->name('backup.drive.hapus');
     // Versi = tag git yang dipasangkan dengan snapshot database sepadan.
     // Snapshot-nya TIDAK PERNAH ikut ke GitHub (storage/app/private diabaikan
     // git), jadi hasil clone selalu berdatabase kosong untuk diisi sendiri.
