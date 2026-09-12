@@ -153,7 +153,7 @@ class KesehatanServerService
         if (! $p->terakhir_unggah) {
             return $this->butir('drive', 'Google Drive', 'perhatian', 'tertaut, belum pernah unggah');
         }
-        $jam = (int) floor(now()->diffInMinutes(Carbon::parse($p->terakhir_unggah)) / 60);
+        $jam = (int) floor(abs(now()->diffInMinutes(Carbon::parse($p->terakhir_unggah))) / 60);
         $gagal = str_starts_with((string) $p->terakhir_hasil, 'Gagal');
         $status = $gagal || $jam > 48 ? 'bahaya' : ($jam > 26 ? 'perhatian' : 'baik');
 

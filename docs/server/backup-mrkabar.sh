@@ -33,6 +33,11 @@ tar czf - -C /var/www/mrkabar storage/app | $ENC -out "$TUJUAN/berkas-$TGL.tar.g
 # Uji buka: cadangan yang tidak bisa dibuka sama dengan tidak ada.
 $ENC -d -in "$TUJUAN/db-$TGL.sql.gz.enc" | gunzip -t
 
+# Berkas boleh dibaca grup www-data (isinya terkunci) supaya aplikasi bisa
+# menjalankan uji pemulihan bulanan (php artisan cadangan:uji-pulih).
+chgrp www-data "$TUJUAN"/*.enc 2>/dev/null || true
+chmod 640 "$TUJUAN"/*.enc 2>/dev/null || true
+
 find "$TUJUAN" -name '*.enc' -mtime +14 -delete
 find "$TUJUAN" -name '*.gz' -mtime +14 -delete
 echo "$TGL selesai: $(du -h "$TUJUAN/db-$TGL.sql.gz.enc" | cut -f1) db, $(du -h "$TUJUAN/berkas-$TGL.tar.gz.enc" | cut -f1) berkas"
