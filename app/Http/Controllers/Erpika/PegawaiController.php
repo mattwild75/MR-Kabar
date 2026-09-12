@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Erpika;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\RppPenugasan;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -28,7 +29,8 @@ class PegawaiController extends Controller
         $this->pastikanAdmin($request);
 
         return Inertia::render('erpika/Pegawai', [
-            'employees' => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('unit_kerja')->orderBy('nama')->get(),
+            'employees' => Employee::withCount('teamMemberships')->orderByDesc('aktif')->orderBy('unit_kerja')->orderBy('nama')->get()
+                ->map(fn (Employee $e) => [...$e->toArray(), 'penugasan' => $this->ringkasanPenugasan($e)]),
         ]);
     }
 
@@ -100,5 +102,33 @@ class PegawaiController extends Controller
     private function pastikanAdmin(Request $request): void
     {
         abort_unless($request->user()->canViewAllOpd(), 403, 'Daftar pegawai hanya untuk admin.');
+    }
+
+    /**
+     * Rekam jejak penugasan seorang pegawai dari seluruh RPP: jumlah
+     * penugasan, yang sedang minta nomor laporan (kuning), yang selesai
+     * terbit laporan (hijau), dan penugasan terakhirnya (RPP, ST, obrik,
+     * objek) — dari tabel yang sama dengan RPP Perencanaan/Aneva.
+     */
+    private function ringkasanPenugasan(Employee $e): array
+    {
+        $daftar = RppPenugasan::whereHas('teamMembers', fn ($q) => $q->where('employee_id', $e->id))
+            ->with(['rpp:id,nomor_rpp,year,tanggal_rpp', 'obriks:id,rpp_penugasan_id,nama,order'])
+            ->get();
+        $terakhir = $daftar->sortByDesc(fn ($p) => ($p->tanggal_st?->toDateString() ?? $p->rpp->tanggal_rpp?->toDateString() ?? $p->rpp->year.'-00-00').'|'.$p->id)->first();
+
+        return [
+            'total' => $daftar->count(),
+            'kuning' => $daftar->where('status', 'nomor_diminta')->count(),
+            'hijau' => $daftar->where('status', 'lhp_terbit')->count(),
+            'merah' => $daftar->whereNotIn('status', ['nomor_diminta', 'lhp_terbit', 'batal'])->count(),
+            'terakhir' => $terakhir ? [
+                'rpp' => $terakhir->rpp->nomor_rpp,
+                'st' => $terakhir->nomor_st,
+                'obrik' => $terakhir->uraian,
+                'objek' => $terakhir->obriks->pluck('nama')->all(),
+                'status' => $terakhir->status,
+            ] : null,
+        ];
     }
 }

@@ -30,6 +30,13 @@ interface Employee {
     unit_kerja: string | null;
     aktif: boolean;
     team_memberships_count: number;
+    penugasan: {
+        total: number;
+        kuning: number;
+        hijau: number;
+        merah: number;
+        terakhir: { rpp: string; st: string | null; obrik: string | null; objek: string[]; status: string } | null;
+    };
 }
 
 interface Props {
@@ -120,7 +127,7 @@ export default function Pegawai({ employees }: Props) {
                                         <th className="border px-3 py-2 text-left">Gol.</th>
                                         <th className="border px-3 py-2 text-left">Unit kerja</th>
                                         <th className="border px-3 py-2 text-left">Jabatan</th>
-                                        <th className="border px-3 py-2 text-right">Dipakai di tim</th>
+                                        <th className="border px-3 py-2 text-left">Penugasan</th>
                                         <th className="border px-3 py-2 text-left">Aksi</th>
                                     </tr>
                                 </thead>
@@ -144,7 +151,38 @@ export default function Pegawai({ employees }: Props) {
                                                     (e.jabatan ?? '-')
                                                 )}
                                             </td>
-                                            <td className="border px-3 py-2 text-right tabular-nums">{e.team_memberships_count}</td>
+                                            <td className="border px-3 py-2 align-top">
+                                                <div
+                                                    className="font-medium tabular-nums"
+                                                    title="total / minta nomor laporan (kuning) / selesai terbit laporan (hijau)"
+                                                >
+                                                    {e.penugasan.total} /{' '}
+                                                    <span className="text-amber-700 dark:text-amber-300">{e.penugasan.kuning}</span> /{' '}
+                                                    <span className="text-emerald-700 dark:text-emerald-300">{e.penugasan.hijau}</span>
+                                                </div>
+                                                {e.penugasan.terakhir ? (
+                                                    <div className="text-muted-foreground mt-1 max-w-[360px] space-y-0.5 text-xs">
+                                                        <div>
+                                                            <span className="font-medium">RPP:</span>{' '}
+                                                            <span className="font-mono">{e.penugasan.terakhir.rpp}</span>
+                                                        </div>
+                                                        <div>
+                                                            <span className="font-medium">ST:</span>{' '}
+                                                            <span className="font-mono">{e.penugasan.terakhir.st ?? '-'}</span>
+                                                        </div>
+                                                        <div className="line-clamp-2">
+                                                            <span className="font-medium">Obrik:</span> {e.penugasan.terakhir.obrik ?? '-'}
+                                                        </div>
+                                                        {e.penugasan.terakhir.objek.length > 0 && (
+                                                            <div className="line-clamp-2">
+                                                                <span className="font-medium">Objek:</span> {e.penugasan.terakhir.objek.join('; ')}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-muted-foreground text-xs">belum pernah ditugaskan</div>
+                                                )}
+                                            </td>
                                             <td className="border px-3 py-2">
                                                 <div className="flex gap-1">
                                                     <Button size="icon" variant="ghost" onClick={() => setSunting(e)}>
