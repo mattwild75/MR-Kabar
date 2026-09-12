@@ -11,6 +11,10 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // Uji tidak butuh bundel Vite (public/build tidak ikut di git); tanpa
+        // ini setiap halaman Inertia di CI gagal 500 "Vite manifest not found".
+        $this->withoutVite();
+
         // Kewajiban dua faktor DIMATIKAN secara baku di lingkungan uji.
         //
         // Tanpa ini, 61 uji yang tidak ada hubungannya dengan 2FA langsung

@@ -96,8 +96,13 @@ jobs:
           node-version: '24'
           cache: npm
 
+      # `npm install`, bukan `npm ci`: package-lock.json yang dihasilkan npm di
+      # Windows tidak memuat paket biner platform lain (@esbuild/linux-*,
+      # @rollup/rollup-linux-*), sehingga `npm ci` di Ubuntu menolak lock
+      # sebagai "tidak sinkron". `npm install` tetap memakai versi yang
+      # terkunci dan hanya menambah biner platform yang kurang.
       - name: Pasang dependensi
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: Periksa tipe
         run: npx tsc --noEmit
