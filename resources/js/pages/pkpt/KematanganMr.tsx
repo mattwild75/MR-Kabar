@@ -63,8 +63,8 @@ export default function KematanganMr({ baris, acuan, ...konteks }: Props) {
         >
             {belum > 0 ? (
                 <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100">
-                    {belum} dari {baris.length} Perangkat Daerah belum ditetapkan level kematangannya. Area
-                    Pengawasan miliknya tidak akan memperoleh Total Nilai Risiko sampai levelnya diisi.
+                    {belum} dari {baris.length} Perangkat Daerah belum ditetapkan level kematangannya. Area Pengawasan miliknya tidak akan memperoleh
+                    Total Nilai Risiko sampai levelnya diisi.
                 </p>
             ) : null}
 
@@ -86,7 +86,7 @@ export default function KematanganMr({ baris, acuan, ...konteks }: Props) {
                                 <tr key={a.level_mr} className="border-t">
                                     <td className="px-3 py-2 text-center tabular-nums">{a.level_mr}</td>
                                     <td className="px-3 py-2 font-medium">{a.sebutan}</td>
-                                    <td className="px-3 py-2 text-muted-foreground">{a.karakteristik}</td>
+                                    <td className="text-muted-foreground px-3 py-2">{a.karakteristik}</td>
                                     <td className="px-3 py-2 text-center tabular-nums">{a.bobot_register}%</td>
                                     <td className="px-3 py-2 text-center tabular-nums">{a.bobot_faktor}%</td>
                                 </tr>
@@ -117,26 +117,18 @@ export default function KematanganMr({ baris, acuan, ...konteks }: Props) {
                                     {b.punya_register ? (
                                         <Badge variant="secondary">{b.jumlah_risiko} risiko</Badge>
                                     ) : (
-                                        <span className="text-xs text-muted-foreground italic">belum ada</span>
+                                        <span className="text-muted-foreground text-xs italic">belum ada</span>
                                     )}
                                 </td>
                                 <td className="px-3 py-2 text-center tabular-nums">
-                                    {b.level_mr === null ? (
-                                        <span className="text-xs text-muted-foreground italic">belum</span>
-                                    ) : (
-                                        b.level_mr
-                                    )}
+                                    {b.level_mr === null ? <span className="text-muted-foreground text-xs italic">belum</span> : b.level_mr}
                                 </td>
-                                <td className="px-3 py-2 text-muted-foreground">
+                                <td className="text-muted-foreground px-3 py-2">
                                     {b.sumber_penetapan ? LABEL_SUMBER[b.sumber_penetapan] : '-'}
                                     {b.skor_spip !== null ? ` (${b.skor_spip})` : ''}
                                 </td>
-                                <td className="px-3 py-2 text-center tabular-nums">
-                                    {b.bobot_register !== null ? `${b.bobot_register}%` : '-'}
-                                </td>
-                                <td className="px-3 py-2 text-center tabular-nums">
-                                    {b.bobot_faktor !== null ? `${b.bobot_faktor}%` : '-'}
-                                </td>
+                                <td className="px-3 py-2 text-center tabular-nums">{b.bobot_register !== null ? `${b.bobot_register}%` : '-'}</td>
+                                <td className="px-3 py-2 text-center tabular-nums">{b.bobot_faktor !== null ? `${b.bobot_faktor}%` : '-'}</td>
                                 <td className="px-3 py-2 text-right">
                                     {bolehUbah ? (
                                         <Button variant="ghost" size="sm" onClick={() => setSunting(b)}>
@@ -150,12 +142,8 @@ export default function KematanganMr({ baris, acuan, ...konteks }: Props) {
                 </table>
             </div>
 
-            {adopsiTerbuka ? (
-                <DialogAdopsi periodeId={konteks.periode?.id} tutup={() => setAdopsiTerbuka(false)} />
-            ) : null}
-            {sunting ? (
-                <DialogLevel baris={sunting} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} />
-            ) : null}
+            {adopsiTerbuka ? <DialogAdopsi periodeId={konteks.periode?.id} tutup={() => setAdopsiTerbuka(false)} /> : null}
+            {sunting ? <DialogLevel baris={sunting} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} /> : null}
         </PkptShell>
     );
 }
@@ -171,10 +159,9 @@ function DialogAdopsi({ periodeId, tutup }: { periodeId?: number; tutup: () => v
                     <DialogTitle>Adopsi skor maturitas SPIP</DialogTitle>
                 </DialogHeader>
 
-                <p className="text-sm text-muted-foreground">
-                    Perdep PPKD 08/2020 mengizinkan APIP memakai skor maturitas SPIP Pemerintah Daerah sebagai
-                    langkah awal penerapan, ketika satuan kerja belum punya skor tersendiri. Sumber
-                    penetapannya dicatat, jadi terbaca di kertas kerja bahwa levelnya diadopsi.
+                <p className="text-muted-foreground text-sm">
+                    Perdep PPKD 08/2020 mengizinkan APIP memakai skor maturitas SPIP Pemerintah Daerah sebagai langkah awal penerapan, ketika satuan
+                    kerja belum punya skor tersendiri. Sumber penetapannya dicatat, jadi terbaca di kertas kerja bahwa levelnya diadopsi.
                 </p>
 
                 <div className="space-y-1">
@@ -233,7 +220,7 @@ function DialogLevel({ baris, periodeId, tutup }: { baris: Baris; periodeId?: nu
                         <Label htmlFor="level">Level kematangan MR</Label>
                         <select
                             id="level"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={level}
                             onChange={(e) => setLevel(e.target.value)}
                         >
@@ -251,7 +238,7 @@ function DialogLevel({ baris, periodeId, tutup }: { baris: Baris; periodeId?: nu
                         <Label htmlFor="sumber">Dasar penetapan</Label>
                         <select
                             id="sumber"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={sumber}
                             onChange={(e) => setSumber(e.target.value)}
                         >
@@ -270,7 +257,7 @@ function DialogLevel({ baris, periodeId, tutup }: { baris: Baris; periodeId?: nu
                         <Label htmlFor="ket-level">Keterangan</Label>
                         <textarea
                             id="ket-level"
-                            className="min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm"
+                            className="border-input bg-background min-h-16 w-full rounded-md border p-2 text-sm"
                             value={keterangan}
                             onChange={(e) => setKeterangan(e.target.value)}
                         />

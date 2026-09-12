@@ -82,11 +82,7 @@ export default function RencanaTabel({
             konteks={konteks}
             aksi={
                 <>
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => router.visit(`/pkpt/cetak/${formulir}?periode=${konteks.periode?.id}`)}
-                    >
+                    <Button size="sm" variant="outline" onClick={() => router.visit(`/pkpt/cetak/${formulir}?periode=${konteks.periode?.id}`)}>
                         <Printer className="size-4" aria-hidden /> Cetak {formulir.toUpperCase()}
                     </Button>
                     {bolehUbah ? (
@@ -106,9 +102,8 @@ export default function RencanaTabel({
                 <p className="flex items-start gap-2 rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-900 dark:border-red-700 dark:bg-red-950 dark:text-red-100">
                     <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden />
                     <span>
-                        {belumMasuk.wajib.length} penugasan wajib belum masuk rencana:{' '}
-                        {belumMasuk.wajib.map((w) => w.nama_area).join(', ')}. Melewatkannya bukan sekadar
-                        kurang lengkap, melainkan menyalahi Diktum KELIMA Keputusan Inspektur.
+                        {belumMasuk.wajib.length} penugasan wajib belum masuk rencana: {belumMasuk.wajib.map((w) => w.nama_area).join(', ')}.
+                        Melewatkannya bukan sekadar kurang lengkap, melainkan menyalahi Diktum KELIMA Keputusan Inspektur.
                     </span>
                 </p>
             ) : null}
@@ -122,9 +117,7 @@ export default function RencanaTabel({
                     </>
                 ) : null}
                 {belumMasuk.berisiko.length > 0 ? (
-                    <span className="text-muted-foreground">
-                        {belumMasuk.berisiko.length} Area berisiko belum masuk rencana
-                    </span>
+                    <span className="text-muted-foreground">{belumMasuk.berisiko.length} Area berisiko belum masuk rencana</span>
                 ) : null}
             </div>
 
@@ -157,15 +150,15 @@ export default function RencanaTabel({
                     <tbody>
                         {rencana.length === 0 ? (
                             <tr>
-                                <td colSpan={lengkap ? 12 : 7} className="px-3 py-8 text-center text-muted-foreground">
-                                    Belum ada baris rencana. Tekan "Tarik dari peringkat" untuk menyalin
-                                    penugasan wajib dan Area berperingkat teratas sekaligus.
+                                <td colSpan={lengkap ? 12 : 7} className="text-muted-foreground px-3 py-8 text-center">
+                                    Belum ada baris rencana. Tekan "Tarik dari peringkat" untuk menyalin penugasan wajib dan Area berperingkat teratas
+                                    sekaligus.
                                 </td>
                             </tr>
                         ) : (
                             rencana.map((r, i) => (
                                 <tr key={r.id} className="border-t">
-                                    <td className="px-2 py-2 text-center tabular-nums text-muted-foreground">{i + 1}</td>
+                                    <td className="text-muted-foreground px-2 py-2 text-center tabular-nums">{i + 1}</td>
                                     <td className="px-2 py-2">{r.nama_area}</td>
                                     <td className="px-2 py-2 text-center tabular-nums">
                                         {r.total_nilai_risiko?.toFixed(2).replace('.', ',') ?? '-'}
@@ -173,7 +166,7 @@ export default function RencanaTabel({
                                     <td className="px-2 py-2">{r.jenis_pengawasan ?? '-'}</td>
                                     {lengkap ? (
                                         <>
-                                            <td className="px-2 py-2 text-muted-foreground">{r.ruang_lingkup ?? '-'}</td>
+                                            <td className="text-muted-foreground px-2 py-2">{r.ruang_lingkup ?? '-'}</td>
                                             <td className="px-2 py-2 text-center">{r.rmp ?? '-'}</td>
                                             <td className="px-2 py-2 text-center">{r.rpl ?? '-'}</td>
                                         </>
@@ -219,34 +212,15 @@ export default function RencanaTabel({
             </div>
 
             {sunting ? (
-                <DialogRencana
-                    awal={sunting}
-                    jenisPengawasan={jenisPengawasan}
-                    periodeId={konteks.periode?.id}
-                    tutup={() => setSunting(null)}
-                />
+                <DialogRencana awal={sunting} jenisPengawasan={jenisPengawasan} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} />
             ) : null}
 
-            {tarikTerbuka ? (
-                <DialogTarik
-                    belumMasuk={belumMasuk}
-                    periodeId={konteks.periode?.id}
-                    tutup={() => setTarikTerbuka(false)}
-                />
-            ) : null}
+            {tarikTerbuka ? <DialogTarik belumMasuk={belumMasuk} periodeId={konteks.periode?.id} tutup={() => setTarikTerbuka(false)} /> : null}
         </PkptShell>
     );
 }
 
-function DialogTarik({
-    belumMasuk,
-    periodeId,
-    tutup,
-}: {
-    belumMasuk: BelumMasuk;
-    periodeId?: number;
-    tutup: () => void;
-}) {
+function DialogTarik({ belumMasuk, periodeId, tutup }: { belumMasuk: BelumMasuk; periodeId?: number; tutup: () => void }) {
     const [batas, setBatas] = useState('20');
 
     return (
@@ -256,17 +230,15 @@ function DialogTarik({
                     <DialogTitle>Tarik dari peringkat</DialogTitle>
                 </DialogHeader>
 
-                <p className="text-sm text-muted-foreground">
-                    Seluruh {belumMasuk.wajib.length} penugasan wajib disalin apa pun nilai risikonya, ditambah
-                    Area berperingkat teratas sebanyak batas di bawah. Yang sudah ada tidak digandakan.
+                <p className="text-muted-foreground text-sm">
+                    Seluruh {belumMasuk.wajib.length} penugasan wajib disalin apa pun nilai risikonya, ditambah Area berperingkat teratas sebanyak
+                    batas di bawah. Yang sudah ada tidak digandakan.
                 </p>
 
                 <div className="space-y-1">
                     <Label htmlFor="batas">Jumlah Area berisiko yang disalin</Label>
                     <Input id="batas" type="number" min={1} value={batas} onChange={(e) => setBatas(e.target.value)} />
-                    <p className="text-xs text-muted-foreground">
-                        Tersedia {belumMasuk.berisiko.length} Area berperingkat yang belum masuk rencana.
-                    </p>
+                    <p className="text-muted-foreground text-xs">Tersedia {belumMasuk.berisiko.length} Area berperingkat yang belum masuk rencana.</p>
                 </div>
 
                 <div className="flex justify-end gap-2">
@@ -351,12 +323,7 @@ function DialogRencana({
     const medanAngka = (kunci: keyof Rencana, label: string) => (
         <div className="space-y-1">
             <Label htmlFor={String(kunci)}>{label}</Label>
-            <Input
-                id={String(kunci)}
-                type="number"
-                value={(form[kunci] as number | null) ?? ''}
-                onChange={(e) => ubah(kunci, e.target.value)}
-            />
+            <Input id={String(kunci)} type="number" value={(form[kunci] as number | null) ?? ''} onChange={(e) => ubah(kunci, e.target.value)} />
         </div>
     );
 
@@ -377,7 +344,7 @@ function DialogRencana({
                         <Label htmlFor="jenis-was">Jenis pengawasan</Label>
                         <select
                             id="jenis-was"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.jenis_pengawasan ?? ''}
                             onChange={(e) => ubah('jenis_pengawasan', e.target.value)}
                         >
@@ -394,7 +361,7 @@ function DialogRencana({
                         <Label htmlFor="sumber-rencana">Sumber</Label>
                         <select
                             id="sumber-rencana"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.sumber ?? 'risiko'}
                             onChange={(e) => ubah('sumber', e.target.value)}
                         >
@@ -408,7 +375,7 @@ function DialogRencana({
                         <Label htmlFor="tujuan-was">Tujuan/sasaran</Label>
                         <textarea
                             id="tujuan-was"
-                            className="min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm"
+                            className="border-input bg-background min-h-16 w-full rounded-md border p-2 text-sm"
                             value={form.tujuan_sasaran ?? ''}
                             onChange={(e) => ubah('tujuan_sasaran', e.target.value)}
                         />

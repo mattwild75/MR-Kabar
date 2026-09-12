@@ -34,8 +34,7 @@ interface Props extends KonteksPkpt {
     tahunRisikoTersedia: number[];
 }
 
-const rupiah = (n: number | null) =>
-    n === null ? 'belum diisi' : new Intl.NumberFormat('id-ID').format(n);
+const rupiah = (n: number | null) => (n === null ? 'belum diisi' : new Intl.NumberFormat('id-ID').format(n));
 
 export default function Ikhtisar({ kesiapan, ringkasan, tahunRisikoTersedia, ...konteks }: Props) {
     const [buatTerbuka, setBuatTerbuka] = useState(false);
@@ -72,9 +71,7 @@ export default function Ikhtisar({ kesiapan, ringkasan, tahunRisikoTersedia, ...
         >
             {!periode ? (
                 <div className="rounded-md border border-dashed p-8 text-center">
-                    <p className="text-sm text-muted-foreground">
-                        Belum ada Periode PKPT. Buat satu untuk mulai menyusun perencanaan pengawasan.
-                    </p>
+                    <p className="text-muted-foreground text-sm">Belum ada Periode PKPT. Buat satu untuk mulai menyusun perencanaan pengawasan.</p>
                     {hak.input ? (
                         <Button className="mt-4" onClick={() => setBuatTerbuka(true)}>
                             <Plus className="size-4" aria-hidden /> Buat Periode PKPT
@@ -90,9 +87,7 @@ export default function Ikhtisar({ kesiapan, ringkasan, tahunRisikoTersedia, ...
                                 <Baris k="Tahun dasar risiko" v={String(periode.tahun_dasar_risiko)} />
                                 <Baris k="Status" v={periode.status} />
                                 <Baris k="Belanja langsung APBK" v={`Rp ${rupiah(periode.total_belanja_langsung)}`} />
-                                {periode.nomor_keputusan ? (
-                                    <Baris k="Nomor Keputusan" v={periode.nomor_keputusan} />
-                                ) : null}
+                                {periode.nomor_keputusan ? <Baris k="Nomor Keputusan" v={periode.nomor_keputusan} /> : null}
                             </dl>
                         </Kartu>
 
@@ -106,22 +101,18 @@ export default function Ikhtisar({ kesiapan, ringkasan, tahunRisikoTersedia, ...
                                     ))}
                                 </dl>
                             ) : (
-                                <p className="text-sm text-muted-foreground">Belum pernah dihitung.</p>
+                                <p className="text-muted-foreground text-sm">Belum pernah dihitung.</p>
                             )}
                         </Kartu>
 
                         <Kartu judul="Tindakan">
                             <div className="flex flex-col gap-2">
-                                <Button
-                                    onClick={hitungUlang}
-                                    disabled={!hak.hitung || !kesiapan?.boleh_hitung.boleh}
-                                    className="justify-start"
-                                >
+                                <Button onClick={hitungUlang} disabled={!hak.hitung || !kesiapan?.boleh_hitung.boleh} className="justify-start">
                                     <Calculator className="size-4" aria-hidden /> Hitung Ulang
                                 </Button>
 
                                 {!kesiapan?.boleh_hitung.boleh ? (
-                                    <ul className="list-disc space-y-1 pl-5 text-xs text-muted-foreground">
+                                    <ul className="text-muted-foreground list-disc space-y-1 pl-5 text-xs">
                                         {kesiapan?.boleh_hitung.halangan.map((h) => <li key={h}>{h}</li>)}
                                     </ul>
                                 ) : null}
@@ -145,11 +136,7 @@ export default function Ikhtisar({ kesiapan, ringkasan, tahunRisikoTersedia, ...
                 </>
             )}
 
-            <DialogPeriodeBaru
-                terbuka={buatTerbuka}
-                tutup={() => setBuatTerbuka(false)}
-                tahunTersedia={tahunRisikoTersedia}
-            />
+            <DialogPeriodeBaru terbuka={buatTerbuka} tutup={() => setBuatTerbuka(false)} tahunTersedia={tahunRisikoTersedia} />
             {periode ? (
                 <>
                     <DialogTetapkan terbuka={tetapkanTerbuka} tutup={() => setTetapkanTerbuka(false)} periodeId={periode.id} />
@@ -269,11 +256,11 @@ function BarisKesiapan({
                     ) : null}
                 </span>
             </td>
-            <td className="px-4 py-2 tabular-nums text-muted-foreground">{bobot ?? '-'}</td>
+            <td className="text-muted-foreground px-4 py-2 tabular-nums">{bobot ?? '-'}</td>
             <td className="px-4 py-2 tabular-nums">{terisi}</td>
             <td className="px-4 py-2">
                 <span className="flex items-center gap-2">
-                    <span className="h-2 w-24 overflow-hidden rounded bg-muted" aria-hidden>
+                    <span className="bg-muted h-2 w-24 overflow-hidden rounded" aria-hidden>
                         <span
                             className={persen >= 100 ? 'block h-full bg-green-600' : 'block h-full bg-amber-500'}
                             style={{ width: `${Math.min(100, persen)}%` }}
@@ -287,15 +274,7 @@ function BarisKesiapan({
     );
 }
 
-function DialogPeriodeBaru({
-    terbuka,
-    tutup,
-    tahunTersedia,
-}: {
-    terbuka: boolean;
-    tutup: () => void;
-    tahunTersedia: number[];
-}) {
+function DialogPeriodeBaru({ terbuka, tutup, tahunTersedia }: { terbuka: boolean; tutup: () => void; tahunTersedia: number[] }) {
     const tahunIni = new Date().getFullYear();
     const [tahunPkpt, setTahunPkpt] = useState(String(tahunIni + 1));
     const [tahunDasar, setTahunDasar] = useState(String(tahunTersedia[0] ?? tahunIni));
@@ -330,14 +309,14 @@ function DialogPeriodeBaru({
                     <div className="space-y-1">
                         <Label htmlFor="tahun-pkpt">Tahun PKPT</Label>
                         <Input id="tahun-pkpt" type="number" value={tahunPkpt} onChange={(e) => setTahunPkpt(e.target.value)} />
-                        <p className="text-xs text-muted-foreground">Tahun pelaksanaan pengawasan yang direncanakan.</p>
+                        <p className="text-muted-foreground text-xs">Tahun pelaksanaan pengawasan yang direncanakan.</p>
                     </div>
 
                     <div className="space-y-1">
                         <Label htmlFor="tahun-dasar">Tahun dasar risiko</Label>
                         <select
                             id="tahun-dasar"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={tahunDasar}
                             onChange={(e) => setTahunDasar(e.target.value)}
                         >
@@ -348,18 +327,15 @@ function DialogPeriodeBaru({
                                 </option>
                             ))}
                         </select>
-                        <p className="text-xs text-muted-foreground">
-                            Tahun penilaian risiko di MR Kabar yang dipakai sebagai dasar. Hanya tahun yang
-                            benar-benar ada isinya yang ditawarkan.
+                        <p className="text-muted-foreground text-xs">
+                            Tahun penilaian risiko di MR Kabar yang dipakai sebagai dasar. Hanya tahun yang benar-benar ada isinya yang ditawarkan.
                         </p>
                     </div>
 
                     <div className="space-y-1">
                         <Label htmlFor="belanja">Total belanja langsung APBK (Rp)</Label>
                         <Input id="belanja" type="number" value={belanja} onChange={(e) => setBelanja(e.target.value)} />
-                        <p className="text-xs text-muted-foreground">
-                            Pembagi persentase anggaran pada Faktor Risiko 1. Boleh diisi belakangan.
-                        </p>
+                        <p className="text-muted-foreground text-xs">Pembagi persentase anggaran pada Faktor Risiko 1. Boleh diisi belakangan.</p>
                     </div>
                 </div>
 
@@ -385,9 +361,9 @@ function DialogTetapkan({ terbuka, tutup, periodeId }: { terbuka: boolean; tutup
                     <DialogTitle>Tetapkan dan kunci periode</DialogTitle>
                 </DialogHeader>
 
-                <p className="text-sm text-muted-foreground">
-                    Sesudah ditetapkan, seluruh kertas kerja periode ini tidak dapat diubah. Itu yang menjaga
-                    angka pada lampiran Keputusan Inspektur tetap sama dengan angka di layar.
+                <p className="text-muted-foreground text-sm">
+                    Sesudah ditetapkan, seluruh kertas kerja periode ini tidak dapat diubah. Itu yang menjaga angka pada lampiran Keputusan Inspektur
+                    tetap sama dengan angka di layar.
                 </p>
 
                 <div className="space-y-3">
@@ -438,16 +414,16 @@ function DialogBuka({ terbuka, tutup, periodeId }: { terbuka: boolean; tutup: ()
                     <DialogTitle>Buka kembali periode yang sudah ditetapkan</DialogTitle>
                 </DialogHeader>
 
-                <p className="text-sm text-muted-foreground">
-                    Membuka kembali berarti dokumen yang sudah ditandatangani akan berubah. Alasannya dicatat
-                    pada periode dan di Audit Log bersama nama Anda. Hanya Super Admin yang dapat melakukannya.
+                <p className="text-muted-foreground text-sm">
+                    Membuka kembali berarti dokumen yang sudah ditandatangani akan berubah. Alasannya dicatat pada periode dan di Audit Log bersama
+                    nama Anda. Hanya Super Admin yang dapat melakukannya.
                 </p>
 
                 <div className="space-y-1">
                     <Label htmlFor="alasan-buka">Alasan</Label>
                     <textarea
                         id="alasan-buka"
-                        className="min-h-24 w-full rounded-md border border-input bg-background p-2 text-sm"
+                        className="border-input bg-background min-h-24 w-full rounded-md border p-2 text-sm"
                         value={alasan}
                         onChange={(e) => setAlasan(e.target.value)}
                     />

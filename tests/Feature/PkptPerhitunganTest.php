@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Pkpt\PkptFaktorRisiko;
 use App\Models\Pkpt\PkptTingkatRisiko;
 use App\Models\Pkpt\PkptZonaFrekuensi;
 use App\Services\Pkpt\PkptPerhitunganService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 /**
@@ -48,7 +50,7 @@ class PkptPerhitunganTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('contohPerdep')]
+    #[DataProvider('contohPerdep')]
     public function test_perhitungan_cocok_dengan_contoh_tabel_41_perdep(
         int $nilaiInheren,
         int $skalaInherenHarap,
@@ -165,7 +167,7 @@ class PkptPerhitunganTest extends TestCase
     public function test_fr2_membedakan_kombinasi_yang_cacah_centangnya_sama(): void
     {
         $skala = fn (bool $rpjmd, bool $rpjmn, bool $unggulan) => $this->hitung->skalaFaktor(
-            new \App\Models\Pkpt\PkptFaktorRisiko([
+            new PkptFaktorRisiko([
                 'terkait_rpjmd' => $rpjmd,
                 'mendukung_rpjmn' => $rpjmn,
                 'sektor_unggulan' => $unggulan,
@@ -225,7 +227,7 @@ class PkptPerhitunganTest extends TestCase
     public function test_skala_anggaran_memakai_batas_atas_eksklusif(): void
     {
         $skala = function (?float $persen) {
-            $f = new \App\Models\Pkpt\PkptFaktorRisiko(['persen_belanja_langsung' => $persen]);
+            $f = new PkptFaktorRisiko(['persen_belanja_langsung' => $persen]);
 
             return $this->hitung->skalaFaktor($f, 'program_prioritas', 2027)['skala_fr1'];
         };
@@ -245,7 +247,7 @@ class PkptPerhitunganTest extends TestCase
      */
     public function test_fr5_menggabungkan_tahun_terakhir_dan_pengalaman(): void
     {
-        $f = new \App\Models\Pkpt\PkptFaktorRisiko([
+        $f = new PkptFaktorRisiko([
             'tahun_terakhir_diawasi' => 2024,
             'jumlah_penugasan_sejenis' => 2,
         ]);
@@ -257,7 +259,7 @@ class PkptPerhitunganTest extends TestCase
 
         // Hanya pengalaman yang terisi: bobot 5% dipakai penuh.
         $sebagian = $this->hitung->skalaFaktor(
-            new \App\Models\Pkpt\PkptFaktorRisiko(['jumlah_penugasan_sejenis' => 4]),
+            new PkptFaktorRisiko(['jumlah_penugasan_sejenis' => 4]),
             'skpk',
             2027
         );

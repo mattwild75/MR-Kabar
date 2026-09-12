@@ -30,20 +30,10 @@ interface Props extends KonteksPkpt {
     sektorUnggulan: { id: number; nama: string }[];
 }
 
-export default function Pengaturan({
-    bobotKematangan,
-    konversiInheren,
-    faktor,
-    zona,
-    tingkat,
-    sektorUnggulan,
-    ...konteks
-}: Props) {
+export default function Pengaturan({ bobotKematangan, konversiInheren, faktor, zona, tingkat, sektorUnggulan, ...konteks }: Props) {
     const boleh = konteks.hak.pengaturan;
     const [bobotFaktor, setBobotFaktor] = useState(faktor.map((f) => ({ kode: f.kode, bobot_persen: f.bobot_persen })));
-    const [bobotLevel, setBobotLevel] = useState(
-        bobotKematangan.map((b) => ({ level_mr: b.level_mr, bobot_register: b.bobot_register })),
-    );
+    const [bobotLevel, setBobotLevel] = useState(bobotKematangan.map((b) => ({ level_mr: b.level_mr, bobot_register: b.bobot_register })));
     const [sektorBaru, setSektorBaru] = useState('');
 
     const jumlahBobot = bobotFaktor.reduce((a, f) => a + (Number(f.bobot_persen) || 0), 0);
@@ -64,7 +54,7 @@ export default function Pengaturan({
                     {faktor.map((f, i) => (
                         <div key={f.kode} className="flex flex-wrap items-center gap-3">
                             <span className="w-14 font-medium">{f.kode}</span>
-                            <span className="min-w-0 flex-1 text-sm text-muted-foreground">{f.nama}</span>
+                            <span className="text-muted-foreground min-w-0 flex-1 text-sm">{f.nama}</span>
                             <Input
                                 type="number"
                                 aria-label={`Bobot ${f.kode}`}
@@ -72,9 +62,7 @@ export default function Pengaturan({
                                 disabled={!boleh}
                                 value={bobotFaktor[i]?.bobot_persen ?? 0}
                                 onChange={(e) =>
-                                    setBobotFaktor((b) =>
-                                        b.map((x, j) => (j === i ? { ...x, bobot_persen: Number(e.target.value) } : x)),
-                                    )
+                                    setBobotFaktor((b) => b.map((x, j) => (j === i ? { ...x, bobot_persen: Number(e.target.value) } : x)))
                                 }
                             />
                             <span className="text-sm">%</span>
@@ -82,9 +70,9 @@ export default function Pengaturan({
                     ))}
 
                     {jumlahBobot !== 100 ? (
-                        <p className="text-sm text-destructive">
-                            Jumlah bobot harus tepat 100%. Di luar itu, skala gabungannya keluar dari rentang 1
-                            sampai 5 dan peringkatnya tidak lagi sebanding dengan tabel mana pun di Keputusan.
+                        <p className="text-destructive text-sm">
+                            Jumlah bobot harus tepat 100%. Di luar itu, skala gabungannya keluar dari rentang 1 sampai 5 dan peringkatnya tidak lagi
+                            sebanding dengan tabel mana pun di Keputusan.
                         </p>
                     ) : null}
 
@@ -111,14 +99,12 @@ export default function Pengaturan({
             </section>
 
             <section className="rounded-lg border">
-                <h2 className="border-b px-4 py-3 text-sm font-semibold">
-                    Komposisi bobot per tingkat kematangan MR (Tabel 6)
-                </h2>
+                <h2 className="border-b px-4 py-3 text-sm font-semibold">Komposisi bobot per tingkat kematangan MR (Tabel 6)</h2>
                 <div className="space-y-3 p-4">
                     {bobotKematangan.map((b, i) => (
                         <div key={b.level_mr} className="flex flex-wrap items-center gap-3">
                             <span className="w-16 font-medium">Level {b.level_mr}</span>
-                            <span className="min-w-0 flex-1 text-sm text-muted-foreground">{b.sebutan}</span>
+                            <span className="text-muted-foreground min-w-0 flex-1 text-sm">{b.sebutan}</span>
                             <Input
                                 type="number"
                                 aria-label={`Bobot Register Risiko level ${b.level_mr}`}
@@ -126,14 +112,10 @@ export default function Pengaturan({
                                 disabled={!boleh}
                                 value={bobotLevel[i]?.bobot_register ?? 0}
                                 onChange={(e) =>
-                                    setBobotLevel((x) =>
-                                        x.map((y, j) => (j === i ? { ...y, bobot_register: Number(e.target.value) } : y)),
-                                    )
+                                    setBobotLevel((x) => x.map((y, j) => (j === i ? { ...y, bobot_register: Number(e.target.value) } : y)))
                                 }
                             />
-                            <span className="text-sm text-muted-foreground">
-                                % Register : {100 - (bobotLevel[i]?.bobot_register ?? 0)}% Faktor
-                            </span>
+                            <span className="text-muted-foreground text-sm">% Register : {100 - (bobotLevel[i]?.bobot_register ?? 0)}% Faktor</span>
                         </div>
                     ))}
 
@@ -177,7 +159,7 @@ export default function Pengaturan({
                     <h2 className="border-b px-4 py-3 text-sm font-semibold">Zona frekuensi dan tingkat risiko</h2>
                     <div className="space-y-3 p-4 text-sm">
                         <div>
-                            <p className="mb-1 text-xs font-medium text-muted-foreground">Zona frekuensi (3 pita)</p>
+                            <p className="text-muted-foreground mb-1 text-xs font-medium">Zona frekuensi (3 pita)</p>
                             <ul className="space-y-1">
                                 {zona.map((z) => (
                                     <li key={z.zona} className="flex items-center justify-between gap-2">
@@ -188,7 +170,7 @@ export default function Pengaturan({
                             </ul>
                         </div>
                         <div>
-                            <p className="mb-1 text-xs font-medium text-muted-foreground">Tingkat risiko (5 pita)</p>
+                            <p className="text-muted-foreground mb-1 text-xs font-medium">Tingkat risiko (5 pita)</p>
                             <ul className="flex flex-wrap gap-1">
                                 {tingkat.map((t) => (
                                     <li key={t.nama} className={`rounded px-2 py-0.5 text-xs ${t.warna}`}>
@@ -206,14 +188,13 @@ export default function Pengaturan({
                     Sektor unggulan daerah {konteks.periode ? `- Periode ${konteks.periode.tahun_pkpt}` : ''}
                 </h2>
                 <div className="space-y-3 p-4">
-                    <p className="text-sm text-muted-foreground">
-                        Dipakai Faktor Risiko 2 (bobot {faktor.find((f) => f.kode === 'FR2')?.bobot_persen ?? 25}%).
-                        Tanpa daftar resmi, kolom sektor unggulan hanya bisa diisi berdasarkan pertimbangan
-                        profesional, dan keterukuran FR2 melemah.
+                    <p className="text-muted-foreground text-sm">
+                        Dipakai Faktor Risiko 2 (bobot {faktor.find((f) => f.kode === 'FR2')?.bobot_persen ?? 25}%). Tanpa daftar resmi, kolom sektor
+                        unggulan hanya bisa diisi berdasarkan pertimbangan profesional, dan keterukuran FR2 melemah.
                     </p>
 
                     {sektorUnggulan.length === 0 ? (
-                        <p className="text-sm italic text-muted-foreground">Belum ada sektor unggulan ditetapkan.</p>
+                        <p className="text-muted-foreground text-sm italic">Belum ada sektor unggulan ditetapkan.</p>
                     ) : (
                         <ul className="flex flex-wrap gap-2">
                             {sektorUnggulan.map((s) => (

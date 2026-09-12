@@ -100,9 +100,7 @@ export default function FaktorRisiko({ area, faktor, sektorUnggulan, totalBelanj
      * ditolak sebelum menekannya.
      */
     const wajibCatatan = (a: Area) =>
-        a.kelompok === 'skpk' &&
-        !(a.faktor?.indikator_kinerja_skpk && a.faktor?.indikator_kinerja_pemda) &&
-        (a.faktor?.skala_fr2 ?? null) !== null;
+        a.kelompok === 'skpk' && !(a.faktor?.indikator_kinerja_skpk && a.faktor?.indikator_kinerja_pemda) && (a.faktor?.skala_fr2 ?? null) !== null;
 
     const simpan = (a: Area, ubahan: Partial<IsiFaktor>) => {
         const f = a.faktor;
@@ -169,8 +167,8 @@ export default function FaktorRisiko({ area, faktor, sektorUnggulan, totalBelanj
                         onClick={() => setTab(f.kode as Tab)}
                         className={`-mb-px border-b-2 px-3 py-2 text-sm ${
                             tab === f.kode
-                                ? 'border-primary font-medium text-foreground'
-                                : 'border-transparent text-muted-foreground hover:text-foreground'
+                                ? 'border-primary text-foreground font-medium'
+                                : 'text-muted-foreground hover:text-foreground border-transparent'
                         }`}
                     >
                         {f.kode} <span className="text-xs">({f.bobot_persen}%)</span>
@@ -190,11 +188,10 @@ export default function FaktorRisiko({ area, faktor, sektorUnggulan, totalBelanj
                     </span>
                 ) : null}
                 {tab === 'FR2' ? (
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <span className="text-muted-foreground flex items-center gap-1 text-xs">
                         <Info className="size-3" aria-hidden />
-                        Area kelompok SKPK dinilai dari rasio indikator kinerja. Selama rasionya belum diisi,
-                        penilaiannya jatuh ke kombinasi centang di sebelah kiri, dan Catatan Profesional
-                        menjadi wajib - BAB V huruf A Lampiran Keputusan menuntut alasannya didokumentasikan.
+                        Area kelompok SKPK dinilai dari rasio indikator kinerja. Selama rasionya belum diisi, penilaiannya jatuh ke kombinasi centang
+                        di sebelah kiri, dan Catatan Profesional menjadi wajib - BAB V huruf A Lampiran Keputusan menuntut alasannya didokumentasikan.
                     </span>
                 ) : null}
                 {tab === 'FR2' && sektorUnggulan.length === 0 ? (
@@ -352,9 +349,7 @@ export default function FaktorRisiko({ area, faktor, sektorUnggulan, totalBelanj
                                             <td className="px-2 py-1">
                                                 <Input
                                                     aria-label={`Catatan profesional ${a.nama}`}
-                                                    className={`h-8 w-56 ${
-                                                        wajibCatatan(a) ? 'border-amber-500' : ''
-                                                    }`}
+                                                    className={`h-8 w-56 ${wajibCatatan(a) ? 'border-amber-500' : ''}`}
                                                     placeholder={wajibCatatan(a) ? 'Wajib diisi' : 'opsional'}
                                                     defaultValue={f?.catatan_profesional ?? ''}
                                                     disabled={!bolehUbah}
@@ -366,7 +361,7 @@ export default function FaktorRisiko({ area, faktor, sektorUnggulan, totalBelanj
 
                                     <td className="px-3 py-2 text-center">
                                         {skala === null || skala === undefined ? (
-                                            <span className="text-xs italic text-muted-foreground">belum</span>
+                                            <span className="text-muted-foreground text-xs italic">belum</span>
                                         ) : (
                                             <span className="font-medium tabular-nums">
                                                 {typeof skala === 'number' ? skala.toFixed(tab === 'FR5' ? 2 : 0) : String(skala)}
@@ -383,10 +378,10 @@ export default function FaktorRisiko({ area, faktor, sektorUnggulan, totalBelanj
             {aktif ? (
                 <section className="rounded-lg border p-4">
                     <h2 className="mb-2 text-sm font-semibold">Kriteria skala {aktif.kode}</h2>
-                    <ol className="space-y-1 text-sm text-muted-foreground">
+                    <ol className="text-muted-foreground space-y-1 text-sm">
                         {Object.entries(aktif.kriteria).map(([skala, uraian]) => (
                             <li key={skala}>
-                                <span className="font-medium text-foreground">Skala {skala}</span> - {uraian}
+                                <span className="text-foreground font-medium">Skala {skala}</span> - {uraian}
                             </li>
                         ))}
                     </ol>

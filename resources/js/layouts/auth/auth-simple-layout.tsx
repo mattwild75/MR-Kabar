@@ -139,7 +139,6 @@ export default function AuthSimpleLayout({ children, title, description }: AuthL
             window.removeEventListener('pointerdown', sekali, { capture: true });
             window.removeEventListener('touchend', sekali, { capture: true });
         };
-         
     }, [needsGyroPermission]);
 
     const requestGyroPermission = () => {

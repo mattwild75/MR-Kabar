@@ -81,7 +81,7 @@ export default function PanduanPublic({ dicetakPada, sumberUrl }: { dicetakPada?
                     <span className="font-serif text-lg font-semibold">MR Kabar</span>
                     <div className="flex items-center gap-4">
                         <TombolUnduhPdf />
-                    {/* Hardcode '/login' (bukan route('login')) — halaman ini di-SSR
+                        {/* Hardcode '/login' (bukan route('login')) — halaman ini di-SSR
               (lihat resources/js/ssr.jsx) supaya title/meta SEO ikut
               ter-render di HTML awal utk crawler yg tidak eksekusi JS,
               tapi Ziggy's route() cuma tersedia di window (browser),
@@ -136,8 +136,8 @@ export default function PanduanPublic({ dicetakPada, sumberUrl }: { dicetakPada?
                             </p>
                             {dicetakPada && <p className="mt-0.5">Dicetak pada {dicetakPada}</p>}
                             <p className="mt-0.5">
-                                Isi berkas ini mengikuti halaman panduan pada saat diunduh. Bila ragu apakah masih mutakhir, unduh ulang dari
-                                alamat di atas.
+                                Isi berkas ini mengikuti halaman panduan pada saat diunduh. Bila ragu apakah masih mutakhir, unduh ulang dari alamat
+                                di atas.
                             </p>
                         </div>
                     </div>

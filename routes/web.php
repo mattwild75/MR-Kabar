@@ -18,6 +18,7 @@ use App\Http\Controllers\CetakStrukturPengelolaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\Erpika\AnalisisController;
 use App\Http\Controllers\Erpika\AnevaController;
 use App\Http\Controllers\Erpika\DataTerhapusController;
 use App\Http\Controllers\Erpika\PegawaiController;
@@ -41,6 +42,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MonitoringEvaluasiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\PencarianController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProgramBupatiRisikoController;
 use App\Http\Controllers\RiskEvidenceController;
@@ -51,6 +53,7 @@ use App\Http\Controllers\RppPengaturanController;
 use App\Http\Controllers\RppPrintController;
 use App\Http\Controllers\SessionStatusController;
 use App\Http\Controllers\SettingAppController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\TahunAktifController;
 use App\Http\Controllers\TrashController;
 use App\Http\Controllers\TroubleshootReportController;
@@ -101,7 +104,7 @@ Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
 // pernah mendapat alamat yang benar. Hanya dua halaman publik yang boleh
 // diindeks; selebihnya di balik login (dan dilarang di sini sekadar penegasan).
 // Status publik ringkas (tanpa data): untuk pemantau luar dan pengelola.
-Route::get('/status', App\Http\Controllers\StatusController::class)->name('status');
+Route::get('/status', StatusController::class)->name('status');
 
 Route::get('/robots.txt', function () {
     $isi = implode('
@@ -171,7 +174,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // Pencarian global Ctrl+K — hasil disekat per pengguna di dalam controllernya.
-    Route::get('pencarian', App\Http\Controllers\PencarianController::class)->name('pencarian');
+    Route::get('pencarian', PencarianController::class)->name('pencarian');
 
     // Halaman panduan/dokumentasi statis (5W1H manajemen risiko Pemda +
     // cara pakai MR Kabar) — tidak ada data dinamis dari DB, cukup render
@@ -323,9 +326,9 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::put('/erpika/data-terhapus/{type}/{id}/restore', [DataTerhapusController::class, 'restore'])->name('erpika.data-terhapus.restore');
     Route::delete('/erpika/data-terhapus/{type}/{id}', [DataTerhapusController::class, 'forceDelete'])->name('erpika.data-terhapus.force-delete');
     // Tampilan turunan (hanya membaca): pemeriksaan keutuhan, kalender, beban kerja.
-    Route::get('/erpika/pemeriksaan', [App\Http\Controllers\Erpika\AnalisisController::class, 'pemeriksaan'])->name('erpika.pemeriksaan');
-    Route::get('/erpika/kalender', [App\Http\Controllers\Erpika\AnalisisController::class, 'kalender'])->name('erpika.kalender');
-    Route::get('/erpika/beban-kerja', [App\Http\Controllers\Erpika\AnalisisController::class, 'bebanKerja'])->name('erpika.beban-kerja');
+    Route::get('/erpika/pemeriksaan', [AnalisisController::class, 'pemeriksaan'])->name('erpika.pemeriksaan');
+    Route::get('/erpika/kalender', [AnalisisController::class, 'kalender'])->name('erpika.kalender');
+    Route::get('/erpika/beban-kerja', [AnalisisController::class, 'bebanKerja'])->name('erpika.beban-kerja');
     Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
     Route::get('/erpika/pegawai/{employee}/ringkasan', [PegawaiController::class, 'ringkasan'])->name('erpika.pegawai.ringkasan');
     Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');

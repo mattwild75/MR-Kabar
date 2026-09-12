@@ -57,9 +57,7 @@ export default function EvaluasiRegister({ risiko, ...konteks }: Props) {
             if (saring === 'belum' && r.evaluasi) return false;
             if (saring === 'perbaikan' && r.evaluasi?.simpulan !== 'perlu_perbaikan') return false;
             if (!k) return true;
-            return [r.uraian_risiko, r.opd, r.kode_risiko, r.sasaran]
-                .filter(Boolean)
-                .some((v) => String(v).toLowerCase().includes(k));
+            return [r.uraian_risiko, r.opd, r.kode_risiko, r.sasaran].filter(Boolean).some((v) => String(v).toLowerCase().includes(k));
         });
     }, [risiko, cari, saring]);
 
@@ -78,7 +76,7 @@ export default function EvaluasiRegister({ risiko, ...konteks }: Props) {
         >
             <div className="flex flex-wrap items-center gap-2">
                 <div className="relative">
-                    <Search className="absolute left-2 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+                    <Search className="text-muted-foreground absolute top-1/2 left-2 size-4 -translate-y-1/2" aria-hidden />
                     <Input
                         className="w-72 pl-8"
                         placeholder="Cari risiko, OPD, kode"
@@ -89,7 +87,7 @@ export default function EvaluasiRegister({ risiko, ...konteks }: Props) {
                 </div>
                 <select
                     aria-label="Saring hasil evaluasi"
-                    className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                    className="border-input bg-background h-9 rounded-md border px-2 text-sm"
                     value={saring}
                     onChange={(e) => setSaring(e.target.value as typeof saring)}
                 >
@@ -121,9 +119,8 @@ export default function EvaluasiRegister({ risiko, ...konteks }: Props) {
                     <tbody>
                         {tersaring.length === 0 ? (
                             <tr>
-                                <td colSpan={10} className="px-3 py-8 text-center text-muted-foreground">
-                                    Tidak ada risiko yang cocok. Pastikan tahun dasar risiko periode ini memang
-                                    berisi data.
+                                <td colSpan={10} className="text-muted-foreground px-3 py-8 text-center">
+                                    Tidak ada risiko yang cocok. Pastikan tahun dasar risiko periode ini memang berisi data.
                                 </td>
                             </tr>
                         ) : (
@@ -132,26 +129,22 @@ export default function EvaluasiRegister({ risiko, ...konteks }: Props) {
                                     <td className="px-2 py-2">
                                         <Badge variant="outline">{LABEL_TIPE[r.tipe]}</Badge>
                                     </td>
-                                    <td className="px-2 py-2 text-muted-foreground">{r.opd}</td>
+                                    <td className="text-muted-foreground px-2 py-2">{r.opd}</td>
                                     <td className="max-w-md px-2 py-2">{r.uraian_risiko}</td>
                                     <td className="px-2 py-2 text-center tabular-nums">{r.skala_dampak_register ?? '-'}</td>
                                     <td className="px-2 py-2 text-center tabular-nums">{r.skala_kemungkinan_register ?? '-'}</td>
                                     <td className="px-2 py-2 text-center tabular-nums">{r.nilai_risiko_register ?? '-'}</td>
                                     <td className="px-2 py-2 text-center">
                                         {!r.evaluasi ? (
-                                            <span className="text-xs italic text-muted-foreground">belum</span>
+                                            <span className="text-muted-foreground text-xs italic">belum</span>
                                         ) : r.evaluasi.simpulan === 'andal' ? (
                                             <Badge variant="secondary">Andal</Badge>
                                         ) : (
                                             <Badge variant="destructive">Perlu perbaikan</Badge>
                                         )}
                                     </td>
-                                    <td className="px-2 py-2 text-center tabular-nums">
-                                        {r.evaluasi?.skala_dampak_evaluasi ?? '-'}
-                                    </td>
-                                    <td className="px-2 py-2 text-center tabular-nums">
-                                        {r.evaluasi?.skala_kemungkinan_evaluasi ?? '-'}
-                                    </td>
+                                    <td className="px-2 py-2 text-center tabular-nums">{r.evaluasi?.skala_dampak_evaluasi ?? '-'}</td>
+                                    <td className="px-2 py-2 text-center tabular-nums">{r.evaluasi?.skala_kemungkinan_evaluasi ?? '-'}</td>
                                     <td className="px-2 py-2 text-right">
                                         {bolehUbah ? (
                                             <Button variant="ghost" size="sm" onClick={() => setSunting(r)}>
@@ -166,23 +159,15 @@ export default function EvaluasiRegister({ risiko, ...konteks }: Props) {
                 </table>
             </div>
 
-            {sunting ? (
-                <DialogNilai risiko={sunting} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} />
-            ) : null}
-            {terimaTerbuka ? (
-                <DialogTerima periodeId={konteks.periode?.id} tutup={() => setTerimaTerbuka(false)} />
-            ) : null}
+            {sunting ? <DialogNilai risiko={sunting} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} /> : null}
+            {terimaTerbuka ? <DialogTerima periodeId={konteks.periode?.id} tutup={() => setTerimaTerbuka(false)} /> : null}
         </PkptShell>
     );
 }
 
 function DialogNilai({ risiko, periodeId, tutup }: { risiko: Risiko; periodeId?: number; tutup: () => void }) {
-    const [dampak, setDampak] = useState(
-        String(risiko.evaluasi?.skala_dampak_evaluasi ?? risiko.skala_dampak_register ?? ''),
-    );
-    const [kemungkinan, setKemungkinan] = useState(
-        String(risiko.evaluasi?.skala_kemungkinan_evaluasi ?? risiko.skala_kemungkinan_register ?? ''),
-    );
+    const [dampak, setDampak] = useState(String(risiko.evaluasi?.skala_dampak_evaluasi ?? risiko.skala_dampak_register ?? ''));
+    const [kemungkinan, setKemungkinan] = useState(String(risiko.evaluasi?.skala_kemungkinan_evaluasi ?? risiko.skala_kemungkinan_register ?? ''));
     const [simpulan, setSimpulan] = useState<'andal' | 'perlu_perbaikan'>(risiko.evaluasi?.simpulan ?? 'andal');
     const [catatan, setCatatan] = useState(risiko.evaluasi?.catatan ?? '');
 
@@ -195,13 +180,13 @@ function DialogNilai({ risiko, periodeId, tutup }: { risiko: Risiko; periodeId?:
                     <DialogTitle>Evaluasi Register Risiko</DialogTitle>
                 </DialogHeader>
 
-                <div className="space-y-1 rounded-md border bg-muted/30 p-3 text-sm">
+                <div className="bg-muted/30 space-y-1 rounded-md border p-3 text-sm">
                     <p className="font-medium">{risiko.uraian_risiko}</p>
                     <p className="text-muted-foreground">{risiko.opd}</p>
-                    {risiko.penyebab ? <p className="text-xs text-muted-foreground">Penyebab: {risiko.penyebab}</p> : null}
-                    <p className="text-xs text-muted-foreground">
-                        Menurut register: dampak {risiko.skala_dampak_register ?? '-'}, kemungkinan{' '}
-                        {risiko.skala_kemungkinan_register ?? '-'}, nilai {risiko.nilai_risiko_register ?? '-'}
+                    {risiko.penyebab ? <p className="text-muted-foreground text-xs">Penyebab: {risiko.penyebab}</p> : null}
+                    <p className="text-muted-foreground text-xs">
+                        Menurut register: dampak {risiko.skala_dampak_register ?? '-'}, kemungkinan {risiko.skala_kemungkinan_register ?? '-'}, nilai{' '}
+                        {risiko.nilai_risiko_register ?? '-'}
                     </p>
                 </div>
 
@@ -212,14 +197,7 @@ function DialogNilai({ risiko, periodeId, tutup }: { risiko: Risiko; periodeId?:
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="k-eval">Skala kemungkinan</Label>
-                        <Input
-                            id="k-eval"
-                            type="number"
-                            min={1}
-                            max={5}
-                            value={kemungkinan}
-                            onChange={(e) => setKemungkinan(e.target.value)}
-                        />
+                        <Input id="k-eval" type="number" min={1} max={5} value={kemungkinan} onChange={(e) => setKemungkinan(e.target.value)} />
                     </div>
                     <div className="space-y-1">
                         <Label htmlFor="nilai-eval">Nilai risiko</Label>
@@ -231,7 +209,7 @@ function DialogNilai({ risiko, periodeId, tutup }: { risiko: Risiko; periodeId?:
                     <Label htmlFor="simpulan">Simpulan</Label>
                     <select
                         id="simpulan"
-                        className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                        className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                         value={simpulan}
                         onChange={(e) => setSimpulan(e.target.value as typeof simpulan)}
                     >
@@ -247,13 +225,12 @@ function DialogNilai({ risiko, periodeId, tutup }: { risiko: Risiko; periodeId?:
                     </Label>
                     <textarea
                         id="catatan-eval"
-                        className="min-h-20 w-full rounded-md border border-input bg-background p-2 text-sm"
+                        className="border-input bg-background min-h-20 w-full rounded-md border p-2 text-sm"
                         value={catatan}
                         onChange={(e) => setCatatan(e.target.value)}
                     />
-                    <p className="text-xs text-muted-foreground">
-                        Simpulan perlu perbaikan tanpa alasan tidak berguna bagi pemilik risiko yang harus
-                        memperbaikinya.
+                    <p className="text-muted-foreground text-xs">
+                        Simpulan perlu perbaikan tanpa alasan tidak berguna bagi pemilik risiko yang harus memperbaikinya.
                     </p>
                 </div>
 
@@ -301,21 +278,20 @@ function DialogTerima({ periodeId, tutup }: { periodeId?: number; tutup: () => v
                     <DialogTitle>Terima sisanya sebagai andal</DialogTitle>
                 </DialogHeader>
 
-                <p className="text-sm text-muted-foreground">
-                    Menandai seluruh risiko yang belum dievaluasi sebagai andal, dengan skala apa adanya dari
-                    register. Perdep menyebut penelaahan terbatas memang cukup ketika register disusun dengan
-                    pendampingan Inspektorat dan jedanya dekat. Yang sudah dinilai tidak ditimpa.
+                <p className="text-muted-foreground text-sm">
+                    Menandai seluruh risiko yang belum dievaluasi sebagai andal, dengan skala apa adanya dari register. Perdep menyebut penelaahan
+                    terbatas memang cukup ketika register disusun dengan pendampingan Inspektorat dan jedanya dekat. Yang sudah dinilai tidak ditimpa.
                 </p>
 
                 <div className="space-y-1">
                     <Label htmlFor="catatan-massal">Dasar penerimaan</Label>
                     <textarea
                         id="catatan-massal"
-                        className="min-h-20 w-full rounded-md border border-input bg-background p-2 text-sm"
+                        className="border-input bg-background min-h-20 w-full rounded-md border p-2 text-sm"
                         value={catatan}
                         onChange={(e) => setCatatan(e.target.value)}
                     />
-                    <p className="text-xs text-muted-foreground">Tercatat pada setiap baris yang diterima.</p>
+                    <p className="text-muted-foreground text-xs">Tercatat pada setiap baris yang diterima.</p>
                 </div>
 
                 <div className="flex justify-end gap-2">

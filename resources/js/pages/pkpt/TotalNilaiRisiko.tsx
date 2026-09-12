@@ -43,11 +43,7 @@ export default function TotalNilaiRisiko({ penilaian, kesiapan, ...konteks }: Pr
             konteks={konteks}
             aksi={
                 <>
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => router.visit(`/pkpt/cetak/f9?periode=${konteks.periode?.id}`)}
-                    >
+                    <Button size="sm" variant="outline" onClick={() => router.visit(`/pkpt/cetak/f9?periode=${konteks.periode?.id}`)}>
                         <Printer className="size-4" aria-hidden /> Cetak F9
                     </Button>
                     {konteks.hak.hitung && !konteks.terkunci ? (
@@ -73,7 +69,7 @@ export default function TotalNilaiRisiko({ penilaian, kesiapan, ...konteks }: Pr
             }
         >
             {penilaian.length === 0 ? (
-                <div className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
+                <div className="text-muted-foreground rounded-md border border-dashed p-8 text-center text-sm">
                     Belum pernah dihitung untuk periode ini.
                     {kesiapan.boleh_hitung.boleh ? (
                         ' Tekan Hitung Ulang.'
@@ -89,8 +85,7 @@ export default function TotalNilaiRisiko({ penilaian, kesiapan, ...konteks }: Pr
                 <>
                     {belum > 0 ? (
                         <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100">
-                            {belum} Area belum dapat dinilai. Alasannya tertulis pada kolom Keterangan
-                            masing-masing baris.
+                            {belum} Area belum dapat dinilai. Alasannya tertulis pada kolom Keterangan masing-masing baris.
                         </p>
                     ) : null}
 
@@ -129,21 +124,15 @@ export default function TotalNilaiRisiko({ penilaian, kesiapan, ...konteks }: Pr
                                         <td className="px-2 py-2 text-center tabular-nums">
                                             {num(p.skala_fpm)}
                                             {p.bobot_faktor_terpakai > 0 && p.bobot_faktor_terpakai < 100 ? (
-                                                <span className="ml-1 text-xs text-amber-700 dark:text-amber-300">
-                                                    ({p.bobot_faktor_terpakai}%)
-                                                </span>
+                                                <span className="ml-1 text-xs text-amber-700 dark:text-amber-300">({p.bobot_faktor_terpakai}%)</span>
                                             ) : null}
                                         </td>
-                                        <td className="px-2 py-2 text-center tabular-nums">
-                                            {p.bobot_faktor !== null ? `${p.bobot_faktor}%` : '-'}
-                                        </td>
-                                        <td className="px-2 py-2 text-center font-semibold tabular-nums">
-                                            {num(p.total_nilai_risiko)}
-                                        </td>
+                                        <td className="px-2 py-2 text-center tabular-nums">{p.bobot_faktor !== null ? `${p.bobot_faktor}%` : '-'}</td>
+                                        <td className="px-2 py-2 text-center font-semibold tabular-nums">{num(p.total_nilai_risiko)}</td>
                                         <td className="px-2 py-2 text-center">
                                             {p.tingkat_risiko ? <Badge variant="outline">{p.tingkat_risiko}</Badge> : '-'}
                                         </td>
-                                        <td className="px-2 py-2 text-xs text-muted-foreground">{p.keterangan ?? ''}</td>
+                                        <td className="text-muted-foreground px-2 py-2 text-xs">{p.keterangan ?? ''}</td>
                                     </tr>
                                 ))}
                             </tbody>

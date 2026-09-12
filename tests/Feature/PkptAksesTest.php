@@ -9,6 +9,7 @@ use App\Models\User;
 use Database\Seeders\PkptMenuSeeder;
 use Database\Seeders\PkptPermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -56,7 +57,7 @@ class PkptAksesTest extends TestCase
         ];
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('halamanPkpt')]
+    #[DataProvider('halamanPkpt')]
     public function test_pic_opd_biasa_ditolak_di_setiap_halaman_pkpt(string $jalur): void
     {
         $this->buatPeriode();
@@ -69,7 +70,7 @@ class PkptAksesTest extends TestCase
         $this->actingAs($pic)->get($jalur)->assertForbidden();
     }
 
-    #[\PHPUnit\Framework\Attributes\DataProvider('halamanPkpt')]
+    #[DataProvider('halamanPkpt')]
     public function test_akun_apip_boleh_membuka_setiap_halaman_pkpt(string $jalur): void
     {
         $this->buatPeriode();

@@ -84,7 +84,7 @@ export default function Peringkat({ penilaian, zona, tingkat, tahunRencana, ...k
             </div>
 
             {penilaian.length === 0 ? (
-                <div className="rounded-md border border-dashed p-8 text-center text-sm text-muted-foreground">
+                <div className="text-muted-foreground rounded-md border border-dashed p-8 text-center text-sm">
                     Belum ada hasil perhitungan. Jalankan Hitung Ulang dari menu Ikhtisar atau Total Nilai Risiko.
                 </div>
             ) : (
@@ -108,26 +108,20 @@ export default function Peringkat({ penilaian, zona, tingkat, tahunRencana, ...k
                         <tbody>
                             {penilaian.map((p) => (
                                 <tr key={p.id} className="border-t">
-                                    <td className="px-2 py-2 text-center tabular-nums text-muted-foreground">
-                                        {p.peringkat ?? '-'}
-                                    </td>
+                                    <td className="text-muted-foreground px-2 py-2 text-center tabular-nums">{p.peringkat ?? '-'}</td>
                                     <td className="px-2 py-2">{p.nama_area}</td>
-                                    <td className="px-2 py-2 text-center font-semibold tabular-nums">
-                                        {num(p.total_nilai_risiko)}
-                                    </td>
+                                    <td className="px-2 py-2 text-center font-semibold tabular-nums">{num(p.total_nilai_risiko)}</td>
                                     <td className="px-2 py-2 text-center">
                                         {p.tingkat_risiko ? <Badge variant="outline">{p.tingkat_risiko}</Badge> : '-'}
                                     </td>
                                     <td className="px-2 py-2 text-center">
                                         {p.zona ? (
-                                            <span className={`inline-block rounded px-2 py-0.5 text-xs ${warnaZona[p.zona] ?? ''}`}>
-                                                {p.zona}
-                                            </span>
+                                            <span className={`inline-block rounded px-2 py-0.5 text-xs ${warnaZona[p.zona] ?? ''}`}>{p.zona}</span>
                                         ) : (
                                             '-'
                                         )}
                                     </td>
-                                    <td className="px-2 py-2 text-muted-foreground">{p.frekuensi ?? '-'}</td>
+                                    <td className="text-muted-foreground px-2 py-2">{p.frekuensi ?? '-'}</td>
                                     {tahunRencana.map((t) => (
                                         <td key={t} className="px-2 py-2 text-center">
                                             <input

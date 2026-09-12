@@ -136,8 +136,8 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                     Cadangan ke Google Drive
                 </CardTitle>
                 <p className="text-muted-foreground text-sm">
-                    Salinan basis data di luar server ini, ke akun Google milik instansi. Setelah tertaut, cadangan dikirim otomatis tiap hari
-                    pukul 01:30 WIB dan bisa dipulihkan dari daftar di bawah.{' '}
+                    Salinan basis data di luar server ini, ke akun Google milik instansi. Setelah tertaut, cadangan dikirim otomatis tiap hari pukul
+                    01:30 WIB dan bisa dipulihkan dari daftar di bawah.{' '}
                     {drive.arsipTerkunci ? (
                         <span className="inline-flex items-center gap-1 rounded border border-emerald-500/50 bg-emerald-50 px-1.5 py-0.5 text-xs font-medium text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300">
                             <LockKeyhole className="h-3 w-3" /> arsip terkunci AES-256
@@ -163,7 +163,9 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                                 {drive.terakhirUnggah && <> · unggahan terakhir {formatTanggalWaktu(drive.terakhirUnggah)}</>}
                             </div>
                             {drive.terakhirHasil && (
-                                <div className={`mt-1 text-xs ${drive.terakhirHasil.startsWith('Gagal') ? 'text-destructive' : 'text-muted-foreground'}`}>
+                                <div
+                                    className={`mt-1 text-xs ${drive.terakhirHasil.startsWith('Gagal') ? 'text-destructive' : 'text-muted-foreground'}`}
+                                >
                                     {drive.terakhirHasil}
                                 </div>
                             )}
@@ -188,7 +190,8 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                                 Credentials → Create Credentials → OAuth client ID (jenis <em>Web application</em>).
                             </li>
                             <li>
-                                Tambahkan <em>Authorized redirect URI</em> persis: <code className="bg-muted rounded px-1 py-0.5">{drive.redirectUri}</code>
+                                Tambahkan <em>Authorized redirect URI</em> persis:{' '}
+                                <code className="bg-muted rounded px-1 py-0.5">{drive.redirectUri}</code>
                             </li>
                             <li>
                                 Aktifkan <em>Google Drive API</em> di Library, lalu di OAuth consent screen tambahkan alamat Google instansi sebagai
@@ -215,7 +218,9 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                         {form.errors.client_id && <p className="text-destructive text-xs">{form.errors.client_id}</p>}
                     </div>
                     <div className="space-y-1">
-                        <Label htmlFor="drive_client_secret">Client Secret {drive.kredensialLengkap && <span className="text-muted-foreground">(kosongkan bila tidak diganti)</span>}</Label>
+                        <Label htmlFor="drive_client_secret">
+                            Client Secret {drive.kredensialLengkap && <span className="text-muted-foreground">(kosongkan bila tidak diganti)</span>}
+                        </Label>
                         <Input
                             id="drive_client_secret"
                             type="password"
@@ -256,7 +261,9 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                     <div className="space-y-2">
                         <h4 className="text-sm font-semibold">Cadangan di Google Drive</h4>
                         {drive.galat && <p className="text-destructive text-sm">Tidak bisa membaca Drive: {drive.galat}</p>}
-                        {drive.berkas && drive.berkas.length === 0 && <p className="text-muted-foreground text-sm">Belum ada berkas di folder ini.</p>}
+                        {drive.berkas && drive.berkas.length === 0 && (
+                            <p className="text-muted-foreground text-sm">Belum ada berkas di folder ini.</p>
+                        )}
                         {drive.berkas && drive.berkas.length > 0 && (
                             <ul className="space-y-2">
                                 {drive.berkas.map((b) => (
@@ -279,8 +286,8 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                                                     <AlertDialogHeader>
                                                         <AlertDialogTitle>Timpa database dengan {b.nama}?</AlertDialogTitle>
                                                         <AlertDialogDescription>
-                                                            Seluruh tabel saat ini akan diganti isi cadangan ini. Keadaan sekarang dicadangkan dulu ke daftar
-                                                            “Database Backups”. Ketik <strong>TIMPA</strong> untuk melanjutkan.
+                                                            Seluruh tabel saat ini akan diganti isi cadangan ini. Keadaan sekarang dicadangkan dulu ke
+                                                            daftar “Database Backups”. Ketik <strong>TIMPA</strong> untuk melanjutkan.
                                                         </AlertDialogDescription>
                                                     </AlertDialogHeader>
                                                     <Input value={konfirmasi} onChange={(e) => setKonfirmasi(e.target.value)} placeholder="TIMPA" />
@@ -308,7 +315,10 @@ export default function CadanganDrive({ drive }: { drive: DriveProps }) {
                                                     </AlertDialogHeader>
                                                     <AlertDialogFooter>
                                                         <AlertDialogCancel>Batal</AlertDialogCancel>
-                                                        <AlertDialogAction className="bg-destructive hover:bg-destructive/90" onClick={() => hapus(b.id)}>
+                                                        <AlertDialogAction
+                                                            className="bg-destructive hover:bg-destructive/90"
+                                                            onClick={() => hapus(b.id)}
+                                                        >
                                                             Hapus
                                                         </AlertDialogAction>
                                                     </AlertDialogFooter>

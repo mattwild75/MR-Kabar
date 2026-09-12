@@ -20,11 +20,13 @@ export interface HakPkpt {
 }
 
 export interface KonteksPkpt {
-    periode: (PeriodeRingkas & {
-        total_belanja_langsung: number | null;
-        nomor_keputusan: string | null;
-        tanggal_penetapan: string | null;
-    }) | null;
+    periode:
+        | (PeriodeRingkas & {
+              total_belanja_langsung: number | null;
+              nomor_keputusan: string | null;
+              tanggal_penetapan: string | null;
+          })
+        | null;
     terkunci: boolean;
     daftarPeriode: PeriodeRingkas[];
     hak: HakPkpt;
@@ -76,9 +78,7 @@ export default function PkptShell({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                         <h1 className="text-xl font-semibold tracking-tight">{judul}</h1>
-                        {keterangan ? (
-                            <p className="mt-1 max-w-3xl text-sm text-muted-foreground">{keterangan}</p>
-                        ) : null}
+                        {keterangan ? <p className="text-muted-foreground mt-1 max-w-3xl text-sm">{keterangan}</p> : null}
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
@@ -87,7 +87,7 @@ export default function PkptShell({
                                 <span className="text-muted-foreground">Periode PKPT</span>
                                 <select
                                     aria-label="Periode PKPT yang sedang dibuka"
-                                    className="h-9 rounded-md border border-input bg-background px-2 text-sm"
+                                    className="border-input bg-background h-9 rounded-md border px-2 text-sm"
                                     value={periode?.id ?? ''}
                                     onChange={(e) => pindahPeriode(e.target.value)}
                                 >
@@ -113,9 +113,8 @@ export default function PkptShell({
 
                 {terkunci ? (
                     <p className="rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100">
-                        Periode ini sudah ditetapkan. Seluruh perubahan ditolak supaya angka pada lampiran
-                        Keputusan Inspektur tetap sama dengan angka di layar. Buka kembali lewat menu
-                        Ikhtisar dan Periode bila memang perlu diubah.
+                        Periode ini sudah ditetapkan. Seluruh perubahan ditolak supaya angka pada lampiran Keputusan Inspektur tetap sama dengan angka
+                        di layar. Buka kembali lewat menu Ikhtisar dan Periode bila memang perlu diubah.
                     </p>
                 ) : null}
 
@@ -129,7 +128,7 @@ export default function PkptShell({
 export function BelumAdaPeriode() {
     return (
         <div className="rounded-md border border-dashed p-8 text-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
                 Belum ada Periode PKPT. Buat lebih dahulu di menu{' '}
                 <a href="/pkpt" className="font-medium underline">
                     Ikhtisar dan Periode

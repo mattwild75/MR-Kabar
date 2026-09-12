@@ -73,8 +73,8 @@ export default function PenugasanWajib({ baris, area, usulanBaku, ...konteks }: 
                         onClick={() => setTab(k)}
                         className={`-mb-px border-b-2 px-3 py-2 text-sm ${
                             tab === k
-                                ? 'border-primary font-medium text-foreground'
-                                : 'border-transparent text-muted-foreground hover:text-foreground'
+                                ? 'border-primary text-foreground font-medium'
+                                : 'text-muted-foreground hover:text-foreground border-transparent'
                         }`}
                     >
                         {label} ({baris.filter((b) => b.jenis === k).length})
@@ -103,16 +103,14 @@ export default function PenugasanWajib({ baris, area, usulanBaku, ...konteks }: 
                         <tr>
                             <th className="px-3 py-2 font-medium">Nama Area Pengawasan</th>
                             <th className="px-3 py-2 font-medium">Alasan</th>
-                            <th className="px-3 py-2 font-medium">
-                                {tab === 'wajib' ? 'Dasar hukum atau nomor surat' : 'Keterangan'}
-                            </th>
+                            <th className="px-3 py-2 font-medium">{tab === 'wajib' ? 'Dasar hukum atau nomor surat' : 'Keterangan'}</th>
                             <th className="px-3 py-2" />
                         </tr>
                     </thead>
                     <tbody>
                         {tampil.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="px-3 py-8 text-center text-muted-foreground">
+                                <td colSpan={4} className="text-muted-foreground px-3 py-8 text-center">
                                     {tab === 'wajib'
                                         ? 'Belum ada penugasan wajib. Reviu LKPD, reviu RKA, dan monitoring tindak lanjut umumnya masuk di sini.'
                                         : 'Belum ada Area yang dikecualikan. Isi bila ada Area yang tahun ini diawasi BPK, BPKP, atau Inspektorat Aceh.'}
@@ -122,10 +120,8 @@ export default function PenugasanWajib({ baris, area, usulanBaku, ...konteks }: 
                             tampil.map((b) => (
                                 <tr key={b.id} className="border-t">
                                     <td className="px-3 py-2">{b.nama_area}</td>
-                                    <td className="px-3 py-2 text-muted-foreground">{b.alasan}</td>
-                                    <td className="px-3 py-2 text-muted-foreground">
-                                        {(tab === 'wajib' ? b.dasar_hukum : b.keterangan) ?? '-'}
-                                    </td>
+                                    <td className="text-muted-foreground px-3 py-2">{b.alasan}</td>
+                                    <td className="text-muted-foreground px-3 py-2">{(tab === 'wajib' ? b.dasar_hukum : b.keterangan) ?? '-'}</td>
                                     <td className="px-3 py-2 text-right">
                                         {bolehUbah ? (
                                             <div className="flex justify-end gap-1">
@@ -156,9 +152,7 @@ export default function PenugasanWajib({ baris, area, usulanBaku, ...konteks }: 
                 </table>
             </div>
 
-            {sunting ? (
-                <DialogBaris awal={sunting} area={area} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} />
-            ) : null}
+            {sunting ? <DialogBaris awal={sunting} area={area} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} /> : null}
         </PkptShell>
     );
 }
@@ -212,7 +206,7 @@ function DialogBaris({
                         <Label htmlFor="jenis">Jenis</Label>
                         <select
                             id="jenis"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.jenis ?? 'wajib'}
                             onChange={(e) => ubah('jenis', e.target.value)}
                         >
@@ -225,7 +219,7 @@ function DialogBaris({
                         <Label htmlFor="area-tautan">Tautkan ke Area Pengawasan (opsional)</Label>
                         <select
                             id="area-tautan"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.area_id ?? ''}
                             onChange={(e) => {
                                 const id = e.target.value ? Number(e.target.value) : null;
@@ -241,9 +235,8 @@ function DialogBaris({
                                 </option>
                             ))}
                         </select>
-                        <p className="text-xs text-muted-foreground">
-                            Penugasan amanat peraturan seperti reviu LKPD tidak selalu punya baris di Peta
-                            Auditan, jadi tautan ini boleh dikosongkan.
+                        <p className="text-muted-foreground text-xs">
+                            Penugasan amanat peraturan seperti reviu LKPD tidak selalu punya baris di Peta Auditan, jadi tautan ini boleh dikosongkan.
                         </p>
                     </div>
 
@@ -263,16 +256,12 @@ function DialogBaris({
                     </div>
 
                     <div className="space-y-1">
-                        <Label htmlFor="dasar">
-                            {form.jenis === 'tidak_dimuat' ? 'Keterangan' : 'Dasar hukum atau nomor surat'}
-                        </Label>
+                        <Label htmlFor="dasar">{form.jenis === 'tidak_dimuat' ? 'Keterangan' : 'Dasar hukum atau nomor surat'}</Label>
                         <textarea
                             id="dasar"
-                            className="min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm"
+                            className="border-input bg-background min-h-16 w-full rounded-md border p-2 text-sm"
                             value={(form.jenis === 'tidak_dimuat' ? form.keterangan : form.dasar_hukum) ?? ''}
-                            onChange={(e) =>
-                                ubah(form.jenis === 'tidak_dimuat' ? 'keterangan' : 'dasar_hukum', e.target.value)
-                            }
+                            onChange={(e) => ubah(form.jenis === 'tidak_dimuat' ? 'keterangan' : 'dasar_hukum', e.target.value)}
                         />
                     </div>
                 </div>

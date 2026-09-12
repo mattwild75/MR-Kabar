@@ -1,5 +1,5 @@
-import { Button } from '@/components/ui/button';
 import type { KonteksPkpt } from '@/components/pkpt/pkpt-shell';
+import { Button } from '@/components/ui/button';
 import { Head, router } from '@inertiajs/react';
 import { ArrowLeft, Download, Printer } from 'lucide-react';
 import { useState } from 'react';
@@ -82,7 +82,7 @@ export default function Formulir({ formulir, judul, kolom, baris, kop, periode }
                 }
             `}</style>
 
-            <div className="print:hidden sticky top-0 z-10 flex flex-wrap items-center justify-between gap-2 border-b bg-background px-4 py-3">
+            <div className="bg-background sticky top-0 z-10 flex flex-wrap items-center justify-between gap-2 border-b px-4 py-3 print:hidden">
                 <Button variant="ghost" size="sm" onClick={() => router.visit('/pkpt')}>
                     <ArrowLeft className="size-4" aria-hidden /> Kembali
                 </Button>
@@ -107,11 +107,7 @@ export default function Formulir({ formulir, judul, kolom, baris, kop, periode }
                         Periode PKPT Tahun {kop.tahun_pkpt} - Dasar Risiko Tahun {kop.tahun_dasar_risiko}
                         {kop.nomor_keputusan ? ` - Keputusan Nomor ${kop.nomor_keputusan}` : ''}
                     </p>
-                    {kop.status !== 'ditetapkan' ? (
-                        <p className="mt-1 text-xs italic">
-                            Rancangan - belum ditetapkan
-                        </p>
-                    ) : null}
+                    {kop.status !== 'ditetapkan' ? <p className="mt-1 text-xs italic">Rancangan - belum ditetapkan</p> : null}
                 </header>
 
                 <div className="overflow-x-auto">
@@ -124,20 +120,14 @@ export default function Formulir({ formulir, judul, kolom, baris, kop, periode }
                         <thead>
                             <tr>
                                 {kolom.map((k, i) => (
-                                    <th
-                                        key={i}
-                                        className="border border-black bg-neutral-200 px-1 py-1 text-center align-middle font-bold"
-                                    >
+                                    <th key={i} className="border border-black bg-neutral-200 px-1 py-1 text-center align-middle font-bold">
                                         {k.judul}
                                     </th>
                                 ))}
                             </tr>
                             <tr>
                                 {kolom.map((_, i) => (
-                                    <th
-                                        key={i}
-                                        className="border border-black bg-neutral-100 px-1 py-0.5 text-center align-middle font-normal"
-                                    >
+                                    <th key={i} className="border border-black bg-neutral-100 px-1 py-0.5 text-center align-middle font-normal">
                                         {hurufKolom(i)}
                                     </th>
                                 ))}
@@ -156,9 +146,7 @@ export default function Formulir({ formulir, judul, kolom, baris, kop, periode }
                                         {r.map((sel, j) => (
                                             <td
                                                 key={j}
-                                                className={`border border-black px-1 py-0.5 align-top ${
-                                                    kolom[j]?.tengah ? 'text-center' : ''
-                                                }`}
+                                                className={`border border-black px-1 py-0.5 align-top ${kolom[j]?.tengah ? 'text-center' : ''}`}
                                             >
                                                 {sel ?? ''}
                                             </td>

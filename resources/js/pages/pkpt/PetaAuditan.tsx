@@ -48,9 +48,7 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
         const k = cari.trim().toLowerCase();
         if (!k) return area;
         return area.filter((a) =>
-            [a.nama, a.opd?.nama, a.opd_pendukung, a.urusan, a.tujuan_sasaran]
-                .filter(Boolean)
-                .some((v) => String(v).toLowerCase().includes(k)),
+            [a.nama, a.opd?.nama, a.opd_pendukung, a.urusan, a.tujuan_sasaran].filter(Boolean).some((v) => String(v).toLowerCase().includes(k)),
         );
     }, [area, cari]);
 
@@ -93,7 +91,7 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
         >
             <div className="flex flex-wrap items-center gap-2">
                 <div className="relative">
-                    <Search className="absolute left-2 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
+                    <Search className="text-muted-foreground absolute top-1/2 left-2 size-4 -translate-y-1/2" aria-hidden />
                     <Input
                         className="w-72 pl-8"
                         placeholder="Cari Area Pengawasan"
@@ -107,7 +105,7 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
                         {LABEL_KELOMPOK[k as Area['kelompok']]}: {n}
                     </Badge>
                 ))}
-                <span className="text-sm text-muted-foreground">Total {area.length} Area</span>
+                <span className="text-muted-foreground text-sm">Total {area.length} Area</span>
             </div>
 
             <div className="overflow-x-auto rounded-lg border">
@@ -127,7 +125,7 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
                     <tbody>
                         {tersaring.length === 0 ? (
                             <tr>
-                                <td colSpan={8} className="px-3 py-8 text-center text-muted-foreground">
+                                <td colSpan={8} className="text-muted-foreground px-3 py-8 text-center">
                                     {area.length === 0
                                         ? 'Peta Auditan masih kosong. Tekan "Tarik dari data" untuk mengisinya dari daftar Perangkat Daerah dan Program Prioritas yang sudah ada.'
                                         : 'Tidak ada Area yang cocok dengan pencarian.'}
@@ -142,10 +140,8 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
                                     <td className="px-3 py-2">
                                         <HighlightText text={a.nama} query={cari} />
                                     </td>
-                                    <td className="px-3 py-2 text-muted-foreground">
-                                        {a.opd?.nama ?? a.opd_pendukung ?? '-'}
-                                    </td>
-                                    <td className="px-3 py-2 text-muted-foreground">{a.urusan ?? '-'}</td>
+                                    <td className="text-muted-foreground px-3 py-2">{a.opd?.nama ?? a.opd_pendukung ?? '-'}</td>
+                                    <td className="text-muted-foreground px-3 py-2">{a.urusan ?? '-'}</td>
                                     <td className="px-3 py-2 text-right tabular-nums">
                                         {a.pagu_anggaran === null ? (
                                             <span className="text-muted-foreground italic">belum tersedia</span>
@@ -154,9 +150,7 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
                                         )}
                                     </td>
                                     <td className="px-3 py-2 text-center">{a.irban ?? '-'}</td>
-                                    <td className="px-3 py-2 text-center tabular-nums">
-                                        {a.tahun_terakhir_diawasi ?? '-'}
-                                    </td>
+                                    <td className="px-3 py-2 text-center tabular-nums">{a.tahun_terakhir_diawasi ?? '-'}</td>
                                     <td className="px-3 py-2 text-right">
                                         {bolehUbah ? (
                                             <div className="flex justify-end gap-1">
@@ -187,14 +181,7 @@ export default function PetaAuditan({ area, opd, ...konteks }: Props) {
                 </table>
             </div>
 
-            {sunting ? (
-                <DialogArea
-                    awal={sunting}
-                    opd={opd}
-                    periodeId={konteks.periode?.id}
-                    tutup={() => setSunting(null)}
-                />
-            ) : null}
+            {sunting ? <DialogArea awal={sunting} opd={opd} periodeId={konteks.periode?.id} tutup={() => setSunting(null)} /> : null}
         </PkptShell>
     );
 }
@@ -254,7 +241,7 @@ function DialogArea({
                         <Label htmlFor="kelompok">Kelompok</Label>
                         <select
                             id="kelompok"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.kelompok ?? 'skpk'}
                             onChange={(e) => ubah('kelompok', e.target.value)}
                         >
@@ -268,7 +255,7 @@ function DialogArea({
                         <Label htmlFor="opd">SKPK Pengampu Utama</Label>
                         <select
                             id="opd"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.opd_id ?? ''}
                             onChange={(e) => ubah('opd_id', e.target.value ? Number(e.target.value) : null)}
                         >
@@ -290,7 +277,7 @@ function DialogArea({
                         <Label htmlFor="tujuan">Tujuan/Sasaran</Label>
                         <textarea
                             id="tujuan"
-                            className="min-h-16 w-full rounded-md border border-input bg-background p-2 text-sm"
+                            className="border-input bg-background min-h-16 w-full rounded-md border p-2 text-sm"
                             value={form.tujuan_sasaran ?? ''}
                             onChange={(e) => ubah('tujuan_sasaran', e.target.value)}
                         />
@@ -320,7 +307,7 @@ function DialogArea({
                         <Label htmlFor="irban">Inspektur Pembantu</Label>
                         <select
                             id="irban"
-                            className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm"
+                            className="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
                             value={form.irban ?? ''}
                             onChange={(e) => ubah('irban', e.target.value || null)}
                         >
