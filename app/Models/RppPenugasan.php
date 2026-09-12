@@ -21,7 +21,12 @@ class RppPenugasan extends Model
         9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember',
     ];
 
-    public const STATUS = ['draft', 'st_terbit', 'selesai', 'lhp_terbit', 'batal'];
+    /**
+     * Warna pada rekap Analisis dan Evaluasi: st_terbit = merah (baru ST /
+     * sedang bertugas), nomor_diminta = kuning (sudah minta nomor laporan),
+     * lhp_terbit = hijau (laporan terbit, masuk aneva).
+     */
+    public const STATUS = ['draft', 'st_terbit', 'nomor_diminta', 'selesai', 'lhp_terbit', 'batal'];
 
     protected $fillable = [
         'rpp_id', 'urutan', 'uraian', 'sifat', 'jumlah_laporan',

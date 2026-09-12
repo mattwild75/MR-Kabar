@@ -74,6 +74,9 @@ export default function AnevaCetak({ tahun, perTanggal, seksi, ringkasan }: Prop
                 .rekap td.seksi { font-weight: 700; background: #f2f2f2; }
                 .rekap .kanan { text-align: right; }
                 .rekap .tengah { text-align: center; }
+                .rekap td.hijau { background: #00b050; }
+                .rekap td.kuning { background: #ffff00; }
+                .rekap td.merah { background: #ff0000; }
                 @media print {
                     body { background: #fff; }
                     .rekap { padding: 0 !important; margin: 0 !important; max-width: none !important; }
@@ -278,6 +281,15 @@ export default function AnevaCetak({ tahun, perTanggal, seksi, ringkasan }: Prop
                                                             {i === 0 && b.capaian_output}
                                                         </td>
                                                         <td
+                                                            className={
+                                                                b.status === 'lhp_terbit'
+                                                                    ? 'hijau'
+                                                                    : b.status === 'nomor_diminta'
+                                                                      ? 'kuning'
+                                                                      : b.status === 'batal'
+                                                                        ? ''
+                                                                        : 'merah'
+                                                            }
                                                             style={{
                                                                 borderTop: i ? 'none' : undefined,
                                                                 borderBottom: i < n - 1 ? 'none' : undefined,

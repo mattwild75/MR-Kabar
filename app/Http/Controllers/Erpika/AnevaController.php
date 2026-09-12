@@ -34,13 +34,14 @@ class AnevaController extends Controller
         $cari = trim((string) $request->input('cari', ''));
 
         $penugasan = $this->kueri($tahun, $jenis, $cari)->get();
-        if ($status === 'terbit') {
-            $penugasan = $penugasan->where('status', 'lhp_terbit');
-        } elseif ($status === 'belum') {
-            $penugasan = $penugasan->whereNotIn('status', ['lhp_terbit', 'batal']);
-        } elseif ($status === 'batal') {
-            $penugasan = $penugasan->where('status', 'batal');
-        }
+        // merah = baru ST/sedang bertugas, kuning = nomor laporan diminta, hijau = laporan masuk aneva
+        $penugasan = match ($status) {
+            'hijau', 'terbit' => $penugasan->where('status', 'lhp_terbit'),
+            'kuning' => $penugasan->where('status', 'nomor_diminta'),
+            'merah', 'belum' => $penugasan->whereNotIn('status', ['lhp_terbit', 'nomor_diminta', 'batal']),
+            'batal' => $penugasan->where('status', 'batal'),
+            default => $penugasan,
+        };
 
         $baris = $penugasan->values()->map(fn (RppPenugasan $p, int $i) => $this->baris($p, $i + 1));
 
@@ -161,6 +162,8 @@ class AnevaController extends Controller
                 'jenis' => $nama,
                 'penugasan' => $k->count(),
                 'terbit' => $k->where('status', 'lhp_terbit')->count(),
+                'kuning' => $k->where('status', 'nomor_diminta')->count(),
+                'merah' => $k->whereNotIn('status', ['lhp_terbit', 'nomor_diminta', 'batal'])->count(),
                 'batal' => $k->where('status', 'batal')->count(),
                 'laporan' => $k->sum(fn ($p) => $p->laporans->count()),
             ])->values()->all();
@@ -168,6 +171,8 @@ class AnevaController extends Controller
         return [
             'penugasan' => $penugasan->count(),
             'terbit' => $penugasan->where('status', 'lhp_terbit')->count(),
+            'kuning' => $penugasan->where('status', 'nomor_diminta')->count(),
+            'merah' => $penugasan->whereNotIn('status', ['lhp_terbit', 'nomor_diminta', 'batal'])->count(),
             'belum' => $penugasan->whereNotIn('status', ['lhp_terbit', 'batal'])->count(),
             'batal' => $penugasan->where('status', 'batal')->count(),
             'laporan' => $penugasan->sum(fn ($p) => $p->laporans->count()),

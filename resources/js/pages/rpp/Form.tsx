@@ -62,7 +62,7 @@ type Penugasan = {
     tanggal_st: string;
     nomor_kp: string;
     capaian_output: string;
-    status: 'draft' | 'st_terbit' | 'selesai' | 'lhp_terbit';
+    status: 'draft' | 'st_terbit' | 'nomor_diminta' | 'selesai' | 'lhp_terbit' | 'batal';
     tim: Anggota[];
     laporans: Laporan[];
 };
@@ -151,7 +151,14 @@ const PERAN: Record<Peran, string> = {
     at: 'Anggota Tim (AT)',
 };
 
-const STATUS: Record<Penugasan['status'], string> = { draft: 'Draft', st_terbit: 'ST terbit', selesai: 'Selesai', lhp_terbit: 'LHP terbit' };
+const STATUS: Record<Penugasan['status'], string> = {
+    draft: 'Draft',
+    st_terbit: 'Sedang bertugas (merah)',
+    nomor_diminta: 'Nomor laporan diminta (kuning)',
+    selesai: 'Selesai',
+    lhp_terbit: 'Laporan terbit, masuk aneva (hijau)',
+    batal: 'Batal',
+};
 
 const rupiah = (n: number) => 'Rp ' + n.toLocaleString('id-ID');
 

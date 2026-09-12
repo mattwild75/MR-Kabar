@@ -76,7 +76,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'RPP Perencanaan', href: '/rpp' },
 ];
 
-const statusLabel: Record<string, string> = { draft: 'Draft', st_terbit: 'ST terbit', selesai: 'Selesai', lhp_terbit: 'LHP terbit' };
+const statusLabel: Record<string, string> = { draft: 'Draft', st_terbit: 'Sedang bertugas', nomor_diminta: 'Nomor laporan diminta', selesai: 'Selesai', lhp_terbit: 'Laporan terbit', batal: 'Batal' };
 
 const rupiah = (n: number) => 'Rp ' + n.toLocaleString('id-ID');
 
