@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Process;
 
 /**
@@ -135,7 +137,16 @@ class PemeriksaanGitService
             }
         }
 
+        // Hasil CI GitHub untuk commit yang akan ditarik: CI gagal = halangan,
+        // belum selesai = informasi. Hanya untuk remote GitHub; repo lain
+        // dilewati diam-diam.
+        $ci = $jauh !== '' ? $this->statusCi($remote, $acuan ?? '') : null;
+        if ($ci && $ci['kesimpulan'] === 'failure') {
+            $halangan[] = 'Pemeriksaan otomatis (CI) untuk commit GitHub '.$jauh.' GAGAL. Perbaiki dulu di repo sampai hijau.';
+        }
+
         return [
+            'ci' => $ci,
             'remote' => $remote,
             'cabang' => $cabang,
             'lokal' => $lokal,
@@ -149,6 +160,44 @@ class PemeriksaanGitService
             'halangan' => $halangan,
             'diperiksa_pada' => now()->toDateTimeString(),
         ];
+    }
+
+    /**
+     * Status CI GitHub Actions untuk sebuah ref, diingat 3 menit. Tanpa
+     * token (repo publik): batas 60 permintaan/jam sudah lebih dari cukup.
+     *
+     * @return array{kesimpulan:string,status:string,url:string}|null
+     */
+    private function statusCi(string $remote, string $acuan): ?array
+    {
+        if (! preg_match('#github\.com[:/]([^/]+)/([^/.]+)#', $remote, $m) || $acuan === '') {
+            return null;
+        }
+        [$ok, $sha] = $this->git(['rev-parse', $acuan]);
+        if (! $ok) {
+            return null;
+        }
+
+        return Cache::remember('ci_status:'.$sha, 180, function () use ($m, $sha) {
+            try {
+                $r = Http::timeout(8)->acceptJson()
+                    ->get("https://api.github.com/repos/{$m[1]}/{$m[2]}/commits/{$sha}/check-runs", ['per_page' => 20]);
+                if (! $r->ok()) {
+                    return null;
+                }
+                $runs = collect($r->json('check_runs', []));
+                if ($runs->isEmpty()) {
+                    return null;
+                }
+                $status = $runs->every(fn ($c) => $c['status'] === 'completed') ? 'completed' : 'in_progress';
+                $kesimpulan = $status !== 'completed' ? 'pending'
+                    : ($runs->contains(fn ($c) => in_array($c['conclusion'], ['failure', 'timed_out', 'cancelled'], true)) ? 'failure' : 'success');
+
+                return ['kesimpulan' => $kesimpulan, 'status' => $status, 'url' => (string) ($runs->first()['html_url'] ?? '')];
+            } catch (\Throwable) {
+                return null;
+            }
+        });
     }
 
     /** Halangan khusus sebelum PUSH: kode lokal tertinggal dari GitHub. */

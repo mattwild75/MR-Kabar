@@ -46,6 +46,19 @@ class HandleInertiaRequests extends Middleware
 
                 return $hasil->successful() ? trim($hasil->output()) : null;
             }),
+            // Commit kode yang sedang berjalan + waktu deploy terakhir: dipakai
+            // pita "Aplikasi baru diperbarui" yang tampil sekali per commit di
+            // peramban tiap pengguna (localStorage), supaya orang tahu ada
+            // yang berubah tanpa mengganggu pekerjaannya.
+            'rilis' => cache()->remember('rilis-kode', 600, function () {
+                $hasil = Process::path(base_path())->timeout(5)->run('git log -1 --format=%h|%cI|%s');
+                if (! $hasil->successful()) {
+                    return null;
+                }
+                [$kode, $waktu, $pesan] = array_pad(explode('|', trim($hasil->output()), 3), 3, '');
+
+                return ['kode' => $kode, 'waktu' => $waktu, 'pesan' => $pesan];
+            }),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
                 'user' => $request->user()?->load('roles:id,name'),

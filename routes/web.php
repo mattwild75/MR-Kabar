@@ -100,6 +100,9 @@ Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
 // statis lama masih menunjuk mrkabar.test setelah go-live, sehingga Google tidak
 // pernah mendapat alamat yang benar. Hanya dua halaman publik yang boleh
 // diindeks; selebihnya di balik login (dan dilarang di sini sekadar penegasan).
+// Status publik ringkas (tanpa data): untuk pemantau luar dan pengelola.
+Route::get('/status', App\Http\Controllers\StatusController::class)->name('status');
+
 Route::get('/robots.txt', function () {
     $isi = implode('
 ', [

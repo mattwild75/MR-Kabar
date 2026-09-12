@@ -47,6 +47,27 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
     // ini undefined, HANYA matikan kalau admin EKSPLISIT set false.
     const [showSplash, setShowSplash] = useState(!!flash.justLoggedIn && setting?.login_splash_enabled !== false);
 
+    // Pita "Aplikasi baru diperbarui": sekali per commit per peramban.
+    // Disimpan di localStorage (bukan server) — kegagalan membaca/menulisnya
+    // hanya membuat pita tidak tampil, tidak pernah mengganggu halaman.
+    const rilis = props?.rilis as { kode: string; waktu: string; pesan: string } | null | undefined;
+    useEffect(() => {
+        if (!rilis?.kode) return;
+        try {
+            const kunci = 'rilis-dilihat';
+            if (localStorage.getItem(kunci) === rilis.kode) return;
+            const pertama = localStorage.getItem(kunci) === null;
+            localStorage.setItem(kunci, rilis.kode);
+            if (pertama) return;
+            toast.info(`Aplikasi baru diperbarui: ${rilis.pesan}`, {
+                description: `Kode ${rilis.kode}, ${new Date(rilis.waktu).toLocaleString('id-ID')}. Muat ulang halaman bila tampilan terasa berbeda.`,
+                duration: 15000,
+            });
+        } catch {
+            // localStorage tidak tersedia (mode privat) — abaikan.
+        }
+    }, [rilis]);
+
     useEffect(() => {
         if (flash.success) toast.success(flash.success);
         if (flash.error) toast.error(flash.error);
@@ -129,8 +150,8 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
                                     {isApip ? (
                                         <>
                                             <span className="font-medium">Mode APIP</span> — akun ini dapat melihat seluruh data MR Kabar, tetapi
-                                            hanya dapat mengubah data pada menu PKPT Berbasis Risiko. Register risiko diubah oleh pemilik
-                                            risikonya sendiri.
+                                            hanya dapat mengubah data pada menu PKPT Berbasis Risiko. Register risiko diubah oleh pemilik risikonya
+                                            sendiri.
                                         </>
                                     ) : (
                                         <>

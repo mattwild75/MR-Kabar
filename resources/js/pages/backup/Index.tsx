@@ -66,6 +66,7 @@ interface KesehatanServer {
 }
 
 interface PeriksaGit {
+    ci: { kesimpulan: 'success' | 'failure' | 'pending'; status: string; url: string } | null;
     remote: string;
     cabang: string;
     lokal: string;
@@ -198,6 +199,7 @@ export default function BackupIndex({
             .then((d: PeriksaGit) => setPeriksa(d))
             .catch(() =>
                 setPeriksa({
+                    ci: null,
                     remote: '',
                     cabang: '',
                     lokal: '',
@@ -853,6 +855,18 @@ export default function BackupIndex({
                                                 </>
                                             )}
                                             server <code>{periksa.lokal || '-'}</code> · GitHub <code>{periksa.jauh || '-'}</code>
+                                            {periksa.ci && (
+                                                <>
+                                                    {' · CI '}
+                                                    <a href={periksa.ci.url} target="_blank" rel="noreferrer" className="underline">
+                                                        {periksa.ci.kesimpulan === 'success'
+                                                            ? 'lulus'
+                                                            : periksa.ci.kesimpulan === 'failure'
+                                                              ? 'GAGAL'
+                                                              : 'sedang berjalan'}
+                                                    </a>
+                                                </>
+                                            )}
                                             {periksa.di_belakang > 0 && !adaHalangan && (
                                                 <>
                                                     {' · '}

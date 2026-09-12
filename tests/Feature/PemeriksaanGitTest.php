@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\PemeriksaanGitService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Process;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
@@ -59,6 +60,20 @@ class PemeriksaanGitTest extends TestCase
         }
         $peta['*'] = Process::result('');
         Process::fake($peta);
+        // CI GitHub dipalsukan lulus, kecuali pengujian menimpanya sendiri.
+        Http::fake(['api.github.com/*' => Http::response(['check_runs' => [['status' => 'completed', 'conclusion' => 'success', 'html_url' => 'https://github.com/x']]])]);
+    }
+
+    public function test_ci_gagal_pada_commit_github_menjadi_halangan(): void
+    {
+        // Stub Http yang terdaftar lebih dulu yang menang, jadi dipasang sebelum palsukanGit().
+        Http::fake(['api.github.com/*' => Http::response(['check_runs' => [['status' => 'completed', 'conclusion' => 'failure', 'html_url' => 'https://github.com/x']]])]);
+        $this->palsukanGit(['*git* -C * rev-parse *origin/main*' => 'abc1234abc1234abc1234abc1234abc1234abc12']);
+        Cache::flush();
+        $hasil = app(PemeriksaanGitService::class)->periksa();
+
+        $this->assertSame('failure', $hasil['ci']['kesimpulan']);
+        $this->assertStringContainsString('CI', $hasil['halangan'][0]);
     }
 
     public function test_repo_bersih_dan_sama_tidak_ada_halangan(): void
