@@ -76,7 +76,14 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'RPP Perencanaan', href: '/rpp' },
 ];
 
-const statusLabel: Record<string, string> = { draft: 'Draft', st_terbit: 'Sedang bertugas', nomor_diminta: 'Nomor laporan diminta', selesai: 'Selesai', lhp_terbit: 'Laporan terbit', batal: 'Batal' };
+const statusLabel: Record<string, string> = {
+    draft: 'Draft',
+    st_terbit: 'Sedang bertugas',
+    nomor_diminta: 'Nomor laporan diminta',
+    selesai: 'Selesai',
+    lhp_terbit: 'Laporan terbit',
+    batal: 'Batal',
+};
 
 const rupiah = (n: number) => 'Rp ' + n.toLocaleString('id-ID');
 
@@ -302,7 +309,17 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                 </div>
                                             </td>
                                             <td className="max-w-[220px] px-3 py-3 text-xs">
-                                                {ketua.length ? ketua.join(', ') : <span className="text-muted-foreground">-</span>}
+                                                {ketua.length ? (
+                                                    <ol className={`space-y-0.5 ${ketua.length > 1 ? 'list-decimal pl-4' : 'list-none'}`}>
+                                                        {ketua.map((k) => (
+                                                            <li key={k} className="whitespace-nowrap">
+                                                                {k}
+                                                            </li>
+                                                        ))}
+                                                    </ol>
+                                                ) : (
+                                                    <span className="text-muted-foreground">-</span>
+                                                )}
                                             </td>
                                             <td className="px-3 py-3 text-right tabular-nums">{r.ringkasan.hari}</td>
                                             <td className="px-3 py-3 text-right whitespace-nowrap tabular-nums">{rupiah(r.ringkasan.biaya)}</td>
