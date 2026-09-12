@@ -139,6 +139,16 @@ class PegawaiController extends Controller
                     'hijau' => $k->where('status', 'lhp_terbit')->count(),
                     'kuning' => $k->where('status', 'nomor_diminta')->count(),
                     'merah' => $k->whereNotIn('status', ['nomor_diminta', 'lhp_terbit', 'batal'])->count(),
+                    // daftar penugasannya: obrik/uraian dan objek, terbaru dulu
+                    'daftar' => $k->sortByDesc(fn ($p) => ($p->rpp->year ?? 0).'|'.($p->tanggal_st?->toDateString() ?? $p->rpp->tanggal_rpp?->toDateString() ?? ''))
+                        ->values()->map(fn ($p) => [
+                            'tahun' => $p->rpp->year,
+                            'rpp' => $p->rpp->nomor_rpp,
+                            'st' => $p->nomor_st,
+                            'uraian' => $p->uraian,
+                            'objek' => $p->obriks->pluck('nama')->all(),
+                            'status' => $p->status,
+                        ])->all(),
                 ])->sortByDesc('total')->values()->all(),
             'per_tahun' => $daftar->groupBy(fn ($p) => $p->rpp->year)->map(fn ($k) => $k->count())->sortKeysDesc()->all(),
             'terakhir' => $terakhir ? [

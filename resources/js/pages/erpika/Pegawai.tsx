@@ -37,7 +37,14 @@ interface Employee {
         kuning: number;
         hijau: number;
         merah: number;
-        per_jenis: { jenis: string; total: number; hijau: number; kuning: number; merah: number }[];
+        per_jenis: {
+            jenis: string;
+            total: number;
+            hijau: number;
+            kuning: number;
+            merah: number;
+            daftar: { tahun: number; rpp: string; st: string | null; uraian: string | null; objek: string[]; status: string }[];
+        }[];
         per_tahun: Record<string, number>;
         terakhir: {
             rpp: string;

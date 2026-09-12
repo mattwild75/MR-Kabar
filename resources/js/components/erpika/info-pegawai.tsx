@@ -8,7 +8,14 @@ export interface RingkasanPenugasan {
     kuning: number;
     hijau: number;
     merah: number;
-    per_jenis: { jenis: string; total: number; hijau: number; kuning: number; merah: number }[];
+    per_jenis: {
+        jenis: string;
+        total: number;
+        hijau: number;
+        kuning: number;
+        merah: number;
+        daftar: { tahun: number; rpp: string; st: string | null; uraian: string | null; objek: string[]; status: string }[];
+    }[];
     per_tahun: Record<string, number>;
     terakhir: {
         rpp: string;
@@ -50,7 +57,61 @@ export function TabelPerJenis({ p }: { p: RingkasanPenugasan }) {
             <tbody>
                 {p.per_jenis.map((j) => (
                     <tr key={j.jenis} className="border-t">
-                        <td className="py-0.5">{j.jenis}</td>
+                        <td className="py-0.5">
+                            <div className="flex items-center gap-1">
+                                <span>{j.jenis}</span>
+                                {/* popover ketiga: obrik/uraian dan daftar objek tiap penugasan jenis ini */}
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button type="button" size="icon" variant="ghost" className="h-5 w-5" title={`Penugasan ${j.jenis}`}>
+                                            <Info className="h-3 w-3" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent align="start" className="max-h-[70vh] w-[420px] overflow-y-auto">
+                                        <div className="mb-1 text-sm font-semibold">
+                                            {j.jenis} — {j.total} penugasan
+                                        </div>
+                                        <ol className="space-y-1.5 text-xs">
+                                            {j.daftar.map((d, i) => (
+                                                <li key={i} className="border-t pt-1">
+                                                    <div className="text-muted-foreground font-mono">
+                                                        {d.tahun} · {d.rpp}
+                                                        {d.st ? ` · ${d.st}` : ''}
+                                                        <span
+                                                            className={`ml-1 rounded px-1 ${
+                                                                d.status === 'lhp_terbit'
+                                                                    ? 'bg-emerald-100 text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200'
+                                                                    : d.status === 'nomor_diminta'
+                                                                      ? 'bg-amber-100 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200'
+                                                                      : d.status === 'batal'
+                                                                        ? 'bg-muted'
+                                                                        : 'bg-red-100 text-red-900 dark:bg-red-950/40 dark:text-red-200'
+                                                            }`}
+                                                        >
+                                                            {d.status === 'lhp_terbit'
+                                                                ? 'hijau'
+                                                                : d.status === 'nomor_diminta'
+                                                                  ? 'kuning'
+                                                                  : d.status === 'batal'
+                                                                    ? 'batal'
+                                                                    : 'merah'}
+                                                        </span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="font-medium">Obrik:</span> {d.uraian ?? '-'}
+                                                    </div>
+                                                    {d.objek.length > 0 && (
+                                                        <div className="text-muted-foreground">
+                                                            <span className="font-medium">Objek:</span> {d.objek.join('; ')}
+                                                        </div>
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ol>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                        </td>
                         <td className="py-0.5 text-right tabular-nums">{j.total}</td>
                         <td className="py-0.5 text-right tabular-nums">{j.hijau}</td>
                         <td className="py-0.5 text-right tabular-nums">{j.kuning}</td>
