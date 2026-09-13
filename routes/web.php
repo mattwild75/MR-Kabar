@@ -42,6 +42,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MonitoringEvaluasiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PanduanController;
+use App\Http\Controllers\PenyimpananController;
 use App\Http\Controllers\PencarianController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProgramBupatiRisikoController;
@@ -398,6 +399,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/opd', [LaporanKejadianController::class, 'updateOpd'])->name('lapor-kejadian.update-opd');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/risiko-terdaftar', [LaporanKejadianController::class, 'updateRisikoTerdaftar'])->name('lapor-kejadian.update-risiko-terdaftar');
     Route::delete('/lapor-kejadian/rekap/{laporanKejadian}', [LaporanKejadianController::class, 'destroy'])->name('lapor-kejadian.destroy');
+
+    // Utilities > Storage — pemakaian disk dan penghapusan berkas yang aman
+    // (Super Admin, dijaga di controller).
+    Route::get('/storage', [PenyimpananController::class, 'index'])->name('storage.index');
+    Route::delete('/storage', [PenyimpananController::class, 'hapus'])->name('storage.hapus');
+    Route::post('/storage/bersihkan-cache', [PenyimpananController::class, 'bersihkanCache'])->name('storage.bersihkan-cache');
 
     Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
     Route::post('/backup/run', [BackupController::class, 'run'])->name('backup.run');

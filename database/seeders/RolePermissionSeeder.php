@@ -50,6 +50,7 @@ class RolePermissionSeeder extends Seeder
                 'log-view',
                 'filemanager-view',
                 'troubleshoot-view',
+                'storage-view',
             ],
         ];
 
@@ -69,6 +70,7 @@ class RolePermissionSeeder extends Seeder
             'menu-view',
             'backup-view',
             'log-view',
+            'storage-view',
         ];
 
         foreach ($permissions as $group => $perms) {

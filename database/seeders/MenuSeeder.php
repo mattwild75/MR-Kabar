@@ -199,6 +199,19 @@ class MenuSeeder extends Seeder
         // UserFileController::index() & files/Index.tsx), jadi semua user
         // bisa masuk lewat satu menu "File Manager" saja.
 
+        // Storage — pemakaian disk dan penghapusan berkas yang aman. Hanya
+        // super-admin (dijaga PenyimpananController::ensureSuperAdmin);
+        // 'storage-view' masuk daftar superAdminOnly di RolePermissionSeeder.
+        Menu::updateOrCreate(
+            ['title' => 'Storage', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'HardDrive',
+                'route' => '/storage',
+                'order' => 8,
+                'permission_name' => 'storage-view',
+            ]
+        );
+
         // Rekapan laporan troubleshoot — hanya admin/super-admin. Permission
         // 'troubleshoot-view' di-assign ke admin di RolePermissionSeeder;
         // super-admin lolos lewat Gate::before di AuthServiceProvider.
