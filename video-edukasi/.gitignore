@@ -9,6 +9,8 @@ audio/
 frames/
 sfx/
 *.wav
+# MIDI antara dari musik.py (fraud/), dibunyikan FluidSynth menjadi music_bg.wav
+*.mid
 *.mp4
 *.aac
 narration_full.mp3

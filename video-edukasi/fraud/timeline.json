@@ -1,0 +1,761 @@
+{
+  "total_duration": 557.74,
+  "narration_end": 554.74,
+  "lead_in": 1.2,
+  "scenes": [
+    {
+      "id": "s1",
+      "start": 0.0,
+      "end": 37.059,
+      "lines": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "duration": 37.059
+    },
+    {
+      "id": "s2",
+      "start": 37.464,
+      "end": 100.523,
+      "lines": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "duration": 63.059
+    },
+    {
+      "id": "s3",
+      "start": 100.928,
+      "end": 144.347,
+      "lines": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "duration": 43.419
+    },
+    {
+      "id": "s4",
+      "start": 144.752,
+      "end": 260.575,
+      "lines": [
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "duration": 115.823
+    },
+    {
+      "id": "s5",
+      "start": 260.98,
+      "end": 309.619,
+      "lines": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "duration": 48.639
+    },
+    {
+      "id": "s6",
+      "start": 310.024,
+      "end": 346.027,
+      "lines": [
+        31,
+        32,
+        33,
+        34
+      ],
+      "duration": 36.003
+    },
+    {
+      "id": "s7",
+      "start": 346.432,
+      "end": 425.627,
+      "lines": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "duration": 79.195
+    },
+    {
+      "id": "s8",
+      "start": 426.032,
+      "end": 482.731,
+      "lines": [
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "duration": 56.699
+    },
+    {
+      "id": "s9",
+      "start": 483.136,
+      "end": 526.579,
+      "lines": [
+        49,
+        50,
+        51,
+        52
+      ],
+      "duration": 43.443
+    },
+    {
+      "id": "s10",
+      "start": 526.984,
+      "end": 557.74,
+      "lines": [
+        53,
+        54,
+        55,
+        56
+      ],
+      "duration": 30.756
+    }
+  ],
+  "lines": [
+    {
+      "id": 1,
+      "scene": "s1",
+      "voice": "ardi",
+      "text": "Pernahkah Anda melihat sesuatu yang rasanya tidak beres? Anggaran yang habis, tapi hasilnya tidak ada. Pekerjaan yang dibayar, tapi tidak pernah dikerjakan.",
+      "display": "Pernahkah Anda melihat sesuatu yang rasanya tidak beres? Anggaran yang habis, tapi hasilnya tidak ada. Pekerjaan yang dibayar, tapi tidak pernah dikerjakan.",
+      "start": 1.2,
+      "end": 11.424,
+      "duration": 10.224,
+      "audio_file": "line_001.mp3"
+    },
+    {
+      "id": 2,
+      "scene": "s1",
+      "voice": "gadis",
+      "text": "Kalau pernah, video ini untuk Anda.",
+      "display": "Kalau pernah, video ini untuk Anda.",
+      "start": 11.764,
+      "end": 15.7,
+      "duration": 3.936,
+      "audio_file": "line_002.mp3"
+    },
+    {
+      "id": 3,
+      "scene": "s1",
+      "voice": "ardi",
+      "text": "Ini Em-Er Kabar, aplikasi manajemen risiko Pemerintah Kabupaten Aceh Barat yang dikelola Inspektorat. Salah satu pintunya bernama Lapor Dugaan Kecurangan.",
+      "display": "Ini MR Kabar, aplikasi manajemen risiko Pemerintah Kabupaten Aceh Barat yang dikelola Inspektorat. Salah satu pintunya bernama Lapor Dugaan Kecurangan.",
+      "start": 16.04,
+      "end": 25.208,
+      "duration": 9.168,
+      "audio_file": "line_003.mp3"
+    },
+    {
+      "id": 4,
+      "scene": "s1",
+      "voice": "gadis",
+      "text": "Dalam beberapa menit ke depan kita membahas empat hal: apa itu kecurangan, bentuk-bentuknya, tanda-tandanya, dan bagaimana melaporkannya dengan aman.",
+      "display": "Dalam beberapa menit ke depan kita membahas empat hal: apa itu kecurangan, bentuk-bentuknya, tanda-tandanya, dan bagaimana melaporkannya dengan aman.",
+      "start": 25.548,
+      "end": 36.564,
+      "duration": 11.016,
+      "audio_file": "line_004.mp3"
+    },
+    {
+      "id": 5,
+      "scene": "s2",
+      "voice": "ardi",
+      "text": "Mari mulai dari kata dasarnya. Kecurangan, atau frod, adalah perbuatan yang dilakukan dengan sengaja dan melanggar aturan, untuk memperoleh keuntungan yang tidak semestinya, dan merugikan pihak lain.",
+      "display": "Mari mulai dari kata dasarnya. Kecurangan, atau fraud, adalah perbuatan yang dilakukan dengan sengaja dan melanggar aturan, untuk memperoleh keuntungan yang tidak semestinya, dan merugikan pihak lain.",
+      "start": 37.464,
+      "end": 49.152,
+      "duration": 11.688,
+      "audio_file": "line_005.mp3"
+    },
+    {
+      "id": 6,
+      "scene": "s2",
+      "voice": "gadis",
+      "text": "Perhatikan tiga kata kuncinya: sengaja, melanggar aturan, dan keuntungan.",
+      "display": "Perhatikan tiga kata kuncinya: sengaja, melanggar aturan, dan keuntungan.",
+      "start": 49.492,
+      "end": 56.548,
+      "duration": 7.056,
+      "audio_file": "line_006.mp3"
+    },
+    {
+      "id": 7,
+      "scene": "s2",
+      "voice": "ardi",
+      "text": "Sengaja, artinya pelakunya tahu. Ini bukan salah hitung, bukan salah ketik, bukan kelalaian.",
+      "display": "Sengaja, artinya pelakunya tahu. Ini bukan salah hitung, bukan salah ketik, bukan kelalaian.",
+      "start": 56.888,
+      "end": 64.16,
+      "duration": 7.272,
+      "audio_file": "line_007.mp3"
+    },
+    {
+      "id": 8,
+      "scene": "s2",
+      "voice": "gadis",
+      "text": "Melanggar aturan, artinya ada ketentuan yang dilanggar. Bisa undang-undang, bisa peraturan pengadaan, bisa prosedur di kantor.",
+      "display": "Melanggar aturan, artinya ada ketentuan yang dilanggar. Bisa undang-undang, bisa peraturan pengadaan, bisa prosedur di kantor.",
+      "start": 64.5,
+      "end": 75.396,
+      "duration": 10.896,
+      "audio_file": "line_008.mp3"
+    },
+    {
+      "id": 9,
+      "scene": "s2",
+      "voice": "ardi",
+      "text": "Dan keuntungan, artinya ada yang diambil. Uang, barang, fasilitas, jabatan, atau kemudahan, untuk diri sendiri atau orang lain.",
+      "display": "Dan keuntungan, artinya ada yang diambil. Uang, barang, fasilitas, jabatan, atau kemudahan, untuk diri sendiri atau orang lain.",
+      "start": 75.736,
+      "end": 86.104,
+      "duration": 10.368,
+      "audio_file": "line_009.mp3"
+    },
+    {
+      "id": 10,
+      "scene": "s2",
+      "voice": "gadis",
+      "text": "Kalau ketiganya ada bersama-sama, itulah kecurangan. Dan yang dirugikan pada akhirnya adalah masyarakat: jalan yang tidak jadi, obat yang tidak sampai, sekolah yang tidak layak.",
+      "display": "Kalau ketiganya ada bersama-sama, itulah kecurangan. Dan yang dirugikan pada akhirnya adalah masyarakat: jalan yang tidak jadi, obat yang tidak sampai, sekolah yang tidak layak.",
+      "start": 86.444,
+      "end": 100.028,
+      "duration": 13.584,
+      "audio_file": "line_010.mp3"
+    },
+    {
+      "id": 11,
+      "scene": "s3",
+      "voice": "ardi",
+      "text": "Di aplikasi yang sama ada pintu lain: Lapor Kejadian Risiko. Apa bedanya?",
+      "display": "Di aplikasi yang sama ada pintu lain: Lapor Kejadian Risiko. Apa bedanya?",
+      "start": 100.928,
+      "end": 106.808,
+      "duration": 5.88,
+      "audio_file": "line_011.mp3"
+    },
+    {
+      "id": 12,
+      "scene": "s3",
+      "voice": "gadis",
+      "text": "Kejadian risiko adalah hal buruk yang terjadi tanpa niat. Banjir yang merendam arsip, server yang mati, pegawai yang keliru memasukkan angka.",
+      "display": "Kejadian risiko adalah hal buruk yang terjadi tanpa niat. Banjir yang merendam arsip, server yang mati, pegawai yang keliru memasukkan angka.",
+      "start": 107.148,
+      "end": 117.852,
+      "duration": 10.704,
+      "audio_file": "line_012.mp3"
+    },
+    {
+      "id": 13,
+      "scene": "s3",
+      "voice": "ardi",
+      "text": "Kecurangan berbeda pada satu hal: ada niat. Ada orang yang sengaja mengambil keuntungan.",
+      "display": "Kecurangan berbeda pada satu hal: ada niat. Ada orang yang sengaja mengambil keuntungan.",
+      "start": 118.192,
+      "end": 124.456,
+      "duration": 6.264,
+      "audio_file": "line_013.mp3"
+    },
+    {
+      "id": 14,
+      "scene": "s3",
+      "voice": "gadis",
+      "text": "Jadi kalau Anda ragu: tidak ada niat, laporkan sebagai kejadian risiko. Ada niat mengambil keuntungan, laporkan sebagai dugaan kecurangan. Kalau masih ragu juga, pilih salah satu saja. Penindaklanjut yang akan memilahnya.",
+      "display": "Jadi kalau Anda ragu: tidak ada niat, laporkan sebagai kejadian risiko. Ada niat mengambil keuntungan, laporkan sebagai dugaan kecurangan. Kalau masih ragu juga, pilih salah satu saja. Penindaklanjut yang akan memilahnya.",
+      "start": 124.796,
+      "end": 143.852,
+      "duration": 19.056,
+      "audio_file": "line_014.mp3"
+    },
+    {
+      "id": 15,
+      "scene": "s4",
+      "voice": "ardi",
+      "text": "Undang-Undang Nomor 31 Tahun 1999 tentang Pemberantasan Tindak Pidana Korupsi, yang diubah dengan Undang-Undang Nomor 20 Tahun 2001, mengelompokkannya menjadi tujuh bentuk. Mari kenali satu per satu, dengan contoh sehari-hari.",
+      "display": "Undang-Undang Nomor 31 Tahun 1999 tentang Pemberantasan Tindak Pidana Korupsi, yang diubah dengan Undang-Undang Nomor 20 Tahun 2001, mengelompokkannya menjadi tujuh bentuk. Mari kenali satu per satu, dengan contoh sehari-hari.",
+      "start": 144.752,
+      "end": 159.176,
+      "duration": 14.424,
+      "audio_file": "line_015.mp3"
+    },
+    {
+      "id": 16,
+      "scene": "s4",
+      "voice": "gadis",
+      "text": "Satu. Kerugian keuangan negara atau daerah. Volume pekerjaan dikurangi tapi dibayar penuh, harga barang digelembungkan, atau kegiatan fiktif yang hanya ada di laporan.",
+      "display": "Satu. Kerugian keuangan negara atau daerah. Volume pekerjaan dikurangi tapi dibayar penuh, harga barang digelembungkan, atau kegiatan fiktif yang hanya ada di laporan.",
+      "start": 159.516,
+      "end": 173.508,
+      "duration": 13.992,
+      "audio_file": "line_016.mp3"
+    },
+    {
+      "id": 17,
+      "scene": "s4",
+      "voice": "ardi",
+      "text": "Dua. Suap-menyuap. Memberi atau menerima sesuatu supaya sebuah keputusan berpihak: izin yang dipercepat, pemenang yang sudah diatur, sanksi yang dihapuskan.",
+      "display": "Dua. Suap-menyuap. Memberi atau menerima sesuatu supaya sebuah keputusan berpihak: izin yang dipercepat, pemenang yang sudah diatur, sanksi yang dihapuskan.",
+      "start": 173.848,
+      "end": 184.768,
+      "duration": 10.92,
+      "audio_file": "line_017.mp3"
+    },
+    {
+      "id": 18,
+      "scene": "s4",
+      "voice": "gadis",
+      "text": "Tiga. Penggelapan dalam jabatan. Uang atau barang yang dipercayakan karena jabatan, dipakai untuk kepentingan pribadi. Termasuk memalsukan buku atau daftar untuk menutupinya.",
+      "display": "Tiga. Penggelapan dalam jabatan. Uang atau barang yang dipercayakan karena jabatan, dipakai untuk kepentingan pribadi. Termasuk memalsukan buku atau daftar untuk menutupinya.",
+      "start": 185.108,
+      "end": 199.796,
+      "duration": 14.688,
+      "audio_file": "line_018.mp3"
+    },
+    {
+      "id": 19,
+      "scene": "s4",
+      "voice": "ardi",
+      "text": "Empat. Pemerasan. Pegawai yang memakai kewenangannya untuk memaksa orang membayar sesuatu yang seharusnya gratis, atau meminta lebih dari tarif resmi.",
+      "display": "Empat. Pemerasan. Pegawai yang memakai kewenangannya untuk memaksa orang membayar sesuatu yang seharusnya gratis, atau meminta lebih dari tarif resmi.",
+      "start": 200.136,
+      "end": 209.904,
+      "duration": 9.768,
+      "audio_file": "line_019.mp3"
+    },
+    {
+      "id": 20,
+      "scene": "s4",
+      "voice": "gadis",
+      "text": "Lima. Perbuatan curang. Pemborong atau pengawas yang sengaja mengurangi mutu pekerjaan, sehingga bangunan atau barang menjadi tidak aman dipakai.",
+      "display": "Lima. Perbuatan curang. Pemborong atau pengawas yang sengaja mengurangi mutu pekerjaan, sehingga bangunan atau barang menjadi tidak aman dipakai.",
+      "start": 210.244,
+      "end": 221.932,
+      "duration": 11.688,
+      "audio_file": "line_020.mp3"
+    },
+    {
+      "id": 21,
+      "scene": "s4",
+      "voice": "ardi",
+      "text": "Enam. Benturan kepentingan dalam pengadaan. Pejabat yang ikut mengatur pengadaan, padahal ia atau keluarganya punya kepentingan pada perusahaan pesertanya.",
+      "display": "Enam. Benturan kepentingan dalam pengadaan. Pejabat yang ikut mengatur pengadaan, padahal ia atau keluarganya punya kepentingan pada perusahaan pesertanya.",
+      "start": 222.272,
+      "end": 232.352,
+      "duration": 10.08,
+      "audio_file": "line_021.mp3"
+    },
+    {
+      "id": 22,
+      "scene": "s4",
+      "voice": "gadis",
+      "text": "Tujuh. Gratifikasi. Hadiah, uang, tiket, atau fasilitas yang diterima pegawai karena jabatannya dan tidak dilaporkan. Sekalipun diberikan sebagai ucapan terima kasih.",
+      "display": "Tujuh. Gratifikasi. Hadiah, uang, tiket, atau fasilitas yang diterima pegawai karena jabatannya dan tidak dilaporkan. Sekalipun diberikan sebagai ucapan terima kasih.",
+      "start": 232.692,
+      "end": 248.364,
+      "duration": 15.672,
+      "audio_file": "line_022.mp3"
+    },
+    {
+      "id": 23,
+      "scene": "s4",
+      "voice": "ardi",
+      "text": "Anda tidak perlu menghafal ketujuhnya. Di formulir laporan, ketujuh bentuk ini sudah tersedia sebagai pilihan. Pilih yang paling mendekati; penilaian akhirnya oleh penindaklanjut.",
+      "display": "Anda tidak perlu menghafal ketujuhnya. Di formulir laporan, ketujuh bentuk ini sudah tersedia sebagai pilihan. Pilih yang paling mendekati; penilaian akhirnya oleh penindaklanjut.",
+      "start": 248.704,
+      "end": 260.08,
+      "duration": 11.376,
+      "audio_file": "line_023.mp3"
+    },
+    {
+      "id": 24,
+      "scene": "s5",
+      "voice": "gadis",
+      "text": "Kecurangan jarang terlihat langsung. Yang terlihat biasanya tandanya. Inilah beberapa tanda yang patut membuat Anda waspada.",
+      "display": "Kecurangan jarang terlihat langsung. Yang terlihat biasanya tandanya. Inilah beberapa tanda yang patut membuat Anda waspada.",
+      "start": 260.98,
+      "end": 271.228,
+      "duration": 10.248,
+      "audio_file": "line_024.mp3"
+    },
+    {
+      "id": 25,
+      "scene": "s5",
+      "voice": "ardi",
+      "text": "Pekerjaan yang selesai di atas kertas, tapi tidak di lapangan.",
+      "display": "Pekerjaan yang selesai di atas kertas, tapi tidak di lapangan.",
+      "start": 271.568,
+      "end": 275.648,
+      "duration": 4.08,
+      "audio_file": "line_025.mp3"
+    },
+    {
+      "id": 26,
+      "scene": "s5",
+      "voice": "gadis",
+      "text": "Harga yang jauh lebih mahal dari harga pasaran, untuk barang yang sama.",
+      "display": "Harga yang jauh lebih mahal dari harga pasaran, untuk barang yang sama.",
+      "start": 275.988,
+      "end": 281.628,
+      "duration": 5.64,
+      "audio_file": "line_026.mp3"
+    },
+    {
+      "id": 27,
+      "scene": "s5",
+      "voice": "ardi",
+      "text": "Pemenang pengadaan yang selalu perusahaan itu-itu saja, atau syarat yang seolah dibuat untuk satu peserta.",
+      "display": "Pemenang pengadaan yang selalu perusahaan itu-itu saja, atau syarat yang seolah dibuat untuk satu peserta.",
+      "start": 281.968,
+      "end": 287.752,
+      "duration": 5.784,
+      "audio_file": "line_027.mp3"
+    },
+    {
+      "id": 28,
+      "scene": "s5",
+      "voice": "gadis",
+      "text": "Layanan yang seharusnya gratis, tetapi ada tarif tidak resmi yang harus dibayar.",
+      "display": "Layanan yang seharusnya gratis, tetapi ada tarif tidak resmi yang harus dibayar.",
+      "start": 288.092,
+      "end": 294.26,
+      "duration": 6.168,
+      "audio_file": "line_028.mp3"
+    },
+    {
+      "id": 29,
+      "scene": "s5",
+      "voice": "ardi",
+      "text": "Gaya hidup yang jauh melampaui penghasilan, tanpa penjelasan yang masuk akal.",
+      "display": "Gaya hidup yang jauh melampaui penghasilan, tanpa penjelasan yang masuk akal.",
+      "start": 294.6,
+      "end": 299.424,
+      "duration": 4.824,
+      "audio_file": "line_029.mp3"
+    },
+    {
+      "id": 30,
+      "scene": "s5",
+      "voice": "gadis",
+      "text": "Satu tanda saja belum tentu kecurangan. Tapi satu tanda sudah cukup untuk dilaporkan, supaya ada yang memeriksa.",
+      "display": "Satu tanda saja belum tentu kecurangan. Tapi satu tanda sudah cukup untuk dilaporkan, supaya ada yang memeriksa.",
+      "start": 299.764,
+      "end": 309.124,
+      "duration": 9.36,
+      "audio_file": "line_030.mp3"
+    },
+    {
+      "id": 31,
+      "scene": "s6",
+      "voice": "ardi",
+      "text": "Pemerintah Kabupaten Aceh Barat telah menetapkan Peraturan Bupati Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan.",
+      "display": "Pemerintah Kabupaten Aceh Barat telah menetapkan Peraturan Bupati Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan.",
+      "start": 310.024,
+      "end": 316.696,
+      "duration": 6.672,
+      "audio_file": "line_031.mp3"
+    },
+    {
+      "id": 32,
+      "scene": "s6",
+      "voice": "gadis",
+      "text": "Salah satu pilarnya adalah saluran pelaporan yang bisa dipakai siapa saja: pegawai, rekanan, maupun masyarakat.",
+      "display": "Salah satu pilarnya adalah saluran pelaporan yang bisa dipakai siapa saja: pegawai, rekanan, maupun masyarakat.",
+      "start": 317.036,
+      "end": 325.796,
+      "duration": 8.76,
+      "audio_file": "line_032.mp3"
+    },
+    {
+      "id": 33,
+      "scene": "s6",
+      "voice": "ardi",
+      "text": "Saluran itu kini ada di Em-Er Kabar. Tidak perlu akun, tidak perlu datang ke kantor. Cukup pindai kode Kiu-Ar Lapor yang dipasang di kantor-kantor pelayanan dan di halaman Panduan Em-Er Kabar.",
+      "display": "Saluran itu kini ada di MR Kabar. Tidak perlu akun, tidak perlu datang ke kantor. Cukup pindai kode QR Lapor yang dipasang di kantor-kantor pelayanan dan di halaman Panduan MR Kabar.",
+      "start": 326.136,
+      "end": 337.704,
+      "duration": 11.568,
+      "audio_file": "line_033.mp3"
+    },
+    {
+      "id": 34,
+      "scene": "s6",
+      "voice": "gadis",
+      "text": "Laporan Anda masuk langsung ke Inspektorat Kabupaten Aceh Barat, aparat pengawas intern pemerintah daerah.",
+      "display": "Laporan Anda masuk langsung ke Inspektorat Kabupaten Aceh Barat, aparat pengawas intern pemerintah daerah.",
+      "start": 338.044,
+      "end": 345.532,
+      "duration": 7.488,
+      "audio_file": "line_034.mp3"
+    },
+    {
+      "id": 35,
+      "scene": "s7",
+      "voice": "ardi",
+      "text": "Begini caranya. Pertama, pindai kode Kiu-Ar Lapor dengan kamera ponsel. Formulir akan langsung terbuka.",
+      "display": "Begini caranya. Pertama, pindai kode QR Lapor dengan kamera ponsel. Formulir akan langsung terbuka.",
+      "start": 346.432,
+      "end": 354.64,
+      "duration": 8.208,
+      "audio_file": "line_035.mp3"
+    },
+    {
+      "id": 36,
+      "scene": "s7",
+      "voice": "gadis",
+      "text": "Kedua, pilih tab Dugaan Kecurangan.",
+      "display": "Kedua, pilih tab Dugaan Kecurangan.",
+      "start": 354.98,
+      "end": 358.916,
+      "duration": 3.936,
+      "audio_file": "line_036.mp3"
+    },
+    {
+      "id": 37,
+      "scene": "s7",
+      "voice": "ardi",
+      "text": "Ketiga, tentukan identitas Anda. Ada tiga pilihan: terbuka, anonim tetapi bisa dihubungi, atau anonim penuh.",
+      "display": "Ketiga, tentukan identitas Anda. Ada tiga pilihan: terbuka, anonim tetapi bisa dihubungi, atau anonim penuh.",
+      "start": 359.256,
+      "end": 368.016,
+      "duration": 8.76,
+      "audio_file": "line_037.mp3"
+    },
+    {
+      "id": 38,
+      "scene": "s7",
+      "voice": "gadis",
+      "text": "Keempat, ceritakan kejadiannya. Formulir menuntun Anda dengan lima pertanyaan: apa yang terjadi, di mana, kapan, siapa yang diduga terlibat, dan bagaimana kejadiannya.",
+      "display": "Keempat, ceritakan kejadiannya. Formulir menuntun Anda dengan lima pertanyaan: apa yang terjadi, di mana, kapan, siapa yang diduga terlibat, dan bagaimana kejadiannya.",
+      "start": 368.356,
+      "end": 382.804,
+      "duration": 14.448,
+      "audio_file": "line_038.mp3"
+    },
+    {
+      "id": 39,
+      "scene": "s7",
+      "voice": "ardi",
+      "text": "Tulislah seperti bercerita kepada teman. Tidak perlu bahasa hukum. Yang penting jelas, dan sesuai yang Anda ketahui.",
+      "display": "Tulislah seperti bercerita kepada teman. Tidak perlu bahasa hukum. Yang penting jelas, dan sesuai yang Anda ketahui.",
+      "start": 383.144,
+      "end": 391.4,
+      "duration": 8.256,
+      "audio_file": "line_039.mp3"
+    },
+    {
+      "id": 40,
+      "scene": "s7",
+      "voice": "gadis",
+      "text": "Kelima, lengkapi keterangan tambahan bila Anda tahu: perangkat daerah terkait, tahapan proses, dugaan bentuk kecurangannya, dan perkiraan kerugiannya.",
+      "display": "Kelima, lengkapi keterangan tambahan bila Anda tahu: perangkat daerah terkait, tahapan proses, dugaan bentuk kecurangannya, dan perkiraan kerugiannya.",
+      "start": 391.74,
+      "end": 403.26,
+      "duration": 11.52,
+      "audio_file": "line_040.mp3"
+    },
+    {
+      "id": 41,
+      "scene": "s7",
+      "voice": "ardi",
+      "text": "Keenam, lampirkan bukti jika ada: foto, tangkapan layar, atau dokumen Pe-De-Ef, paling banyak lima berkas. Tanpa bukti pun laporan tetap diterima.",
+      "display": "Keenam, lampirkan bukti jika ada: foto, tangkapan layar, atau dokumen PDF, paling banyak lima berkas. Tanpa bukti pun laporan tetap diterima.",
+      "start": 403.6,
+      "end": 414.112,
+      "duration": 10.512,
+      "audio_file": "line_041.mp3"
+    },
+    {
+      "id": 42,
+      "scene": "s7",
+      "voice": "gadis",
+      "text": "Terakhir, tekan tombol Lapor Dugaan Kecurangan. Anda akan menerima nomor tiket dan kode akses. Simpan keduanya.",
+      "display": "Terakhir, tekan tombol Lapor Dugaan Kecurangan. Anda akan menerima nomor tiket dan kode akses. Simpan keduanya.",
+      "start": 414.452,
+      "end": 425.132,
+      "duration": 10.68,
+      "audio_file": "line_042.mp3"
+    },
+    {
+      "id": 43,
+      "scene": "s8",
+      "voice": "ardi",
+      "text": "Sekarang bagian yang paling sering ditanyakan: amankah saya?",
+      "display": "Sekarang bagian yang paling sering ditanyakan: amankah saya?",
+      "start": 426.032,
+      "end": 429.872,
+      "duration": 3.84,
+      "audio_file": "line_043.mp3"
+    },
+    {
+      "id": 44,
+      "scene": "s8",
+      "voice": "gadis",
+      "text": "Pada mode anonim penuh, aplikasi tidak menyimpan nama, imel, maupun nomor telepon Anda. Tidak ada yang bisa menghubungi Anda, karena datanya memang tidak ada.",
+      "display": "Pada mode anonim penuh, aplikasi tidak menyimpan nama, email, maupun nomor telepon Anda. Tidak ada yang bisa menghubungi Anda, karena datanya memang tidak ada.",
+      "start": 430.212,
+      "end": 443.004,
+      "duration": 12.792,
+      "audio_file": "line_044.mp3"
+    },
+    {
+      "id": 45,
+      "scene": "s8",
+      "voice": "ardi",
+      "text": "Foto yang Anda lampirkan dibersihkan dari meta data: lokasi, jenis ponsel, dan waktu pemotretan dihapus sebelum disimpan.",
+      "display": "Foto yang Anda lampirkan dibersihkan dari metadata: lokasi, jenis ponsel, dan waktu pemotretan dihapus sebelum disimpan.",
+      "start": 443.344,
+      "end": 450.832,
+      "duration": 7.488,
+      "audio_file": "line_045.mp3"
+    },
+    {
+      "id": 46,
+      "scene": "s8",
+      "voice": "gadis",
+      "text": "Kode akses tidak bisa dipulihkan kalau hilang. Memulihkannya menuntut identitas Anda, dan itu persis yang sedang dijaga. Karena itu, simpan baik-baik.",
+      "display": "Kode akses tidak bisa dipulihkan kalau hilang. Memulihkannya menuntut identitas Anda, dan itu persis yang sedang dijaga. Karena itu, simpan baik-baik.",
+      "start": 451.172,
+      "end": 464.18,
+      "duration": 13.008,
+      "audio_file": "line_046.mp3"
+    },
+    {
+      "id": 47,
+      "scene": "s8",
+      "voice": "ardi",
+      "text": "Anda tidak perlu yakin seratus persen. Yang Anda laporkan adalah dugaan, dan memeriksanya adalah tugas Inspektorat.",
+      "display": "Anda tidak perlu yakin seratus persen. Yang Anda laporkan adalah dugaan, dan memeriksanya adalah tugas Inspektorat.",
+      "start": 464.52,
+      "end": 471.984,
+      "duration": 7.464,
+      "audio_file": "line_047.mp3"
+    },
+    {
+      "id": 48,
+      "scene": "s8",
+      "voice": "gadis",
+      "text": "Tapi jangan mengarang. Laporan palsu merugikan orang yang tidak bersalah, dan mengalihkan perhatian dari kecurangan yang sungguh terjadi.",
+      "display": "Tapi jangan mengarang. Laporan palsu merugikan orang yang tidak bersalah, dan mengalihkan perhatian dari kecurangan yang sungguh terjadi.",
+      "start": 472.324,
+      "end": 482.236,
+      "duration": 9.912,
+      "audio_file": "line_048.mp3"
+    },
+    {
+      "id": 49,
+      "scene": "s9",
+      "voice": "ardi",
+      "text": "Apa yang terjadi setelah tombol ditekan? Laporan Anda ditelaah Inspektorat: apakah cukup jelas, dan berkaitan dengan perangkat daerah yang mana.",
+      "display": "Apa yang terjadi setelah tombol ditekan? Laporan Anda ditelaah Inspektorat: apakah cukup jelas, dan berkaitan dengan perangkat daerah yang mana.",
+      "start": 483.136,
+      "end": 491.896,
+      "duration": 8.76,
+      "audio_file": "line_049.mp3"
+    },
+    {
+      "id": 50,
+      "scene": "s9",
+      "voice": "gadis",
+      "text": "Bila perlu keterangan tambahan, penindaklanjut menulis pertanyaan di tiket Anda. Anda menjawabnya lewat tab Cek Status Laporan, dengan nomor tiket dan kode akses tadi.",
+      "display": "Bila perlu keterangan tambahan, penindaklanjut menulis pertanyaan di tiket Anda. Anda menjawabnya lewat tab Cek Status Laporan, dengan nomor tiket dan kode akses tadi.",
+      "start": 492.236,
+      "end": 504.716,
+      "duration": 12.48,
+      "audio_file": "line_050.mp3"
+    },
+    {
+      "id": 51,
+      "scene": "s9",
+      "voice": "ardi",
+      "text": "Status laporan bergerak dari Baru, Diverifikasi, Ditindaklanjuti, sampai Selesai. Anda bisa memantaunya kapan saja, tanpa perlu menghubungi siapa pun.",
+      "display": "Status laporan bergerak dari Baru, Diverifikasi, Ditindaklanjuti, sampai Selesai. Anda bisa memantaunya kapan saja, tanpa perlu menghubungi siapa pun.",
+      "start": 505.056,
+      "end": 515.688,
+      "duration": 10.632,
+      "audio_file": "line_051.mp3"
+    },
+    {
+      "id": 52,
+      "scene": "s9",
+      "voice": "gadis",
+      "text": "Laporan yang terbukti menjadi bahan pemeriksaan, dan perbaikan pengendaliannya dicatat sebagai risiko kecurangan di Em-Er Kabar, supaya tidak terulang.",
+      "display": "Laporan yang terbukti menjadi bahan pemeriksaan, dan perbaikan pengendaliannya dicatat sebagai risiko kecurangan di MR Kabar, supaya tidak terulang.",
+      "start": 516.028,
+      "end": 526.084,
+      "duration": 10.056,
+      "audio_file": "line_052.mp3"
+    },
+    {
+      "id": 53,
+      "scene": "s10",
+      "voice": "ardi",
+      "text": "Kecurangan bertahan karena dua hal: ada yang melakukan, dan tidak ada yang melapor.",
+      "display": "Kecurangan bertahan karena dua hal: ada yang melakukan, dan tidak ada yang melapor.",
+      "start": 526.984,
+      "end": 532.144,
+      "duration": 5.16,
+      "audio_file": "line_053.mp3"
+    },
+    {
+      "id": 54,
+      "scene": "s10",
+      "voice": "gadis",
+      "text": "Anda tidak bisa mengendalikan yang pertama. Tapi yang kedua ada di tangan Anda.",
+      "display": "Anda tidak bisa mengendalikan yang pertama. Tapi yang kedua ada di tangan Anda.",
+      "start": 532.484,
+      "end": 539.084,
+      "duration": 6.6,
+      "audio_file": "line_054.mp3"
+    },
+    {
+      "id": 55,
+      "scene": "s10",
+      "voice": "ardi",
+      "text": "Pindai, ceritakan, simpan tiketnya. Selebihnya, biar Inspektorat yang bekerja.",
+      "display": "Pindai, ceritakan, simpan tiketnya. Selebihnya, biar Inspektorat yang bekerja.",
+      "start": 539.424,
+      "end": 546.312,
+      "duration": 6.888,
+      "audio_file": "line_055.mp3"
+    },
+    {
+      "id": 56,
+      "scene": "s10",
+      "voice": "gadis",
+      "text": "Em-Er Kabar, Inspektorat Kabupaten Aceh Barat. Risiko terkabar, Daerah Terjaga.",
+      "display": "MR Kabar, Inspektorat Kabupaten Aceh Barat. Risiko terKabar, Daerah Terjaga.",
+      "start": 546.652,
+      "end": 554.74,
+      "duration": 8.088,
+      "audio_file": "line_056.mp3"
+    }
+  ]
+}

@@ -379,6 +379,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // permission menu. Form tetap terbuka utk siapa saja yg login
     // (termasuk akun bersama LAPOR).
     Route::get('/lapor-kejadian', [LaporanKejadianController::class, 'create'])->name('lapor-kejadian.create');
+    Route::get('/lapor-kejadian/video-kecurangan', [LaporanKejadianController::class, 'videoKecurangan'])->name('lapor-kejadian.video-kecurangan');
     // Throttle: endpoint pencarian ini bisa diakses akun bersama LAPOR
     // (publik lewat QR code, bukan akun personal) — tanpa batas laju,
     // siapa pun yang memegang kredensial publik itu bisa scraping seluruh

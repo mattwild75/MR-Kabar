@@ -44,6 +44,22 @@ class LaporanKejadianController extends Controller
     }
 
     /**
+     * Video edukasi Lapor Dugaan Kecurangan — halaman pemutar tersendiri di
+     * bawah /lapor-kejadian supaya akun bersama LAPOR (yang masuk lewat kode
+     * QR) boleh membukanya (RestrictLaporRisikoRole). Video kejadian risiko
+     * TIDAK dibuatkan halaman serupa: sudah ada di /panduan#video-edukasi,
+     * yang juga termasuk prefix yang diizinkan untuk akun itu.
+     */
+    public function videoKecurangan()
+    {
+        return Inertia::render('lapor-kejadian/VideoKecurangan', [
+            // Penanda versi berkas, alasannya sama dengan eduVideoVersion di
+            // HandleInertiaRequests: nama berkas tidak berubah antar-deploy.
+            'versi' => @filemtime(public_path('video/video-edukasi-kecurangan.mp4')) ?: null,
+        ]);
+    }
+
+    /**
      * Cari risiko terdaftar (IRS Pemda/PD, IRO PD) untuk mode "cek risiko
      * yang sudah terjadi" — dipakai combobox pencarian di form lapor.
      */
