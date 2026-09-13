@@ -44,16 +44,19 @@ class Rpp extends Model
         'dengan_penutup' => 'boolean',
     ];
 
+    /** @return BelongsTo<RppCategory, $this> */
     public function category(): BelongsTo
     {
         return $this->belongsTo(RppCategory::class, 'rpp_category_id');
     }
 
+    /** @return BelongsTo<User, $this> */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
+    /** @return HasMany<RppPenugasan, $this> */
     public function penugasan(): HasMany
     {
         return $this->hasMany(RppPenugasan::class)->orderBy('urutan');

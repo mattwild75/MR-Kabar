@@ -232,7 +232,7 @@ class RppTest extends TestCase
             ->where("stTerakhir.{$rpp->rpp_category_id}|2026.kode", 'AKJ'));
     }
 
-    public function test_tata_naskah_per_rpp_dan_unduh_word_dari_data_maupun_suntingan(): void
+    public function test_tata_naskah_per_rpp_dan_pengantar_word_dari_data_maupun_suntingan(): void
     {
         $u = User::factory()->create();
         $this->actingAs($u)->post('/rpp', $this->muatanRpp(['penugasan' => [
@@ -243,11 +243,11 @@ class RppTest extends TestCase
         $this->actingAs($u)->get("/rpp-cetak/{$rpp->id}/tata-naskah/preview")->assertOk()
             ->assertInertia(fn ($page) => $page->where('rpp.id', $rpp->id)->has('baris', 1)->where('baris.0.nomor_kp', 'KP-01/AKJ-INS/2026'));
 
-        $word = $this->actingAs($u)->get("/rpp-cetak/{$rpp->id}/tata-naskah/word")->assertOk();
+        $word = $this->actingAs($u)->get("/rpp-cetak/{$rpp->id}/pengantar/word")->assertOk();
         $this->assertStringContainsString('wordprocessingml', $word->headers->get('Content-Type'));
         $this->assertStringStartsWith('PK', $word->getContent());
 
-        $suntingan = $this->actingAs($u)->post('/rpp-cetak/tata-naskah/word', ['html' => '<div><b>TATA NASKAH UJI</b><table><tr><td>1</td><td>700/01/RPP-AKJ/INS/2026</td></tr></table></div>'])->assertOk();
+        $suntingan = $this->actingAs($u)->post("/rpp-cetak/{$rpp->id}/pengantar/word", ['html' => '<div><img src="/images/erpika/kop-inspektorat.png"><p>Nomor : 700/01/RPP-AKJ/INS/2026</p><ol><li>Dasar <b>diketik ulang</b>.</li></ol></div>'])->assertOk();
         $this->assertStringStartsWith('PK', $suntingan->getContent());
 
         $lain = User::factory()->create();

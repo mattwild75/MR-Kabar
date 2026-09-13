@@ -145,21 +145,25 @@ class RppPenugasan extends Model
         return (int) $this->teamMembers->sum(fn ($m) => (int) $m->hari_lapangan * (int) ($m->tarif_per_hari ?: $tarif));
     }
 
+    /** @return BelongsTo<Rpp, $this> */
     public function rpp(): BelongsTo
     {
         return $this->belongsTo(Rpp::class);
     }
 
+    /** @return HasMany<RppTeamMember, $this> */
     public function teamMembers(): HasMany
     {
         return $this->hasMany(RppTeamMember::class)->orderBy('order');
     }
 
+    /** @return HasMany<RppObrik, $this> */
     public function obriks(): HasMany
     {
         return $this->hasMany(RppObrik::class)->orderBy('order');
     }
 
+    /** @return HasMany<RppLaporan, $this> */
     public function laporans(): HasMany
     {
         return $this->hasMany(RppLaporan::class)->orderBy('order');

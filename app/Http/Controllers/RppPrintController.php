@@ -7,9 +7,9 @@ use App\Models\RppCategory;
 use App\Models\RppPenugasan;
 use App\Models\RppSetting;
 use App\Models\RppTeamMember;
+use App\Services\NaskahWordService;
 use App\Services\PdfPrintService;
 use App\Services\RppExcelService;
-use App\Services\TataNaskahWordService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -41,45 +41,6 @@ class RppPrintController extends Controller
         $url = $rpp ? url("/rpp-cetak/{$rpp->id}/tata-naskah/preview") : url('/rpp-cetak/tata-naskah/preview?'.$q);
 
         return PdfPrintService::downloadFromUrl($request, $url, 'Tata-Naskah-'.($rpp ? str($rpp->nomor_rpp)->slug()->limit(40, '') : $request->input('tahun', now()->year)));
-    }
-
-    /** Unduh Word dari data (GET) atau dari HTML hasil suntingan pratinjau (POST html). */
-    public function tataNaskahWord(Request $request, TataNaskahWordService $word, ?Rpp $rpp = null)
-    {
-        $nama = 'Tata-Naskah-'.($rpp ? str($rpp->nomor_rpp)->slug()->limit(40, '') : $request->input('tahun', now()->year)).'.docx';
-        if ($request->isMethod('post') && $request->filled('html')) {
-            $isi = $word->dariHtml((string) $request->input('html'));
-        } else {
-            $d = $this->dataTataNaskah($request, $rpp);
-            $isi = $word->dariData(['judul' => $d['judul'], 'tahun' => $d['tahun'], 'kolomTim' => $d['kolomTim'], 'baris' => $d['baris']]);
-        }
-
-        return response($isi, 200, [
-            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-            'Content-Disposition' => 'attachment; filename="'.$nama.'"',
-        ]);
-    }
-
-    /**
-     * PDF dari pratinjau yang sudah disunting: HTML suntingan disimpan
-     * sementara (10 menit) lalu dirender Browsershot lewat halaman
-     * /rpp-cetak/tata-naskah/suntingan/{token} — sama dengan tombol Unduh
-     * PDF lainnya, hanya isinya dari ketikan pengguna.
-     */
-    public function tataNaskahPdfSuntingan(Request $request)
-    {
-        $data = $request->validate(['html' => ['required', 'string', 'max:2000000'], 'nama' => ['nullable', 'string', 'max:80']]);
-        $token = Str::random(32);
-        Cache::put('naskah-suntingan:'.$token, $data['html'], 600);
-
-        return PdfPrintService::downloadFromUrl($request, url('/rpp-cetak/tata-naskah/suntingan/'.$token), $data['nama'] ?? 'Tata-Naskah-suntingan');
-    }
-
-    public function tataNaskahSuntingan(string $token)
-    {
-        $html = Cache::get('naskah-suntingan:'.$token) ?? abort(404);
-
-        return Inertia::render('rpp/PreviewTataNaskah', ['suntingan' => $html, 'tahun' => now()->year, 'jenis' => null, 'rpp' => null, 'categories' => [], 'tahunTersedia' => [], 'baris' => [], 'judul' => '', 'kolomTim' => 'KETUA TIM']);
     }
 
     private function dataTataNaskah(Request $request, ?Rpp $rpp = null): array
@@ -163,6 +124,47 @@ class RppPrintController extends Controller
         $excel->simpanKe($rpp, $sementara);
 
         return response()->download($sementara, $nama, ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend(true);
+    }
+
+    /** Unduh Word surat pengantar: dari data (GET) atau dari HTML hasil suntingan pratinjau (POST html). */
+    public function pengantarWord(Request $request, Rpp $rpp, NaskahWordService $word)
+    {
+        $this->authorizeView($request, $rpp);
+        $nama = 'RPP-Pengantar-'.str($rpp->nomor_rpp)->slug()->limit(40, '').'.docx';
+        if ($request->isMethod('post') && $request->filled('html')) {
+            $isi = $word->dariHtml((string) $request->input('html'));
+        } else {
+            $d = $this->dataPengantar($rpp);
+            $isi = $word->pengantarDariData($d['rpp'], $d['inspektur']);
+        }
+
+        return response($isi, 200, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'Content-Disposition' => 'attachment; filename="'.$nama.'"',
+        ]);
+    }
+
+    /**
+     * PDF surat pengantar yang sudah disunting di pratinjau: HTML suntingan
+     * disimpan sementara (10 menit) lalu dirender Browsershot lewat
+     * /rpp-cetak/pengantar/suntingan/{token} — jalur yang sama dengan Unduh
+     * PDF biasa, hanya isinya dari ketikan pengguna. Data RPP tidak berubah.
+     */
+    public function pengantarPdfSuntingan(Request $request, Rpp $rpp)
+    {
+        $this->authorizeView($request, $rpp);
+        $data = $request->validate(['html' => ['required', 'string', 'max:2000000']]);
+        $token = Str::random(32);
+        Cache::put('pengantar-suntingan:'.$token, $data['html'], 600);
+
+        return PdfPrintService::downloadFromUrl($request, url('/rpp-cetak/pengantar/suntingan/'.$token), 'RPP-Pengantar-'.str($rpp->nomor_rpp)->slug()->limit(40, '').'-suntingan');
+    }
+
+    public function pengantarSuntingan(string $token)
+    {
+        $html = Cache::get('pengantar-suntingan:'.$token) ?? abort(404);
+
+        return Inertia::render('rpp/PreviewPengantar', ['suntingan' => $html, 'rpp' => null, 'inspektur' => null]);
     }
 
     public function pengantar(Request $request, Rpp $rpp)

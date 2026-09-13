@@ -22,3 +22,12 @@ parameters:
         # tetap ditagih.
         - identifier: property.notFound
         - identifier: nullsafe.neverNull
+        # Closure map() atas Collection Eloquent: penalaran generik PHPStan, bukan kekeliruan.
+        - identifier: argument.unresolvableType
+        # Larastan membaca enum `role` dari migrasi pembuat tabel yang lama
+        # (koordinator/ppj/...), padahal kolomnya sudah diubah ke pj/wpj/dalnis/kt/at.
+        -
+            identifier: nullCoalesce.offset
+            paths:
+                - app/Http/Controllers/Erpika/AnevaController.php
+                - app/Services/AnevaExcelService.php
