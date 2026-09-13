@@ -45,6 +45,9 @@ php artisan migrate --force 2>&1 | grep -E 'DONE|Nothing to migrate|FAIL|Error' 
 if [ "$SEBELUM" != "$SESUDAH" ] && git diff --name-only "$SEBELUM" "$SESUDAH" | grep -q '^package-lock.json$'; then
   echo "package-lock.json berubah: npm install" | tee -a "$LOG"
   npm install --no-audit --no-fund 2>&1 | tail -1 | tee -a "$LOG"
+  # npm di Linux menulis ulang package-lock.json (biner platform); kembalikan
+  # supaya pohon kerja tetap bersih dan pull berikutnya tidak ditolak.
+  git checkout -- package-lock.json 2>/dev/null || true
 fi
 npm run build 2>&1 | grep -E 'built in|error' | tee -a "$LOG"
 
