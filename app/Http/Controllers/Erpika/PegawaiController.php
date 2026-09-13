@@ -121,6 +121,58 @@ class PegawaiController extends Controller
         ]);
     }
 
+    /**
+     * Kalender penugasan seorang pegawai untuk satu tahun (bawaan: tahun
+     * berjalan) — dipakai popover di formulir RPP supaya penyusun tahu
+     * kapan orang itu sudah terjadwal. Posisi batang dalam satuan bulan
+     * (0..12), proporsional terhadap hari.
+     */
+    public function kalender(Request $request, Employee $employee)
+    {
+        $tahun = (int) $request->input('tahun', now()->year);
+        $mulai = now()->setDate($tahun, 1, 1)->startOfDay();
+        $selesai = $mulai->copy()->endOfYear();
+        $posisi = fn ($t) => ($t->month - 1) + ($t->day - 1) / $t->daysInMonth;
+
+        $daftar = RppPenugasan::query()
+            ->with(['rpp:id,nomor_rpp,year,rpp_category_id', 'rpp.category:id,name', 'teamMembers' => fn ($q) => $q->where('employee_id', $employee->id)])
+            ->whereHas('teamMembers', fn ($q) => $q->where('employee_id', $employee->id))
+            ->whereNotNull('masa_tugas_mulai')->whereNotNull('masa_tugas_selesai')
+            ->where('status', '!=', 'batal')
+            ->where('masa_tugas_mulai', '<=', $selesai->toDateString())
+            ->where('masa_tugas_selesai', '>=', $mulai->toDateString())
+            ->orderBy('masa_tugas_mulai')->get()
+            ->map(function (RppPenugasan $p) use ($mulai, $selesai, $posisi) {
+                $a = $p->masa_tugas_mulai->lt($mulai) ? $mulai : $p->masa_tugas_mulai;
+                $b = $p->masa_tugas_selesai->gt($selesai) ? $selesai : $p->masa_tugas_selesai;
+                $m = $p->teamMembers->first();
+
+                return [
+                    'id' => $p->id,
+                    'rpp_id' => $p->rpp_id,
+                    'nomor_st' => $p->nomor_st,
+                    'nomor_rpp' => $p->rpp?->nomor_rpp,
+                    'jenis' => $p->rpp?->category?->name,
+                    'uraian' => $p->uraian,
+                    'status' => $p->status,
+                    'peran' => $m?->peranTampil(),
+                    'lk' => (int) ($m?->hari_lapangan ?? 0),
+                    'mulai' => $p->masa_tugas_mulai->toDateString(),
+                    'selesai' => $p->masa_tugas_selesai->toDateString(),
+                    'dari' => $posisi($a),
+                    'sampai' => min(12.0, $posisi($b) + 1 / $b->daysInMonth),
+                ];
+            })->values();
+
+        return response()->json([
+            'tahun' => $tahun,
+            'nama' => $employee->nama,
+            'penugasan' => $daftar,
+            'hari_lk' => $daftar->sum('lk'),
+            'bulan_ini' => now()->year === $tahun ? now()->month : null,
+        ]);
+    }
+
     private function ringkasanPenugasan(Employee $e): array
     {
         $daftar = RppPenugasan::whereHas('teamMembers', fn ($q) => $q->where('employee_id', $e->id))

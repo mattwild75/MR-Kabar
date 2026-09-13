@@ -335,6 +335,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/beban-kerja', [AnalisisController::class, 'bebanKerja'])->name('erpika.beban-kerja');
     Route::get('/erpika/pegawai', [PegawaiController::class, 'index'])->name('erpika.pegawai.index');
     Route::get('/erpika/pegawai/{employee}/ringkasan', [PegawaiController::class, 'ringkasan'])->name('erpika.pegawai.ringkasan');
+    Route::get('/erpika/pegawai/{employee}/kalender', [PegawaiController::class, 'kalender'])->name('erpika.pegawai.kalender');
     Route::post('/erpika/pegawai', [PegawaiController::class, 'store'])->name('erpika.pegawai.store');
     Route::put('/erpika/pegawai/{employee}', [PegawaiController::class, 'update'])->name('erpika.pegawai.update');
     Route::delete('/erpika/pegawai/{employee}', [PegawaiController::class, 'destroy'])->name('erpika.pegawai.destroy');

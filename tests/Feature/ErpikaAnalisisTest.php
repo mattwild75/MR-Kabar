@@ -100,4 +100,18 @@ class ErpikaAnalisisTest extends TestCase
             ->where('total.lk', 28)
             ->where('total.penugasan', 2));
     }
+
+    public function test_kalender_pegawai_tahun_berjalan_untuk_popover_formulir_rpp(): void
+    {
+        $u = User::factory()->create();
+        [, $erfendi] = $this->contoh($u);
+
+        $j = $this->actingAs($u)->getJson("/erpika/pegawai/{$erfendi->id}/kalender?tahun=2026")->assertOk()->json();
+        $this->assertSame(2026, $j['tahun']);
+        $this->assertCount(2, $j['penugasan']);
+        $this->assertSame(20, $j['hari_lk']);
+        $this->assertEqualsWithDelta(19 / 31, $j['penugasan'][0]['dari'], 0.001);
+        $this->assertSame('Ketua Tim', $j['penugasan'][0]['peran']);
+        $this->assertCount(0, $this->actingAs($u)->getJson("/erpika/pegawai/{$erfendi->id}/kalender?tahun=2025")->json('penugasan'));
+    }
 }

@@ -1,4 +1,5 @@
 import InfoPegawai from '@/components/erpika/info-pegawai';
+import KalenderPegawai from '@/components/erpika/kalender-pegawai';
 import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -700,6 +701,7 @@ export default function RppForm({
                                                                     />
                                                                 </div>
                                                                 <InfoPegawai employeeId={m.employee_id} nama={m.nama} />
+                                                                <KalenderPegawai employeeId={m.employee_id} nama={m.nama} />
                                                             </div>
                                                             {galat(`penugasan.${i}.tim.${j}.nama`) && (
                                                                 <p className="text-destructive">{galat(`penugasan.${i}.tim.${j}.nama`)}</p>
