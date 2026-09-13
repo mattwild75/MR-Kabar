@@ -13,6 +13,8 @@ use App\Services\IngatanRingkasanService;
 use App\Services\PdfPrintService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 /**
@@ -144,6 +146,54 @@ class AnevaController extends Controller
         return $q;
     }
 
+    /**
+     * Isian Bagian Aneva untuk satu penugasan: nomor/tanggal/jenis laporan per
+     * obrik (dan laporan tanpa obrik), status, capaian, keterangan. Ini
+     * satu-satunya tempat laporan diisi — RPP Perencanaan tidak lagi
+     * menyediakannya.
+     */
+    public function simpanLaporan(Request $request, RppPenugasan $penugasan)
+    {
+        abort_unless($request->user()->canViewAllOpd() || (int) $penugasan->rpp?->user_id === (int) $request->user()->id, 403, 'Isian aneva hanya untuk admin atau pembuat RPP.');
+        $v = $request->validate([
+            'obriks' => ['nullable', 'array'],
+            'obriks.*.id' => ['required', 'integer'],
+            'obriks.*.nomor' => ['nullable', 'string', 'max:255'],
+            'obriks.*.tanggal' => ['nullable', 'date'],
+            'obriks.*.jenis' => ['nullable', 'string', 'max:20'],
+            'lain' => ['nullable', 'array'],
+            'lain.*.nomor' => ['required', 'string', 'max:255'],
+            'lain.*.tanggal' => ['nullable', 'date'],
+            'lain.*.jenis' => ['nullable', 'string', 'max:20'],
+            'status' => ['required', Rule::in(RppPenugasan::STATUS)],
+            'capaian_output' => ['nullable', 'string', 'max:255'],
+            'keterangan' => ['nullable', 'string', 'max:500'],
+        ]);
+        $idObrik = $penugasan->obriks()->pluck('id')->all();
+
+        DB::transaction(function () use ($penugasan, $v, $idObrik) {
+            $penugasan->laporans()->delete();
+            $order = 0;
+            foreach ($v['obriks'] ?? [] as $o) {
+                if (! in_array((int) $o['id'], $idObrik, true) || blank($o['nomor'] ?? null)) {
+                    continue;
+                }
+                $penugasan->laporans()->create(['rpp_obrik_id' => $o['id'], 'nomor_laporan' => trim($o['nomor']), 'tanggal_laporan' => $o['tanggal'] ?? null, 'jenis' => $o['jenis'] ?? null, 'order' => $order++]);
+            }
+            foreach ($v['lain'] ?? [] as $l) {
+                $penugasan->laporans()->create(['rpp_obrik_id' => null, 'nomor_laporan' => trim($l['nomor']), 'tanggal_laporan' => $l['tanggal'] ?? null, 'jenis' => $l['jenis'] ?? null, 'order' => $order++]);
+            }
+            $penugasan->update([
+                'status' => $v['status'],
+                'capaian_output' => $v['capaian_output'] ?? null,
+                'keterangan' => $v['keterangan'] ?? null,
+                'sinkron_aneva_pada' => now(),
+            ]);
+        });
+
+        return redirect()->back()->with('success', 'Isian aneva '.($penugasan->nomor_st ?? $penugasan->uraian).' disimpan.');
+    }
+
     private function baris(RppPenugasan $p, int $no): array
     {
         $laporanObrik = $p->laporans->whereNotNull('rpp_obrik_id')->keyBy('rpp_obrik_id');
@@ -160,6 +210,7 @@ class AnevaController extends Controller
             'tanggal_st' => $p->tanggal_st?->toDateString(),
             'uraian' => $p->uraian,
             'obriks' => $p->obriks->map(fn ($o) => [
+                'id' => $o->id,
                 'nama' => $o->nama,
                 'laporan' => ($l = $laporanObrik->get($o->id)) ? ['nomor' => $l->nomor_laporan, 'tanggal' => $l->tanggal_laporan?->toDateString(), 'jenis' => $l->jenis] : null,
             ])->all(),

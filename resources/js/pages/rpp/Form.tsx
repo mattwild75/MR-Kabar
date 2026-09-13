@@ -875,53 +875,10 @@ export default function RppForm({
                                                 placeholder="mis. TMT 12 Maret - 9 April 2025"
                                             />
                                         </div>
-                                        <div className="space-y-2 md:col-span-4">
-                                            <div className="flex items-center justify-between">
-                                                <Label>Laporan (LHP) terbit</Label>
-                                                <Button
-                                                    type="button"
-                                                    size="sm"
-                                                    variant="outline"
-                                                    onClick={() =>
-                                                        ubahPenugasan(i, { laporans: [...p.laporans, { nomor_laporan: '', tanggal_laporan: '' }] })
-                                                    }
-                                                >
-                                                    <Plus className="mr-1 h-3.5 w-3.5" /> Laporan
-                                                </Button>
-                                            </div>
-                                            {p.laporans.map((l, k) => (
-                                                <div key={k} className="flex flex-wrap items-center gap-2">
-                                                    <Input
-                                                        className="flex-1 font-mono text-xs"
-                                                        placeholder="Nomor laporan"
-                                                        value={l.nomor_laporan}
-                                                        onChange={(e) =>
-                                                            ubahPenugasan(i, {
-                                                                laporans: p.laporans.map((x, y) =>
-                                                                    y === k ? { ...x, nomor_laporan: e.target.value } : x,
-                                                                ),
-                                                            })
-                                                        }
-                                                    />
-                                                    <DatePicker
-                                                        value={l.tanggal_laporan}
-                                                        onChange={(v) =>
-                                                            ubahPenugasan(i, {
-                                                                laporans: p.laporans.map((x, y) => (y === k ? { ...x, tanggal_laporan: v } : x)),
-                                                            })
-                                                        }
-                                                    />
-                                                    <Button
-                                                        type="button"
-                                                        size="icon"
-                                                        variant="ghost"
-                                                        onClick={() => ubahPenugasan(i, { laporans: p.laporans.filter((_, y) => y !== k) })}
-                                                    >
-                                                        <Trash2 className="text-destructive h-4 w-4" />
-                                                    </Button>
-                                                </div>
-                                            ))}
-                                        </div>
+                                        <p className="text-muted-foreground text-xs md:col-span-4">
+                                            Nomor dan tanggal laporan (LHP) diisi Bagian Analisis dan Evaluasi di menu ANEVA → RPP Aneva, bukan di
+                                            sini.
+                                        </p>
                                     </div>
                                 </details>
                             </CardContent>

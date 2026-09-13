@@ -1,3 +1,4 @@
+import { IsianAneva } from '@/components/erpika/isian-aneva';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -27,7 +28,7 @@ interface Baris {
     nomor_st: string | null;
     tanggal_st: string | null;
     uraian: string | null;
-    obriks: { nama: string; laporan: Laporan | null }[];
+    obriks: { id: number; nama: string; laporan: Laporan | null }[];
     laporan_lain: Laporan[];
     jumlah_laporan_terbit: number;
     sifat: string | null;
@@ -401,7 +402,8 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                                 <span className={`rounded px-1.5 py-0.5 text-xs font-medium ${st.kelas}`}>{st.label}</span>
                                                 {b.keterangan && <div className="text-muted-foreground mt-1 text-xs">{b.keterangan}</div>}
                                             </td>
-                                            <td className="px-2 py-2" onClick={(e) => e.stopPropagation()}>
+                                            <td className="px-2 py-2 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
+                                                <IsianAneva p={b} />
                                                 <Link href={`/rpp/${b.rpp_id}/edit`}>
                                                     <Button size="sm" variant="ghost" title="Ubah di RPP Perencanaan">
                                                         <Pencil className="h-4 w-4" />

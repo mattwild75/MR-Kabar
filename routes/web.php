@@ -321,6 +321,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/aneva/cetak/preview', [AnevaController::class, 'previewCetak'])->name('erpika.aneva.cetak.preview');
     Route::get('/erpika/aneva/cetak', [AnevaController::class, 'cetak'])->name('erpika.aneva.cetak');
     Route::get('/erpika/aneva/cetak/excel', [AnevaController::class, 'excel'])->name('erpika.aneva.cetak.excel');
+    Route::put('/erpika/aneva/{penugasan}', [AnevaController::class, 'simpanLaporan'])->name('erpika.aneva.simpan');
     // ERPIKA > AREP dan Laporan Penugasan — disiapkan kosong (arahan 12 September 2026).
     Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
     Route::get('/erpika/laporan-penugasan', fn () => Inertia::render('erpika/LaporanPenugasan'))->name('erpika.laporan-penugasan');

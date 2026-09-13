@@ -10,6 +10,7 @@ use App\Models\RppSetting;
 use App\Models\RppTeamMember;
 use App\Services\IngatanRingkasanService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -132,8 +133,13 @@ class RppController extends Controller
 
         DB::transaction(function () use ($rpp, $data) {
             $rpp->update($data['dokumen']);
+            // Laporan (LHP) bukan isian Perencanaan — diisi Bagian Aneva di RPP
+            // Aneva. Penugasan ditulis ulang, jadi laporannya disimpan dulu
+            // dan ditempelkan kembali menurut urutan penugasan dan obriknya.
+            $laporanLama = $rpp->penugasan()->with(['obriks', 'laporans'])->get()->keyBy('urutan');
             $rpp->penugasan()->delete();
             $this->simpanPenugasan($rpp, $data['penugasan']);
+            $this->pulihkanLaporan($rpp, $laporanLama);
         });
 
         return redirect()->route('rpp.index', ['tahun' => $data['dokumen']['year']])->with('success', 'RPP '.$rpp->nomor_rpp.' diperbarui.');
@@ -234,9 +240,6 @@ class RppController extends Controller
             'penugasan.*.tim.*.hari_kantor' => ['nullable', 'integer', 'min:0'],
             'penugasan.*.tim.*.hari_lapangan' => ['nullable', 'integer', 'min:0'],
             'penugasan.*.tim.*.tarif_per_hari' => ['nullable', 'integer', 'min:0'],
-            'penugasan.*.laporans' => ['nullable', 'array'],
-            'penugasan.*.laporans.*.nomor_laporan' => ['required', 'string', 'max:255'],
-            'penugasan.*.laporans.*.tanggal_laporan' => ['nullable', 'date'],
         ], [
             'penugasan.required' => 'Isi sedikitnya satu penugasan.',
             'penugasan.*.uraian.required' => 'Uraian obrik penugasan wajib diisi.',
@@ -270,8 +273,32 @@ class RppController extends Controller
                 ]);
             }
 
-            foreach (array_values($p['laporans'] ?? []) as $j => $l) {
-                $penugasan->laporans()->create([...$l, 'order' => $j]);
+        }
+    }
+
+    /**
+     * Tempelkan kembali laporan aneva ke penugasan yang baru ditulis ulang:
+     * dicocokkan lewat urutan penugasan, dan obriknya lewat urutan obrik.
+     * Laporan yang obriknya sudah tidak ada tetap disimpan tanpa obrik.
+     */
+    private function pulihkanLaporan(Rpp $rpp, Collection $laporanLama): void
+    {
+        foreach ($rpp->penugasan()->with('obriks')->get() as $baru) {
+            $lama = $laporanLama->get($baru->urutan);
+            if (! $lama) {
+                continue;
+            }
+            $obrikBaru = $baru->obriks->sortBy('order')->values();
+            $urutanObrikLama = $lama->obriks->sortBy('order')->values()->pluck('id')->flip();
+            foreach ($lama->laporans as $l) {
+                $idx = $l->rpp_obrik_id ? $urutanObrikLama->get($l->rpp_obrik_id) : null;
+                $baru->laporans()->create([
+                    'rpp_obrik_id' => $idx !== null ? $obrikBaru->get($idx)?->id : null,
+                    'nomor_laporan' => $l->nomor_laporan,
+                    'jenis' => $l->jenis,
+                    'tanggal_laporan' => $l->tanggal_laporan,
+                    'order' => $l->order,
+                ]);
             }
         }
     }
