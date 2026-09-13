@@ -123,14 +123,15 @@ export default function KalenderPegawai({ employeeId, nama }: { employeeId: numb
                                 )}
                             </div>
                         </div>
-                        <ul className="max-h-40 space-y-0.5 overflow-y-auto">
+                        <ul className="max-h-56 space-y-1 overflow-y-auto pr-1">
                             {data.penugasan.map((p) => (
                                 <li key={p.id} className="flex gap-2">
                                     <span className="text-muted-foreground w-[84px] shrink-0 tabular-nums">
                                         {tgl(p.mulai)}–{tgl(p.selesai)}
                                     </span>
-                                    <span className="truncate">
+                                    <span className="min-w-0 leading-snug break-words">
                                         <span className="font-medium">{p.peran}</span> · {p.jenis} · {p.uraian}
+                                        {p.nomor_st && <span className="text-muted-foreground"> · {p.nomor_st}</span>}
                                     </span>
                                 </li>
                             ))}
