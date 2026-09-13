@@ -12,10 +12,13 @@ use App\Models\PencatatanKejadianRisiko;
 use App\Models\User;
 use App\Notifications\LaporanKejadianRisikoStatusChanged;
 use App\Notifications\LaporanKejadianRisikoSubmitted;
+use App\Services\PembersihMetadataGambar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class LaporanKejadianController extends Controller
@@ -102,7 +105,11 @@ class LaporanKejadianController extends Controller
             'pemicu' => ['nullable', 'string', 'max:2000'],
             'risiko_terdaftar_tipe' => ['nullable', Rule::in(array_keys(self::RISIKO_MODELS))],
             'risiko_terdaftar_id' => ['nullable', 'integer'],
+            // Bukti opsional — aturan sama dengan laporan kecurangan.
+            'bukti' => ['nullable', 'array', 'max:5'],
+            'bukti.*' => ['file', 'max:10240', 'mimes:jpg,jpeg,png,pdf'],
         ]);
+        unset($validated['bukti']);
 
         // Kiriman kembar dalam dua menit dianggap satu laporan yang sama.
         //
@@ -151,9 +158,34 @@ class LaporanKejadianController extends Controller
             )->unique('id');
         }
 
+        // Foto dibersihkan metadatanya (GPS, seri ponsel, waktu) sebelum
+        // disimpan — pelapor tidak bermaksud menyerahkan koordinat rumahnya.
+        $pembersih = app(PembersihMetadataGambar::class);
+        foreach ((array) $request->file('bukti', []) as $berkas) {
+            $pembersih->bersihkan($berkas);
+            $laporan->addMedia($berkas)->toMediaCollection(LaporanKejadianRisiko::KOLEKSI_BUKTI);
+        }
+
         Notification::send($penerima, new LaporanKejadianRisikoSubmitted($laporan));
 
         return back()->with('success', 'Laporan kejadian risiko berhasil dikirim. Terima kasih.');
+    }
+
+    /**
+     * Mengunduh satu berkas bukti. Hanya untuk yang boleh membuka rekap
+     * (admin/super-admin atau PIC OPD laporan itu), dan media harus
+     * benar-benar milik laporan ini.
+     */
+    public function unduhBukti(Request $request, LaporanKejadianRisiko $laporanKejadianRisiko, Media $media): StreamedResponse
+    {
+        $user = $request->user();
+        abort_unless(
+            $user->canViewAllOpd() || ($laporanKejadianRisiko->opd_id && (int) $user->opd_id === (int) $laporanKejadianRisiko->opd_id),
+            403
+        );
+        abort_unless($media->model_type === LaporanKejadianRisiko::class && (int) $media->model_id === $laporanKejadianRisiko->id, 404);
+
+        return $media->toResponse($request);
     }
 
     /**
@@ -169,7 +201,7 @@ class LaporanKejadianController extends Controller
             throw new AccessDeniedHttpException('Rekapan laporan kejadian risiko hanya dapat diakses oleh Admin/Super Admin atau PIC OPD terkait.');
         }
 
-        $query = LaporanKejadianRisiko::with(['opd', 'ditindaklanjutiOleh'])->latest();
+        $query = LaporanKejadianRisiko::with(['opd', 'ditindaklanjutiOleh', 'media'])->latest();
 
         if (! $isAdminOrSuperAdmin) {
             $query->where('opd_id', $user->opd_id);
@@ -254,6 +286,7 @@ class LaporanKejadianController extends Controller
                 'ditindaklanjuti_oleh' => $l->ditindaklanjutiOleh?->name,
                 'created_at' => $l->created_at->locale('id')->translatedFormat('d F Y H:i'),
                 'sudah_dicatat_form10' => $laporanIdsSudahDicatat->contains($l->id),
+                'bukti' => $l->daftarBukti(),
             ];
         });
 

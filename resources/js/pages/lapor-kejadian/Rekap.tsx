@@ -49,6 +49,7 @@ interface Laporan {
     ditindaklanjuti_oleh: string | null;
     created_at: string;
     sudah_dicatat_form10: boolean;
+    bukti: { id: number; nama: string; ukuran: number; mime: string }[];
 }
 
 interface RisikoHasil {
@@ -500,6 +501,26 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
                                 <div>
                                     <Label className="text-muted-foreground text-xs">Pemicu</Label>
                                     <p className="text-sm">{detail.pemicu}</p>
+                                </div>
+                            )}
+                            {detail.bukti && detail.bukti.length > 0 && (
+                                <div>
+                                    <Label className="text-muted-foreground text-xs">Berkas bukti ({detail.bukti.length})</Label>
+                                    <ul className="mt-1 space-y-1">
+                                        {detail.bukti.map((b) => (
+                                            <li key={b.id} className="text-sm">
+                                                <a
+                                                    href={`/lapor-kejadian/rekap/${detail.id}/bukti/${b.id}`}
+                                                    className="text-primary underline"
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    {b.nama}
+                                                </a>{' '}
+                                                <span className="text-muted-foreground text-xs">({Math.round(b.ukuran / 1024)} KB)</span>
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             )}
                             {detail.risiko_terdaftar_tipe && (

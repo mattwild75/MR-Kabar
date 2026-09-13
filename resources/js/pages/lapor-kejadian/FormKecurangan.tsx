@@ -1,3 +1,4 @@
+import UnggahBukti from '@/components/lapor-kejadian/unggah-bukti';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -7,8 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useForm, usePage } from '@inertiajs/react';
-import { Copy, Paperclip, ShieldAlert, X } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { Copy, ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface OpdOption {
@@ -84,9 +84,6 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
         bukti: [] as File[],
     });
 
-    const berkasRef = useRef<HTMLInputElement>(null);
-    const [seret, setSeret] = useState(false);
-
     const kirim = (e: React.FormEvent) => {
         e.preventDefault();
         post('/lapor-kecurangan', {
@@ -97,7 +94,6 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
             onSuccess: () => {
                 toast.success('Laporan dugaan kecurangan terkirim. Terima kasih.');
                 reset();
-                if (berkasRef.current) berkasRef.current.value = '';
             },
             onError: () => toast.error('Gagal mengirim laporan. Periksa kembali isian Anda.'),
         });
@@ -369,81 +365,28 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
                         />
                     </div>
 
-                    <div>
-                        <Label>Lampirkan berkas bukti</Label>
-                        <div
-                            onDragOver={(e) => {
-                                e.preventDefault();
-                                setSeret(true);
-                            }}
-                            onDragLeave={() => setSeret(false)}
-                            onDrop={(e) => {
-                                e.preventDefault();
-                                setSeret(false);
-                                const jatuh = Array.from(e.dataTransfer.files ?? []);
-                                setData('bukti', [...data.bukti, ...jatuh].slice(0, 5));
-                            }}
-                            className={`mt-1 rounded-md border-2 border-dashed p-4 text-center text-sm transition ${
-                                seret ? 'border-primary bg-primary/5' : 'hover:bg-muted/40'
-                            }`}
-                        >
-                            <Paperclip className="text-muted-foreground mx-auto mb-2 h-5 w-5" />
-                            <button type="button" className="text-primary underline" onClick={() => berkasRef.current?.click()}>
-                                Pilih berkas
-                            </button>{' '}
-                            atau seret ke sini
-                            <p className="text-muted-foreground mt-1 text-xs">
-                                JPG, PNG, atau PDF · maksimal 10 MB per berkas · paling banyak 5 berkas
-                            </p>
-                            <input
-                                ref={berkasRef}
-                                type="file"
-                                multiple
-                                accept="image/jpeg,image/png,image/jpg,application/pdf"
-                                className="hidden"
-                                onChange={(e) => setData('bukti', Array.from(e.target.files ?? []).slice(0, 5))}
-                            />
-                        </div>
+                    <UnggahBukti
+                        berkas={data.bukti}
+                        onChange={(b) => setData('bukti', b)}
+                        galat={errors.bukti}
+                        label="Lampirkan berkas bukti"
+                        keterangan={
+                            <>
+                                <p className="text-muted-foreground mt-2 text-xs">
+                                    Berkas disimpan di penyimpanan tertutup dan hanya dapat dibuka penindaklanjut — tidak dapat diakses lewat tautan
+                                    umum, dan tidak muncul di File Manager siapa pun.
+                                </p>
 
-                        {data.bukti.length > 0 && (
-                            <ul className="mt-2 space-y-1">
-                                {data.bukti.map((f, i) => (
-                                    <li key={`${f.name}-${i}`} className="flex items-center justify-between rounded border px-2 py-1 text-sm">
-                                        <span className="truncate">
-                                            {f.name} <span className="text-muted-foreground">({Math.round(f.size / 1024)} KB)</span>
-                                        </span>
-                                        <button
-                                            type="button"
-                                            aria-label="Buang berkas"
-                                            onClick={() =>
-                                                setData(
-                                                    'bukti',
-                                                    data.bukti.filter((_, j) => j !== i),
-                                                )
-                                            }
-                                        >
-                                            <X className="h-4 w-4" />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-
-                        {errors.bukti && <p className="text-destructive mt-1 text-xs">{errors.bukti}</p>}
-
-                        <p className="text-muted-foreground mt-2 text-xs">
-                            Berkas disimpan di penyimpanan tertutup dan hanya dapat dibuka penindaklanjut — tidak dapat diakses lewat tautan umum, dan
-                            tidak muncul di File Manager siapa pun.
-                        </p>
-
-                        {data.mode_pelapor !== 'terbuka' && (
-                            <p className="mt-2 rounded-md border border-amber-500/50 bg-amber-50 p-3 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
-                                Anda melapor tanpa nama. <strong>Foto (JPG/PNG) dibersihkan otomatis</strong> dari data tersembunyi — lokasi
-                                pengambilan, jenis ponsel, waktu — sebelum disimpan. <strong>PDF tidak bisa dibersihkan</strong> dan sering memuat
-                                nama penyusunnya; bila itu mengkhawatirkan, kirim tangkapan layarnya sebagai gambar.
-                            </p>
-                        )}
-                    </div>
+                                {data.mode_pelapor !== 'terbuka' && (
+                                    <p className="mt-2 rounded-md border border-amber-500/50 bg-amber-50 p-3 text-xs text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
+                                        Anda melapor tanpa nama. <strong>Foto (JPG/PNG) dibersihkan otomatis</strong> dari data tersembunyi — lokasi
+                                        pengambilan, jenis ponsel, waktu — sebelum disimpan. <strong>PDF tidak bisa dibersihkan</strong> dan sering
+                                        memuat nama penyusunnya; bila itu mengkhawatirkan, kirim tangkapan layarnya sebagai gambar.
+                                    </p>
+                                )}
+                            </>
+                        }
+                    />
                 </CardContent>
             </Card>
 

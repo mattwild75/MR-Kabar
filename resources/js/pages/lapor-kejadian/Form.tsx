@@ -1,3 +1,4 @@
+import UnggahBukti from '@/components/lapor-kejadian/unggah-bukti';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DatePicker } from '@/components/ui/date-picker';
@@ -68,6 +69,7 @@ export default function FormKejadianRisiko({ opdList }: Props) {
         pemicu: '',
         risiko_terdaftar_tipe: '' as string,
         risiko_terdaftar_id: '' as string | number,
+        bukti: [] as File[],
     });
 
     useEffect(() => {
@@ -116,6 +118,7 @@ export default function FormKejadianRisiko({ opdList }: Props) {
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         post('/lapor-kejadian', {
+            forceFormData: true,
             onSuccess: () => {
                 toast.success('Laporan kejadian risiko berhasil dikirim. Terima kasih.');
                 reset();
@@ -328,6 +331,13 @@ export default function FormKejadianRisiko({ opdList }: Props) {
                             />
                             {errors.pemicu && <p className="text-destructive text-sm">{errors.pemicu}</p>}
                         </div>
+
+                        <UnggahBukti
+                            berkas={data.bukti}
+                            onChange={(b) => setData('bukti', b)}
+                            galat={errors.bukti}
+                            keterangan="Foto kejadian, tangkapan layar, atau dokumen pendukung. Disimpan di penyimpanan tertutup dan hanya dapat dibuka penindaklanjut; data lokasi pada foto dibersihkan otomatis."
+                        />
 
                         <Button type="submit" disabled={processing} className="w-full">
                             {processing ? 'Mengirim...' : 'Lapor'}

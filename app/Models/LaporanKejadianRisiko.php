@@ -5,10 +5,33 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class LaporanKejadianRisiko extends Model
+class LaporanKejadianRisiko extends Model implements HasMedia
 {
-    use SoftDeletes;
+    use InteractsWithMedia, SoftDeletes;
+
+    /**
+     * Berkas bukti kejadian (foto, tangkapan layar, PDF) — opsional, sama
+     * aturannya dengan bukti laporan kecurangan: disimpan di disk tertutup,
+     * hanya terbuka lewat rute unduh yang memeriksa hak penindaklanjut.
+     */
+    public const KOLEKSI_BUKTI = 'bukti';
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection(self::KOLEKSI_BUKTI)->useDisk(config('media-library.disk_name'));
+    }
+
+    /** Ringkasan berkas bukti untuk ditampilkan, tanpa membocorkan jalurnya. */
+    public function daftarBukti(): array
+    {
+        return $this->getMedia(self::KOLEKSI_BUKTI)
+            ->map(fn (Media $m) => ['id' => $m->id, 'nama' => $m->file_name, 'ukuran' => $m->size, 'mime' => $m->mime_type])
+            ->all();
+    }
 
     protected $table = 'laporan_kejadian_risiko';
 

@@ -392,6 +392,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
         ->middleware('throttle:lapor-submit')
         ->name('lapor-kejadian.store');
     Route::get('/lapor-kejadian/rekap', [LaporanKejadianController::class, 'index'])->name('lapor-kejadian.index');
+    Route::get('/lapor-kejadian/rekap/{laporanKejadianRisiko}/bukti/{media}', [LaporanKejadianController::class, 'unduhBukti'])->name('lapor-kejadian.bukti');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/status', [LaporanKejadianController::class, 'updateStatus'])->name('lapor-kejadian.update-status');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/opd', [LaporanKejadianController::class, 'updateOpd'])->name('lapor-kejadian.update-opd');
     Route::put('/lapor-kejadian/rekap/{laporanKejadian}/risiko-terdaftar', [LaporanKejadianController::class, 'updateRisikoTerdaftar'])->name('lapor-kejadian.update-risiko-terdaftar');
