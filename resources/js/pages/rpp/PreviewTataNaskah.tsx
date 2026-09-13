@@ -64,6 +64,11 @@ export default function PreviewTataNaskah({ tahun, rpp, judul, kolomTim, jenis, 
                 .naskah th { text-align: center; font-weight: 700; }
                 .naskah td.tengah { text-align: center; }
                 .naskah td.tanpa-atas { border-top: none; }
+                /* Baris nomor rata ATAS dan baris tanggal rata BAWAH: nomor LHP yang
+                   membungkus dua baris tetap sejajar garis atas dengan nomor RPP/SP/
+                   ST/KP dan nama ketua tim di sebelahnya. */
+                .naskah td.atas { vertical-align: top; }
+                .naskah td.bawah { vertical-align: bottom; }
                 .naskah td.tanpa-bawah { border-bottom: none; }
                 .naskah thead { display: table-header-group; }
                 .naskah tr { page-break-inside: avoid; }
@@ -169,13 +174,13 @@ export default function PreviewTataNaskah({ tahun, rpp, judul, kolomTim, jenis, 
                                         </tr>
                                     )}
                                     <tr>
-                                        <td className="tengah tanpa-bawah">{b.no}</td>
-                                        <td className="tengah tanpa-bawah">{b.nomor_rpp}</td>
-                                        <td className="tengah tanpa-bawah">{b.nomor_sp ?? ''}</td>
-                                        <td className="tengah tanpa-bawah">{b.nomor_st ?? ''}</td>
-                                        <td className="tengah tanpa-bawah">{b.nomor_kp ?? ''}</td>
-                                        <td className="tanpa-bawah"></td>
-                                        <td className="tengah tanpa-bawah">{b.lhp?.nomor ?? ''}</td>
+                                        <td className="tengah atas tanpa-bawah">{b.no}</td>
+                                        <td className="tengah atas tanpa-bawah">{b.nomor_rpp}</td>
+                                        <td className="tengah atas tanpa-bawah">{b.nomor_sp ?? ''}</td>
+                                        <td className="tengah atas tanpa-bawah">{b.nomor_st ?? ''}</td>
+                                        <td className="tengah atas tanpa-bawah">{b.nomor_kp ?? ''}</td>
+                                        <td className="atas tanpa-bawah">{b.ketua_tim ?? ''}</td>
+                                        <td className="tengah atas tanpa-bawah">{b.lhp?.nomor ?? ''}</td>
                                     </tr>
                                     <tr>
                                         <td className="tanpa-atas tanpa-bawah"></td>
@@ -183,17 +188,17 @@ export default function PreviewTataNaskah({ tahun, rpp, judul, kolomTim, jenis, 
                                         <td className="tanpa-atas tanpa-bawah"></td>
                                         <td className="tanpa-atas tanpa-bawah"></td>
                                         <td className="tanpa-atas tanpa-bawah"></td>
-                                        <td className="tanpa-atas tanpa-bawah">{b.ketua_tim ?? ''}</td>
+                                        <td className="tanpa-atas tanpa-bawah"></td>
                                         <td className="tanpa-atas tanpa-bawah"></td>
                                     </tr>
                                     <tr>
                                         <td className="tanpa-atas"></td>
-                                        <td className="tengah tanpa-atas">{tgl(b.tanggal_rpp)}</td>
-                                        <td className="tengah tanpa-atas">{tgl(b.tanggal_st)}</td>
-                                        <td className="tengah tanpa-atas">{tgl(b.tanggal_st)}</td>
-                                        <td className="tengah tanpa-atas">{tgl(b.tanggal_st)}</td>
+                                        <td className="tengah bawah tanpa-atas">{tgl(b.tanggal_rpp)}</td>
+                                        <td className="tengah bawah tanpa-atas">{tgl(b.tanggal_st)}</td>
+                                        <td className="tengah bawah tanpa-atas">{tgl(b.tanggal_st)}</td>
+                                        <td className="tengah bawah tanpa-atas">{tgl(b.tanggal_st)}</td>
                                         <td className="tanpa-atas"></td>
-                                        <td className="tengah tanpa-atas">{tgl(b.lhp?.tanggal ?? null)}</td>
+                                        <td className="tengah bawah tanpa-atas">{tgl(b.lhp?.tanggal ?? null)}</td>
                                     </tr>
                                 </Fragment>
                             );
