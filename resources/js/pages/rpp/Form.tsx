@@ -144,6 +144,7 @@ interface Props {
     sifatTersedia: string[];
     tahunBerjalan: number;
     urutanTerakhir: Record<string, number>;
+    stTerakhir: Record<string, { n: number; kode: string }>;
     tarifLuarKota: number;
     kecamatanLuar: string[];
 }
@@ -197,6 +198,7 @@ export default function RppForm({
     sifatTersedia,
     tahunBerjalan,
     urutanTerakhir,
+    stTerakhir,
     tarifLuarKota,
     kecamatanLuar,
 }: Props) {
@@ -365,6 +367,48 @@ export default function RppForm({
         if (otomatis && data.nomor_rpp !== nomorUsulan) setData('nomor_rpp', nomorUsulan);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [nomorUsulan]);
+    // Tata naskah penugasan: SP, ST, KP satu penugasan bernomor urut sama per
+    // jenis per tahun (pola berkas "0__no agenda penugasan"). Nomor berikutnya
+    // melanjutkan ST terakhir jenis+tahun ini; kode mengikuti ST yang sudah
+    // berjalan (mis. "M" walau kode_nomor kategori "Mon").
+    const stAwal = kategori ? stTerakhir[`${kategori.id}|${data.year}`] : undefined;
+    const kodeNaskah = stAwal?.kode ?? kategori?.kode_nomor ?? 'XX';
+    const susunNomor = (n: number) => {
+        const nn = String(n).padStart(2, '0');
+        return {
+            nomor_sp: `700/${nn}/SP-${kodeNaskah}/INS/${data.year}`,
+            nomor_st: `ST-${nn}/${kodeNaskah}-INS/${data.year}`,
+            nomor_kp: `KP-${nn}/${kodeNaskah}-INS/${data.year}`,
+        };
+    };
+    const nomorStDipakai = (kecuali: number) => {
+        let terbesar = stAwal?.n ?? 0;
+        data.penugasan.forEach((p, k) => {
+            const m = k !== kecuali && /^ST-(\d+)\//.exec(p.nomor_st);
+            if (m) terbesar = Math.max(terbesar, Number(m[1]));
+        });
+        return terbesar;
+    };
+    const usulkanNomor = (i: number) => {
+        const p = data.penugasan[i];
+        const berikut = susunNomor(nomorStDipakai(i) + 1);
+        ubahPenugasan(i, { ...berikut, tanggal_st: p.tanggal_st || data.tanggal_rpp });
+    };
+    const ubahNomorSt = (i: number, nomor: string) => {
+        const p = data.penugasan[i];
+        const m = /^ST-(\d+)\/([A-Za-z]+)-INS\/(\d{4})$/.exec(nomor.trim());
+        if (!m) return ubahPenugasan(i, { nomor_st: nomor });
+        const nn = m[1].padStart(2, '0');
+        const turunan = { nomor_sp: `700/${nn}/SP-${m[2]}/INS/${m[3]}`, nomor_kp: `KP-${nn}/${m[2]}-INS/${m[3]}` };
+        // SP/KP diisi otomatis hanya bila masih kosong atau masih hasil turunan sebelumnya
+        const spOtomatis = p.nomor_sp === '' || /^700\/\d+\/SP-[A-Za-z]+\/INS\/\d{4}$/.test(p.nomor_sp);
+        const kpOtomatis = p.nomor_kp === '' || /^KP-\d+\/[A-Za-z]+-INS\/\d{4}$/.test(p.nomor_kp);
+        ubahPenugasan(i, {
+            nomor_st: nomor,
+            ...(spOtomatis ? { nomor_sp: turunan.nomor_sp } : {}),
+            ...(kpOtomatis ? { nomor_kp: turunan.nomor_kp } : {}),
+        });
+    };
     const halBaku = `Penyampaian Rencana Penugasan ${kategori?.sebutan ?? kategori?.name ?? '…'} Tahun ${data.year}`;
 
     const simpan = () => {
@@ -833,9 +877,17 @@ export default function RppForm({
 
                                 {/* Naskah dinas & laporan */}
                                 <details className="rounded border p-3">
-                                    <summary className="cursor-pointer text-sm font-medium">
-                                        Naskah dinas & laporan (SP, ST, KP, LHP) — opsional
-                                    </summary>
+                                    <summary className="cursor-pointer text-sm font-medium">Naskah dinas (SP, ST, KP) — opsional</summary>
+                                    <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                                        <p className="text-muted-foreground text-xs">
+                                            Tata naskah: SP, ST, dan KP satu penugasan bernomor urut sama dan bertanggal sama. Nomor berikutnya untuk{' '}
+                                            {kategori?.name ?? 'jenis ini'} {data.year}:{' '}
+                                            <span className="font-mono">{susunNomor(nomorStDipakai(i) + 1).nomor_st}</span>
+                                        </p>
+                                        <Button type="button" size="sm" variant="outline" onClick={() => usulkanNomor(i)}>
+                                            Usulkan nomor SP/ST/KP
+                                        </Button>
+                                    </div>
                                     <div className="mt-3 grid gap-3 md:grid-cols-4">
                                         <div className="space-y-1">
                                             <Label>Nomor SP</Label>
@@ -849,12 +901,13 @@ export default function RppForm({
                                             <Label>Nomor ST</Label>
                                             <Input
                                                 value={p.nomor_st}
-                                                onChange={(e) => ubahPenugasan(i, { nomor_st: e.target.value })}
+                                                onChange={(e) => ubahNomorSt(i, e.target.value)}
                                                 className="font-mono text-xs"
+                                                placeholder={`ST-01/${kodeNaskah}-INS/${data.year}`}
                                             />
                                         </div>
                                         <div className="space-y-1">
-                                            <Label>Tanggal ST</Label>
+                                            <Label>Tanggal SP / ST / KP</Label>
                                             <DatePicker value={p.tanggal_st} onChange={(v) => ubahPenugasan(i, { tanggal_st: v })} />
                                         </div>
                                         <div className="space-y-1">

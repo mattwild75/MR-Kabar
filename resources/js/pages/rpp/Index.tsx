@@ -181,12 +181,21 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                             )}
                         </p>
                     </div>
-                    <Link href="/rpp/create">
-                        <Button className="w-full md:w-auto">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Tambah RPP
-                        </Button>
-                    </Link>
+                    <div className="flex flex-wrap gap-2">
+                        <Link
+                            href={`/rpp-cetak/tata-naskah/preview?tahun=${filters.tahun === 'semua' ? new Date().getFullYear() : filters.tahun}${filters.jenis ? `&jenis=${filters.jenis}` : ''}`}
+                        >
+                            <Button variant="outline" className="w-full md:w-auto" title="Agenda penomoran RPP, SP, ST, KP, ketua tim, LHP">
+                                Tata Naskah
+                            </Button>
+                        </Link>
+                        <Link href="/rpp/create">
+                            <Button className="w-full md:w-auto">
+                                <Plus className="mr-2 h-4 w-4" />
+                                Tambah RPP
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
 
                 {/* Filter */}

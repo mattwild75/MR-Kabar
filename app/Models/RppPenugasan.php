@@ -74,6 +74,56 @@ class RppPenugasan extends Model
     }
 
     /** Lokasi efektif: kolom lokasi, atau tebakan dari uraian + objek. */
+    /**
+     * Tata naskah penugasan (agenda penomoran Bagian Perencanaan): SP, ST,
+     * dan KP satu penugasan memakai NOMOR URUT YANG SAMA per jenis per tahun,
+     * dan bertanggal sama. Polanya dari berkas "0__no agenda penugasan":
+     *   SP  700/NN/SP-<kode>/INS/<tahun>
+     *   ST  ST-NN/<kode>-INS/<tahun>
+     *   KP  KP-NN/<kode>-INS/<tahun>
+     * Nomor RPP berdiri sendiri (satu RPP bisa punya banyak ST berurutan).
+     */
+    public static function uraiNomorSt(?string $nomor): ?array
+    {
+        if ($nomor && preg_match('#^ST-(\d+)/([A-Za-z]+)-INS/(\d{4})$#', trim($nomor), $m)) {
+            return ['n' => (int) $m[1], 'kode' => $m[2], 'tahun' => (int) $m[3]];
+        }
+
+        return null;
+    }
+
+    public static function susunNomor(int $n, string $kode, int $tahun): array
+    {
+        $nn = str_pad((string) $n, 2, '0', STR_PAD_LEFT);
+
+        return [
+            'nomor_sp' => "700/{$nn}/SP-{$kode}/INS/{$tahun}",
+            'nomor_st' => "ST-{$nn}/{$kode}-INS/{$tahun}",
+            'nomor_kp' => "KP-{$nn}/{$kode}-INS/{$tahun}",
+        ];
+    }
+
+    /** Nomor SP/KP: yang tersimpan, atau diturunkan dari nomor ST bila kosong. */
+    public function nomorSpTampil(): ?string
+    {
+        if (filled($this->nomor_sp)) {
+            return $this->nomor_sp;
+        }
+        $u = self::uraiNomorSt($this->nomor_st);
+
+        return $u ? self::susunNomor($u['n'], $u['kode'], $u['tahun'])['nomor_sp'] : null;
+    }
+
+    public function nomorKpTampil(): ?string
+    {
+        if (filled($this->nomor_kp)) {
+            return $this->nomor_kp;
+        }
+        $u = self::uraiNomorSt($this->nomor_st);
+
+        return $u ? self::susunNomor($u['n'], $u['kode'], $u['tahun'])['nomor_kp'] : null;
+    }
+
     public function lokasiTampil(): string
     {
         return $this->lokasi ?: self::tebakLokasi(($this->uraian ?? '').' '.$this->obriks->pluck('nama')->join(' '));

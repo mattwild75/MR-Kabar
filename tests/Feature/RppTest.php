@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Employee;
 use App\Models\Rpp;
 use App\Models\RppCategory;
+use App\Models\RppPenugasan;
 use App\Models\User;
 use Database\Seeders\RppCategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -193,5 +194,41 @@ class RppTest extends TestCase
         $this->actingAs($admin)->delete("/erpika/pegawai/{$pegawai->id}")->assertRedirect();
 
         $this->assertDatabaseHas('employees', ['id' => $pegawai->id]);
+    }
+
+    public function test_tata_naskah_menurunkan_nomor_sp_dan_kp_dari_nomor_st(): void
+    {
+        $this->assertSame(['n' => 7, 'kode' => 'Rev', 'tahun' => 2025], RppPenugasan::uraiNomorSt('ST-07/Rev-INS/2025'));
+        $this->assertNull(RppPenugasan::uraiNomorSt('ST-07/Rev/INS/TEK/2025'));
+        $this->assertSame(['nomor_sp' => '700/07/SP-Rev/INS/2025', 'nomor_st' => 'ST-07/Rev-INS/2025', 'nomor_kp' => 'KP-07/Rev-INS/2025'], RppPenugasan::susunNomor(7, 'Rev', 2025));
+
+        $p = new RppPenugasan(['nomor_st' => 'ST-03/EV-INS/2025', 'nomor_sp' => null, 'nomor_kp' => 'KP-KHUSUS/2025']);
+        $this->assertSame('700/03/SP-EV/INS/2025', $p->nomorSpTampil());
+        $this->assertSame('KP-KHUSUS/2025', $p->nomorKpTampil());
+    }
+
+    public function test_pratinjau_tata_naskah_mengurutkan_per_nomor_st_dan_menyertakan_ketua_tim(): void
+    {
+        $u = User::factory()->create();
+        $this->actingAs($u)->post('/rpp', $this->muatanRpp(['penugasan' => [
+            array_merge($this->muatanRpp()['penugasan'][0], ['nomor_st' => 'ST-02/AKJ-INS/2026', 'tanggal_st' => '2026-03-11']),
+            array_merge($this->muatanRpp()['penugasan'][0], ['uraian' => 'Audit Kinerja kedua', 'nomor_st' => 'ST-01/AKJ-INS/2026', 'tanggal_st' => '2026-03-11']),
+        ]]))->assertSessionHasNoErrors();
+        $rpp = Rpp::firstOrFail();
+
+        $this->actingAs($u)->get("/rpp-cetak/tata-naskah/preview?tahun=2026&jenis={$rpp->rpp_category_id}")->assertOk()->assertInertia(fn ($page) => $page
+            ->where('tahun', 2026)
+            ->where('jenis.id', $rpp->rpp_category_id)
+            ->has('baris', 2)
+            ->where('baris.0.nomor_st', 'ST-01/AKJ-INS/2026')
+            ->where('baris.0.nomor_sp', '700/01/SP-AKJ/INS/2026')
+            ->where('baris.0.nomor_kp', 'KP-01/AKJ-INS/2026')
+            ->where('baris.0.tanggal_st', '2026-03-11')
+            ->where('baris.1.nomor_st', 'ST-02/AKJ-INS/2026')
+            ->where('baris.0.ketua_tim', fn ($v) => is_string($v) && $v !== ''));
+
+        $this->actingAs($u)->get('/rpp/create')->assertOk()->assertInertia(fn ($page) => $page
+            ->where("stTerakhir.{$rpp->rpp_category_id}|2026.n", 2)
+            ->where("stTerakhir.{$rpp->rpp_category_id}|2026.kode", 'AKJ'));
     }
 }

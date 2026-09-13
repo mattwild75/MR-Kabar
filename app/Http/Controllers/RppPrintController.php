@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rpp;
+use App\Models\RppCategory;
 use App\Models\RppPenugasan;
 use App\Models\RppSetting;
 use App\Models\RppTeamMember;
@@ -22,6 +23,62 @@ use Inertia\Inertia;
  */
 class RppPrintController extends Controller
 {
+    /**
+     * Tata naskah penugasan satu jenis satu tahun — agenda penomoran RPP, SP,
+     * ST, KP, ketua tim, dan LHP, seperti berkas "0__no agenda penugasan".
+     */
+    public function previewTataNaskah(Request $request)
+    {
+        return Inertia::render('rpp/PreviewTataNaskah', $this->dataTataNaskah($request));
+    }
+
+    public function tataNaskah(Request $request)
+    {
+        $q = http_build_query($request->only(['tahun', 'jenis']));
+
+        return PdfPrintService::downloadFromUrl($request, url('/rpp-cetak/tata-naskah/preview?'.$q), 'Tata-Naskah-'.$request->input('tahun', now()->year));
+    }
+
+    private function dataTataNaskah(Request $request): array
+    {
+        $tahun = (int) $request->input('tahun', now()->year);
+        $kategori = $request->filled('jenis') ? RppCategory::find($request->input('jenis')) : null;
+        $penugasan = RppPenugasan::query()
+            ->with(['rpp:id,nomor_rpp,year,tanggal_rpp,rpp_category_id', 'rpp.category:id,name,kode_nomor', 'teamMembers', 'laporans'])
+            ->whereHas('rpp', fn ($q) => $q->where('year', $tahun)->when($kategori, fn ($q) => $q->where('rpp_category_id', $kategori->id)))
+            ->get()
+            ->sortBy(fn ($p) => [$p->rpp->rpp_category_id, RppPenugasan::uraiNomorSt($p->nomor_st)['n'] ?? 999, $p->rpp->nomor_rpp, $p->urutan])
+            ->values();
+
+        $baris = $penugasan->map(function (RppPenugasan $p, int $i) {
+            $lhp = $p->laporans->sortBy('order')->first();
+
+            return [
+                'no' => $i + 1,
+                'jenis' => $p->rpp->category?->name,
+                'nomor_rpp' => $p->rpp->nomor_rpp,
+                'tanggal_rpp' => $p->rpp->tanggal_rpp?->toDateString(),
+                'nomor_sp' => $p->nomorSpTampil(),
+                'nomor_st' => $p->nomor_st,
+                'nomor_kp' => $p->nomorKpTampil(),
+                'tanggal_st' => $p->tanggal_st?->toDateString(),
+                'ketua_tim' => $p->teamMembers->firstWhere('role', 'kt')?->nama ?? $p->teamMembers->first()?->nama,
+                'uraian' => $p->uraian,
+                'status' => $p->status,
+                'lhp' => $lhp ? ['nomor' => $lhp->nomor_laporan, 'tanggal' => $lhp->tanggal_laporan?->toDateString()] : null,
+                'jumlah_lhp' => $p->laporans->count(),
+            ];
+        })->all();
+
+        return [
+            'tahun' => $tahun,
+            'jenis' => $kategori?->only(['id', 'name', 'kode_nomor', 'sebutan']),
+            'categories' => RppCategory::orderBy('order')->get(['id', 'code', 'name', 'kode_nomor']),
+            'tahunTersedia' => Rpp::query()->select('year')->distinct()->orderByDesc('year')->pluck('year')->all(),
+            'baris' => $baris,
+        ];
+    }
+
     public function previewTabel(Request $request, Rpp $rpp)
     {
         $this->authorizeView($request, $rpp);

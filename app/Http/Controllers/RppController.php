@@ -189,6 +189,23 @@ class RppController extends Controller
             'tahunBerjalan' => now()->year,
             // Nomor urut RPP terakhir per (kategori, tahun): formulir mengusulkan
             // nomor berikutnya "700/NN/RPP-<kode>/INS/<tahun>" saat jenis/tahun dipilih.
+            // Nomor urut ST/SP/KP terakhir per (kategori, tahun) berikut kode yang
+            // dipakai pada ST terakhir (kode di ST lama kadang beda dari kode_nomor
+            // kategori, mis. "M" vs "Mon"; nomor baru mengikuti yang sudah berjalan).
+            'stTerakhir' => RppPenugasan::query()->join('rpps', 'rpps.id', '=', 'rpp_penugasan.rpp_id')
+                ->whereNotNull('nomor_st')->get(['rpps.rpp_category_id', 'rpps.year', 'rpp_penugasan.nomor_st'])
+                ->groupBy(fn ($r) => $r->rpp_category_id.'|'.$r->year)
+                ->map(function ($k) {
+                    $terbesar = null;
+                    foreach ($k as $r) {
+                        $u = RppPenugasan::uraiNomorSt($r->nomor_st);
+                        if ($u && (! $terbesar || $u['n'] > $terbesar['n'])) {
+                            $terbesar = $u;
+                        }
+                    }
+
+                    return $terbesar ? ['n' => $terbesar['n'], 'kode' => $terbesar['kode']] : null;
+                })->filter()->all(),
             'urutanTerakhir' => Rpp::withTrashed()->get(['rpp_category_id', 'year', 'nomor_rpp'])
                 ->groupBy(fn ($r) => $r->rpp_category_id.'|'.$r->year)
                 ->map(fn ($k) => $k->max(fn ($r) => preg_match('~^700/(\d+)/~', $r->nomor_rpp, $m) ? (int) $m[1] : 0))
