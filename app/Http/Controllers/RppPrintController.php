@@ -9,7 +9,10 @@ use App\Models\RppSetting;
 use App\Models\RppTeamMember;
 use App\Services\PdfPrintService;
 use App\Services\RppExcelService;
+use App\Services\TataNaskahWordService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 /**
@@ -27,24 +30,68 @@ class RppPrintController extends Controller
      * Tata naskah penugasan satu jenis satu tahun — agenda penomoran RPP, SP,
      * ST, KP, ketua tim, dan LHP, seperti berkas "0__no agenda penugasan".
      */
-    public function previewTataNaskah(Request $request)
+    public function previewTataNaskah(Request $request, ?Rpp $rpp = null)
     {
-        return Inertia::render('rpp/PreviewTataNaskah', $this->dataTataNaskah($request));
+        return Inertia::render('rpp/PreviewTataNaskah', $this->dataTataNaskah($request, $rpp));
     }
 
-    public function tataNaskah(Request $request)
+    public function tataNaskah(Request $request, ?Rpp $rpp = null)
     {
         $q = http_build_query($request->only(['tahun', 'jenis']));
+        $url = $rpp ? url("/rpp-cetak/{$rpp->id}/tata-naskah/preview") : url('/rpp-cetak/tata-naskah/preview?'.$q);
 
-        return PdfPrintService::downloadFromUrl($request, url('/rpp-cetak/tata-naskah/preview?'.$q), 'Tata-Naskah-'.$request->input('tahun', now()->year));
+        return PdfPrintService::downloadFromUrl($request, $url, 'Tata-Naskah-'.($rpp ? str($rpp->nomor_rpp)->slug()->limit(40, '') : $request->input('tahun', now()->year)));
     }
 
-    private function dataTataNaskah(Request $request): array
+    /** Unduh Word dari data (GET) atau dari HTML hasil suntingan pratinjau (POST html). */
+    public function tataNaskahWord(Request $request, TataNaskahWordService $word, ?Rpp $rpp = null)
     {
-        $tahun = (int) $request->input('tahun', now()->year);
-        $kategori = $request->filled('jenis') ? RppCategory::find($request->input('jenis')) : null;
+        $nama = 'Tata-Naskah-'.($rpp ? str($rpp->nomor_rpp)->slug()->limit(40, '') : $request->input('tahun', now()->year)).'.docx';
+        if ($request->isMethod('post') && $request->filled('html')) {
+            $isi = $word->dariHtml((string) $request->input('html'));
+        } else {
+            $d = $this->dataTataNaskah($request, $rpp);
+            $isi = $word->dariData(['judul' => $d['judul'], 'tahun' => $d['tahun'], 'kolomTim' => $d['kolomTim'], 'baris' => $d['baris']]);
+        }
+
+        return response($isi, 200, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'Content-Disposition' => 'attachment; filename="'.$nama.'"',
+        ]);
+    }
+
+    /**
+     * PDF dari pratinjau yang sudah disunting: HTML suntingan disimpan
+     * sementara (10 menit) lalu dirender Browsershot lewat halaman
+     * /rpp-cetak/tata-naskah/suntingan/{token} — sama dengan tombol Unduh
+     * PDF lainnya, hanya isinya dari ketikan pengguna.
+     */
+    public function tataNaskahPdfSuntingan(Request $request)
+    {
+        $data = $request->validate(['html' => ['required', 'string', 'max:2000000'], 'nama' => ['nullable', 'string', 'max:80']]);
+        $token = Str::random(32);
+        Cache::put('naskah-suntingan:'.$token, $data['html'], 600);
+
+        return PdfPrintService::downloadFromUrl($request, url('/rpp-cetak/tata-naskah/suntingan/'.$token), $data['nama'] ?? 'Tata-Naskah-suntingan');
+    }
+
+    public function tataNaskahSuntingan(string $token)
+    {
+        $html = Cache::get('naskah-suntingan:'.$token) ?? abort(404);
+
+        return Inertia::render('rpp/PreviewTataNaskah', ['suntingan' => $html, 'tahun' => now()->year, 'jenis' => null, 'rpp' => null, 'categories' => [], 'tahunTersedia' => [], 'baris' => [], 'judul' => '', 'kolomTim' => 'KETUA TIM']);
+    }
+
+    private function dataTataNaskah(Request $request, ?Rpp $rpp = null): array
+    {
+        if ($rpp) {
+            $this->authorizeView($request, $rpp);
+        }
+        $tahun = $rpp ? (int) $rpp->year : (int) $request->input('tahun', now()->year);
+        $kategori = $rpp ? $rpp->category : ($request->filled('jenis') ? RppCategory::find($request->input('jenis')) : null);
         $penugasan = RppPenugasan::query()
             ->with(['rpp:id,nomor_rpp,year,tanggal_rpp,rpp_category_id', 'rpp.category:id,name,kode_nomor', 'teamMembers', 'laporans'])
+            ->when($rpp, fn ($q) => $q->where('rpp_id', $rpp->id))
             ->whereHas('rpp', fn ($q) => $q->where('year', $tahun)->when($kategori, fn ($q) => $q->where('rpp_category_id', $kategori->id)))
             ->get()
             ->sortBy(fn ($p) => [$p->rpp->rpp_category_id, RppPenugasan::uraiNomorSt($p->nomor_st)['n'] ?? 999, $p->rpp->nomor_rpp, $p->urutan])
@@ -70,8 +117,14 @@ class RppPrintController extends Controller
             ];
         })->all();
 
+        $judul = $kategori ? 'TATA NASKAH '.mb_strtoupper($kategori->name) : 'TATA NASKAH PENUGASAN';
+        $kolomTim = $kategori && in_array($kategori->name, ['Khusus', 'Monitoring', 'Tujuan Tertentu', 'Kepatuhan Gampong', 'Operasional SKPK'], true) ? 'OBRIK / KETUA TIM' : 'KETUA TIM';
+
         return [
             'tahun' => $tahun,
+            'rpp' => $rpp?->only(['id', 'nomor_rpp']),
+            'judul' => $judul,
+            'kolomTim' => $kolomTim,
             'jenis' => $kategori?->only(['id', 'name', 'kode_nomor', 'sebutan']),
             'categories' => RppCategory::orderBy('order')->get(['id', 'code', 'name', 'kode_nomor']),
             'tahunTersedia' => Rpp::query()->select('year')->distinct()->orderByDesc('year')->pluck('year')->all(),

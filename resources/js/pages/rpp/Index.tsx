@@ -17,7 +17,7 @@ import { useSortableRows } from '@/hooks/use-sortable-rows';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { ChevronDown, ChevronRight, FileText, Pencil, Plus, Printer, Search, Table2, Trash2 } from 'lucide-react';
+import { ChevronDown, ChevronRight, FileText, ListOrdered, Pencil, Plus, Printer, Search, Table2, Trash2 } from 'lucide-react';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -357,6 +357,16 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
                                                         <Button size="sm" variant="outline" title="Cetak surat pengantar (pratinjau)">
                                                             <FileText className="mr-1 h-3.5 w-3.5" />
                                                             Pengantar
+                                                        </Button>
+                                                    </Link>
+                                                    <Link href={`/rpp-cetak/${r.id}/tata-naskah/preview`}>
+                                                        <Button
+                                                            size="sm"
+                                                            variant="outline"
+                                                            title="Tata naskah penomoran SP/ST/KP (pratinjau, bisa disunting, unduh PDF/Word)"
+                                                        >
+                                                            <ListOrdered className="mr-1 h-3.5 w-3.5" />
+                                                            Tata Naskah
                                                         </Button>
                                                     </Link>
                                                     <Link href={`/rpp/${r.id}/edit`}>

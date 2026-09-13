@@ -305,6 +305,12 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::resource('rpp', RppController::class)->except(['show']);
     Route::get('/rpp-cetak/tata-naskah/preview', [RppPrintController::class, 'previewTataNaskah'])->name('rpp-cetak.tata-naskah.preview');
     Route::get('/rpp-cetak/tata-naskah', [RppPrintController::class, 'tataNaskah'])->name('rpp-cetak.tata-naskah');
+    Route::match(['get', 'post'], '/rpp-cetak/tata-naskah/word', [RppPrintController::class, 'tataNaskahWord'])->name('rpp-cetak.tata-naskah.word');
+    Route::post('/rpp-cetak/tata-naskah/pdf-suntingan', [RppPrintController::class, 'tataNaskahPdfSuntingan'])->name('rpp-cetak.tata-naskah.pdf-suntingan');
+    Route::get('/rpp-cetak/tata-naskah/suntingan/{token}', [RppPrintController::class, 'tataNaskahSuntingan'])->name('rpp-cetak.tata-naskah.suntingan');
+    Route::get('/rpp-cetak/{rpp}/tata-naskah/preview', [RppPrintController::class, 'previewTataNaskah'])->name('rpp-cetak.rpp.tata-naskah.preview');
+    Route::get('/rpp-cetak/{rpp}/tata-naskah', [RppPrintController::class, 'tataNaskah'])->name('rpp-cetak.rpp.tata-naskah');
+    Route::match(['get', 'post'], '/rpp-cetak/{rpp}/tata-naskah/word', [RppPrintController::class, 'tataNaskahWord'])->name('rpp-cetak.rpp.tata-naskah.word');
     Route::get('/rpp-cetak/{rpp}/tabel/preview', [RppPrintController::class, 'previewTabel'])->name('rpp-cetak.tabel.preview');
     Route::get('/rpp-cetak/{rpp}/pengantar/preview', [RppPrintController::class, 'previewPengantar'])->name('rpp-cetak.pengantar.preview');
     Route::get('/rpp-cetak/{rpp}/tabel', [RppPrintController::class, 'tabel'])->name('rpp-cetak.tabel');
