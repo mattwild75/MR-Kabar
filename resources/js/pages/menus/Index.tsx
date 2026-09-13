@@ -66,18 +66,21 @@ export default function MenuIndex({ menuItems }: Props) {
         const { active, over } = event;
         if (!over || active.id === over.id) return;
 
-        setMenus((prevMenus) =>
-            prevMenus.map((menu) => {
-                if (menu.id !== parentId || !menu.children) return menu;
-
-                const oldIndex = menu.children.findIndex((m) => m.id === Number(active.id));
-                const newIndex = menu.children.findIndex((m) => m.id === Number(over.id));
-                if (oldIndex === -1 || newIndex === -1) return menu;
-
-                const newChildren = arrayMove(menu.children, oldIndex, newIndex);
-                return { ...menu, children: newChildren };
-            }),
-        );
+        // Rekursif: induk yang digeser anaknya bisa berada di tingkat mana
+        // pun (mis. Miscellaneous -> ERPIKA -> Perencanaan). Sebelumnya hanya
+        // menu tingkat teratas yang diperiksa, sehingga geseran di dalam
+        // submenu bertingkat dua ke bawah selalu "membal" kembali.
+        const susun = (items: MenuItem[]): MenuItem[] =>
+            items.map((menu) => {
+                if (menu.id === parentId && menu.children) {
+                    const oldIndex = menu.children.findIndex((m) => m.id === Number(active.id));
+                    const newIndex = menu.children.findIndex((m) => m.id === Number(over.id));
+                    if (oldIndex === -1 || newIndex === -1) return menu;
+                    return { ...menu, children: arrayMove(menu.children, oldIndex, newIndex) };
+                }
+                return menu.children && menu.children.length > 0 ? { ...menu, children: susun(menu.children) } : menu;
+            });
+        setMenus((prevMenus) => susun(prevMenus));
     };
 
     const handleSave = () => {
