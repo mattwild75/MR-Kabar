@@ -75,12 +75,15 @@ class ErpikaAnalisisTest extends TestCase
 
         $this->actingAs($u)->get('/erpika/kalender?bulan=1&tahun=2026')->assertOk()->assertInertia(fn ($page) => $page
             ->has('penugasan', 2) // yang batal tidak ikut
-            ->where('jumlahHari', 31)
+            ->where('skala', 'bulan')
+            ->has('kolom', 31)
             ->where('perOrang.0.nama', 'Erfendi, S.E')
             ->where('perOrang.0.tumpang_tindih', 1)
             ->where('perOrang.1.tumpang_tindih', 0));
 
         $this->actingAs($u)->get('/erpika/kalender?bulan=3&tahun=2026')->assertOk()->assertInertia(fn ($page) => $page->has('penugasan', 0));
+        $this->actingAs($u)->get('/erpika/kalender?bulan=semua&tahun=2026')->assertOk()->assertInertia(fn ($page) => $page->where('skala', 'tahun')->has('kolom', 12)->has('penugasan', 2));
+        $this->actingAs($u)->get('/erpika/kalender?bulan=semua&tahun=semua')->assertOk()->assertInertia(fn ($page) => $page->where('skala', 'semua')->has('kolom', 1)->has('penugasan', 2));
     }
 
     public function test_beban_kerja_menjumlahkan_hari_dan_biaya_sppd_per_pegawai(): void

@@ -43,14 +43,49 @@ class AnalisisController extends Controller
         ]);
     }
 
+    /**
+     * Kalender penugasan dengan tiga skala: satu bulan (kolom = hari), satu
+     * tahun / "semua bulan" (kolom = 12 bulan), dan "semua tahun" (kolom =
+     * tahun). Batang dihitung server-side sebagai posisi pecahan kolom
+     * (dari..sampai) supaya tampilan sama pada skala mana pun.
+     */
     public function kalender(Request $request)
     {
-        $bulan = max(1, min(12, (int) $request->input('bulan', now()->month)));
-        $tahun = (int) $request->input('tahun', now()->year);
-        $mulai = now()->setDate($tahun, $bulan, 1)->startOfDay();
-        $selesai = $mulai->copy()->endOfMonth();
+        $tahunTersedia = Rpp::query()->select('year')->distinct()->orderByDesc('year')->pluck('year')->all();
+        $bulanMasuk = $request->input('bulan', now()->month);
+        $tahunMasuk = $request->input('tahun', now()->year);
+        $skala = $tahunMasuk === 'semua' ? 'semua' : ($bulanMasuk === 'semua' ? 'tahun' : 'bulan');
+        $tahun = $skala === 'semua' ? null : (int) $tahunMasuk;
+        $bulan = $skala === 'bulan' ? max(1, min(12, (int) $bulanMasuk)) : null;
 
-        $data = $this->ingat->ingat('erpika.kalender', self::TABEL, compact('bulan', 'tahun'), function () use ($mulai, $selesai) {
+        if ($skala === 'bulan') {
+            $mulai = now()->setDate($tahun, $bulan, 1)->startOfDay();
+            $selesai = $mulai->copy()->endOfMonth();
+            $kolom = [];
+            for ($d = 1; $d <= $mulai->daysInMonth; $d++) {
+                $t = $mulai->copy()->day($d);
+                $kolom[] = ['label' => (string) $d, 'akhir_pekan' => $t->isWeekend(), 'hari_ini' => $t->isToday()];
+            }
+            $posisi = fn ($tgl) => $tgl->day - 1 + 0.0;
+            $lebar = fn ($tgl) => 1.0; // satu hari = satu kolom
+        } elseif ($skala === 'tahun') {
+            $mulai = now()->setDate($tahun, 1, 1)->startOfDay();
+            $selesai = $mulai->copy()->endOfYear();
+            $kolom = array_map(fn ($m) => ['label' => RppPenugasan::BULAN[$m], 'akhir_pekan' => false, 'hari_ini' => now()->year === $tahun && now()->month === $m], range(1, 12));
+            $posisi = fn ($tgl) => ($tgl->month - 1) + ($tgl->day - 1) / $tgl->daysInMonth;
+            $lebar = fn ($tgl) => 1 / $tgl->daysInMonth;
+        } else {
+            $tahunAwal = min($tahunTersedia ?: [now()->year]);
+            $tahunAkhir = max($tahunTersedia ?: [now()->year]);
+            $mulai = now()->setDate($tahunAwal, 1, 1)->startOfDay();
+            $selesai = now()->setDate($tahunAkhir, 12, 31)->endOfDay();
+            $kolom = array_map(fn ($y) => ['label' => (string) $y, 'akhir_pekan' => false, 'hari_ini' => now()->year === $y], range($tahunAwal, $tahunAkhir));
+            $posisi = fn ($tgl) => ($tgl->year - $tahunAwal) + ($tgl->dayOfYear - 1) / ($tgl->isLeapYear() ? 366 : 365);
+            $lebar = fn ($tgl) => 1 / ($tgl->isLeapYear() ? 366 : 365);
+        }
+        $jumlahKolom = count($kolom);
+
+        $data = $this->ingat->ingat('erpika.kalender', self::TABEL, ['skala' => $skala, 'bulan' => $bulan, 'tahun' => $tahun, 'hari' => now()->toDateString()], function () use ($mulai, $selesai, $posisi, $lebar, $jumlahKolom) {
             $penugasan = RppPenugasan::query()
                 ->with(['rpp:id,nomor_rpp,year,rpp_category_id', 'rpp.category:id,name,kode_nomor', 'teamMembers:id,rpp_penugasan_id,employee_id,nama,role,hari_lapangan', 'obriks:id,rpp_penugasan_id,nama'])
                 ->whereNotNull('masa_tugas_mulai')->whereNotNull('masa_tugas_selesai')
@@ -59,6 +94,13 @@ class AnalisisController extends Controller
                 ->where('masa_tugas_selesai', '>=', $mulai->toDateString())
                 ->orderBy('masa_tugas_mulai')
                 ->get();
+
+            $batang = function ($p) use ($mulai, $selesai, $posisi, $lebar, $jumlahKolom) {
+                $a = $p->masa_tugas_mulai->lt($mulai) ? $mulai : $p->masa_tugas_mulai;
+                $b = $p->masa_tugas_selesai->gt($selesai) ? $selesai : $p->masa_tugas_selesai;
+
+                return ['dari' => max(0.0, $posisi($a)), 'sampai' => min((float) $jumlahKolom, $posisi($b) + $lebar($b))];
+            };
 
             $baris = $penugasan->map(fn (RppPenugasan $p) => [
                 'id' => $p->id,
@@ -72,10 +114,11 @@ class AnalisisController extends Controller
                 'status' => $p->status,
                 'mulai' => $p->masa_tugas_mulai->toDateString(),
                 'selesai' => $p->masa_tugas_selesai->toDateString(),
+                ...$batang($p),
                 'tim' => $p->teamMembers->map(fn ($m) => ['employee_id' => $m->employee_id, 'nama' => $m->nama, 'peran' => $m->peranTampil(), 'lk' => (int) $m->hari_lapangan])->values()->all(),
             ])->values()->all();
 
-            // Per orang: daftar penugasan bulan ini + tanda tumpang tindih.
+            // Per orang: daftar penugasan + tanda jadwal mustahil (LK gabungan > hari kalender gabungan).
             $perOrang = [];
             foreach ($baris as $b) {
                 foreach ($b['tim'] as $m) {
@@ -83,7 +126,7 @@ class AnalisisController extends Controller
                         continue;
                     }
                     $perOrang[$m['employee_id']]['nama'] = $m['nama'];
-                    $perOrang[$m['employee_id']]['penugasan'][] = ['id' => $b['id'], 'mulai' => $b['mulai'], 'selesai' => $b['selesai'], 'lk' => $m['lk'], 'peran' => $m['peran'], 'nomor_st' => $b['nomor_st'], 'uraian' => $b['uraian']];
+                    $perOrang[$m['employee_id']]['penugasan'][] = ['id' => $b['id'], 'mulai' => $b['mulai'], 'selesai' => $b['selesai'], 'dari' => $b['dari'], 'sampai' => $b['sampai'], 'lk' => $m['lk'], 'peran' => $m['peran'], 'nomor_st' => $b['nomor_st'], 'uraian' => $b['uraian']];
                 }
             }
             foreach ($perOrang as &$o) {
@@ -96,8 +139,7 @@ class AnalisisController extends Controller
                         if ($pj['mulai'] > $pi['selesai'] || $pi['lk'] <= 0 || $pj['lk'] <= 0) {
                             continue;
                         }
-                        // Mustahil dijalani: hari lapangan gabungan > hari kalender gabungan.
-                        $hariKalender = (int) (strtotime(max($pi['selesai'], $pj['selesai'])) - strtotime(min($pi['mulai'], $pj['mulai']))) / 86400 + 1;
+                        $hariKalender = (int) ((strtotime(max($pi['selesai'], $pj['selesai'])) - strtotime(min($pi['mulai'], $pj['mulai']))) / 86400) + 1;
                         if ($hariKalender < $pi['lk'] + $pj['lk']) {
                             $o['tumpang_tindih']++;
                         }
@@ -112,10 +154,12 @@ class AnalisisController extends Controller
 
         return Inertia::render('erpika/Kalender', [
             ...$data,
+            'skala' => $skala,
             'bulan' => $bulan,
             'tahun' => $tahun,
-            'jumlahHari' => $mulai->daysInMonth,
-            'tahunTersedia' => Rpp::query()->select('year')->distinct()->orderByDesc('year')->pluck('year')->all(),
+            'kolom' => $kolom,
+            'judulRentang' => $skala === 'bulan' ? RppPenugasan::BULAN[$bulan].' '.$tahun : ($skala === 'tahun' ? 'Tahun '.$tahun : 'Seluruh tahun'),
+            'tahunTersedia' => $tahunTersedia,
         ]);
     }
 

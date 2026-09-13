@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import ThUrut from '@/components/ui/th-urut';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -67,18 +68,22 @@ export default function BebanKerja({ baris, total, tarif, tahunTersedia, filters
                         </p>
                     </div>
                     <div className="flex items-center gap-2 print:hidden">
-                        <select
-                            className="rounded border px-2 py-1 text-sm"
+                        <Select
                             value={String(filters.tahun)}
-                            onChange={(e) => router.get('/erpika/beban-kerja', { tahun: e.target.value }, { preserveState: true })}
+                            onValueChange={(v) => router.get('/erpika/beban-kerja', { tahun: v }, { preserveState: true })}
                         >
-                            <option value="semua">Semua tahun</option>
-                            {tahunTersedia.map((y) => (
-                                <option key={y} value={y}>
-                                    {y}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-[150px]">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="semua">Semua tahun</SelectItem>
+                                {tahunTersedia.map((y) => (
+                                    <SelectItem key={y} value={String(y)}>
+                                        {y}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                         <Button variant="outline" size="sm" onClick={() => window.print()}>
                             <Printer className="mr-2 h-4 w-4" />
                             Cetak

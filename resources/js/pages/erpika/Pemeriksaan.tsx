@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -105,18 +106,22 @@ export default function Pemeriksaan({ hasil, tahunTersedia, filters }: Props) {
                     </div>
                     <label className="text-sm">
                         Tahun{' '}
-                        <select
-                            className="ml-1 rounded border px-2 py-1"
+                        <Select
                             value={String(filters.tahun)}
-                            onChange={(e) => router.get('/erpika/pemeriksaan', { tahun: e.target.value }, { preserveState: true })}
+                            onValueChange={(v) => router.get('/erpika/pemeriksaan', { tahun: v }, { preserveState: true })}
                         >
-                            <option value="semua">Semua tahun</option>
-                            {tahunTersedia.map((y) => (
-                                <option key={y} value={y}>
-                                    {y}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-[150px]">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="semua">Semua tahun</SelectItem>
+                                {tahunTersedia.map((y) => (
+                                    <SelectItem key={y} value={String(y)}>
+                                        {y}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </label>
                 </div>
 
