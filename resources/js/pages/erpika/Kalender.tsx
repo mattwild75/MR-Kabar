@@ -56,6 +56,7 @@ function hari(iso: string) {
 export default function Kalender({ penugasan, perOrang, bulan, tahun, jumlahHari, tahunTersedia }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'ERPIKA', href: '#' },
+        { title: 'Perencanaan', href: '/rpp' },
         { title: 'Kalender Penugasan', href: '/erpika/kalender' },
     ];
     const [mode, setMode] = useIngatan<'penugasan' | 'orang'>('kalender-mode', 'penugasan');

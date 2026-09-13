@@ -1105,18 +1105,18 @@ class MenuSeeder extends Seeder
                 'permission_name' => null,
             ]
         );
-        // Tampilan turunan yang hanya membaca data RPP (13 September 2026).
+        // Tampilan turunan RPP (hanya membaca), di bawah Perencanaan sejak 13 September 2026.
         Menu::updateOrCreate(
             ['route' => '/erpika/kalender'],
-            ['title' => 'Kalender Penugasan', 'parent_id' => $erpika->id, 'icon' => 'CalendarDays', 'order' => 6, 'permission_name' => null]
+            ['title' => 'Kalender Penugasan', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'CalendarDays', 'order' => 3, 'permission_name' => null]
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/beban-kerja'],
-            ['title' => 'Beban Kerja', 'parent_id' => $erpika->id, 'icon' => 'Scale', 'order' => 7, 'permission_name' => null]
+            ['title' => 'Beban Kerja', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'Scale', 'order' => 4, 'permission_name' => null]
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/pemeriksaan'],
-            ['title' => 'Pemeriksaan Data', 'parent_id' => $erpika->id, 'icon' => 'ScanSearch', 'order' => 8, 'permission_name' => null]
+            ['title' => 'Pemeriksaan Data', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'ScanSearch', 'order' => 5, 'permission_name' => null]
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/data-terhapus'],

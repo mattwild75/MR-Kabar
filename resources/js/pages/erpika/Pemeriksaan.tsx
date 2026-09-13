@@ -83,6 +83,7 @@ function Tautan({ r }: { r: Rujukan }) {
 export default function Pemeriksaan({ hasil, tahunTersedia, filters }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'ERPIKA', href: '#' },
+        { title: 'Perencanaan', href: '/rpp' },
         { title: 'Pemeriksaan Data', href: '/erpika/pemeriksaan' },
     ];
     const t = hasil.temuan;

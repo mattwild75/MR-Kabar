@@ -27,12 +27,12 @@ tanpa mengubah cara kerjanya.
    (merah ST terbit, kuning nomor laporan diminta, hijau LHP terbit), dan
    capaian per jenis (mis. "Reviu 38 (80%)"). *Pratinjau* dan *Unduh PDF /
    Excel* menghasilkan rekap 17 kolom persis berkas rekap aneva.
-5. **Kalender Penugasan** — siapa bertugas kapan dalam satu bulan, per
+5. **Perencanaan → Kalender Penugasan** — siapa bertugas kapan dalam satu bulan, per
    penugasan atau per orang; orang yang jadwalnya mustahil (hari lapangan
    melebihi hari kalender) ditampilkan paling atas.
-6. **Beban Kerja** — hari DK/LK, biaya SPPD, jumlah penugasan, sebaran jenis
+6. **Perencanaan → Beban Kerja** — hari DK/LK, biaya SPPD, jumlah penugasan, sebaran jenis
    dan peran per pegawai per tahun; bisa dicetak.
-7. **Pemeriksaan Data** — temuan keutuhan: nomor ST ganda, penugasan tanpa
+7. **Perencanaan → Pemeriksaan Data** — temuan keutuhan: nomor ST ganda, penugasan tanpa
    uraian, ST tanpa tanggal, masa tugas tanpa ST, status tidak selaras dengan
    laporan, jadwal mustahil, pegawai tanpa NIP, dan penugasan yang belum
    pernah disinkron dari aneva. Halaman ini **hanya menandai** — perbaikan

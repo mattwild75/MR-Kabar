@@ -35,6 +35,7 @@ const rp = (n: number) => 'Rp' + n.toLocaleString('id-ID');
 export default function BebanKerja({ baris, total, tarif, tahunTersedia, filters }: Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'ERPIKA', href: '#' },
+        { title: 'Perencanaan', href: '/rpp' },
         { title: 'Beban Kerja', href: '/erpika/beban-kerja' },
     ];
     const [urut, setUrut] = useState<{ kolom: string; arah: 'asc' | 'desc' }>({ kolom: 'hari', arah: 'desc' });
