@@ -66,10 +66,13 @@ const breadcrumbs: BreadcrumbItem[] = [
  */
 const WARNA = { baca: 'bg-sky-600', aman: 'bg-amber-600', bebas: 'bg-muted-foreground/15' } as const;
 
+/* Satuan desimal (1 GB = 1.000.000.000 bita), sama dengan satuan yang
+   dipakai penyedia VM saat menyebut "disk 50 GB" — dengan satuan biner
+   (GiB) disk yang sama terbaca 47 GB dan angkanya seolah tidak cocok. */
 export function formatUkuran(b: number): string {
-    if (b >= 1024 ** 3) return `${(b / 1024 ** 3).toFixed(2)} GB`;
-    if (b >= 1024 ** 2) return `${(b / 1024 ** 2).toFixed(1)} MB`;
-    if (b >= 1024) return `${(b / 1024).toFixed(0)} KB`;
+    if (b >= 1e9) return `${(b / 1e9).toFixed(2).replace('.', ',')} GB`;
+    if (b >= 1e6) return `${(b / 1e6).toFixed(1).replace('.', ',')} MB`;
+    if (b >= 1e3) return `${(b / 1e3).toFixed(0)} KB`;
     return `${Math.round(b)} B`;
 }
 
@@ -215,7 +218,9 @@ export default function StorageIndex({ potret }: Props) {
                                 <span className={`inline-block h-2.5 w-2.5 rounded-sm border ${WARNA.bebas}`} /> Bebas{' '}
                                 <span className="text-foreground tabular-nums">{formatUkuran(disk.bebas)}</span>
                             </span>
-                            <span className="ml-auto">Dihitung {potret.dihitung_pada} · disegarkan otomatis tiap 10 menit</span>
+                            <span className="ml-auto">
+                                1 GB = 1.000 MB (satuan penyedia disk) · dihitung {potret.dihitung_pada} · disegarkan otomatis tiap 10 menit
+                            </span>
                         </div>
                     </CardContent>
                 </Card>
