@@ -32,9 +32,9 @@ class PenyimpananTest extends TestCase
     public function test_hanya_super_admin_dan_potret_lengkap(): void
     {
         Cache::forget(PenyimpananService::CACHE);
-        $this->actingAs(User::factory()->create())->get('/storage')->assertForbidden();
+        $this->actingAs(User::factory()->create())->get('/penyimpanan')->assertForbidden();
 
-        $this->actingAs($this->superAdmin())->get('/storage')
+        $this->actingAs($this->superAdmin())->get('/penyimpanan')
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('storage/Index')
@@ -55,17 +55,17 @@ class PenyimpananTest extends TestCase
         File::put($hariIni, 'uji');
 
         try {
-            $this->actingAs($admin)->delete('/storage', ['butir' => [['jenis' => 'log', 'id' => 'laravel-2020-01-01.log']]])->assertSessionHas('success');
+            $this->actingAs($admin)->delete('/penyimpanan', ['butir' => [['jenis' => 'log', 'id' => 'laravel-2020-01-01.log']]])->assertSessionHas('success');
             $this->assertFileDoesNotExist($lama);
 
-            $this->actingAs($admin)->delete('/storage', ['butir' => [['jenis' => 'log', 'id' => 'uji-hari-ini.log']]])->assertSessionHas('error');
+            $this->actingAs($admin)->delete('/penyimpanan', ['butir' => [['jenis' => 'log', 'id' => 'uji-hari-ini.log']]])->assertSessionHas('error');
             $this->assertFileExists($hariIni);
 
-            $this->actingAs($admin)->delete('/storage', ['butir' => [['jenis' => 'log', 'id' => '../../.env']]])->assertSessionHas('error');
-            $this->actingAs($admin)->delete('/storage', ['butir' => [['jenis' => 'sementara', 'id' => '../.env']]])->assertSessionHas('error');
-            $this->actingAs($admin)->delete('/storage', ['butir' => [['jenis' => 'sementara', 'id' => 'private']]])->assertSessionHas('error');
+            $this->actingAs($admin)->delete('/penyimpanan', ['butir' => [['jenis' => 'log', 'id' => '../../.env']]])->assertSessionHas('error');
+            $this->actingAs($admin)->delete('/penyimpanan', ['butir' => [['jenis' => 'sementara', 'id' => '../.env']]])->assertSessionHas('error');
+            $this->actingAs($admin)->delete('/penyimpanan', ['butir' => [['jenis' => 'sementara', 'id' => 'private']]])->assertSessionHas('error');
             $this->assertFileExists(base_path('.env'));
-            $this->actingAs($admin)->delete('/storage', ['butir' => [['jenis' => 'kode', 'id' => 'vendor']]])->assertSessionHasErrors('butir.0.jenis');
+            $this->actingAs($admin)->delete('/penyimpanan', ['butir' => [['jenis' => 'kode', 'id' => 'vendor']]])->assertSessionHasErrors('butir.0.jenis');
         } finally {
             @unlink($lama);
             @unlink($hariIni);

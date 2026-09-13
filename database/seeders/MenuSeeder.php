@@ -206,7 +206,7 @@ class MenuSeeder extends Seeder
             ['title' => 'Storage', 'parent_id' => $utilities->id],
             [
                 'icon' => 'HardDrive',
-                'route' => '/storage',
+                'route' => '/penyimpanan',
                 'order' => 8,
                 'permission_name' => 'storage-view',
             ]

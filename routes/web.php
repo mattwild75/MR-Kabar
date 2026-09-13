@@ -401,10 +401,13 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::delete('/lapor-kejadian/rekap/{laporanKejadian}', [LaporanKejadianController::class, 'destroy'])->name('lapor-kejadian.destroy');
 
     // Utilities > Storage — pemakaian disk dan penghapusan berkas yang aman
-    // (Super Admin, dijaga di controller).
-    Route::get('/storage', [PenyimpananController::class, 'index'])->name('storage.index');
-    Route::delete('/storage', [PenyimpananController::class, 'hapus'])->name('storage.hapus');
-    Route::post('/storage/bersihkan-cache', [PenyimpananController::class, 'bersihkanCache'])->name('storage.bersihkan-cache');
+    // (Super Admin, dijaga di controller). Path-nya /penyimpanan, BUKAN
+    // /storage: di produksi public/storage adalah symlink ke storage/app/public,
+    // sehingga nginx menjawab /storage sebagai folder (403) sebelum sampai
+    // ke Laravel.
+    Route::get('/penyimpanan', [PenyimpananController::class, 'index'])->name('storage.index');
+    Route::delete('/penyimpanan', [PenyimpananController::class, 'hapus'])->name('storage.hapus');
+    Route::post('/penyimpanan/bersihkan-cache', [PenyimpananController::class, 'bersihkanCache'])->name('storage.bersihkan-cache');
 
     Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');
     Route::post('/backup/run', [BackupController::class, 'run'])->name('backup.run');

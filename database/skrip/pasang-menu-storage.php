@@ -6,6 +6,6 @@ $perm = Spatie\Permission\Models\Permission::firstOrCreate(['name' => 'storage-v
 $util = App\Models\Menu::where('title', 'Utilities')->whereNull('parent_id')->firstOrFail();
 $menu = App\Models\Menu::updateOrCreate(
     ['title' => 'Storage', 'parent_id' => $util->id],
-    ['icon' => 'HardDrive', 'route' => '/storage', 'order' => 8, 'permission_name' => 'storage-view']
+    ['icon' => 'HardDrive', 'route' => '/penyimpanan', 'order' => 8, 'permission_name' => 'storage-view']
 );
 echo 'permission #'.$perm->id.', menu #'.$menu->id.PHP_EOL;

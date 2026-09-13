@@ -52,7 +52,7 @@ interface Props {
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Utilities', href: '#' },
-    { title: 'Storage', href: '/storage' },
+    { title: 'Storage', href: '/penyimpanan' },
 ];
 
 /*
@@ -101,7 +101,7 @@ export default function StorageIndex({ potret }: Props) {
 
     const hapus = (daftar: Butir[]) => {
         setSibuk(true);
-        router.delete('/storage', {
+        router.delete('/penyimpanan', {
             data: { butir: daftar.map((b) => ({ jenis: b.jenis, id: b.id })) },
             preserveScroll: true,
             onSuccess: () => setPilih({}),
@@ -145,11 +145,11 @@ export default function StorageIndex({ potret }: Props) {
                         </div>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                        <Button variant="outline" size="sm" onClick={() => router.get('/storage', { segar: 1 }, { preserveScroll: true })}>
+                        <Button variant="outline" size="sm" onClick={() => router.get('/penyimpanan', { segar: 1 }, { preserveScroll: true })}>
                             <RefreshCw className="h-4 w-4" />
                             Hitung ulang
                         </Button>
-                        <Button variant="outline" size="sm" onClick={() => router.post('/storage/bersihkan-cache', {}, { preserveScroll: true })}>
+                        <Button variant="outline" size="sm" onClick={() => router.post('/penyimpanan/bersihkan-cache', {}, { preserveScroll: true })}>
                             <Eraser className="h-4 w-4" />
                             Bersihkan cache
                         </Button>
