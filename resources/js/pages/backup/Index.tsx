@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -607,7 +608,11 @@ export default function BackupIndex({
                         <Separator />
 
                         {versi.length === 0 ? (
-                            <p className="text-muted-foreground text-center text-sm">Belum ada versi yang ditandai.</p>
+                            <EmptyState
+                                size="sm"
+                                title="Belum ada versi yang ditandai"
+                                description="Tandai versi saat merilis perubahan besar supaya snapshot basis datanya ikut tersimpan."
+                            />
                         ) : (
                             <ul className="space-y-2">
                                 {versi.map((v) => (

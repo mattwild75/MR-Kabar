@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -101,7 +102,7 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin, basePath =
             <Head title={judul} />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">{judul}</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">{judul}</h1>
                     <p className="text-muted-foreground text-sm">
                         Data yang dihapus tidak langsung hilang — bisa dipulihkan di sini. Hapus permanen
                         {isAdmin ? '' : ' hanya dapat dilakukan Admin'}.
@@ -135,7 +136,10 @@ export default function TrashIndex({ tabs, activeType, rows, isAdmin, basePath =
                 <Card>
                     <CardContent className="p-0">
                         {rows.length === 0 ? (
-                            <div className="text-muted-foreground p-8 text-center text-sm">Tidak ada data terhapus pada kategori ini.</div>
+                            <EmptyState
+                                title="Tidak ada data terhapus"
+                                description="Data yang dihapus dari kategori ini akan tampil di sini dan bisa dipulihkan."
+                            />
                         ) : (
                             <div className="divide-y">
                                 {groups.map((group) => {

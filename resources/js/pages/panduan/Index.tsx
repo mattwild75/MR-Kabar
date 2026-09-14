@@ -69,7 +69,7 @@ export default function PanduanIndex({ bolehLihatRekap = false, rekapKuis = null
                 {/* Konten */}
                 <div className="min-w-0 flex-1 space-y-4">
                     <div>
-                        <h1 className="text-2xl font-semibold">Apa itu Manajemen Risiko / MR Kabar</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Apa itu Manajemen Risiko / MR Kabar</h1>
                         <p className="text-muted-foreground mt-1 text-sm">
                             Panduan lengkap konsep manajemen risiko pemerintah daerah dan cara memakai aplikasi MR Kabar dari awal sampai akhir —
                             mengikuti kerangka 5W1H (Apa, Mengapa, Siapa, Kapan, Di mana, Bagaimana). Halaman ini bersifat dinamis dan akan terus

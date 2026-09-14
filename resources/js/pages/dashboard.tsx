@@ -12,10 +12,13 @@ import { Head, router } from '@inertiajs/react';
 import {
     Activity as ActivityIcon,
     AlertTriangle,
+    ArrowDownRight,
+    ArrowUpRight,
     CheckCircle2,
     ChevronRight,
     ClipboardList,
     Clock,
+    Minus,
     MinusCircle,
     ShieldCheck,
     XCircle,
@@ -57,6 +60,78 @@ interface Ringkasan {
     rtp_dibutuhkan: number;
     opd_patuh: number;
     total_opd_wajib: number;
+}
+
+/** Angka tahun sebelumnya (null bila tahun lalu kosong). */
+interface Pembanding {
+    tahun: number;
+    total_risiko: number;
+    risiko_prioritas: number;
+}
+
+/**
+ * Kartu ringkasan: label kecil, angka besar, keterangan satu baris, dan
+ * (bila ada) selisih terhadap tahun lalu. Warna hanya pada ikon dan garis
+ * tipis di kiri — sebelumnya tiap kartu memakai gradien penuh plus lingkaran
+ * besar di sudut, yang membuat empat kartu saling berebut perhatian.
+ */
+function KartuStat({
+    label,
+    nilai,
+    keterangan,
+    icon,
+    warna,
+    selisih,
+    tahunLalu,
+    turunBaik = false,
+}: {
+    label: string;
+    nilai: React.ReactNode;
+    keterangan?: React.ReactNode;
+    icon: React.ReactNode;
+    warna: 'sky' | 'orange' | 'emerald' | 'violet';
+    /** nilai sekarang − nilai tahun lalu; undefined = tidak ada pembanding */
+    selisih?: number;
+    tahunLalu?: number;
+    /** true bila turun adalah kabar baik (mis. risiko prioritas) */
+    turunBaik?: boolean;
+}) {
+    const W = {
+        sky: { garis: 'border-l-sky-500', ikon: 'bg-sky-500/12 text-sky-600 dark:text-sky-400' },
+        orange: { garis: 'border-l-orange-500', ikon: 'bg-orange-500/12 text-orange-600 dark:text-orange-400' },
+        emerald: { garis: 'border-l-emerald-500', ikon: 'bg-emerald-500/12 text-emerald-600 dark:text-emerald-400' },
+        violet: { garis: 'border-l-violet-500', ikon: 'bg-violet-500/12 text-violet-600 dark:text-violet-400' },
+    }[warna];
+    let tren: React.ReactNode = null;
+    if (selisih !== undefined && tahunLalu !== undefined) {
+        const naik = selisih > 0;
+        const baik = selisih === 0 ? null : turunBaik ? !naik : naik;
+        const warnaTren =
+            baik === null ? 'text-muted-foreground' : baik ? 'text-emerald-600 dark:text-emerald-400' : 'text-orange-600 dark:text-orange-400';
+        tren = (
+            <span className={`inline-flex items-center gap-0.5 text-xs font-medium tabular-nums ${warnaTren}`} title={`Dibanding tahun ${tahunLalu}`}>
+                {selisih === 0 ? <Minus className="h-3 w-3" /> : naik ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
+                {selisih === 0 ? 'sama' : `${naik ? '+' : ''}${selisih}`} <span className="text-muted-foreground font-normal">vs {tahunLalu}</span>
+            </span>
+        );
+    }
+    return (
+        <Card className={`border-l-4 ${W.garis} transition-shadow hover:shadow-md`}>
+            <CardContent className="flex items-start justify-between gap-3 p-4">
+                <div className="min-w-0">
+                    <p className="text-muted-foreground text-xs font-medium tracking-wide uppercase">{label}</p>
+                    <p className="mt-1.5 text-3xl font-semibold tracking-tight tabular-nums">{nilai}</p>
+                    {(keterangan || tren) && (
+                        <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs">
+                            {tren}
+                            {keterangan && <span>{keterangan}</span>}
+                        </div>
+                    )}
+                </div>
+                <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${W.ikon} [&>svg]:h-4 [&>svg]:w-4`}>{icon}</span>
+            </CardContent>
+        </Card>
+    );
 }
 
 interface TahapDetailItem {
@@ -205,6 +280,7 @@ interface PageProps {
     tahunOptions: number[];
     jadwalPenilaian: JadwalArahan[];
     ringkasan: Ringkasan;
+    pembanding: Pembanding | null;
     matriks: Record<string, number>;
     matriksDetail: Record<string, MatriksDetailRisiko[]>;
     matrixCells: MatrixCellItem[];
@@ -430,6 +506,7 @@ export default function Dashboard({
     tahunOptions,
     jadwalPenilaian,
     ringkasan,
+    pembanding,
     matriks,
     matriksDetail,
     matrixCells,
@@ -550,7 +627,7 @@ export default function Dashboard({
             <div className="flex flex-col gap-6 p-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-xl font-semibold">Dashboard MR Kabar</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Dashboard MR Kabar</h1>
                         <p className="text-muted-foreground text-sm">Manajemen Risiko Pemerintah Kabupaten Aceh Barat</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -598,63 +675,49 @@ export default function Dashboard({
             angkanya". Isinya dibaca dari Arahan yang ditetapkan Bupati. */}
                 <JadwalPenilaianWidget arahan={jadwalPenilaian} tahun={tahun} isAdmin={isAdmin} />
 
-                {/* Seksi 1: Ringkasan — aksen warna per-kartu + hover lift + icon berwarna */}
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                    <Card className="group relative overflow-hidden border-l-4 border-l-sky-500 bg-gradient-to-br from-sky-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-sky-950/40">
-                        <div className="pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full bg-sky-500/20 transition-transform duration-300 group-hover:scale-125" />
-                        <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
-                            <CardTitle className="text-muted-foreground text-sm font-medium">Total Risiko Teridentifikasi</CardTitle>
-                            <div className="rounded-lg bg-sky-500/20 p-1.5">
-                                <ClipboardList className="h-4 w-4 text-sky-600 dark:text-sky-400" />
-                            </div>
-                        </CardHeader>
-                        <CardContent className="relative px-4 py-2 text-3xl font-bold">{ringkasan.total_risiko}</CardContent>
-                    </Card>
-                    <Card className="group relative overflow-hidden border-l-4 border-l-orange-500 bg-gradient-to-br from-orange-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-orange-950/40">
-                        <div className="pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full bg-orange-500/20 transition-transform duration-300 group-hover:scale-125" />
-                        <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
-                            <CardTitle className="text-muted-foreground text-sm font-medium">Risiko Prioritas</CardTitle>
-                            <div className="rounded-lg bg-orange-500/20 p-1.5">
-                                <AlertTriangle className="h-4 w-4 text-orange-600 dark:text-orange-400" />
-                            </div>
-                        </CardHeader>
-                        <CardContent className="relative px-4 py-2 text-3xl font-bold text-orange-600 dark:text-orange-400">
-                            {ringkasan.risiko_prioritas}
-                        </CardContent>
-                    </Card>
-                    <Card className="group relative overflow-hidden border-l-4 border-l-emerald-500 bg-gradient-to-br from-emerald-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-emerald-950/40">
-                        <div className="pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full bg-emerald-500/20 transition-transform duration-300 group-hover:scale-125" />
-                        <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
-                            <CardTitle className="text-muted-foreground text-sm font-medium">RTP Selesai Disusun</CardTitle>
-                            <div className="rounded-lg bg-emerald-500/20 p-1.5">
-                                <ShieldCheck className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                            </div>
-                        </CardHeader>
-                        <CardContent className="relative px-4 py-2">
-                            <div className="text-3xl font-bold">
-                                {ringkasan.rtp_tersusun}/{ringkasan.rtp_dibutuhkan}
-                            </div>
-                            <p className="text-muted-foreground text-xs">{rtpTrend}% risiko prioritas</p>
-                        </CardContent>
-                    </Card>
-                    <Card className="group relative overflow-hidden border-l-4 border-l-violet-500 bg-gradient-to-br from-violet-50 to-transparent transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:from-violet-950/40">
-                        <div className="pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full bg-violet-500/20 transition-transform duration-300 group-hover:scale-125" />
-                        <CardHeader className="flex-row items-center justify-between space-y-0 px-4 py-3">
-                            <CardTitle className="text-muted-foreground text-sm font-medium">Kepatuhan Pelaporan</CardTitle>
-                            <div className="rounded-lg bg-violet-500/20 p-1.5">
-                                <CheckCircle2 className="h-4 w-4 text-violet-600 dark:text-violet-400" />
-                            </div>
-                        </CardHeader>
-                        <CardContent className="relative px-4 py-2">
-                            <div className="text-3xl font-bold">
-                                {ringkasan.opd_patuh}/{ringkasan.total_opd_wajib}
-                            </div>
-                            <p className="text-muted-foreground text-xs">
-                                {kepatuhanTrend}% OPD lengkap · {ringkasan.opd_patuh} dari {kepatuhanForm8910.length} OPD terdaftar sudah lengkap RTP
-                                & Monev
-                            </p>
-                        </CardContent>
-                    </Card>
+                {/* Seksi 1: Ringkasan — empat kartu tenang, selisih vs tahun lalu bila ada */}
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    <KartuStat
+                        label="Total Risiko Teridentifikasi"
+                        nilai={ringkasan.total_risiko}
+                        icon={<ClipboardList />}
+                        warna="sky"
+                        selisih={pembanding ? ringkasan.total_risiko - pembanding.total_risiko : undefined}
+                        tahunLalu={pembanding?.tahun}
+                    />
+                    <KartuStat
+                        label="Risiko Prioritas"
+                        nilai={<span className="text-orange-600 dark:text-orange-400">{ringkasan.risiko_prioritas}</span>}
+                        icon={<AlertTriangle />}
+                        warna="orange"
+                        selisih={pembanding ? ringkasan.risiko_prioritas - pembanding.risiko_prioritas : undefined}
+                        tahunLalu={pembanding?.tahun}
+                        turunBaik
+                    />
+                    <KartuStat
+                        label="RTP Selesai Disusun"
+                        nilai={
+                            <>
+                                {ringkasan.rtp_tersusun}
+                                <span className="text-muted-foreground text-xl font-normal">/{ringkasan.rtp_dibutuhkan}</span>
+                            </>
+                        }
+                        keterangan={`${rtpTrend}% risiko prioritas`}
+                        icon={<ShieldCheck />}
+                        warna="emerald"
+                    />
+                    <KartuStat
+                        label="Kepatuhan Pelaporan"
+                        nilai={
+                            <>
+                                {ringkasan.opd_patuh}
+                                <span className="text-muted-foreground text-xl font-normal">/{ringkasan.total_opd_wajib}</span>
+                            </>
+                        }
+                        keterangan={`${kepatuhanTrend}% OPD lengkap · ${ringkasan.opd_patuh} dari ${kepatuhanForm8910.length} OPD terdaftar sudah lengkap RTP & Monev`}
+                        icon={<CheckCircle2 />}
+                        warna="violet"
+                    />
                 </div>
 
                 {/* Seksi 2: Analisis & Peta Risiko */}
@@ -817,7 +880,11 @@ export default function Dashboard({
                     </CardHeader>
                     <CardContent>
                         {inherenResidual.length === 0 ? (
-                            <p className="text-muted-foreground text-sm">Belum ada risiko dengan Skala Inheren terisi.</p>
+                            <EmptyState
+                                size="sm"
+                                title="Belum ada skala inheren"
+                                description="Terisi setelah risiko dinilai dampak dan kemungkinannya."
+                            />
                         ) : (
                             <>
                                 <div className="max-h-[400px] overflow-x-hidden overflow-y-auto">
@@ -982,7 +1049,11 @@ export default function Dashboard({
                     </CardHeader>
                     <CardContent className="h-[300px]">
                         {trenEfektivitasPengendalian.every((t) => t.total_dinilai === 0) ? (
-                            <p className="text-muted-foreground text-sm">Belum ada risiko dengan Skala Inheren terisi.</p>
+                            <EmptyState
+                                size="sm"
+                                title="Belum ada skala inheren"
+                                description="Terisi setelah risiko dinilai dampak dan kemungkinannya."
+                            />
                         ) : (
                             <>
                                 <SaatTerlihat tinggi="90%" className="h-[90%]">

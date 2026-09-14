@@ -455,7 +455,7 @@ export default function RppForm({
             <Head title={rpp ? `Ubah RPP ${rpp.nomor_rpp}` : 'Tambah RPP'} />
             <div className="space-y-5 p-4 pb-28 md:p-6">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">{rpp ? `Ubah RPP ${rpp.nomor_rpp}` : 'Tambah RPP'}</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">{rpp ? `Ubah RPP ${rpp.nomor_rpp}` : 'Tambah RPP'}</h1>
                     <p className="text-muted-foreground text-sm">
                         Satu dokumen RPP bisa memuat beberapa penugasan; tiap penugasan punya tim dan hari pemeriksaannya sendiri.
                     </p>

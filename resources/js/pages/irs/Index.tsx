@@ -352,13 +352,13 @@ export default function IrsIndex({
             <Head title="I_b_IRS_Pemda" />
 
             <div className="space-y-4 p-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-start justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-semibold">I_b_IRS_Pemda</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">I_b_IRS_Pemda</h1>
                         <p className="text-muted-foreground text-sm">
                             Identifikasi Risiko Strategis Pemda — analisis risiko terhadap pencapaian Sasaran RPJMD.
                         </p>
-                        <div className="mt-2">
+                        <div className="mt-3 flex flex-wrap items-end gap-3">
                             <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
                             {/* Penunjuk di kiri menetapkan tahun BAWAAN untuk baris baru;
                   pemilih di kanan menentukan tahun mana yang sedang DILIHAT.
@@ -631,7 +631,9 @@ export default function IrsIndex({
                                                 </td>
                                             </tr>
                                             {hiddenFieldMatches.length > 0 && (
-                                                <tr className={isCurrent ? 'ring-2 ring-orange-500 ring-inset' : ''}>
+                                                <tr
+                                                    className={`hover:bg-muted/40 transition-colors ${isCurrent ? 'ring-2 ring-orange-500 ring-inset' : ''}`}
+                                                >
                                                     <td
                                                         colSpan={12}
                                                         className="border-x border-b bg-orange-50 px-3 py-2 text-xs dark:bg-orange-950/20"

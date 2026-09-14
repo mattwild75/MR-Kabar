@@ -234,7 +234,7 @@ export default function Cetak3({
             <Head title="13_Laporan Pemantauan Unit Kepatuhan" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">13_Laporan Pemantauan Unit Kepatuhan</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">13_Laporan Pemantauan Unit Kepatuhan</h1>
                     <p className="text-muted-foreground text-sm">
                         Pratinjau cetak ukuran A4 portrait — Triwulan {triwulan} Tahun {tahun}. Level Pemerintah Daerah (kompilasi lintas-OPD).
                     </p>

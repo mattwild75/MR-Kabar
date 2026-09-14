@@ -54,7 +54,7 @@ export default function RoleIndex({ roles }: Props) {
             <div className="flex-1 space-y-6 p-4 md:p-6">
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Role Management</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Role Management</h1>
                         <p className="text-muted-foreground">Manage roles and permissions for the system</p>
                     </div>
                     <Link href="/roles/create">

@@ -45,7 +45,7 @@ export default function Kamus({ butir, areas, areaTerpilih }: Props) {
 
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-bold">Kamus Risiko Kecurangan</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Kamus Risiko Kecurangan</h1>
                     <p className="text-muted-foreground text-sm">
                         Daftar risiko kecurangan baku yang boleh dipungut saat mengisi Identifikasi Risiko. Gunanya bukan mempercepat pengetikan:
                         tanpa kamus, tiap Perangkat Daerah merumuskan sendiri risiko yang sebenarnya sama, dan register gabungannya tidak bisa

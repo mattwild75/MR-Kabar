@@ -99,7 +99,7 @@ export default function Pemeriksaan({ hasil, tahunTersedia, filters }: Props) {
             <div className="space-y-4 p-4 md:p-6">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Pemeriksaan Data ERPIKA</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Pemeriksaan Data ERPIKA</h1>
                         <p className="text-muted-foreground text-sm">
                             Temuan keutuhan data RPP Perencanaan dan Aneva. Halaman ini hanya menandai — tidak mengubah apa pun.
                         </p>

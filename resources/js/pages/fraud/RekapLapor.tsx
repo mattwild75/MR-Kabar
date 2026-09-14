@@ -135,7 +135,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
 
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-bold">Rekap Lapor Kejadian Fraud</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Rekap Lapor Kejadian Fraud</h1>
                     <p className="text-muted-foreground text-sm">
                         Laporan dugaan kecurangan yang masuk lewat tab "Dugaan Kecurangan" pada halaman Lapor. Sebagian pelapor memilih anonim —
                         identitasnya memang tidak pernah disimpan, bukan disembunyikan.

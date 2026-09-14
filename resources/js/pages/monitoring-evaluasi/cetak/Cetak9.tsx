@@ -136,7 +136,7 @@ export default function Cetak9({ opdOptions, opd, tahun, periode, rows, pemerint
             <Head title="9_Rencana & Realisasi Pemantauan" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">9_Rencana &amp; Realisasi Pemantauan</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">9_Rencana &amp; Realisasi Pemantauan</h1>
                     <p className="text-muted-foreground text-sm">Pratinjau cetak ukuran A4 landscape.</p>
                 </div>
                 <div className="flex flex-wrap items-end justify-between gap-3">

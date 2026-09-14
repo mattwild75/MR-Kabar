@@ -752,7 +752,7 @@ export default function Form89({ opdOptions, opdId, tahun, isAdmin, triwulanOpti
             <Head title="8-9 Monitoring RTP" />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">8-9 — Monitoring RTP (Komunikasi &amp; Pemantauan)</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">8-9 — Monitoring RTP (Komunikasi &amp; Pemantauan)</h1>
                     <p className="text-muted-foreground text-sm">
                         Rencana &amp; Realisasi Pengkomunikasian (Form 8) dan Pemantauan (Form 9) atas Kegiatan Pengendalian — sesuai Lampiran 5
                         Perdep PPKD No.4/2019. Satu baris di bawah mewakili satu RTP yang sudah diisi di Form Input Risiko (IRS/IRO) atau RTP CEE (1d)

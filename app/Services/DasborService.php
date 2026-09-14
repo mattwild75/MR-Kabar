@@ -278,6 +278,26 @@ class DasborService
         ];
     }
 
+    /**
+     * Angka tahun sebelumnya untuk dua kartu ringkasan (total risiko dan
+     * risiko prioritas), supaya dashboard bisa menunjukkan arah perubahan.
+     * Membaca kolom skala saja lewat skalaRowsForTren() (cache per tahun),
+     * bukan seluruh baris risiko. Null bila tahun lalu memang kosong.
+     */
+    public function buildPembanding(int $tahun, ?int $opdId, int $ambangTinggi): ?array
+    {
+        $rows = $this->skalaRowsForTren($tahun - 1, $opdId);
+        if ($rows->isEmpty()) {
+            return null;
+        }
+
+        return [
+            'tahun' => $tahun - 1,
+            'total_risiko' => $rows->count(),
+            'risiko_prioritas' => $rows->filter(fn ($r) => $this->riskRef->adalahRisikoPrioritas($r['skala_risiko'] ?? null))->count(),
+        ];
+    }
+
     // ── Seksi 2.1: Matriks Risiko 5x5 ────────────────────────────────────
 
     /**

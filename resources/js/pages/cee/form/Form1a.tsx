@@ -185,7 +185,7 @@ export default function Form1a({ opdOptions, opdStatus, opdId, tahun, unsurs, re
             <Head title="1a Kuesioner CEE" />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">1a — Kuesioner Penilaian Lingkungan Pengendalian (CEE)</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">1a — Kuesioner Penilaian Lingkungan Pengendalian (CEE)</h1>
                     <p className="text-muted-foreground text-sm">
                         Rekapitulasi Hasil Kuesioner Penilaian Lingkungan Pengendalian Intern — Control Environment Evaluation (CEE). Sesuai Lampiran
                         5 Form 1a Perdep PPKD No.4/2019.

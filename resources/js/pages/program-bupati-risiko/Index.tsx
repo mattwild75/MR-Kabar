@@ -237,7 +237,7 @@ export default function ProgramBupatiRisikoIndex({ programs, riskLevels, totalRi
             <div className="space-y-4 p-4">
                 <div className="flex flex-col justify-between gap-3 md:flex-row md:items-start">
                     <div>
-                        <h1 className="text-2xl font-semibold">Risiko 100 Program Bupati</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Risiko 100 Program Bupati</h1>
                         <p className="text-muted-foreground text-sm">
                             Untuk tiap Program Pembangunan Bupati (Tabel 3.7 RPJM Kabupaten Aceh Barat 2025-2029), ditampilkan risiko yang
                             teridentifikasi tahun 2025 (IRS Pemda/IRS PD/IRO PD) yang secara nyata dapat mengganggu pencapaian program tersebut. Klik

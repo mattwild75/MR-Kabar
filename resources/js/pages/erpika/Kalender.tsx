@@ -100,7 +100,7 @@ export default function Kalender({ penugasan, perOrang, skala, bulan, tahun, kol
             <div className="space-y-4 p-4 md:p-6">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">Kalender Penugasan</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Kalender Penugasan</h1>
                         <p className="text-muted-foreground text-sm">
                             Siapa bertugas di mana pada tanggal berapa, dari masa tugas RPP. Warna: merah ST terbit, kuning nomor diminta, hijau LHP
                             terbit. Pilih "Semua bulan" untuk satu tahun penuh, "Semua tahun" untuk seluruh periode.

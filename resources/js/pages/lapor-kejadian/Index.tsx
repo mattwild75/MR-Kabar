@@ -75,7 +75,7 @@ export default function LaporIndex({ opdList, tahapanOptions, kelompokOptions }:
 
             <div className="mx-auto max-w-2xl space-y-5 p-4">
                 <div>
-                    <h1 className="text-xl font-semibold">Lapor</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Lapor</h1>
                     <p className="text-muted-foreground text-sm">Pilih jenis laporan yang sesuai dengan yang Anda ketahui.</p>
                 </div>
 

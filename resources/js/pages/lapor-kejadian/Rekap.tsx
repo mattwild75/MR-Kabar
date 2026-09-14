@@ -299,7 +299,7 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
 
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-xl font-semibold">Rekap Lapor Kejadian Risiko</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Rekap Lapor Kejadian Risiko</h1>
                     <p className="text-muted-foreground text-sm">
                         {isAdminOrSuperAdmin
                             ? 'Seluruh laporan kejadian risiko dari semua OPD.'

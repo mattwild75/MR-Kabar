@@ -233,7 +233,7 @@ export default function Cetak7({ tahun, periode, sections, pemerintahKabkota, is
             <Head title="7_RTP atas Hasil Identifikasi Risiko" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">7_RTP atas Hasil Identifikasi Risiko</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">7_RTP atas Hasil Identifikasi Risiko</h1>
                     <p className="text-muted-foreground text-sm">
                         {!isScopedToOwnOpd
                             ? 'Pratinjau cetak ukuran A4 landscape — risiko prioritas (Tinggi/Sangat Tinggi), lintas Pemda dan seluruh OPD.'

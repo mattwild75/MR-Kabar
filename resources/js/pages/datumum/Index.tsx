@@ -211,14 +211,14 @@ function DataUmumForm({ data, isAdmin, opdOptions, opdId, tahunAktif, tahun, bel
         <AppLayout>
             <Head title="Data Umum" />
             <form onSubmit={submit} className="space-y-4 p-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-start justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-semibold">Data Umum</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Data Umum</h1>
                         <p className="text-muted-foreground text-sm">
                             Identitas kertas kerja penilaian risiko & penanda tangan — dipakai pada Form Cetak.
                             {isAdmin && ' Admin/Super Admin dapat memilih OPD mana pun untuk mengubah/melengkapi datanya.'}
                         </p>
-                        <div className="mt-2">
+                        <div className="mt-3 flex flex-wrap items-end gap-3">
                             <TahunAktifBadge tahunAktif={tahunAktif} editable={isAdmin} />
                         </div>
                     </div>

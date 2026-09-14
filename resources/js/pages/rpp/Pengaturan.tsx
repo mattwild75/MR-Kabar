@@ -32,7 +32,7 @@ export default function Pengaturan({ setting, inspektur }: Props) {
             <Head title="Pengaturan RPP" />
             <div className="space-y-6 p-4 md:p-6">
                 <div>
-                    <h1 className="text-2xl font-bold">Pengaturan RPP</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Pengaturan RPP</h1>
                     <p className="text-muted-foreground text-sm">Nilai baku yang dipakai semua dokumen RPP.</p>
                 </div>
 

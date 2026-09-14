@@ -133,7 +133,7 @@ export default function Cetak6({ opdOptions, opd, tahun, periode, unsurList, pem
             <Head title="6_RTP atas CEE" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">6_RTP atas CEE</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">6_RTP atas CEE</h1>
                     <p className="text-muted-foreground text-sm">Pratinjau cetak ukuran A4 landscape.</p>
                 </div>
                 <div className="flex flex-wrap items-end justify-between gap-3">

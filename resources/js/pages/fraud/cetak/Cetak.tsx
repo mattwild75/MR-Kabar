@@ -129,7 +129,7 @@ export default function CetakFra({
 
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">Form Cetak FRA</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Form Cetak FRA</h1>
                     <p className="text-muted-foreground text-sm">
                         Kertas kerja Penilaian Risiko Kecurangan Tahun {tahun} — format mengikuti Register Risiko Fraud yang sudah dipakai di Aceh
                         Barat. IR/AR/RTP/RR A4 landscape, Peta Risiko A4 portrait.

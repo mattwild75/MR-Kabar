@@ -57,6 +57,7 @@ class DashboardController extends Controller
                 'tahunOptions' => $this->dasbor->tahunOptions($opdId),
                 'jadwalPenilaian' => $this->dasbor->buildJadwalPenilaian($tahun),
                 'ringkasan' => $this->dasbor->buildRingkasan($riskRows, $ambangTinggi, $kepatuhan),
+                'pembanding' => $this->dasbor->buildPembanding($tahun, $opdId, $ambangTinggi),
                 'matriks' => $this->dasbor->buildMatriks($riskRows),
                 'matriksDetail' => $this->dasbor->buildMatriksDetail($riskRows),
                 'matrixCells' => $this->dasbor->buildMatrixCells(),

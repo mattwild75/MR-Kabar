@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -893,7 +894,7 @@ export default function KrsIrsPdIndex({ rows, riskLevels }: PageProps) {
 
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">KRS_IRS_PD</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">KRS_IRS_PD</h1>
                     <p className="text-muted-foreground text-sm">
                         Gabungan data Risiko Strategis Perangkat Daerah — Sasaran RPJMD, Tujuan, Sasaran, Program, Kegiatan, dan SubKegiatan.
                     </p>
@@ -968,7 +969,12 @@ export default function KrsIrsPdIndex({ rows, riskLevels }: PageProps) {
                             />
                         ))
                     ) : (
-                        <div className="text-muted-foreground rounded-md border p-8 text-center text-sm">Tidak ada data.</div>
+                        <div className="rounded-md border">
+                            <EmptyState
+                                title="Belum ada data"
+                                description="Tabel gabungan terisi otomatis dari KRS dan IRS PD yang sudah diisi pada tahun ini."
+                            />
+                        </div>
                     )}
                 </div>
             </div>

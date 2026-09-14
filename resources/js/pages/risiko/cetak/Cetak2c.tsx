@@ -168,7 +168,7 @@ export default function Cetak2c({
             <Head title="2c_Konteks Risiko Operasional OPD" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">2c_Konteks Risiko Operasional OPD</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">2c_Konteks Risiko Operasional OPD</h1>
                     <p className="text-muted-foreground text-sm">Pratinjau cetak ukuran A4.</p>
                 </div>
                 <div className="flex flex-wrap items-end justify-between gap-3">

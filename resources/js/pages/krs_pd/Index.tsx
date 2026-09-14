@@ -1479,7 +1479,7 @@ export default function KrsPdIndex({
             <div className="space-y-4 p-4">
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-semibold">II_a_KRS_PD</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">II_a_KRS_PD</h1>
                         <p className="text-muted-foreground text-sm">
                             Risiko Strategis Perangkat Daerah — Renstra OPD: Tujuan, Sasaran, Program, Kegiatan, dan SubKegiatan
                         </p>

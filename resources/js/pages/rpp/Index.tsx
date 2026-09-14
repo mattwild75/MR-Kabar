@@ -170,7 +170,7 @@ export default function RppIndex({ rpps, categories, tahunTersedia, filters, ins
             <div className="space-y-4 p-4 md:p-6">
                 <div className="flex flex-col justify-between gap-3 md:flex-row md:items-end">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">RPP Perencanaan</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">RPP Perencanaan</h1>
                         <p className="text-muted-foreground text-sm">
                             Rencana Penugasan Pengawasan Inspektorat — satu baris satu dokumen RPP, buka untuk melihat penugasan dan timnya.
                             {inspektur && (

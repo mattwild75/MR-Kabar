@@ -401,7 +401,9 @@ export default function Form1c({ opdOptions, opdStatus, opdId, tahun, ringkasan,
             <Head title="1c Simpulan Survei Persepsi" />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">1c — Simpulan Survei Persepsi atas Lingkungan Pengendalian Intern</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">
+                        1c — Simpulan Survei Persepsi atas Lingkungan Pengendalian Intern
+                    </h1>
                     <p className="text-muted-foreground text-sm">
                         Simpulan akhir per unsur, gabungan hasil kuesioner (1a) & reviu dokumen (1b). Disusun Sekretaris Dinas/Badan, disahkan Kepala
                         OPD. Sesuai Lampiran 5 Form 1c Perdep PPKD No.4/2019.

@@ -116,7 +116,7 @@ export function FraudShell({
             <div className="space-y-4 p-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold">{judul}</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">{judul}</h1>
                         <p className="text-muted-foreground text-sm">{keterangan}</p>
                     </div>
                     {aksi}

@@ -228,7 +228,7 @@ export default function Form1b({ opdOptions, opdStatus, opdId, tahun, unsurOptio
             <Head title="1b CEE Berdasarkan Dokumen" />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">1b — CEE Berdasarkan Dokumen</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">1b — CEE Berdasarkan Dokumen</h1>
                     <p className="text-muted-foreground text-sm">
                         Kondisi Kerentanan Lingkungan Pengendalian Intern — diisi berdasarkan reviu dokumen (LHP BPK, SK Inspektur, media massa, dll).
                         Sesuai Lampiran 5 Form 1b Perdep PPKD No.4/2019.

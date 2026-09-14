@@ -508,7 +508,7 @@ export default function Cetak3a({ tahun, periode, identifikasi, visi, pemerintah
             <Head title="3a_Identifikasi Risiko Strategis Pemda" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">3a_Identifikasi Risiko Strategis Pemda</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">3a_Identifikasi Risiko Strategis Pemda</h1>
                     <p className="text-muted-foreground text-sm">
                         {isScopedToOwnOpd
                             ? 'Pratinjau cetak ukuran A4 landscape — menampilkan Risiko Strategis Pemda yang diisi OPD Anda saja.'

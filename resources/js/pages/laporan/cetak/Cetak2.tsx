@@ -318,7 +318,7 @@ export default function Cetak2({
             <Head title="12_Laporan Berkala Pengelolaan Risiko" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">12_Laporan Berkala Pengelolaan Risiko</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">12_Laporan Berkala Pengelolaan Risiko</h1>
                     <p className="text-muted-foreground text-sm">
                         Pratinjau cetak ukuran A4 portrait — Triwulan {triwulan} Tahun {tahun}.
                     </p>

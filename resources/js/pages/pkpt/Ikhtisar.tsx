@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import PkptShell, { type KonteksPkpt } from '@/components/pkpt/pkpt-shell';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -71,7 +72,11 @@ export default function Ikhtisar({ kesiapan, ringkasan, tahunRisikoTersedia, ...
         >
             {!periode ? (
                 <div className="rounded-md border border-dashed p-8 text-center">
-                    <p className="text-muted-foreground text-sm">Belum ada Periode PKPT. Buat satu untuk mulai menyusun perencanaan pengawasan.</p>
+                    <EmptyState
+                        size="sm"
+                        title="Belum ada Periode PKPT"
+                        description="Buat satu periode untuk mulai menyusun perencanaan pengawasan."
+                    />
                     {hak.input ? (
                         <Button className="mt-4" onClick={() => setBuatTerbuka(true)}>
                             <Plus className="size-4" aria-hidden /> Buat Periode PKPT

@@ -336,7 +336,7 @@ export default function DataRisikoGabungan({
 
             <div className="space-y-8 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">Data Risiko (IRS dan IRO)</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Data Risiko (IRS dan IRO)</h1>
                     <p className="text-muted-foreground text-sm">
                         Tampilan gabungan read-only I_b_IRS_Pemda, II_b_IRS_PD, dan III_b_IRO_PD — untuk menambah/mengedit/menghapus data, klik
                         &quot;Lihat Data&quot; untuk membuka halaman Form Input aslinya.

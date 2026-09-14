@@ -388,7 +388,7 @@ export default function Form1d({
             <Head title="1d RTP CEE" />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">1d — RTP CEE</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">1d — RTP CEE</h1>
                     <p className="text-muted-foreground text-sm">
                         Penilaian atas Kegiatan Pengendalian yang Ada dan Masih Dibutuhkan / RTP atas Kelemahan Lingkungan Pengendalian (RTP atas CEE)
                         — sesuai Lampiran 5 Form 6 Perdep PPKD No.4/2019. Isi RTP untuk unsur Lingkungan Pengendalian yang simpulannya &quot;Kurang

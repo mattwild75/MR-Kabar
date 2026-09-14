@@ -26,7 +26,7 @@ dayjs.locale('id');
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Pengguna',
+        title: 'User Management',
         href: '/users',
     },
 ];
@@ -73,16 +73,16 @@ export default function UserIndex({ users }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Pengguna" />
+            <Head title="User Management" />
             <div className="space-y-6 p-4 md:p-6">
                 <PageHeader
-                    title="Pengguna"
-                    description="Akun pengguna MR Kabar beserta perannya."
+                    title="User Management"
+                    description="Manage user data and their roles within the system."
                     actions={
                         <Button asChild size="sm">
                             <Link href="/users/create">
                                 <Plus className="h-4 w-4" />
-                                Tambah Pengguna
+                                Add User
                             </Link>
                         </Button>
                     }
@@ -90,7 +90,7 @@ export default function UserIndex({ users }: Props) {
 
                 <div className="bg-background space-y-2 divide-y rounded-md border">
                     {users.data.length === 0 ? (
-                        <EmptyState title="Belum ada pengguna" description="Pengguna yang ditambahkan akan tampil di sini beserta perannya." />
+                        <EmptyState title="No user data available" description="Users you add will appear here with their roles." />
                     ) : (
                         users.data.map((user) => (
                             <div

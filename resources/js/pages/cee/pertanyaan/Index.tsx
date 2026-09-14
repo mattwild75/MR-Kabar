@@ -125,7 +125,7 @@ export default function CeePertanyaanIndex({ unsurs }: PageProps) {
             <Head title="Kelola Pertanyaan CEE" />
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">Kelola Pertanyaan Kuesioner CEE</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Kelola Pertanyaan Kuesioner CEE</h1>
                     <p className="text-muted-foreground text-sm">
                         Redaksi pertanyaan kuesioner Form 1a — hanya Admin/Super Admin yang dapat mengubahnya. Pertanyaan yang dinonaktifkan tidak
                         akan muncul lagi di form isian baru, tapi jawaban historis tetap tersimpan.

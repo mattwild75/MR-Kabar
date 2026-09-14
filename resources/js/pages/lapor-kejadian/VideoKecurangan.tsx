@@ -49,7 +49,7 @@ export default function VideoKecurangan({ versi }: Props) {
                 <div className="flex items-start gap-2">
                     <ShieldAlert className="text-destructive mt-0.5 h-6 w-6 shrink-0" />
                     <div>
-                        <h1 className="text-xl font-semibold">Video Edukasi: Lapor Dugaan Kecurangan</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Video Edukasi: Lapor Dugaan Kecurangan</h1>
                         <p className="text-muted-foreground text-sm">
                             Sembilan menit untuk memahami apa itu kecurangan, tujuh bentuknya menurut UU No. 31/1999 jo. UU No. 20/2001,
                             tanda-tandanya, cara melapor lewat kode QR, dan bagaimana identitas pelapor dijaga.

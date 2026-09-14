@@ -175,7 +175,7 @@ export default function Cetak5({ tahun, periode, sections, pemerintahKabkota, ri
             <Head title="5_Daftar Risiko Prioritas" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">5_Daftar Risiko Prioritas</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">5_Daftar Risiko Prioritas</h1>
                     <p className="text-muted-foreground text-sm">
                         {isScopedToOwnOpd
                             ? 'Pratinjau cetak ukuran A4 landscape — hanya risiko OPD Anda dengan kriteria Tinggi & Sangat Tinggi.'

@@ -138,7 +138,7 @@ export default function FormKejadianRisiko({ opdList }: Props) {
                 <Siren className="text-destructive mt-0.5 h-6 w-6 shrink-0" />
                 <div>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <h1 className="text-xl font-semibold">Lapor Kejadian Risiko</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Lapor Kejadian Risiko</h1>
                         <a
                             href="/panduan#video-edukasi"
                             className="border-border bg-background/60 text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors"

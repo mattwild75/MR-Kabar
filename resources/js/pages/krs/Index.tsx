@@ -1416,7 +1416,7 @@ export default function KrsIndex({ visis, opdOptions, fieldOptions, isAdmin, per
                 <div className="space-y-4 p-4">
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-semibold">I_a_KRS_Pemda</h1>
+                            <h1 className="text-xl font-semibold tracking-tight md:text-2xl">I_a_KRS_Pemda</h1>
                             <p className="text-muted-foreground text-sm">
                                 Rencana Pembangunan Jangka Menengah Daerah — Misi, Tujuan, Sasaran, dan Program Prioritas
                             </p>

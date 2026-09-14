@@ -381,7 +381,7 @@ export default function Form10({ opdOptions, opdId, tahun, isAdmin, triwulanOpti
             <div className="space-y-4 p-4">
                 <div className="flex items-start justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-semibold">10 — Pencatatan Kejadian Risiko &amp; Pelaksanaan RTP</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">10 — Pencatatan Kejadian Risiko &amp; Pelaksanaan RTP</h1>
                         <p className="text-muted-foreground text-sm">
                             Pencatatan Kejadian Risiko (Risk Event) dan Pelaksanaan RTP — sesuai Lampiran 5 Perdep PPKD No.4/2019. Satu baris di bawah
                             mewakili satu risiko yang sudah teridentifikasi di Form Input IRS/IRO — catat di sini bila risiko tersebut benar-benar

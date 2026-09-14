@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -198,7 +199,7 @@ export default function ArahanPenilaianTab({ rows, jenisLabel }: { rows: ArahanR
             </div>
 
             {rows.length === 0 ? (
-                <p className="text-muted-foreground text-center text-sm">Belum ada arahan yang direkam.</p>
+                <EmptyState size="sm" title="Belum ada arahan" description="Arahan dan jadwal penilaian risiko yang direkam akan tampil di sini." />
             ) : (
                 <div className="space-y-3">
                     {rows.map((row) => (

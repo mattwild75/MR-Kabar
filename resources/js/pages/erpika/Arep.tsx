@@ -14,7 +14,7 @@ export default function Arep() {
             <Head title="AREP" />
             <div className="space-y-4 p-4 md:p-6">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">AREP</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">AREP</h1>
                     <p className="text-muted-foreground text-sm">
                         Audit, Reviu, Evaluasi, dan Pemantauan — tahap pelaksanaan penugasan sesudah RPP terbit.
                     </p>

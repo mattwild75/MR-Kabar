@@ -59,7 +59,7 @@ export default function BebanKerja({ baris, total, tarif, tahunTersedia, filters
             <div className="space-y-4 p-4 md:p-6">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                     <div>
-                        <h1 className="text-2xl font-bold tracking-tight">
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">
                             Beban Kerja Pegawai {filters.tahun === 'semua' ? 'Seluruh Tahun' : filters.tahun}
                         </h1>
                         <p className="text-muted-foreground text-sm">

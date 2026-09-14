@@ -114,7 +114,7 @@ export default function Pegawai({ employees }: Props) {
 
             <div className="space-y-6 p-4">
                 <div>
-                    <h1 className="text-2xl font-bold">Pegawai Inspektorat</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Pegawai Inspektorat</h1>
                     <p className="text-muted-foreground text-sm">Sumber tunggal anggota tim RPP dan modul ERPIKA lainnya.</p>
                 </div>
 

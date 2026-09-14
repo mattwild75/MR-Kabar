@@ -108,7 +108,7 @@ export default function Cetak4({ tahun, periode, periodeOptions, pemerintahKabko
 
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">14_Laporan Pembinaan Komite Pengelolaan Risiko</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">14_Laporan Pembinaan Komite Pengelolaan Risiko</h1>
                     <p className="text-muted-foreground text-sm">
                         Pratinjau cetak A4 potret &mdash; {periodeLabel} Tahun {tahun}. Tingkat Pemerintah Daerah, disampaikan kepada Bupati melalui
                         Sekretaris Daerah.

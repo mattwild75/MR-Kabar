@@ -167,7 +167,7 @@ export default function CetakProgramBupatiRisiko({
             <Head title="Risiko 100 Program Bupati - Cetak" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">Risiko 100 Program Bupati — Cetak</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Risiko 100 Program Bupati — Cetak</h1>
                     <p className="text-muted-foreground text-sm">
                         Pratinjau cetak ukuran A4 portrait — Tahun {tahun}. Level Pemerintah Daerah, dikelompokkan per Misi RPJMD.
                     </p>

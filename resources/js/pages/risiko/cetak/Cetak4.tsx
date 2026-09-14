@@ -311,7 +311,7 @@ export default function Cetak4({
             <Head title="4_Hasil Analisis Risiko" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">4_Hasil Analisis Risiko</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">4_Hasil Analisis Risiko</h1>
                     <p className="text-muted-foreground text-sm">
                         {isScopedToOwnOpd
                             ? 'Pratinjau cetak ukuran A4 landscape — menampilkan Risiko Strategis & Operasional OPD Anda saja.'

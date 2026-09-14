@@ -179,7 +179,7 @@ export default function AuditLogIndex({ logs, filters, filterOptions }: Props) {
             <Head title="Audit Log" />
             <div className="flex-1 space-y-4 p-4 md:p-6">
                 <div>
-                    <h1 className="text-2xl font-bold">Audit Log</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Audit Log</h1>
                     <p className="text-muted-foreground text-sm">Riwayat aktivitas seluruh pengguna dalam sistem — {logs.total} entri tercatat</p>
                 </div>
 

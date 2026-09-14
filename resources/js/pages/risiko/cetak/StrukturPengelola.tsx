@@ -158,7 +158,7 @@ export default function StrukturPengelola({
             <div className="space-y-4 p-4">
                 <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
                     <div>
-                        <h1 className="text-2xl font-semibold">Struktur Pengelolaan Risiko</h1>
+                        <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Struktur Pengelolaan Risiko</h1>
                         <p className="text-muted-foreground text-sm">
                             Susunan pengelola Risiko sesuai Perdep PPKD 4/2019 Lampiran 2. Tersimpan sebagai data, sehingga dapat dirujuk aplikasi —
                             bukan hanya dicetak.

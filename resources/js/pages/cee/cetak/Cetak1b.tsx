@@ -30,7 +30,7 @@ export default function Cetak1b({ opdOptions, opd, tahun, entries, pemerintahKab
             <Head title="Cetak 1b CEE Berdasarkan Dokumen" />
             <div className="space-y-4 p-4 print:hidden">
                 <div>
-                    <h1 className="text-2xl font-semibold">Form 1b — CEE Berdasarkan Dokumen</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Form 1b — CEE Berdasarkan Dokumen</h1>
                     <p className="text-muted-foreground text-sm">Pratinjau cetak ukuran A4.</p>
                 </div>
                 <div className="flex flex-wrap items-end justify-between gap-3">

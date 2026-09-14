@@ -136,7 +136,7 @@ export default function StorageIndex({ potret }: Props) {
                     <div className="flex items-start gap-2">
                         <HardDrive className="mt-0.5 h-6 w-6 shrink-0" />
                         <div>
-                            <h1 className="text-xl font-semibold">Storage</h1>
+                            <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Storage</h1>
                             <p className="text-muted-foreground max-w-2xl text-sm">
                                 Pemakaian disk server secara rinci: MR Kabar, ERPIKA, basis data, cadangan, unggahan, sampai sistem operasi. Kelompok
                                 bertanda <Lock className="inline h-3.5 w-3.5 align-text-bottom" /> hanya dibaca; yang boleh dihapus hanya berkas yang

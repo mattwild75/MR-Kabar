@@ -199,7 +199,7 @@ export default function KeteranganPendukungIndex({
 
             <div className="space-y-4 p-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">Keterangan Pendukung</h1>
+                    <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Keterangan Pendukung</h1>
                     <p className="text-muted-foreground text-sm">
                         Kelola data referensi yang dipakai form Identifikasi Risiko (IRS Pemda/PD, IRO PD) — Kriteria Dampak, Kriteria Kemungkinan,
                         Matriks Analisis Risiko (termasuk warnanya), Tabel Level Risiko, Jenis Risiko, Entitas Penilai Risiko, dan daftar OPD.
