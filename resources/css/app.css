@@ -173,6 +173,30 @@
         @apply bg-background text-foreground antialiased;
     }
 
+    /* Fokus keyboard yang sama di mana pun: cincin warna --ring, hanya saat
+       navigasi keyboard (:focus-visible), tidak saat klik mouse. Tombol
+       shadcn sudah punya cincinnya sendiri; ini untuk tautan, baris tabel
+       yang bisa diklik, dan kontrol lain yang sebelumnya tidak konsisten. */
+    a:focus-visible,
+    [role='button']:focus-visible,
+    [tabindex]:not([tabindex='-1']):focus-visible {
+        outline: 2px solid var(--ring);
+        outline-offset: 2px;
+        border-radius: var(--radius-sm);
+    }
+
+    /* Pengguna yang meminta gerakan dikurangi: semua transisi/animasi
+       dipersingkat menjadi nyaris nol. */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        ::before,
+        ::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+    }
+
     /* Warna khusus utk highlight blok teks (::selection) — SENGAJA
        terpisah dari --primary, karena --primary bisa di-override jadi
        warna gelap/nyaris-hitam oleh brand color kustom admin (setting_app

@@ -302,10 +302,11 @@ function RenderMenu({
                     ? `${color.activeBg} text-foreground font-semibold shadow-sm ring-1 ${color.activeRing}`
                     : 'text-foreground/80 hover:bg-accent hover:text-foreground';
 
-                // Aksen border kiri permanen per grup level-0 — pembeda visual
-                // cepat antar grup menu (Dashboard/Access/Settings/dst) tanpa perlu
-                // hover/klik, terlihat sekilas saat sidebar di-scan.
-                const accentBorderClass = level === 0 ? `border-l-[5px] ${color.border}` : '';
+                // Aksen border kiri per grup level-0 HANYA saat grup itu aktif —
+                // dulu permanen 5px pada semua grup sekaligus, sehingga sidebar
+                // terbaca seperti pelangi. Ikon berwarna tetap dipertahankan
+                // sebagai penanda grup saat sidebar dipindai sekilas.
+                const accentBorderClass = level === 0 ? `border-l-[3px] ${isActive ? color.border : 'border-transparent'}` : '';
 
                 if (!menu.route && !hasChildren) return null;
 

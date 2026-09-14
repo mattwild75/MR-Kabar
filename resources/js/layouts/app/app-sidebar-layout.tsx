@@ -21,7 +21,8 @@ interface Props {
 }
 
 export default function AppSidebarLayout({ children, breadcrumbs = [], title = 'Dashboard' }: Props) {
-    const { props } = usePage();
+    const page = usePage();
+    const { props } = page;
     const isViewer = useIsViewer();
     const isApip = useIsApip();
 
@@ -183,7 +184,15 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
                 screenshot 2560px & 3440px). mx-auto menjaga konten tetap
                 di tengah, bukan menempel ke kiri, saat max-w ini aktif.
                 print:max-w-none supaya Form Cetak tetap tidak terpengaruh. */}
-                            <div className="max-w-[1800px] min-w-0 flex-1 xl:mx-auto xl:w-full print:max-w-none">{children}</div>
+                            {/* key = URL: tiap pindah halaman isi dipasang ulang dan
+                                memudar masuk 200 ms (tailwindcss-animate). Cukup untuk
+                                terasa halus tanpa membuat aplikasi terasa lambat. */}
+                            <div
+                                key={page.url.split('?')[0]}
+                                className="animate-in fade-in max-w-[1800px] min-w-0 flex-1 duration-200 motion-reduce:animate-none xl:mx-auto xl:w-full print:max-w-none"
+                            >
+                                {children}
+                            </div>
                             <div className="print:hidden">
                                 <AppFooter
                                     contactEmail={setting?.contact_email}
