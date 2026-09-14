@@ -21,8 +21,11 @@ createInertiaApp({
 
         root.render(<App {...props} />);
     },
+    // Bilah progres tipis di tepi atas saat berpindah halaman — warna
+    // identitas supaya terlihat di latar terang maupun gelap, tanpa spinner.
     progress: {
-        color: '#4B5563',
+        color: '#A8201A',
+        showSpinner: false,
     },
 });
 

@@ -213,3 +213,19 @@
         -webkit-text-fill-color: var(--selection-fg);
     }
 }
+
+/* Pratinjau cetak tampil sebagai "kertas" di atas latar: bayangan lembut dan
+   tepi tipis pada lembar pratinjau (cee-print-sheet, naskah, rekap, pkpt-cetak)
+   supaya terbaca sebagai dokumen, bukan blok putih. HANYA di layar — saat
+   dicetak/di-PDF-kan (Chromium emulateMedia print) tidak ada bayangan. */
+@media screen {
+    .cee-print-sheet,
+    .naskah,
+    .rekap,
+    .pkpt-cetak {
+        box-shadow:
+            0 0 0 1px rgb(0 0 0 / 0.06),
+            0 14px 36px -14px rgb(0 0 0 / 0.28);
+        border-radius: 2px;
+    }
+}

@@ -13,13 +13,15 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { Plus } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
+import { useState } from 'react';
 
 dayjs.extend(relativeTime);
 dayjs.locale('id');
@@ -50,18 +52,25 @@ interface Props {
         last_page: number;
         links: { url: string | null; label: string; active: boolean }[];
     };
+    q?: string;
 }
 
+/** Dua huruf saja — nama OPD panjang ("PIC BADAN ...") sebelumnya
+ *  menghasilkan tujuh huruf yang meluap dari lingkarannya. */
 function getInitials(name: string) {
-    return name
+    const kata = name
+        .replace(/[^\p{L}\p{N} ]/gu, '')
         .split(' ')
-        .map((n) => n[0])
-        .join('')
-        .toUpperCase();
+        .filter(Boolean);
+    if (kata.length === 0) return '?';
+    if (kata.length === 1) return kata[0].slice(0, 2).toUpperCase();
+    return (kata[0][0] + kata[kata.length - 1][0]).toUpperCase();
 }
 
-export default function UserIndex({ users }: Props) {
+export default function UserIndex({ users, q = '' }: Props) {
     const { delete: destroy, processing } = useForm();
+    const [cari, setCari] = useState(q);
+    const jalankanCari = () => router.get('/users', cari ? { q: cari } : {}, { preserveState: true, replace: true });
 
     const handleDelete = (id: number) => {
         destroy(`/users/${id}`);
@@ -88,92 +97,127 @@ export default function UserIndex({ users }: Props) {
                     }
                 />
 
-                <div className="bg-background space-y-2 divide-y rounded-md border">
+                <div className="relative max-w-sm">
+                    <Search className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+                    <Input
+                        value={cari}
+                        onChange={(e) => setCari(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && jalankanCari()}
+                        placeholder="Search name, username, or email..."
+                        className="pl-9"
+                    />
+                </div>
+
+                <div className="bg-card overflow-x-auto rounded-md border">
                     {users.data.length === 0 ? (
-                        <EmptyState title="No user data available" description="Users you add will appear here with their roles." />
+                        <EmptyState
+                            title={q ? 'No matching users' : 'No user data available'}
+                            description={q ? `No user matches "${q}".` : 'Users you add will appear here with their roles.'}
+                        />
                     ) : (
-                        users.data.map((user) => (
-                            <div
-                                key={user.id}
-                                className="hover:bg-muted/50 flex flex-col justify-between gap-4 px-4 py-5 transition md:flex-row md:items-center"
-                            >
-                                {/* Avatar dan Informasi */}
-                                <div className="flex flex-1 items-start gap-4">
-                                    <div className="bg-muted text-primary flex h-12 w-12 items-center justify-center rounded-full text-lg font-semibold">
-                                        {getInitials(user.name)}
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="text-base font-medium">{user.name}</div>
-                                        <div className="text-muted-foreground text-sm">@{user.username}</div>
-                                        {user.email && <div className="text-muted-foreground text-xs">{user.email}</div>}
-                                        <div className="text-muted-foreground text-xs italic">Registered {dayjs(user.created_at).fromNow()}</div>
-                                        {user.roles.length > 0 && (
-                                            <div className="mt-2 flex flex-wrap gap-1">
+                        <table className="w-full table-fixed text-sm">
+                            <thead className="bg-muted/60 text-muted-foreground text-left text-xs">
+                                <tr>
+                                    <th className="w-[34%] px-4 py-2.5 font-medium">User</th>
+                                    <th className="w-[22%] px-4 py-2.5 font-medium">Email</th>
+                                    <th className="w-[12%] px-4 py-2.5 font-medium">Roles</th>
+                                    <th className="w-[13%] px-4 py-2.5 font-medium whitespace-nowrap">Registered</th>
+                                    <th className="w-[19%] px-4 py-2.5 text-right font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y">
+                                {users.data.map((user) => (
+                                    <tr key={user.id} className="hover:bg-muted/40 transition-colors">
+                                        <td className="px-4 py-2.5">
+                                            <div className="flex items-center gap-3">
+                                                <div className="bg-muted text-foreground flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold">
+                                                    {getInitials(user.name)}
+                                                </div>
+                                                <div className="min-w-0">
+                                                    <div className="truncate font-medium" title={user.name}>
+                                                        {user.name}
+                                                    </div>
+                                                    <div className="text-muted-foreground truncate text-xs" title={user.username}>
+                                                        @{user.username}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="text-muted-foreground truncate px-4 py-2.5 text-xs" title={user.email ?? undefined}>
+                                            {user.email ?? '—'}
+                                        </td>
+                                        <td className="px-4 py-2.5">
+                                            <div className="flex flex-wrap gap-1">
                                                 {user.roles.map((role) => (
                                                     <Badge key={role.id} variant="secondary" className="text-xs font-normal">
                                                         {role.name}
                                                     </Badge>
                                                 ))}
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
+                                        </td>
+                                        <td
+                                            className="text-muted-foreground px-4 py-2.5 text-xs whitespace-nowrap"
+                                            title={dayjs(user.created_at).format('D MMMM YYYY')}
+                                        >
+                                            {dayjs(user.created_at).fromNow()}
+                                        </td>
+                                        <td className="px-4 py-2.5">
+                                            <div className="flex justify-end gap-1.5">
+                                                <Button asChild size="sm" variant="outline">
+                                                    <Link href={`/users/${user.id}/edit`}>Edit</Link>
+                                                </Button>
 
-                                {/* Aksi */}
-                                <div className="flex flex-wrap gap-2 md:justify-end">
-                                    <Link href={`/users/${user.id}/edit`}>
-                                        <Button size="sm" variant="outline">
-                                            Edit
-                                        </Button>
-                                    </Link>
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button size="sm" variant="secondary">
+                                                            Reset
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Reset Password?</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                Password untuk <strong>{user.name}</strong> akan diganti dengan kata sandi acak baru.
+                                                                Kata sandi baru akan ditampilkan setelah proses reset berhasil — pastikan untuk
+                                                                mencatatnya.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Batal</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleResetPassword(user.id)} disabled={processing}>
+                                                                Ya, Reset
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
 
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <Button size="sm" variant="secondary">
-                                                Reset
-                                            </Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Reset Password?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    Password untuk <strong>{user.name}</strong> akan diganti dengan kata sandi acak baru. Kata sandi
-                                                    baru akan ditampilkan setelah proses reset berhasil — pastikan untuk mencatatnya.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Batal</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => handleResetPassword(user.id)} disabled={processing}>
-                                                    Ya, Reset
-                                                </AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-
-                                    <AlertDialog>
-                                        <AlertDialogTrigger asChild>
-                                            <Button size="sm" variant="destructive">
-                                                Delete
-                                            </Button>
-                                        </AlertDialogTrigger>
-                                        <AlertDialogContent>
-                                            <AlertDialogHeader>
-                                                <AlertDialogTitle>Delete User?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    User <strong>{user.name}</strong> will be permanently deleted.
-                                                </AlertDialogDescription>
-                                            </AlertDialogHeader>
-                                            <AlertDialogFooter>
-                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                <AlertDialogAction onClick={() => handleDelete(user.id)} disabled={processing}>
-                                                    Yes, Delete
-                                                </AlertDialogAction>
-                                            </AlertDialogFooter>
-                                        </AlertDialogContent>
-                                    </AlertDialog>
-                                </div>
-                            </div>
-                        ))
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button size="sm" variant="destructive">
+                                                            Delete
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                            <AlertDialogTitle>Delete User?</AlertDialogTitle>
+                                                            <AlertDialogDescription>
+                                                                User <strong>{user.name}</strong> will be permanently deleted.
+                                                            </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogAction onClick={() => handleDelete(user.id)} disabled={processing}>
+                                                                Yes, Delete
+                                                            </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     )}
                 </div>
 

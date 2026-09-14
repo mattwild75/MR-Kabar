@@ -25,10 +25,20 @@ class UserController extends Controller
             $query->whereDoesntHave('roles', fn ($q) => $q->where('name', 'super-admin'));
         }
 
-        $users = $query->paginate(25);
+        // Pencarian nama / username / email — daftar sudah puluhan akun,
+        // menggulir untuk mencari satu orang tidak lagi wajar.
+        $cari = trim((string) $request->query('q', ''));
+        if ($cari !== '') {
+            $query->where(fn ($q) => $q->where('name', 'like', "%{$cari}%")
+                ->orWhere('username', 'like', "%{$cari}%")
+                ->orWhere('email', 'like', "%{$cari}%"));
+        }
+
+        $users = $query->paginate(25)->withQueryString();
 
         return Inertia::render('users/Index', [
             'users' => $users,
+            'q' => $cari,
         ]);
     }
 

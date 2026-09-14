@@ -15,7 +15,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Dashboard', 'parent_id' => null],
             [
-                'icon' => 'Home',
+                'icon' => 'LayoutDashboard',
                 'route' => '/dashboard',
                 'order' => 1,
                 'permission_name' => 'dashboard-view',
@@ -29,7 +29,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Apa itu Manajemen Risiko / MR Kabar', 'parent_id' => null],
             [
-                'icon' => 'Book',
+                'icon' => 'BookOpen',
                 'route' => '/panduan',
                 'order' => 2,
                 'permission_name' => null,
@@ -40,7 +40,7 @@ class MenuSeeder extends Seeder
         $access = Menu::updateOrCreate(
             ['title' => 'Access', 'parent_id' => null],
             [
-                'icon' => 'Contact',
+                'icon' => 'KeyRound',
                 'route' => '#',
                 'order' => 8,
                 'permission_name' => 'access-view',
@@ -50,7 +50,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Permissions', 'parent_id' => $access->id],
             [
-                'icon' => 'AlertOctagon',
+                'icon' => 'ShieldCheck',
                 'route' => '/permissions',
                 'order' => 2,
                 'permission_name' => 'permission-view',
@@ -70,7 +70,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Roles', 'parent_id' => $access->id],
             [
-                'icon' => 'AlertTriangle',
+                'icon' => 'UserCog',
                 'route' => '/roles',
                 'order' => 4,
                 'permission_name' => 'roles-view',
@@ -81,7 +81,7 @@ class MenuSeeder extends Seeder
         $settings = Menu::updateOrCreate(
             ['title' => 'Settings', 'parent_id' => null],
             [
-                'icon' => 'Settings',
+                'icon' => 'Settings2',
                 'route' => '#',
                 'order' => 10,
                 'permission_name' => 'settings-view',
@@ -91,7 +91,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Menu Manager', 'parent_id' => $settings->id],
             [
-                'icon' => 'Menu',
+                'icon' => 'ListTree',
                 'route' => '/menus',
                 'order' => 1,
                 'permission_name' => 'menu-view',
@@ -101,7 +101,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'App Settings', 'parent_id' => $settings->id],
             [
-                'icon' => 'AtSign',
+                'icon' => 'SlidersHorizontal',
                 'route' => '/settingsapp',
                 'order' => 2,
                 'permission_name' => 'app-settings-view',
@@ -122,7 +122,7 @@ class MenuSeeder extends Seeder
         $backup = Menu::updateOrCreate(
             ['title' => 'Backup', 'parent_id' => $settings->id],
             [
-                'icon' => 'Inbox',
+                'icon' => 'DatabaseBackup',
                 'route' => '#',
                 'order' => 3,
                 'permission_name' => null,
@@ -156,7 +156,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Keterangan Pendukung', 'parent_id' => $settings->id],
             [
-                'icon' => 'Database',
+                'icon' => 'BookMarked',
                 'route' => '/keterangan-pendukung',
                 'order' => 4,
                 'permission_name' => 'keterangan-pendukung-view',
@@ -167,7 +167,7 @@ class MenuSeeder extends Seeder
         $utilities = Menu::updateOrCreate(
             ['title' => 'Utilities', 'parent_id' => null],
             [
-                'icon' => 'CreditCard',
+                'icon' => 'Wrench',
                 'route' => '#',
                 'order' => 9,
                 'permission_name' => 'utilities-view',
@@ -218,7 +218,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Troubleshoot', 'parent_id' => $utilities->id],
             [
-                'icon' => 'Wrench',
+                'icon' => 'LifeBuoy',
                 'route' => '/troubleshoot',
                 'order' => 4,
                 'permission_name' => 'troubleshoot-view',
@@ -261,7 +261,7 @@ class MenuSeeder extends Seeder
         Menu::updateOrCreate(
             ['title' => 'Rekap Lapor Kejadian Risiko', 'parent_id' => $utilities->id],
             [
-                'icon' => 'AlertTriangle',
+                'icon' => 'ListChecks',
                 'route' => '/lapor-kejadian/rekap',
                 'order' => 7,
                 'permission_name' => '',
@@ -275,7 +275,7 @@ class MenuSeeder extends Seeder
         $formInput = Menu::updateOrCreate(
             ['title' => 'Form Input', 'parent_id' => null],
             [
-                'icon' => 'FilePlus',
+                'icon' => 'FilePen',
                 'route' => '#',
                 'order' => 3,
                 'permission_name' => null,
@@ -291,7 +291,7 @@ class MenuSeeder extends Seeder
         $formMonev = Menu::updateOrCreate(
             ['title' => 'Form Monitoring dan Evaluasi', 'parent_id' => null],
             [
-                'icon' => 'Radar',
+                'icon' => 'Activity',
                 'route' => '#',
                 'order' => 4,
                 'permission_name' => null,
@@ -954,7 +954,7 @@ class MenuSeeder extends Seeder
         $visualisasi = Menu::updateOrCreate(
             ['title' => 'Visualisasi', 'parent_id' => null],
             [
-                'icon' => 'Network',
+                'icon' => 'ChartPie',
                 'route' => '#',
                 'order' => 6,
                 'permission_name' => null,
@@ -974,7 +974,7 @@ class MenuSeeder extends Seeder
         $miscellaneous = Menu::updateOrCreate(
             ['title' => 'Miscellaneous', 'parent_id' => null],
             [
-                'icon' => 'MoreHorizontal',
+                'icon' => 'LayoutGrid',
                 'route' => '#',
                 'order' => 7,
                 'permission_name' => null,

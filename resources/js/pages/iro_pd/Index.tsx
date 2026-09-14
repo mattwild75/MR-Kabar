@@ -87,6 +87,16 @@ const FIELDS = [
 
 type FieldName = (typeof FIELDS)[number];
 
+// Pembagian formulir menjadi empat bagian bernomor: judul bagian disisipkan
+// sebelum kolom pertama tiap bagian, dan bilah lompat di atas formulir
+// menggulir ke sana. Hanya penataan tampilan — kolom dan urutannya tetap.
+const BAGIAN_FORM: Partial<Record<FieldName, string>> = {
+    'KEGIATAN PD': 'Identitas Risiko',
+    'URAIAN PENYEBAB RISIKO': 'Penyebab dan Dampak',
+    'URAIAN PENGENDALIAN YANG SUDAH ADA': 'Pengendalian yang Ada',
+    'RENCANA TINDAK PENGENDALIAN': 'Rencana Tindak Pengendalian',
+};
+
 interface IroRow {
     id: number;
     [key: string]: string | number | null;
@@ -436,16 +446,19 @@ export default function IroPdIndex({
                 )}
 
                 <div className="max-h-[70vh] overflow-auto rounded-md border">
-                    <table className="min-w-full text-sm">
+                    <table className="min-w-full border-separate border-spacing-0 text-sm">
                         <thead className="bg-muted sticky top-0 z-10">
                             <tr>
-                                <th className="border px-3 py-2 text-center font-semibold whitespace-nowrap">No</th>
+                                <th className="bg-muted sticky left-0 z-20 w-14 min-w-14 border px-3 py-2 text-center font-semibold whitespace-nowrap">
+                                    No
+                                </th>
                                 <SortableTh
                                     field="KEGIATAN PD"
                                     label="Kegiatan PD"
                                     activeField={sortField}
                                     direction={sortDirection}
                                     onSort={toggleSort}
+                                    className="bg-muted sticky left-14 z-20 w-56 min-w-56 whitespace-nowrap shadow-[4px_0_6px_-4px_rgba(0,0,0,0.15)]"
                                 />
                                 <SortableTh
                                     field="URAIAN RISIKO"
@@ -536,8 +549,10 @@ export default function IroPdIndex({
                                                 ref={(el) => registerRowRef(row.id, el)}
                                                 className={`hover:bg-muted/10 border-t ${isCurrent ? 'ring-2 ring-orange-500 ring-inset' : ''}`}
                                             >
-                                                <td className="border px-3 py-2 text-center align-top">{row['NOMOR URUT RISIKO'] ?? '-'}</td>
-                                                <td className="max-w-xs border px-3 py-2 align-top whitespace-normal">
+                                                <td className="bg-card sticky left-0 z-[5] w-14 min-w-14 border px-3 py-2 text-center align-top">
+                                                    {row['NOMOR URUT RISIKO'] ?? '-'}
+                                                </td>
+                                                <td className="bg-card sticky left-14 z-[5] w-56 max-w-xs min-w-56 border px-3 py-2 align-top whitespace-normal shadow-[4px_0_6px_-4px_rgba(0,0,0,0.15)]">
                                                     {kegiatanKodes[String(row['KEGIATAN PD'] ?? '')] && (
                                                         <p className="text-muted-foreground mb-0.5 text-xs font-medium">
                                                             Kode: {kegiatanKodes[String(row['KEGIATAN PD'] ?? '')]}
@@ -683,92 +698,333 @@ export default function IroPdIndex({
                                 keduanya tidak dapat ditebak dari laporan warga dan butuh penilaian Anda.
                             </p>
                         )}
+                        <nav
+                            className="bg-background/95 sticky -top-6 z-10 -mx-1 flex flex-wrap gap-1.5 px-1 py-2 backdrop-blur"
+                            aria-label="Bagian formulir"
+                        >
+                            {Object.values(BAGIAN_FORM).map((judul, i) => (
+                                <button
+                                    key={judul}
+                                    type="button"
+                                    onClick={() =>
+                                        document.getElementById(`bagian-form-${i + 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                    }
+                                    className="border-border bg-card hover:border-primary hover:text-primary inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors"
+                                >
+                                    <span className="bg-muted text-muted-foreground flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-semibold tabular-nums">
+                                        {i + 1}
+                                    </span>
+                                    {judul}
+                                </button>
+                            ))}
+                        </nav>
                         {FIELDS.map((field) => {
-                            const info = IRO_PD_FIELD_INFO[field];
-                            const value = data[field];
+                            const judulBagian = BAGIAN_FORM[field];
+                            const nomorBagian = judulBagian ? Object.keys(BAGIAN_FORM).indexOf(field) + 1 : 0;
+                            const elemen = (() => {
+                                const info = IRO_PD_FIELD_INFO[field];
+                                const value = data[field];
 
-                            if (field === 'TAHUN DINILAI RISIKO') {
-                                // Default-nya ikut Tahun Aktif Pemda (lihat TahunAktifBadge
-                                // & openCreate()), tapi PIC BEBAS mengganti ke tahun lain
-                                // saat input — supaya OPD bisa melengkapi data tahun
-                                // sebelumnya (mis. 2025) tanpa perlu Admin mengubah Tahun
-                                // Aktif global lebih dulu.
-                                return (
-                                    <div key={field} className="space-y-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
+                                if (field === 'TAHUN DINILAI RISIKO') {
+                                    // Default-nya ikut Tahun Aktif Pemda (lihat TahunAktifBadge
+                                    // & openCreate()), tapi PIC BEBAS mengganti ke tahun lain
+                                    // saat input — supaya OPD bisa melengkapi data tahun
+                                    // sebelumnya (mis. 2025) tanpa perlu Admin mengubah Tahun
+                                    // Aktif global lebih dulu.
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <Input id={field} type="number" value={value} onChange={(e) => setData(field, e.target.value)} />
+                                            <p className="text-muted-foreground text-xs">
+                                                Default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain (mis. tahun sebelumnya).
+                                            </p>
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
                                         </div>
-                                        <Input id={field} type="number" value={value} onChange={(e) => setData(field, e.target.value)} />
-                                        <p className="text-muted-foreground text-xs">
-                                            Default mengikuti Tahun Aktif, boleh diganti bila mengisi data tahun lain (mis. tahun sebelumnya).
-                                        </p>
-                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                    </div>
-                                );
-                            }
+                                    );
+                                }
 
-                            if (field === 'KEGIATAN PD') {
-                                // Rujukan ke III_a_KRO_PD — value tetap teks bersih (tanpa
-                                // kode), kodenya (mis. "1.1.1.1.1.1.1") cuma ditampilkan
-                                // read-only untuk konteks, dari tbl_kro_iro_pd.
-                                const kode = kegiatanKodes[value];
-                                return (
-                                    <div key={field} className="space-y-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
-                                            {kode && <span className="text-muted-foreground text-xs font-medium">Kode: {kode}</span>}
+                                if (field === 'KEGIATAN PD') {
+                                    // Rujukan ke III_a_KRO_PD — value tetap teks bersih (tanpa
+                                    // kode), kodenya (mis. "1.1.1.1.1.1.1") cuma ditampilkan
+                                    // read-only untuk konteks, dari tbl_kro_iro_pd.
+                                    const kode = kegiatanKodes[value];
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                                {kode && <span className="text-muted-foreground text-xs font-medium">Kode: {kode}</span>}
+                                            </div>
+                                            <AutocompleteSelect
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                options={fieldOptions[field] ?? []}
+                                                placeholder="Pilih Kegiatan PD yang sudah ada di KRO_PD"
+                                                dropdownClassName="w-[32rem] max-w-[90vw]"
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
                                         </div>
-                                        <AutocompleteSelect
-                                            value={value}
-                                            onChange={(val) => setData(field, val)}
-                                            options={fieldOptions[field] ?? []}
-                                            placeholder="Pilih Kegiatan PD yang sudah ada di KRO_PD"
-                                            dropdownClassName="w-[32rem] max-w-[90vw]"
+                                    );
+                                }
+
+                                if (field === 'TAHAP') {
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <AutocompleteSelect
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                options={tahapOptions}
+                                                placeholder="Pilih Tahap"
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    );
+                                }
+
+                                if (field === 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN') {
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <AutocompleteSelect
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                options={opdOptions}
+                                                placeholder="Pilih OPD"
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    );
+                                }
+
+                                if (field === 'PENANGGUNG JAWAB PENGENDALIAN') {
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <AutocompleteTextarea
+                                                id={field}
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                options={fieldOptions[field] ?? []}
+                                                rows={1}
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    );
+                                }
+
+                                if (field === 'JENIS RISIKO') {
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                                <ReferenceDialogTrigger label="Lihat daftar Jenis Risiko" onClick={() => setRefDialog('jenis')} />
+                                            </div>
+                                            <AutocompleteSelect
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                options={jenisRisikoOptions}
+                                                placeholder="Pilih Jenis Risiko"
+                                                dropdownClassName="w-[32rem] max-w-[90vw]"
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    );
+                                }
+
+                                if (field === 'ENTITAS PD YANG MENILAI') {
+                                    return (
+                                        <div key={field} className="space-y-1">
+                                            <div className="flex items-center gap-1.5">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                                <ReferenceDialogTrigger
+                                                    label="Lihat daftar Entitas Penilai Risiko"
+                                                    onClick={() => setRefDialog('entitas')}
+                                                />
+                                            </div>
+                                            <AutocompleteSelect
+                                                value={value}
+                                                onChange={(val) => setData(field, val)}
+                                                options={entitasPenilaiOptions}
+                                                placeholder="Pilih Entitas"
+                                                dropdownClassName="w-[32rem] max-w-[90vw]"
+                                            />
+                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                        </div>
+                                    );
+                                }
+
+                                if (field === 'URAIAN PENYEBAB RISIKO') {
+                                    return (
+                                        <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                                            <div className="flex items-start gap-1.5 pt-2">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <div>
+                                                <MultiCategoryTextarea
+                                                    id={field}
+                                                    value={value}
+                                                    onChange={(val) => {
+                                                        setData(field, val);
+                                                        setData('SUMBER SEBAB RISIKO', computeSumberSebabRisiko(val));
+                                                    }}
+                                                    categories={PENYEBAB_5M_KATEGORI}
+                                                    groupLabels={PENYEBAB_GROUP_LABELS}
+                                                    categorySuffix={penyebabKategoriSuffix}
+                                                    uraianPlaceholder="Uraian penyebab..."
+                                                />
+                                                {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+
+                                // SUMBER SEBAB RISIKO tidak lagi diisi manual — dihitung
+                                // otomatis dari kategori Internal(7M+1E)/Eksternal(PESTLE) yg
+                                // dicentang di URAIAN PENYEBAB RISIKO (lihat computeSumberSebabRisiko).
+                                if (field === 'SUMBER SEBAB RISIKO') {
+                                    return null;
+                                }
+
+                                if (field === 'C / UC') {
+                                    return (
+                                        <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                                            <div className="flex items-center gap-1.5 pt-2">
+                                                <Label htmlFor={field}>{field}</Label>
+                                                {info && <FieldInfoPopover text={info} />}
+                                            </div>
+                                            <div>
+                                                <CategorizedTextarea
+                                                    id={field}
+                                                    value={value}
+                                                    onChange={(val) => setData(field, val)}
+                                                    categories={C_UC_OPTIONS}
+                                                    hideUraian
+                                                />
+                                                {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                            </div>
+                                        </div>
+                                    );
+                                }
+
+                                if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
+                                    return (
+                                        <ExistingControlToggleSection
+                                            key="existing-control-toggle"
+                                            data={data}
+                                            setData={setData}
+                                            errors={errors}
+                                            info={IRO_PD_FIELD_INFO}
+                                            fieldOptions={fieldOptions}
+                                            evidenceType="iro_pd"
+                                            rowId={editing?.id ?? null}
+                                            isNewRow={!editing}
+                                            onToggleChange={setExistingControlStatus}
                                         />
-                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                    </div>
-                                );
-                            }
+                                    );
+                                }
 
-                            if (field === 'TAHAP') {
-                                return (
-                                    <div key={field} className="space-y-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
+                                if (field === 'KATEGORI EXISTING CONTROL' || field === 'CELAH PENGENDALIAN') {
+                                    return null;
+                                }
+
+                                if (field === 'RENCANA TINDAK PENGENDALIAN') {
+                                    return (
+                                        <div key={field} className="space-y-2">
+                                            <div className="flex flex-col items-end gap-1">
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    size="sm"
+                                                    disabled={existingControlStatus === null}
+                                                    onClick={() => setMatrixPickerOpen(true)}
+                                                >
+                                                    <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
+                                                    Isi Nilai Risiko
+                                                </Button>
+                                                {existingControlStatus === null && (
+                                                    <p className="text-muted-foreground text-xs">
+                                                        Pilih dulu "Apakah sudah ada Existing Control?" di atas.
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <div className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
+                                                <div className="flex items-start gap-1.5 pt-2">
+                                                    <Label htmlFor={field}>{field}</Label>
+                                                    {info && <FieldInfoPopover text={info} />}
+                                                </div>
+                                                <div>
+                                                    <MultiCategoryTextarea
+                                                        id={field}
+                                                        value={value}
+                                                        onChange={(val) => setData(field, val)}
+                                                        categories={RESPON_RISIKO_KATEGORI}
+                                                        uraianPlaceholder="Uraian rencana tindak pengendalian..."
+                                                    />
+                                                    {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
+                                                </div>
+                                            </div>
                                         </div>
-                                        <AutocompleteSelect
-                                            value={value}
-                                            onChange={(val) => setData(field, val)}
-                                            options={tahapOptions}
-                                            placeholder="Pilih Tahap"
-                                        />
-                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                    </div>
-                                );
-                            }
+                                    );
+                                }
 
-                            if (field === 'UNIT/OPD PENANGGUNG JAWAB PENGENDALIAN') {
-                                return (
-                                    <div key={field} className="space-y-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
+                                if (field === 'TRIWULAN') {
+                                    return (
+                                        <div key={field} className="grid grid-cols-2 gap-3">
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-1.5">
+                                                    <Label htmlFor="TRIWULAN">TRIWULAN</Label>
+                                                    {info && <FieldInfoPopover text={info} />}
+                                                </div>
+                                                <AutocompleteSelect
+                                                    value={value ? (triwulanLabels[value] ?? value) : ''}
+                                                    onChange={(val) => {
+                                                        const kode = Object.keys(triwulanLabels).find((k) => triwulanLabels[k] === val);
+                                                        setData('TRIWULAN', kode ?? val);
+                                                    }}
+                                                    options={triwulanOptions.map((k) => triwulanLabels[k] ?? k)}
+                                                    placeholder="Pilih Triwulan"
+                                                />
+                                                {errors['TRIWULAN'] && <p className="text-destructive text-sm">{errors['TRIWULAN']}</p>}
+                                            </div>
+                                            <div className="space-y-1">
+                                                <div className="flex items-center gap-1.5">
+                                                    <Label htmlFor="TAHUN TARGET PENYELESAIAN">TAHUN TARGET PENYELESAIAN</Label>
+                                                </div>
+                                                <Input
+                                                    id="TAHUN TARGET PENYELESAIAN"
+                                                    type="number"
+                                                    value={data['TAHUN TARGET PENYELESAIAN']}
+                                                    onChange={(e) => setData('TAHUN TARGET PENYELESAIAN', e.target.value)}
+                                                    placeholder="mis. 2026"
+                                                />
+                                                {errors['TAHUN TARGET PENYELESAIAN'] && (
+                                                    <p className="text-destructive text-sm">{errors['TAHUN TARGET PENYELESAIAN']}</p>
+                                                )}
+                                            </div>
                                         </div>
-                                        <AutocompleteSelect
-                                            value={value}
-                                            onChange={(val) => setData(field, val)}
-                                            options={opdOptions}
-                                            placeholder="Pilih OPD"
-                                        />
-                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                    </div>
-                                );
-                            }
+                                    );
+                                }
 
-                            if (field === 'PENANGGUNG JAWAB PENGENDALIAN') {
+                                if (field === 'TAHUN TARGET PENYELESAIAN') {
+                                    return null;
+                                }
+
                                 return (
                                     <div key={field} className="space-y-1">
                                         <div className="flex items-center gap-1.5">
@@ -780,228 +1036,26 @@ export default function IroPdIndex({
                                             value={value}
                                             onChange={(val) => setData(field, val)}
                                             options={fieldOptions[field] ?? []}
-                                            rows={1}
+                                            rows={2}
                                         />
                                         {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
                                     </div>
                                 );
-                            }
-
-                            if (field === 'JENIS RISIKO') {
-                                return (
-                                    <div key={field} className="space-y-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
-                                            <ReferenceDialogTrigger label="Lihat daftar Jenis Risiko" onClick={() => setRefDialog('jenis')} />
-                                        </div>
-                                        <AutocompleteSelect
-                                            value={value}
-                                            onChange={(val) => setData(field, val)}
-                                            options={jenisRisikoOptions}
-                                            placeholder="Pilih Jenis Risiko"
-                                            dropdownClassName="w-[32rem] max-w-[90vw]"
-                                        />
-                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                    </div>
-                                );
-                            }
-
-                            if (field === 'ENTITAS PD YANG MENILAI') {
-                                return (
-                                    <div key={field} className="space-y-1">
-                                        <div className="flex items-center gap-1.5">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
-                                            <ReferenceDialogTrigger
-                                                label="Lihat daftar Entitas Penilai Risiko"
-                                                onClick={() => setRefDialog('entitas')}
-                                            />
-                                        </div>
-                                        <AutocompleteSelect
-                                            value={value}
-                                            onChange={(val) => setData(field, val)}
-                                            options={entitasPenilaiOptions}
-                                            placeholder="Pilih Entitas"
-                                            dropdownClassName="w-[32rem] max-w-[90vw]"
-                                        />
-                                        {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                    </div>
-                                );
-                            }
-
-                            if (field === 'URAIAN PENYEBAB RISIKO') {
-                                return (
-                                    <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                                        <div className="flex items-start gap-1.5 pt-2">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
-                                        </div>
-                                        <div>
-                                            <MultiCategoryTextarea
-                                                id={field}
-                                                value={value}
-                                                onChange={(val) => {
-                                                    setData(field, val);
-                                                    setData('SUMBER SEBAB RISIKO', computeSumberSebabRisiko(val));
-                                                }}
-                                                categories={PENYEBAB_5M_KATEGORI}
-                                                groupLabels={PENYEBAB_GROUP_LABELS}
-                                                categorySuffix={penyebabKategoriSuffix}
-                                                uraianPlaceholder="Uraian penyebab..."
-                                            />
-                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            // SUMBER SEBAB RISIKO tidak lagi diisi manual — dihitung
-                            // otomatis dari kategori Internal(7M+1E)/Eksternal(PESTLE) yg
-                            // dicentang di URAIAN PENYEBAB RISIKO (lihat computeSumberSebabRisiko).
-                            if (field === 'SUMBER SEBAB RISIKO') {
-                                return null;
-                            }
-
-                            if (field === 'C / UC') {
-                                return (
-                                    <div key={field} className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                                        <div className="flex items-center gap-1.5 pt-2">
-                                            <Label htmlFor={field}>{field}</Label>
-                                            {info && <FieldInfoPopover text={info} />}
-                                        </div>
-                                        <div>
-                                            <CategorizedTextarea
-                                                id={field}
-                                                value={value}
-                                                onChange={(val) => setData(field, val)}
-                                                categories={C_UC_OPTIONS}
-                                                hideUraian
-                                            />
-                                            {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            if (field === 'URAIAN PENGENDALIAN YANG SUDAH ADA') {
-                                return (
-                                    <ExistingControlToggleSection
-                                        key="existing-control-toggle"
-                                        data={data}
-                                        setData={setData}
-                                        errors={errors}
-                                        info={IRO_PD_FIELD_INFO}
-                                        fieldOptions={fieldOptions}
-                                        evidenceType="iro_pd"
-                                        rowId={editing?.id ?? null}
-                                        isNewRow={!editing}
-                                        onToggleChange={setExistingControlStatus}
-                                    />
-                                );
-                            }
-
-                            if (field === 'KATEGORI EXISTING CONTROL' || field === 'CELAH PENGENDALIAN') {
-                                return null;
-                            }
-
-                            if (field === 'RENCANA TINDAK PENGENDALIAN') {
-                                return (
-                                    <div key={field} className="space-y-2">
-                                        <div className="flex flex-col items-end gap-1">
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                size="sm"
-                                                disabled={existingControlStatus === null}
-                                                onClick={() => setMatrixPickerOpen(true)}
-                                            >
-                                                <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
-                                                Isi Nilai Risiko
-                                            </Button>
-                                            {existingControlStatus === null && (
-                                                <p className="text-muted-foreground text-xs">
-                                                    Pilih dulu "Apakah sudah ada Existing Control?" di atas.
-                                                </p>
-                                            )}
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-2 sm:grid-cols-[12rem_1fr]">
-                                            <div className="flex items-start gap-1.5 pt-2">
-                                                <Label htmlFor={field}>{field}</Label>
-                                                {info && <FieldInfoPopover text={info} />}
-                                            </div>
-                                            <div>
-                                                <MultiCategoryTextarea
-                                                    id={field}
-                                                    value={value}
-                                                    onChange={(val) => setData(field, val)}
-                                                    categories={RESPON_RISIKO_KATEGORI}
-                                                    uraianPlaceholder="Uraian rencana tindak pengendalian..."
-                                                />
-                                                {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                            </div>
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            if (field === 'TRIWULAN') {
-                                return (
-                                    <div key={field} className="grid grid-cols-2 gap-3">
-                                        <div className="space-y-1">
-                                            <div className="flex items-center gap-1.5">
-                                                <Label htmlFor="TRIWULAN">TRIWULAN</Label>
-                                                {info && <FieldInfoPopover text={info} />}
-                                            </div>
-                                            <AutocompleteSelect
-                                                value={value ? (triwulanLabels[value] ?? value) : ''}
-                                                onChange={(val) => {
-                                                    const kode = Object.keys(triwulanLabels).find((k) => triwulanLabels[k] === val);
-                                                    setData('TRIWULAN', kode ?? val);
-                                                }}
-                                                options={triwulanOptions.map((k) => triwulanLabels[k] ?? k)}
-                                                placeholder="Pilih Triwulan"
-                                            />
-                                            {errors['TRIWULAN'] && <p className="text-destructive text-sm">{errors['TRIWULAN']}</p>}
-                                        </div>
-                                        <div className="space-y-1">
-                                            <div className="flex items-center gap-1.5">
-                                                <Label htmlFor="TAHUN TARGET PENYELESAIAN">TAHUN TARGET PENYELESAIAN</Label>
-                                            </div>
-                                            <Input
-                                                id="TAHUN TARGET PENYELESAIAN"
-                                                type="number"
-                                                value={data['TAHUN TARGET PENYELESAIAN']}
-                                                onChange={(e) => setData('TAHUN TARGET PENYELESAIAN', e.target.value)}
-                                                placeholder="mis. 2026"
-                                            />
-                                            {errors['TAHUN TARGET PENYELESAIAN'] && (
-                                                <p className="text-destructive text-sm">{errors['TAHUN TARGET PENYELESAIAN']}</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            }
-
-                            if (field === 'TAHUN TARGET PENYELESAIAN') {
-                                return null;
-                            }
-
+                            })();
+                            if (!judulBagian) return elemen;
                             return (
-                                <div key={field} className="space-y-1">
-                                    <div className="flex items-center gap-1.5">
-                                        <Label htmlFor={field}>{field}</Label>
-                                        {info && <FieldInfoPopover text={info} />}
-                                    </div>
-                                    <AutocompleteTextarea
-                                        id={field}
-                                        value={value}
-                                        onChange={(val) => setData(field, val)}
-                                        options={fieldOptions[field] ?? []}
-                                        rows={2}
-                                    />
-                                    {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
-                                </div>
+                                <Fragment key={`bagian-${field}`}>
+                                    <p
+                                        id={`bagian-form-${nomorBagian}`}
+                                        className="text-muted-foreground flex scroll-mt-14 items-center gap-2 pt-1 text-xs font-semibold tracking-wide uppercase"
+                                    >
+                                        <span className="bg-muted text-foreground flex h-5 w-5 items-center justify-center rounded-full text-[11px] font-semibold tabular-nums">
+                                            {nomorBagian}
+                                        </span>
+                                        {judulBagian}
+                                    </p>
+                                    {elemen}
+                                </Fragment>
                             );
                         })}
 

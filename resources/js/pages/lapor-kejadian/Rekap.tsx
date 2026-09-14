@@ -1,4 +1,5 @@
 import EmptyState from '@/components/empty-state';
+import StatusLaporanBadge from '@/components/status-laporan-badge';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -89,13 +90,6 @@ const TIPE_LABEL: Record<string, string> = {
     irs_pemda: 'Risiko Strategis Pemda',
     irs_pd: 'Risiko Strategis PD',
     iro_pd: 'Risiko Operasional PD',
-};
-
-const STATUS_VARIANT: Record<string, 'default' | 'secondary' | 'outline'> = {
-    baru: 'default',
-    diverifikasi: 'secondary',
-    ditindaklanjuti: 'secondary',
-    selesai: 'outline',
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -361,7 +355,7 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
                                 <div className="min-w-0 flex-1 space-y-1">
                                     <div className="flex flex-wrap items-center gap-2">
                                         <p className="font-medium">{l.nama_lengkap}</p>
-                                        <Badge variant={STATUS_VARIANT[l.status] ?? 'default'}>{STATUS_LABELS[l.status] ?? l.status}</Badge>
+                                        <StatusLaporanBadge status={l.status} />
                                         {l.opd && <Badge variant="outline">{l.opd.nama}</Badge>}
                                     </div>
                                     <p className="text-muted-foreground line-clamp-2 text-sm">{l.kejadian}</p>

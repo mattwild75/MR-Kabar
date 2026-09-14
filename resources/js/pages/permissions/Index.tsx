@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -70,7 +71,7 @@ export default function PermissionIndex({ permissions, groups, filters }: Props)
                 <Card>
                     <CardHeader className="flex flex-col gap-4 pb-3 md:flex-row md:items-center md:justify-between">
                         <div>
-                            <CardTitle className="text-2xl font-bold">Permissions</CardTitle>
+                            <CardTitle className="text-xl font-semibold tracking-tight md:text-2xl">Permissions</CardTitle>
                             <p className="text-muted-foreground text-sm">Manage system access permissions</p>
                         </div>
                         <Link href="/permissions/create">
@@ -111,7 +112,7 @@ export default function PermissionIndex({ permissions, groups, filters }: Props)
                         {/* List */}
                         <div className="space-y-3">
                             {permissions.data.length === 0 ? (
-                                <p className="text-muted-foreground text-center">No data available.</p>
+                                <EmptyState title="No data available" description="Permissions matching your search will appear here." />
                             ) : (
                                 permissions.data.map((permission) => (
                                     <div

@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -67,7 +68,9 @@ export default function RoleIndex({ roles }: Props) {
                 <div className="space-y-4">
                     {roles.length === 0 && (
                         <Card>
-                            <CardContent className="text-muted-foreground py-6 text-center">No role data available.</CardContent>
+                            <CardContent className="p-0">
+                                <EmptyState title="No role data available" description="Roles you add will appear here with their permissions." />
+                            </CardContent>
                         </Card>
                     )}
 

@@ -1,3 +1,4 @@
+import StatusLaporanBadge from '@/components/status-laporan-badge';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -71,13 +72,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'MR Fraud', href: '/fraud/identifikasi' },
     { title: 'Rekap Lapor Kejadian Fraud', href: '/fraud/rekap-lapor' },
 ];
-
-const WARNA_STATUS: Record<string, string> = {
-    baru: 'bg-red-500/15 text-red-700 dark:text-red-400',
-    diverifikasi: 'bg-amber-500/15 text-amber-700 dark:text-amber-400',
-    ditindaklanjuti: 'bg-sky-500/15 text-sky-700 dark:text-sky-400',
-    selesai: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400',
-};
 
 export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props) {
     const [buka, setBuka] = useState<number | null>(null);
@@ -225,9 +219,7 @@ export default function RekapLapor({ laporan, statuses, statusTerpilih }: Props)
                                                 )}
                                             </td>
                                             <td className="border px-3 py-2">
-                                                <span className={`rounded px-2 py-0.5 text-xs font-medium ${WARNA_STATUS[l.status] ?? ''}`}>
-                                                    {l.status}
-                                                </span>
+                                                <StatusLaporanBadge status={l.status} />
                                             </td>
                                             <td className="border px-3 py-2">
                                                 <div className="flex gap-1">

@@ -1,3 +1,4 @@
+import StatusLaporanBadge from '@/components/status-laporan-badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -141,7 +142,7 @@ export default function CekStatus() {
                     <CardHeader>
                         <CardTitle className="text-base">
                             <span className="font-mono">{hasil.nomor_tiket}</span>{' '}
-                            <span className="bg-muted ml-2 rounded px-2 py-0.5 text-xs font-medium">{hasil.status}</span>
+                            <StatusLaporanBadge status={hasil.status} className="ml-2 align-middle" />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
