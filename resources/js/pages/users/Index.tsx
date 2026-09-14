@@ -1,3 +1,5 @@
+import EmptyState from '@/components/empty-state';
+import PageHeader from '@/components/page-header';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -17,13 +19,14 @@ import { Head, Link, router, useForm } from '@inertiajs/react';
 import dayjs from 'dayjs';
 import 'dayjs/locale/id';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { Plus } from 'lucide-react';
 
 dayjs.extend(relativeTime);
 dayjs.locale('id');
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'User Management',
+        title: 'Pengguna',
         href: '/users',
     },
 ];
@@ -70,23 +73,24 @@ export default function UserIndex({ users }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="User Management" />
+            <Head title="Pengguna" />
             <div className="space-y-6 p-4 md:p-6">
-                <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-                    <div>
-                        <h1 className="text-2xl font-bold tracking-tight">User Management</h1>
-                        <p className="text-muted-foreground">Manage user data and their roles within the system.</p>
-                    </div>
-                    <Link href="/users/create">
-                        <Button className="w-full md:w-auto" size="sm">
-                            + Add User
+                <PageHeader
+                    title="Pengguna"
+                    description="Akun pengguna MR Kabar beserta perannya."
+                    actions={
+                        <Button asChild size="sm">
+                            <Link href="/users/create">
+                                <Plus className="h-4 w-4" />
+                                Tambah Pengguna
+                            </Link>
                         </Button>
-                    </Link>
-                </div>
+                    }
+                />
 
                 <div className="bg-background space-y-2 divide-y rounded-md border">
                     {users.data.length === 0 ? (
-                        <div className="text-muted-foreground py-8 text-center">No user data available.</div>
+                        <EmptyState title="Belum ada pengguna" description="Pengguna yang ditambahkan akan tampil di sini beserta perannya." />
                     ) : (
                         users.data.map((user) => (
                             <div

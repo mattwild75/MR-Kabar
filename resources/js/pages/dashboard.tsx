@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -731,7 +732,13 @@ export default function Dashboard({
                             <CardTitle className="text-base">Progres Tahapan per UPR</CardTitle>
                         </CardHeader>
                         <CardContent className="max-h-[420px] space-y-3 overflow-y-auto">
-                            {progresTahapan.length === 0 && <p className="text-muted-foreground text-sm">Belum ada data OPD.</p>}
+                            {progresTahapan.length === 0 && (
+                                <EmptyState
+                                    size="sm"
+                                    title="Belum ada OPD yang mengisi"
+                                    description="Progres tiap OPD muncul setelah tahap pertama (CEE) mulai diisi."
+                                />
+                            )}
                             {progresTahapan.map((p) => (
                                 <ProgresTahapanRow key={p.opd_id} item={p} onPilihTahap={(tahap) => setTahapDetail({ opdNama: p.opd_nama, tahap })} />
                             ))}
@@ -775,7 +782,11 @@ export default function Dashboard({
                         </CardHeader>
                         <CardContent className={distribusiKategori.length === 0 ? 'h-[280px]' : undefined}>
                             {distribusiKategori.length === 0 ? (
-                                <p className="text-muted-foreground text-sm">Belum ada data.</p>
+                                <EmptyState
+                                    size="sm"
+                                    title="Belum ada data"
+                                    description="Terisi otomatis begitu ada risiko pada tahun dan OPD yang dipilih."
+                                />
                             ) : (
                                 <div className="max-h-[280px] overflow-x-hidden overflow-y-auto">
                                     <SaatTerlihat tinggi={Math.max(280, distribusiKategori.length * 32)}>
@@ -1058,7 +1069,9 @@ export default function Dashboard({
                   bukan cuma 10 teratas; scroll di dalam card mencegah
                   daftar panjang (~49 OPD) mendorong layout dashboard. */}
                             <CardContent className="max-h-[28rem] space-y-2.5 overflow-y-auto">
-                                {rankingOpd.length === 0 && <p className="text-muted-foreground text-sm">Belum ada data.</p>}
+                                {rankingOpd.length === 0 && (
+                                    <EmptyState size="sm" title="Belum ada data" description="Peringkat tersusun setelah risiko dinilai." />
+                                )}
                                 {/* Bar merepresentasikan skor_total (Σ skala_risiko, total eksposur)
                     RELATIF terhadap OPD skor_total tertinggi di seluruh daftar ini —
                     beda dari sebelumnya yg basisnya skala tetap 1-25 (skor rata-rata

@@ -53,3 +53,6 @@ docs/audit/
 # memastikan tidak ada perubahan yang belum tersimpan sebelum mundur versi.
 .cache/
 .chrome-home/
+
+# tangkapan layar pemeriksaan render (cek_login.cjs)
+login_prod.png

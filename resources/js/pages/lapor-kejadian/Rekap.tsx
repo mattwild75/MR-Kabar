@@ -1,3 +1,4 @@
+import EmptyState from '@/components/empty-state';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -349,7 +350,10 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
 
                 <div className="space-y-3">
                     {laporan.data.length === 0 && (
-                        <p className="text-muted-foreground py-8 text-center text-sm">Belum ada laporan kejadian risiko.</p>
+                        <EmptyState
+                            title="Belum ada laporan"
+                            description="Laporan yang masuk lewat kode QR Lapor akan tampil di sini, lengkap dengan status tindak lanjutnya."
+                        />
                     )}
                     {laporan.data.map((l) => (
                         <Card key={l.id}>

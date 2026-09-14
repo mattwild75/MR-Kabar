@@ -13,6 +13,8 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -84,5 +86,26 @@ return Application::configure(basePath: dirname(__DIR__))
         );
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // Halaman galat lewat Inertia (resources/js/pages/errors/Index.tsx)
+        // supaya 403/404/429/500/503 tampil dengan wajah aplikasi, bukan
+        // halaman Laravel polos. Saat debug menyala, halaman galat
+        // pengembang tetap dipakai untuk >= 500. 419 (sesi kedaluwarsa)
+        // dikembalikan ke halaman sebelumnya dengan pesan, bukan halaman
+        // galat. Permintaan JSON tidak disentuh.
+        $exceptions->respond(function (Response $response, Throwable $e, Request $request) {
+            $status = $response->getStatusCode();
+            if ($request->expectsJson() || (config('app.debug') && $status >= 500)) {
+                return $response;
+            }
+            if ($status === 419) {
+                return back()->with('error', 'Sesi Anda sudah kedaluwarsa, silakan ulangi.');
+            }
+            if (! in_array($status, [403, 404, 429, 500, 503], true)) {
+                return $response;
+            }
+
+            return Inertia::render('errors/Index', ['status' => $status, 'namaApp' => config('app.name')])
+                ->toResponse($request)
+                ->setStatusCode($status);
+        });
     })->create();
