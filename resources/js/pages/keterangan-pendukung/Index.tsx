@@ -19,8 +19,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import { nilaiKontras, rasioKontrasKelas } from '@/lib/kontras-warna';
 import { Head, router } from '@inertiajs/react';
-import { Edit, Plus, Save, Trash2 } from 'lucide-react';
+import { AlertTriangle, Contrast, Edit, Plus, Save, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import ArahanPenilaianTab, { type ArahanRow } from './ArahanPenilaianTab';
@@ -30,18 +31,43 @@ import ArahanPenilaianTab, { type ArahanRow } from './ArahanPenilaianTab';
 // tidak hilang kena purge Tailwind saat build produksi (Tailwind men-scan
 // source utk string class, class yg cuma ada di data DB tidak akan
 // ter-generate CSS-nya).
+// Semua pasangan di sini lolos kontras 4,5:1 (lihat lib/kontras-warna.ts).
+// Varian teks putih yang dulu ada (oranye/biru muda/kuning tua/abu-abu +
+// putih) hanya 2,1-2,6:1 dan sengaja dihapus dari pilihan; nilai lama yang
+// sudah tersimpan tetap berjalan dan diberi peringatan di pratinjau.
 const WARNA_OPTIONS = [
-    { value: 'bg-red-500 text-white', label: 'Merah (Sangat Tinggi)' },
-    { value: 'bg-orange-400 text-white', label: 'Oranye (Tinggi)' },
+    { value: 'bg-red-500 text-black', label: 'Merah (Sangat Tinggi)' },
+    { value: 'bg-orange-400 text-black', label: 'Oranye (Tinggi)' },
     { value: 'bg-yellow-300 text-black', label: 'Kuning (Sedang)' },
     { value: 'bg-green-400 text-black', label: 'Hijau (Rendah)' },
-    { value: 'bg-sky-400 text-white', label: 'Biru Muda (Sangat Rendah)' },
-    { value: 'bg-emerald-500 text-white', label: 'Hijau Zamrud' },
-    { value: 'bg-amber-500 text-white', label: 'Kuning Tua' },
-    { value: 'bg-rose-500 text-white', label: 'Merah Muda' },
-    { value: 'bg-violet-500 text-white', label: 'Ungu' },
-    { value: 'bg-slate-400 text-white', label: 'Abu-abu' },
+    { value: 'bg-sky-400 text-black', label: 'Biru Muda (Sangat Rendah)' },
+    { value: 'bg-emerald-500 text-black', label: 'Hijau Zamrud' },
+    { value: 'bg-amber-500 text-black', label: 'Kuning Tua' },
+    { value: 'bg-rose-500 text-black', label: 'Merah Muda' },
+    { value: 'bg-violet-500 text-black', label: 'Ungu' },
+    { value: 'bg-violet-500 text-white', label: 'Ungu (teks putih)' },
+    { value: 'bg-slate-400 text-black', label: 'Abu-abu' },
 ];
+
+/** Baris keterangan kontras di bawah pratinjau warna. */
+function KeteranganKontras({ kelas }: { kelas: string }) {
+    if (!kelas) return null;
+    const k = nilaiKontras(rasioKontrasKelas(kelas));
+    const warna =
+        k.tingkat === 'baik'
+            ? 'text-emerald-700 dark:text-emerald-400'
+            : k.tingkat === 'cukup'
+              ? 'text-amber-700 dark:text-amber-400'
+              : k.tingkat === 'kurang'
+                ? 'text-destructive'
+                : 'text-muted-foreground';
+    return (
+        <p className={`mt-1 flex items-center gap-1 text-xs ${warna}`}>
+            {k.tingkat === 'kurang' ? <AlertTriangle className="h-3.5 w-3.5" /> : <Contrast className="h-3.5 w-3.5" />}
+            {k.pesan}
+        </p>
+    );
+}
 
 function warnaPreviewClass(value: string) {
     return value || 'bg-muted';
@@ -642,6 +668,7 @@ function MatriksTab({ cells, selera }: { cells: MatrixCellRow[]; selera: SeleraR
                             <div className={`mt-1 rounded px-2 py-1 text-center text-sm ${warnaPreviewClass(form.warna_class ?? '')}`}>
                                 Pratinjau: {form.skala_risiko ?? '-'}
                             </div>
+                            <KeteranganKontras kelas={form.warna_class ?? ''} />
                         </div>
                     </div>
                     <DialogFooter>
@@ -800,6 +827,7 @@ function LevelRisikoTab({ rows, selera }: { rows: RiskLevelRow[]; selera: Selera
                             <div className={`mt-1 rounded px-2 py-1 text-center text-sm ${warnaPreviewClass(form.warna_class ?? '')}`}>
                                 Pratinjau: {form.label ?? '-'}
                             </div>
+                            <KeteranganKontras kelas={form.warna_class ?? ''} />
                         </div>
                         <div className="flex items-start gap-2 rounded-md border p-3">
                             <Checkbox

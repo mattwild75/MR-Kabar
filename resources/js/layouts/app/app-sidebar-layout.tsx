@@ -4,6 +4,7 @@ import { AppShell } from '@/components/app-shell';
 import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import { BantuanPintasan } from '@/components/bantuan-pintasan';
+import KerangkaPemuatan from '@/components/kerangka-pemuatan';
 import { LoginSplash } from '@/components/login-splash';
 import { SessionTimeoutWarning } from '@/components/session-timeout-warning';
 import { Toaster } from '@/components/ui/sonner';
@@ -187,11 +188,14 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
                             {/* key = URL: tiap pindah halaman isi dipasang ulang dan
                                 memudar masuk 200 ms (tailwindcss-animate). Cukup untuk
                                 terasa halus tanpa membuat aplikasi terasa lambat. */}
-                            <div
-                                key={page.url.split('?')[0]}
-                                className="animate-in fade-in max-w-[1800px] min-w-0 flex-1 duration-200 motion-reduce:animate-none xl:mx-auto xl:w-full print:max-w-none"
-                            >
-                                {children}
+                            <div className="relative flex min-w-0 flex-1 flex-col">
+                                <KerangkaPemuatan />
+                                <div
+                                    key={page.url.split('?')[0]}
+                                    className="animate-in fade-in max-w-[1800px] min-w-0 flex-1 duration-200 motion-reduce:animate-none xl:mx-auto xl:w-full print:max-w-none"
+                                >
+                                    {children}
+                                </div>
                             </div>
                             <div className="print:hidden">
                                 <AppFooter
