@@ -1,6 +1,6 @@
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle, PlayCircle } from 'lucide-react';
-import { FormEventHandler, useState } from 'react';
+import { ArrowRight, LoaderCircle, PlayCircle } from 'lucide-react';
+import { FormEventHandler, useEffect, useState } from 'react';
 
 import EduVideoPlayer from '@/components/edu-video-player';
 import InputError from '@/components/input-error';
@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { PasswordInput } from '@/components/ui/password-input';
+import { QrCodeWithLogo } from '@/components/ui/qr-code-with-logo';
 import AuthLayout from '@/layouts/auth-layout';
 import { useEduVideo } from '@/lib/edu-video';
 
@@ -32,6 +33,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         remember: false,
     });
     const [videoOpen, setVideoOpen] = useState(false);
+    // Origin baru diketahui di peramban; render pertama memakai path relatif
+    // (pola yang sama dengan lapor-qr-code.tsx supaya aman untuk SSR).
+    const [laporUrl, setLaporUrl] = useState('/login/lapor-kejadian');
+    useEffect(() => setLaporUrl(`${window.location.origin}/login/lapor-kejadian`), []);
 
     const video = useEduVideo();
 
@@ -140,6 +145,41 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     </button>
                 )}
             </div>
+
+            {/* Pintu Lapor untuk masyarakat — tanpa akun. Ditaruh di kartu login
+                karena inilah halaman yang paling sering dibuka orang luar; QR-nya
+                sama persis dengan yang tercetak di selebaran dan halaman Panduan
+                (satu QR untuk Kejadian Risiko dan Dugaan Kecurangan). Dibuat
+                sebagai panel tenang di bawah formulir supaya tidak bersaing
+                dengan tombol Masuk. */}
+            <section
+                aria-labelledby="lapor-judul"
+                className="border-border/70 bg-background/55 flex items-center gap-4 rounded-xl border p-3.5 backdrop-blur-sm"
+            >
+                <a
+                    href="/login/lapor-kejadian"
+                    className="ring-border/60 shrink-0 rounded-lg bg-white p-1.5 ring-1 transition-transform hover:scale-[1.03]"
+                    aria-label="Pindai atau klik untuk membuka formulir Lapor"
+                >
+                    <QrCodeWithLogo value={laporUrl} size={88} />
+                </a>
+                <div className="min-w-0 flex-1 space-y-1">
+                    <p className="text-muted-foreground text-[10px] font-semibold tracking-[0.14em] uppercase">Layanan publik</p>
+                    <h2 id="lapor-judul" className="text-foreground text-sm leading-snug font-semibold">
+                        Lapor Kejadian Risiko &amp; Dugaan Kecurangan
+                    </h2>
+                    <p className="text-muted-foreground text-xs leading-relaxed">
+                        Pindai dengan kamera HP — tanpa akun, boleh anonim. Laporan Anda langsung diterima Inspektorat.
+                    </p>
+                    <a
+                        href="/login/lapor-kejadian"
+                        className="text-foreground hover:text-primary inline-flex items-center gap-1 text-xs font-medium underline decoration-current/40 underline-offset-4 transition-colors hover:decoration-current"
+                    >
+                        Buka formulir Lapor
+                        <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                    </a>
+                </div>
+            </section>
 
             {video.enabled && (
                 <Dialog open={videoOpen} onOpenChange={setVideoOpen}>
