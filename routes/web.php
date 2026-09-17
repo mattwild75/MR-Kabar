@@ -21,6 +21,7 @@ use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\Erpika\AnalisisController;
 use App\Http\Controllers\Erpika\AnevaController;
 use App\Http\Controllers\Erpika\DataTerhapusController;
+use App\Http\Controllers\Erpika\LhpController;
 use App\Http\Controllers\Erpika\PegawaiController;
 use App\Http\Controllers\FraudRisikoController;
 use App\Http\Controllers\IroPdController;
@@ -42,8 +43,8 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MonitoringEvaluasiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PanduanController;
-use App\Http\Controllers\PenyimpananController;
 use App\Http\Controllers\PencarianController;
+use App\Http\Controllers\PenyimpananController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProgramBupatiRisikoController;
 use App\Http\Controllers\RiskEvidenceController;
@@ -330,9 +331,19 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/aneva/cetak', [AnevaController::class, 'cetak'])->name('erpika.aneva.cetak');
     Route::get('/erpika/aneva/cetak/excel', [AnevaController::class, 'excel'])->name('erpika.aneva.cetak.excel');
     Route::put('/erpika/aneva/{penugasan}', [AnevaController::class, 'simpanLaporan'])->name('erpika.aneva.simpan');
-    // ERPIKA > AREP dan Laporan Penugasan — disiapkan kosong (arahan 12 September 2026).
+    // ERPIKA > AREP — disiapkan kosong (arahan 12 September 2026).
     Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
-    Route::get('/erpika/laporan-penugasan', fn () => Inertia::render('erpika/LaporanPenugasan'))->name('erpika.laporan-penugasan');
+    // ERPIKA > Laporan Penugasan > Database LHP — manajemen LHP (pindahan SimHPPemda).
+    // '/buat' didaftarkan sebelum '/{lhp}' agar tidak tertangkap route model binding.
+    Route::prefix('erpika/laporan-penugasan/database-lhp')->name('erpika.lhp.')->group(function () {
+        Route::get('/', [LhpController::class, 'index'])->name('index');
+        Route::get('/buat', [LhpController::class, 'create'])->name('create');
+        Route::post('/', [LhpController::class, 'store'])->name('store');
+        Route::get('/{lhp}', [LhpController::class, 'show'])->name('show');
+        Route::get('/{lhp}/sunting', [LhpController::class, 'edit'])->name('edit');
+        Route::put('/{lhp}', [LhpController::class, 'update'])->name('update');
+        Route::delete('/{lhp}', [LhpController::class, 'destroy'])->name('destroy');
+    });
     // ERPIKA > Data Terhapus — soft delete milik ERPIKA sendiri (dokumen RPP, pegawai).
     Route::get('/erpika/data-terhapus', [DataTerhapusController::class, 'index'])->name('erpika.data-terhapus.index');
     Route::put('/erpika/data-terhapus/{type}/{id}/restore', [DataTerhapusController::class, 'restore'])->name('erpika.data-terhapus.restore');

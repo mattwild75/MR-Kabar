@@ -1094,9 +1094,16 @@ class MenuSeeder extends Seeder
             ['route' => '/erpika/arep'],
             ['title' => 'AREP', 'parent_id' => $erpika->id, 'icon' => 'ClipboardCheck', 'order' => 2, 'permission_name' => 'erpika-view']
         );
+        // Laporan Penugasan kini kelompok (dulu halaman kosong); anak pertamanya
+        // Database LHP — manajemen Laporan Hasil Pemeriksaan pindahan SimHPPemda.
+        $erpikaLaporan = Menu::updateOrCreate(
+            ['title' => 'Laporan Penugasan', 'parent_id' => $erpika->id],
+            ['icon' => 'FileCheck', 'route' => '#', 'order' => 3, 'permission_name' => 'erpika-view']
+        );
+        Menu::where('route', '/erpika/laporan-penugasan')->where('id', '!=', $erpikaLaporan->id)->delete();
         Menu::updateOrCreate(
-            ['route' => '/erpika/laporan-penugasan'],
-            ['title' => 'Laporan Penugasan', 'parent_id' => $erpika->id, 'icon' => 'FileCheck', 'order' => 3, 'permission_name' => 'erpika-view']
+            ['route' => '/erpika/laporan-penugasan/database-lhp'],
+            ['title' => 'Database LHP', 'parent_id' => $erpikaLaporan->id, 'icon' => 'FolderSearch', 'order' => 1, 'permission_name' => 'erpika-view']
         );
         // ANEVA (Analisis dan Evaluasi) = kelompok; RPP Aneva anak pertamanya.
         $erpikaAneva = Menu::updateOrCreate(
