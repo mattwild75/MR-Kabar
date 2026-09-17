@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Lhp;
+use App\Support\KodeLhp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -60,7 +61,9 @@ class ImporLhp extends Command
                 $ada->forceDelete();
             }
             DB::transaction(function () use ($h, $hcol) {
-                $lhp = Lhp::create(collect($hcol)->mapWithKeys(fn ($k) => [$k => $this->nilai($h[$k] ?? null, $k)])->all());
+                $atribut = collect($hcol)->mapWithKeys(fn ($k) => [$k => $this->nilai($h[$k] ?? null, $k)])->all();
+                $atribut['inspektorat'] = KodeLhp::INSPEKTORAT_DEFAULT;
+                $lhp = Lhp::create($atribut);
                 foreach ($h['temuan'] ?? [] as $t) {
                     $tem = $lhp->temuan()->create($this->baris($t, ['no', 'kode_group', 'kode', 'nilai', 'memo', 'status']));
                     foreach ($t['sebab'] ?? [] as $s) {

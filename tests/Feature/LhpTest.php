@@ -178,6 +178,53 @@ class LhpTest extends TestCase
         @unlink($berkas);
     }
 
+    public function test_simpan_bidang_terstruktur_dan_label_kode(): void
+    {
+        $u = $this->adminBaru();
+
+        $this->actingAs($u)->post(self::BASE, [
+            'nomor_lhp' => '700/55/LHP/2026',
+            'nama_obrik' => 'Dinas Struktur',
+            'status_lhp' => '02',
+            'tahun_pkpt' => '2026',
+            'inspektorat' => 'Inspektorat Aceh Barat',
+            'bidang_unit' => 'Inspektur Pembantu Wilayah II',
+            'kode_group_jenis_periksa' => '01',
+            'kode_jenis_periksa' => '0101',
+            'nilai_anggaran' => 1000000,
+            'anggaran_diaudit' => 900000,
+            'temuan' => [[
+                'kode_group' => '08', 'kode' => '0810', 'nilai' => 500, 'memo' => 'Temuan X',
+                'ba_kesepakatan' => 'ada', 'kerugian_pada' => 'daerah',
+                'sebab' => [[
+                    'kode_group' => '04', 'kode' => '0401', 'memo' => 'Sebab X',
+                    'rekomendasi' => [[
+                        'kode_group' => '10', 'kode' => '1002', 'nilai' => 500, 'memo' => 'Rekom X',
+                        'tindak_lanjut' => [['kode_group' => '01', 'kode' => '0101', 'tanggal' => '2026-06-01', 'memo' => 'TL X']],
+                    ]],
+                ]],
+            ]],
+        ])->assertRedirect();
+
+        $lhp = Lhp::with('temuan.sebab.rekomendasi.tindakLanjut')->where('nomor_lhp', '700/55/LHP/2026')->first();
+        $this->assertSame('2026', $lhp->tahun_pkpt);
+        $this->assertSame('Inspektur Pembantu Wilayah II', $lhp->bidang_unit);
+        $this->assertSame('01', $lhp->kode_group_jenis_periksa);
+        $t = $lhp->temuan->first();
+        $this->assertSame('08', $t->kode_group);
+        $this->assertSame('ada', $t->ba_kesepakatan);
+        $this->assertSame('daerah', $t->kerugian_pada);
+        $this->assertSame('04', $t->sebab->first()->kode_group);
+        $this->assertSame('1002', $t->sebab->first()->rekomendasi->first()->kode);
+        $this->assertSame('0101', $t->sebab->first()->rekomendasi->first()->tindakLanjut->first()->kode);
+
+        // Halaman baca memetakan kode group ke label baku.
+        $this->actingAs($u)->get(self::BASE."/{$lhp->id}")->assertInertia(fn ($page) => $page
+            ->where('lhp.jenis_label', 'Audit Operasional')
+            ->where('lhp.temuan.0.group_label', 'Kelemahan Administrasi (Tata Usaha/Akuntansi)')
+            ->where('lhp.temuan.0.sebab.0.group_label', 'Kelemahan dalam Prosedur'));
+    }
+
     public function test_hapus_lhp_soft_delete(): void
     {
         $u = $this->adminBaru();

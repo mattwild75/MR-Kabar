@@ -22,6 +22,8 @@ const BASE = '/erpika/laporan-penugasan/database-lhp';
 interface TindakLanjut {
     id: number;
     no: number;
+    kode_group: string | null;
+    kode: string | null;
     nilai: number | null;
     tanggal: string | null;
     memo: string | null;
@@ -29,6 +31,8 @@ interface TindakLanjut {
 interface Rekomendasi {
     id: number;
     no: number;
+    kode_group: string | null;
+    kode: string | null;
     nilai: number | null;
     memo: string;
     tindak_lanjut: TindakLanjut[];
@@ -36,14 +40,21 @@ interface Rekomendasi {
 interface Sebab {
     id: number;
     no: number;
+    kode_group: string | null;
+    kode: string | null;
+    group_label: string | null;
     memo: string;
     rekomendasi: Rekomendasi[];
 }
 interface Temuan {
     id: number;
     no: number;
+    kode_group: string | null;
     kode: string | null;
+    group_label: string | null;
     nilai: number | null;
+    ba_kesepakatan: string | null;
+    kerugian_pada: string | null;
     memo: string;
     status: string | null;
     sebab: Sebab[];
@@ -61,8 +72,15 @@ interface Lhp {
     tanggal_lhp: string | null;
     nomor_st: string | null;
     tanggal_st: string | null;
+    tahun_pkpt: string | null;
     tahun_anggaran: string | null;
     nama_obrik: string;
+    inspektorat: string | null;
+    bidang_unit: string | null;
+    kode_group_jenis_periksa: string | null;
+    kode_jenis_periksa: string | null;
+    jenis_group_label: string | null;
+    jenis_label: string | null;
     nilai_anggaran: number | null;
     realisasi_anggaran: number | null;
     anggaran_diaudit: number | null;
@@ -73,6 +91,13 @@ interface Lhp {
     nama_pj: string | null;
     tim: Anggota[];
     temuan: Temuan[];
+}
+
+/** Gabung kode + label jadi teks singkat, mis. "08 — Kelemahan Administrasi". */
+function kodeTeks(kode: string | null, label: string | null): string | null {
+    if (!kode && !label) return null;
+    if (kode && label) return `${kode} — ${label}`;
+    return kode || label;
 }
 
 export default function LhpShow({ lhp }: { lhp: Lhp }) {
@@ -144,8 +169,13 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
                         <Info k="Nomor LHP" v={lhp.nomor_lhp} />
                         <Info k="Tanggal LHP" v={tanggal(lhp.tanggal_lhp)} />
                         <Info k="Surat Tugas" v={lhp.nomor_st ?? '—'} />
+                        <Info k="Tahun PKPT" v={lhp.tahun_pkpt ?? '—'} />
                         <Info k="Tanggal ST" v={tanggal(lhp.tanggal_st)} />
                         <Info k="Tahun Anggaran" v={lhp.tahun_anggaran ?? '—'} />
+                        <Info k="Inspektorat" v={lhp.inspektorat ?? '—'} />
+                        <Info k="Bidang/Unit Pengawasan" v={lhp.bidang_unit ?? '—'} />
+                        <Info k="Lingkup Audit" v={kodeTeks(lhp.kode_group_jenis_periksa, lhp.jenis_group_label) ?? '—'} />
+                        <Info k="Jenis Audit" v={kodeTeks(lhp.kode_jenis_periksa, lhp.jenis_label) ?? '—'} />
                         <Info k="Penanggung Jawab" v={lhp.nama_pj ? `${lhp.nama_pj}${lhp.nip_pj ? ` (${lhp.nip_pj})` : ''}` : '—'} />
                         <Info k="Objek Pemeriksaan" v={lhp.nama_obrik} span />
                         {(lhp.nilai_anggaran || lhp.realisasi_anggaran || lhp.anggaran_diaudit) && (
@@ -210,7 +240,16 @@ function TemuanKartu({ t }: { t: Temuan }) {
                         {t.kode && <span className="text-muted-foreground font-mono">{t.kode}</span>}
                         {t.nilai !== null && t.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(t.nilai)}</span>}
                     </div>
+                    {(t.group_label || t.kode_group) && (
+                        <div className="text-muted-foreground mt-0.5 text-xs">{kodeTeks(t.kode_group, t.group_label)}</div>
+                    )}
                     <p className="mt-1 text-sm whitespace-pre-line">{t.memo}</p>
+                    {(t.ba_kesepakatan || t.kerugian_pada) && (
+                        <div className="text-muted-foreground mt-1 flex flex-wrap gap-x-4 text-xs">
+                            {t.ba_kesepakatan && <span>BA Kesepakatan Obrik: {t.ba_kesepakatan === 'ada' ? 'Ada' : 'Tidak Ada'}</span>}
+                            {t.kerugian_pada && <span>Kerugian pada: {t.kerugian_pada === 'negara' ? 'Negara' : 'Daerah'}</span>}
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="space-y-3 p-4">
@@ -221,6 +260,9 @@ function TemuanKartu({ t }: { t: Temuan }) {
                             <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                                 Penyebab {t.sebab.length > 1 ? s.no : ''}
                             </span>
+                            {(s.group_label || s.kode_group) && (
+                                <span className="text-muted-foreground ml-2 text-xs">{kodeTeks(s.kode_group, s.group_label)}</span>
+                            )}
                             <p className="text-sm whitespace-pre-line">{s.memo}</p>
                         </div>
                         {s.rekomendasi.map((r) => (
@@ -233,6 +275,12 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                     <span className="font-medium tracking-wide text-amber-800 uppercase dark:text-amber-300">
                                         Rekomendasi {r.no > 0 ? r.no : ''}
                                     </span>
+                                    {r.kode && (
+                                        <span className="text-muted-foreground font-mono">
+                                            {r.kode_group ? `${r.kode_group}/` : ''}
+                                            {r.kode}
+                                        </span>
+                                    )}
                                     {r.nilai !== null && r.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(r.nilai)}</span>}
                                 </div>
                                 <p className="mt-1 text-sm whitespace-pre-line">{r.memo}</p>
@@ -244,6 +292,7 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                                 <div className="min-w-0">
                                                     <span className="text-muted-foreground mr-2 text-xs">
                                                         Tindak lanjut{tl.tanggal ? ` · ${tanggal(tl.tanggal)}` : ''}
+                                                        {tl.kode ? ` · ${tl.kode_group ? `${tl.kode_group}/` : ''}${tl.kode}` : ''}
                                                         {tl.nilai !== null && tl.nilai > 0 ? ` · ${rupiah(tl.nilai)}` : ''}
                                                     </span>
                                                     {tl.memo && <span className="whitespace-pre-line">{tl.memo}</span>}

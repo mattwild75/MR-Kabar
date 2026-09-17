@@ -13,42 +13,38 @@ const BASE = '/erpika/laporan-penugasan/database-lhp';
 
 type TindakLanjut = {
     id?: number;
+    kode_group: string | null;
+    kode: string | null;
     nilai: number | null;
     tanggal: string | null;
     memo: string | null;
 };
-type Rekomendasi = {
-    id?: number;
-    nilai: number | null;
-    memo: string;
-    tindak_lanjut: TindakLanjut[];
-};
-type Sebab = {
-    id?: number;
-    memo: string;
-    rekomendasi: Rekomendasi[];
-};
+type Rekomendasi = { id?: number; kode_group: string | null; kode: string | null; nilai: number | null; memo: string; tindak_lanjut: TindakLanjut[] };
+type Sebab = { id?: number; kode_group: string | null; kode: string | null; memo: string; rekomendasi: Rekomendasi[] };
 type Temuan = {
     id?: number;
+    kode_group: string | null;
     kode: string | null;
     nilai: number | null;
+    ba_kesepakatan: string | null;
+    kerugian_pada: string | null;
     memo: string;
     status: string | null;
     sebab: Sebab[];
 };
-type Anggota = {
-    id?: number;
-    nip: string | null;
-    nama: string;
-    jabatan: string | null;
-};
+type Anggota = { id?: number; nip: string | null; nama: string; jabatan: string | null };
 type LhpForm = {
     nomor_lhp: string;
     tanggal_lhp: string | null;
     nomor_st: string | null;
     tanggal_st: string | null;
+    tahun_pkpt: string | null;
     tahun_anggaran: string | null;
     nama_obrik: string;
+    inspektorat: string | null;
+    bidang_unit: string | null;
+    kode_group_jenis_periksa: string | null;
+    kode_jenis_periksa: string | null;
     nilai_anggaran: number | null;
     realisasi_anggaran: number | null;
     anggaran_diaudit: number | null;
@@ -60,25 +56,50 @@ type LhpForm = {
     [key: string]: string | number | null | Temuan[] | Anggota[];
 };
 
+type Opsi = { kode: string; nama: string };
+interface KodeRef {
+    group_jenis: Opsi[];
+    jenis: Opsi[];
+    group_temuan: Opsi[];
+    group_sebab: Opsi[];
+    bidang_unit: string[];
+    inspektorat_default: string;
+}
+
 interface Props {
     lhp: (LhpForm & { id: number }) | null;
     statusPilihan: { value: string; label: string }[];
     jabatanPilihan: string[];
+    kodeRef: KodeRef;
 }
 
-const kosongTindakLanjut = (): TindakLanjut => ({ nilai: null, tanggal: null, memo: '' });
-const kosongRekomendasi = (): Rekomendasi => ({ nilai: null, memo: '', tindak_lanjut: [] });
-const kosongSebab = (): Sebab => ({ memo: '', rekomendasi: [kosongRekomendasi()] });
-const kosongTemuan = (): Temuan => ({ kode: null, nilai: null, memo: '', status: null, sebab: [kosongSebab()] });
+const kosongTL = (): TindakLanjut => ({ kode_group: null, kode: null, nilai: null, tanggal: null, memo: '' });
+const kosongRekom = (): Rekomendasi => ({ kode_group: null, kode: null, nilai: null, memo: '', tindak_lanjut: [] });
+const kosongSebab = (): Sebab => ({ kode_group: null, kode: null, memo: '', rekomendasi: [kosongRekom()] });
+const kosongTemuan = (): Temuan => ({
+    kode_group: null,
+    kode: null,
+    nilai: null,
+    ba_kesepakatan: null,
+    kerugian_pada: null,
+    memo: '',
+    status: null,
+    sebab: [kosongSebab()],
+});
 
-export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Props) {
+export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRef }: Props) {
     const awal: LhpForm = lhp ?? {
         nomor_lhp: '',
         tanggal_lhp: null,
         nomor_st: null,
         tanggal_st: null,
+        tahun_pkpt: null,
         tahun_anggaran: null,
         nama_obrik: '',
+        inspektorat: kodeRef.inspektorat_default,
+        bidang_unit: null,
+        kode_group_jenis_periksa: '01',
+        kode_jenis_periksa: null,
         nilai_anggaran: null,
         realisasi_anggaran: null,
         anggaran_diaudit: null,
@@ -98,17 +119,59 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
         { title: lhp ? `Sunting ${lhp.nomor_lhp}` : 'Tambah LHP', href: '#' },
     ];
 
-    // Mutator temuan tunggal — set salinan baru agar Inertia mendeteksi perubahan.
-    const ubahTemuan = (fn: (t: Temuan[]) => Temuan[]) => setData('temuan', fn(data.temuan));
-    const ubahTim = (fn: (t: Anggota[]) => Anggota[]) => setData('tim', fn(data.tim));
+    // ---- Penyunting berjenjang (salinan baru tiap ubah agar Inertia sadar) ----
+    const setTim = (fn: (t: Anggota[]) => Anggota[]) => setData('tim', fn(data.tim));
+    const setTemuan = (fn: (t: Temuan[]) => Temuan[]) => setData('temuan', fn(data.temuan));
+    const patchTemuan = (ti: number, p: Partial<Temuan>) => setTemuan((ts) => ts.map((t, i) => (i === ti ? { ...t, ...p } : t)));
+    const patchSebab = (ti: number, si: number, p: Partial<Sebab>) =>
+        setTemuan((ts) => ts.map((t, i) => (i === ti ? { ...t, sebab: t.sebab.map((s, j) => (j === si ? { ...s, ...p } : s)) } : t)));
+    const patchRekom = (ti: number, si: number, ri: number, p: Partial<Rekomendasi>) =>
+        setTemuan((ts) =>
+            ts.map((t, i) =>
+                i === ti
+                    ? {
+                          ...t,
+                          sebab: t.sebab.map((s, j) =>
+                              j === si ? { ...s, rekomendasi: s.rekomendasi.map((r, k) => (k === ri ? { ...r, ...p } : r)) } : s,
+                          ),
+                      }
+                    : t,
+            ),
+        );
+    const patchTL = (ti: number, si: number, ri: number, li: number, p: Partial<TindakLanjut>) =>
+        setTemuan((ts) =>
+            ts.map((t, i) =>
+                i === ti
+                    ? {
+                          ...t,
+                          sebab: t.sebab.map((s, j) =>
+                              j === si
+                                  ? {
+                                        ...s,
+                                        rekomendasi: s.rekomendasi.map((r, k) =>
+                                            k === ri ? { ...r, tindak_lanjut: r.tindak_lanjut.map((w, m) => (m === li ? { ...w, ...p } : w)) } : r,
+                                        ),
+                                    }
+                                  : s,
+                          ),
+                      }
+                    : t,
+            ),
+        );
+    const ubahSebabList = (ti: number, fn: (s: Sebab[]) => Sebab[]) =>
+        setTemuan((ts) => ts.map((t, i) => (i === ti ? { ...t, sebab: fn(t.sebab) } : t)));
+    const ubahRekomList = (ti: number, si: number, fn: (r: Rekomendasi[]) => Rekomendasi[]) =>
+        setTemuan((ts) =>
+            ts.map((t, i) => (i === ti ? { ...t, sebab: t.sebab.map((s, j) => (j === si ? { ...s, rekomendasi: fn(s.rekomendasi) } : s)) } : t)),
+        );
+    const ubahTLList = (ti: number, si: number, ri: number, fn: (w: TindakLanjut[]) => TindakLanjut[]) =>
+        ubahRekomList(ti, si, (rs) => rs.map((r, k) => (k === ri ? { ...r, tindak_lanjut: fn(r.tindak_lanjut) } : r)));
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
         if (lhp) put(`${BASE}/${lhp.id}`);
         else post(BASE);
     };
-
-    const num = (v: string): number | null => (v.trim() === '' ? null : Number(v));
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -142,8 +205,13 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                         <Bidang label="Tanggal LHP" galat={errors.tanggal_lhp}>
                             <Input type="date" value={data.tanggal_lhp ?? ''} onChange={(e) => setData('tanggal_lhp', e.target.value || null)} />
                         </Bidang>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-3">
                         <Bidang label="Nomor Surat Tugas" galat={errors.nomor_st}>
                             <Input value={data.nomor_st ?? ''} onChange={(e) => setData('nomor_st', e.target.value || null)} />
+                        </Bidang>
+                        <Bidang label="Tahun PKPT" galat={errors.tahun_pkpt}>
+                            <Input value={data.tahun_pkpt ?? ''} onChange={(e) => setData('tahun_pkpt', e.target.value || null)} placeholder="2026" />
                         </Bidang>
                         <Bidang label="Tanggal Surat Tugas" galat={errors.tanggal_st}>
                             <Input type="date" value={data.tanggal_st ?? ''} onChange={(e) => setData('tanggal_st', e.target.value || null)} />
@@ -157,6 +225,55 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                             placeholder="Nama satuan kerja / kegiatan yang diperiksa"
                         />
                     </Bidang>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <Bidang label="Inspektorat" galat={errors.inspektorat}>
+                            <Input value={data.inspektorat ?? ''} onChange={(e) => setData('inspektorat', e.target.value || null)} />
+                        </Bidang>
+                        <Bidang label="Bidang/Unit Pengawasan" galat={errors.bidang_unit}>
+                            <Select value={data.bidang_unit ?? ''} onValueChange={(v) => setData('bidang_unit', v)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih Irban / unit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {kodeRef.bidang_unit.map((b) => (
+                                        <SelectItem key={b} value={b}>
+                                            {b}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Bidang>
+                    </div>
+                    <div className="grid gap-4 sm:grid-cols-2">
+                        <Bidang label="Lingkup Audit (Sumber)" galat={errors.kode_group_jenis_periksa}>
+                            <Select value={data.kode_group_jenis_periksa ?? ''} onValueChange={(v) => setData('kode_group_jenis_periksa', v)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih lingkup" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {kodeRef.group_jenis.map((o) => (
+                                        <SelectItem key={o.kode} value={o.kode}>
+                                            {o.kode} — {o.nama}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Bidang>
+                        <Bidang label="Jenis Audit" galat={errors.kode_jenis_periksa}>
+                            <Select value={data.kode_jenis_periksa ?? ''} onValueChange={(v) => setData('kode_jenis_periksa', v)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Pilih jenis" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {kodeRef.jenis.map((o) => (
+                                        <SelectItem key={o.kode} value={o.kode}>
+                                            {o.kode} — {o.nama}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </Bidang>
+                    </div>
                     <div className="grid gap-4 sm:grid-cols-3">
                         <Bidang label="Tahun Anggaran" galat={errors.tahun_anggaran}>
                             <Input
@@ -166,20 +283,10 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                             />
                         </Bidang>
                         <Bidang label="Nilai Anggaran" galat={errors.nilai_anggaran}>
-                            <Input
-                                type="number"
-                                step="0.01"
-                                value={data.nilai_anggaran ?? ''}
-                                onChange={(e) => setData('nilai_anggaran', num(e.target.value))}
-                            />
+                            <Rupiah value={data.nilai_anggaran} onChange={(n) => setData('nilai_anggaran', n)} />
                         </Bidang>
                         <Bidang label="Anggaran Diaudit" galat={errors.anggaran_diaudit}>
-                            <Input
-                                type="number"
-                                step="0.01"
-                                value={data.anggaran_diaudit ?? ''}
-                                onChange={(e) => setData('anggaran_diaudit', num(e.target.value))}
-                            />
+                            <Rupiah value={data.anggaran_diaudit} onChange={(n) => setData('anggaran_diaudit', n)} />
                         </Bidang>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-3">
@@ -217,7 +324,7 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                             type="button"
                             size="sm"
                             variant="outline"
-                            onClick={() => ubahTim((ts) => [...ts, { nip: null, nama: '', jabatan: jabatanPilihan[ts.length] ?? 'Anggota Tim' }])}
+                            onClick={() => setTim((ts) => [...ts, { nip: null, nama: '', jabatan: jabatanPilihan[ts.length] ?? 'Anggota Tim' }])}
                         >
                             <Plus className="h-4 w-4" />
                             Tambah Anggota
@@ -230,17 +337,17 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                         <div key={mi} className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_180px_200px_auto]">
                             <Input
                                 value={m.nama}
-                                onChange={(e) => ubahTim((ts) => ts.map((x, i) => (i === mi ? { ...x, nama: e.target.value } : x)))}
+                                onChange={(e) => setTim((ts) => ts.map((x, i) => (i === mi ? { ...x, nama: e.target.value } : x)))}
                                 placeholder="Nama"
                             />
                             <Input
                                 value={m.nip ?? ''}
-                                onChange={(e) => ubahTim((ts) => ts.map((x, i) => (i === mi ? { ...x, nip: e.target.value || null } : x)))}
+                                onChange={(e) => setTim((ts) => ts.map((x, i) => (i === mi ? { ...x, nip: e.target.value || null } : x)))}
                                 placeholder="NIP"
                             />
                             <Select
                                 value={m.jabatan ?? ''}
-                                onValueChange={(v) => ubahTim((ts) => ts.map((x, i) => (i === mi ? { ...x, jabatan: v } : x)))}
+                                onValueChange={(v) => setTim((ts) => ts.map((x, i) => (i === mi ? { ...x, jabatan: v } : x)))}
                             >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Jabatan" />
@@ -259,13 +366,10 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                 variant="ghost"
                                 className="text-destructive h-9 w-9"
                                 title="Hapus anggota"
-                                onClick={() => ubahTim((ts) => ts.filter((_, i) => i !== mi))}
+                                onClick={() => setTim((ts) => ts.filter((_, i) => i !== mi))}
                             >
                                 <Trash2 className="h-4 w-4" />
                             </Button>
-                            {errors[`tim.${mi}.nama` as keyof LhpForm] && (
-                                <p className="text-destructive text-xs sm:col-span-4">Nama anggota wajib diisi.</p>
-                            )}
                         </div>
                     ))}
                 </div>
@@ -274,7 +378,7 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                 <div className="space-y-3">
                     <div className="flex items-center justify-between">
                         <h2 className="text-sm font-semibold tracking-tight">Temuan</h2>
-                        <Button type="button" size="sm" variant="outline" onClick={() => ubahTemuan((ts) => [...ts, kosongTemuan()])}>
+                        <Button type="button" size="sm" variant="outline" onClick={() => setTemuan((ts) => [...ts, kosongTemuan()])}>
                             <Plus className="h-4 w-4" />
                             Tambah Temuan
                         </Button>
@@ -282,45 +386,66 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
 
                     {data.temuan.map((t, ti) => (
                         <div key={ti} className="bg-card space-y-3 rounded-md border p-4">
-                            <div className="flex items-center gap-2">
+                            <div className="flex flex-wrap items-center gap-2">
                                 <ClipboardList className="text-muted-foreground h-4 w-4" />
                                 <span className="text-sm font-semibold">Temuan {ti + 1}</span>
-                                <div className="ml-auto flex items-center gap-2">
+                                <Button
+                                    type="button"
+                                    size="icon"
+                                    variant="ghost"
+                                    className="text-destructive ml-auto h-8 w-8"
+                                    title="Hapus temuan"
+                                    onClick={() => setTemuan((ts) => ts.filter((_, i) => i !== ti))}
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                </Button>
+                            </div>
+                            <div className="grid gap-2 sm:grid-cols-[1fr_110px_200px]">
+                                <KodeGroup
+                                    opsi={kodeRef.group_temuan}
+                                    value={t.kode_group}
+                                    onChange={(v) => patchTemuan(ti, { kode_group: v })}
+                                    label="Group Temuan"
+                                />
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs">Kode</Label>
                                     <Input
                                         value={t.kode ?? ''}
-                                        onChange={(e) =>
-                                            ubahTemuan((ts) => ts.map((x, i) => (i === ti ? { ...x, kode: e.target.value || null } : x)))
-                                        }
-                                        placeholder="Kode"
-                                        className="h-8 w-24"
+                                        onChange={(e) => patchTemuan(ti, { kode: e.target.value || null })}
+                                        placeholder="0000"
                                     />
-                                    <Input
-                                        type="number"
-                                        step="0.01"
-                                        value={t.nilai ?? ''}
-                                        onChange={(e) => ubahTemuan((ts) => ts.map((x, i) => (i === ti ? { ...x, nilai: num(e.target.value) } : x)))}
-                                        placeholder="Nilai (Rp)"
-                                        className="h-8 w-36"
-                                    />
-                                    <Button
-                                        type="button"
-                                        size="icon"
-                                        variant="ghost"
-                                        className="text-destructive h-8 w-8"
-                                        title="Hapus temuan"
-                                        onClick={() => ubahTemuan((ts) => ts.filter((_, i) => i !== ti))}
-                                    >
-                                        <Trash2 className="h-4 w-4" />
-                                    </Button>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs">Nilai Temuan</Label>
+                                    <Rupiah value={t.nilai} onChange={(n) => patchTemuan(ti, { nilai: n })} />
                                 </div>
                             </div>
                             <Textarea
                                 value={t.memo}
-                                onChange={(e) => ubahTemuan((ts) => ts.map((x, i) => (i === ti ? { ...x, memo: e.target.value } : x)))}
+                                onChange={(e) => patchTemuan(ti, { memo: e.target.value })}
                                 rows={3}
                                 placeholder="Uraian temuan / kondisi"
                             />
-                            {errors[`temuan.${ti}.memo` as keyof LhpForm] && <p className="text-destructive text-xs">Uraian temuan wajib diisi.</p>}
+                            <div className="grid gap-3 sm:grid-cols-2">
+                                <Radio
+                                    label="BA Kesepakatan Obrik"
+                                    value={t.ba_kesepakatan}
+                                    onChange={(v) => patchTemuan(ti, { ba_kesepakatan: v })}
+                                    opsi={[
+                                        ['tidak', 'Tidak Ada'],
+                                        ['ada', 'Ada'],
+                                    ]}
+                                />
+                                <Radio
+                                    label="Kerugian pada"
+                                    value={t.kerugian_pada}
+                                    onChange={(v) => patchTemuan(ti, { kerugian_pada: v })}
+                                    opsi={[
+                                        ['negara', 'Negara'],
+                                        ['daerah', 'Daerah'],
+                                    ]}
+                                />
+                            </div>
 
                             {/* Penyebab */}
                             <div className="border-muted-foreground/20 space-y-3 border-l-2 pl-3">
@@ -336,26 +461,30 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                                 variant="ghost"
                                                 className="text-destructive ml-auto h-7 w-7"
                                                 title="Hapus penyebab"
-                                                onClick={() =>
-                                                    ubahTemuan((ts) =>
-                                                        ts.map((x, i) => (i === ti ? { ...x, sebab: x.sebab.filter((_, j) => j !== si) } : x)),
-                                                    )
-                                                }
+                                                onClick={() => ubahSebabList(ti, (ss) => ss.filter((_, j) => j !== si))}
                                             >
                                                 <Trash2 className="h-3.5 w-3.5" />
                                             </Button>
                                         </div>
+                                        <div className="grid gap-2 sm:grid-cols-[1fr_110px]">
+                                            <KodeGroup
+                                                opsi={kodeRef.group_sebab}
+                                                value={s.kode_group}
+                                                onChange={(v) => patchSebab(ti, si, { kode_group: v })}
+                                                label="Group Sebab"
+                                            />
+                                            <div className="space-y-1.5">
+                                                <Label className="text-xs">Kode</Label>
+                                                <Input
+                                                    value={s.kode ?? ''}
+                                                    onChange={(e) => patchSebab(ti, si, { kode: e.target.value || null })}
+                                                    placeholder="0000"
+                                                />
+                                            </div>
+                                        </div>
                                         <Textarea
                                             value={s.memo}
-                                            onChange={(e) =>
-                                                ubahTemuan((ts) =>
-                                                    ts.map((x, i) =>
-                                                        i === ti
-                                                            ? { ...x, sebab: x.sebab.map((y, j) => (j === si ? { ...y, memo: e.target.value } : y)) }
-                                                            : x,
-                                                    ),
-                                                )
-                                            }
+                                            onChange={(e) => patchSebab(ti, si, { memo: e.target.value })}
                                             rows={2}
                                             placeholder="Sebab terjadinya temuan"
                                         />
@@ -371,86 +500,42 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                                     <span className="text-xs font-medium tracking-wide text-amber-800 uppercase dark:text-amber-300">
                                                         Rekomendasi {ri + 1}
                                                     </span>
-                                                    <Input
-                                                        type="number"
-                                                        step="0.01"
-                                                        value={r.nilai ?? ''}
-                                                        onChange={(e) =>
-                                                            ubahTemuan((ts) =>
-                                                                ts.map((x, i) =>
-                                                                    i === ti
-                                                                        ? {
-                                                                              ...x,
-                                                                              sebab: x.sebab.map((y, j) =>
-                                                                                  j === si
-                                                                                      ? {
-                                                                                            ...y,
-                                                                                            rekomendasi: y.rekomendasi.map((z, k) =>
-                                                                                                k === ri ? { ...z, nilai: num(e.target.value) } : z,
-                                                                                            ),
-                                                                                        }
-                                                                                      : y,
-                                                                              ),
-                                                                          }
-                                                                        : x,
-                                                                ),
-                                                            )
-                                                        }
-                                                        placeholder="Nilai (Rp)"
-                                                        className="ml-auto h-7 w-32"
-                                                    />
                                                     <Button
                                                         type="button"
                                                         size="icon"
                                                         variant="ghost"
-                                                        className="text-destructive h-7 w-7"
+                                                        className="text-destructive ml-auto h-7 w-7"
                                                         title="Hapus rekomendasi"
-                                                        onClick={() =>
-                                                            ubahTemuan((ts) =>
-                                                                ts.map((x, i) =>
-                                                                    i === ti
-                                                                        ? {
-                                                                              ...x,
-                                                                              sebab: x.sebab.map((y, j) =>
-                                                                                  j === si
-                                                                                      ? {
-                                                                                            ...y,
-                                                                                            rekomendasi: y.rekomendasi.filter((_, k) => k !== ri),
-                                                                                        }
-                                                                                      : y,
-                                                                              ),
-                                                                          }
-                                                                        : x,
-                                                                ),
-                                                            )
-                                                        }
+                                                        onClick={() => ubahRekomList(ti, si, (rs) => rs.filter((_, k) => k !== ri))}
                                                     >
                                                         <Trash2 className="h-3.5 w-3.5" />
                                                     </Button>
                                                 </div>
+                                                <div className="grid gap-2 sm:grid-cols-[90px_110px_1fr]">
+                                                    <div className="space-y-1.5">
+                                                        <Label className="text-xs">Group</Label>
+                                                        <Input
+                                                            value={r.kode_group ?? ''}
+                                                            onChange={(e) => patchRekom(ti, si, ri, { kode_group: e.target.value || null })}
+                                                            placeholder="00"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        <Label className="text-xs">Kode</Label>
+                                                        <Input
+                                                            value={r.kode ?? ''}
+                                                            onChange={(e) => patchRekom(ti, si, ri, { kode: e.target.value || null })}
+                                                            placeholder="0000"
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        <Label className="text-xs">Nilai Rekomendasi</Label>
+                                                        <Rupiah value={r.nilai} onChange={(n) => patchRekom(ti, si, ri, { nilai: n })} />
+                                                    </div>
+                                                </div>
                                                 <Textarea
                                                     value={r.memo}
-                                                    onChange={(e) =>
-                                                        ubahTemuan((ts) =>
-                                                            ts.map((x, i) =>
-                                                                i === ti
-                                                                    ? {
-                                                                          ...x,
-                                                                          sebab: x.sebab.map((y, j) =>
-                                                                              j === si
-                                                                                  ? {
-                                                                                        ...y,
-                                                                                        rekomendasi: y.rekomendasi.map((z, k) =>
-                                                                                            k === ri ? { ...z, memo: e.target.value } : z,
-                                                                                        ),
-                                                                                    }
-                                                                                  : y,
-                                                                          ),
-                                                                      }
-                                                                    : x,
-                                                            ),
-                                                        )
-                                                    }
+                                                    onChange={(e) => patchRekom(ti, si, ri, { memo: e.target.value })}
                                                     rows={2}
                                                     placeholder="Rekomendasi tim pemeriksa"
                                                 />
@@ -459,73 +544,61 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                                 {r.tindak_lanjut.map((tl, li) => (
                                                     <div
                                                         key={li}
-                                                        className="flex items-start gap-2 rounded border border-emerald-200/60 bg-emerald-50/50 p-2 dark:border-emerald-900/40 dark:bg-emerald-950/20"
+                                                        className="space-y-1.5 rounded border border-emerald-200/60 bg-emerald-50/50 p-2 dark:border-emerald-900/40 dark:bg-emerald-950/20"
                                                     >
-                                                        <div className="flex-1 space-y-1.5">
-                                                            <div className="flex gap-2">
+                                                        <div className="flex flex-wrap items-end gap-2">
+                                                            <div className="space-y-1">
+                                                                <Label className="text-xs">Tgl Tindak Lanjut</Label>
                                                                 <Input
                                                                     type="date"
                                                                     value={tl.tanggal ?? ''}
-                                                                    onChange={(e) =>
-                                                                        setTL(ubahTemuan, ti, si, ri, li, { tanggal: e.target.value || null })
-                                                                    }
-                                                                    className="h-7 w-40"
-                                                                />
-                                                                <Input
-                                                                    type="number"
-                                                                    step="0.01"
-                                                                    value={tl.nilai ?? ''}
-                                                                    onChange={(e) =>
-                                                                        setTL(ubahTemuan, ti, si, ri, li, { nilai: num(e.target.value) })
-                                                                    }
-                                                                    placeholder="Nilai TL (Rp)"
-                                                                    className="h-7 w-32"
+                                                                    onChange={(e) => patchTL(ti, si, ri, li, { tanggal: e.target.value || null })}
+                                                                    className="h-8 w-40"
                                                                 />
                                                             </div>
-                                                            <Textarea
-                                                                value={tl.memo ?? ''}
-                                                                onChange={(e) => setTL(ubahTemuan, ti, si, ri, li, { memo: e.target.value })}
-                                                                rows={2}
-                                                                placeholder="Uraian tindak lanjut"
-                                                            />
+                                                            <div className="space-y-1">
+                                                                <Label className="text-xs">Group</Label>
+                                                                <Input
+                                                                    value={tl.kode_group ?? ''}
+                                                                    onChange={(e) => patchTL(ti, si, ri, li, { kode_group: e.target.value || null })}
+                                                                    placeholder="00"
+                                                                    className="h-8 w-16"
+                                                                />
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <Label className="text-xs">Kode</Label>
+                                                                <Input
+                                                                    value={tl.kode ?? ''}
+                                                                    onChange={(e) => patchTL(ti, si, ri, li, { kode: e.target.value || null })}
+                                                                    placeholder="0000"
+                                                                    className="h-8 w-20"
+                                                                />
+                                                            </div>
+                                                            <div className="space-y-1">
+                                                                <Label className="text-xs">Nilai TL</Label>
+                                                                <Rupiah
+                                                                    value={tl.nilai}
+                                                                    onChange={(n) => patchTL(ti, si, ri, li, { nilai: n })}
+                                                                    className="h-8 w-32"
+                                                                />
+                                                            </div>
+                                                            <Button
+                                                                type="button"
+                                                                size="icon"
+                                                                variant="ghost"
+                                                                className="text-destructive ml-auto h-8 w-8"
+                                                                title="Hapus tindak lanjut"
+                                                                onClick={() => ubahTLList(ti, si, ri, (ws) => ws.filter((_, m) => m !== li))}
+                                                            >
+                                                                <Trash2 className="h-3.5 w-3.5" />
+                                                            </Button>
                                                         </div>
-                                                        <Button
-                                                            type="button"
-                                                            size="icon"
-                                                            variant="ghost"
-                                                            className="text-destructive h-7 w-7"
-                                                            title="Hapus tindak lanjut"
-                                                            onClick={() =>
-                                                                ubahTemuan((ts) =>
-                                                                    ts.map((x, i) =>
-                                                                        i === ti
-                                                                            ? {
-                                                                                  ...x,
-                                                                                  sebab: x.sebab.map((y, j) =>
-                                                                                      j === si
-                                                                                          ? {
-                                                                                                ...y,
-                                                                                                rekomendasi: y.rekomendasi.map((z, k) =>
-                                                                                                    k === ri
-                                                                                                        ? {
-                                                                                                              ...z,
-                                                                                                              tindak_lanjut: z.tindak_lanjut.filter(
-                                                                                                                  (_, m) => m !== li,
-                                                                                                              ),
-                                                                                                          }
-                                                                                                        : z,
-                                                                                                ),
-                                                                                            }
-                                                                                          : y,
-                                                                                  ),
-                                                                              }
-                                                                            : x,
-                                                                    ),
-                                                                )
-                                                            }
-                                                        >
-                                                            <Trash2 className="h-3.5 w-3.5" />
-                                                        </Button>
+                                                        <Textarea
+                                                            value={tl.memo ?? ''}
+                                                            onChange={(e) => patchTL(ti, si, ri, li, { memo: e.target.value })}
+                                                            rows={2}
+                                                            placeholder="Uraian tindak lanjut"
+                                                        />
                                                     </div>
                                                 ))}
                                                 <Button
@@ -533,35 +606,7 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                                     size="sm"
                                                     variant="ghost"
                                                     className="h-7 text-xs"
-                                                    onClick={() =>
-                                                        ubahTemuan((ts) =>
-                                                            ts.map((x, i) =>
-                                                                i === ti
-                                                                    ? {
-                                                                          ...x,
-                                                                          sebab: x.sebab.map((y, j) =>
-                                                                              j === si
-                                                                                  ? {
-                                                                                        ...y,
-                                                                                        rekomendasi: y.rekomendasi.map((z, k) =>
-                                                                                            k === ri
-                                                                                                ? {
-                                                                                                      ...z,
-                                                                                                      tindak_lanjut: [
-                                                                                                          ...z.tindak_lanjut,
-                                                                                                          kosongTindakLanjut(),
-                                                                                                      ],
-                                                                                                  }
-                                                                                                : z,
-                                                                                        ),
-                                                                                    }
-                                                                                  : y,
-                                                                          ),
-                                                                      }
-                                                                    : x,
-                                                            ),
-                                                        )
-                                                    }
+                                                    onClick={() => ubahTLList(ti, si, ri, (ws) => [...ws, kosongTL()])}
                                                 >
                                                     <Plus className="h-3.5 w-3.5" />
                                                     Tindak lanjut
@@ -573,20 +618,7 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                             size="sm"
                                             variant="ghost"
                                             className="h-7 text-xs"
-                                            onClick={() =>
-                                                ubahTemuan((ts) =>
-                                                    ts.map((x, i) =>
-                                                        i === ti
-                                                            ? {
-                                                                  ...x,
-                                                                  sebab: x.sebab.map((y, j) =>
-                                                                      j === si ? { ...y, rekomendasi: [...y.rekomendasi, kosongRekomendasi()] } : y,
-                                                                  ),
-                                                              }
-                                                            : x,
-                                                    ),
-                                                )
-                                            }
+                                            onClick={() => ubahRekomList(ti, si, (rs) => [...rs, kosongRekom()])}
                                         >
                                             <Plus className="h-3.5 w-3.5" />
                                             Rekomendasi
@@ -598,9 +630,7 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
                                     size="sm"
                                     variant="ghost"
                                     className="h-7 text-xs"
-                                    onClick={() =>
-                                        ubahTemuan((ts) => ts.map((x, i) => (i === ti ? { ...x, sebab: [...x.sebab, kosongSebab()] } : x)))
-                                    }
+                                    onClick={() => ubahSebabList(ti, (ss) => [...ss, kosongSebab()])}
                                 >
                                     <Plus className="h-3.5 w-3.5" />
                                     Penyebab
@@ -621,26 +651,62 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Prop
     );
 }
 
-/** Perbarui satu tindak lanjut secara mendalam tanpa menulis ulang seluruh rantai. */
-function setTL(ubahTemuan: (fn: (t: Temuan[]) => Temuan[]) => void, ti: number, si: number, ri: number, li: number, patch: Partial<TindakLanjut>) {
-    ubahTemuan((ts) =>
-        ts.map((x, i) =>
-            i === ti
-                ? {
-                      ...x,
-                      sebab: x.sebab.map((y, j) =>
-                          j === si
-                              ? {
-                                    ...y,
-                                    rekomendasi: y.rekomendasi.map((z, k) =>
-                                        k === ri ? { ...z, tindak_lanjut: z.tindak_lanjut.map((w, m) => (m === li ? { ...w, ...patch } : w)) } : z,
-                                    ),
-                                }
-                              : y,
-                      ),
-                  }
-                : x,
-        ),
+/** Input rupiah: tampil dengan pemisah ribuan (id-ID), simpan sebagai angka. */
+function Rupiah({ value, onChange, className }: { value: number | null; onChange: (n: number | null) => void; className?: string }) {
+    const tampil = value === null || value === undefined ? '' : new Intl.NumberFormat('id-ID').format(value);
+    return (
+        <Input
+            inputMode="numeric"
+            value={tampil}
+            className={className}
+            onChange={(e) => {
+                const digit = e.target.value.replace(/[^\d]/g, '');
+                onChange(digit === '' ? null : Number(digit));
+            }}
+            placeholder="0"
+        />
+    );
+}
+
+function KodeGroup({ opsi, value, onChange, label }: { opsi: Opsi[]; value: string | null; onChange: (v: string) => void; label: string }) {
+    return (
+        <div className="space-y-1.5">
+            <Label className="text-xs">{label}</Label>
+            <Select value={value ?? ''} onValueChange={onChange}>
+                <SelectTrigger>
+                    <SelectValue placeholder="Pilih group" />
+                </SelectTrigger>
+                <SelectContent>
+                    {opsi.map((o) => (
+                        <SelectItem key={o.kode} value={o.kode}>
+                            {o.kode} — {o.nama}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+    );
+}
+
+function Radio({ label, value, onChange, opsi }: { label: string; value: string | null; onChange: (v: string) => void; opsi: [string, string][] }) {
+    return (
+        <div className="space-y-1.5">
+            <Label className="text-xs">{label}</Label>
+            <div className="flex gap-2">
+                {opsi.map(([v, teks]) => (
+                    <button
+                        key={v}
+                        type="button"
+                        onClick={() => onChange(v)}
+                        className={`rounded-md border px-3 py-1.5 text-sm transition ${
+                            value === v ? 'border-primary bg-primary/10 font-medium' : 'hover:bg-muted'
+                        }`}
+                    >
+                        {teks}
+                    </button>
+                ))}
+            </div>
+        </div>
     );
 }
 

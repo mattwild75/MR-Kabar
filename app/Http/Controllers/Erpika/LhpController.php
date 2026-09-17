@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Erpika;
 use App\Http\Controllers\Controller;
 use App\Models\Lhp;
 use App\Models\LhpTim;
+use App\Support\KodeLhp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -90,6 +91,7 @@ class LhpController extends Controller
             'lhp' => null,
             'statusPilihan' => $this->statusPilihan(),
             'jabatanPilihan' => LhpTim::JABATAN,
+            'kodeRef' => KodeLhp::untukFormulir(),
         ]);
     }
 
@@ -105,6 +107,7 @@ class LhpController extends Controller
             'lhp' => $this->detail($lhp),
             'statusPilihan' => $this->statusPilihan(),
             'jabatanPilihan' => LhpTim::JABATAN,
+            'kodeRef' => KodeLhp::untukFormulir(),
         ]);
     }
 
@@ -140,8 +143,13 @@ class LhpController extends Controller
             'tanggal_lhp' => ['nullable', 'date'],
             'nomor_st' => ['nullable', 'string', 'max:60'],
             'tanggal_st' => ['nullable', 'date'],
+            'tahun_pkpt' => ['nullable', 'string', 'max:12'],
             'tahun_anggaran' => ['nullable', 'string', 'max:12'],
             'nama_obrik' => ['required', 'string', 'max:950'],
+            'inspektorat' => ['nullable', 'string', 'max:120'],
+            'bidang_unit' => ['nullable', 'string', 'max:120'],
+            'kode_group_jenis_periksa' => ['nullable', 'string', 'max:4'],
+            'kode_jenis_periksa' => ['nullable', 'string', 'max:6'],
             'nilai_anggaran' => ['nullable', 'numeric', 'min:0'],
             'realisasi_anggaran' => ['nullable', 'numeric', 'min:0'],
             'anggaran_diaudit' => ['nullable', 'numeric', 'min:0'],
@@ -154,15 +162,24 @@ class LhpController extends Controller
             'tim.*.nip' => ['nullable', 'string', 'max:30'],
             'tim.*.jabatan' => ['nullable', 'string', 'max:200'],
             'temuan' => ['nullable', 'array'],
+            'temuan.*.kode_group' => ['nullable', 'string', 'max:4'],
             'temuan.*.kode' => ['nullable', 'string', 'max:6'],
             'temuan.*.nilai' => ['nullable', 'numeric'],
             'temuan.*.memo' => ['required', 'string'],
+            'temuan.*.ba_kesepakatan' => ['nullable', Rule::in(['ada', 'tidak'])],
+            'temuan.*.kerugian_pada' => ['nullable', Rule::in(['negara', 'daerah'])],
             'temuan.*.sebab' => ['nullable', 'array'],
+            'temuan.*.sebab.*.kode_group' => ['nullable', 'string', 'max:4'],
+            'temuan.*.sebab.*.kode' => ['nullable', 'string', 'max:6'],
             'temuan.*.sebab.*.memo' => ['required', 'string'],
             'temuan.*.sebab.*.rekomendasi' => ['nullable', 'array'],
+            'temuan.*.sebab.*.rekomendasi.*.kode_group' => ['nullable', 'string', 'max:4'],
+            'temuan.*.sebab.*.rekomendasi.*.kode' => ['nullable', 'string', 'max:6'],
             'temuan.*.sebab.*.rekomendasi.*.nilai' => ['nullable', 'numeric'],
             'temuan.*.sebab.*.rekomendasi.*.memo' => ['required', 'string'],
             'temuan.*.sebab.*.rekomendasi.*.tindak_lanjut' => ['nullable', 'array'],
+            'temuan.*.sebab.*.rekomendasi.*.tindak_lanjut.*.kode_group' => ['nullable', 'string', 'max:4'],
+            'temuan.*.sebab.*.rekomendasi.*.tindak_lanjut.*.kode' => ['nullable', 'string', 'max:6'],
             'temuan.*.sebab.*.rekomendasi.*.tindak_lanjut.*.nilai' => ['nullable', 'numeric'],
             'temuan.*.sebab.*.rekomendasi.*.tindak_lanjut.*.tanggal' => ['nullable', 'date'],
             'temuan.*.sebab.*.rekomendasi.*.tindak_lanjut.*.memo' => ['nullable', 'string'],
@@ -172,7 +189,7 @@ class LhpController extends Controller
     /** @param  array<string,mixed>  $data */
     private function simpan(Lhp $lhp, array $data): Lhp
     {
-        $lhp->fill(collect($data)->except('temuan')->all());
+        $lhp->fill(collect($data)->except(['temuan', 'tim'])->all());
         // Ringkasan TP dihitung dari temuan agar konsisten dengan isian.
         $temuan = $data['temuan'] ?? [];
         $lhp->jml_tp = count($temuan);
@@ -192,16 +209,32 @@ class LhpController extends Controller
         // Hapus temuan lama; FK cascadeOnDelete membuang sebab/rekomendasi/TL di bawahnya.
         $lhp->temuan()->get()->each->delete();
         foreach ($temuan as $it => $t) {
-            $tem = $lhp->temuan()->create(['no' => $it + 1, 'kode' => $t['kode'] ?? null, 'nilai' => $t['nilai'] ?? null, 'memo' => $t['memo'], 'status' => $t['status'] ?? null]);
+            $tem = $lhp->temuan()->create([
+                'no' => $it + 1,
+                'kode_group' => $t['kode_group'] ?? null,
+                'kode' => $t['kode'] ?? null,
+                'nilai' => $t['nilai'] ?? null,
+                'ba_kesepakatan' => $t['ba_kesepakatan'] ?? null,
+                'kerugian_pada' => $t['kerugian_pada'] ?? null,
+                'memo' => $t['memo'],
+                'status' => $t['status'] ?? null,
+            ]);
             foreach ($t['sebab'] ?? [] as $is => $s) {
-                $seb = $tem->sebab()->create(['no' => $is + 1, 'memo' => $s['memo']]);
+                $seb = $tem->sebab()->create(['no' => $is + 1, 'kode_group' => $s['kode_group'] ?? null, 'kode' => $s['kode'] ?? null, 'memo' => $s['memo']]);
                 foreach ($s['rekomendasi'] ?? [] as $ir => $r) {
-                    $rek = $seb->rekomendasi()->create(['no' => $ir + 1, 'nilai' => $r['nilai'] ?? null, 'memo' => $r['memo']]);
+                    $rek = $seb->rekomendasi()->create(['no' => $ir + 1, 'kode_group' => $r['kode_group'] ?? null, 'kode' => $r['kode'] ?? null, 'nilai' => $r['nilai'] ?? null, 'memo' => $r['memo']]);
                     foreach ($r['tindak_lanjut'] ?? [] as $itl => $tl) {
-                        if (blank($tl['memo'] ?? null) && blank($tl['tanggal'] ?? null) && blank($tl['nilai'] ?? null)) {
+                        if (blank($tl['memo'] ?? null) && blank($tl['tanggal'] ?? null) && blank($tl['nilai'] ?? null) && blank($tl['kode'] ?? null)) {
                             continue;
                         }
-                        $rek->tindakLanjut()->create(['no' => $itl + 1, 'nilai' => $tl['nilai'] ?? null, 'tanggal' => $tl['tanggal'] ?? null, 'memo' => $tl['memo'] ?? null]);
+                        $rek->tindakLanjut()->create([
+                            'no' => $itl + 1,
+                            'kode_group' => $tl['kode_group'] ?? null,
+                            'kode' => $tl['kode'] ?? null,
+                            'nilai' => $tl['nilai'] ?? null,
+                            'tanggal' => $tl['tanggal'] ?? null,
+                            'memo' => $tl['memo'] ?? null,
+                        ]);
                     }
                 }
             }
@@ -219,8 +252,15 @@ class LhpController extends Controller
             'tanggal_lhp' => $lhp->tanggal_lhp?->toDateString(),
             'nomor_st' => $lhp->nomor_st,
             'tanggal_st' => $lhp->tanggal_st?->toDateString(),
+            'tahun_pkpt' => $lhp->tahun_pkpt,
             'tahun_anggaran' => $lhp->tahun_anggaran,
             'nama_obrik' => $lhp->nama_obrik,
+            'inspektorat' => $lhp->inspektorat,
+            'bidang_unit' => $lhp->bidang_unit,
+            'kode_group_jenis_periksa' => $lhp->kode_group_jenis_periksa,
+            'kode_jenis_periksa' => $lhp->kode_jenis_periksa,
+            'jenis_group_label' => KodeLhp::label('group_jenis', $lhp->kode_group_jenis_periksa),
+            'jenis_label' => KodeLhp::label('jenis', $lhp->kode_jenis_periksa),
             'nilai_anggaran' => $lhp->nilai_anggaran !== null ? (float) $lhp->nilai_anggaran : null,
             'realisasi_anggaran' => $lhp->realisasi_anggaran !== null ? (float) $lhp->realisasi_anggaran : null,
             'anggaran_diaudit' => $lhp->anggaran_diaudit !== null ? (float) $lhp->anggaran_diaudit : null,
@@ -239,22 +279,33 @@ class LhpController extends Controller
             'temuan' => $lhp->temuan->map(fn ($t) => [
                 'id' => $t->id,
                 'no' => $t->no,
+                'kode_group' => $t->kode_group,
                 'kode' => $t->kode,
+                'group_label' => KodeLhp::label('group_temuan', $t->kode_group),
                 'nilai' => $t->nilai !== null ? (float) $t->nilai : null,
+                'ba_kesepakatan' => $t->ba_kesepakatan,
+                'kerugian_pada' => $t->kerugian_pada,
                 'memo' => $t->memo,
                 'status' => $t->status,
                 'sebab' => $t->sebab->map(fn ($s) => [
                     'id' => $s->id,
                     'no' => $s->no,
+                    'kode_group' => $s->kode_group,
+                    'kode' => $s->kode,
+                    'group_label' => KodeLhp::label('group_sebab', $s->kode_group),
                     'memo' => $s->memo,
                     'rekomendasi' => $s->rekomendasi->map(fn ($r) => [
                         'id' => $r->id,
                         'no' => $r->no,
+                        'kode_group' => $r->kode_group,
+                        'kode' => $r->kode,
                         'nilai' => $r->nilai !== null ? (float) $r->nilai : null,
                         'memo' => $r->memo,
                         'tindak_lanjut' => $r->tindakLanjut->map(fn ($tl) => [
                             'id' => $tl->id,
                             'no' => $tl->no,
+                            'kode_group' => $tl->kode_group,
+                            'kode' => $tl->kode,
                             'nilai' => $tl->nilai !== null ? (float) $tl->nilai : null,
                             'tanggal' => $tl->tanggal?->toDateString(),
                             'memo' => $tl->memo,
