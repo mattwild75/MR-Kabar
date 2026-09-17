@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { ArrowLeft, ClipboardList, Lightbulb, Plus, Save, Trash2 } from 'lucide-react';
+import { ArrowLeft, ClipboardList, Lightbulb, Plus, Save, Trash2, Users } from 'lucide-react';
 
 const BASE = '/erpika/laporan-penugasan/database-lhp';
 
@@ -36,6 +36,12 @@ type Temuan = {
     status: string | null;
     sebab: Sebab[];
 };
+type Anggota = {
+    id?: number;
+    nip: string | null;
+    nama: string;
+    jabatan: string | null;
+};
 type LhpForm = {
     nomor_lhp: string;
     tanggal_lhp: string | null;
@@ -49,13 +55,15 @@ type LhpForm = {
     status_lhp: string;
     nip_pj: string | null;
     nama_pj: string | null;
+    tim: Anggota[];
     temuan: Temuan[];
-    [key: string]: string | number | null | Temuan[];
+    [key: string]: string | number | null | Temuan[] | Anggota[];
 };
 
 interface Props {
     lhp: (LhpForm & { id: number }) | null;
     statusPilihan: { value: string; label: string }[];
+    jabatanPilihan: string[];
 }
 
 const kosongTindakLanjut = (): TindakLanjut => ({ nilai: null, tanggal: null, memo: '' });
@@ -63,7 +71,7 @@ const kosongRekomendasi = (): Rekomendasi => ({ nilai: null, memo: '', tindak_la
 const kosongSebab = (): Sebab => ({ memo: '', rekomendasi: [kosongRekomendasi()] });
 const kosongTemuan = (): Temuan => ({ kode: null, nilai: null, memo: '', status: null, sebab: [kosongSebab()] });
 
-export default function LhpFormPage({ lhp, statusPilihan }: Props) {
+export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan }: Props) {
     const awal: LhpForm = lhp ?? {
         nomor_lhp: '',
         tanggal_lhp: null,
@@ -77,6 +85,7 @@ export default function LhpFormPage({ lhp, statusPilihan }: Props) {
         status_lhp: '01',
         nip_pj: null,
         nama_pj: null,
+        tim: [],
         temuan: [kosongTemuan()],
     };
 
@@ -91,6 +100,7 @@ export default function LhpFormPage({ lhp, statusPilihan }: Props) {
 
     // Mutator temuan tunggal — set salinan baru agar Inertia mendeteksi perubahan.
     const ubahTemuan = (fn: (t: Temuan[]) => Temuan[]) => setData('temuan', fn(data.temuan));
+    const ubahTim = (fn: (t: Anggota[]) => Anggota[]) => setData('tim', fn(data.tim));
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -194,6 +204,70 @@ export default function LhpFormPage({ lhp, statusPilihan }: Props) {
                             <Input value={data.nip_pj ?? ''} onChange={(e) => setData('nip_pj', e.target.value || null)} />
                         </Bidang>
                     </div>
+                </div>
+
+                {/* Tim pemeriksa */}
+                <div className="bg-card space-y-3 rounded-md border p-4">
+                    <div className="flex items-center justify-between">
+                        <h2 className="flex items-center gap-2 text-sm font-semibold tracking-tight">
+                            <Users className="text-muted-foreground h-4 w-4" />
+                            Tim Pemeriksa
+                        </h2>
+                        <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => ubahTim((ts) => [...ts, { nip: null, nama: '', jabatan: jabatanPilihan[ts.length] ?? 'Anggota Tim' }])}
+                        >
+                            <Plus className="h-4 w-4" />
+                            Tambah Anggota
+                        </Button>
+                    </div>
+                    {data.tim.length === 0 && (
+                        <p className="text-muted-foreground text-xs">Belum ada anggota tim. Tambahkan nama beserta jabatannya.</p>
+                    )}
+                    {data.tim.map((m, mi) => (
+                        <div key={mi} className="grid grid-cols-1 gap-2 sm:grid-cols-[1fr_180px_200px_auto]">
+                            <Input
+                                value={m.nama}
+                                onChange={(e) => ubahTim((ts) => ts.map((x, i) => (i === mi ? { ...x, nama: e.target.value } : x)))}
+                                placeholder="Nama"
+                            />
+                            <Input
+                                value={m.nip ?? ''}
+                                onChange={(e) => ubahTim((ts) => ts.map((x, i) => (i === mi ? { ...x, nip: e.target.value || null } : x)))}
+                                placeholder="NIP"
+                            />
+                            <Select
+                                value={m.jabatan ?? ''}
+                                onValueChange={(v) => ubahTim((ts) => ts.map((x, i) => (i === mi ? { ...x, jabatan: v } : x)))}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Jabatan" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {jabatanPilihan.map((j) => (
+                                        <SelectItem key={j} value={j}>
+                                            {j}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Button
+                                type="button"
+                                size="icon"
+                                variant="ghost"
+                                className="text-destructive h-9 w-9"
+                                title="Hapus anggota"
+                                onClick={() => ubahTim((ts) => ts.filter((_, i) => i !== mi))}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                            {errors[`tim.${mi}.nama` as keyof LhpForm] && (
+                                <p className="text-destructive text-xs sm:col-span-4">Nama anggota wajib diisi.</p>
+                            )}
+                        </div>
+                    ))}
                 </div>
 
                 {/* Temuan */}

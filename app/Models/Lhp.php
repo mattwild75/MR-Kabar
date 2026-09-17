@@ -43,4 +43,10 @@ class Lhp extends Model
     {
         return $this->hasMany(LhpTemuan::class)->orderBy('no');
     }
+
+    /** @return HasMany<LhpTim, $this> */
+    public function tim(): HasMany
+    {
+        return $this->hasMany(LhpTim::class)->orderBy('no');
+    }
 }

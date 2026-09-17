@@ -73,6 +73,14 @@ class ImporLhp extends Command
                         }
                     }
                 }
+                foreach ($h['tim'] ?? [] as $i => $m) {
+                    $lhp->tim()->create([
+                        'no' => $m['no'] ?? $i + 1,
+                        'nip' => $this->nilai($m['nip'] ?? null, 'nip'),
+                        'nama' => $this->teks((string) ($m['nama'] ?? '')) ?: '(tanpa nama)',
+                        'jabatan' => $this->nilai($m['jabatan'] ?? null, 'jabatan'),
+                    ]);
+                }
             });
             $buat++;
             $bar->advance();
@@ -101,7 +109,25 @@ class ImporLhp extends Command
         if (str_starts_with($kolom, 'tanggal') && is_string($v) && ! preg_match('/^(19|20)\d\d-\d\d-\d\d/', $v)) {
             return null;
         }
+        if (is_string($v)) {
+            return $this->teks($v);
+        }
 
         return $v;
+    }
+
+    /**
+     * Rapikan teks dari ekspor ASCII SimHP: urai escape \xHH (mis. \x0D\x0A =
+     * CRLF, \x09 = tab) menjadi karakter aslinya, satukan CRLF jadi LF, dan
+     * buang spasi berlebih di tepi tiap baris. Tanpa ini teks tampil dengan
+     * "\x0D\x0A" mentah (lihat obrik/memo yang lama).
+     */
+    private function teks(string $s): string
+    {
+        $s = preg_replace_callback('/\\\\x([0-9A-Fa-f]{2})/', fn ($m) => chr(hexdec($m[1])), $s);
+        $s = str_replace(["\r\n", "\r"], "\n", $s);
+        $s = preg_replace("/[ \t]+\n/", "\n", $s);
+
+        return trim($s);
     }
 }

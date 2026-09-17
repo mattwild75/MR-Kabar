@@ -130,6 +130,54 @@ class LhpTest extends TestCase
             ->assertSessionHasErrors('nomor_lhp');
     }
 
+    public function test_simpan_dan_tampil_tim_pemeriksa(): void
+    {
+        $u = $this->adminBaru();
+
+        $this->actingAs($u)->post(self::BASE, [
+            'nomor_lhp' => '700/77/LHP/2026',
+            'nama_obrik' => 'Dinas Tim',
+            'status_lhp' => '01',
+            'tim' => [
+                ['nama' => 'Budi', 'nip' => '1990', 'jabatan' => 'Ketua Tim'],
+                ['nama' => 'Ani', 'nip' => null, 'jabatan' => 'Anggota Tim'],
+                ['nama' => '', 'nip' => null, 'jabatan' => 'Anggota Tim'], // tanpa nama -> dilewati
+            ],
+        ])->assertRedirect();
+
+        $lhp = Lhp::where('nomor_lhp', '700/77/LHP/2026')->first();
+        $this->assertSame(2, $lhp->tim()->count());
+        $this->assertSame('Budi', $lhp->tim->first()->nama);
+        $this->assertSame('Ketua Tim', $lhp->tim->first()->jabatan);
+
+        $this->actingAs($u)->get(self::BASE."/{$lhp->id}")->assertInertia(fn ($page) => $page
+            ->has('lhp.tim', 2)
+            ->where('lhp.tim.0.nama', 'Budi')
+            ->where('lhp.tim.0.jabatan', 'Ketua Tim'));
+    }
+
+    public function test_impor_membersihkan_escape_teks(): void
+    {
+        $u = $this->adminBaru();
+        $berkas = tempnam(sys_get_temp_dir(), 'lhp').'.json';
+        file_put_contents($berkas, json_encode([[
+            'nomor_lhp' => '700/88/LHP/2026',
+            'nama_obrik' => 'BARIS SATU\x0D\x0ABARIS DUA',
+            'status_lhp' => '01',
+            'tim' => [['no' => 1, 'nama' => 'Cut\x0D\x0ANyak', 'jabatan' => 'Ketua Tim']],
+            'temuan' => [['no' => 1, 'memo' => 'Temuan\x0D\x0Aberbaris']],
+        ]]));
+
+        $this->artisan('lhp:impor', ['berkas' => $berkas, '--ganti' => true])->assertSuccessful();
+
+        $lhp = Lhp::where('nomor_lhp', '700/88/LHP/2026')->first();
+        $this->assertStringNotContainsString('\x0D', $lhp->nama_obrik);
+        $this->assertSame("BARIS SATU\nBARIS DUA", $lhp->nama_obrik);
+        $this->assertSame("Temuan\nberbaris", $lhp->temuan->first()->memo);
+        $this->assertSame("Cut\nNyak", $lhp->tim->first()->nama);
+        @unlink($berkas);
+    }
+
     public function test_hapus_lhp_soft_delete(): void
     {
         $u = $this->adminBaru();

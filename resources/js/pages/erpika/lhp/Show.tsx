@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { ArrowLeft, CheckCircle2, ClipboardList, Lightbulb, Pencil, Search, Trash2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ClipboardList, Lightbulb, Pencil, Search, Trash2, Users } from 'lucide-react';
 import { rupiah, statusKelas, statusLabel, tanggal } from './lib';
 
 const BASE = '/erpika/laporan-penugasan/database-lhp';
@@ -48,6 +48,13 @@ interface Temuan {
     status: string | null;
     sebab: Sebab[];
 }
+interface Anggota {
+    id: number;
+    no: number;
+    nip: string | null;
+    nama: string;
+    jabatan: string | null;
+}
 interface Lhp {
     id: number;
     nomor_lhp: string;
@@ -64,6 +71,7 @@ interface Lhp {
     status_lhp: string;
     nip_pj: string | null;
     nama_pj: string | null;
+    tim: Anggota[];
     temuan: Temuan[];
 }
 
@@ -148,6 +156,27 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
                         )}
                     </dl>
                 </div>
+
+                {/* Tim pemeriksa */}
+                {lhp.tim.length > 0 && (
+                    <div className="bg-card rounded-md border p-4">
+                        <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
+                            <Users className="text-muted-foreground h-4 w-4" />
+                            Tim Pemeriksa
+                        </div>
+                        <ol className="divide-y">
+                            {lhp.tim.map((m) => (
+                                <li key={m.id} className="flex items-baseline justify-between gap-3 py-1.5 text-sm">
+                                    <div className="min-w-0">
+                                        <span className="font-medium">{m.nama}</span>
+                                        {m.nip && <span className="text-muted-foreground ml-2 font-mono text-xs">NIP {m.nip}</span>}
+                                    </div>
+                                    {m.jabatan && <span className="text-muted-foreground shrink-0 text-xs">{m.jabatan}</span>}
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                )}
 
                 {/* Rantai temuan */}
                 {lhp.temuan.length === 0 ? (

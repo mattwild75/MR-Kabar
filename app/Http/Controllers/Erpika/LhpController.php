@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Erpika;
 
 use App\Http\Controllers\Controller;
 use App\Models\Lhp;
+use App\Models\LhpTim;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -72,7 +73,8 @@ class LhpController extends Controller
 
     public function show(Lhp $lhp)
     {
-        $lhp->load(['temuan' => fn ($q) => $q->orderBy('no'),
+        $lhp->load(['tim' => fn ($q) => $q->orderBy('no'),
+            'temuan' => fn ($q) => $q->orderBy('no'),
             'temuan.sebab' => fn ($q) => $q->orderBy('no'),
             'temuan.sebab.rekomendasi' => fn ($q) => $q->orderBy('no'),
             'temuan.sebab.rekomendasi.tindakLanjut' => fn ($q) => $q->orderBy('no')->orderBy('tanggal')]);
@@ -87,12 +89,14 @@ class LhpController extends Controller
         return Inertia::render('erpika/lhp/Form', [
             'lhp' => null,
             'statusPilihan' => $this->statusPilihan(),
+            'jabatanPilihan' => LhpTim::JABATAN,
         ]);
     }
 
     public function edit(Lhp $lhp)
     {
-        $lhp->load(['temuan' => fn ($q) => $q->orderBy('no'),
+        $lhp->load(['tim' => fn ($q) => $q->orderBy('no'),
+            'temuan' => fn ($q) => $q->orderBy('no'),
             'temuan.sebab' => fn ($q) => $q->orderBy('no'),
             'temuan.sebab.rekomendasi' => fn ($q) => $q->orderBy('no'),
             'temuan.sebab.rekomendasi.tindakLanjut' => fn ($q) => $q->orderBy('no')]);
@@ -100,6 +104,7 @@ class LhpController extends Controller
         return Inertia::render('erpika/lhp/Form', [
             'lhp' => $this->detail($lhp),
             'statusPilihan' => $this->statusPilihan(),
+            'jabatanPilihan' => LhpTim::JABATAN,
         ]);
     }
 
@@ -143,6 +148,11 @@ class LhpController extends Controller
             'status_lhp' => ['required', Rule::in(array_keys(Lhp::STATUS))],
             'nip_pj' => ['nullable', 'string', 'max:30'],
             'nama_pj' => ['nullable', 'string', 'max:100'],
+            'tim' => ['nullable', 'array'],
+            // nama boleh kosong di payload — baris kosong dibuang di simpan().
+            'tim.*.nama' => ['nullable', 'string', 'max:120'],
+            'tim.*.nip' => ['nullable', 'string', 'max:30'],
+            'tim.*.jabatan' => ['nullable', 'string', 'max:200'],
             'temuan' => ['nullable', 'array'],
             'temuan.*.kode' => ['nullable', 'string', 'max:6'],
             'temuan.*.nilai' => ['nullable', 'numeric'],
@@ -168,6 +178,15 @@ class LhpController extends Controller
         $lhp->jml_tp = count($temuan);
         $lhp->nilai_tp = collect($temuan)->sum(fn ($t) => (float) ($t['nilai'] ?? 0));
         $lhp->save();
+
+        // Susunan tim: ganti seluruhnya.
+        $lhp->tim()->delete();
+        foreach ($data['tim'] ?? [] as $it => $m) {
+            if (blank($m['nama'] ?? null)) {
+                continue;
+            }
+            $lhp->tim()->create(['no' => $it + 1, 'nip' => $m['nip'] ?? null, 'nama' => $m['nama'], 'jabatan' => $m['jabatan'] ?? null]);
+        }
 
         // Ganti seluruh rantai detail (paling sederhana dan konsisten).
         // Hapus temuan lama; FK cascadeOnDelete membuang sebab/rekomendasi/TL di bawahnya.
@@ -210,6 +229,13 @@ class LhpController extends Controller
             'status_lhp' => $lhp->status_lhp,
             'nip_pj' => $lhp->nip_pj,
             'nama_pj' => $lhp->nama_pj,
+            'tim' => $lhp->tim->map(fn ($m) => [
+                'id' => $m->id,
+                'no' => $m->no,
+                'nip' => $m->nip,
+                'nama' => $m->nama,
+                'jabatan' => $m->jabatan,
+            ])->values()->all(),
             'temuan' => $lhp->temuan->map(fn ($t) => [
                 'id' => $t->id,
                 'no' => $t->no,
