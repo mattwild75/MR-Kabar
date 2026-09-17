@@ -45,6 +45,10 @@ class RolePermissionSeeder extends Seeder
                 'backup-excel-view',
                 'keterangan-pendukung-view',
             ],
+            'Miscellaneous' => [
+                // ERPIKA sementara hanya admin/super-admin (17 Sep 2026)
+                'erpika-view',
+            ],
             'Utilities' => [
                 'utilities-view',
                 'log-view',
@@ -111,7 +115,8 @@ class RolePermissionSeeder extends Seeder
         // middleware ViewerReadOnly.
         $izinAdmin = $admin->permissions()->pluck('name')->all();
         foreach (Permission::all() as $permission) {
-            $boleh = in_array($permission->name, $izinAdmin, true);
+            // ERPIKA sementara tertutup untuk peninjau (17 Sep 2026).
+            $boleh = in_array($permission->name, $izinAdmin, true) && $permission->name !== 'erpika-view';
             if ($boleh && ! $eksekutif->hasPermissionTo($permission)) {
                 $eksekutif->givePermissionTo($permission);
             } elseif (! $boleh && $eksekutif->hasPermissionTo($permission)) {

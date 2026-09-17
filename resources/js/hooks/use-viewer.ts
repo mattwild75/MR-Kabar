@@ -29,3 +29,14 @@ export function useIsApip(): boolean {
     const auth = props?.auth as { isApip?: boolean } | undefined;
     return Boolean(auth?.isApip);
 }
+
+/**
+ * True untuk akun bersama LAPOR (masuk lewat kode QR). Dashboard baginya
+ * hanya untuk dilihat: pemilih tahun tetap bisa dipakai, isi widget tidak
+ * bisa diklik. Server tetap menolak halaman lain lewat RestrictLaporRisikoRole.
+ */
+export function useIsLapor(): boolean {
+    const { props } = usePage();
+    const auth = props?.auth as { isLapor?: boolean } | undefined;
+    return Boolean(auth?.isLapor);
+}

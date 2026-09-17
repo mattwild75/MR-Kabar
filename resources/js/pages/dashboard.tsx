@@ -6,6 +6,7 @@ import JadwalPenilaianWidget, { type JadwalArahan } from '@/components/ui/jadwal
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import SaatTerlihat from '@/components/ui/saat-terlihat';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useIsLapor } from '@/hooks/use-viewer';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
@@ -524,6 +525,7 @@ export default function Dashboard({
     kepatuhanForm8910,
     activityFeed,
 }: PageProps) {
+    const isLapor = useIsLapor();
     const kepatuhanTrend = ringkasan.total_opd_wajib > 0 ? Math.round((ringkasan.opd_patuh / ringkasan.total_opd_wajib) * 100) : 0;
     const rtpTrend = ringkasan.rtp_dibutuhkan > 0 ? Math.round((ringkasan.rtp_tersusun / ringkasan.rtp_dibutuhkan) * 100) : 0;
     const matrixCellByPos = new Map(matrixCells.map((c) => [`${c.dampak}-${c.kemungkinan}`, c]));
@@ -624,7 +626,11 @@ export default function Dashboard({
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
-            <div className="flex flex-col gap-6 p-4">
+            {/* Akun LAPOR: semua blok di bawah kepala halaman (widget, tabel,
+                peta) tidak menerima klik — datanya tetap tampil sesuai tahun. */}
+            <div
+                className={`flex flex-col gap-6 p-4 ${isLapor ? '[&>*:not(:first-child)]:pointer-events-none [&>*:not(:first-child)]:select-none' : ''}`}
+            >
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Dashboard MR Kabar</h1>

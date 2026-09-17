@@ -1049,7 +1049,8 @@ class MenuSeeder extends Seeder
             );
         }
 
-        // Miscellaneous > ERPIKA — modul-modul administrasi internal
+        // Miscellaneous > ERPIKA — modul-modul administrasi internal. SEMENTARA
+        // hanya admin/super-admin (izin 'erpika-view', lihat ErpikaHanyaAdmin).
         // Inspektorat yang berasal dari proyek ERPIKA (Herd/erpika), dipasang
         // di sini supaya satu aplikasi. Pertama: Perencanaan > RPP.
         $erpika = Menu::updateOrCreate(
@@ -1058,7 +1059,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'Briefcase',
                 'route' => '#',
                 'order' => 5,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1068,7 +1069,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'ClipboardList',
                 'route' => '#',
                 'order' => 1,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1079,7 +1080,7 @@ class MenuSeeder extends Seeder
                 'parent_id' => $erpikaPerencanaan->id,
                 'icon' => 'CalendarRange',
                 'order' => 1,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1091,20 +1092,20 @@ class MenuSeeder extends Seeder
         // -> RPP Analisis dan Evaluasi (4); Pegawai (5) dipakai semuanya.
         Menu::updateOrCreate(
             ['route' => '/erpika/arep'],
-            ['title' => 'AREP', 'parent_id' => $erpika->id, 'icon' => 'ClipboardCheck', 'order' => 2, 'permission_name' => null]
+            ['title' => 'AREP', 'parent_id' => $erpika->id, 'icon' => 'ClipboardCheck', 'order' => 2, 'permission_name' => 'erpika-view']
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/laporan-penugasan'],
-            ['title' => 'Laporan Penugasan', 'parent_id' => $erpika->id, 'icon' => 'FileCheck', 'order' => 3, 'permission_name' => null]
+            ['title' => 'Laporan Penugasan', 'parent_id' => $erpika->id, 'icon' => 'FileCheck', 'order' => 3, 'permission_name' => 'erpika-view']
         );
         // ANEVA (Analisis dan Evaluasi) = kelompok; RPP Aneva anak pertamanya.
         $erpikaAneva = Menu::updateOrCreate(
             ['title' => 'ANEVA', 'parent_id' => $erpika->id],
-            ['icon' => 'BarChart3', 'route' => '#', 'order' => 4, 'permission_name' => null]
+            ['icon' => 'BarChart3', 'route' => '#', 'order' => 4, 'permission_name' => 'erpika-view']
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/aneva'],
-            ['title' => 'RPP Aneva', 'parent_id' => $erpikaAneva->id, 'icon' => 'LineChart', 'order' => 1, 'permission_name' => null]
+            ['title' => 'RPP Aneva', 'parent_id' => $erpikaAneva->id, 'icon' => 'LineChart', 'order' => 1, 'permission_name' => 'erpika-view']
         );
 
         // Pegawai: saudara Perencanaan, bukan anaknya — dipakai seluruh ERPIKA.
@@ -1115,25 +1116,25 @@ class MenuSeeder extends Seeder
                 'parent_id' => $erpika->id,
                 'icon' => 'Users',
                 'order' => 5,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
         // Tampilan turunan RPP (hanya membaca), di bawah Perencanaan sejak 13 September 2026.
         Menu::updateOrCreate(
             ['route' => '/erpika/kalender'],
-            ['title' => 'Kalender Penugasan', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'CalendarDays', 'order' => 3, 'permission_name' => null]
+            ['title' => 'Kalender Penugasan', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'CalendarDays', 'order' => 3, 'permission_name' => 'erpika-view']
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/beban-kerja'],
-            ['title' => 'Beban Kerja', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'Scale', 'order' => 4, 'permission_name' => null]
+            ['title' => 'Beban Kerja', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'Scale', 'order' => 4, 'permission_name' => 'erpika-view']
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/pemeriksaan'],
-            ['title' => 'Pemeriksaan Data', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'ScanSearch', 'order' => 5, 'permission_name' => null]
+            ['title' => 'Pemeriksaan Data', 'parent_id' => $erpikaPerencanaan->id, 'icon' => 'ScanSearch', 'order' => 5, 'permission_name' => 'erpika-view']
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/data-terhapus'],
-            ['title' => 'Data Terhapus', 'parent_id' => $erpika->id, 'icon' => 'Trash2', 'order' => 9, 'permission_name' => null]
+            ['title' => 'Data Terhapus', 'parent_id' => $erpika->id, 'icon' => 'Trash2', 'order' => 9, 'permission_name' => 'erpika-view']
         );
 
         Menu::updateOrCreate(
@@ -1143,7 +1144,7 @@ class MenuSeeder extends Seeder
                 'parent_id' => $erpikaPerencanaan->id,
                 'icon' => 'Settings2',
                 'order' => 2,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1153,7 +1154,7 @@ class MenuSeeder extends Seeder
                 'icon' => 'GitBranch',
                 'route' => '#',
                 'order' => 1,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1164,7 +1165,7 @@ class MenuSeeder extends Seeder
                 'parent_id' => $visualisasiHirarki->id,
                 'icon' => 'BarChart',
                 'order' => 1,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1175,7 +1176,7 @@ class MenuSeeder extends Seeder
                 'parent_id' => $visualisasiHirarki->id,
                 'icon' => 'BarChart',
                 'order' => 2,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 
@@ -1186,7 +1187,7 @@ class MenuSeeder extends Seeder
                 'parent_id' => $visualisasiHirarki->id,
                 'icon' => 'BarChart',
                 'order' => 3,
-                'permission_name' => null,
+                'permission_name' => 'erpika-view',
             ]
         );
 

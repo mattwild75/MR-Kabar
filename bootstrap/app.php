@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\CheckMenuPermission;
+use App\Http\Middleware\ErpikaHanyaAdmin;
 use App\Http\Middleware\ForceLogoutAfterMaxDuration;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RestrictCeeSurveyRole;
@@ -30,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ShareMenus::class,
             RestrictCeeSurveyRole::class,
             RestrictLaporRisikoRole::class,
+            ErpikaHanyaAdmin::class,
             // Sesudah penjaga peran, sebelum ViewerReadOnly. Urutannya
             // penting: yang ditahan di sini belum boleh menyentuh apa pun,
             // jadi ia harus lebih dulu daripada penjaga yang mengatur BOLEH

@@ -7,6 +7,7 @@ use App\Models\RppCategory;
 use App\Models\User;
 use Database\Seeders\RppCategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
@@ -17,6 +18,16 @@ use Tests\TestCase;
 class AnevaTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** ERPIKA sementara hanya admin/super-admin (ErpikaHanyaAdmin), jadi pengguna uji diberi peran admin. */
+    private function adminBaru(array $atribut = []): User
+    {
+        Role::findOrCreate('admin', 'web');
+        $u = User::factory()->create($atribut);
+        $u->assignRole('admin');
+
+        return $u;
+    }
 
     protected function setUp(): void
     {
@@ -39,7 +50,7 @@ class AnevaTest extends TestCase
 
     public function test_halaman_aneva_menampilkan_baris_per_st_dan_ringkasan(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->rppContoh($u);
 
         $this->actingAs($u)->get('/erpika/aneva?tahun=2026')->assertOk()->assertInertia(fn ($page) => $page
@@ -60,7 +71,7 @@ class AnevaTest extends TestCase
 
     public function test_pratinjau_rekap_dikelompokkan_per_jenis(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->rppContoh($u);
 
         $this->actingAs($u)->get('/erpika/aneva/cetak/preview?tahun=2026')->assertOk()->assertInertia(fn ($page) => $page
@@ -72,14 +83,14 @@ class AnevaTest extends TestCase
 
     public function test_menu_arep_dan_laporan_penugasan_terbuka_kosong(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->actingAs($u)->get('/erpika/arep')->assertOk();
         $this->actingAs($u)->get('/erpika/laporan-penugasan')->assertOk();
     }
 
     public function test_data_terhapus_erpika_memulihkan_dokumen_rpp_berikut_penugasannya(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $rpp = $this->rppContoh($u);
         $this->actingAs($u)->delete("/rpp/{$rpp->id}")->assertRedirect();
         $this->assertSoftDeleted('rpps', ['id' => $rpp->id]);
@@ -96,7 +107,7 @@ class AnevaTest extends TestCase
 
     public function test_unduh_excel_rekap_dan_tabel_rpp_menghasilkan_berkas_xlsx(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $rpp = $this->rppContoh($u);
 
         $this->actingAs($u)->get('/erpika/aneva/cetak/excel?tahun=2026')->assertOk()
@@ -107,7 +118,7 @@ class AnevaTest extends TestCase
 
     public function test_isian_aneva_menyimpan_laporan_per_obrik_dan_status(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $rpp = $this->rppContoh($u);
         $p2 = $rpp->penugasan()->where('urutan', 2)->first();
         $ob = $p2->obriks()->create(['nama' => 'BKD', 'order' => 0]);
@@ -130,7 +141,7 @@ class AnevaTest extends TestCase
 
     public function test_menyunting_rpp_di_perencanaan_tidak_menghapus_laporan_aneva(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $rpp = $this->rppContoh($u);
         $p1 = $rpp->penugasan()->where('urutan', 1)->first();
         $this->assertCount(1, $p1->laporans);

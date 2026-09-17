@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\Erpika\PemeriksaanErpikaService;
 use Database\Seeders\RppCategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
@@ -19,6 +20,16 @@ use Tests\TestCase;
 class ErpikaAnalisisTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** ERPIKA sementara hanya admin/super-admin (ErpikaHanyaAdmin), jadi pengguna uji diberi peran admin. */
+    private function adminBaru(array $atribut = []): User
+    {
+        Role::findOrCreate('admin', 'web');
+        $u = User::factory()->create($atribut);
+        $u->assignRole('admin');
+
+        return $u;
+    }
 
     protected function setUp(): void
     {
@@ -47,7 +58,7 @@ class ErpikaAnalisisTest extends TestCase
 
     public function test_pemeriksaan_menandai_temuan_tanpa_mengubah_data(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         [$rpp] = $this->contoh($u);
         $sebelum = $rpp->penugasan()->orderBy('id')->get()->map(fn ($p) => $p->only(['uraian', 'nomor_st', 'status']))->all();
 
@@ -70,7 +81,7 @@ class ErpikaAnalisisTest extends TestCase
 
     public function test_kalender_menampilkan_penugasan_bulan_dan_tumpang_tindih_per_orang(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->contoh($u);
 
         $this->actingAs($u)->get('/erpika/kalender?bulan=1&tahun=2026')->assertOk()->assertInertia(fn ($page) => $page
@@ -88,7 +99,7 @@ class ErpikaAnalisisTest extends TestCase
 
     public function test_beban_kerja_menjumlahkan_hari_dan_biaya_sppd_per_pegawai(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->contoh($u);
 
         $this->actingAs($u)->get('/erpika/beban-kerja?tahun=2026')->assertOk()->assertInertia(fn ($page) => $page
@@ -103,7 +114,7 @@ class ErpikaAnalisisTest extends TestCase
 
     public function test_kalender_pegawai_tahun_berjalan_untuk_popover_formulir_rpp(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         [, $erfendi] = $this->contoh($u);
 
         $j = $this->actingAs($u)->getJson("/erpika/pegawai/{$erfendi->id}/kalender?tahun=2026")->assertOk()->json();

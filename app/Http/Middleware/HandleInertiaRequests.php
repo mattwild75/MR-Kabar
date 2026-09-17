@@ -70,6 +70,9 @@ class HandleInertiaRequests extends Middleware
                 // APIP memang tidak dapat mengubah data risiko, tetapi bukan
                 // berarti tidak dapat mengubah apa pun.
                 'isApip' => (bool) $request->user()?->isApip(),
+                // Akun bersama LAPOR (dari kode QR): dashboard hanya boleh dilihat,
+                // widget-nya tidak boleh diklik (lihat dashboard.tsx).
+                'isLapor' => (bool) $request->user()?->hasRole('lapor-risiko'),
             ],
             'flash' => [
                 'success' => session('success'),

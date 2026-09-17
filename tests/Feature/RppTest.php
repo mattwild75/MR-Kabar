@@ -24,6 +24,16 @@ class RppTest extends TestCase
 {
     use RefreshDatabase;
 
+    /** ERPIKA sementara hanya admin/super-admin (ErpikaHanyaAdmin), jadi pengguna uji diberi peran admin. */
+    private function adminBaru(array $atribut = []): User
+    {
+        Role::findOrCreate('admin', 'web');
+        $u = User::factory()->create($atribut);
+        $u->assignRole('admin');
+
+        return $u;
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -33,7 +43,7 @@ class RppTest extends TestCase
 
     public function test_halaman_daftar_dan_formulir_terbuka_dan_menu_cetak_tidak_ada(): void
     {
-        $this->actingAs(User::factory()->create());
+        $this->actingAs($this->adminBaru());
 
         $this->get('/rpp')->assertOk();
         $this->get('/rpp/create')->assertOk();
@@ -67,7 +77,7 @@ class RppTest extends TestCase
 
     public function test_dokumen_rpp_tersimpan_berikut_penugasan_tim_dan_pegawainya(): void
     {
-        $pengguna = User::factory()->create();
+        $pengguna = $this->adminBaru();
 
         $this->actingAs($pengguna)->post('/rpp', $this->muatanRpp())->assertRedirect();
 
@@ -85,7 +95,7 @@ class RppTest extends TestCase
 
     public function test_cetakan_memakai_inspektur_sebagai_satu_satunya_penanda_tangan(): void
     {
-        $pengguna = User::factory()->create();
+        $pengguna = $this->adminBaru();
         Employee::create(['nama' => 'Zakaria, S.E., CGCAE', 'nip' => '197001011990031001', 'jabatan' => 'Inspektur']);
         $this->actingAs($pengguna)->post('/rpp', $this->muatanRpp())->assertRedirect();
         $rpp = Rpp::first();
@@ -104,7 +114,7 @@ class RppTest extends TestCase
 
     public function test_daftar_disaring_per_tahun_dan_jenis(): void
     {
-        $pengguna = User::factory()->create();
+        $pengguna = $this->adminBaru();
         $this->actingAs($pengguna)->post('/rpp', $this->muatanRpp())->assertRedirect();
         $this->actingAs($pengguna)->post('/rpp', $this->muatanRpp(['year' => 2025, 'nomor_rpp' => '700/01/RPP-Rev/INS/2025', 'rpp_category_id' => RppCategory::where('code', 'A')->value('id')]))->assertRedirect();
 
@@ -115,7 +125,7 @@ class RppTest extends TestCase
 
     public function test_pengguna_biasa_tidak_bisa_menyunting_rpp_orang_lain(): void
     {
-        $pemilik = User::factory()->create();
+        $pemilik = $this->adminBaru();
         $lain = User::factory()->create();
 
         $rpp = Rpp::create([
@@ -125,8 +135,8 @@ class RppTest extends TestCase
             'nomor_rpp' => 'RPP-002/2026',
         ]);
 
-        $this->actingAs($lain)->get("/rpp/{$rpp->id}/edit")->assertForbidden();
-        $this->actingAs($lain)->get("/rpp-cetak/{$rpp->id}/tabel/preview")->assertForbidden();
+        $this->actingAs($lain)->get("/rpp/{$rpp->id}/edit")->assertRedirect('/dashboard');
+        $this->actingAs($lain)->get("/rpp-cetak/{$rpp->id}/tabel/preview")->assertRedirect('/dashboard');
         $this->actingAs($pemilik)->get("/rpp/{$rpp->id}/edit")->assertOk();
     }
 
@@ -141,8 +151,8 @@ class RppTest extends TestCase
 
     public function test_pengaturan_rpp_hanya_untuk_admin(): void
     {
-        $this->actingAs(User::factory()->create())->get('/rpp-pengaturan')->assertForbidden();
-        $this->actingAs(User::factory()->create())->get('/erpika/pegawai')->assertForbidden();
+        $this->actingAs(User::factory()->create())->get('/rpp-pengaturan')->assertRedirect('/dashboard');
+        $this->actingAs(User::factory()->create())->get('/erpika/pegawai')->assertRedirect('/dashboard');
         $admin = $this->admin();
         $this->actingAs($admin)->get('/rpp-pengaturan')->assertOk();
         $this->actingAs($admin)->get('/erpika/pegawai')->assertOk();
@@ -209,7 +219,7 @@ class RppTest extends TestCase
 
     public function test_pratinjau_tata_naskah_mengurutkan_per_nomor_st_dan_menyertakan_ketua_tim(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->actingAs($u)->post('/rpp', $this->muatanRpp(['penugasan' => [
             array_merge($this->muatanRpp()['penugasan'][0], ['nomor_st' => 'ST-02/AKJ-INS/2026', 'tanggal_st' => '2026-03-11']),
             array_merge($this->muatanRpp()['penugasan'][0], ['uraian' => 'Audit Kinerja kedua', 'nomor_st' => 'ST-01/AKJ-INS/2026', 'tanggal_st' => '2026-03-11']),
@@ -234,7 +244,7 @@ class RppTest extends TestCase
 
     public function test_tata_naskah_per_rpp_dan_pengantar_word_dari_data_maupun_suntingan(): void
     {
-        $u = User::factory()->create();
+        $u = $this->adminBaru();
         $this->actingAs($u)->post('/rpp', $this->muatanRpp(['penugasan' => [
             array_merge($this->muatanRpp()['penugasan'][0], ['nomor_st' => 'ST-01/AKJ-INS/2026', 'tanggal_st' => '2026-03-11']),
         ]]))->assertSessionHasNoErrors();
@@ -251,6 +261,6 @@ class RppTest extends TestCase
         $this->assertStringStartsWith('PK', $suntingan->getContent());
 
         $lain = User::factory()->create();
-        $this->actingAs($lain)->get("/rpp-cetak/{$rpp->id}/tata-naskah/preview")->assertForbidden();
+        $this->actingAs($lain)->get("/rpp-cetak/{$rpp->id}/tata-naskah/preview")->assertRedirect('/dashboard');
     }
 }
