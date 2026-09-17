@@ -101,5 +101,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RppCategorySeeder::class,
         ]);
+
+        // ERPIKA > Laporan Penugasan > Database LHP: kode baku (klasifikasi BPKP)
+        // dari SimHPPemda. Master data acuan untuk dropdown temuan/sebab/dll.
+        $this->call([
+            LhpRefKodeSeeder::class,
+        ]);
     }
 }

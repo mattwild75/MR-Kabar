@@ -56,12 +56,18 @@ type LhpForm = {
     [key: string]: string | number | null | Temuan[] | Anggota[];
 };
 
-type Opsi = { kode: string; nama: string };
+type Opsi = { kode: string; kode_group?: string | null; nama: string };
 interface KodeRef {
     group_jenis: Opsi[];
     jenis: Opsi[];
     group_temuan: Opsi[];
+    temuan: Opsi[];
     group_sebab: Opsi[];
+    sebab: Opsi[];
+    group_rekomendasi: Opsi[];
+    rekomendasi: Opsi[];
+    group_tl: Opsi[];
+    tl: Opsi[];
     bidang_unit: string[];
     inspektorat_default: string;
 }
@@ -230,48 +236,30 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
                             <Input value={data.inspektorat ?? ''} onChange={(e) => setData('inspektorat', e.target.value || null)} />
                         </Bidang>
                         <Bidang label="Bidang/Unit Pengawasan" galat={errors.bidang_unit}>
-                            <Select value={data.bidang_unit ?? ''} onValueChange={(v) => setData('bidang_unit', v)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Pilih Irban / unit" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {kodeRef.bidang_unit.map((b) => (
-                                        <SelectItem key={b} value={b}>
-                                            {b}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                            <PilihTeks
+                                opsi={kodeRef.bidang_unit}
+                                value={data.bidang_unit}
+                                onChange={(v) => setData('bidang_unit', v)}
+                                placeholder="Pilih Irban / unit"
+                            />
                         </Bidang>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-2">
-                        <Bidang label="Lingkup Audit (Sumber)" galat={errors.kode_group_jenis_periksa}>
-                            <Select value={data.kode_group_jenis_periksa ?? ''} onValueChange={(v) => setData('kode_group_jenis_periksa', v)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Pilih lingkup" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {kodeRef.group_jenis.map((o) => (
-                                        <SelectItem key={o.kode} value={o.kode}>
-                                            {o.kode} — {o.nama}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                        <Bidang label="Lingkup Audit (Sumber)">
+                            <PilihKode
+                                opsi={kodeRef.group_jenis}
+                                value={data.kode_group_jenis_periksa}
+                                onChange={(v) => setData('kode_group_jenis_periksa', v)}
+                                placeholder="Pilih lingkup"
+                            />
                         </Bidang>
-                        <Bidang label="Jenis Audit" galat={errors.kode_jenis_periksa}>
-                            <Select value={data.kode_jenis_periksa ?? ''} onValueChange={(v) => setData('kode_jenis_periksa', v)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Pilih jenis" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {kodeRef.jenis.map((o) => (
-                                        <SelectItem key={o.kode} value={o.kode}>
-                                            {o.kode} — {o.nama}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
+                        <Bidang label="Jenis Audit">
+                            <PilihKode
+                                opsi={kodeRef.jenis.filter((o) => !data.kode_group_jenis_periksa || o.kode_group === data.kode_group_jenis_periksa)}
+                                value={data.kode_jenis_periksa}
+                                onChange={(v) => setData('kode_jenis_periksa', v)}
+                                placeholder="Pilih jenis"
+                            />
                         </Bidang>
                     </div>
                     <div className="grid gap-4 sm:grid-cols-3">
@@ -400,25 +388,23 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
                                     <Trash2 className="h-4 w-4" />
                                 </Button>
                             </div>
-                            <div className="grid gap-2 sm:grid-cols-[1fr_110px_200px]">
-                                <KodeGroup
-                                    opsi={kodeRef.group_temuan}
-                                    value={t.kode_group}
-                                    onChange={(v) => patchTemuan(ti, { kode_group: v })}
-                                    label="Group Temuan"
-                                />
-                                <div className="space-y-1.5">
-                                    <Label className="text-xs">Kode</Label>
-                                    <Input
-                                        value={t.kode ?? ''}
-                                        onChange={(e) => patchTemuan(ti, { kode: e.target.value || null })}
-                                        placeholder="0000"
+                            <div className="grid gap-2 sm:grid-cols-2">
+                                <Bidang label="Kode Temuan (Group)">
+                                    <PilihKode
+                                        opsi={kodeRef.group_temuan}
+                                        value={t.kode_group}
+                                        onChange={(v) => patchTemuan(ti, { kode_group: v, kode: null })}
+                                        placeholder="Pilih group temuan"
                                     />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <Label className="text-xs">Nilai Temuan</Label>
-                                    <Rupiah value={t.nilai} onChange={(n) => patchTemuan(ti, { nilai: n })} />
-                                </div>
+                                </Bidang>
+                                <Bidang label="Kode Temuan (Rincian)">
+                                    <PilihKode
+                                        opsi={kodeRef.temuan.filter((o) => !t.kode_group || o.kode_group === t.kode_group)}
+                                        value={t.kode}
+                                        onChange={(v) => patchTemuan(ti, { kode: v })}
+                                        placeholder="Pilih rincian"
+                                    />
+                                </Bidang>
                             </div>
                             <Textarea
                                 value={t.memo}
@@ -426,7 +412,10 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
                                 rows={3}
                                 placeholder="Uraian temuan / kondisi"
                             />
-                            <div className="grid gap-3 sm:grid-cols-2">
+                            <div className="grid gap-3 sm:grid-cols-3">
+                                <Bidang label="Nilai Temuan">
+                                    <Rupiah value={t.nilai} onChange={(n) => patchTemuan(ti, { nilai: n })} />
+                                </Bidang>
                                 <Radio
                                     label="BA Kesepakatan Obrik"
                                     value={t.ba_kesepakatan}
@@ -466,21 +455,23 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
                                                 <Trash2 className="h-3.5 w-3.5" />
                                             </Button>
                                         </div>
-                                        <div className="grid gap-2 sm:grid-cols-[1fr_110px]">
-                                            <KodeGroup
-                                                opsi={kodeRef.group_sebab}
-                                                value={s.kode_group}
-                                                onChange={(v) => patchSebab(ti, si, { kode_group: v })}
-                                                label="Group Sebab"
-                                            />
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs">Kode</Label>
-                                                <Input
-                                                    value={s.kode ?? ''}
-                                                    onChange={(e) => patchSebab(ti, si, { kode: e.target.value || null })}
-                                                    placeholder="0000"
+                                        <div className="grid gap-2 sm:grid-cols-2">
+                                            <Bidang label="Kode Sebab (Group)">
+                                                <PilihKode
+                                                    opsi={kodeRef.group_sebab}
+                                                    value={s.kode_group}
+                                                    onChange={(v) => patchSebab(ti, si, { kode_group: v, kode: null })}
+                                                    placeholder="Pilih group sebab"
                                                 />
-                                            </div>
+                                            </Bidang>
+                                            <Bidang label="Kode Sebab (Rincian)">
+                                                <PilihKode
+                                                    opsi={kodeRef.sebab.filter((o) => !s.kode_group || o.kode_group === s.kode_group)}
+                                                    value={s.kode}
+                                                    onChange={(v) => patchSebab(ti, si, { kode: v })}
+                                                    placeholder="Pilih rincian"
+                                                />
+                                            </Bidang>
                                         </div>
                                         <Textarea
                                             value={s.memo}
@@ -511,27 +502,23 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
                                                         <Trash2 className="h-3.5 w-3.5" />
                                                     </Button>
                                                 </div>
-                                                <div className="grid gap-2 sm:grid-cols-[90px_110px_1fr]">
-                                                    <div className="space-y-1.5">
-                                                        <Label className="text-xs">Group</Label>
-                                                        <Input
-                                                            value={r.kode_group ?? ''}
-                                                            onChange={(e) => patchRekom(ti, si, ri, { kode_group: e.target.value || null })}
-                                                            placeholder="00"
+                                                <div className="grid gap-2 sm:grid-cols-2">
+                                                    <Bidang label="Kode Rekomendasi (Group)">
+                                                        <PilihKode
+                                                            opsi={kodeRef.group_rekomendasi}
+                                                            value={r.kode_group}
+                                                            onChange={(v) => patchRekom(ti, si, ri, { kode_group: v, kode: null })}
+                                                            placeholder="Pilih group"
                                                         />
-                                                    </div>
-                                                    <div className="space-y-1.5">
-                                                        <Label className="text-xs">Kode</Label>
-                                                        <Input
-                                                            value={r.kode ?? ''}
-                                                            onChange={(e) => patchRekom(ti, si, ri, { kode: e.target.value || null })}
-                                                            placeholder="0000"
+                                                    </Bidang>
+                                                    <Bidang label="Kode Rekomendasi (Rincian)">
+                                                        <PilihKode
+                                                            opsi={kodeRef.rekomendasi.filter((o) => !r.kode_group || o.kode_group === r.kode_group)}
+                                                            value={r.kode}
+                                                            onChange={(v) => patchRekom(ti, si, ri, { kode: v })}
+                                                            placeholder="Pilih rincian"
                                                         />
-                                                    </div>
-                                                    <div className="space-y-1.5">
-                                                        <Label className="text-xs">Nilai Rekomendasi</Label>
-                                                        <Rupiah value={r.nilai} onChange={(n) => patchRekom(ti, si, ri, { nilai: n })} />
-                                                    </div>
+                                                    </Bidang>
                                                 </div>
                                                 <Textarea
                                                     value={r.memo}
@@ -539,59 +526,62 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
                                                     rows={2}
                                                     placeholder="Rekomendasi tim pemeriksa"
                                                 />
+                                                <Bidang label="Nilai Rekomendasi">
+                                                    <Rupiah
+                                                        value={r.nilai}
+                                                        onChange={(n) => patchRekom(ti, si, ri, { nilai: n })}
+                                                        className="sm:max-w-xs"
+                                                    />
+                                                </Bidang>
 
                                                 {/* Tindak lanjut */}
                                                 {r.tindak_lanjut.map((tl, li) => (
                                                     <div
                                                         key={li}
-                                                        className="space-y-1.5 rounded border border-emerald-200/60 bg-emerald-50/50 p-2 dark:border-emerald-900/40 dark:bg-emerald-950/20"
+                                                        className="space-y-2 rounded border border-emerald-200/60 bg-emerald-50/50 p-2 dark:border-emerald-900/40 dark:bg-emerald-950/20"
                                                     >
-                                                        <div className="flex flex-wrap items-end gap-2">
-                                                            <div className="space-y-1">
-                                                                <Label className="text-xs">Tgl Tindak Lanjut</Label>
-                                                                <Input
-                                                                    type="date"
-                                                                    value={tl.tanggal ?? ''}
-                                                                    onChange={(e) => patchTL(ti, si, ri, li, { tanggal: e.target.value || null })}
-                                                                    className="h-8 w-40"
-                                                                />
-                                                            </div>
-                                                            <div className="space-y-1">
-                                                                <Label className="text-xs">Group</Label>
-                                                                <Input
-                                                                    value={tl.kode_group ?? ''}
-                                                                    onChange={(e) => patchTL(ti, si, ri, li, { kode_group: e.target.value || null })}
-                                                                    placeholder="00"
-                                                                    className="h-8 w-16"
-                                                                />
-                                                            </div>
-                                                            <div className="space-y-1">
-                                                                <Label className="text-xs">Kode</Label>
-                                                                <Input
-                                                                    value={tl.kode ?? ''}
-                                                                    onChange={(e) => patchTL(ti, si, ri, li, { kode: e.target.value || null })}
-                                                                    placeholder="0000"
-                                                                    className="h-8 w-20"
-                                                                />
-                                                            </div>
-                                                            <div className="space-y-1">
-                                                                <Label className="text-xs">Nilai TL</Label>
-                                                                <Rupiah
-                                                                    value={tl.nilai}
-                                                                    onChange={(n) => patchTL(ti, si, ri, li, { nilai: n })}
-                                                                    className="h-8 w-32"
-                                                                />
-                                                            </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-xs font-medium tracking-wide text-emerald-800 uppercase dark:text-emerald-300">
+                                                                Tindak Lanjut {li + 1}
+                                                            </span>
                                                             <Button
                                                                 type="button"
                                                                 size="icon"
                                                                 variant="ghost"
-                                                                className="text-destructive ml-auto h-8 w-8"
+                                                                className="text-destructive ml-auto h-7 w-7"
                                                                 title="Hapus tindak lanjut"
                                                                 onClick={() => ubahTLList(ti, si, ri, (ws) => ws.filter((_, m) => m !== li))}
                                                             >
                                                                 <Trash2 className="h-3.5 w-3.5" />
                                                             </Button>
+                                                        </div>
+                                                        <div className="grid gap-2 sm:grid-cols-2">
+                                                            <Bidang label="Tgl Tindak Lanjut">
+                                                                <Input
+                                                                    type="date"
+                                                                    value={tl.tanggal ?? ''}
+                                                                    onChange={(e) => patchTL(ti, si, ri, li, { tanggal: e.target.value || null })}
+                                                                />
+                                                            </Bidang>
+                                                            <Bidang label="Nilai Tindak Lanjut">
+                                                                <Rupiah value={tl.nilai} onChange={(n) => patchTL(ti, si, ri, li, { nilai: n })} />
+                                                            </Bidang>
+                                                            <Bidang label="Kode TL (Group)">
+                                                                <PilihKode
+                                                                    opsi={kodeRef.group_tl}
+                                                                    value={tl.kode_group}
+                                                                    onChange={(v) => patchTL(ti, si, ri, li, { kode_group: v, kode: null })}
+                                                                    placeholder="Pilih group"
+                                                                />
+                                                            </Bidang>
+                                                            <Bidang label="Kode TL (Rincian)">
+                                                                <PilihKode
+                                                                    opsi={kodeRef.tl.filter((o) => !tl.kode_group || o.kode_group === tl.kode_group)}
+                                                                    value={tl.kode}
+                                                                    onChange={(v) => patchTL(ti, si, ri, li, { kode: v })}
+                                                                    placeholder="Pilih rincian"
+                                                                />
+                                                            </Bidang>
                                                         </div>
                                                         <Textarea
                                                             value={tl.memo ?? ''}
@@ -668,23 +658,59 @@ function Rupiah({ value, onChange, className }: { value: number | null; onChange
     );
 }
 
-function KodeGroup({ opsi, value, onChange, label }: { opsi: Opsi[]; value: string | null; onChange: (v: string) => void; label: string }) {
+/** Dropdown kode: menampilkan "kode — nama", menyimpan kode. */
+function PilihKode({
+    opsi,
+    value,
+    onChange,
+    placeholder,
+}: {
+    opsi: Opsi[];
+    value: string | null;
+    onChange: (v: string | null) => void;
+    placeholder?: string;
+}) {
     return (
-        <div className="space-y-1.5">
-            <Label className="text-xs">{label}</Label>
-            <Select value={value ?? ''} onValueChange={onChange}>
-                <SelectTrigger>
-                    <SelectValue placeholder="Pilih group" />
-                </SelectTrigger>
-                <SelectContent>
-                    {opsi.map((o) => (
-                        <SelectItem key={o.kode} value={o.kode}>
-                            {o.kode} — {o.nama}
-                        </SelectItem>
-                    ))}
-                </SelectContent>
-            </Select>
-        </div>
+        <Select value={value ?? '__'} onValueChange={(v) => onChange(v === '__' ? null : v)}>
+            <SelectTrigger>
+                <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
+            <SelectContent className="max-h-[300px]">
+                <SelectItem value="__">— kosong —</SelectItem>
+                {opsi.map((o) => (
+                    <SelectItem key={o.kode} value={o.kode}>
+                        <span className="font-mono">{o.kode}</span> — {o.nama}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+    );
+}
+
+function PilihTeks({
+    opsi,
+    value,
+    onChange,
+    placeholder,
+}: {
+    opsi: string[];
+    value: string | null;
+    onChange: (v: string) => void;
+    placeholder?: string;
+}) {
+    return (
+        <Select value={value ?? ''} onValueChange={onChange}>
+            <SelectTrigger>
+                <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
+            <SelectContent>
+                {opsi.map((o) => (
+                    <SelectItem key={o} value={o}>
+                        {o}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
     );
 }
 
@@ -698,9 +724,7 @@ function Radio({ label, value, onChange, opsi }: { label: string; value: string 
                         key={v}
                         type="button"
                         onClick={() => onChange(v)}
-                        className={`rounded-md border px-3 py-1.5 text-sm transition ${
-                            value === v ? 'border-primary bg-primary/10 font-medium' : 'hover:bg-muted'
-                        }`}
+                        className={`rounded-md border px-3 py-1.5 text-sm transition ${value === v ? 'border-primary bg-primary/10 font-medium' : 'hover:bg-muted'}`}
                     >
                         {teks}
                     </button>

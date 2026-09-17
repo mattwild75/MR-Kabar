@@ -24,6 +24,8 @@ interface TindakLanjut {
     no: number;
     kode_group: string | null;
     kode: string | null;
+    group_label: string | null;
+    kode_label: string | null;
     nilai: number | null;
     tanggal: string | null;
     memo: string | null;
@@ -33,6 +35,8 @@ interface Rekomendasi {
     no: number;
     kode_group: string | null;
     kode: string | null;
+    group_label: string | null;
+    kode_label: string | null;
     nilai: number | null;
     memo: string;
     tindak_lanjut: TindakLanjut[];
@@ -43,6 +47,7 @@ interface Sebab {
     kode_group: string | null;
     kode: string | null;
     group_label: string | null;
+    kode_label: string | null;
     memo: string;
     rekomendasi: Rekomendasi[];
 }
@@ -52,6 +57,7 @@ interface Temuan {
     kode_group: string | null;
     kode: string | null;
     group_label: string | null;
+    kode_label: string | null;
     nilai: number | null;
     ba_kesepakatan: string | null;
     kerugian_pada: string | null;
@@ -237,12 +243,12 @@ function TemuanKartu({ t }: { t: Temuan }) {
                     <div className="flex items-center gap-2 text-xs">
                         <ClipboardList className="text-muted-foreground h-3.5 w-3.5 shrink-0" />
                         <span className="text-muted-foreground font-medium tracking-wide uppercase">Temuan</span>
-                        {t.kode && <span className="text-muted-foreground font-mono">{t.kode}</span>}
                         {t.nilai !== null && t.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(t.nilai)}</span>}
                     </div>
                     {(t.group_label || t.kode_group) && (
                         <div className="text-muted-foreground mt-0.5 text-xs">{kodeTeks(t.kode_group, t.group_label)}</div>
                     )}
+                    {(t.kode_label || t.kode) && <div className="text-muted-foreground text-xs">{kodeTeks(t.kode, t.kode_label)}</div>}
                     <p className="mt-1 text-sm whitespace-pre-line">{t.memo}</p>
                     {(t.ba_kesepakatan || t.kerugian_pada) && (
                         <div className="text-muted-foreground mt-1 flex flex-wrap gap-x-4 text-xs">
@@ -263,6 +269,7 @@ function TemuanKartu({ t }: { t: Temuan }) {
                             {(s.group_label || s.kode_group) && (
                                 <span className="text-muted-foreground ml-2 text-xs">{kodeTeks(s.kode_group, s.group_label)}</span>
                             )}
+                            {(s.kode_label || s.kode) && <div className="text-muted-foreground text-xs">{kodeTeks(s.kode, s.kode_label)}</div>}
                             <p className="text-sm whitespace-pre-line">{s.memo}</p>
                         </div>
                         {s.rekomendasi.map((r) => (
@@ -283,6 +290,9 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                     )}
                                     {r.nilai !== null && r.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(r.nilai)}</span>}
                                 </div>
+                                {(r.kode_label || r.group_label) && (
+                                    <div className="text-muted-foreground mt-0.5 text-xs">{r.kode_label ?? r.group_label}</div>
+                                )}
                                 <p className="mt-1 text-sm whitespace-pre-line">{r.memo}</p>
                                 {r.tindak_lanjut.length > 0 && (
                                     <div className="mt-2 space-y-1.5 border-t border-amber-200/60 pt-2 dark:border-amber-900/40">
@@ -295,6 +305,7 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                                         {tl.kode ? ` · ${tl.kode_group ? `${tl.kode_group}/` : ''}${tl.kode}` : ''}
                                                         {tl.nilai !== null && tl.nilai > 0 ? ` · ${rupiah(tl.nilai)}` : ''}
                                                     </span>
+                                                    {tl.kode_label && <span className="text-muted-foreground">{tl.kode_label}. </span>}
                                                     {tl.memo && <span className="whitespace-pre-line">{tl.memo}</span>}
                                                 </div>
                                             </div>

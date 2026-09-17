@@ -1,0 +1,2336 @@
+[
+{
+"jenis": "group_jenis",
+"kode": "01",
+"kode_group": null,
+"nama": "HASIL AUDIT INSPEKTORAT"
+},
+{
+"jenis": "group_jenis",
+"kode": "02",
+"kode_group": null,
+"nama": "HASIL AUDIT BPKP"
+},
+{
+"jenis": "group_jenis",
+"kode": "03",
+"kode_group": null,
+"nama": "HASIL AUDIT BPK"
+},
+{
+"jenis": "group_jenis",
+"kode": "04",
+"kode_group": null,
+"nama": "HASIL AUDIT INVESTIGATIF"
+},
+{
+"jenis": "group_jenis",
+"kode": "05",
+"kode_group": null,
+"nama": "HASIL AUDIT INSPEKTORAT PROVINSI"
+},
+{
+"jenis": "group_jenis",
+"kode": "08",
+"kode_group": null,
+"nama": "HASIL AUDIT ITJEN KEMENDAGRI"
+},
+{
+"jenis": "jenis",
+"kode": "0101",
+"kode_group": "01",
+"nama": "AUDIT OPERASIONAL"
+},
+{
+"jenis": "jenis",
+"kode": "0102",
+"kode_group": "01",
+"nama": "AUDIT KOMPREHENSIF"
+},
+{
+"jenis": "jenis",
+"kode": "0103",
+"kode_group": "01",
+"nama": "REVIU LAPORAN KEUANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0104",
+"kode_group": "01",
+"nama": "EVALUASI LAKIP"
+},
+{
+"jenis": "jenis",
+"kode": "0199",
+"kode_group": "01",
+"nama": "AUDIT LAINNYA"
+},
+{
+"jenis": "jenis",
+"kode": "0201",
+"kode_group": "02",
+"nama": "AUDIT KEUANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0202",
+"kode_group": "02",
+"nama": "AUDIT OPERASIONAL"
+},
+{
+"jenis": "jenis",
+"kode": "0203",
+"kode_group": "02",
+"nama": "AUDIT KINERJA"
+},
+{
+"jenis": "jenis",
+"kode": "0301",
+"kode_group": "03",
+"nama": "AUDIT LAPORAN KEUANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0302",
+"kode_group": "03",
+"nama": "AUDIT KINERJA"
+},
+{
+"jenis": "jenis",
+"kode": "0303",
+"kode_group": "03",
+"nama": "AUDIT KEPATUHAN TERHADAP PERATURAN PERUNDANG-UNDANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0304",
+"kode_group": "03",
+"nama": "AUDIT BELANJA"
+},
+{
+"jenis": "jenis",
+"kode": "0305",
+"kode_group": "03",
+"nama": "AUDIT PENDAPATAN"
+},
+{
+"jenis": "jenis",
+"kode": "0306",
+"kode_group": "03",
+"nama": "AUDIT SISTIM PENGENDALIAN INTERN"
+},
+{
+"jenis": "jenis",
+"kode": "0401",
+"kode_group": "04",
+"nama": "PENGADUAN MASYARAKAT TINGKAT PEMERINTAH PUSAT"
+},
+{
+"jenis": "jenis",
+"kode": "0402",
+"kode_group": "04",
+"nama": "PENGADUAN MASYARAKAT TINGKAT PROVINSI"
+},
+{
+"jenis": "jenis",
+"kode": "0403",
+"kode_group": "04",
+"nama": "PENGADUAN MASYARAKAT TINGKAT KABUPATEN"
+},
+{
+"jenis": "jenis",
+"kode": "0404",
+"kode_group": "04",
+"nama": "AUDIT PENDALAMAN KASUS"
+},
+{
+"jenis": "jenis",
+"kode": "0501",
+"kode_group": "05",
+"nama": "AUDIT BANTUAN KEUANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0502",
+"kode_group": "05",
+"nama": "AUDIT OPERASIONAL"
+},
+{
+"jenis": "jenis",
+"kode": "0503",
+"kode_group": "05",
+"nama": "AUDIT PELAKSANAAN PEMERINTAHAN"
+},
+{
+"jenis": "jenis",
+"kode": "0801",
+"kode_group": "08",
+"nama": "AUDIT LAPORAN KEUANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0802",
+"kode_group": "08",
+"nama": "AUDIT KINERJA"
+},
+{
+"jenis": "jenis",
+"kode": "0803",
+"kode_group": "08",
+"nama": "AUDIT KEPATUHAN TERHADAP PERATURAN PERUNDANG-UNDANGAN"
+},
+{
+"jenis": "jenis",
+"kode": "0804",
+"kode_group": "08",
+"nama": "AUDIT BELANJA"
+},
+{
+"jenis": "jenis",
+"kode": "0805",
+"kode_group": "08",
+"nama": "AUDIT PENDAPATAN"
+},
+{
+"jenis": "jenis",
+"kode": "0806",
+"kode_group": "08",
+"nama": "AUDIT SISTIM PENGENDALIAN INTERN"
+},
+{
+"jenis": "group_temuan",
+"kode": "00",
+"kode_group": null,
+"nama": "N I H I L"
+},
+{
+"jenis": "group_temuan",
+"kode": "01",
+"kode_group": null,
+"nama": "KEJADIAN YANG MERUGIKAN NEGARA DAN MASYARAKAT"
+},
+{
+"jenis": "group_temuan",
+"kode": "02",
+"kode_group": null,
+"nama": "KEWAJIBAN PENYETORAN KEPADA NEGARA"
+},
+{
+"jenis": "group_temuan",
+"kode": "03",
+"kode_group": null,
+"nama": "PELANGGARAN TERHADAP PERATURAN PERUNDANG-UNDANGAN"
+},
+{
+"jenis": "group_temuan",
+"kode": "04",
+"kode_group": null,
+"nama": "PELANGGARAN TERHADAP PROSEDUR DAN TATA KERJA YANG"
+},
+{
+"jenis": "group_temuan",
+"kode": "05",
+"kode_group": null,
+"nama": "PENYIMPANGAN DARI KETENTUAN PELAKSANAAN ANGGARAN"
+},
+{
+"jenis": "group_temuan",
+"kode": "06",
+"kode_group": null,
+"nama": "HAMBATAN TERHADAP KELANCARAN PROYEK"
+},
+{
+"jenis": "group_temuan",
+"kode": "07",
+"kode_group": null,
+"nama": "HAMBATAN TERHADAP KELANCARAN TUGAS POKOK"
+},
+{
+"jenis": "group_temuan",
+"kode": "08",
+"kode_group": null,
+"nama": "KELEMAHAN ADMINSTRASI (KELEMAHAN TATA USAHA/AKUNTANSI)"
+},
+{
+"jenis": "group_temuan",
+"kode": "09",
+"kode_group": null,
+"nama": "KETIDAKLANCARAN PELAYANAN KEPADA MASYARAKAT"
+},
+{
+"jenis": "group_temuan",
+"kode": "10",
+"kode_group": null,
+"nama": "TEMUAN PEMERIKSAAN LAINNYA"
+},
+{
+"jenis": "temuan",
+"kode": "0000",
+"kode_group": "00",
+"nama": "Nihil"
+},
+{
+"jenis": "temuan",
+"kode": "0101",
+"kode_group": "01",
+"nama": "Ketekoran Kas"
+},
+{
+"jenis": "temuan",
+"kode": "0102",
+"kode_group": "01",
+"nama": "Uang/Barang Negara/Badan Usaha diambil untuk kepentingan pribadi"
+},
+{
+"jenis": "temuan",
+"kode": "0103",
+"kode_group": "01",
+"nama": "Pengeluaran fiktif (pengeluaran tanpa imbalan barang atau jasa bagi Negara/Badan Usaha)"
+},
+{
+"jenis": "temuan",
+"kode": "0104",
+"kode_group": "01",
+"nama": "Harga pengadaan/pelaksanaan pekerjaan lebih tinggi dari yang semestinya sehingga perlu ada pengembalian uang"
+},
+{
+"jenis": "temuan",
+"kode": "0105",
+"kode_group": "01",
+"nama": "Pengembalian uang muka untuk pekerjaaan/ pengadaan yang tidak dilaksanakan"
+},
+{
+"jenis": "temuan",
+"kode": "0106",
+"kode_group": "01",
+"nama": "Pengembalian uang karena kualitas barang/ jasa tidak sesuai dengan kontrak"
+},
+{
+"jenis": "temuan",
+"kode": "0107",
+"kode_group": "01",
+"nama": "Pelaksanaan pekerjaan/pengadaan atas barang/jasa yang tidak sesuai kontrak"
+},
+{
+"jenis": "temuan",
+"kode": "0108",
+"kode_group": "01",
+"nama": "Tindakan lain pegawai yang menimbulkan kerugian Negara/BUMN/BUMD"
+},
+{
+"jenis": "temuan",
+"kode": "0109",
+"kode_group": "01",
+"nama": "Kelalaian pegawai yang menimbulkan kerugian Negara"
+},
+{
+"jenis": "temuan",
+"kode": "0110",
+"kode_group": "01",
+"nama": "Tuntutan ganti rugi kepada pegawai atau pihak III yang masih harus diselesaikan Pembayarannya (belum dilunasi)."
+},
+{
+"jenis": "temuan",
+"kode": "0111",
+"kode_group": "01",
+"nama": "Penggunaan dana yang tidak sesuai dengan tujuan/sasaran program"
+},
+{
+"jenis": "temuan",
+"kode": "0112",
+"kode_group": "01",
+"nama": "Pungutan yang tidak memiliki dasar hukum yang jelas"
+},
+{
+"jenis": "temuan",
+"kode": "0113",
+"kode_group": "01",
+"nama": "Pungutan kepada masyarakat/Perusahaan diluar ketentuan."
+},
+{
+"jenis": "temuan",
+"kode": "0114",
+"kode_group": "01",
+"nama": "Pemotongan bantuan negara kepada masyarakat"
+},
+{
+"jenis": "temuan",
+"kode": "0115",
+"kode_group": "01",
+"nama": "Menghidupkan kembali temuan 01 yang telah di ekstra komptabel-kan, tetapi ditindaklanjuti"
+},
+{
+"jenis": "temuan",
+"kode": "0201",
+"kode_group": "02",
+"nama": "Kewajiban Penyetoran Pajak (Pajak, Bea dan Cukai, Pendapatan Minyak)"
+},
+{
+"jenis": "temuan",
+"kode": "0202",
+"kode_group": "02",
+"nama": "Pajak yang telah dipungut oleh Bendaharawan/Badan (sbg Wapu) tetapi belum disetorkan ke Kas Negara sesuai dengan batas waktu yang telah ditetapkan menurut ketentuan yang berlaku"
+},
+{
+"jenis": "temuan",
+"kode": "0203",
+"kode_group": "02",
+"nama": "Pajak-pajak yang masih harus dipungut dan di setorkan ke Kas Negara oleh Bendaharawan/Badan."
+},
+{
+"jenis": "temuan",
+"kode": "0204",
+"kode_group": "02",
+"nama": "Tunggakan angsuran pajak yang masih harus disetorkan ke Kas Negara."
+},
+{
+"jenis": "temuan",
+"kode": "0205",
+"kode_group": "02",
+"nama": "Kewajiban penyetoran pajak daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0206",
+"kode_group": "02",
+"nama": "Pajak Daerah yang telah dipungut oleh Bendaharawan/Badan (sebagai wajib pungut) tetapi belum disetorkan ke Kas Daerah sesuai dengan batas waktu yang telah ditetapkan menurut ketentuan yang berlaku."
+},
+{
+"jenis": "temuan",
+"kode": "0207",
+"kode_group": "02",
+"nama": "Pajak-pajak daerah yang masih harus dipungut dan disetorkan ke Kas Daerah atau Bendaharawan/Badan."
+},
+{
+"jenis": "temuan",
+"kode": "0208",
+"kode_group": "02",
+"nama": "Tunggakan angsuran pajak daerah yang masih harus disetorkan ke Kas Daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0209",
+"kode_group": "02",
+"nama": "Kewajiban penyetoran ke Kas Negara berupa jaminan lelang, pelaksanaan pekerjaan dan lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0210",
+"kode_group": "02",
+"nama": "Kewajiban penyetoran ke Kas BUMN/BUMD jaminan lelang, pelaksanaan pekerjaan dan lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0211",
+"kode_group": "02",
+"nama": "Denda atas kelambatan pekerjaan/pengadaan barang."
+},
+{
+"jenis": "temuan",
+"kode": "0212",
+"kode_group": "02",
+"nama": "Jumlah denda telah ditetapkan tetapi belum disetorkan ke Kas Negara."
+},
+{
+"jenis": "temuan",
+"kode": "0213",
+"kode_group": "02",
+"nama": "Jumlah denda masih harus ditetapkan dan disetorkan ke Kas Negara."
+},
+{
+"jenis": "temuan",
+"kode": "0214",
+"kode_group": "02",
+"nama": "Denda atas kelambatan pekerjaan/pengadaan barang atas beban anggaran daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0215",
+"kode_group": "02",
+"nama": "Jumlah denda telah ditetapkan, tetapi belum disetorkan ke Kas Daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0216",
+"kode_group": "02",
+"nama": "Jumlah denda masih harus ditetapkan dan disetorkan ke Kas Daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0217",
+"kode_group": "02",
+"nama": "Denda atas kelambatan pekerjaan/pengadaan barang atas beban BUMN/BUMD."
+},
+{
+"jenis": "temuan",
+"kode": "0218",
+"kode_group": "02",
+"nama": "Jumlah denda telah ditetapkan, tetapi belum disetorkan ke Kas BUMN/BUMD."
+},
+{
+"jenis": "temuan",
+"kode": "0219",
+"kode_group": "02",
+"nama": "Jumlah denda masih harus ditetapkan dan disetorkan ke Kas BUMN/BUMD."
+},
+{
+"jenis": "temuan",
+"kode": "0220",
+"kode_group": "02",
+"nama": "Tuntutan ganti rugi kepada pegawai atau pihak ketiga yang masih harus diselesaikan pembayarannya (belum dilunasi)."
+},
+{
+"jenis": "temuan",
+"kode": "0221",
+"kode_group": "02",
+"nama": "Sisa beban sementara pada akhir tahun anggaran yang tidak dipergunakan lagi dan masih harus disetorkan ke Kas Negara/Kas Daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0222",
+"kode_group": "02",
+"nama": "Kewajiban penyetoran bukan pajak berupa tunggakan penyetoran penerimaan bukan pajak/pungutan penerimaan lainnya yang menjadi hak Negara/Daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0223",
+"kode_group": "02",
+"nama": "Kewajiban penyetoran lainnya seperti hasil penjualan barang, sewa alat-alat besar, sewa rumah dinas dsb, yang masih harus di setorkan kepada Negara/Daerah."
+},
+{
+"jenis": "temuan",
+"kode": "0224",
+"kode_group": "02",
+"nama": "Barang/Jasa tidak sesuai dengan BA atau Kontrak"
+},
+{
+"jenis": "temuan",
+"kode": "0225",
+"kode_group": "02",
+"nama": "Menghidupkan kembali temuan 02 yang telah di ekstra komptabel-kan, tetapi ditindaklanjuti"
+},
+{
+"jenis": "temuan",
+"kode": "0301",
+"kode_group": "03",
+"nama": "Bidang teknis tertentu"
+},
+{
+"jenis": "temuan",
+"kode": "0499",
+"kode_group": "04",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0302",
+"kode_group": "03",
+"nama": "Bidang Kepegawaian"
+},
+{
+"jenis": "temuan",
+"kode": "0303",
+"kode_group": "03",
+"nama": "Bidang Perlengkapan"
+},
+{
+"jenis": "temuan",
+"kode": "0304",
+"kode_group": "03",
+"nama": "Pengelolaan Badan Usaha (BUMN/BUMD)"
+},
+{
+"jenis": "temuan",
+"kode": "0305",
+"kode_group": "03",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0401",
+"kode_group": "04",
+"nama": "Ketentuan-ketentuan intem organisasi obyek yang diperiksa"
+},
+{
+"jenis": "temuan",
+"kode": "0402",
+"kode_group": "04",
+"nama": "Ketentuan khusus berlaku bagi organisasi yang bersangkutan"
+},
+{
+"jenis": "temuan",
+"kode": "0403",
+"kode_group": "04",
+"nama": "Persekongkolan (Kolusi)"
+},
+{
+"jenis": "temuan",
+"kode": "0404",
+"kode_group": "04",
+"nama": "Mengutamakan kepentingan kerabat/sahabat (nepotisme)"
+},
+{
+"jenis": "temuan",
+"kode": "0501",
+"kode_group": "05",
+"nama": "Penyimpangan dari Keppres Pedoman Pelaksanaan APBN/APBD"
+},
+{
+"jenis": "temuan",
+"kode": "0502",
+"kode_group": "05",
+"nama": "Penyimpangan dari RKAP atau pedoman pelaksanaan anggaran lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0503",
+"kode_group": "05",
+"nama": "Penyimpangan dari pedoman pelaksanaan anggaran lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0601",
+"kode_group": "06",
+"nama": "Pelaksanaan pekerjaan proyek menyimpang dari jadual"
+},
+{
+"jenis": "temuan",
+"kode": "0602",
+"kode_group": "06",
+"nama": "Selesainya proyek menyimpang dari jadual"
+},
+{
+"jenis": "temuan",
+"kode": "0701",
+"kode_group": "07",
+"nama": "Penyimpangan dari jadual waktu selesainya tugas pokok"
+},
+{
+"jenis": "temuan",
+"kode": "0702",
+"kode_group": "07",
+"nama": "Tidak diselenggarakannya atau tidak diselenggarakan dengan baik satu atau lebih tugas dan fungsi satuan kerja"
+},
+{
+"jenis": "temuan",
+"kode": "0810",
+"kode_group": "08",
+"nama": "Kelemahan administrasi keuangan"
+},
+{
+"jenis": "temuan",
+"kode": "0811",
+"kode_group": "08",
+"nama": "Kelemahan dalam pedoman atau sistem pencatatan"
+},
+{
+"jenis": "temuan",
+"kode": "0812",
+"kode_group": "08",
+"nama": "Kelemahan dalam pelaksanaan pencatatan atau pelaksanaan PAI"
+},
+{
+"jenis": "temuan",
+"kode": "0813",
+"kode_group": "08",
+"nama": "Bukti-bukti pencatatan tidak lengkap"
+},
+{
+"jenis": "temuan",
+"kode": "0814",
+"kode_group": "08",
+"nama": "Pelaporan tidak ada tidak sesuai standar, tidak dilaksanakan, atau mengalami kelambatan"
+},
+{
+"jenis": "temuan",
+"kode": "0815",
+"kode_group": "08",
+"nama": "Penyimpanan dokumen keuangan menyulitkan pencarian kembali"
+},
+{
+"jenis": "temuan",
+"kode": "0820",
+"kode_group": "08",
+"nama": "Kelemahan adminstrasi non keuangan"
+},
+{
+"jenis": "temuan",
+"kode": "0821",
+"kode_group": "08",
+"nama": "Kelemahan dalam pedoman atau sistem pencatatan"
+},
+{
+"jenis": "temuan",
+"kode": "0822",
+"kode_group": "08",
+"nama": "Kelemahan dalam pelaksanaan pencatatan"
+},
+{
+"jenis": "temuan",
+"kode": "0823",
+"kode_group": "08",
+"nama": "Bukti-bukti pencatatan tidak lengkap"
+},
+{
+"jenis": "temuan",
+"kode": "0824",
+"kode_group": "08",
+"nama": "Pelaporan tidak dilaksanakan, tidak ada atau mengalami kelambatan"
+},
+{
+"jenis": "temuan",
+"kode": "0825",
+"kode_group": "08",
+"nama": "Penyimpanan dokumen non keuangan menyulitkan pencarian kembali"
+},
+{
+"jenis": "temuan",
+"kode": "0901",
+"kode_group": "09",
+"nama": "Ketidaklancaran dalam menerbitkan perijinan kpd masy./instansi oleh instansi yang berwenang pada Dep./Pemda seperti Ijin Usaha, Ijin Pemakaian Tempat., Ijin Menggunakan Peralatan, Ijin Mengolah atau m"
+},
+{
+"jenis": "temuan",
+"kode": "0902",
+"kode_group": "09",
+"nama": "Ketidaklancaran aparatur pemerintah/BUMN/BUMD dalam memberikan pelayanan sebagai tugas pokoknya kepada masyarakat."
+},
+{
+"jenis": "temuan",
+"kode": "1001",
+"kode_group": "10",
+"nama": "Hambatan kelancaran Program Pembangunan"
+},
+{
+"jenis": "temuan",
+"kode": "1002",
+"kode_group": "10",
+"nama": "Pelaksanaan tugas belum efisien"
+},
+{
+"jenis": "temuan",
+"kode": "1003",
+"kode_group": "10",
+"nama": "Pelaksanaan pengadaan sumber daya belum hemat"
+},
+{
+"jenis": "temuan",
+"kode": "1004",
+"kode_group": "10",
+"nama": "Pencapaian tujuan belum efektif"
+},
+{
+"jenis": "temuan",
+"kode": "1005",
+"kode_group": "10",
+"nama": "Produktivitas masih rendah"
+},
+{
+"jenis": "temuan",
+"kode": "1006",
+"kode_group": "10",
+"nama": "Temuan lainnya (belum ada kelompok)"
+},
+{
+"jenis": "temuan",
+"kode": "0603",
+"kode_group": "06",
+"nama": "Tidak tercapainya target proyek"
+},
+{
+"jenis": "temuan",
+"kode": "0599",
+"kode_group": "05",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0699",
+"kode_group": "06",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0799",
+"kode_group": "07",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0899",
+"kode_group": "08",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "0999",
+"kode_group": "09",
+"nama": "Lainnya"
+},
+{
+"jenis": "temuan",
+"kode": "1099",
+"kode_group": "10",
+"nama": "Lainnya"
+},
+{
+"jenis": "group_sebab",
+"kode": "00",
+"kode_group": null,
+"nama": "PENYEBAB TIDAK/BELUM DIDEFINISIKAN"
+},
+{
+"jenis": "group_sebab",
+"kode": "01",
+"kode_group": null,
+"nama": "KELEMAHAN PENGAWASAN MELEKAT"
+},
+{
+"jenis": "group_sebab",
+"kode": "02",
+"kode_group": null,
+"nama": "KELEMAHAN DALAM KEBIJAKAN/ KEBIJAKSANAAN"
+},
+{
+"jenis": "group_sebab",
+"kode": "03",
+"kode_group": null,
+"nama": "KELEMAHAN DALAM RENCANA"
+},
+{
+"jenis": "group_sebab",
+"kode": "04",
+"kode_group": null,
+"nama": "KELEMAHAN DALAM PROSEDUR"
+},
+{
+"jenis": "group_sebab",
+"kode": "05",
+"kode_group": null,
+"nama": "KELEMAHAN DALAM PENCATATAN DAN PELAPORAN"
+},
+{
+"jenis": "group_sebab",
+"kode": "06",
+"kode_group": null,
+"nama": "KELEMAHAN DALAM PEMBINAAN PERSONIL"
+},
+{
+"jenis": "group_sebab",
+"kode": "07",
+"kode_group": null,
+"nama": "KELEMAHAN DALAM PENGAWASAN INTERN (INTERNAL REVIEW)"
+},
+{
+"jenis": "group_sebab",
+"kode": "08",
+"kode_group": null,
+"nama": "KELEMAHAN PENGAWASAN TERHADAP REKANAN"
+},
+{
+"jenis": "group_sebab",
+"kode": "09",
+"kode_group": null,
+"nama": "PENYEBAB EKSTERN HAMBATAN KELANCARAN PROYEK"
+},
+{
+"jenis": "group_sebab",
+"kode": "10",
+"kode_group": null,
+"nama": "PENYEBAB EKSTERN HAMBATAN KELANCARAN TUGAS POKOK INSTANSI"
+},
+{
+"jenis": "group_sebab",
+"kode": "11",
+"kode_group": null,
+"nama": "PENYEBAB KETIDAKLANCARAN PELAYANAN APARATUR PEMERINTAHAN/ BUMN/BUMD KEPADA MASYARAKAT"
+},
+{
+"jenis": "sebab",
+"kode": "0000",
+"kode_group": "00",
+"nama": "Penyebab lain yang belum didefinisikan (nihil)"
+},
+{
+"jenis": "sebab",
+"kode": "0101",
+"kode_group": "01",
+"nama": "Pembagian wewenang dalam organisasi belum cukup jauh sehingga masih terdapat transaksi atau kegiatan organisasi yang seluruh tahapnya dikuasai oleh satu orang"
+},
+{
+"jenis": "sebab",
+"kode": "0102",
+"kode_group": "01",
+"nama": "Pembagian wewenang dalam organisasi belum cukup jelas sehingga ada kegiatan atau kejadian dalam organisasi yang tidak jelas penanggungjawabnya"
+},
+{
+"jenis": "sebab",
+"kode": "0103",
+"kode_group": "01",
+"nama": "Dalam organisasi tidak ada pembagian wewenang dan tugas"
+},
+{
+"jenis": "sebab",
+"kode": "0104",
+"kode_group": "01",
+"nama": "Kelalaian pejabat yang berwenang"
+},
+{
+"jenis": "sebab",
+"kode": "0105",
+"kode_group": "01",
+"nama": "Kelemahan lain organisasi"
+},
+{
+"jenis": "sebab",
+"kode": "0201",
+"kode_group": "02",
+"nama": "Kebijakan yang berlaku tidak jelas bagi para bawahan"
+},
+{
+"jenis": "sebab",
+"kode": "0202",
+"kode_group": "02",
+"nama": "Kebijakan yang berlaku tidak dapat menjadi pedoman yang pasti bagi para bawahan"
+},
+{
+"jenis": "sebab",
+"kode": "0203",
+"kode_group": "02",
+"nama": "Kebijaksanaan yang berlaku tidak dikomunikasikan secara lisan maupun tertulis"
+},
+{
+"jenis": "sebab",
+"kode": "0204",
+"kode_group": "02",
+"nama": "Tidak ada kebijakan yang digariskan"
+},
+{
+"jenis": "sebab",
+"kode": "0205",
+"kode_group": "02",
+"nama": "Kelemahan lain kebijakan"
+},
+{
+"jenis": "sebab",
+"kode": "0206",
+"kode_group": "02",
+"nama": "Kebijakan tidak sejalan/bertentangan dengan ketentuan yang lebih tinggi"
+},
+{
+"jenis": "sebab",
+"kode": "0301",
+"kode_group": "03",
+"nama": "Rencana kerja yang disusun tidak cukup luas sehingga belum mencakup seluruh kegiatan yang perlu dilaksanakan"
+},
+{
+"jenis": "sebab",
+"kode": "0302",
+"kode_group": "03",
+"nama": "Hubungan kerja di antara kegiatan-kegiatan yang direncanakan tidak jelas dirumuskan sehingga tidak ada koordinasi di antara kegiatan-kegiatan itu"
+},
+{
+"jenis": "sebab",
+"kode": "0303",
+"kode_group": "03",
+"nama": "Sasaran yang akan dicapai tidak cukup jelas dirumuskan"
+},
+{
+"jenis": "sebab",
+"kode": "0304",
+"kode_group": "03",
+"nama": "Sasaran yang akan dicapai tidak cukup dikuantifikasikan"
+},
+{
+"jenis": "sebab",
+"kode": "0305",
+"kode_group": "03",
+"nama": "Tidak dibuat anggaran yang merupakan kuantifikasi moneter rencana kegiatan dan sasaran yang akan dicapai"
+},
+{
+"jenis": "sebab",
+"kode": "0306",
+"kode_group": "03",
+"nama": "Tidak ada rencana kegiatan"
+},
+{
+"jenis": "sebab",
+"kode": "0307",
+"kode_group": "03",
+"nama": "Rencana kegiatan tidak cukup realistis"
+},
+{
+"jenis": "sebab",
+"kode": "0308",
+"kode_group": "03",
+"nama": "Anggaran tidak cukup realistis"
+},
+{
+"jenis": "sebab",
+"kode": "0309",
+"kode_group": "03",
+"nama": "Kelemahan lain perencanaan"
+},
+{
+"jenis": "sebab",
+"kode": "0310",
+"kode_group": "03",
+"nama": "Perencanaan tidak matang"
+},
+{
+"jenis": "sebab",
+"kode": "0401",
+"kode_group": "04",
+"nama": "Prosedur yang ada tidak konsisten dengan kebijaksanaan yang perlu dilaksanakan"
+},
+{
+"jenis": "sebab",
+"kode": "0402",
+"kode_group": "04",
+"nama": "Prosedur yang berlaku disalahtafsirkan oleh pegawai sehingga menyimpang dari tujuannya"
+},
+{
+"jenis": "sebab",
+"kode": "0403",
+"kode_group": "04",
+"nama": "Prosedur yang berlaku tidak dimengerti sehingga tidak dilaksanakan"
+},
+{
+"jenis": "sebab",
+"kode": "0404",
+"kode_group": "04",
+"nama": "Prosedur yang berlaku terlalu mahal dibandingkan dengan sesuatu yang harus dijaga sehingga tidak dilaksanakan"
+},
+{
+"jenis": "sebab",
+"kode": "0405",
+"kode_group": "04",
+"nama": "Prosedur yang berlaku kurang terinci"
+},
+{
+"jenis": "sebab",
+"kode": "0406",
+"kode_group": "04",
+"nama": "Prosedur yang berlaku tidak dapat menjadi pegangan bawahan karena tidak tertulis"
+},
+{
+"jenis": "sebab",
+"kode": "0407",
+"kode_group": "04",
+"nama": "Prosedur yang berlaku tidak dikomunikasikan secara tertulis maupun lisan"
+},
+{
+"jenis": "sebab",
+"kode": "0408",
+"kode_group": "04",
+"nama": "Tidak terdapat prosedur yang diperlukan"
+},
+{
+"jenis": "sebab",
+"kode": "0409",
+"kode_group": "04",
+"nama": "Kelemahan lain prosedur"
+},
+{
+"jenis": "sebab",
+"kode": "0501",
+"kode_group": "05",
+"nama": "Pencatatan tidak diselenggarakan secara cermat sehingga kehilangan keadaannya"
+},
+{
+"jenis": "sebab",
+"kode": "0502",
+"kode_group": "05",
+"nama": "Pencatatan tidak dimutakhirkan sehingga kehilangan peranannya sebagai alat pengawasan/pengendalian"
+},
+{
+"jenis": "sebab",
+"kode": "0503",
+"kode_group": "05",
+"nama": "Pencatatan tidak memenuhi kebutuhan informasi untuk pengambilan keputusan sehari-hari"
+},
+{
+"jenis": "sebab",
+"kode": "0504",
+"kode_group": "05",
+"nama": "Tidak diselenggarakan pencatatan yang perlu"
+},
+{
+"jenis": "sebab",
+"kode": "0505",
+"kode_group": "05",
+"nama": "Pelaporan tidak tepat waktu"
+},
+{
+"jenis": "sebab",
+"kode": "0506",
+"kode_group": "05",
+"nama": "Pelaporan tidak disusun dengan cermat"
+},
+{
+"jenis": "sebab",
+"kode": "0507",
+"kode_group": "05",
+"nama": "Pelaporan tidak disusun memenuhi kebutuhan pimpinan"
+},
+{
+"jenis": "sebab",
+"kode": "0508",
+"kode_group": "05",
+"nama": "Pelaporan disusun dengan biaya mahal"
+},
+{
+"jenis": "sebab",
+"kode": "0509",
+"kode_group": "05",
+"nama": "Pelaporan yang diperlukan tidak ada"
+},
+{
+"jenis": "sebab",
+"kode": "0510",
+"kode_group": "05",
+"nama": "Kelemahan lain pencatatan atau pelaporan"
+},
+{
+"jenis": "sebab",
+"kode": "0601",
+"kode_group": "06",
+"nama": "Pegawai kurang mendapatkan supervisi (pengawasan) yang diperlukan (termasuk tidak dilakukan pemeriksaan kas bendaharawan oleh atasan langsung dan pemeriksaan fisik atas inventaris"
+},
+{
+"jenis": "sebab",
+"kode": "0602",
+"kode_group": "06",
+"nama": "Supervisor tidak menyadari siapa yang harus diawasi dan apa yang harus diawasi"
+},
+{
+"jenis": "sebab",
+"kode": "0603",
+"kode_group": "06",
+"nama": "Penugasan/penempatan pegawai tidak tepat/sesuai dengan latar belakang pendidikan"
+},
+{
+"jenis": "sebab",
+"kode": "0604",
+"kode_group": "06",
+"nama": "Kelemahan lain pembinaan personil"
+},
+{
+"jenis": "sebab",
+"kode": "0701",
+"kode_group": "07",
+"nama": "Tidak ada satuan kerja atau pejabat yang diberi tanggung jawab untuk mengecek jalannya sistem dan prosedur yang telah ditetapkan"
+},
+{
+"jenis": "sebab",
+"kode": "0702",
+"kode_group": "07",
+"nama": "Satuan kerja atau pejabat yang diberi tanggung jawab menguji jalannya sistem dan prosedur tidak berfungsi dengan baik"
+},
+{
+"jenis": "sebab",
+"kode": "0703",
+"kode_group": "07",
+"nama": "Kelemahan lain pengkajian intern"
+},
+{
+"jenis": "sebab",
+"kode": "0801",
+"kode_group": "08",
+"nama": "Kelemahan Pengawasan Pemimpin Proyek"
+},
+{
+"jenis": "sebab",
+"kode": "0802",
+"kode_group": "08",
+"nama": "Kelemahan Pengawasan Pimpinan Satker"
+},
+{
+"jenis": "sebab",
+"kode": "0901",
+"kode_group": "09",
+"nama": "Pekerjaan persiapan proyek dan perumusan proyek kurang mantap (survei dan disain tidak mantap)"
+},
+{
+"jenis": "sebab",
+"kode": "0902",
+"kode_group": "09",
+"nama": "DIP terlambat diterima proyek"
+},
+{
+"jenis": "sebab",
+"kode": "0903",
+"kode_group": "09",
+"nama": "Revisi DIP yang diajukan pemimpin proyek penyelesaiannya menjadi berlarut-larut"
+},
+{
+"jenis": "sebab",
+"kode": "0904",
+"kode_group": "09",
+"nama": "Tanah yang diperlukan proyek penyelesaiannya menjadi berlarut-larut"
+},
+{
+"jenis": "sebab",
+"kode": "0905",
+"kode_group": "09",
+"nama": "Tidak dapat diperoleh tanah yang diperlukan proyek karena dana tidak mencukupi atau tidak tersedia"
+},
+{
+"jenis": "sebab",
+"kode": "0906",
+"kode_group": "09",
+"nama": "Penetapan rekanan menjadi berlarut-larut"
+},
+{
+"jenis": "sebab",
+"kode": "0907",
+"kode_group": "09",
+"nama": "Perijinan atau persetujuan untuk memulai suatu kegiatan proyek menjadi berlarut-larut"
+},
+{
+"jenis": "sebab",
+"kode": "0908",
+"kode_group": "09",
+"nama": "Sarana komunikasi dan atau telekomunikasi tidak mendukung kelancaran proyek"
+},
+{
+"jenis": "sebab",
+"kode": "0909",
+"kode_group": "09",
+"nama": "Rekanan yang ditetapkan tidak mampu menyelesaikan tanggungjawabnya"
+},
+{
+"jenis": "sebab",
+"kode": "0910",
+"kode_group": "09",
+"nama": "Penyebab ekstern hambatan kelancaran proyek lainnya"
+},
+{
+"jenis": "sebab",
+"kode": "0911",
+"kode_group": "09",
+"nama": "Rekanan mempunyai itikad yang kurang baik"
+},
+{
+"jenis": "sebab",
+"kode": "1001",
+"kode_group": "10",
+"nama": "Instansi lain yang terkait kurang responsif"
+},
+{
+"jenis": "sebab",
+"kode": "1002",
+"kode_group": "10",
+"nama": "Sarana komunikasi dan atau telekomunikasi tidak mendukung kelancaran tugas instansi"
+},
+{
+"jenis": "sebab",
+"kode": "1003",
+"kode_group": "10",
+"nama": "Revisi DIK yang diajukan pimpinan instansi penyelesaiannya berlarut-larut"
+},
+{
+"jenis": "sebab",
+"kode": "1004",
+"kode_group": "10",
+"nama": "Rekanan yang telah ditetapkan tidak mampu menyelesaikan tanggungjawabnya"
+},
+{
+"jenis": "sebab",
+"kode": "1005",
+"kode_group": "10",
+"nama": "Perijinan atau persetujuan untuk memulai suatu kegiatan instansi menjadi berlarut-larut"
+},
+{
+"jenis": "sebab",
+"kode": "1006",
+"kode_group": "10",
+"nama": "Penyebab ekstern hambatan kelancaran tupoksi lainnya"
+},
+{
+"jenis": "sebab",
+"kode": "1007",
+"kode_group": "10",
+"nama": "Pencairan dana pinjaman tidak tepat waktu atau tidak sesuai jadwal kebutuhan"
+},
+{
+"jenis": "sebab",
+"kode": "1101",
+"kode_group": "11",
+"nama": "Prosedur yang ditetapkan belum sederhana"
+},
+{
+"jenis": "sebab",
+"kode": "1102",
+"kode_group": "11",
+"nama": "Masyarakat buta terhadap persyaratan yang perlu dipenuhi dan prosedur yang harus ditempuh"
+},
+{
+"jenis": "sebab",
+"kode": "1103",
+"kode_group": "11",
+"nama": "Tidak ada batas waktu maksimum penyelesaian pelayanan"
+},
+{
+"jenis": "sebab",
+"kode": "1104",
+"kode_group": "11",
+"nama": "Prosedur yang ditetapkan cukup banyak titik pertemuan pegawai dengan masyarakat sehingga membuka peluang pungutan liar"
+},
+{
+"jenis": "sebab",
+"kode": "1105",
+"kode_group": "11",
+"nama": "Persyaratan yang ditetapkan berlebihan sehingga menyulitkan pemohonan pelayanan"
+},
+{
+"jenis": "sebab",
+"kode": "1106",
+"kode_group": "11",
+"nama": "Tidak ada koordinasi antar instansi sehingga jelas siapa yang berwenang mengambil keputusan"
+},
+{
+"jenis": "sebab",
+"kode": "1107",
+"kode_group": "11",
+"nama": "Penyebab lain ketidaklancaran pelayanan"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "00",
+"kode_group": null,
+"nama": "REKOMENDASI TIDAK DIDEFINISIKAN"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "01",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT FINANSIAL"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "02",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT DAPAT DINILAI DENGAN UANG"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "03",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT HUKUMAN"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "04",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT KEPUTUSAN ARBITRASE"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "05",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT PENEGAKAN PERATURAN"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "06",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT PENINGKATAN KEHEMATAN"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "07",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT PENINGKATAN EFISIENSI / PRODUKTIVITAS"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "08",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT PENINGKATAN EFEKTIFITAS"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "09",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT PENINGKATAN PENGENDALIAN MANAJEMEN"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "10",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT HUKUMAN DISIPLIN RINGAN"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "11",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT HUKUMAN DISIPLIN SEDANG"
+},
+{
+"jenis": "group_rekomendasi",
+"kode": "12",
+"kode_group": null,
+"nama": "REKOMENDASI BERSIFAT HUKUMAN DISIPLIN BERAT"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0000",
+"kode_group": "00",
+"nama": "Rekomendasi tidak didefinisikan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0101",
+"kode_group": "01",
+"nama": "Penyetoran kembali uang ke Kas negara"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0102",
+"kode_group": "01",
+"nama": "Penyetoran ke Kas Negara sisa beban sementara, Pajak dan non Pajak yang belum disetor atau menirim SPT ke KPP yang di dalamnya melaporakan pula kekurangan yang harus di setor"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0103",
+"kode_group": "01",
+"nama": "Penagihan dari pihak ketiga hak Negara berupa pajak dan non pajak dan penyetorannya ke Kas negara atau menirim SPT ke KPP yang di dalamnya melaporkan pula kekurangan yang harus di setor"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0104",
+"kode_group": "01",
+"nama": "Penyetoran kembali uang ke Kas Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0105",
+"kode_group": "01",
+"nama": "Penyetoran ke Kas Daerah sisa beban sementara, pajak daerah dan non pajak daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0106",
+"kode_group": "01",
+"nama": "Penagihan dari pihak ketiga hak Daerah berupa pajak daerah dan non pajak daerah serta penyetorannya ke Kas Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0107",
+"kode_group": "01",
+"nama": "Penyetoran kembali uang ke Kas BUMN/BUMD"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0108",
+"kode_group": "01",
+"nama": "Penagihan dari pihak ketiga hak BUMN/BUMD dan pelunasannya oleh pihak ketiga"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0109",
+"kode_group": "01",
+"nama": "Pengenaan denda dan penyetoran denda ke Kas Negara/Kas Daerah/Kas BUMN/Kas BUMD"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0110",
+"kode_group": "01",
+"nama": "Tuntutan ganti rugi terhadap pegawai dan penyetoran ganti rugi ke Kas Negara/kas Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0111",
+"kode_group": "01",
+"nama": "Tuntutan ganti rugi terhadap pihak ketiga dan penyetoran ganti rugi ke Kas Negara/ Kas Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0112",
+"kode_group": "01",
+"nama": "Tuntutan ganti rugi terhadap pegawai BUMN/BUMD dan penyetoran ganti rugi ke Kas BUMN/BUMD"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0113",
+"kode_group": "01",
+"nama": "Tuntutan perbendaharaan terhadap Bendahatawan pusat dan penyetoran ganti rugi ke Kas Negara"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0114",
+"kode_group": "01",
+"nama": "Tuntutan perbendaharaan terhadap Bendaharawan Daerah dan penyetoran ganti rugi ke Kas Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0115",
+"kode_group": "01",
+"nama": "Tuntutan perbendaharaan terhadap pegawai penyimpan uang atau barang BUMN/BUMD dan penyetoran ganti rugi ke Kas BUMN/BUMD"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0116",
+"kode_group": "01",
+"nama": "Penagihan dari pegawai hak/tagihan negara dan penyetorannya ke Kas Negara/ Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0117",
+"kode_group": "01",
+"nama": "Penagihan dari pegawai BUMN/BUMD hak atau tagihan BUMN/ BUMD dan penyetorannya ke Kas BUMN/BUMD"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0118",
+"kode_group": "01",
+"nama": "Pembatalan pengeluaran yang tidak sesuai dengan mata anggarannya dan penyetorannya ke Kas Negara/Kas Daerah"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0119",
+"kode_group": "01",
+"nama": "Pembatalan pengeluaran yang melampaui anggarannya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0120",
+"kode_group": "01",
+"nama": "Rekomendasi lainnya yang bersifat finansial"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0121",
+"kode_group": "01",
+"nama": "Pengembalian Pungli kepada masyarakat"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0201",
+"kode_group": "02",
+"nama": "Pengembalian barang milik Negara"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0202",
+"kode_group": "02",
+"nama": "Penyerahan barang/jasa sebagai realisasi kontrak kepada Negara"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0203",
+"kode_group": "02",
+"nama": "Rekomendasi lain bersifat dapat dinilai dengan uang"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0204",
+"kode_group": "02",
+"nama": "Pengembalian bantuan yang dipotong kepada masyarakat"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0301",
+"kode_group": "03",
+"nama": "Pelaksanaan hukuman disiplin berdasarkan PP 30 th 1980"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0302",
+"kode_group": "03",
+"nama": "Pelaksanaan hukuman disiplin berdasarkan peraturan lainnya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0303",
+"kode_group": "03",
+"nama": "Penyerahan kasus tindak pidana korupsi kepada Kejaksaan Agung"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0304",
+"kode_group": "03",
+"nama": "Penyerahan kasus tindak pidana umum kepada Kepolisian Negara"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0305",
+"kode_group": "03",
+"nama": "Penyerahan kasus perdata kepada BUPLN"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0306",
+"kode_group": "03",
+"nama": "Rekomendasi lain bersifat hukuman"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0401",
+"kode_group": "04",
+"nama": "Penyerahan kasus perdata kepada Pengadilan Negeri"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0402",
+"kode_group": "04",
+"nama": "Penyerahan kasus perselisihan kepada badan arbitrase"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0403",
+"kode_group": "04",
+"nama": "Rekomendasi lain bersifat perlunya ada arbitrase"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0501",
+"kode_group": "05",
+"nama": "Memperbaiki segera kegiatan atau keadaan agar sesuai dengan peraturan perundang-undangan yang belaku"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0502",
+"kode_group": "05",
+"nama": "Memperbaiki segara kegiatan atau keadaan agar sesuai dengan prosedur atau tata kerja yang berlaku bagi organisasi termasuk prinsip akuntansi yang lazim"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0503",
+"kode_group": "05",
+"nama": "Membatalkan keputusan atau pelaksanaan kegiatan yang tidak sesuai dengan pe raturan perundang-undangan atau prosedur dan tata kerja yang berlaku"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0504",
+"kode_group": "05",
+"nama": "Rekomendasi lain bersifat penegakan aturan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0601",
+"kode_group": "06",
+"nama": "Penyempumaan organisasi pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0602",
+"kode_group": "06",
+"nama": "Penyempumaan kebijakan pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0603",
+"kode_group": "06",
+"nama": "Penyempurnaan prosedur pelaksanaan pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0604",
+"kode_group": "06",
+"nama": "Penyempumaan rencana yang sudah ada mengenai pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0605",
+"kode_group": "06",
+"nama": "Penyempumaan sistem pencatatan dan pelaporan dalam rangka meningkatkan efektivitas permantauan atasan untuk pengarahan & tindakan korektif terhadap penyimpangan yang terjadi dalam proses pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0606",
+"kode_group": "06",
+"nama": "Peningkatan mutu personil dan personil kunci yang terlibat dalam proses pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0607",
+"kode_group": "06",
+"nama": "Penyempumaan proses perumusan kebijakan pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0608",
+"kode_group": "06",
+"nama": "Penyempurnaan proses perencanaan pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0609",
+"kode_group": "06",
+"nama": "Penyempurnaan sistem informasi pasar dalam rangka pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0610",
+"kode_group": "06",
+"nama": "Penyempurnaan proses pengarahan dan tindakan korektif oleh atasan terhadap penyimpangan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0611",
+"kode_group": "06",
+"nama": "Penyempumaan sistem evaluasi atasan terhadap proses dan hasil pengadaan sumber daya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0612",
+"kode_group": "06",
+"nama": "Penyempurnaan lain dalam proses pengadaan sumber daya agar tercapai tujuan mendapatkan sumber daya dengan biaya yang terendah tanpa menurunkan pemenuhan fungsi & kualifikasi minimum sumber daya dalam kedudukannya sebagai masukan untuk mencapai tuju"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0701",
+"kode_group": "07",
+"nama": "Penyempumaan standar masukan/ keluaran atau masukan/keluaran bagian/ bidang tertentu (pusat-pusat tanggungjawab)"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0702",
+"kode_group": "07",
+"nama": "Penyempumaan pemantauan atasan terhadap penyimpangan pusat tanggungj awab dari standar dalam rangka mening katkan efektivitas pengarahan atasan dan atau tindakan korektif atasan teradap penyimpangan dari standar tersebut"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0703",
+"kode_group": "07",
+"nama": "Penyempumaan unsur-unsur sistem pengendalian (sarana waskat) dalam rangka meningkatkan efektivitas pengendalian terhadap efisiensi penggunaan sumber daya dan tata kerja (dibandingkan tata kerja lainnya yang mungkin) dalam mencapai tujuan organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0704",
+"kode_group": "07",
+"nama": "Penyempurnaan pelaksanaan pemantauan oleh atasan terhadap penggunaan sumber daya dan tata kerja untuk menghasilkan keluaran dalam rangka meningkatkan efektivitas pengarahan dan atau tindakan korektif atasan terhadap keadaan yang menurunkan efisiens"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0705",
+"kode_group": "07",
+"nama": "Penyempurnaan sistem evaluasi atasan terhadap efisiensi operasional pusat - pusat tanggungjawab dan efisiensi tata kerja organisasi (dibandingkan tata kerja lain yang mungkin) dalam mencapai tujuan organisasi secara efektif"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0706",
+"kode_group": "07",
+"nama": "Penyempurnaan lain penggunaan sumber daya, hasil yang diperoleh dan tata kerja dalam rangka meningkatkan efisiensi penggunaan sumber daya dan tata kerja menghasilkan keluaran dalam mencapai tujuan antara atau tujuan organisasi secara efektif"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0801",
+"kode_group": "08",
+"nama": "Penyempurnaan kuantifikasi keluaran organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0802",
+"kode_group": "08",
+"nama": "Penyempumaan kuantifikasi tujuan yang ingin dicapai organisasi atau indikator keberhasilan organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0803",
+"kode_group": "08",
+"nama": "Penyempumaan kejelasan tujuan organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0804",
+"kode_group": "08",
+"nama": "Penyempurnaan strategi manajemen (kebijakan dan program pokok) dalam mencapai tujuan organisasi secara efisien dan efektif"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0805",
+"kode_group": "08",
+"nama": "Penyempurnaan alokasi sumber daya untuk meningkatkan efisiensi dan efektivitas pencapaian tujuan organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0806",
+"kode_group": "08",
+"nama": "Penyempurnaan unsur-unsur sistem pengendalian (sarana waskat) dalam rangka meningkatkan pengendalian atasan terhadap efisensi dan efektivitas pencapaian tujuan organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0807",
+"kode_group": "08",
+"nama": "Penyempurnaan pelaksanaan pemantauan oleh atasan terhadap penggunaan sumber daya dan kegiatan mencapai tujuan dalam rangka meningkatkan efektivitas pengarahan dan atau tindakan korektif atasan terhadap penyimpangan yang akan menghambat/menghalangi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0808",
+"kode_group": "08",
+"nama": "Penyempurnaan sistem penilaian atasan terhadap penggunaan sumber daya dan tata kerja mencapai tujuan & terhadap tujuan yang dapat dicapai untuk bahan masukan bagi pelaksana siklus pengelolaan berikutnya"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0809",
+"kode_group": "08",
+"nama": "Penyempurnaan lain terhadap alokasi sumber daya, susunan sumber daya dan kegiatan organisasi dalam rangka pencapaian tujuan organisasi secara efisien dan efektif"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0810",
+"kode_group": "08",
+"nama": "Penyederhanaan kerja (work simplication) di bidang pelayanan perijinan dan rekomendasi instansi untuk penerbitan perijinan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0811",
+"kode_group": "08",
+"nama": "Penyederhanan kerja (work simplication) di bidang pelaksanaan pelayanan sebagai tugas pokok instansi/BUMN/BUMD"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0812",
+"kode_group": "08",
+"nama": "Penyempurnaan penyebarluasan tatacara dan persyaratan perijinan/ pelayanan kepada masyarakat"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0813",
+"kode_group": "08",
+"nama": "Penyempurnaan koordinasi antar instansi dalam pelaksanaan pelayanan kepada masyarakat"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0901",
+"kode_group": "09",
+"nama": "Penyempurnaan Perencanaan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0902",
+"kode_group": "09",
+"nama": "Penyempurnaan Organisasi"
+},
+{
+"jenis": "rekomendasi",
+"kode": "0903",
+"kode_group": "09",
+"nama": "Penyempurnaan Prosedur/Juklak"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1001",
+"kode_group": "10",
+"nama": "Hukuman teguran Lisan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1002",
+"kode_group": "10",
+"nama": "Hukuman teguran tertulis"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1003",
+"kode_group": "10",
+"nama": "Pernyataan tidak puas secara tertulis"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1101",
+"kode_group": "11",
+"nama": "Penundaan gaji berkala untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1102",
+"kode_group": "11",
+"nama": "Penurunan gaji sebesar satu kali kenaikan gaji berkala untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1103",
+"kode_group": "11",
+"nama": "Penundaan kenaikan pangkat untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1201",
+"kode_group": "12",
+"nama": "Penurunan pangkat pada pangkat yang setingkat lebih rendah untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1202",
+"kode_group": "12",
+"nama": "Pembebasan Jabatan"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1203",
+"kode_group": "12",
+"nama": "Pemberhentian dengan hormat tidak atas permintaan sendiri sebagai PNS"
+},
+{
+"jenis": "rekomendasi",
+"kode": "1204",
+"kode_group": "12",
+"nama": "Pemberhentian tidak dengan hormat sebagai PNS"
+},
+{
+"jenis": "group_tl",
+"kode": "00",
+"kode_group": null,
+"nama": "TEMUAN PEMERIKSAAN YANG TIDAK DAPAT DITINDAKLANJUTI (TPTD)"
+},
+{
+"jenis": "group_tl",
+"kode": "01",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA PEMASUKAN/ PENYETORAN"
+},
+{
+"jenis": "group_tl",
+"kode": "02",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA PENYERAHAN BARANG/JASA"
+},
+{
+"jenis": "group_tl",
+"kode": "03",
+"kode_group": null,
+"nama": "PELAKSANAAN TL SEDANG DALAM PROSES"
+},
+{
+"jenis": "group_tl",
+"kode": "04",
+"kode_group": null,
+"nama": "PENYERAHAN KASUS KE BADAN HUKUM / INSTANSI YANG BERWENANG"
+},
+{
+"jenis": "group_tl",
+"kode": "05",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA TINDAKAN ADMINISTRATIF ATAU HUKUMAN DISIPLIN PEGAWAI"
+},
+{
+"jenis": "group_tl",
+"kode": "06",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA PEMERIKSAAN KHUSUS"
+},
+{
+"jenis": "group_tl",
+"kode": "07",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA PENYEMPURNAAN KELEMBAGAAN"
+},
+{
+"jenis": "group_tl",
+"kode": "08",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA PENYEMPURNAAN KETATALAKSANAAN"
+},
+{
+"jenis": "group_tl",
+"kode": "09",
+"kode_group": null,
+"nama": "PELAKSANAAN TL BERUPA PENYEMPURNAAN KEPEGAWAIAN"
+},
+{
+"jenis": "group_tl",
+"kode": "10",
+"kode_group": null,
+"nama": "PEMANTAUAN TINDAK LANJUT DISERAHKAN KEPADA PERWAKILAN BPKP LAINNYA"
+},
+{
+"jenis": "group_tl",
+"kode": "11",
+"kode_group": null,
+"nama": "KOREKSI TL"
+},
+{
+"jenis": "tl",
+"kode": "0001",
+"kode_group": "00",
+"nama": "Temuan pemeriksaan yang rekomendasinya cacat"
+},
+{
+"jenis": "tl",
+"kode": "0002",
+"kode_group": "00",
+"nama": "Temuan pemeriksaan yang tidak memadai"
+},
+{
+"jenis": "tl",
+"kode": "0003",
+"kode_group": "00",
+"nama": "Temuan pemeriksaan lainnya yang tidak dapat ditindaklanjuti"
+},
+{
+"jenis": "tl",
+"kode": "0101",
+"kode_group": "01",
+"nama": "Penyetoran uang untuk menyelesaikan tuntutan ganti rugi/tuntutan perbendaharaan yang telah ditetapkan"
+},
+{
+"jenis": "tl",
+"kode": "0102",
+"kode_group": "01",
+"nama": "Penyetoran uang untuk melunasi kewajiban membayar pajak dan non pajak"
+},
+{
+"jenis": "tl",
+"kode": "0103",
+"kode_group": "01",
+"nama": "Penyetoran uang untuk menyelesaikan denda yang ditetapkan"
+},
+{
+"jenis": "tl",
+"kode": "0104",
+"kode_group": "01",
+"nama": "Penyetoran uang untuk menyelesaikan tagihan lainnya"
+},
+{
+"jenis": "tl",
+"kode": "0105",
+"kode_group": "01",
+"nama": "Pemasukan/penyetoran uang lainnya"
+},
+{
+"jenis": "tl",
+"kode": "0106",
+"kode_group": "01",
+"nama": "Penyetoran lebih kecil dari yang seharusnya, karena kekeliruan perhitungan dalam rekomendasi"
+},
+{
+"jenis": "tl",
+"kode": "0107",
+"kode_group": "01",
+"nama": "Penyetoran uang atas rekomendasi non finansial (rekomedasi administratif atau rekomendasi yang bersifat dapat dinilai dengan uang)"
+},
+{
+"jenis": "tl",
+"kode": "0201",
+"kode_group": "02",
+"nama": "Penyerahan barang/jasa dan penyelesaian pekerjaan yang kurang menurut kontrak"
+},
+{
+"jenis": "tl",
+"kode": "0202",
+"kode_group": "02",
+"nama": "Penyerahan kembali barang yang lebih diterima"
+},
+{
+"jenis": "tl",
+"kode": "0203",
+"kode_group": "02",
+"nama": "Penyerahan barang/jasa lainnya"
+},
+{
+"jenis": "tl",
+"kode": "0204",
+"kode_group": "02",
+"nama": "Perbaikan atas pekerjaan fisik yang kurang sempurna"
+},
+{
+"jenis": "tl",
+"kode": "0301",
+"kode_group": "03",
+"nama": "Keputusan tuntutan ganti rugi/tuntutan perbendaharaan"
+},
+{
+"jenis": "tl",
+"kode": "0302",
+"kode_group": "03",
+"nama": "Keputusan denda"
+},
+{
+"jenis": "tl",
+"kode": "0303",
+"kode_group": "03",
+"nama": "Pembayaran sebagian tuntutan ganti rugi/tuntutan perbendaharaan"
+},
+{
+"jenis": "tl",
+"kode": "0304",
+"kode_group": "03",
+"nama": "Pembayaran sebagian denda"
+},
+{
+"jenis": "tl",
+"kode": "0305",
+"kode_group": "03",
+"nama": "Pelaksanaan sebagian tindak lanjut lainnya berupa penyetoran sebagian uang, barang atau jasa yang ditetapkan"
+},
+{
+"jenis": "tl",
+"kode": "0306",
+"kode_group": "03",
+"nama": "Pelaksanaan tindak lanjut penyempumaan kelembagaan yang masih memerlukan persetujuan MENPAN"
+},
+{
+"jenis": "tl",
+"kode": "0307",
+"kode_group": "03",
+"nama": "Pelaksanaan tindak lanjut penyempumaan ketatalaksanaan dan kepegawaian yang tahap-tahapnya belum selesai"
+},
+{
+"jenis": "tl",
+"kode": "0501",
+"kode_group": "05",
+"nama": "Hukuman disiplin ringan berdasarkan PP 30 th. 1980"
+},
+{
+"jenis": "tl",
+"kode": "0502",
+"kode_group": "05",
+"nama": "Hukuman teguran lisan"
+},
+{
+"jenis": "tl",
+"kode": "0503",
+"kode_group": "05",
+"nama": "Hukuman teguran tertulis"
+},
+{
+"jenis": "tl",
+"kode": "0504",
+"kode_group": "05",
+"nama": "Hukuman teguran tidak puas secara tertulis"
+},
+{
+"jenis": "tl",
+"kode": "0505",
+"kode_group": "05",
+"nama": "Hukuman disiplin sedang berdasarkan PP 30 th.1980"
+},
+{
+"jenis": "tl",
+"kode": "0506",
+"kode_group": "05",
+"nama": "Penundaan gaji berkala untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "tl",
+"kode": "0507",
+"kode_group": "05",
+"nama": "Penurunan gaji sebesar satu kali kenaikan gaji berkala untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "tl",
+"kode": "0508",
+"kode_group": "05",
+"nama": "Penundaan kenaikan pangkat untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "tl",
+"kode": "0509",
+"kode_group": "05",
+"nama": "Hukuman disiplin berat berdasarkan PP 30 th.1980"
+},
+{
+"jenis": "tl",
+"kode": "0510",
+"kode_group": "05",
+"nama": "Penurunan pangkat pada pangkat yang setingkat lebih rendah untuk paling lama (1) satu tahun"
+},
+{
+"jenis": "tl",
+"kode": "0511",
+"kode_group": "05",
+"nama": "Pembebasan Jabatan"
+},
+{
+"jenis": "tl",
+"kode": "0512",
+"kode_group": "05",
+"nama": "Pemberhentian dengan hormat tidak atas permintaan sendiri sebagai PNS"
+},
+{
+"jenis": "tl",
+"kode": "0513",
+"kode_group": "05",
+"nama": "Pemberhentian tidak dengan hormat sebagai PNS"
+},
+{
+"jenis": "tl",
+"kode": "0599",
+"kode_group": "05",
+"nama": "Hukuman lainnya"
+},
+{
+"jenis": "tl",
+"kode": "0601",
+"kode_group": "06",
+"nama": "Pelaksanaan tindak lanjut yang mengangkat permasalahan menjadi Pemeriksaan Khusus"
+},
+{
+"jenis": "tl",
+"kode": "0701",
+"kode_group": "07",
+"nama": "Penyempurnaan pokok-pokok organisasi (struktur, tugas dan fungsi)"
+},
+{
+"jenis": "tl",
+"kode": "0702",
+"kode_group": "07",
+"nama": "Penyempurnaan hubungan organisasi dengan organisasi lain berupa penyempurnaan hubungan konsultatif."
+},
+{
+"jenis": "tl",
+"kode": "0703",
+"kode_group": "07",
+"nama": "Penyempumaan hubungan organisasi dengan organisasi lain berupa desentralisasi, dekonsentrasi atau tugas pembantuan"
+},
+{
+"jenis": "tl",
+"kode": "0704",
+"kode_group": "07",
+"nama": "Penyempurnaan lain pokok-pokok organisasi atau hubungan organisasi dengan organisasi lain"
+},
+{
+"jenis": "tl",
+"kode": "0801",
+"kode_group": "08",
+"nama": "Penyempurnaan unsur-unsur pengendalian (sarana waskat) untuk meningkatkan pengendalian kehematan, efisiensi, efektivitas dan ketaatan"
+},
+{
+"jenis": "tl",
+"kode": "0802",
+"kode_group": "08",
+"nama": "Penyempumaan tatalaksana berupa penyederhanaan prosedur pelayanan aparatur pemerintah/BUMN/BUMD kepada masyarakat"
+},
+{
+"jenis": "tl",
+"kode": "0803",
+"kode_group": "08",
+"nama": "Penyempurnaan tatalaksana berupa penyederhanaan tata kerja untuk meningkatkan efisiensi kerja."
+},
+{
+"jenis": "tl",
+"kode": "0804",
+"kode_group": "08",
+"nama": "Penyempurnaan lain tatalaksana"
+},
+{
+"jenis": "tl",
+"kode": "0901",
+"kode_group": "09",
+"nama": "Penyempumaan penetapan formasi pegawai dan perencanaan pegawai pada umumnya"
+},
+{
+"jenis": "tl",
+"kode": "0902",
+"kode_group": "09",
+"nama": "Penyempurnaan persyaratan penerimaan pegawai"
+},
+{
+"jenis": "tl",
+"kode": "0903",
+"kode_group": "09",
+"nama": "Penyempumaan seleksi pegawai dan cara pengadaan pegawai pada umumnya"
+},
+{
+"jenis": "tl",
+"kode": "0904",
+"kode_group": "09",
+"nama": "Penyempumaan pembinaan karir pegawai (penempatan pertama, tour of duty, tour of area, kenaikan pangkat, penghargaan eselonisasi, jabatan fungsional, pengang"
+},
+{
+"jenis": "tl",
+"kode": "0905",
+"kode_group": "09",
+"nama": "Penyempurnaan kesejahteraan pegawai (pelayanan kesehatan, pelayanan hak pegawai, pensiun)"
+},
+{
+"jenis": "tl",
+"kode": "0906",
+"kode_group": "09",
+"nama": "Penyempurnaan sistem informasi kepegawaian"
+},
+{
+"jenis": "tl",
+"kode": "0907",
+"kode_group": "09",
+"nama": "Penyempumaan lain kepegawaian"
+},
+{
+"jenis": "tl",
+"kode": "1001",
+"kode_group": "10",
+"nama": "Pemantauan tindak lanjut diserahkan kepada Perwakilan BPKP lainnya"
+},
+{
+"jenis": "tl",
+"kode": "1002",
+"kode_group": "10",
+"nama": "Pemantauan tindak lanjut diserahkan kepada BPKP Pusat"
+},
+{
+"jenis": "tl",
+"kode": "1101",
+"kode_group": "11",
+"nama": "Koreksi Tindak Lanjut"
+},
+{
+"jenis": "tl",
+"kode": "0401",
+"kode_group": "04",
+"nama": "Keputusan pengadilan pidana korupsi"
+},
+{
+"jenis": "tl",
+"kode": "0402",
+"kode_group": "04",
+"nama": "Keputusan pengadilan pidana umum"
+},
+{
+"jenis": "tl",
+"kode": "0403",
+"kode_group": "04",
+"nama": "Keputusan pengadilan perdata"
+},
+{
+"jenis": "tl",
+"kode": "0404",
+"kode_group": "04",
+"nama": "Keputusan badan arbitrase"
+},
+{
+"jenis": "tl",
+"kode": "0405",
+"kode_group": "04",
+"nama": "Penyerahan kasus kepada badan arbitrase"
+},
+{
+"jenis": "tl",
+"kode": "0406",
+"kode_group": "04",
+"nama": "Penyerahan kasus tindak pidana korupsi kepada Kejaksaan Agung"
+},
+{
+"jenis": "tl",
+"kode": "0407",
+"kode_group": "04",
+"nama": "Penyerahan kasus tindak pidana penggelapan kepada Kepolisian"
+},
+{
+"jenis": "tl",
+"kode": "0408",
+"kode_group": "04",
+"nama": "Penyerahan kasus tindak pidana pemalsuan dokumen kepada Kepolisian"
+},
+{
+"jenis": "tl",
+"kode": "0409",
+"kode_group": "04",
+"nama": "Penyerahan kasus tindak pidana umum lainnya kepada Kepolisian"
+},
+{
+"jenis": "tl",
+"kode": "0410",
+"kode_group": "04",
+"nama": "Penyerahan kasus tindak perdata kepada Pengadilan Negeri"
+},
+{
+"jenis": "tl",
+"kode": "0411",
+"kode_group": "04",
+"nama": "Pelaksanaan tindaklanjut belum final lainnya"
+}
+]

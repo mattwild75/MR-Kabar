@@ -4,7 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\Lhp;
 use App\Models\User;
+use Database\Seeders\LhpRefKodeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -181,6 +183,8 @@ class LhpTest extends TestCase
     public function test_simpan_bidang_terstruktur_dan_label_kode(): void
     {
         $u = $this->adminBaru();
+        $this->seed(LhpRefKodeSeeder::class);
+        Cache::flush(); // buang cache kode yang mungkin kosong dari uji lain
 
         $this->actingAs($u)->post(self::BASE, [
             'nomor_lhp' => '700/55/LHP/2026',
@@ -220,9 +224,11 @@ class LhpTest extends TestCase
 
         // Halaman baca memetakan kode group ke label baku.
         $this->actingAs($u)->get(self::BASE."/{$lhp->id}")->assertInertia(fn ($page) => $page
-            ->where('lhp.jenis_label', 'Audit Operasional')
-            ->where('lhp.temuan.0.group_label', 'Kelemahan Administrasi (Tata Usaha/Akuntansi)')
-            ->where('lhp.temuan.0.sebab.0.group_label', 'Kelemahan dalam Prosedur'));
+            ->where('lhp.jenis_label', 'AUDIT OPERASIONAL')
+            ->where('lhp.temuan.0.group_label', 'KELEMAHAN ADMINSTRASI (KELEMAHAN TATA USAHA/AKUNTANSI)')
+            ->where('lhp.temuan.0.kode_label', 'Kelemahan administrasi keuangan')
+            ->where('lhp.temuan.0.sebab.0.group_label', 'KELEMAHAN DALAM PROSEDUR')
+            ->where('lhp.temuan.0.sebab.0.rekomendasi.0.kode_label', 'Hukuman teguran tertulis'));
     }
 
     public function test_hapus_lhp_soft_delete(): void
