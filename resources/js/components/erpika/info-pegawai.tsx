@@ -161,6 +161,14 @@ export default function InfoPegawai({ employeeId, nama }: { employeeId: number |
     const [data, setData] = useState<InfoPegawaiData | null>(null);
     const [galat, setGalat] = useState<string | null>(null);
 
+    // Ganti pegawai di dropdown → buang info yang sudah dimuat, supaya klik
+    // berikutnya memuat orang yang baru dipilih (dulu info orang lama menempel
+    // sampai halaman dimuat ulang).
+    useEffect(() => {
+        setData(null);
+        setGalat(null);
+    }, [employeeId]);
+
     useEffect(() => {
         if (!buka || !employeeId || data) return;
         fetch(`/erpika/pegawai/${employeeId}/ringkasan`, { headers: { Accept: 'application/json' } })

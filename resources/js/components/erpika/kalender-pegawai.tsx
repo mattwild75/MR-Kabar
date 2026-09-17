@@ -47,6 +47,13 @@ export default function KalenderPegawai({ employeeId, nama }: { employeeId: numb
     const [data, setData] = useState<Data | null>(null);
     const [galat, setGalat] = useState<string | null>(null);
 
+    // Pegawai di dropdown berganti → kalender orang lama dibuang (kasus yang
+    // sama dengan info-pegawai.tsx).
+    useEffect(() => {
+        setData(null);
+        setGalat(null);
+    }, [employeeId]);
+
     useEffect(() => {
         if (!buka || !employeeId || data) return;
         fetch(`/erpika/pegawai/${employeeId}/kalender`, { headers: { Accept: 'application/json' } })
