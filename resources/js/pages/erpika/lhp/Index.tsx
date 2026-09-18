@@ -120,6 +120,22 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                             className="pl-9"
                         />
                     </div>
+                    <Button type="button" onClick={() => terapkan({ cari })}>
+                        <Search className="h-4 w-4" />
+                        Cari
+                    </Button>
+                    {filters.cari && (
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            onClick={() => {
+                                setCari('');
+                                terapkan({ cari: '' });
+                            }}
+                        >
+                            Hapus
+                        </Button>
+                    )}
                     <Select
                         value={filters.tahun ? String(filters.tahun) : 'semua'}
                         onValueChange={(v) => terapkan({ tahun: v === 'semua' ? null : v })}
