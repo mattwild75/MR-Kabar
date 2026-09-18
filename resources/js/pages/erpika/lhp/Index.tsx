@@ -12,7 +12,7 @@ import { rupiah, STATUS_LHP, statusKelas, statusLabel, tanggalSingkat } from './
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'ERPIKA', href: '#' },
-    { title: 'Laporan Penugasan', href: '#' },
+    { title: 'ANEVA', href: '#' },
     { title: 'Database LHP', href: '/erpika/laporan-penugasan/database-lhp' },
 ];
 

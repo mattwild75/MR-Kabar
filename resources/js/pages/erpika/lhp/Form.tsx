@@ -120,7 +120,7 @@ export default function LhpFormPage({ lhp, statusPilihan, jabatanPilihan, kodeRe
 
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'ERPIKA', href: '#' },
-        { title: 'Laporan Penugasan', href: '#' },
+        { title: 'ANEVA', href: '#' },
         { title: 'Database LHP', href: BASE },
         { title: lhp ? `Sunting ${lhp.nomor_lhp}` : 'Tambah LHP', href: '#' },
     ];

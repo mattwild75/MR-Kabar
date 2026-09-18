@@ -1088,32 +1088,29 @@ class MenuSeeder extends Seeder
         // baris RPP Perencanaan (12 September 2026).
         Menu::where('route', '/rpp-cetak')->delete();
 
-        // Rantai ERPIKA: Perencanaan (1) -> AREP/pelaksanaan (2) -> Laporan Penugasan (3)
-        // -> RPP Analisis dan Evaluasi (4); Pegawai (5) dipakai semuanya.
+        // Rantai ERPIKA: Perencanaan (1) -> AREP/pelaksanaan (2) -> ANEVA (3);
+        // Pegawai (5) dipakai semuanya.
         Menu::updateOrCreate(
             ['route' => '/erpika/arep'],
             ['title' => 'AREP', 'parent_id' => $erpika->id, 'icon' => 'ClipboardCheck', 'order' => 2, 'permission_name' => 'erpika-view']
         );
-        // Laporan Penugasan kini kelompok (dulu halaman kosong); anak pertamanya
-        // Database LHP — manajemen Laporan Hasil Pemeriksaan pindahan SimHPPemda.
-        $erpikaLaporan = Menu::updateOrCreate(
-            ['title' => 'Laporan Penugasan', 'parent_id' => $erpika->id],
-            ['icon' => 'FileCheck', 'route' => '#', 'order' => 3, 'permission_name' => 'erpika-view']
-        );
-        Menu::where('route', '/erpika/laporan-penugasan')->where('id', '!=', $erpikaLaporan->id)->delete();
-        Menu::updateOrCreate(
-            ['route' => '/erpika/laporan-penugasan/database-lhp'],
-            ['title' => 'Database LHP', 'parent_id' => $erpikaLaporan->id, 'icon' => 'FolderSearch', 'order' => 1, 'permission_name' => 'erpika-view']
-        );
-        // ANEVA (Analisis dan Evaluasi) = kelompok; RPP Aneva anak pertamanya.
+        // ANEVA (Analisis dan Evaluasi) = kelompok; anaknya RPP Aneva dan Database LHP.
         $erpikaAneva = Menu::updateOrCreate(
             ['title' => 'ANEVA', 'parent_id' => $erpika->id],
-            ['icon' => 'BarChart3', 'route' => '#', 'order' => 4, 'permission_name' => 'erpika-view']
+            ['icon' => 'BarChart3', 'route' => '#', 'order' => 3, 'permission_name' => 'erpika-view']
         );
         Menu::updateOrCreate(
             ['route' => '/erpika/aneva'],
             ['title' => 'RPP Aneva', 'parent_id' => $erpikaAneva->id, 'icon' => 'LineChart', 'order' => 1, 'permission_name' => 'erpika-view']
         );
+        // Database LHP — manajemen Laporan Hasil Pemeriksaan pindahan SimHPPemda,
+        // kini di bawah ANEVA (menu "Laporan Penugasan" dibuang). Rute tetap.
+        Menu::updateOrCreate(
+            ['route' => '/erpika/laporan-penugasan/database-lhp'],
+            ['title' => 'Database LHP', 'parent_id' => $erpikaAneva->id, 'icon' => 'FolderSearch', 'order' => 2, 'permission_name' => 'erpika-view']
+        );
+        // Buang menu lama "Laporan Penugasan" (kelompok maupun halaman kosongnya).
+        Menu::where('route', '/erpika/laporan-penugasan')->orWhere(fn ($q) => $q->where('title', 'Laporan Penugasan')->where('parent_id', $erpika->id))->delete();
 
         // Pegawai: saudara Perencanaan, bukan anaknya — dipakai seluruh ERPIKA.
         Menu::updateOrCreate(

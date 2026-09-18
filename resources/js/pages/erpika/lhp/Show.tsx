@@ -109,7 +109,7 @@ function kodeTeks(kode: string | null, label: string | null): string | null {
 export default function LhpShow({ lhp }: { lhp: Lhp }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'ERPIKA', href: '#' },
-        { title: 'Laporan Penugasan', href: '#' },
+        { title: 'ANEVA', href: '#' },
         { title: 'Database LHP', href: BASE },
         { title: lhp.nomor_lhp, href: `${BASE}/${lhp.id}` },
     ];
