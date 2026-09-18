@@ -61,13 +61,29 @@ interface Lhp {
     temuan: Temuan[];
 }
 
-/** "Kode: 08 Kelemahan Administrasi · 0810 Kelemahan administrasi keuangan". */
+/**
+ * Kode di ATAS uraian, grup dan turunannya di baris terpisah:
+ *   08 — Kelemahan Administrasi …
+ *   0810 — Kelemahan administrasi keuangan
+ */
 function KodeKet({ d }: { d: Kode }) {
-    const bag: string[] = [];
-    if (d.kode_group) bag.push(`${d.kode_group}${d.group_label ? ' ' + d.group_label : ''}`);
-    if (d.kode) bag.push(`${d.kode}${d.kode_label ? ' ' + d.kode_label : ''}`);
-    if (bag.length === 0) return null;
-    return <div className="kode">Kode: {bag.join(' · ')}</div>;
+    if (!d.kode_group && !d.kode) return null;
+    return (
+        <div className="kode">
+            {d.kode_group && (
+                <div>
+                    {d.kode_group}
+                    {d.group_label ? ` — ${d.group_label}` : ''}
+                </div>
+            )}
+            {d.kode && (
+                <div>
+                    {d.kode}
+                    {d.kode_label ? ` — ${d.kode_label}` : ''}
+                </div>
+            )}
+        </div>
+    );
 }
 
 /**
@@ -111,7 +127,7 @@ export default function CetakMatriks({ lhp }: { lhp: Lhp }) {
                 .mtx tr { page-break-inside: avoid; }
                 .mtx .ident td { border:none; padding:1px 4px; }
                 .mtx .ident td.k { font-weight:700; width:16%; }
-                .mtx .kode { font-size:7pt; font-style: italic; color:#333; margin-top:2px; }
+                .mtx .kode { font-size:7pt; font-weight:700; color:#111; margin-bottom:3px; }
                 .mtx .nilai { font-size:7.5pt; font-weight:700; margin-top:2px; }
                 .mtx .memo { white-space: pre-line; }
                 .mtx .no { text-align:center; }
@@ -210,26 +226,26 @@ export default function CetakMatriks({ lhp }: { lhp: Lhp }) {
                                 <tr key={t.id}>
                                     <td className="no">{t.no}</td>
                                     <td>
-                                        <div className="memo">{t.memo}</div>
                                         <KodeKet d={t} />
+                                        <div className="memo">{t.memo}</div>
                                         {t.nilai ? <div className="nilai">Nilai: {rupiah(t.nilai)}</div> : null}
                                     </td>
                                     <td>
                                         {t.sebab.map((s, i) => (
                                             <div key={s.id} className={i > 0 ? 'mt-2' : ''}>
+                                                <KodeKet d={s} />
                                                 <div className="memo">
                                                     {t.sebab.length > 1 ? `${i + 1}. ` : ''}
                                                     {s.memo}
                                                 </div>
-                                                <KodeKet d={s} />
                                             </div>
                                         ))}
                                     </td>
                                     <td>
                                         {rekom.map((r, i) => (
                                             <div key={r.id} className={i > 0 ? 'mt-2' : ''}>
-                                                <div className="memo">{r.memo}</div>
                                                 <KodeKet d={r} />
+                                                <div className="memo">{r.memo}</div>
                                                 {r.nilai ? <div className="nilai">Nilai: {rupiah(r.nilai)}</div> : null}
                                             </div>
                                         ))}
@@ -238,11 +254,11 @@ export default function CetakMatriks({ lhp }: { lhp: Lhp }) {
                                         {tl.length === 0 && <span>-</span>}
                                         {tl.map((w, i) => (
                                             <div key={w.id} className={i > 0 ? 'mt-2' : ''}>
+                                                <KodeKet d={w} />
                                                 <div className="memo">
                                                     {w.tanggal ? `(${tanggal(w.tanggal)}) ` : ''}
                                                     {w.memo}
                                                 </div>
-                                                <KodeKet d={w} />
                                                 {w.nilai ? <div className="nilai">Nilai: {rupiah(w.nilai)}</div> : null}
                                             </div>
                                         ))}

@@ -128,29 +128,34 @@ class LhpMatriksExcelService
 
     private function sel(?string $memo, string $kodeKet, ?string $nilai): string
     {
-        $out = trim((string) $memo);
+        // Kode di ATAS, lalu uraian, lalu nilai (tiap baris dipisah alt+enter).
+        $baris = [];
         if ($kodeKet !== '') {
-            $out .= ($out !== '' ? "\n" : '').$kodeKet;
+            $baris[] = $kodeKet;
+        }
+        $m = trim((string) $memo);
+        if ($m !== '') {
+            $baris[] = $m;
         }
         if ($nilai !== null && $nilai !== '-') {
-            $out .= "\nNilai: ".$nilai;
+            $baris[] = 'Nilai: '.$nilai;
         }
 
-        return $out === '' ? '-' : $out;
+        return $baris ? implode("\n", $baris) : '-';
     }
 
+    /** Grup dan turunan kode pada baris terpisah (alt+enter). */
     private function kodeKet(string $grpJenis, string $detJenis, ?string $kg, ?string $k): string
     {
         $bag = [];
         if ($kg) {
-            $bag[] = trim($kg.' '.(KodeLhp::label($grpJenis, $kg) ?? ''));
+            $bag[] = rtrim($kg.' — '.(KodeLhp::label($grpJenis, $kg) ?? ''), ' —');
         }
         if ($k) {
-            $bag[] = trim($k.' '.(KodeLhp::label($detJenis, $k) ?? ''));
+            $bag[] = rtrim($k.' — '.(KodeLhp::label($detJenis, $k) ?? ''), ' —');
         }
-        $bag = array_values(array_filter($bag));
 
-        return $bag ? 'Kode: '.implode(' · ', $bag) : '';
+        return implode("\n", array_filter($bag));
     }
 
     private function gabung(?string $kode, ?string $label): string
