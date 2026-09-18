@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { ArrowLeft, CheckCircle2, ClipboardList, Lightbulb, Pencil, Search, Trash2, Users } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ClipboardList, Lightbulb, Pencil, Printer, Search, Trash2, Users } from 'lucide-react';
 import { type ReactNode, useEffect } from 'react';
 import { rupiah, statusKelas, statusLabel, tanggal } from './lib';
 
@@ -174,6 +174,12 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
                                 <Link href={BASE}>
                                     <ArrowLeft className="h-4 w-4" />
                                     Daftar
+                                </Link>
+                            </Button>
+                            <Button asChild size="sm" variant="outline">
+                                <Link href={`${BASE}/${lhp.id}/cetak/preview`}>
+                                    <Printer className="h-4 w-4" />
+                                    Cetak
                                 </Link>
                             </Button>
                             <Button asChild size="sm" variant="outline">

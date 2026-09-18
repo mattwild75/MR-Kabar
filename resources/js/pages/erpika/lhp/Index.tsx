@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { FolderSearch, Plus, Search } from 'lucide-react';
+import { FileText, FolderSearch, Plus, Search, Sheet } from 'lucide-react';
 import { useState } from 'react';
 import { rupiah, STATUS_LHP, statusKelas, statusLabel, tanggalSingkat } from './lib';
 
@@ -224,10 +224,22 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                                                 {statusLabel(b.status_lhp)}
                                             </span>
                                         </td>
-                                        <td className="px-4 py-2.5 text-right align-top">
-                                            <Button asChild size="sm" variant="outline">
-                                                <Link href={lihatHref(b.id)}>Lihat</Link>
-                                            </Button>
+                                        <td className="px-4 py-2.5 align-top">
+                                            <div className="flex justify-end gap-1.5">
+                                                <Button asChild size="sm" variant="outline">
+                                                    <Link href={lihatHref(b.id)}>Lihat</Link>
+                                                </Button>
+                                                <Button asChild size="icon" variant="ghost" className="h-8 w-8" title="Unduh PDF">
+                                                    <a href={`${BASE}/${b.id}/cetak`}>
+                                                        <FileText className="h-4 w-4" />
+                                                    </a>
+                                                </Button>
+                                                <Button asChild size="icon" variant="ghost" className="h-8 w-8" title="Unduh Excel">
+                                                    <a href={`${BASE}/${b.id}/excel`}>
+                                                        <Sheet className="h-4 w-4" />
+                                                    </a>
+                                                </Button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

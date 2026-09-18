@@ -339,6 +339,11 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
         Route::get('/', [LhpController::class, 'index'])->name('index');
         Route::get('/buat', [LhpController::class, 'create'])->name('create');
         Route::post('/', [LhpController::class, 'store'])->name('store');
+        // Cetak matriks (mengikuti berkas "matriks LHP ... .XLS" SimHP): pratinjau
+        // React (Browsershot → PDF) dan unduhan Excel. Didaftarkan sebelum '/{lhp}'.
+        Route::get('/{lhp}/cetak/preview', [LhpController::class, 'cetakPreview'])->name('cetak.preview');
+        Route::get('/{lhp}/cetak', [LhpController::class, 'cetakPdf'])->name('cetak');
+        Route::get('/{lhp}/excel', [LhpController::class, 'excel'])->name('excel');
         Route::get('/{lhp}', [LhpController::class, 'show'])->name('show');
         Route::get('/{lhp}/sunting', [LhpController::class, 'edit'])->name('edit');
         Route::put('/{lhp}', [LhpController::class, 'update'])->name('update');

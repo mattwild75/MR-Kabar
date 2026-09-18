@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Erpika;
 use App\Http\Controllers\Controller;
 use App\Models\Lhp;
 use App\Models\LhpTim;
+use App\Services\LhpMatriksExcelService;
+use App\Services\PdfPrintService;
 use App\Support\KodeLhp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -88,6 +90,49 @@ class LhpController extends Controller
         return Inertia::render('erpika/lhp/Show', [
             'lhp' => $this->detail($lhp),
         ]);
+    }
+
+    private function muatPenuh(Lhp $lhp): void
+    {
+        $lhp->load(['tim' => fn ($q) => $q->orderBy('no'),
+            'temuan' => fn ($q) => $q->orderBy('no'),
+            'temuan.sebab' => fn ($q) => $q->orderBy('no'),
+            'temuan.sebab.rekomendasi' => fn ($q) => $q->orderBy('no'),
+            'temuan.sebab.rekomendasi.tindakLanjut' => fn ($q) => $q->orderBy('no')->orderBy('tanggal')]);
+    }
+
+    /** Nama berkas aman dari nomor LHP (mis. 700/25/LHAKh → 700-25-LHAKh). */
+    private function namaBerkas(Lhp $lhp): string
+    {
+        return trim(preg_replace('/[^A-Za-z0-9]+/', '-', (string) $lhp->nomor_lhp), '-') ?: (string) $lhp->id;
+    }
+
+    /** Pratinjau React matriks LHP (dipakai layar + sumber screenshot Browsershot). */
+    public function cetakPreview(Lhp $lhp)
+    {
+        $this->muatPenuh($lhp);
+
+        return Inertia::render('erpika/lhp/CetakMatriks', ['lhp' => $this->detail($lhp)]);
+    }
+
+    /** PDF = screenshot Chromium atas halaman pratinjau (preset baku, lihat PdfPrintService). */
+    public function cetakPdf(Request $request, Lhp $lhp)
+    {
+        $url = url("/erpika/laporan-penugasan/database-lhp/{$lhp->id}/cetak/preview");
+
+        return PdfPrintService::downloadFromUrl($request, $url, 'Matriks-LHP-'.$this->namaBerkas($lhp));
+    }
+
+    /** Excel = matriks setara berkas SimHP + identitas, tim, dan keterangan kode. */
+    public function excel(LhpMatriksExcelService $excel, Lhp $lhp)
+    {
+        $this->muatPenuh($lhp);
+        $tmp = tempnam(sys_get_temp_dir(), 'lhp');
+        $excel->simpanKe($lhp, $tmp);
+
+        return response()->download($tmp, 'Matriks-LHP-'.$this->namaBerkas($lhp).'.xlsx', [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ])->deleteFileAfterSend(true);
     }
 
     public function create()
