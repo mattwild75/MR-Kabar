@@ -246,6 +246,30 @@ class LhpTest extends TestCase
         $this->assertSoftDeleted('lhp', ['id' => $lhp->id]);
     }
 
+    public function test_lhp_terhapus_muncul_di_data_terhapus_erpika_dan_bisa_dipulihkan(): void
+    {
+        $u = $this->adminBaru();
+        $lhp = $this->lhpContoh();
+        $this->actingAs($u)->delete(self::BASE."/{$lhp->id}")->assertRedirect();
+        $this->assertSoftDeleted('lhp', ['id' => $lhp->id]);
+
+        // Muncul di tab Database LHP pada ERPIKA > Data Terhapus.
+        $this->actingAs($u)->get('/erpika/data-terhapus?type=lhp')->assertOk()->assertInertia(fn ($page) => $page
+            ->where('activeType', 'lhp')
+            ->has('rows', 1)
+            ->where('rows.0.title', $lhp->nomor_lhp));
+
+        // Dipulihkan.
+        $this->actingAs($u)->put("/erpika/data-terhapus/lhp/{$lhp->id}/restore")->assertRedirect();
+        $this->assertDatabaseHas('lhp', ['id' => $lhp->id, 'deleted_at' => null]);
+
+        // Hapus permanen membuang beserta rantainya (cascade).
+        $this->actingAs($u)->delete(self::BASE."/{$lhp->id}")->assertRedirect();
+        $this->actingAs($u)->delete("/erpika/data-terhapus/lhp/{$lhp->id}")->assertRedirect();
+        $this->assertDatabaseMissing('lhp', ['id' => $lhp->id]);
+        $this->assertSame(0, \DB::table('lhp_temuan')->where('lhp_id', $lhp->id)->count());
+    }
+
     public function test_bukan_admin_ditolak(): void
     {
         $u = User::factory()->create(); // tanpa peran admin

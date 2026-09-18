@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Erpika;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
+use App\Models\Lhp;
 use App\Models\Rpp;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -36,6 +37,20 @@ class DataTerhapusController extends Controller
                 ]),
                 'with' => ['category', 'user'],
                 'owned' => true,
+            ],
+            'lhp' => [
+                'model' => Lhp::class,
+                'label' => 'Database LHP',
+                'judul' => fn (Lhp $l) => $l->nomor_lhp,
+                'sub' => fn (Lhp $l) => array_filter([
+                    $l->nama_obrik,
+                    $l->nama_pj ? 'PJ '.$l->nama_pj : null,
+                    $l->temuan()->count().' temuan',
+                ]),
+                'with' => [],
+                // Data institusional (bukan milik per-user); ERPIKA sudah dibatasi
+                // admin/super-admin, jadi hanya mereka yang melihat & memulihkan.
+                'owned' => false,
             ],
             'pegawai' => [
                 'model' => Employee::class,
@@ -124,6 +139,11 @@ class DataTerhapusController extends Controller
         // sesudah penghapusan, pemulihan ditolak, bukan dibiarkan bentrok.
         if ($row instanceof Rpp && Rpp::where('year', $row->year)->where('nomor_rpp', $row->nomor_rpp)->exists()) {
             return back()->with('error', 'Nomor '.$row->nomor_rpp.' tahun '.$row->year.' sudah dipakai dokumen lain; ubah nomor dokumen itu dulu.');
+        }
+
+        // Nomor LHP unik: tolak pemulihan bila nomornya sudah dipakai LHP lain.
+        if ($row instanceof Lhp && Lhp::where('nomor_lhp', $row->nomor_lhp)->exists()) {
+            return back()->with('error', 'Nomor '.$row->nomor_lhp.' sudah dipakai LHP lain; ubah nomor LHP itu dulu.');
         }
 
         $row->restore();
