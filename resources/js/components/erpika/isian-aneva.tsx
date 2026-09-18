@@ -26,15 +26,18 @@ export interface PenugasanAneva {
     keterangan: string | null;
 }
 
+// Status hanya tiga warna (arahan pemilik): merah = sedang bertugas (ST),
+// kuning = nomor laporan diminta, hijau = laporan terbit (masuk aneva).
 const STATUS: [string, string][] = [
-    ['draft', 'Draft'],
-    ['st_terbit', 'ST terbit (merah)'],
-    ['nomor_diminta', 'Nomor laporan diminta (kuning)'],
-    ['lhp_terbit', 'LHP terbit (hijau)'],
-    ['selesai', 'Selesai'],
-    ['batal', 'Batal'],
+    ['st_terbit', 'Merah — sedang bertugas (ST)'],
+    ['nomor_diminta', 'Kuning — nomor laporan diminta'],
+    ['lhp_terbit', 'Hijau — laporan terbit'],
 ];
 const JENIS = ['LHA', 'LHR', 'LHM', 'LHE', 'LHP', 'LHAKJ', 'LHPDTT', 'Lainnya'];
+
+// Data lama bisa berstatus draft/selesai/batal — petakan ke salah satu dari
+// tiga warna agar dropdown tak kosong (draft/selesai/batal ⇒ merah).
+const keTiga = (s: string): string => (['st_terbit', 'nomor_diminta', 'lhp_terbit'].includes(s) ? s : 'st_terbit');
 
 /**
  * Isian Bagian Analisis dan Evaluasi untuk satu penugasan (ST): nomor,
@@ -45,7 +48,7 @@ export function IsianAneva({ p }: { p: PenugasanAneva }) {
     const [terbuka, setTerbuka] = useState(false);
     const [obriks, setObriks] = useState<{ id: number; nama: string; nomor: string; tanggal: string; jenis: string }[]>([]);
     const [lain, setLain] = useState<{ nomor: string; tanggal: string; jenis: string }[]>([]);
-    const [status, setStatus] = useState(p.status);
+    const [status, setStatus] = useState(keTiga(p.status));
     const [capaian, setCapaian] = useState(p.capaian_output ?? '');
     const [keterangan, setKeterangan] = useState(p.keterangan ?? '');
     const [menyimpan, setMenyimpan] = useState(false);
@@ -61,7 +64,7 @@ export function IsianAneva({ p }: { p: PenugasanAneva }) {
             })),
         );
         setLain(p.laporan_lain.map((l) => ({ nomor: l.nomor, tanggal: l.tanggal ?? '', jenis: l.jenis ?? '' })));
-        setStatus(p.status);
+        setStatus(keTiga(p.status));
         setCapaian(p.capaian_output ?? '');
         setKeterangan(p.keterangan ?? '');
         setTerbuka(true);
