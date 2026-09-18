@@ -59,6 +59,9 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
         router.get(BASE, next, { preserveState: true, preserveScroll: true, replace: true });
     };
 
+    // Bawa kata cari ke halaman baca supaya kecocokan langsung disorot.
+    const lihatHref = (id: number) => (filters.cari ? `${BASE}/${id}?sorot=${encodeURIComponent(filters.cari)}` : `${BASE}/${id}`);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Database LHP" />
@@ -184,7 +187,7 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                                 {lhp.data.map((b) => (
                                     <tr key={b.id} className="hover:bg-muted/40 transition-colors">
                                         <td className="px-4 py-2.5 align-top">
-                                            <Link href={`${BASE}/${b.id}`} className="font-medium hover:underline">
+                                            <Link href={lihatHref(b.id)} className="font-medium hover:underline">
                                                 {b.nomor_lhp}
                                             </Link>
                                             {b.nomor_st && <div className="text-muted-foreground text-xs">ST {b.nomor_st}</div>}
@@ -207,7 +210,7 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                                         </td>
                                         <td className="px-4 py-2.5 text-right align-top">
                                             <Button asChild size="sm" variant="outline">
-                                                <Link href={`${BASE}/${b.id}`}>Lihat</Link>
+                                                <Link href={lihatHref(b.id)}>Lihat</Link>
                                             </Button>
                                         </td>
                                     </tr>

@@ -13,11 +13,30 @@ import {
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import { ArrowLeft, CheckCircle2, ClipboardList, Lightbulb, Pencil, Search, Trash2, Users } from 'lucide-react';
+import { type ReactNode, useEffect } from 'react';
 import { rupiah, statusKelas, statusLabel, tanggal } from './lib';
 
 const BASE = '/erpika/laporan-penugasan/database-lhp';
+
+/** Sorot semua kemunculan `sorot` dalam teks (dari pencarian), tanpa peka huruf. */
+function TeksSorot({ teks, sorot }: { teks: string | null | undefined; sorot: string }): ReactNode {
+    if (!teks) return null;
+    if (!sorot) return teks;
+    const esc = sorot.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const bagian = teks.split(new RegExp(`(${esc})`, 'gi'));
+    const target = sorot.toLowerCase();
+    return bagian.map((b, i) =>
+        b.toLowerCase() === target ? (
+            <mark key={i} data-sorot className="rounded bg-amber-300 px-0.5 text-amber-950 dark:bg-amber-500/80 dark:text-black">
+                {b}
+            </mark>
+        ) : (
+            <span key={i}>{b}</span>
+        ),
+    );
+}
 
 interface TindakLanjut {
     id: number;
@@ -130,6 +149,17 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
         { title: lhp.nomor_lhp, href: `${BASE}/${lhp.id}` },
     ];
 
+    // Kata yang disorot datang dari pencarian daftar (?sorot=...).
+    const url = usePage().url;
+    const sorot = new URLSearchParams(url.split('?')[1] ?? '').get('sorot') ?? '';
+
+    // Gulir ke kecocokan pertama setelah halaman tergambar.
+    useEffect(() => {
+        if (!sorot) return;
+        const t = setTimeout(() => document.querySelector('mark[data-sorot]')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+        return () => clearTimeout(t);
+    }, [sorot, lhp.id]);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`LHP ${lhp.nomor_lhp}`} />
@@ -137,7 +167,7 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
                 <PageHeader
                     title={lhp.nomor_lhp}
                     icon={<Search />}
-                    description={lhp.nama_obrik}
+                    description={<TeksSorot teks={lhp.nama_obrik} sorot={sorot} />}
                     actions={
                         <>
                             <Button asChild size="sm" variant="outline">
@@ -239,7 +269,7 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
                     <div className="space-y-4">
                         <h2 className="text-sm font-semibold tracking-tight">Temuan, Penyebab, Rekomendasi &amp; Tindak Lanjut</h2>
                         {lhp.temuan.map((t) => (
-                            <TemuanKartu key={t.id} t={t} />
+                            <TemuanKartu key={t.id} t={t} sorot={sorot} />
                         ))}
                     </div>
                 )}
@@ -248,7 +278,7 @@ export default function LhpShow({ lhp }: { lhp: Lhp }) {
     );
 }
 
-function TemuanKartu({ t }: { t: Temuan }) {
+function TemuanKartu({ t, sorot }: { t: Temuan; sorot: string }) {
     return (
         <div className="bg-card overflow-hidden rounded-md border">
             <div className="bg-muted/50 flex items-start gap-3 border-b px-4 py-3">
@@ -262,7 +292,9 @@ function TemuanKartu({ t }: { t: Temuan }) {
                         {t.nilai !== null && t.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(t.nilai)}</span>}
                     </div>
                     <KodeInfo kg={t.kode_group} gl={t.group_label} k={t.kode} kl={t.kode_label} />
-                    <p className="mt-1 text-sm whitespace-pre-line">{t.memo}</p>
+                    <p className="mt-1 text-sm whitespace-pre-line">
+                        <TeksSorot teks={t.memo} sorot={sorot} />
+                    </p>
                     {(t.ba_kesepakatan || t.kerugian_pada) && (
                         <div className="text-muted-foreground mt-1 flex flex-wrap gap-x-4 text-xs">
                             {t.ba_kesepakatan && <span>BA Kesepakatan Obrik: {t.ba_kesepakatan === 'ada' ? 'Ada' : 'Tidak Ada'}</span>}
@@ -280,7 +312,9 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                 Penyebab {t.sebab.length > 1 ? s.no : ''}
                             </span>
                             <KodeInfo kg={s.kode_group} gl={s.group_label} k={s.kode} kl={s.kode_label} />
-                            <p className="mt-1 text-sm whitespace-pre-line">{s.memo}</p>
+                            <p className="mt-1 text-sm whitespace-pre-line">
+                                <TeksSorot teks={s.memo} sorot={sorot} />
+                            </p>
                         </div>
                         {s.rekomendasi.map((r) => (
                             <div
@@ -295,7 +329,9 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                     {r.nilai !== null && r.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(r.nilai)}</span>}
                                 </div>
                                 <KodeInfo kg={r.kode_group} gl={r.group_label} k={r.kode} kl={r.kode_label} />
-                                <p className="mt-1 text-sm whitespace-pre-line">{r.memo}</p>
+                                <p className="mt-1 text-sm whitespace-pre-line">
+                                    <TeksSorot teks={r.memo} sorot={sorot} />
+                                </p>
                                 {r.tindak_lanjut.length > 0 && (
                                     <div className="mt-2 space-y-1.5 border-t border-amber-200/60 pt-2 dark:border-amber-900/40">
                                         {r.tindak_lanjut.map((tl) => (
@@ -307,7 +343,11 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                                         {tl.nilai !== null && tl.nilai > 0 ? ` · ${rupiah(tl.nilai)}` : ''}
                                                     </span>
                                                     <KodeInfo kg={tl.kode_group} gl={tl.group_label} k={tl.kode} kl={tl.kode_label} />
-                                                    {tl.memo && <p className="mt-1 whitespace-pre-line">{tl.memo}</p>}
+                                                    {tl.memo && (
+                                                        <p className="mt-1 whitespace-pre-line">
+                                                            <TeksSorot teks={tl.memo} sorot={sorot} />
+                                                        </p>
+                                                    )}
                                                 </div>
                                             </div>
                                         ))}
