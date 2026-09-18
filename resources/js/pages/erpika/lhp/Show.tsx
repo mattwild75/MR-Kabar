@@ -106,6 +106,22 @@ function kodeTeks(kode: string | null, label: string | null): string | null {
     return kode || label;
 }
 
+/**
+ * Penjelasan kode dua baris (group lalu rincian) — tata letak seragam dipakai
+ * di Temuan, Penyebab, Rekomendasi, dan Tindak Lanjut.
+ */
+function KodeInfo({ kg, gl, k, kl }: { kg: string | null; gl: string | null; k: string | null; kl: string | null }) {
+    const g = kodeTeks(kg, gl);
+    const d = kodeTeks(k, kl);
+    if (!g && !d) return null;
+    return (
+        <div className="text-muted-foreground mt-0.5 text-xs">
+            {g && <div>{g}</div>}
+            {d && <div>{d}</div>}
+        </div>
+    );
+}
+
 export default function LhpShow({ lhp }: { lhp: Lhp }) {
     const breadcrumbs: BreadcrumbItem[] = [
         { title: 'ERPIKA', href: '#' },
@@ -245,10 +261,7 @@ function TemuanKartu({ t }: { t: Temuan }) {
                         <span className="text-muted-foreground font-medium tracking-wide uppercase">Temuan</span>
                         {t.nilai !== null && t.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(t.nilai)}</span>}
                     </div>
-                    {(t.group_label || t.kode_group) && (
-                        <div className="text-muted-foreground mt-0.5 text-xs">{kodeTeks(t.kode_group, t.group_label)}</div>
-                    )}
-                    {(t.kode_label || t.kode) && <div className="text-muted-foreground text-xs">{kodeTeks(t.kode, t.kode_label)}</div>}
+                    <KodeInfo kg={t.kode_group} gl={t.group_label} k={t.kode} kl={t.kode_label} />
                     <p className="mt-1 text-sm whitespace-pre-line">{t.memo}</p>
                     {(t.ba_kesepakatan || t.kerugian_pada) && (
                         <div className="text-muted-foreground mt-1 flex flex-wrap gap-x-4 text-xs">
@@ -266,11 +279,8 @@ function TemuanKartu({ t }: { t: Temuan }) {
                             <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
                                 Penyebab {t.sebab.length > 1 ? s.no : ''}
                             </span>
-                            {(s.group_label || s.kode_group) && (
-                                <span className="text-muted-foreground ml-2 text-xs">{kodeTeks(s.kode_group, s.group_label)}</span>
-                            )}
-                            {(s.kode_label || s.kode) && <div className="text-muted-foreground text-xs">{kodeTeks(s.kode, s.kode_label)}</div>}
-                            <p className="text-sm whitespace-pre-line">{s.memo}</p>
+                            <KodeInfo kg={s.kode_group} gl={s.group_label} k={s.kode} kl={s.kode_label} />
+                            <p className="mt-1 text-sm whitespace-pre-line">{s.memo}</p>
                         </div>
                         {s.rekomendasi.map((r) => (
                             <div
@@ -282,17 +292,9 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                     <span className="font-medium tracking-wide text-amber-800 uppercase dark:text-amber-300">
                                         Rekomendasi {r.no > 0 ? r.no : ''}
                                     </span>
-                                    {r.kode && (
-                                        <span className="text-muted-foreground font-mono">
-                                            {r.kode_group ? `${r.kode_group}/` : ''}
-                                            {r.kode}
-                                        </span>
-                                    )}
                                     {r.nilai !== null && r.nilai > 0 && <span className="ml-auto font-medium tabular-nums">{rupiah(r.nilai)}</span>}
                                 </div>
-                                {(r.kode_label || r.group_label) && (
-                                    <div className="text-muted-foreground mt-0.5 text-xs">{r.kode_label ?? r.group_label}</div>
-                                )}
+                                <KodeInfo kg={r.kode_group} gl={r.group_label} k={r.kode} kl={r.kode_label} />
                                 <p className="mt-1 text-sm whitespace-pre-line">{r.memo}</p>
                                 {r.tindak_lanjut.length > 0 && (
                                     <div className="mt-2 space-y-1.5 border-t border-amber-200/60 pt-2 dark:border-amber-900/40">
@@ -300,13 +302,12 @@ function TemuanKartu({ t }: { t: Temuan }) {
                                             <div key={tl.id} className="flex items-start gap-2 text-sm">
                                                 <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
                                                 <div className="min-w-0">
-                                                    <span className="text-muted-foreground mr-2 text-xs">
-                                                        Tindak lanjut{tl.tanggal ? ` · ${tanggal(tl.tanggal)}` : ''}
-                                                        {tl.kode ? ` · ${tl.kode_group ? `${tl.kode_group}/` : ''}${tl.kode}` : ''}
+                                                    <span className="text-muted-foreground text-xs font-medium tracking-wide uppercase">
+                                                        Tindak Lanjut{tl.tanggal ? ` · ${tanggal(tl.tanggal)}` : ''}
                                                         {tl.nilai !== null && tl.nilai > 0 ? ` · ${rupiah(tl.nilai)}` : ''}
                                                     </span>
-                                                    {tl.kode_label && <span className="text-muted-foreground">{tl.kode_label}. </span>}
-                                                    {tl.memo && <span className="whitespace-pre-line">{tl.memo}</span>}
+                                                    <KodeInfo kg={tl.kode_group} gl={tl.group_label} k={tl.kode} kl={tl.kode_label} />
+                                                    {tl.memo && <p className="mt-1 whitespace-pre-line">{tl.memo}</p>}
                                                 </div>
                                             </div>
                                         ))}
