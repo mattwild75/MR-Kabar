@@ -36,7 +36,12 @@ class LhpController extends Controller
                 $x->where('nomor_lhp', 'like', "%{$cari}%")
                     ->orWhere('nama_obrik', 'like', "%{$cari}%")
                     ->orWhere('nomor_st', 'like', "%{$cari}%")
-                    ->orWhere('nama_pj', 'like', "%{$cari}%");
+                    ->orWhere('nama_pj', 'like', "%{$cari}%")
+                    // Cari juga di dalam uraian temuan → penyebab → rekomendasi → tindak lanjut.
+                    ->orWhereHas('temuan', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
+                    ->orWhereHas('temuan.sebab', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
+                    ->orWhereHas('temuan.sebab.rekomendasi', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
+                    ->orWhereHas('temuan.sebab.rekomendasi.tindakLanjut', fn ($q) => $q->where('memo', 'like', "%{$cari}%"));
             }))
             ->when($tahun, fn ($w) => $w->whereYear('tanggal_lhp', $tahun))
             ->when($status, fn ($w) => $w->where('status_lhp', $status))

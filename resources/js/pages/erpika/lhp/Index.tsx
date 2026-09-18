@@ -113,7 +113,7 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                             value={cari}
                             onChange={(e) => setCari(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && terapkan({ cari })}
-                            placeholder="Cari nomor LHP, obrik, ST, atau penanggung jawab…"
+                            placeholder="Cari nomor LHP, obrik, ST, PJ, atau isi temuan/penyebab/rekomendasi/tindak lanjut…"
                             className="pl-9"
                         />
                     </div>

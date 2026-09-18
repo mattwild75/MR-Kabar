@@ -63,6 +63,12 @@ class LhpTest extends TestCase
 
         $this->actingAs($u)->get(self::BASE.'?cari=Badan')->assertInertia(fn ($page) => $page->has('lhp.data', 1)->where('lhp.data.0.nomor_lhp', '700/02/LHP/2026'));
         $this->actingAs($u)->get(self::BASE.'?status=03')->assertInertia(fn ($page) => $page->has('lhp.data', 1)->where('lhp.data.0.status_lhp', '03'));
+
+        // Pencarian menembus uraian temuan/penyebab/rekomendasi/tindak lanjut (lhpContoh).
+        foreach (['Kas kurang', 'Lalai', 'Setor kembali', 'disetor'] as $kata) {
+            $this->actingAs($u)->get(self::BASE.'?cari='.urlencode($kata))
+                ->assertInertia(fn ($page) => $page->has('lhp.data', 1)->where('lhp.data.0.nomor_lhp', '700/01/LHP/2026'));
+        }
     }
 
     public function test_detail_menampilkan_rantai_lengkap(): void
