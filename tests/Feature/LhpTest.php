@@ -59,10 +59,13 @@ class LhpTest extends TestCase
     {
         $u = $this->adminBaru();
         $this->lhpContoh();
-        Lhp::create(['nomor_lhp' => '700/02/LHP/2026', 'nama_obrik' => 'Badan Lain', 'status_lhp' => '03']);
+        Lhp::create(['nomor_lhp' => '700/02/LHP/2026', 'nama_obrik' => 'Badan Lain', 'status_lhp' => '03', 'bidang_unit' => 'Inspektur Pembantu Wilayah II']);
 
         $this->actingAs($u)->get(self::BASE.'?cari=Badan')->assertInertia(fn ($page) => $page->has('lhp.data', 1)->where('lhp.data.0.nomor_lhp', '700/02/LHP/2026'));
         $this->actingAs($u)->get(self::BASE.'?status=03')->assertInertia(fn ($page) => $page->has('lhp.data', 1)->where('lhp.data.0.status_lhp', '03'));
+        // Saring per Bidang/Unit Pengawasan.
+        $this->actingAs($u)->get(self::BASE.'?bidang='.urlencode('Inspektur Pembantu Wilayah II'))
+            ->assertInertia(fn ($page) => $page->has('lhp.data', 1)->where('lhp.data.0.nomor_lhp', '700/02/LHP/2026'));
 
         // Pencarian menembus uraian temuan/penyebab/rekomendasi/tindak lanjut (lhpContoh).
         foreach (['Kas kurang', 'Lalai', 'Setor kembali', 'disetor'] as $kata) {

@@ -31,6 +31,7 @@ class LhpController extends Controller
         $cari = trim((string) $request->input('cari', ''));
         $tahun = $request->input('tahun'); // tahun terbit LHP (dari tanggal_lhp)
         $status = $request->input('status'); // 00|01|02|03
+        $bidang = $request->input('bidang'); // Bidang/Unit Pengawasan
         $urut = $request->input('urut', 'terbaru'); // terbaru|terlama|nilai|obrik
 
         $q = Lhp::query()
@@ -47,6 +48,7 @@ class LhpController extends Controller
             }))
             ->when($tahun, fn ($w) => $w->whereYear('tanggal_lhp', $tahun))
             ->when($status, fn ($w) => $w->where('status_lhp', $status))
+            ->when($bidang, fn ($w) => $w->where('bidang_unit', $bidang))
             ->withCount('temuan');
 
         $q = match ($urut) {
@@ -72,9 +74,10 @@ class LhpController extends Controller
 
         return Inertia::render('erpika/lhp/Index', [
             'lhp' => $lhp,
-            'filters' => ['cari' => $cari, 'tahun' => $tahun ? (int) $tahun : null, 'status' => $status, 'urut' => $urut],
+            'filters' => ['cari' => $cari, 'tahun' => $tahun ? (int) $tahun : null, 'status' => $status, 'bidang' => $bidang, 'urut' => $urut],
             'tahunTersedia' => Lhp::whereNotNull('tanggal_lhp')
                 ->selectRaw('year(tanggal_lhp) as t')->distinct()->orderByDesc('t')->pluck('t')->all(),
+            'bidangTersedia' => Lhp::whereNotNull('bidang_unit')->distinct()->orderBy('bidang_unit')->pluck('bidang_unit')->all(),
             'ringkasan' => $this->ringkasan(),
         ]);
     }

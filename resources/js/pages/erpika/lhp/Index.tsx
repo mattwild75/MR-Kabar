@@ -40,19 +40,20 @@ interface Props {
         total: number;
         links: { url: string | null; label: string; active: boolean }[];
     };
-    filters: { cari: string; tahun: number | null; status: string | null; urut: string };
+    filters: { cari: string; tahun: number | null; status: string | null; bidang: string | null; urut: string };
     tahunTersedia: number[];
+    bidangTersedia: string[];
     ringkasan: { total: number; tuntas: number; sebagian: number; belum: number; cacat: number; total_temuan: number; nilai_tp: number };
 }
 
 const BASE = '/erpika/laporan-penugasan/database-lhp';
 
-export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Props) {
+export default function LhpIndex({ lhp, filters, tahunTersedia, bidangTersedia, ringkasan }: Props) {
     const [cari, setCari] = useState(filters.cari ?? '');
 
     const terapkan = (ubah: Record<string, string | number | null>) => {
         const next: Record<string, string | number> = {};
-        const gabung = { cari, tahun: filters.tahun, status: filters.status, urut: filters.urut, ...ubah };
+        const gabung = { cari, tahun: filters.tahun, status: filters.status, bidang: filters.bidang, urut: filters.urut, ...ubah };
         Object.entries(gabung).forEach(([k, v]) => {
             if (v !== null && v !== '' && !(k === 'urut' && v === 'terbaru')) next[k] = v as string | number;
         });
@@ -161,6 +162,19 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                             {Object.entries(STATUS_LHP).map(([k, v]) => (
                                 <SelectItem key={k} value={k}>
                                     {v}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                    <Select value={filters.bidang ?? 'semua'} onValueChange={(v) => terapkan({ bidang: v === 'semua' ? null : v })}>
+                        <SelectTrigger className="w-[230px]">
+                            <SelectValue placeholder="Bidang/Unit Pengawasan" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="semua">Semua Bidang/Unit</SelectItem>
+                            {bidangTersedia.map((b) => (
+                                <SelectItem key={b} value={b}>
+                                    {b}
                                 </SelectItem>
                             ))}
                         </SelectContent>
