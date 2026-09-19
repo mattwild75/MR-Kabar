@@ -43,7 +43,16 @@ interface Props {
     filters: { cari: string; tahun: number | null; status: string | null; bidang: string | null; urut: string };
     tahunTersedia: number[];
     bidangTersedia: string[];
-    ringkasan: { total: number; tuntas: number; sebagian: number; belum: number; cacat: number; total_temuan: number; nilai_tp: number };
+    ringkasan: {
+        total: number;
+        tuntas: number;
+        sebagian: number;
+        belum: number;
+        cacat: number;
+        total_temuan: number;
+        nilai_tp: number;
+        nilai_tp_tl: number;
+    };
 }
 
 const BASE = '/erpika/laporan-penugasan/database-lhp';
@@ -82,7 +91,7 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, bidangTersedia, 
                 />
 
                 {/* Ringkasan — status memakai warna hijau/kuning/merah yang konsisten. */}
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
                     <Kartu label="Total LHP" nilai={ringkasan.total} aktif={!filters.status} onClick={() => terapkan({ status: null })} />
                     <Kartu
                         label="Tuntas"
@@ -107,6 +116,12 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, bidangTersedia, 
                     />
                     <Kartu label="Total Temuan" nilai={ringkasan.total_temuan} />
                     <Kartu label="Nilai Temuan" nilai={rupiah(ringkasan.nilai_tp)} kecil />
+                    <Kartu
+                        label="Nilai Temuan (Sudah TL)"
+                        nilai={rupiah(ringkasan.nilai_tp_tl)}
+                        warna="text-emerald-700 dark:text-emerald-300"
+                        kecil
+                    />
                 </div>
 
                 {/* Penyaring */}

@@ -34,21 +34,10 @@ class LhpController extends Controller
         $bidang = $request->input('bidang'); // Bidang/Unit Pengawasan
         $urut = $request->input('urut', 'terbaru'); // terbaru|terlama|nilai|obrik
 
-        $q = Lhp::query()
-            ->when($cari !== '', fn ($w) => $w->where(function ($x) use ($cari) {
-                $x->where('nomor_lhp', 'like', "%{$cari}%")
-                    ->orWhere('nama_obrik', 'like', "%{$cari}%")
-                    ->orWhere('nomor_st', 'like', "%{$cari}%")
-                    ->orWhere('nama_pj', 'like', "%{$cari}%")
-                    // Cari juga di dalam uraian temuan → penyebab → rekomendasi → tindak lanjut.
-                    ->orWhereHas('temuan', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
-                    ->orWhereHas('temuan.sebab', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
-                    ->orWhereHas('temuan.sebab.rekomendasi', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
-                    ->orWhereHas('temuan.sebab.rekomendasi.tindakLanjut', fn ($q) => $q->where('memo', 'like', "%{$cari}%"));
-            }))
-            ->when($tahun, fn ($w) => $w->whereYear('tanggal_lhp', $tahun))
+        // Status sengaja TIDAK masuk "dasar": kartu status adalah rincian dari
+        // lingkup cari/tahun/bidang, jadi ringkasan dihitung atas lingkup itu.
+        $q = $this->dasar($cari, $tahun, $bidang)
             ->when($status, fn ($w) => $w->where('status_lhp', $status))
-            ->when($bidang, fn ($w) => $w->where('bidang_unit', $bidang))
             ->withCount('temuan');
 
         $q = match ($urut) {
@@ -78,8 +67,30 @@ class LhpController extends Controller
             'tahunTersedia' => Lhp::whereNotNull('tanggal_lhp')
                 ->selectRaw('year(tanggal_lhp) as t')->distinct()->orderByDesc('t')->pluck('t')->all(),
             'bidangTersedia' => Lhp::whereNotNull('bidang_unit')->distinct()->orderBy('bidang_unit')->pluck('bidang_unit')->all(),
-            'ringkasan' => $this->ringkasan(),
+            'ringkasan' => $this->ringkasan($cari, $tahun, $bidang),
         ]);
+    }
+
+    /**
+     * Query dasar daftar LHP: cari + tahun + bidang (TANPA status/urut).
+     * Dipakai bersama untuk daftar dan ringkasan agar keduanya sinkron.
+     */
+    private function dasar(string $cari, mixed $tahun, mixed $bidang)
+    {
+        return Lhp::query()
+            ->when($cari !== '', fn ($w) => $w->where(function ($x) use ($cari) {
+                $x->where('nomor_lhp', 'like', "%{$cari}%")
+                    ->orWhere('nama_obrik', 'like', "%{$cari}%")
+                    ->orWhere('nomor_st', 'like', "%{$cari}%")
+                    ->orWhere('nama_pj', 'like', "%{$cari}%")
+                    // Cari juga di dalam uraian temuan → penyebab → rekomendasi → tindak lanjut.
+                    ->orWhereHas('temuan', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
+                    ->orWhereHas('temuan.sebab', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
+                    ->orWhereHas('temuan.sebab.rekomendasi', fn ($q) => $q->where('memo', 'like', "%{$cari}%"))
+                    ->orWhereHas('temuan.sebab.rekomendasi.tindakLanjut', fn ($q) => $q->where('memo', 'like', "%{$cari}%"));
+            }))
+            ->when($tahun, fn ($w) => $w->whereYear('tanggal_lhp', $tahun))
+            ->when($bidang, fn ($w) => $w->where('bidang_unit', $bidang));
     }
 
     public function show(Lhp $lhp)
@@ -381,19 +392,35 @@ class LhpController extends Controller
         return collect(Lhp::STATUS)->map(fn ($label, $value) => ['value' => (string) $value, 'label' => $label])->values()->all();
     }
 
-    /** @return array<string,mixed> */
-    private function ringkasan(): array
+    /**
+     * Ringkasan atas lingkup filter (cari/tahun/bidang) — ikut berubah saat
+     * disaring. status tidak difilter di sini (kartu status = rinciannya).
+     *
+     * @return array<string,mixed>
+     */
+    private function ringkasan(string $cari, mixed $tahun, mixed $bidang): array
     {
-        $perStatus = Lhp::select('status_lhp', DB::raw('count(*) as jml'))->groupBy('status_lhp')->pluck('jml', 'status_lhp');
+        $perStatus = $this->dasar($cari, $tahun, $bidang)
+            ->select('status_lhp', DB::raw('count(*) as jml'))->groupBy('status_lhp')->pluck('jml', 'status_lhp');
+
+        // Sub-kueri id LHP dalam lingkup (untuk agregat temuan & tindak lanjut).
+        $totalTemuan = DB::table('lhp_temuan')->whereIn('lhp_id', $this->dasar($cari, $tahun, $bidang)->select('id'))->count();
+        $nilaiTl = (float) DB::table('lhp_tindak_lanjut as tl')
+            ->join('lhp_rekomendasi as r', 'r.id', '=', 'tl.rekomendasi_id')
+            ->join('lhp_sebab as s', 's.id', '=', 'r.sebab_id')
+            ->join('lhp_temuan as t', 't.id', '=', 's.temuan_id')
+            ->whereIn('t.lhp_id', $this->dasar($cari, $tahun, $bidang)->select('id'))
+            ->sum('tl.nilai');
 
         return [
-            'total' => Lhp::count(),
+            'total' => $this->dasar($cari, $tahun, $bidang)->count(),
             'tuntas' => (int) ($perStatus['03'] ?? 0),
             'sebagian' => (int) ($perStatus['02'] ?? 0),
             'belum' => (int) ($perStatus['01'] ?? 0),
             'cacat' => (int) ($perStatus['00'] ?? 0),
-            'total_temuan' => DB::table('lhp_temuan')->count(),
-            'nilai_tp' => (float) Lhp::sum('nilai_tp'),
+            'total_temuan' => $totalTemuan,
+            'nilai_tp' => (float) $this->dasar($cari, $tahun, $bidang)->sum('nilai_tp'),
+            'nilai_tp_tl' => $nilaiTl,
         ];
     }
 }
