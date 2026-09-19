@@ -63,6 +63,9 @@ class ImporLhp extends Command
             DB::transaction(function () use ($h, $hcol) {
                 $atribut = collect($hcol)->mapWithKeys(fn ($k) => [$k => $this->nilai($h[$k] ?? null, $k)])->all();
                 $atribut['inspektorat'] = KodeLhp::INSPEKTORAT_DEFAULT;
+                // Bidang/Unit Pengawasan (dari Kode_Wasnal SimHP), sudah dipetakan
+                // ke label di lhp.json — mis. "Inspektur Pembantu Wilayah II".
+                $atribut['bidang_unit'] = $this->nilai($h['bidang_unit'] ?? null, 'bidang_unit');
                 $lhp = Lhp::create($atribut);
                 foreach ($h['temuan'] ?? [] as $t) {
                     $tem = $lhp->temuan()->create($this->baris($t, ['no', 'kode_group', 'kode', 'nilai', 'memo', 'status']));
