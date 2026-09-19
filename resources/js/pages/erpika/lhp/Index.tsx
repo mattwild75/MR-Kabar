@@ -209,9 +209,7 @@ export default function LhpIndex({ lhp, filters, tahunTersedia, ringkasan }: Pro
                                             {b.nomor_st && <div className="text-muted-foreground text-xs">ST {b.nomor_st}</div>}
                                         </td>
                                         <td className="px-4 py-2.5 align-top">
-                                            <div className="line-clamp-2 max-w-[42ch]" title={b.nama_obrik}>
-                                                {b.nama_obrik}
-                                            </div>
+                                            <div className="max-w-[52ch]">{b.nama_obrik}</div>
                                             {b.nama_pj && <div className="text-muted-foreground text-xs">PJ: {b.nama_pj}</div>}
                                         </td>
                                         <td className="text-muted-foreground px-4 py-2.5 text-center align-top text-xs whitespace-nowrap">
