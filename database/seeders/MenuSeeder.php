@@ -1089,11 +1089,22 @@ class MenuSeeder extends Seeder
         Menu::where('route', '/rpp-cetak')->delete();
 
         // Rantai ERPIKA: Perencanaan (1) -> AREP/pelaksanaan (2) -> ANEVA (3);
-        // Pegawai (5) dipakai semuanya.
-        Menu::updateOrCreate(
-            ['route' => '/erpika/arep'],
-            ['title' => 'AREP', 'parent_id' => $erpika->id, 'icon' => 'ClipboardCheck', 'order' => 2, 'permission_name' => 'erpika-view']
+        // Pegawai (5) dipakai semuanya. AREP kini kelompok: Surat Tugas (atas)
+        // lalu Kendali Mutu — keduanya menarik data dari RPP Perencanaan.
+        $erpikaArep = Menu::updateOrCreate(
+            ['title' => 'AREP', 'parent_id' => $erpika->id],
+            ['icon' => 'ClipboardCheck', 'route' => '#', 'order' => 2, 'permission_name' => 'erpika-view']
         );
+        Menu::updateOrCreate(
+            ['route' => '/erpika/arep/surat-tugas'],
+            ['title' => 'Surat Tugas', 'parent_id' => $erpikaArep->id, 'icon' => 'ScrollText', 'order' => 1, 'permission_name' => 'erpika-view']
+        );
+        Menu::updateOrCreate(
+            ['route' => '/erpika/arep/kendali-mutu'],
+            ['title' => 'Kendali Mutu', 'parent_id' => $erpikaArep->id, 'icon' => 'ShieldCheck', 'order' => 2, 'permission_name' => 'erpika-view']
+        );
+        // Bekas menu AREP kosong lama (route /erpika/arep) dibuang bila ada.
+        Menu::where('route', '/erpika/arep')->delete();
         // ANEVA (Analisis dan Evaluasi) = kelompok; anaknya RPP Aneva dan Database LHP.
         $erpikaAneva = Menu::updateOrCreate(
             ['title' => 'ANEVA', 'parent_id' => $erpika->id],

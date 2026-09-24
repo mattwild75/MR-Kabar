@@ -21,8 +21,10 @@ use App\Http\Controllers\DataUmumController;
 use App\Http\Controllers\Erpika\AnalisisController;
 use App\Http\Controllers\Erpika\AnevaController;
 use App\Http\Controllers\Erpika\DataTerhapusController;
+use App\Http\Controllers\Erpika\KendaliMutuController;
 use App\Http\Controllers\Erpika\LhpController;
 use App\Http\Controllers\Erpika\PegawaiController;
+use App\Http\Controllers\Erpika\SuratTugasController;
 use App\Http\Controllers\FraudRisikoController;
 use App\Http\Controllers\IroPdController;
 use App\Http\Controllers\IrsPdController;
@@ -331,8 +333,26 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/aneva/cetak', [AnevaController::class, 'cetak'])->name('erpika.aneva.cetak');
     Route::get('/erpika/aneva/cetak/excel', [AnevaController::class, 'excel'])->name('erpika.aneva.cetak.excel');
     Route::put('/erpika/aneva/{penugasan}', [AnevaController::class, 'simpanLaporan'])->name('erpika.aneva.simpan');
-    // ERPIKA > AREP — disiapkan kosong (arahan 12 September 2026).
-    Route::get('/erpika/arep', fn () => Inertia::render('erpika/Arep'))->name('erpika.arep');
+    // ERPIKA > AREP — pelaksanaan penugasan sesudah RPP terbit. Dua submenu:
+    // Surat Tugas (ST/SP/Pernyataan) dan Kendali Mutu (30 formulir KMA +
+    // Keputusan Inspektur). Datanya ditarik dari RPP Perencanaan; cetak PDF
+    // lewat Browsershot dari pratinjau React, Word/Excel lewat service.
+    Route::get('/erpika/arep', fn () => redirect()->route('erpika.arep.surat-tugas.index'))->name('erpika.arep');
+    Route::prefix('erpika/arep/surat-tugas')->name('erpika.arep.surat-tugas.')->group(function () {
+        Route::get('/', [SuratTugasController::class, 'index'])->name('index');
+        Route::get('/{penugasan}/preview', [SuratTugasController::class, 'preview'])->name('preview');
+        Route::get('/{penugasan}/pdf', [SuratTugasController::class, 'pdf'])->name('pdf');
+        Route::get('/{penugasan}/word', [SuratTugasController::class, 'word'])->name('word');
+    });
+    Route::prefix('erpika/arep/kendali-mutu')->name('erpika.arep.kendali-mutu.')->group(function () {
+        Route::get('/', [KendaliMutuController::class, 'index'])->name('index');
+        Route::get('/keputusan/preview', [KendaliMutuController::class, 'keputusanPreview'])->name('keputusan.preview');
+        Route::get('/keputusan/pdf', [KendaliMutuController::class, 'keputusanPdf'])->name('keputusan.pdf');
+        Route::get('/keputusan/word', [KendaliMutuController::class, 'keputusanWord'])->name('keputusan.word');
+        Route::get('/{penugasan}/preview', [KendaliMutuController::class, 'preview'])->name('preview');
+        Route::get('/{penugasan}/pdf', [KendaliMutuController::class, 'pdf'])->name('pdf');
+        Route::get('/{penugasan}/excel', [KendaliMutuController::class, 'excel'])->name('excel');
+    });
     // ERPIKA > Laporan Penugasan > Database LHP — manajemen LHP (pindahan SimHPPemda).
     // '/buat' didaftarkan sebelum '/{lhp}' agar tidak tertangkap route model binding.
     Route::prefix('erpika/laporan-penugasan/database-lhp')->name('erpika.lhp.')->group(function () {
