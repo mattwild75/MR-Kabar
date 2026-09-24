@@ -93,6 +93,14 @@ class CadanganDriveService
             throw new \RuntimeException('Google tidak memberikan refresh token: '.($jawab->json('error_description') ?? $jawab->json('error') ?? 'jawaban '.$jawab->status()).'. Coba tautkan ulang; bila berulang, cabut akses aplikasi ini di myaccount.google.com/permissions lalu ulangi.');
         }
 
+        // Layar persetujuan Google membiarkan izin Drive TIDAK dicentang; tanpa
+        // itu tautan tampak berhasil tetapi setiap unggahan ditolak ("insufficient
+        // authentication scopes"). Tolak di sini agar tidak gagal diam-diam.
+        if (! str_contains((string) $jawab->json('scope'), 'auth/drive.file')) {
+            Http::asForm()->timeout(10)->post(self::URL_CABUT, ['token' => $jawab->json('refresh_token')]);
+            throw new \RuntimeException('Izin Google Drive tidak diberikan. Tautkan ulang dan pada layar persetujuan Google CENTANG izin "Lihat, edit, buat, dan hapus file Google Drive yang digunakan aplikasi ini".');
+        }
+
         $this->tokenAkses = $jawab->json('access_token');
 
         $profil = $this->klien()->get(self::URL_PROFIL);
@@ -337,6 +345,10 @@ class CadanganDriveService
 
     private function pesanGalat(Response $jawab): string
     {
+        if (str_contains((string) $jawab->json('error.message'), 'insufficient authentication scopes')) {
+            return 'Izin Google Drive tidak diberikan saat menautkan. Buka Backup > Google Drive, Putuskan lalu Tautkan ulang dan CENTANG izin Google Drive di layar persetujuan Google.';
+        }
+
         return $jawab->json('error.message') ?? $jawab->json('error_description') ?? ('HTTP '.$jawab->status());
     }
 }

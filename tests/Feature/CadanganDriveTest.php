@@ -127,7 +127,7 @@ class CadanganDriveTest extends TestCase
         CadanganDrive::tunggal()->forceFill(['client_id' => 'id-uji', 'client_secret' => 'rahasia'])->save();
 
         Http::fake([
-            'oauth2.googleapis.com/token' => Http::response(['access_token' => 'akses', 'refresh_token' => 'refresh-baru']),
+            'oauth2.googleapis.com/token' => Http::response(['access_token' => 'akses', 'refresh_token' => 'refresh-baru', 'scope' => 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/userinfo.email openid']),
             'www.googleapis.com/oauth2/v3/userinfo' => Http::response(['email' => 'inspektorat@example.com']),
             'www.googleapis.com/drive/v3/files?*' => Http::response(['files' => []]),
             'www.googleapis.com/drive/v3/files' => Http::response(['id' => 'folderBaru']),
@@ -144,6 +144,25 @@ class CadanganDriveTest extends TestCase
         $this->assertSame('refresh-baru', $p->refresh_token);
         $this->assertSame('inspektorat@example.com', $p->akun_email);
         $this->assertSame('folderBaru', $p->folder_id);
+    }
+
+    /** Izin Drive tak dicentang di layar persetujuan Google: tautan ditolak, bukan gagal diam-diam. */
+    public function test_callback_tanpa_izin_drive_ditolak(): void
+    {
+        CadanganDrive::tunggal()->forceFill(['client_id' => 'id-uji', 'client_secret' => 'rahasia'])->save();
+
+        Http::fake([
+            'oauth2.googleapis.com/token' => Http::response(['access_token' => 'akses', 'refresh_token' => 'refresh-baru', 'scope' => 'https://www.googleapis.com/auth/userinfo.email openid']),
+            'oauth2.googleapis.com/revoke*' => Http::response([]),
+        ]);
+
+        $this->actingAs($this->superAdmin())
+            ->withSession(['drive_oauth_state' => 'st'])
+            ->get('/backup/drive/callback?state=st&code=kode')
+            ->assertRedirect(route('backup.index'))
+            ->assertSessionHas('error', fn ($m) => str_contains($m, 'Izin Google Drive tidak diberikan'));
+
+        $this->assertFalse(CadanganDrive::tunggal()->tertaut());
     }
 
     public function test_halaman_backup_tetap_terbuka_saat_drive_tidak_terjangkau(): void
