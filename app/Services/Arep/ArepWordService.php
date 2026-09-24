@@ -122,7 +122,7 @@ class ArepWordService
         $this->tabelTim($sec, $d);
 
         $par = ['alignment' => Jc::BOTH, 'spaceAfter' => 120, 'lineHeight' => 1.4];
-        $sec->addText('Untuk melakukan penugasan '.$d['jenis']['kata_kerja'].' pada '.$d['objek'].'.', [], $par);
+        $sec->addText('Untuk melakukan penugasan '.$d['frasa'].'.', [], $par);
         $sec->addText('Kegiatan tersebut akan dilaksanakan selama '.$d['jangka']['hari_kerja'].' ('.$d['jangka']['hari_kerja_terbilang'].') hari kerja, terhitung mulai tanggal '.$d['jangka']['rentang'].'.', [], $par);
         $sec->addText('Penugasan ini agar dilaksanakan dengan sebaik-baiknya dan penuh tanggung jawab.', [], $par);
 
@@ -162,7 +162,7 @@ class ArepWordService
         }
         $sec->addTextBreak(1);
         $isi = [
-            'Kami akan melaksanakan penugasan '.$d['jenis']['kata_kerja'].' pada '.$d['objek'].', untuk itu kami menugaskan Tim sebagaimana Surat Tugas terlampir.',
+            'Kami akan melaksanakan penugasan '.$d['frasa'].', untuk itu kami menugaskan Tim sebagaimana Surat Tugas terlampir.',
             'Biaya terkait penugasan ini menjadi beban dalam Dokumen Pelaksanaan Anggaran Inspektorat Kabupaten Aceh Barat Tahun Anggaran '.($d['rpp']['tahun'] ?? '').'.',
             'Kami harap agar Saudara tidak memberikan gratifikasi dalam bentuk apapun kepada Tim.',
             'Atas perhatian dan kerjasama yang baik, kami ucapkan terima kasih.',
@@ -186,7 +186,7 @@ class ArepWordService
         $sec->addText('PERNYATAAN INDEPENDENSI DAN INTEGRITAS', ['bold' => true, 'underline' => 'single', 'size' => 13], $ct);
         $sec->addTextBreak(1);
         $par = ['alignment' => Jc::BOTH, 'spaceAfter' => 120, 'lineHeight' => 1.4];
-        $sec->addText('Berdasarkan Surat Tugas Inspektur Kabupaten Aceh Barat Nomor: '.$d['nomor']['st'].' Tanggal '.$d['tanggal']['st'].' tentang '.$d['jenis']['kata_kerja'].' pada '.$d['objek'].', kami yang bertandatangan di bawah ini menyatakan bahwa kami tidak mempunyai hubungan kekerabatan, usaha, dan tidak terdapat benturan kepentingan dalam melaksanakan tugas tersebut.', [], $par);
+        $sec->addText('Berdasarkan Surat Tugas Inspektur Kabupaten Aceh Barat Nomor: '.$d['nomor']['st'].' Tanggal '.$d['tanggal']['st'].' tentang '.$d['frasa'].', kami yang bertandatangan di bawah ini menyatakan bahwa kami tidak mempunyai hubungan kekerabatan, usaha, dan tidak terdapat benturan kepentingan dalam melaksanakan tugas tersebut.', [], $par);
         $sec->addText('Dalam melaksanakan tugas sebagaimana disebutkan di atas, kami menyatakan:', [], ['spaceAfter' => 80]);
         $pernyataan = [
             'Bekerja secara profesional, penuh semangat dan menjunjung tinggi integritas, konsisten serta bertanggung jawab.',

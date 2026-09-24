@@ -54,7 +54,7 @@ export function GridKosong({ kolom, baris = 12 }: { kolom: string[]; baris?: num
                 {Array.from({ length: baris }).map((_, r) => (
                     <tr key={r}>
                         {kolom.map((_, c) => (
-                            <td key={c} className="h-[22px] border border-black px-1 py-1">
+                            <td key={c} className="h-[18px] border border-black px-1 py-0.5">
                                 {c === 0 ? r + 1 : ''}
                             </td>
                         ))}
@@ -71,7 +71,7 @@ export function KotakTtd({ jabatan, nama, nip, pra }: { jabatan: string; nama?: 
         <div className="text-center leading-snug">
             {pra && <div>{pra}</div>}
             <div>{jabatan}</div>
-            <div className="h-[20mm]" />
+            <div className="h-[14mm]" />
             <div className="font-bold underline">{nama || '............'}</div>
             {nip ? <div>NIP. {nip}</div> : <div>NIP. ............</div>}
         </div>
@@ -97,7 +97,7 @@ export function TtdDua({
     tanggal?: string;
 }) {
     return (
-        <div className="mt-6">
+        <div className="mt-4">
             {tanggal && <div className="text-right">Meulaboh, {tanggal}</div>}
             <div className="mt-1 grid grid-cols-2 gap-4">
                 <KotakTtd pra={kiriPra} jabatan={kiriJab} nama={kiri.nama} nip={kiri.nip_spasi} />

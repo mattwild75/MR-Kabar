@@ -162,7 +162,7 @@ function Km9({ d }: { d: ArepData }) {
             <JudulKm>Program Kerja Audit</JudulKm>
             <GridKosong
                 kolom={['No', 'Langkah Kerja Audit', 'Dilaksanakan oleh', 'Waktu (Renc.)', 'Waktu (Real.)', 'Ref. KKA']}
-                baris={14}
+                baris={11}
             />
             <TtdDua kiriJab="Pengendali Teknis" kiri={d.dalnis} kananJab="Ketua Tim" kanan={d.kt} tanggal={d.tanggal.st} />
         </>
@@ -200,8 +200,8 @@ function Km27({ d }: { d: ArepData }) {
                 </tbody>
             </table>
             <p className="mt-3 text-justify">
-                Untuk melakukan penugasan {d.jenis.kata_kerja} pada {d.objek}, terhitung mulai tanggal {d.jangka.rentang} (
-                {d.jangka.hari_kerja} hari kerja).
+                Untuk melakukan penugasan {d.frasa}, terhitung mulai tanggal {d.jangka.rentang} ({d.jangka.hari_kerja} hari
+                kerja).
             </p>
             <div className="mt-6 ml-auto w-[78mm]">
                 <KotakTtd pra={`Meulaboh, ${d.tanggal.st}`} jabatan="Inspektur Kabupaten Aceh Barat" nama={d.inspektur.nama} nip={d.inspektur.nip_spasi} />
@@ -238,8 +238,8 @@ function KmUmum({ d, meta }: { d: ArepData; meta: KmMeta }) {
                     </>
                 )}
             </div>
-            <GridKosong kolom={kolom} baris={land ? 12 : 16} />
-            <div className="mt-6 grid grid-cols-2 gap-4">
+            <GridKosong kolom={kolom} baris={land ? 9 : 13} />
+            <div className="mt-4 grid grid-cols-2 gap-4">
                 <KotakTtd pra="Mengetahui/Menyetujui," jabatan={meta.autofill ? 'Pengendali Teknis' : 'Inspektur Kabupaten Aceh Barat'} nama={meta.autofill ? d.dalnis.nama : d.inspektur.nama} nip={meta.autofill ? d.dalnis.nip_spasi : d.inspektur.nip_spasi} />
                 <KotakTtd pra="Disusun oleh," jabatan={meta.autofill ? 'Ketua Tim' : ''} nama={meta.autofill ? d.kt.nama : ''} nip={meta.autofill ? d.kt.nip_spasi : ''} />
             </div>

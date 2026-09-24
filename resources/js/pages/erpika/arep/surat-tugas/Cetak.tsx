@@ -19,7 +19,7 @@ const breadcrumbs = (nomor: string): BreadcrumbItem[] => [
 ];
 
 function Lembar({ children }: { children: ReactNode }) {
-    return <section className="lembar mx-auto w-[210mm] max-w-full bg-white px-[20mm] py-[12mm] text-black">{children}</section>;
+    return <section className="lembar mx-auto w-[210mm] max-w-full bg-white px-[20mm] py-[10mm] text-black">{children}</section>;
 }
 
 /** Surat Tugas — kop, nomor, tabel tim, uraian, tanda tangan Inspektur. */
@@ -56,9 +56,7 @@ function SuratTugas({ d }: { d: ArepData }) {
                 </tbody>
             </table>
             <div className="mt-4 space-y-2 text-justify leading-relaxed">
-                <p>
-                    Untuk melakukan penugasan {d.jenis.kata_kerja} pada {d.objek}.
-                </p>
+                <p>Untuk melakukan penugasan {d.frasa}.</p>
                 <p>
                     Kegiatan tersebut akan dilaksanakan selama {d.jangka.hari_kerja} ({d.jangka.hari_kerja_terbilang}) hari
                     kerja, terhitung mulai tanggal {d.jangka.rentang}.
@@ -107,16 +105,16 @@ function SuratPengantar({ d }: { d: ArepData }) {
                 </tbody>
             </table>
 
-            <p className="mt-4">Berdasarkan :</p>
-            <ol className="ml-[10mm] list-decimal space-y-1 pl-4 text-justify">
+            <p className="mt-3">Berdasarkan :</p>
+            <ol className="ml-[10mm] list-decimal space-y-0.5 pl-4 text-justify">
                 {d.dasar_hukum.map((t, i) => (
                     <li key={i}>{t}</li>
                 ))}
             </ol>
-            <div className="mt-3 space-y-2 text-justify leading-relaxed">
+            <div className="mt-2 space-y-1.5 text-justify leading-snug">
                 <p>
-                    Kami akan melaksanakan penugasan {d.jenis.kata_kerja} pada {d.objek}, untuk itu kami menugaskan Tim
-                    sebagaimana Surat Tugas terlampir.
+                    Kami akan melaksanakan penugasan {d.frasa}, untuk itu kami menugaskan Tim sebagaimana Surat Tugas
+                    terlampir.
                 </p>
                 <p>
                     Biaya terkait penugasan ini menjadi beban dalam Dokumen Pelaksanaan Anggaran Inspektorat Kabupaten Aceh
@@ -126,7 +124,7 @@ function SuratPengantar({ d }: { d: ArepData }) {
                 <p>Atas perhatian dan kerjasama yang baik, kami ucapkan terima kasih.</p>
             </div>
             <TtdInspektur d={d} />
-            <div className="mt-6 text-[10pt] leading-snug">
+            <div className="mt-3 text-[10pt] leading-snug">
                 Tembusan :
                 <ol className="list-decimal pl-5">
                     <li>Bupati Aceh Barat di Meulaboh (sebagai laporan);</li>
@@ -163,9 +161,8 @@ function Pernyataan({ d }: { d: ArepData }) {
             <div className="mt-3 text-center text-[13pt] font-bold underline">PERNYATAAN INDEPENDENSI DAN INTEGRITAS</div>
             <p className="mt-4 text-justify leading-relaxed">
                 Berdasarkan Surat Tugas Inspektur Kabupaten Aceh Barat Nomor: {d.nomor.st} Tanggal {d.tanggal.st} tentang{' '}
-                {d.jenis.kata_kerja} pada {d.objek}, kami yang bertandatangan di bawah ini menyatakan bahwa kami tidak
-                mempunyai hubungan kekerabatan, usaha, dan tidak terdapat benturan kepentingan dalam melaksanakan tugas
-                tersebut.
+                {d.frasa}, kami yang bertandatangan di bawah ini menyatakan bahwa kami tidak mempunyai hubungan
+                kekerabatan, usaha, dan tidak terdapat benturan kepentingan dalam melaksanakan tugas tersebut.
             </p>
             <p className="mt-2">Dalam melaksanakan tugas sebagaimana disebutkan di atas, kami menyatakan:</p>
             <ol className="ml-[8mm] list-decimal space-y-1 pl-4 text-justify">

@@ -34,6 +34,12 @@ class ArepData
 
         $obrikNama = $p->obriks->pluck('nama')->filter()->values();
         $objek = $obrikNama->isNotEmpty() ? $obrikNama->join(', ') : ($p->uraian ?? '');
+        // Frasa penugasan untuk kalimat "penugasan <frasa>"/"tentang <frasa>":
+        // bila objek dari obrik → "<kata kerja> pada <obrik>"; bila jatuh ke
+        // uraian (yang sudah memuat jenisnya) → pakai uraian apa adanya, supaya
+        // tidak menjadi "Reviu pada Reviu ...".
+        $kk = $this->kataKerja($p->rpp?->category?->name);
+        $frasa = $obrikNama->isNotEmpty() ? $kk.' pada '.$obrikNama->join(', ') : ($p->uraian ?: $kk.' pada '.$objek);
 
         return [
             'penugasan_id' => $p->id,
@@ -61,6 +67,7 @@ class ArepData
                 'surat' => $this->tglPanjang($p->tanggal_st ?: $p->masa_tugas_mulai),
             ],
             'objek' => $objek,
+            'frasa' => $frasa,
             'obriks' => $obrikNama->all(),
             'uraian' => $p->uraian,
             'sifat' => $p->sifat,

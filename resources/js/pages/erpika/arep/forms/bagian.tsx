@@ -25,6 +25,7 @@ export interface ArepData {
     nomor: { st: string; sp: string | null; kp: string | null; rpp: string | null };
     tanggal: { st: string; st_iso: string | null; surat: string };
     objek: string;
+    frasa: string;
     obriks: string[];
     uraian: string | null;
     sifat: string | null;
@@ -75,10 +76,10 @@ export function KopSurat({ kop, gambar = true }: { kop: ArepData['kop']; gambar?
 /** Blok tanda tangan Inspektur, rata kanan. */
 export function TtdInspektur({ d, tanggal }: { d: ArepData; tanggal?: string }) {
     return (
-        <div className="mt-6 ml-auto w-[78mm] text-center leading-snug">
+        <div className="mt-4 ml-auto w-[78mm] text-center leading-snug">
             <div>Meulaboh, {tanggal ?? d.tanggal.surat}</div>
             <div>Inspektur Kabupaten Aceh Barat,</div>
-            <div className="h-[22mm]" />
+            <div className="h-[13mm]" />
             <div className="font-bold underline">{d.inspektur.nama}</div>
             {d.inspektur.pangkat && <div>{d.inspektur.pangkat}</div>}
             <div>NIP. {d.inspektur.nip_spasi}</div>
