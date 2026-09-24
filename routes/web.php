@@ -340,18 +340,23 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('/erpika/arep', fn () => redirect()->route('erpika.arep.surat-tugas.index'))->name('erpika.arep');
     Route::prefix('erpika/arep/surat-tugas')->name('erpika.arep.surat-tugas.')->group(function () {
         Route::get('/', [SuratTugasController::class, 'index'])->name('index');
+        Route::get('/suntingan/{token}', [SuratTugasController::class, 'suntingan'])->name('suntingan');
         Route::get('/{penugasan}/preview', [SuratTugasController::class, 'preview'])->name('preview');
         Route::get('/{penugasan}/pdf', [SuratTugasController::class, 'pdf'])->name('pdf');
         Route::get('/{penugasan}/word', [SuratTugasController::class, 'word'])->name('word');
+        Route::post('/{penugasan}/pdf-suntingan', [SuratTugasController::class, 'pdfSuntingan'])->name('pdf-suntingan');
+        Route::post('/{penugasan}/word-suntingan', [SuratTugasController::class, 'wordSuntingan'])->name('word-suntingan');
     });
     Route::prefix('erpika/arep/kendali-mutu')->name('erpika.arep.kendali-mutu.')->group(function () {
         Route::get('/', [KendaliMutuController::class, 'index'])->name('index');
         Route::get('/keputusan/preview', [KendaliMutuController::class, 'keputusanPreview'])->name('keputusan.preview');
         Route::get('/keputusan/pdf', [KendaliMutuController::class, 'keputusanPdf'])->name('keputusan.pdf');
         Route::get('/keputusan/word', [KendaliMutuController::class, 'keputusanWord'])->name('keputusan.word');
+        Route::get('/suntingan/{token}', [KendaliMutuController::class, 'suntingan'])->name('suntingan');
         Route::get('/{penugasan}/preview', [KendaliMutuController::class, 'preview'])->name('preview');
         Route::get('/{penugasan}/pdf', [KendaliMutuController::class, 'pdf'])->name('pdf');
         Route::get('/{penugasan}/excel', [KendaliMutuController::class, 'excel'])->name('excel');
+        Route::post('/{penugasan}/pdf-suntingan', [KendaliMutuController::class, 'pdfSuntingan'])->name('pdf-suntingan');
     });
     // ERPIKA > Laporan Penugasan > Database LHP — manajemen LHP (pindahan SimHPPemda).
     // '/buat' didaftarkan sebelum '/{lhp}' agar tidak tertangkap route model binding.

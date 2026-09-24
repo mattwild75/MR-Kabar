@@ -18,6 +18,9 @@ class ArepData
     /** Terbilang angka kecil (jumlah hari kerja) dalam Bahasa Indonesia. */
     private const SATUAN = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan', 'sepuluh', 'sebelas'];
 
+    /** 1 hari produktif (HP) = 6,5 jam — baku KM 7 Inspektorat. */
+    private const JAM_PER_HP = 6.5;
+
     /** @return array<string, mixed> */
     public function untukPenugasan(RppPenugasan $p): array
     {
@@ -27,6 +30,19 @@ class ArepData
 
         $peran = fn (string $role) => $tim->firstWhere('role', $role);
         $anggota = $tim->where('role', 'at')->values();
+        // Konvensi ST s.d. 2025 (empat peran): tanpa Pengendali Teknis
+        // tersendiri, WPJ merangkap — di ST tertulis "PPJ / Pengendali Teknis".
+        // Sejak 2026 (lima peran) Pengendali Teknis tercatat sebagai `dalnis`.
+        $dalnisSendiri = $peran('dalnis');
+        $rangkap = ! $dalnisSendiri && $peran('wpj') !== null;
+        $dalnis = $dalnisSendiri ?? $peran('wpj');
+        $labelPeran = function (RppTeamMember $m) use ($rangkap): string {
+            if ($rangkap && $m->role === 'wpj' && ! filled($m->peran_teks)) {
+                return 'PPJ / Pengendali Teknis';
+            }
+
+            return $m->peranTampil();
+        };
 
         $mulai = $p->masa_tugas_mulai;
         $selesai = $p->masa_tugas_selesai;
@@ -84,10 +100,13 @@ class ArepData
             'laporan_kepada' => 'Bupati dan Auditi',
             'pj' => $this->orang($peran('pj')),
             'wpj' => $this->orang($peran('wpj')),
-            'dalnis' => $this->orang($peran('dalnis')),
+            'dalnis' => $this->orang($dalnis),
+            'dalnis_rangkap' => $rangkap,
             'kt' => $this->orang($peran('kt')),
             'anggota' => $anggota->map(fn ($m) => $this->orang($m))->all(),
-            'tim' => $tim->map(fn (RppTeamMember $m, int $i) => $this->orang($m) + ['no' => $i + 1])->all(),
+            // Bila WPJ merangkap Pengendali Teknis, harinya dihitung sekali (di kolom WPJ).
+            'anggaran_waktu' => $this->anggaranWaktu($peran('wpj'), $dalnisSendiri, $peran('kt'), $anggota),
+            'tim' => $tim->map(fn (RppTeamMember $m, int $i) => ['peran' => $labelPeran($m)] + $this->orang($m) + ['no' => $i + 1])->all(),
             'inspektur' => $this->inspektur($insp),
             'dasar_hukum' => $this->dasarHukum($p->rpp?->year),
             'kop' => [
@@ -168,6 +187,76 @@ class ArepData
             str_contains($j, 'opname') => 'Opname Kas',
             default => 'Audit',
         };
+    }
+
+    /**
+     * Anggaran waktu KM 7 dari RPP: tiap peran punya hari kantor (DK) & hari
+     * lapangan (LK). Pemetaan baku (dari berkas KM asli): Pelaksanaan (II) =
+     * LK; Persiapan (I) + Penyelesaian (III) = DK (dibagi); Jam = HP × 6,5.
+     * Kolom AT = jumlah seluruh anggota; kolom Jumlah = WPJ+Dalnis+KT+AT.
+     *
+     * @param  \Illuminate\Support\Collection<int, RppTeamMember>  $anggota
+     * @return array<string, mixed>
+     */
+    private function anggaranWaktu(?RppTeamMember $wpj, ?RppTeamMember $dalnis, ?RppTeamMember $kt, $anggota): array
+    {
+        $fase = function (?RppTeamMember $m): array {
+            $dk = (int) ($m?->hari_kantor ?? 0);
+            $lk = (int) ($m?->hari_lapangan ?? 0);
+            $i = intdiv($dk, 2);
+
+            return ['I' => $i, 'II' => $lk, 'III' => $dk - $i];
+        };
+        $wpjF = $fase($wpj);
+        $dalF = $fase($dalnis);
+        $ktF = $fase($kt);
+        $atF = ['I' => 0, 'II' => 0, 'III' => 0];
+        foreach ($anggota as $a) {
+            $f = $fase($a);
+            $atF['I'] += $f['I'];
+            $atF['II'] += $f['II'];
+            $atF['III'] += $f['III'];
+        }
+        $ada = ['wpj' => $wpj !== null, 'dalnis' => $dalnis !== null, 'kt' => $kt !== null, 'at' => count($anggota) > 0];
+        $sel = fn (int $hp, bool $isi) => $isi ? ['hp' => $hp, 'jam' => $this->jam($hp)] : ['hp' => null, 'jam' => null];
+
+        $judul = ['I' => 'PERSIAPAN PENUGASAN', 'II' => 'PELAKSANAAN PENUGASAN', 'III' => 'PENYELESAIAN PENUGASAN'];
+        $baris = [];
+        foreach ($judul as $rom => $j) {
+            $jml = $wpjF[$rom] + $dalF[$rom] + $ktF[$rom] + $atF[$rom];
+            $baris[] = [
+                'rom' => $rom, 'judul' => $j,
+                'wpj' => $sel($wpjF[$rom], $ada['wpj']),
+                'dalnis' => $sel($dalF[$rom], $ada['dalnis']),
+                'kt' => $sel($ktF[$rom], $ada['kt']),
+                'at' => $sel($atF[$rom], $ada['at']),
+                'jumlah' => ['hp' => $jml, 'jam' => $this->jam($jml)],
+            ];
+        }
+        $totKol = fn (array $f, bool $isi) => $sel($f['I'] + $f['II'] + $f['III'], $isi);
+        $grand = ($wpjF['I'] + $wpjF['II'] + $wpjF['III']) + ($dalF['I'] + $dalF['II'] + $dalF['III'])
+            + ($ktF['I'] + $ktF['II'] + $ktF['III']) + ($atF['I'] + $atF['II'] + $atF['III']);
+
+        return [
+            'jam_per_hp' => self::JAM_PER_HP,
+            'jumlah_anggota' => count($anggota),
+            'baris' => $baris,
+            'total' => [
+                'wpj' => $totKol($wpjF, $ada['wpj']),
+                'dalnis' => $totKol($dalF, $ada['dalnis']),
+                'kt' => $totKol($ktF, $ada['kt']),
+                'at' => $totKol($atF, $ada['at']),
+                'jumlah' => ['hp' => $grand, 'jam' => $this->jam($grand)],
+            ],
+        ];
+    }
+
+    /** Jam dari HP: bilangan bulat dikembalikan int (13), sisanya float (6.5). */
+    private function jam(int $hp): int|float
+    {
+        $j = $hp * self::JAM_PER_HP;
+
+        return fmod($j, 1.0) === 0.0 ? (int) $j : $j;
     }
 
     private function hariKerja(?CarbonInterface $a, ?CarbonInterface $b): int

@@ -2,13 +2,16 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { FileText } from 'lucide-react';
-import { type ReactNode } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { KopSurat, TtdInspektur, type ArepData } from '@/pages/erpika/arep/forms/bagian';
+import { SuntingBar } from '@/pages/erpika/arep/forms/sunting';
 
 interface Props {
-    data: ArepData;
-    dokumen: 'semua' | 'st' | 'sp' | 'pernyataan';
+    data?: ArepData;
+    dokumen?: 'semua' | 'st' | 'sp' | 'pernyataan';
+    mulaiSunting?: boolean;
+    /** HTML hasil suntingan (jalur render PDF suntingan, tanpa kontrol). */
+    suntingan?: string;
 }
 
 const breadcrumbs = (nomor: string): BreadcrumbItem[] => [
@@ -150,8 +153,12 @@ const PERNYATAAN = [
 function Pernyataan({ d }: { d: ArepData }) {
     const penanda: { label: string; nama: string }[] = [];
     if (d.pj.nama) penanda.push({ label: 'Penanggung Jawab', nama: d.pj.nama });
-    if (d.wpj.nama) penanda.push({ label: 'Wakil Penanggung Jawab', nama: d.wpj.nama });
-    if (d.dalnis.nama) penanda.push({ label: 'Pengendali Teknis', nama: d.dalnis.nama });
+    if (d.dalnis_rangkap) {
+        if (d.wpj.nama) penanda.push({ label: 'PPJ / Pengendali Teknis', nama: d.wpj.nama });
+    } else {
+        if (d.wpj.nama) penanda.push({ label: 'Wakil Penanggung Jawab', nama: d.wpj.nama });
+        if (d.dalnis.nama) penanda.push({ label: 'Pengendali Teknis', nama: d.dalnis.nama });
+    }
     if (d.kt.nama) penanda.push({ label: 'Ketua Tim', nama: d.kt.nama });
     d.anggota.forEach((a) => a.nama && penanda.push({ label: 'Anggota Tim', nama: a.nama }));
 
@@ -189,23 +196,41 @@ function Pernyataan({ d }: { d: ArepData }) {
     );
 }
 
-export default function SuratTugasCetak({ data, dokumen }: Props) {
-    const tampil = (k: Props['dokumen']) => dokumen === 'semua' || dokumen === k;
+const GAYA = `
+    @page { size: A4 portrait; margin: 0; }
+    .lembar { font-family: 'Bookman Old Style','URW Bookman',Bookman,'DejaVu Serif',serif; font-size: 12pt; line-height: 1.5; }
+    .lembar + .lembar { margin-top: 8mm; }
+    [contenteditable="true"] .lembar { outline: 2px dashed #2563eb; outline-offset: 4px; }
+    @media print {
+        body { background:#fff; }
+        .lembar { margin:0 !important; box-shadow:none !important; page-break-after: always; }
+        .lembar:last-child { page-break-after: auto; }
+        .min-h-svh { min-height:0 !important; }
+    }
+`;
+
+export default function SuratTugasCetak({ data, dokumen = 'semua', mulaiSunting, suntingan }: Props) {
+    const [sunting, setSunting] = useState(!!mulaiSunting);
+    const isi = useRef<HTMLDivElement>(null);
+
+    // Jalur render PDF suntingan: tampilkan HTML apa adanya, tanpa kontrol.
+    if (suntingan) {
+        return (
+            <>
+                <Head title="Surat Tugas" />
+                <style>{GAYA}</style>
+                <div className="bg-white" dangerouslySetInnerHTML={{ __html: suntingan }} />
+            </>
+        );
+    }
+    if (!data) return null;
+
+    const tampil = (k: NonNullable<Props['dokumen']>) => dokumen === 'semua' || dokumen === k;
 
     return (
         <AppLayout breadcrumbs={breadcrumbs(data.nomor.st)}>
             <Head title={`Surat Tugas ${data.nomor.st}`} />
-            <style>{`
-                @page { size: A4 portrait; margin: 0; }
-                .lembar { font-family: 'Bookman Old Style','URW Bookman',Bookman,'DejaVu Serif',serif; font-size: 12pt; line-height: 1.5; }
-                .lembar + .lembar { margin-top: 8mm; }
-                @media print {
-                    body { background:#fff; }
-                    .lembar { margin:0 !important; box-shadow:none !important; page-break-after: always; }
-                    .lembar:last-child { page-break-after: auto; }
-                    .min-h-svh { min-height:0 !important; }
-                }
-            `}</style>
+            <style>{GAYA}</style>
 
             <div className="space-y-3 p-4 md:p-6 print:hidden">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -214,20 +239,42 @@ export default function SuratTugasCetak({ data, dokumen }: Props) {
                             Kembali
                         </Button>
                     </Link>
-                    <div className="flex flex-wrap gap-2">
-                        <a href={`/erpika/arep/surat-tugas/${data.penugasan_id}/word?dok=${dokumen}`}>
-                            <Button variant="outline" size="sm">
-                                <FileText className="mr-1 h-4 w-4" /> Unduh Word
-                            </Button>
-                        </a>
-                        <a href={`/erpika/arep/surat-tugas/${data.penugasan_id}/pdf?dok=${dokumen}`}>
-                            <Button size="sm">Unduh PDF</Button>
-                        </a>
+                    <div className="flex flex-wrap items-center gap-2">
+                        {!sunting && (
+                            <>
+                                <a href={`/erpika/arep/surat-tugas/${data.penugasan_id}/word?dok=${dokumen}`}>
+                                    <Button variant="outline" size="sm">Unduh Word</Button>
+                                </a>
+                                <a href={`/erpika/arep/surat-tugas/${data.penugasan_id}/pdf?dok=${dokumen}`}>
+                                    <Button size="sm">Unduh PDF</Button>
+                                </a>
+                            </>
+                        )}
+                        <SuntingBar
+                            contentRef={isi}
+                            sunting={sunting}
+                            setSunting={setSunting}
+                            pdfUrl={`/erpika/arep/surat-tugas/${data.penugasan_id}/pdf-suntingan`}
+                            wordUrl={`/erpika/arep/surat-tugas/${data.penugasan_id}/word-suntingan`}
+                            filename={`Surat-Tugas-${data.nomor.st.replace(/[^A-Za-z0-9]+/g, '-')}`}
+                            body={{ dok: dokumen }}
+                        />
                     </div>
                 </div>
+                {sunting && (
+                    <p className="text-muted-foreground text-sm">
+                        Mode sunting: klik teks lalu ketik seperti di Word (Ctrl+B/I/U). Suntingan hanya untuk berkas yang
+                        diunduh — data RPP tidak berubah.
+                    </p>
+                )}
             </div>
 
-            <div className="bg-muted/40 pb-8 print:bg-white print:pb-0">
+            <div
+                ref={isi}
+                contentEditable={sunting}
+                suppressContentEditableWarning
+                className="bg-muted/40 pb-8 print:bg-white print:pb-0"
+            >
                 {tampil('st') && <SuratTugas d={data} />}
                 {tampil('sp') && <SuratPengantar d={data} />}
                 {tampil('pernyataan') && <Pernyataan d={data} />}

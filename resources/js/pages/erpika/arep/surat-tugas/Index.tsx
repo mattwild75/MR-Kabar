@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { Eye, FileDown, FileText, Search, X } from 'lucide-react';
+import { Eye, FileDown, FileText, PencilLine, Search, X } from 'lucide-react';
 import { useState } from 'react';
 
 interface Penugasan {
@@ -182,6 +182,11 @@ export default function SuratTugasIndex({ penugasan, filter, tahunTersedia, jeni
                                             <Link href={`/erpika/arep/surat-tugas/${p.id}/preview`}>
                                                 <Button size="sm" variant="outline" className="h-8">
                                                     <Eye className="mr-1 h-4 w-4" /> Lihat
+                                                </Button>
+                                            </Link>
+                                            <Link href={`/erpika/arep/surat-tugas/${p.id}/preview?edit=1`}>
+                                                <Button size="sm" variant="outline" className="h-8">
+                                                    <PencilLine className="mr-1 h-4 w-4" /> Edit
                                                 </Button>
                                             </Link>
                                             <DropdownMenu>

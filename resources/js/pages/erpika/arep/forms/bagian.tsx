@@ -18,6 +18,26 @@ export interface Orang {
     hari_lapangan?: number;
 }
 
+export interface AwSel {
+    hp: number | null;
+    jam: number | null;
+}
+export interface AwBaris {
+    rom: string;
+    judul: string;
+    wpj: AwSel;
+    dalnis: AwSel;
+    kt: AwSel;
+    at: AwSel;
+    jumlah: AwSel;
+}
+export interface AnggaranWaktu {
+    jam_per_hp: number;
+    jumlah_anggota: number;
+    baris: AwBaris[];
+    total: { wpj: AwSel; dalnis: AwSel; kt: AwSel; at: AwSel; jumlah: AwSel };
+}
+
 export interface ArepData {
     penugasan_id: number;
     rpp: { id: number | null; nomor_rpp: string | null; tahun: number | null; tanggal_rpp: string };
@@ -43,8 +63,11 @@ export interface ArepData {
     pj: Orang;
     wpj: Orang;
     dalnis: Orang;
+    /** true bila tak ada Pengendali Teknis tersendiri: WPJ merangkap (konvensi ST s.d. 2025). */
+    dalnis_rangkap: boolean;
     kt: Orang;
     anggota: Orang[];
+    anggaran_waktu: AnggaranWaktu;
     tim: Orang[];
     inspektur: { nama: string; nip_spasi: string; pangkat: string; jabatan: string };
     dasar_hukum: string[];

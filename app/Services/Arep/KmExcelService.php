@@ -71,17 +71,25 @@ class KmExcelService
     {
         $ws->setCellValue("K{$r}", 'Meulaboh, '.($tglKanan ?: $d['tanggal']['st']));
         $r++;
+        // WPJ merangkap Pengendali Teknis (ST s.d. 2025): cukup dua blok.
+        $rangkap = ! empty($d['dalnis_rangkap']);
         $ws->setCellValue("B{$r}", 'Inspektur Kabupaten Aceh Barat');
-        $ws->setCellValue("F{$r}", 'Pengendali Teknis');
-        $ws->setCellValue("K{$r}", 'Wakil Penanggung Jawab');
+        if (! $rangkap) {
+            $ws->setCellValue("F{$r}", 'Pengendali Teknis');
+        }
+        $ws->setCellValue("K{$r}", $rangkap ? 'PPJ / Pengendali Teknis' : 'Wakil Penanggung Jawab');
         $r += 4;
         $ws->setCellValue("B{$r}", $d['inspektur']['nama']);
-        $ws->setCellValue("F{$r}", $d['dalnis']['nama'] ?: '............');
+        if (! $rangkap) {
+            $ws->setCellValue("F{$r}", $d['dalnis']['nama'] ?: '............');
+        }
         $ws->setCellValue("K{$r}", $d['wpj']['nama'] ?: '............');
         $ws->getStyle("B{$r}:K{$r}")->getFont()->setBold(true)->setUnderline(true);
         $r++;
         $ws->setCellValue("B{$r}", 'NIP. '.$d['inspektur']['nip_spasi']);
-        $ws->setCellValue("F{$r}", $d['dalnis']['nip_spasi'] ? 'NIP. '.$d['dalnis']['nip_spasi'] : '');
+        if (! $rangkap) {
+            $ws->setCellValue("F{$r}", $d['dalnis']['nip_spasi'] ? 'NIP. '.$d['dalnis']['nip_spasi'] : '');
+        }
         $ws->setCellValue("K{$r}", $d['wpj']['nip_spasi'] ? 'NIP. '.$d['wpj']['nip_spasi'] : '');
 
         return $r + 1;
@@ -113,8 +121,12 @@ class KmExcelService
         $baris('2.', 'Rencana Penugasan Nomor', ($d['nomor']['rpp'] ?? '-').($d['rpp']['tanggal_rpp'] ? ' tanggal '.$d['rpp']['tanggal_rpp'] : ''));
         $baris('3.', 'Sifat / Sasaran Penugasan', $d['sifat'] ?: '-');
         $baris('4.', 'Laporan dikirim kepada', $d['laporan_kepada']);
-        $baris('5.', 'Wakil Penanggung Jawab', $d['wpj']['nama'] ?: '-');
-        $baris('', 'Pengendali Teknis', $d['dalnis']['nama'] ?: '-');
+        if (! empty($d['dalnis_rangkap'])) {
+            $baris('5.', 'PPJ / Pengendali Teknis', $d['wpj']['nama'] ?: '-');
+        } else {
+            $baris('5.', 'Wakil Penanggung Jawab', $d['wpj']['nama'] ?: '-');
+            $baris('', 'Pengendali Teknis', $d['dalnis']['nama'] ?: '-');
+        }
         $baris('', 'Ketua Tim', $d['kt']['nama'] ?: '-');
         $baris('', 'Anggota Tim', collect($d['anggota'])->pluck('nama')->filter()->join(', ') ?: '-');
         $baris('6.', 'Surat Tugas Nomor', $d['nomor']['st']);
@@ -148,7 +160,7 @@ class KmExcelService
         // Kepala tabel tahap.
         $ws->setCellValue("A{$r}", 'No');
         $ws->mergeCells("B{$r}:B".($r + 1))->setCellValue("B{$r}", 'Tahapan Penugasan');
-        $ws->mergeCells("C{$r}:D{$r}")->setCellValue("C{$r}", 'WPJ');
+        $ws->mergeCells("C{$r}:D{$r}")->setCellValue("C{$r}", ! empty($d['dalnis_rangkap']) ? 'PPJ/Dalnis' : 'WPJ');
         $ws->mergeCells("E{$r}:F{$r}")->setCellValue("E{$r}", 'Dalnis');
         $ws->mergeCells("G{$r}:H{$r}")->setCellValue("G{$r}", 'Ketua Tim');
         $ws->mergeCells("I{$r}:J{$r}")->setCellValue("I{$r}", 'Anggota');
@@ -162,31 +174,52 @@ class KmExcelService
         }
         $ws->getStyle("A".($r - 1).":L{$r}")->applyFromArray(['font' => ['bold' => true], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER]] + $this->tepi);
         $r++;
-        $tahap = [
-            'I' => ['PERSIAPAN PENUGASAN', 'Penyusunan rencana penugasan', 'Pembicaraan pendahuluan', 'Pengumpulan informasi umum', 'Penelaahan peraturan', 'Menyusun program kerja'],
-            'II' => ['PELAKSANAAN PENUGASAN', 'Pengujian bukti/dokumen', 'Wawancara dan konfirmasi', 'Pemeriksaan fisik', 'Penyusunan kesimpulan'],
-            'III' => ['PENYELESAIAN PENUGASAN', 'Pembahasan intern tim dan PPJ', 'Menyusun konsep laporan', 'Pembahasan konsep laporan'],
+        $aw = $d['anggaran_waktu'];
+        $subItems = [
+            'I' => ['Penyusunan rencana penugasan', 'Pembicaraan pendahuluan', 'Pengumpulan informasi umum', 'Penelaahan peraturan perundang-undangan', 'Menyusun Program Kerja'],
+            'II' => ['Pengujian bukti/dokumen', 'Wawancara dan konfirmasi', 'Pemeriksaan fisik/konfirmasi', 'Penyusunan kesimpulan'],
+            'III' => ['Pembahasan intern tim dan PPJ', 'Menyusun konsep laporan', 'Pembahasan konsep laporan'],
         ];
-        foreach ($tahap as $rom => $items) {
-            $ws->setCellValue("A{$r}", $rom);
-            $ws->mergeCells("B{$r}:L{$r}")->setCellValue("B{$r}", array_shift($items));
+        $isiHpJam = function (int $r, array $b) use ($ws) {
+            $peta = ['C' => ['wpj', 'hp'], 'D' => ['wpj', 'jam'], 'E' => ['dalnis', 'hp'], 'F' => ['dalnis', 'jam'], 'G' => ['kt', 'hp'], 'H' => ['kt', 'jam'], 'I' => ['at', 'hp'], 'J' => ['at', 'jam'], 'K' => ['jumlah', 'hp'], 'L' => ['jumlah', 'jam']];
+            foreach ($peta as $col => [$peran, $bagian]) {
+                $v = $b[$peran][$bagian] ?? null;
+                if ($v !== null) {
+                    $ws->setCellValue("{$col}{$r}", $v);
+                }
+                $ws->getStyle("{$col}{$r}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            }
+        };
+        foreach ($aw['baris'] as $b) {
+            $ws->setCellValue("A{$r}", $b['rom']);
+            $ws->setCellValue("B{$r}", $b['judul']);
+            $isiHpJam($r, $b);
             $ws->getStyle("A{$r}:L{$r}")->applyFromArray(['font' => ['bold' => true]] + $this->tepi);
             $r++;
-            foreach ($items as $i => $it) {
+            foreach ($subItems[$b['rom']] as $i => $it) {
                 $ws->setCellValue("A{$r}", $i + 1);
                 $ws->setCellValue("B{$r}", $it);
                 $ws->getStyle("A{$r}:L{$r}")->applyFromArray($this->tepi);
+                $ws->getStyle("A{$r}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $r++;
             }
         }
-        $r++;
-        // Tanda tangan KM 7: Disetujui (WPJ) · Dalnis · Disusun (KT); Mengetahui Inspektur.
+        // Baris total.
+        $ws->mergeCells("A{$r}:B{$r}")->setCellValue("A{$r}", 'Jumlah HP/Jam yang Dianggarkan');
+        $isiHpJam($r, $aw['total']);
+        $ws->getStyle("A{$r}:L{$r}")->applyFromArray(['font' => ['bold' => true]] + $this->tepi);
+        $ws->getStyle("A{$r}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $r += 2;
+        $ws->setCellValue("A{$r}", '1 Hari Produktif (HP) = '.$aw['jam_per_hp'].' jam.');
+        $ws->getStyle("A{$r}")->getFont()->setItalic(true)->setSize(9);
+        $r += 2;
+        // Tanda tangan KM 7: Disetujui (WPJ) · Disusun (KT).
         $ws->setCellValue("B{$r}", 'Disetujui, Wakil Penanggung Jawab');
-        $ws->setCellValue("G{$r}", 'Disusun, Ketua Tim');
+        $ws->setCellValue("H{$r}", 'Disusun, Ketua Tim');
         $r += 4;
         $ws->setCellValue("B{$r}", $d['wpj']['nama'] ?: '............');
-        $ws->setCellValue("G{$r}", $d['kt']['nama'] ?: '............');
-        $ws->getStyle("B{$r}:G{$r}")->getFont()->setBold(true)->setUnderline(true);
+        $ws->setCellValue("H{$r}", $d['kt']['nama'] ?: '............');
+        $ws->getStyle("B{$r}:H{$r}")->getFont()->setBold(true)->setUnderline(true);
     }
 
     /** KM 9 — Program Kerja Audit (header autofill, langkah kerja kosong). */

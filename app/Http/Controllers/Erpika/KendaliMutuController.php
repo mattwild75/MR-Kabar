@@ -38,7 +38,27 @@ class KendaliMutuController extends Controller
             'data' => $data->untukPenugasan($penugasan),
             'katalog' => KmKatalog::semua(),
             'forms' => $forms,
+            'mulaiSunting' => $request->boolean('edit'),
         ]);
+    }
+
+    /** Halaman render HTML hasil suntingan (dikunjungi Browsershot untuk PDF). */
+    public function suntingan(string $token)
+    {
+        $html = \Illuminate\Support\Facades\Cache::get('arep-km-suntingan:'.$token) ?? abort(404);
+
+        return Inertia::render('erpika/arep/kendali-mutu/Cetak', ['suntingan' => $html, 'katalog' => KmKatalog::semua(), 'forms' => []]);
+    }
+
+    /** PDF dari formulir KM yang sudah disunting di pratinjau. */
+    public function pdfSuntingan(Request $request, RppPenugasan $penugasan)
+    {
+        $v = $request->validate(['html' => ['required', 'string', 'max:5000000'], 'landscape' => ['nullable', 'boolean']]);
+        $token = \Illuminate\Support\Str::random(32);
+        \Illuminate\Support\Facades\Cache::put('arep-km-suntingan:'.$token, $v['html'], 600);
+        $url = url('/erpika/arep/kendali-mutu/suntingan/'.$token).($request->boolean('landscape') ? '?ls=1' : '');
+
+        return PdfPrintService::downloadFromUrl($request, $url, 'Kendali-Mutu-'.str($penugasan->nomor_st)->slug()->limit(40, '').'-suntingan');
     }
 
     public function pdf(Request $request, RppPenugasan $penugasan)

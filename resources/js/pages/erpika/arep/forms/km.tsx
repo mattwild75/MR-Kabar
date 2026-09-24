@@ -43,8 +43,14 @@ function Km6({ d }: { d: ArepData }) {
                 <div className="flex gap-1">
                     <div className="w-[6mm]">5.</div>
                     <div className="flex-1">
-                        <Baris label="Wakil Penanggung Jawab" value={d.wpj.nama || '-'} w="50mm" />
-                        <Baris label="Pengendali Teknis" value={d.dalnis.nama || '-'} w="50mm" />
+                        {d.dalnis_rangkap ? (
+                            <Baris label="PPJ / Pengendali Teknis" value={d.wpj.nama || '-'} w="50mm" />
+                        ) : (
+                            <>
+                                <Baris label="Wakil Penanggung Jawab" value={d.wpj.nama || '-'} w="50mm" />
+                                <Baris label="Pengendali Teknis" value={d.dalnis.nama || '-'} w="50mm" />
+                            </>
+                        )}
                         <Baris label="Ketua Tim" value={d.kt.nama || '-'} w="50mm" />
                         <Baris
                             label="Anggota Tim"
@@ -67,29 +73,54 @@ function Km6({ d }: { d: ArepData }) {
                     <Baris label="Jumlah Laporan" value={String(d.jumlah_laporan)} w="56mm" />
                 </div>
             </div>
-            <div className="mt-10 grid grid-cols-3 gap-2">
-                <KotakTtd jabatan="Inspektur Kabupaten Aceh Barat" nama={d.inspektur.nama} nip={d.inspektur.nip_spasi} />
-                <KotakTtd jabatan="Pengendali Teknis" nama={d.dalnis.nama} nip={d.dalnis.nip_spasi} />
-                <KotakTtd
-                    pra={`Meulaboh, ${d.tanggal.st}`}
-                    jabatan="Wakil Penanggung Jawab"
-                    nama={d.wpj.nama}
-                    nip={d.wpj.nip_spasi}
-                />
-            </div>
+            {d.dalnis_rangkap ? (
+                <div className="mt-10 grid grid-cols-2 gap-2">
+                    <KotakTtd jabatan="Inspektur Kabupaten Aceh Barat" nama={d.inspektur.nama} nip={d.inspektur.nip_spasi} />
+                    <KotakTtd
+                        pra={`Meulaboh, ${d.tanggal.st}`}
+                        jabatan="PPJ / Pengendali Teknis"
+                        nama={d.wpj.nama}
+                        nip={d.wpj.nip_spasi}
+                    />
+                </div>
+            ) : (
+                <div className="mt-10 grid grid-cols-3 gap-2">
+                    <KotakTtd jabatan="Inspektur Kabupaten Aceh Barat" nama={d.inspektur.nama} nip={d.inspektur.nip_spasi} />
+                    <KotakTtd jabatan="Pengendali Teknis" nama={d.dalnis.nama} nip={d.dalnis.nip_spasi} />
+                    <KotakTtd
+                        pra={`Meulaboh, ${d.tanggal.st}`}
+                        jabatan="Wakil Penanggung Jawab"
+                        nama={d.wpj.nama}
+                        nip={d.wpj.nip_spasi}
+                    />
+                </div>
+            )}
         </>
     );
 }
 
-const KM7_TAHAP: [string, string, string[]][] = [
-    ['I', 'PERSIAPAN PENUGASAN', ['Penyusunan rencana penugasan', 'Pembicaraan pendahuluan', 'Pengumpulan informasi umum', 'Penelaahan peraturan', 'Menyusun program kerja']],
-    ['II', 'PELAKSANAAN PENUGASAN', ['Pengujian bukti/dokumen', 'Wawancara dan konfirmasi', 'Pemeriksaan fisik', 'Penyusunan kesimpulan']],
-    ['III', 'PENYELESAIAN PENUGASAN', ['Pembahasan intern tim dan PPJ', 'Menyusun konsep laporan', 'Pembahasan konsep laporan']],
-];
+const KM7_ITEMS: Record<string, string[]> = {
+    I: ['Penyusunan rencana penugasan', 'Pembicaraan pendahuluan', 'Pengumpulan informasi umum', 'Penelaahan peraturan perundang-undangan', 'Menyusun Program Kerja'],
+    II: ['Pengujian bukti/dokumen', 'Wawancara dan konfirmasi', 'Pemeriksaan fisik/konfirmasi', 'Penyusunan kesimpulan'],
+    III: ['Pembahasan intern tim dan PPJ', 'Menyusun konsep laporan', 'Pembahasan konsep laporan'],
+};
 
-/** KM 7 — Anggaran Waktu Penugasan. */
+const num = (n: number | null | undefined) => (n === null || n === undefined ? '' : String(n));
+
+/** Dua sel HP · Jam. */
+function SelHpJam({ s }: { s: { hp: number | null; jam: number | null } }) {
+    return (
+        <>
+            <td className="border border-black px-1 text-center">{num(s.hp)}</td>
+            <td className="border border-black px-1 text-center">{num(s.jam)}</td>
+        </>
+    );
+}
+
+/** KM 7 — Anggaran Waktu Penugasan (HP/Jam terisi otomatis dari RPP). */
 function Km7({ d }: { d: ArepData }) {
-    const grup = ['WPJ', 'Dalnis', 'Ketua Tim', 'Anggota', 'Jumlah'];
+    const grup = [d.dalnis_rangkap ? 'PPJ/Dalnis' : 'WPJ', 'Dalnis', 'Ketua Tim', 'Anggota', 'Jumlah'];
+    const aw = d.anggaran_waktu;
     return (
         <>
             <KopKm d={d} kode="KM 7" />
@@ -98,7 +129,7 @@ function Km7({ d }: { d: ArepData }) {
                 <Baris label="Nama Objek Penugasan" value={d.objek} />
                 <Baris label="Nomor Kartu Penugasan" value={d.nomor.kp ?? '-'} />
             </div>
-            <table className="mt-3 w-full border-collapse text-[9.5pt]">
+            <table className="mt-3 w-full border-collapse text-[9pt]">
                 <thead className="text-center font-bold">
                     <tr>
                         <td className="border border-black px-1" rowSpan={2}>No</td>
@@ -117,25 +148,41 @@ function Km7({ d }: { d: ArepData }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {KM7_TAHAP.map(([rom, judul, items]) => (
-                        <Fragment key={rom}>
+                    {aw.baris.map((b) => (
+                        <Fragment key={b.rom}>
                             <tr className="font-semibold">
-                                <td className="border border-black px-1 text-center">{rom}</td>
-                                <td className="border border-black px-1" colSpan={11}>{judul}</td>
+                                <td className="border border-black px-1 text-center">{b.rom}</td>
+                                <td className="border border-black px-1">{b.judul}</td>
+                                <SelHpJam s={b.wpj} />
+                                <SelHpJam s={b.dalnis} />
+                                <SelHpJam s={b.kt} />
+                                <SelHpJam s={b.at} />
+                                <SelHpJam s={b.jumlah} />
                             </tr>
-                            {items.map((it, i) => (
-                                <tr key={rom + i}>
+                            {(KM7_ITEMS[b.rom] ?? []).map((it, i) => (
+                                <tr key={b.rom + i}>
                                     <td className="border border-black px-1 text-center">{i + 1}</td>
                                     <td className="border border-black px-1">{it}</td>
                                     {Array.from({ length: 10 }).map((_, c) => (
-                                        <td key={c} className="h-[18px] border border-black" />
+                                        <td key={c} className="h-[16px] border border-black" />
                                     ))}
                                 </tr>
                             ))}
                         </Fragment>
                     ))}
+                    <tr className="font-bold">
+                        <td className="border border-black px-1 text-center" colSpan={2}>
+                            Jumlah HP/Jam yang Dianggarkan
+                        </td>
+                        <SelHpJam s={aw.total.wpj} />
+                        <SelHpJam s={aw.total.dalnis} />
+                        <SelHpJam s={aw.total.kt} />
+                        <SelHpJam s={aw.total.at} />
+                        <SelHpJam s={aw.total.jumlah} />
+                    </tr>
                 </tbody>
             </table>
+            <div className="text-muted-foreground mt-1 text-[8pt]">1 Hari Produktif (HP) = {aw.jam_per_hp} jam.</div>
             <TtdDua
                 tanggal={d.tanggal.st}
                 kiriPra="Disetujui,"

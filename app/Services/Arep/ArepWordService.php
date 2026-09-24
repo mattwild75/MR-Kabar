@@ -204,7 +204,9 @@ class ArepWordService
         $sec->addText('Demikian pernyataan ini kami buat untuk dapat dipergunakan seperlunya.', [], $par);
         $sec->addTextBreak(1);
 
-        $tanda = ['pj' => 'Penanggung Jawab', 'wpj' => 'Wakil Penanggung Jawab', 'dalnis' => 'Pengendali Teknis', 'kt' => 'Ketua Tim'];
+        $tanda = ! empty($d['dalnis_rangkap'])
+            ? ['pj' => 'Penanggung Jawab', 'wpj' => 'PPJ / Pengendali Teknis', 'kt' => 'Ketua Tim']
+            : ['pj' => 'Penanggung Jawab', 'wpj' => 'Wakil Penanggung Jawab', 'dalnis' => 'Pengendali Teknis', 'kt' => 'Ketua Tim'];
         $tb = $sec->addTable(['cellMargin' => 40]);
         $i = 1;
         foreach ($tanda as $role => $label) {
