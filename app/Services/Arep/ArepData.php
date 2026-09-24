@@ -53,13 +53,25 @@ class ArepData
         $hariKerja = $ktHari > 0 ? $ktHari : $this->hariKerja($mulai, $selesai);
 
         $obrikNama = $p->obriks->pluck('nama')->filter()->values();
-        $objek = $obrikNama->isNotEmpty() ? $obrikNama->join(', ') : ($p->uraian ?? '');
-        // Frasa penugasan untuk kalimat "penugasan <frasa>"/"tentang <frasa>":
-        // bila objek dari obrik → "<kata kerja> pada <obrik>"; bila jatuh ke
-        // uraian (yang sudah memuat jenisnya) → pakai uraian apa adanya, supaya
-        // tidak menjadi "Reviu pada Reviu ...".
         $kk = $this->kataKerja($p->rpp?->category?->name);
-        $frasa = $obrikNama->isNotEmpty() ? $kk.' pada '.$obrikNama->join(', ') : ($p->uraian ?: $kk.' pada '.$objek);
+        $uraian = trim((string) $p->uraian);
+        // Obrik di RPP kadang berisi kalimat penugasan utuh ("Reviu pada Dinas
+        // PUPR terhadap ..."), bukan sekadar nama auditi. Bila begitu, objek =
+        // uraian + obrik digabung ". Dan " persis gaya ST asli; frasa = objek.
+        if ($obrikNama->isNotEmpty() && $obrikNama->every(fn ($o) => $this->kalimatPenugasan($o))) {
+            $bagian = collect([$uraian])->filter(fn ($u) => $u !== '' && $this->kalimatPenugasan($u))->merge($obrikNama)->unique()->values();
+            $objek = $bagian->map(fn ($b) => rtrim($b, '. '))->join('. Dan ');
+            $frasa = $objek;
+        } elseif ($obrikNama->isNotEmpty()) {
+            // Frasa "penugasan <frasa>": "<kata kerja> pada <obrik>".
+            $objek = $obrikNama->join(', ');
+            $frasa = $kk.' pada '.$objek;
+        } else {
+            // Uraian sudah memuat jenisnya — dipakai apa adanya (hindari "Reviu pada Reviu ...").
+            $objek = $uraian;
+            $frasa = $uraian !== '' ? $uraian : $kk.' pada '.$objek;
+        }
+        $auditi = $this->daftarAuditi($obrikNama->all(), $uraian);
 
         return [
             'penugasan_id' => $p->id,
@@ -88,6 +100,9 @@ class ArepData
             ],
             'objek' => $objek,
             'frasa' => $frasa,
+            'auditi' => $auditi,
+            // Tujuan surat pengantar (SP): jabatan pimpinan tiap auditi.
+            'kepada' => array_map(fn ($a) => $this->pimpinan($a), $auditi),
             'obriks' => $obrikNama->all(),
             'uraian' => $p->uraian,
             'sifat' => $p->sifat,
@@ -105,6 +120,13 @@ class ArepData
                 'bulan_selesai_tahun' => $selesai ? RppPenugasan::BULAN[$selesai->month].' '.$selesai->year : '..........',
             ],
             'jumlah_laporan' => (int) ($p->jumlah_laporan ?? 0),
+            'laporan' => $p->laporans->map(fn ($l) => ['nomor' => (string) $l->nomor_laporan, 'tanggal' => $this->tglPanjang($l->tanggal_laporan), 'jenis' => (string) $l->jenis])->values()->all(),
+            'tarif' => $p->tarifSppd(),
+            'biaya_sppd' => $p->biayaSppd(),
+            // Bulan (1-12) dan minggu ISO (1-52) yang dilalui masa tugas — KMA 22/23.
+            'bulan_tugas' => $this->bulanTugas($mulai, $selesai),
+            'minggu_tugas' => $this->mingguTugas($mulai, $selesai),
+            'lhp' => $this->dataLhp((string) $p->nomor_st),
             'laporan_kepada' => 'Bupati dan Auditi',
             'pj' => $this->orang($peran('pj')),
             'wpj' => $this->orang($peran('wpj')),
@@ -314,6 +336,128 @@ class ArepData
         $x = round($x, 2);
 
         return fmod($x, 1.0) === 0.0 ? (int) $x : $x;
+    }
+
+
+
+    /** @return list<int> */
+    private function bulanTugas(?CarbonInterface $a, ?CarbonInterface $b): array
+    {
+        if (! $a) {
+            return [];
+        }
+        $b ??= $a;
+        $hasil = [];
+        for ($c = $a->copy()->startOfMonth(); $c->lte($b); $c->addMonth()) {
+            if ($c->year === $a->year) {
+                $hasil[] = $c->month;
+            }
+        }
+
+        return $hasil;
+    }
+
+    /** @return list<int> */
+    private function mingguTugas(?CarbonInterface $a, ?CarbonInterface $b): array
+    {
+        if (! $a) {
+            return [];
+        }
+        $b ??= $a;
+        $hasil = [];
+        for ($c = $a->copy(); $c->lte($b); $c->addDay()) {
+            if (! $c->isWeekend()) {
+                $hasil[min(52, $c->isoWeek())] = true;
+            }
+        }
+
+        return array_keys($hasil);
+    }
+
+    /**
+     * Temuan dari ERPIKA > Database LHP untuk ST ini (dicocokkan lewat nomor
+     * ST; tanpa FK). Dipakai KMA 18-21. Kosong bila LHP belum diinput.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function dataLhp(string $nomorSt): array
+    {
+        if ($nomorSt === '' || ! \Illuminate\Support\Facades\Schema::hasTable('lhp')) {
+            return [];
+        }
+
+        return \App\Models\Lhp::where('nomor_st', $nomorSt)
+            ->with('temuan.sebab.rekomendasi.tindakLanjut')->orderBy('tanggal_lhp')->get()
+            ->map(fn ($l) => [
+                'nomor' => (string) $l->nomor_lhp,
+                'tanggal' => $this->tglPanjang($l->tanggal_lhp),
+                'status' => \App\Models\Lhp::STATUS[$l->status_lhp] ?? '',
+                'temuan' => $l->temuan->map(function ($t) {
+                    $rek = $t->sebab->flatMap->rekomendasi;
+                    $tl = $rek->flatMap->tindakLanjut;
+
+                    return [
+                        'kondisi' => trim((string) $t->memo),
+                        'sebab' => $t->sebab->pluck('memo')->filter()->join("\n"),
+                        'rekomendasi' => $rek->pluck('memo')->filter()->join("\n"),
+                        'tindak_lanjut' => $tl->pluck('memo')->filter()->join("\n"),
+                        'nilai' => (float) $t->nilai,
+                        'nilai_tl' => (float) $tl->sum('nilai'),
+                        'tuntas' => $tl->isNotEmpty(),
+                    ];
+                })->all(),
+            ])->all();
+    }
+
+    /** Kalimat penugasan utuh (bukan nama auditi): diawali kata kerja pengawasan. */
+    private function kalimatPenugasan(string $t): bool
+    {
+        return (bool) preg_match('/^\s*(reviu|audit|evaluasi|monitoring|pemantauan|opname|pemeriksaan|verifikasi)\b/i', $t);
+    }
+
+    /**
+     * Nama auditi dari obrik (bila obrik nama instansi) atau dari kalimat
+     * penugasan: potongan sesudah "pada" sampai "terhadap/atas/Tahun/TA".
+     *
+     * @param  list<string>  $obrik
+     * @return list<string>
+     */
+    private function daftarAuditi(array $obrik, string $uraian): array
+    {
+        $ambil = function (string $t): ?string {
+            if (preg_match('/\bpada\s+(.+?)(?:\s+terhadap\b|\s+atas\b|\s+tahun\b|\s+TA\b|\s+T\.A\b|[,.;]|$)/iu', $t, $m)) {
+                return trim($m[1]);
+            }
+
+            return null;
+        };
+        $hasil = [];
+        foreach ($obrik as $o) {
+            $hasil[] = $this->kalimatPenugasan($o) ? ($ambil($o) ?? $o) : $o;
+        }
+        if ($uraian !== '' && ($hasil === [] || $this->kalimatPenugasan($uraian))) {
+            if ($a = $ambil($uraian)) {
+                array_unshift($hasil, $a);
+            }
+        }
+
+        return array_values(array_unique(array_filter(array_map('trim', $hasil))));
+    }
+
+    /** Jabatan pimpinan auditi untuk alamat surat, mengikuti SP asli Inspektorat. */
+    private function pimpinan(string $a): string
+    {
+        $t = mb_strtolower($a);
+
+        return match (true) {
+            str_contains($t, 'setdakab') || str_contains($t, 'sekretariat daerah') => 'Sekretaris Daerah Kabupaten Aceh Barat',
+            str_contains($t, 'sekretariat dprk') || str_contains($t, 'setwan') => 'Sekretaris DPRK Aceh Barat',
+            (bool) preg_match('/^(gampong|desa)\b/u', $t) => 'Keuchik '.$a,
+            (bool) preg_match('/^(sekretariat )?kecamatan\b/u', $t) => 'Camat '.trim((string) preg_replace('/^(sekretariat\s+)?kecamatan\s+/iu', '', $a)),
+            (bool) preg_match('/^(dpmg|dpmptsp|diskominsa|disdik|disdikbud|dinkes|dishub|disperindag|disnaker|dispora|disbudpar|bpkd|bpkad|bpbd|bappeda|bkpsdm|bpbd|satpol|dlh|dpupr|dpkp|dp3akb)\b/u', $t) => 'Kepala '.$a,
+            (bool) preg_match('/^(dinas|badan|kantor|puskesmas|rsud|rumah sakit|inspektorat|satuan|sekolah|sd|smp|sma|smk|min|mts|man|uptd|upt)\b/u', $t) => 'Kepala '.$a,
+            default => 'Pimpinan '.$a,
+        };
     }
 
     /** Jam dari HP: bilangan bulat dikembalikan int (13), sisanya float (6.5). */

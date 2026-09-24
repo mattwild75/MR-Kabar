@@ -84,7 +84,7 @@ class PdfPrintService
      * @param  string  $url  URL lengkap halaman React yg mau dicetak (mis. url()->to('/cetak/risiko/2a?tahun=2026')).
      * @param  string  $filename  Nama file unduhan, TANPA ekstensi .pdf.
      */
-    public static function downloadFromUrl(Request $request, string $url, string $filename)
+    public static function downloadFromUrl(Request $request, string $url, string $filename, ?callable $penyesuai = null)
     {
         // Batas bawaan PHP 30 detik terlalu mepet: render normal 7 detik, tapi
         // halaman yang isinya banyak bisa jauh lebih lama.
@@ -103,7 +103,7 @@ class PdfPrintService
         }
 
         try {
-            $pdf = self::render($request, $url);
+            $pdf = self::render($request, $url, $penyesuai);
         } finally {
             $kunci->release();
         }
@@ -112,6 +112,16 @@ class PdfPrintService
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="'.$filename.'.pdf"',
         ]);
+    }
+
+    /**
+     * Penyesuai: ukuran kertas diambil dari `@page` halaman (A4 tegak/mendatar,
+     * termasuk halaman bernama untuk orientasi campuran), bukan bawaan
+     * Chromium (Letter). Dipakai berkas AREP yang wajib pas satu lembar A4.
+     */
+    public static function ukuranDariCss(): callable
+    {
+        return fn (Browsershot $b) => $b->setOption('preferCSSPageSize', true);
     }
 
     /**

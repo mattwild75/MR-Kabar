@@ -2,11 +2,14 @@
 
 namespace App\Services\Arep;
 
+use App\Support\Arep\KmFormulir;
 use App\Support\Arep\KmKatalog;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 /**
@@ -41,29 +44,12 @@ class KmExcelService
             match ($no) {
                 6 => $this->km6($ws, $d),
                 7 => $this->km7($ws, $d),
-                9 => $this->km9($ws, $d),
-                default => $this->umum($ws, $d, $meta),
+                default => ($spek = KmFormulir::untuk($no, $d)) ? $this->spek($ws, $meta, $spek) : null,
             };
         }
         $ss->setActiveSheetIndex(0);
         (new Xlsx($ss))->save($path);
         $ss->disconnectWorksheets();
-    }
-
-    /** Kop + kode KM di kanan; kembalikan baris berikutnya. Lebar A..kolomTerakhir. */
-    private function kop($ws, array $d, string $kode, string $kolAkhir): int
-    {
-        $ws->mergeCells("A1:{$kolAkhir}1")->setCellValue('A1', 'INSPEKTORAT KABUPATEN ACEH BARAT');
-        $ws->getStyle('A1')->applyFromArray(['font' => ['bold' => true, 'size' => 12], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]]);
-        $ws->mergeCells("A2:{$kolAkhir}2")->setCellValue('A2', $d['kop']['alamat']);
-        $ws->mergeCells("A3:{$kolAkhir}3")->setCellValue('A3', 'MEULABOH');
-        $ws->getStyle('A2:A3')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        // Kode KM pojok kanan.
-        $ws->setCellValue("{$kolAkhir}1", $kode);
-        $ws->getStyle("{$kolAkhir}1")->applyFromArray(['font' => ['bold' => true], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_RIGHT]]);
-        $ws->getStyle("A1:{$kolAkhir}3")->getBorders()->getBottom()->setBorderStyle(Border::BORDER_MEDIUM);
-
-        return 5;
     }
 
     /** Kepala KM bergaya berkas asli (kolom B), kode KM di kolom kanan. */
@@ -314,108 +300,186 @@ class KmExcelService
         $ws->getStyle('B5')->getFont()->setSize(12);
     }
 
-    /** KM 9 — Program Kerja Audit (header autofill, langkah kerja kosong). */
-    private function km9($ws, array $d): void
-    {
-        foreach (['A' => 4, 'B' => 6, 'C' => 48, 'D' => 16, 'E' => 8, 'F' => 8, 'G' => 10] as $k => $w) {
-            $ws->getColumnDimension($k)->setWidth($w);
-        }
-        $r = $this->kop($ws, $d, 'KM 9', 'G');
-        $ws->setCellValue("A{$r}", 'Nama Auditi');
-        $ws->setCellValue("B{$r}", ':');
-        $ws->mergeCells("C{$r}:G{$r}")->setCellValue("C{$r}", $d['objek']);
-        $r++;
-        $ws->setCellValue("A{$r}", 'Sasaran');
-        $ws->setCellValue("B{$r}", ':');
-        $ws->mergeCells("C{$r}:G{$r}")->setCellValue("C{$r}", $d['sifat'] ?: '');
-        $r++;
-        $ws->setCellValue("A{$r}", 'Surat Tugas');
-        $ws->setCellValue("B{$r}", ':');
-        $ws->mergeCells("C{$r}:G{$r}")->setCellValue("C{$r}", $d['nomor']['st'].' tanggal '.$d['tanggal']['st']);
-        $r += 2;
-        $ws->mergeCells("A{$r}:G{$r}")->setCellValue("A{$r}", 'PROGRAM KERJA AUDIT');
-        $ws->getStyle("A{$r}")->applyFromArray(['font' => ['bold' => true], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]]);
-        $r += 2;
-        $ws->setCellValue("A{$r}", 'No');
-        $ws->setCellValue("B{$r}", '');
-        $ws->setCellValue("C{$r}", 'Langkah Kerja Audit');
-        $ws->setCellValue("D{$r}", 'Dilaksanakan oleh');
-        $ws->setCellValue("E{$r}", 'Waktu (Renc.)');
-        $ws->setCellValue("F{$r}", 'Waktu (Real.)');
-        $ws->setCellValue("G{$r}", 'Ref. KKA');
-        $ws->getStyle("A{$r}:G{$r}")->applyFromArray(['font' => ['bold' => true], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER, 'wrapText' => true]] + $this->tepi);
-        $r++;
-        for ($i = 0; $i < 14; $i++) {
-            $ws->getStyle("A{$r}:G{$r}")->applyFromArray($this->tepi);
-            $ws->getRowDimension($r)->setRowHeight(20);
-            $r++;
-        }
-        $r++;
-        $ws->setCellValue("B{$r}", 'Disetujui, Pengendali Teknis');
-        $ws->setCellValue("E{$r}", 'Disusun, Ketua Tim');
-        $r += 4;
-        $ws->setCellValue("B{$r}", $d['dalnis']['nama'] ?: '............');
-        $ws->setCellValue("E{$r}", $d['kt']['nama'] ?: '............');
-        $ws->getStyle("B{$r}:E{$r}")->getFont()->setBold(true)->setUnderline(true);
-    }
-
     /**
-     * Formulir umum: kop + judul + identitas penugasan + area isian kosong
-     * (grid) dengan blok tanda tangan. Dipakai formulir yang belum dibuat
-     * khusus dan formulir tak-autofill (dari Renstra/PKPT/penilaian pegawai).
+     * Tulis formulir KMA dari spesifikasi KmFormulir (satu sumber dengan
+     * tampilan cetak): judul, info, tabel (kepala bertingkat, baris nomor
+     * kolom), teks, dan tanda tangan.
+     *
+     * @param  array<string,mixed>  $meta
+     * @param  array{blok: list<array<string,mixed>>}  $spek
      */
-    private function umum($ws, array $d, array $meta): void
+    private function spek($ws, array $meta, array $spek): void
     {
         $land = $meta['orientasi'] === 'landscape';
-        $kolAkhir = $land ? 'H' : 'F';
-        foreach ($land
-            ? ['A' => 4, 'B' => 24, 'C' => 24, 'D' => 24, 'E' => 20, 'F' => 16, 'G' => 16, 'H' => 16]
-            : ['A' => 4, 'B' => 22, 'C' => 24, 'D' => 20, 'E' => 16, 'F' => 16] as $k => $w) {
-            $ws->getColumnDimension($k)->setWidth($w);
+        // Lebar grid = tabel terlebar; lebar kolom mengikuti proporsi tabel itu.
+        $tabel = array_values(array_filter($spek['blok'], fn ($b) => $b['jenis'] === 'tabel'));
+        $lebarTabel = fn ($t) => array_sum(array_map(fn ($s) => is_array($s) ? ($s['c'] ?? 1) : 1, $t['kepala'][0] ?? []));
+        $n = max(6, ...array_map($lebarTabel, $tabel ?: [['kepala' => [[]]]]));
+        $acuan = collect($tabel)->first(fn ($t) => $lebarTabel($t) === $n && ! empty($t['lebar']));
+        $proporsi = $acuan['lebar'] ?? array_fill(0, $n, 100 / $n);
+        $total = $land ? 150 : 96;
+        $kol = fn (int $i) => Coordinate::stringFromColumnIndex($i);
+        foreach ($proporsi as $i => $p) {
+            $ws->getColumnDimension($kol($i + 1))->setWidth(max(2.5, $total * $p / array_sum($proporsi)));
         }
-        $r = $this->kop($ws, $d, $meta['kode'], $kolAkhir);
-        $ws->mergeCells("A{$r}:{$kolAkhir}{$r}")->setCellValue("A{$r}", mb_strtoupper($meta['nama']));
-        $ws->getStyle("A{$r}")->applyFromArray(['font' => ['bold' => true, 'size' => 12], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]]);
-        $r += 2;
+        $akhir = $kol($n);
+        $lebarKar = fn (int $a, int $b) => array_sum(array_map(fn ($i) => $ws->getColumnDimension($kol($i))->getWidth(), range($a, $b)));
+        $tinggi = function (int $r, string $t, int $a, int $b) use ($ws, $lebarKar) {
+            $baris = 0;
+            foreach (explode("\n", $t) as $l) {
+                $baris += max(1, (int) ceil(mb_strlen($l) / max(1, $lebarKar($a, $b) * 1.1)));
+            }
+            $sekarang = $ws->getRowDimension($r)->getRowHeight();
+            $ws->getRowDimension($r)->setRowHeight(max($sekarang > 0 ? $sekarang : 0, 13.5 * $baris));
+        };
 
-        // Identitas penugasan (autofill sebisanya).
-        $info = [
-            ['Objek Penugasan', $d['objek']],
-            ['Jenis Penugasan', $d['jenis']['nama'] ?? '-'],
-            ['Nomor Surat Tugas', $d['nomor']['st'].($d['tanggal']['st'] ? ' tanggal '.$d['tanggal']['st'] : '')],
-            ['Tim', collect($d['tim'])->map(fn ($m) => $m['nama'].' ('.$m['peran'].')')->join('; ')],
-        ];
-        if (! $meta['autofill']) {
-            $info = [
-                ['Unit / Objek', ''],
-                ['Tahun', (string) ($d['rpp']['tahun'] ?? '')],
-            ];
-        }
-        foreach ($info as [$l, $v]) {
-            $ws->setCellValue("A{$r}", '');
-            $ws->mergeCells("A{$r}:B{$r}")->setCellValue("A{$r}", $l);
-            $ws->setCellValueExplicit("C{$r}", ': '.$v, DataType::TYPE_STRING);
-            $ws->mergeCells("C{$r}:{$kolAkhir}{$r}");
-            $ws->getStyle("A{$r}")->getFont()->setBold(true);
-            $ws->getStyle("A{$r}:{$kolAkhir}{$r}")->getAlignment()->setVertical(Alignment::VERTICAL_TOP)->setWrapText(true);
-            $r++;
-        }
-        $r++;
+        $ws->getStyle("A1:{$akhir}300")->getFont()->setName('Bookman Old Style')->setSize(9);
+        $ws->setCellValue('A1', 'INSPEKTORAT KABUPATEN ACEH BARAT')->setCellValue("{$akhir}1", 'Formulir '.str_replace('KM ', 'KMA ', $meta['kode']));
+        $ws->getStyle('A1')->getFont()->setBold(true);
+        $ws->getStyle("{$akhir}1")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $r = 3;
 
-        // Grid kosong siap isi.
-        $kol = range('A', $kolAkhir);
-        foreach ($kol as $i => $c) {
-            $ws->setCellValue("{$c}{$r}", $i === 0 ? 'No' : 'Uraian '.$i);
+        foreach ($spek['blok'] as $b) {
+            switch ($b['jenis']) {
+                case 'judul':
+                    foreach ($b['baris'] as $j => $t) {
+                        $ws->mergeCells("A{$r}:{$akhir}{$r}")->setCellValue("A{$r}", $t);
+                        $ws->getStyle("A{$r}")->applyFromArray(['font' => ['bold' => $j === 0, 'size' => $j === 0 && empty($b['kecil']) ? 12 : 10], 'alignment' => ['horizontal' => empty($b['kiri']) ? Alignment::HORIZONTAL_CENTER : Alignment::HORIZONTAL_LEFT]]);
+                        $r++;
+                    }
+                    $r++;
+                    break;
+
+                case 'info':
+                    $dua = collect($b['isi'])->contains(fn ($x) => count($x) > 2);
+                    $tengah = $dua ? intdiv($n, 2) : $n;
+                    $lbl = max(1, (int) round($tengah * 0.35));
+                    foreach ($b['isi'] as $x) {
+                        $pasang = [[$x[0] ?? '', $x[1] ?? null, 1, $tengah]];
+                        if ($dua) {
+                            $pasang[] = [$x[2] ?? '', $x[3] ?? null, $tengah + 1, $n];
+                        }
+                        foreach ($pasang as [$l, $v, $a, $z]) {
+                            if ($l === '') {
+                                continue;
+                            }
+                            $l2 = min($z - 1, $a + $lbl - 1);
+                            $ws->mergeCells($kol($a).$r.':'.$kol($l2).$r)->setCellValue($kol($a).$r, $l);
+                            $isi = ': '.($v ?? '..............................');
+                            $ws->mergeCells($kol($l2 + 1).$r.':'.$kol($z).$r);
+                            $ws->setCellValueExplicit($kol($l2 + 1).$r, $isi, DataType::TYPE_STRING);
+                            $ws->getStyle($kol($a).$r.':'.$kol($z).$r)->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP);
+                            $tinggi($r, $isi, $l2 + 1, $z);
+                        }
+                        $r++;
+                    }
+                    $r++;
+                    break;
+
+                case 'tabel':
+                    $m = $lebarTabel($b);
+                    $garis = empty($b['tanpaGaris']);
+                    $terisi = [];
+                    $tulisBaris = function (array $sel, bool $kepala) use ($ws, $kol, $n, $m, &$r, &$terisi, $garis, $tinggi) {
+                        $c = 1;
+                        foreach ($sel as $s) {
+                            while (isset($terisi[$r][$c])) {
+                                $c++;
+                            }
+                            $s = is_array($s) ? $s : ['t' => (string) $s];
+                            $cs = $s['c'] ?? 1;
+                            $rs = $s['r'] ?? 1;
+                            $akhirKol = $c + $cs - 1 === $m ? $n : $c + $cs - 1; // kolom terakhir tabel meluas ke tepi
+                            $rentang = $kol($c).$r.':'.$kol($akhirKol).($r + $rs - 1);
+                            if ($akhirKol > $c || $rs > 1) {
+                                $ws->mergeCells($rentang);
+                            }
+                            $ws->setCellValueExplicit($kol($c).$r, (string) $s['t'], DataType::TYPE_STRING);
+                            $gaya = ['alignment' => ['wrapText' => true, 'vertical' => $kepala ? Alignment::VERTICAL_CENTER : Alignment::VERTICAL_TOP,
+                                'horizontal' => match ($s['a'] ?? ($kepala ? 'c' : 'l')) { 'c' => Alignment::HORIZONTAL_CENTER, 'r' => Alignment::HORIZONTAL_RIGHT, default => Alignment::HORIZONTAL_LEFT }],
+                                'font' => ['bold' => ($kepala && $garis) || ! empty($s['b'])]];
+                            if ($garis) {
+                                $gaya += $this->tepi;
+                            }
+                            if ($kepala && $garis) {
+                                $gaya['fill'] = ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'EFEFEF']];
+                            }
+                            $ws->getStyle($rentang)->applyFromArray($gaya);
+                            for ($i = 0; $i < $rs; $i++) {
+                                for ($j = $c; $j <= $c + $cs - 1; $j++) {
+                                    $terisi[$r + $i][$j] = true;
+                                }
+                            }
+                            if ($rs === 1) {
+                                $tinggi($r, (string) $s['t'], $c, $akhirKol);
+                            }
+                            $c += $cs;
+                        }
+                        $r++;
+                    };
+                    foreach ($b['kepala'] as $k) {
+                        $tulisBaris($k, true);
+                    }
+                    if (! empty($b['nomor'])) {
+                        $tulisBaris(array_map(fn ($i) => ['t' => (string) $i, 'a' => 'c', 'b' => true], range(1, $m)), false);
+                    }
+                    foreach ($b['baris'] ?? [] as $x) {
+                        $tulisBaris($x, false);
+                    }
+                    for ($i = 0; $i < ($b['kosong'] ?? 0); $i++) {
+                        $tulisBaris(array_map(fn ($j) => $j === 1 && empty($b['baris']) ? (string) ($i + 1) : '', range(1, $m)), false);
+                        $ws->getRowDimension($r - 1)->setRowHeight(18);
+                    }
+                    foreach ($b['kaki'] ?? [] as $x) {
+                        $tulisBaris($x, false);
+                    }
+                    $r++;
+                    break;
+
+                case 'teks':
+                    foreach ($b['isi'] as $t) {
+                        $ws->mergeCells("A{$r}:{$akhir}{$r}")->setCellValueExplicit("A{$r}", $t, DataType::TYPE_STRING);
+                        $ws->getStyle("A{$r}")->getAlignment()->setWrapText(true)->setVertical(Alignment::VERTICAL_TOP)
+                            ->setHorizontal(($b['rata'] ?? '') === 'rata' ? Alignment::HORIZONTAL_JUSTIFY : Alignment::HORIZONTAL_LEFT);
+                        $tinggi($r, $t, 1, $n);
+                        $r++;
+                    }
+                    $r++;
+                    break;
+
+                case 'ttd':
+                    if (! empty($b['tanggal'])) {
+                        $ws->mergeCells($kol(max(1, $n - (int) floor($n / 2) + 1)).$r.':'.$akhir.$r)->setCellValue($kol(max(1, $n - (int) floor($n / 2) + 1)).$r, $b['tanggal']);
+                        $r++;
+                    }
+                    $k = count($b['kolom']);
+                    $blok = [];
+                    for ($i = 0; $i < $k; $i++) {
+                        $a = 1 + (int) floor($i * $n / $k);
+                        $z = (int) floor(($i + 1) * $n / $k);
+                        $blok[] = [$a, max($a, $z), $b['kolom'][$i]];
+                    }
+                    foreach ([0, 1, 'kosong', 2, 3] as $j => $idx) {
+                        foreach ($blok as [$a, $z, $x]) {
+                            $t = match ($idx) {
+                                0 => (string) ($x[0] ?? ''),
+                                1 => (string) ($x[1] ?? ''),
+                                2 => ($x[1] ?? '') !== '' ? (string) ($x[2] ?? '(..............................)') : '',
+                                3 => ($x[1] ?? '') !== '' && ($x[2] ?? null) ? 'NIP. '.($x[3] ?? '..............') : '',
+                                default => '',
+                            };
+                            $ws->mergeCells($kol($a).$r.':'.$kol($z).$r)->setCellValueExplicit($kol($a).$r, $t, DataType::TYPE_STRING);
+                            $ws->getStyle($kol($a).$r)->applyFromArray(['alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER], 'font' => ['bold' => $idx === 2, 'underline' => $idx === 2]]);
+                        }
+                        if ($idx === 'kosong') {
+                            $ws->getRowDimension($r)->setRowHeight(45);
+                        }
+                        $r++;
+                    }
+                    $r++;
+                    break;
+            }
         }
-        $ws->getStyle("A{$r}:{$kolAkhir}{$r}")->applyFromArray(['font' => ['bold' => true], 'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER]] + $this->tepi);
-        $r++;
-        for ($i = 0; $i < 16; $i++) {
-            $ws->getStyle("A{$r}:{$kolAkhir}{$r}")->applyFromArray($this->tepi);
-            $ws->getRowDimension($r)->setRowHeight(20);
-            $r++;
-        }
-        $r += 2;
-        $ws->setCellValue("A{$r}", 'Mengetahui/Menyetujui,');
-        $ws->setCellValue(($land ? 'F' : 'D')."{$r}", 'Disusun oleh,');
+        $ws->getPageSetup()->setFitToWidth(1)->setFitToHeight(1);
     }
 }

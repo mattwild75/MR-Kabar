@@ -133,4 +133,119 @@ class ArepTest extends TestCase
             ->assertOk()
             ->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     }
+    /** Tim lima peran lengkap (format RPP 2026) untuk uji KM 6/7. */
+    private function timLengkap(User $u): \App\Models\RppPenugasan
+    {
+        $p = $this->penugasanContoh($u)->penugasan->first();
+        $p->teamMembers()->create(['role' => 'wpj', 'nama' => 'Ivan Vanova', 'hari_kantor' => 3, 'hari_lapangan' => 2, 'order' => 2]);
+        $p->teamMembers()->create(['role' => 'dalnis', 'nama' => 'Zarkasyi', 'hari_kantor' => 3, 'hari_lapangan' => 2, 'order' => 3]);
+        $p->teamMembers()->create(['role' => 'at', 'nama' => 'Wakidi', 'hari_kantor' => 6, 'hari_lapangan' => 4, 'order' => 4]);
+        $p->teamMembers()->create(['role' => 'at', 'nama' => 'Nurhikmat', 'hari_kantor' => 6, 'hari_lapangan' => 4, 'order' => 5]);
+
+        return $p->fresh();
+    }
+
+    public function test_km7_hari_dan_jam_dihitung_dari_rpp(): void
+    {
+        $p = $this->timLengkap($this->adminBaru());
+        $aw = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p)['anggaran_waktu'];
+
+        // Total per peran = DK + LK di RPP; Jam = HP x 6,5.
+        $this->assertSame(['hp' => 5, 'jam' => 32.5], $aw['total']['wpj']);
+        $this->assertSame(['hp' => 5, 'jam' => 32.5], $aw['total']['dalnis']);
+        $this->assertSame(['hp' => 10, 'jam' => 65], $aw['total']['kt']);
+        // AT: HP per orang (10), Jam = seluruh anggota (2 x 10 x 6,5).
+        $this->assertSame(['hp' => 10, 'jam' => 130], $aw['total']['at']);
+        // Pelaksanaan (II) = hari lapangan.
+        $this->assertSame(8, $aw['baris'][1]['kt']['hp']);
+        // KM 6 no. 8: per orang.
+        $this->assertSame([5, 5, 10, 10, 10], array_column($aw['orang'], 'hp'));
+    }
+
+    public function test_hari_kerja_surat_tugas_mengikuti_hari_ketua_tim_di_rpp(): void
+    {
+        $p = $this->penugasanContoh($this->adminBaru())->penugasan->first();
+        $j = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p)['jangka'];
+
+        $this->assertSame(10, $j['hari_kerja']);
+        $this->assertSame('sepuluh', $j['hari_kerja_terbilang']);
+    }
+
+    public function test_tanpa_dalnis_wpj_merangkap_pengendali_teknis(): void
+    {
+        $u = $this->adminBaru();
+        $p = $this->penugasanContoh($u)->penugasan->first();
+        $p->teamMembers()->create(['role' => 'wpj', 'nama' => 'Fahrizal', 'order' => 2]);
+        $d = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p->fresh());
+
+        $this->assertTrue($d['dalnis_rangkap']);
+        $this->assertSame('Fahrizal', $d['dalnis']['nama']);
+        $this->assertContains('PPJ / Pengendali Teknis', array_column($d['tim'], 'peran'));
+    }
+
+    public function test_objek_gabungan_dan_alamat_surat_pengantar(): void
+    {
+        $u = $this->adminBaru();
+        $p = $this->penugasanContoh($u)->penugasan->first();
+        $p->update(['uraian' => 'Reviu pada Dinas Setdakab terhadap RKA tambahan TKDD TA 2026']);
+        $p->obriks()->update(['nama' => 'Reviu pada Dinas PUPR terhadap DAK Fisik TA 2026']);
+        $d = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p->fresh());
+
+        $this->assertSame('Reviu pada Dinas Setdakab terhadap RKA tambahan TKDD TA 2026. Dan Reviu pada Dinas PUPR terhadap DAK Fisik TA 2026', $d['objek']);
+        $this->assertSame(['Sekretaris Daerah Kabupaten Aceh Barat', 'Kepala Dinas PUPR'], $d['kepada']);
+    }
+
+    public function test_seluruh_formulir_kma_memiliki_bentuk_dan_tampil(): void
+    {
+        $u = $this->adminBaru();
+        $p = $this->timLengkap($u);
+        $d = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p);
+        foreach (range(1, 30) as $n) {
+            if (! in_array($n, [6, 7], true)) {
+                $this->assertNotNull(\App\Support\Arep\KmFormulir::untuk($n, $d), "KMA {$n} tanpa bentuk");
+            }
+        }
+
+        $this->actingAs($u)->get("/erpika/arep/kendali-mutu/{$p->id}/preview")->assertOk()->assertInertia(fn ($page) => $page
+            ->has('spek', 28)
+            ->where('spek.8.blok.0.baris.0', 'LAPORAN MINGGUAN'));
+    }
+
+    public function test_excel_dari_suntingan(): void
+    {
+        $u = $this->adminBaru();
+        $p = $this->penugasanContoh($u)->penugasan->first();
+        $html = '<section class="km-lembar portrait"><div>Formulir KMA 12</div><div>LEMBAR REVIU (DISUNTING)</div><table><tr><td class="border">No</td><td class="border">Isi</td></tr></table></section>';
+
+        $r = $this->actingAs($u)->post("/erpika/arep/kendali-mutu/{$p->id}/excel-suntingan", ['html' => $html]);
+        $r->assertOk()->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $ss = \PhpOffice\PhpSpreadsheet\IOFactory::load($r->baseResponse->getFile()->getPathname());
+        $this->assertSame('KM 12', $ss->getSheet(0)->getTitle());
+        $this->assertSame('LEMBAR REVIU (DISUNTING)', $ss->getSheet(0)->getCell('A2')->getValue());
+    }
+
+    public function test_keputusan_memuat_lampiran_pedoman(): void
+    {
+        $u = $this->adminBaru();
+        $this->actingAs($u)->get('/erpika/arep/kendali-mutu/keputusan/preview')->assertInertia(fn ($page) => $page
+            ->has('pedoman.bab', 10)
+            ->has('pedoman.formulir', 30)
+            ->where('pedoman.bab.0.nomor', 'BAB I'));
+    }
+
+    public function test_koreksi_peran_dari_daftar_dan_dapat_dibalik(): void
+    {
+        $p = $this->timLengkap($this->adminBaru());
+        $m = $p->teamMembers()->where('nama', 'Wakidi')->first();
+        $berkas = tempnam(sys_get_temp_dir(), 'kor');
+        file_put_contents($berkas, json_encode([['member_id' => $m->id, 'st' => $p->nomor_st, 'nama' => 'Wakidi', 'lama' => 'at', 'baru' => 'kt', 'alasan' => 'Uji: sumber']]));
+
+        $this->artisan('rpp:koreksi-peran', ['berkas' => $berkas, '--uji' => true])->assertSuccessful();
+        $this->assertSame('at', $m->fresh()->role);
+        $this->artisan('rpp:koreksi-peran', ['berkas' => $berkas])->assertSuccessful();
+        $this->assertSame('kt', $m->fresh()->role);
+        $this->artisan('rpp:koreksi-peran', ['--balik' => 'Uji:'])->assertSuccessful();
+        $this->assertSame('at', $m->fresh()->role);
+        @unlink($berkas);
+    }
 }

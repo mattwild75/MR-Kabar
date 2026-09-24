@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\RppPenugasan;
 use App\Services\Arep\ArepData;
 use App\Services\Arep\ArepWordService;
+use App\Services\Arep\HtmlKeExcel;
 use App\Services\Arep\KmExcelService;
 use App\Services\PdfPrintService;
+use App\Support\Arep\KmFormulir;
 use App\Support\Arep\KmKatalog;
+use App\Support\Arep\PedomanKendaliMutu;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -33,9 +36,12 @@ class KendaliMutuController extends Controller
     public function preview(Request $request, RppPenugasan $penugasan, ArepData $data)
     {
         $forms = $this->formList($request);
+        $d = $data->untukPenugasan($penugasan);
 
         return Inertia::render('erpika/arep/kendali-mutu/Cetak', [
-            'data' => $data->untukPenugasan($penugasan),
+            'data' => $d,
+            // Bentuk formulir KMA menurut lampiran Pedoman (KM 6 & 7 komponen khusus).
+            'spek' => collect($forms)->mapWithKeys(fn ($n) => [$n => KmFormulir::untuk($n, $d)])->filter()->all(),
             'katalog' => KmKatalog::semua(),
             'forms' => $forms,
             'mulaiSunting' => $request->boolean('edit'),
@@ -58,7 +64,7 @@ class KendaliMutuController extends Controller
         \Illuminate\Support\Facades\Cache::put('arep-km-suntingan:'.$token, $v['html'], 600);
         $url = url('/erpika/arep/kendali-mutu/suntingan/'.$token).($request->boolean('landscape') ? '?ls=1' : '');
 
-        return PdfPrintService::downloadFromUrl($request, $url, 'Kendali-Mutu-'.str($penugasan->nomor_st)->slug()->limit(40, '').'-suntingan');
+        return PdfPrintService::downloadFromUrl($request, $url, 'Kendali-Mutu-'.str($penugasan->nomor_st)->slug()->limit(40, '').'-suntingan', PdfPrintService::ukuranDariCss());
     }
 
     public function pdf(Request $request, RppPenugasan $penugasan)
@@ -68,7 +74,7 @@ class KendaliMutuController extends Controller
         $url = url("/erpika/arep/kendali-mutu/{$penugasan->id}/preview?form={$q}");
         $label = count($forms) === 1 ? 'KM-'.$forms[0] : 'Kendali-Mutu';
 
-        return PdfPrintService::downloadFromUrl($request, $url, $label.'-'.str($penugasan->nomor_st)->slug()->limit(40, ''));
+        return PdfPrintService::downloadFromUrl($request, $url, $label.'-'.str($penugasan->nomor_st)->slug()->limit(40, ''), PdfPrintService::ukuranDariCss());
     }
 
     public function excel(Request $request, RppPenugasan $penugasan, ArepData $data, KmExcelService $excel)
@@ -81,6 +87,16 @@ class KendaliMutuController extends Controller
         return response()->download($tmp, $nama, ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend(true);
     }
 
+    /** Excel dari formulir KM yang sudah disunting di pratinjau (isi persis suntingan). */
+    public function excelSuntingan(Request $request, RppPenugasan $penugasan, HtmlKeExcel $excel)
+    {
+        $v = $request->validate(['html' => ['required', 'string', 'max:5000000']]);
+        $tmp = tempnam(sys_get_temp_dir(), 'kms');
+        $excel->simpanKe($v['html'], $tmp);
+
+        return response()->download($tmp, 'Kendali-Mutu-'.str($penugasan->nomor_st)->slug()->limit(40, '').'-suntingan.xlsx', ['Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])->deleteFileAfterSend(true);
+    }
+
     public function keputusanPreview()
     {
         $insp = \App\Models\RppSetting::inspektur();
@@ -90,13 +106,14 @@ class KendaliMutuController extends Controller
             : '............................';
 
         return Inertia::render('erpika/arep/kendali-mutu/Keputusan', [
+            'pedoman' => PedomanKendaliMutu::isi(),
             'inspektur' => ['nama' => $insp?->nama ?? '............................', 'nip_spasi' => $nipSpasi],
         ]);
     }
 
     public function keputusanPdf(Request $request)
     {
-        return PdfPrintService::downloadFromUrl($request, url('/erpika/arep/kendali-mutu/keputusan/preview'), 'Keputusan-Inspektur-Pedoman-Kendali-Mutu');
+        return PdfPrintService::downloadFromUrl($request, url('/erpika/arep/kendali-mutu/keputusan/preview'), 'Keputusan-Inspektur-Pedoman-Kendali-Mutu', PdfPrintService::ukuranDariCss());
     }
 
     public function keputusanWord(ArepWordService $word)

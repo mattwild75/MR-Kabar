@@ -52,7 +52,7 @@ class SuratTugasController extends Controller
         $token = Str::random(32);
         Cache::put('arep-st-suntingan:'.$token, $v['html'], 600);
 
-        return PdfPrintService::downloadFromUrl($request, url('/erpika/arep/surat-tugas/suntingan/'.$token), $this->namaBerkas($penugasan, $v['dok'] ?? 'semua').'-suntingan');
+        return PdfPrintService::downloadFromUrl($request, url('/erpika/arep/surat-tugas/suntingan/'.$token), $this->namaBerkas($penugasan, $v['dok'] ?? 'semua').'-suntingan', PdfPrintService::ukuranDariCss());
     }
 
     /** Word dari HTML yang sudah disunting di pratinjau. */
@@ -72,7 +72,7 @@ class SuratTugasController extends Controller
         $dok = $request->input('dok', 'semua');
         $url = url("/erpika/arep/surat-tugas/{$penugasan->id}/preview?dok={$dok}");
 
-        return PdfPrintService::downloadFromUrl($request, $url, $this->namaBerkas($penugasan, $dok));
+        return PdfPrintService::downloadFromUrl($request, $url, $this->namaBerkas($penugasan, $dok), PdfPrintService::ukuranDariCss());
     }
 
     public function word(Request $request, RppPenugasan $penugasan, ArepData $data, ArepWordService $word)

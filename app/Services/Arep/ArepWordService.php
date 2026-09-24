@@ -2,6 +2,7 @@
 
 namespace App\Services\Arep;
 
+use App\Support\Arep\PedomanKendaliMutu;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
@@ -35,78 +36,163 @@ class ArepWordService
     }
 
     /**
-     * Draft Keputusan Inspektur tentang Pedoman Kendali Mutu Audit — kerangka
-     * baku mengikuti Keputusan Inspektur Aceh No. 700/2352/IA/2021 (adopsi
-     * Permenpan RB 19/2009), disesuaikan ke Inspektorat Kabupaten Aceh Barat.
-     * Nomor/tanggal dikosongkan agar diisi saat penetapan.
+     * Draft Keputusan Inspektur tentang Pedoman Kendali Mutu Pengawasan Intern
+     * beserta LAMPIRAN lengkapnya (Bab I–X dan daftar Formulir KM). Isi dari
+     * App\Support\Arep\PedomanKendaliMutu — sumber yang sama dengan pratinjau.
+     * Nomor dan tanggal dikosongkan untuk diisi saat penetapan.
      */
     public function keputusanInspektur(): string
     {
+        $p = PedomanKendaliMutu::isi();
+        $k = $p['keputusan'];
+        $tahun = now()->year;
+        $insp = \App\Models\RppSetting::inspektur();
+        $nip = preg_replace('/\D/', '', (string) ($insp?->nip ?? ''));
+        $nipS = strlen($nip) === 18 ? substr($nip, 0, 8).' '.substr($nip, 8, 6).' '.substr($nip, 14, 1).' '.substr($nip, 15) : '............';
+        $namaInsp = mb_strtoupper((string) ($insp?->nama ?? '............'));
+
         $doc = $this->doc();
-        $sec = $doc->addSection(['marginTop' => 900, 'marginBottom' => 1000, 'marginLeft' => 1360, 'marginRight' => 900]);
+        $sec = $doc->addSection(['marginTop' => 900, 'marginBottom' => 1000, 'marginLeft' => 1500, 'marginRight' => 1100]);
         $this->kop($sec, ['kop' => [
             'kabupaten' => 'PEMERINTAH KABUPATEN ACEH BARAT', 'instansi' => 'INSPEKTORAT',
             'alamat' => 'Jalan Imam Bonjol Km. 4,5 Telp. 0655 – 7552672', 'email' => 'e-mail : inspektoratkab.acehbarat@gmail.com', 'kota' => 'MEULABOH',
         ]]);
         $c = ['alignment' => Jc::CENTER, 'spaceAfter' => 0];
-        $sec->addText('KEPUTUSAN INSPEKTUR KABUPATEN ACEH BARAT', ['bold' => true, 'size' => 13], $c);
-        $sec->addText('NOMOR : ......../......../INS/'.now()->year, [], $c);
+        $sec->addText('KEPUTUSAN INSPEKTUR KABUPATEN ACEH BARAT', ['bold' => true], $c);
+        $sec->addText('NOMOR : ......../......../INS/'.$tahun, [], $c);
         $sec->addTextBreak(1);
         $sec->addText('TENTANG', ['bold' => true], $c);
-        $sec->addText('PEDOMAN KENDALI MUTU AUDIT INSPEKTORAT KABUPATEN ACEH BARAT', ['bold' => true], $c);
+        $sec->addText($k['judul'], ['bold' => true], $c);
         $sec->addTextBreak(1);
         $sec->addText('INSPEKTUR KABUPATEN ACEH BARAT,', ['bold' => true], $c);
         $sec->addTextBreak(1);
 
-        $blok = ['alignment' => Jc::BOTH, 'spaceAfter' => 80, 'indentation' => ['left' => 2200, 'hanging' => 1400], 'tabs' => [new Tab('left', 900), new Tab('left', 2200)]];
-        $sec->addText("Menimbang\t:\ta.\tbahwa pengawasan intern terhadap penyelenggaraan Pemerintahan Kabupaten Aceh Barat merupakan salah satu unsur manajemen pemerintahan daerah yang penting dalam rangka mewujudkan kepemerintahan yang baik;", [], $blok);
-        foreach ([
-            'b.' => 'bahwa untuk mewujudkan pengawasan yang berkualitas sesuai dengan mandat dan standar audit, diperlukan sistem pengendalian mutu audit;',
-            'c.' => 'bahwa untuk maksud tersebut perlu menetapkan Pedoman Kendali Mutu Audit Inspektorat Kabupaten Aceh Barat dengan Keputusan Inspektur.',
-        ] as $h => $t) {
-            $sec->addText("\t\t".$h."\t".$t, [], $blok);
-        }
+        $blokDasar = function (string $label, array $butir, string $gaya) use ($sec) {
+            $t = $sec->addTable(['cellMargin' => 30]);
+            foreach ($butir as $i => $isi) {
+                $t->addRow();
+                $t->addCell(1700)->addText($i === 0 ? $label : '', [], ['spaceAfter' => 60]);
+                $t->addCell(300)->addText($i === 0 ? ':' : '', [], ['spaceAfter' => 60]);
+                $t->addCell(500)->addText($gaya === 'huruf' ? chr(97 + $i).'.' : ($i + 1).'.', [], ['spaceAfter' => 60]);
+                $t->addCell(6800)->addText($isi, [], ['alignment' => Jc::BOTH, 'spaceAfter' => 60]);
+            }
+            $sec->addTextBreak(1);
+        };
+        $blokDasar('Menimbang', $k['menimbang'], 'huruf');
+        $blokDasar('Mengingat', $k['mengingat'], 'angka');
+        $blokDasar('Memperhatikan', $k['memperhatikan'], 'angka');
 
-        $mengingat = [
-            'Undang-Undang Nomor 15 Tahun 2004 tentang Pemeriksaan Pengelolaan dan Tanggung Jawab Keuangan Negara;',
-            'Undang-Undang Nomor 23 Tahun 2014 tentang Pemerintahan Daerah sebagaimana telah beberapa kali diubah;',
-            'Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Sistem Pengendalian Intern Pemerintah;',
-            'Peraturan Pemerintah Nomor 12 Tahun 2017 tentang Pembinaan dan Pengawasan Penyelenggaraan Pemerintahan Daerah;',
-            'Peraturan Menteri Negara Pendayagunaan Aparatur Negara dan Reformasi Birokrasi Nomor 19 Tahun 2009 tentang Pedoman Kendali Mutu Audit Aparat Pengawasan Intern Pemerintah;',
-            'Peraturan Bupati Aceh Barat Nomor 17 Tahun 2024 tentang Kedudukan, Susunan Organisasi, Tugas, Fungsi dan Tata Kerja Inspektorat Kabupaten Aceh Barat.',
-        ];
-        foreach ($mengingat as $i => $t) {
-            $pref = $i === 0 ? "Mengingat\t:\t" : "\t\t";
-            $sec->addText($pref.($i + 1).".\t".$t, [], $blok);
-        }
-
-        $sec->addTextBreak(1);
         $sec->addText('MEMUTUSKAN :', ['bold' => true], $c);
         $sec->addTextBreak(1);
-        $diktum = [
-            'Menetapkan' => '',
-            'KESATU' => 'Pedoman Kendali Mutu Audit Inspektorat Kabupaten Aceh Barat sebagaimana terlampir dalam Lampiran yang merupakan bagian yang tidak terpisahkan dari Keputusan ini;',
-            'KEDUA' => 'Pedoman sebagaimana dimaksud pada diktum KESATU wajib dipergunakan sebagai acuan bagi seluruh Auditor, P2UPD, dan Auditor Kepegawaian di lingkungan Inspektorat Kabupaten Aceh Barat guna memastikan bahwa audit dilaksanakan sesuai dengan Kode Etik APIP dan Standar Audit APIP;',
-            'KETIGA' => 'Keputusan ini mulai berlaku sejak tanggal ditetapkan, dengan ketentuan apabila di kemudian hari terdapat kekeliruan akan diadakan perbaikan seperlunya.',
-        ];
-        $bd = ['alignment' => Jc::BOTH, 'spaceAfter' => 120, 'indentation' => ['left' => 2600, 'hanging' => 2600], 'tabs' => [new Tab('left', 2200), new Tab('left', 2600)]];
-        foreach ($diktum as $k => $v) {
-            $sec->addText($k."\t:\t".$v, [], $bd);
+        $t = $sec->addTable(['cellMargin' => 30]);
+        $t->addRow();
+        $t->addCell(1700)->addText('Menetapkan');
+        $t->addCell(300)->addText(':');
+        $t->addCell(7300)->addText('KEPUTUSAN INSPEKTUR TENTANG '.$k['judul'].'.', ['bold' => true], ['alignment' => Jc::BOTH]);
+        foreach ($k['diktum'] as [$d, $isi]) {
+            $t->addRow();
+            $t->addCell(1700)->addText($d, ['bold' => true], ['spaceAfter' => 100]);
+            $t->addCell(300)->addText(':', [], ['spaceAfter' => 100]);
+            $t->addCell(7300)->addText($isi, [], ['alignment' => Jc::BOTH, 'spaceAfter' => 100]);
+        }
+        $this->ttdPenetapan($sec, $tahun, $namaInsp, $nipS);
+
+        // ---------------- LAMPIRAN
+        $lam = $doc->addSection(['marginTop' => 900, 'marginBottom' => 1000, 'marginLeft' => 1500, 'marginRight' => 1100, 'breakType' => 'nextPage']);
+        $kanan = ['spaceAfter' => 0, 'indentation' => ['left' => 4800]];
+        foreach (['LAMPIRAN', 'KEPUTUSAN INSPEKTUR KABUPATEN ACEH BARAT', 'NOMOR    : ......../......../INS/'.$tahun, 'TANGGAL : ....................'.$tahun, 'TENTANG  : '.$k['judul']] as $b) {
+            $lam->addText($b, ['size' => 10], $kanan);
+        }
+        $lam->addTextBreak(1);
+        $lam->addText($k['judul'], ['bold' => true, 'size' => 13], ['alignment' => Jc::CENTER, 'spaceAfter' => 200]);
+
+        $par = ['alignment' => Jc::BOTH, 'spaceAfter' => 120, 'lineHeight' => 1.3, 'indentation' => ['firstLine' => 567]];
+        foreach ($p['bab'] as $bab) {
+            $lam->addTextBreak(1);
+            $lam->addText($bab['nomor'], ['bold' => true], $c);
+            $lam->addText($bab['judul'], ['bold' => true], ['alignment' => Jc::CENTER, 'spaceAfter' => 200]);
+            foreach ($bab['bagian'] as $bg) {
+                if ($bg['judul'] !== '') {
+                    $lam->addText($bg['judul'], ['bold' => true], ['spaceBefore' => 120, 'spaceAfter' => 80]);
+                }
+                foreach ($bg['isi'] as $x) {
+                    if (is_string($x)) {
+                        $lam->addText($x, [], $par);
+                    } else {
+                        $this->daftarWord($lam, $x);
+                    }
+                }
+            }
         }
 
-        $sec->addTextBreak(2);
-        $ttd = ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'indentation' => ['left' => 5000]];
-        $sec->addText('Ditetapkan di Meulaboh', [], $ttd);
-        $sec->addText('pada tanggal ......................'.now()->year, [], $ttd);
-        $sec->addText('INSPEKTUR KABUPATEN ACEH BARAT,', [], $ttd);
-        $sec->addTextBreak(3);
-        $insp = \App\Models\RppSetting::inspektur();
-        $nip = preg_replace('/\D/', '', (string) ($insp?->nip ?? ''));
-        $nipS = strlen($nip) === 18 ? substr($nip, 0, 8).' '.substr($nip, 8, 6).' '.substr($nip, 14, 1).' '.substr($nip, 15) : '............';
-        $sec->addText(mb_strtoupper((string) ($insp?->nama ?? '............')), ['bold' => true, 'underline' => 'single'], $ttd);
-        $sec->addText('NIP. '.$nipS, [], $ttd);
+        // Daftar formulir
+        $lam->addTextBreak(1);
+        $lam->addText('DAFTAR FORMULIR KENDALI MUTU', ['bold' => true], $c);
+        $lam->addTextBreak(1);
+        $tb = $lam->addTable(['borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 60]);
+        $tb->addRow();
+        foreach (['No' => 700, 'Kode' => 1100, 'Nama Formulir' => 4800, 'Tahapan' => 2700] as $h => $w) {
+            $tb->addCell($w, ['bgColor' => 'EFEFEF'])->addText($h, ['bold' => true], ['alignment' => Jc::CENTER, 'spaceAfter' => 0]);
+        }
+        foreach ($p['formulir'] as $i => [$kode, $nama, $tahap]) {
+            $tb->addRow();
+            $tb->addCell(700)->addText(($i + 1).'.', [], ['alignment' => Jc::CENTER, 'spaceAfter' => 0]);
+            $tb->addCell(1100)->addText($kode, [], ['spaceAfter' => 0]);
+            $tb->addCell(4800)->addText($nama, [], ['spaceAfter' => 0]);
+            $tb->addCell(2700)->addText($tahap, [], ['spaceAfter' => 0]);
+        }
+        $lam->addTextBreak(1);
+        $lam->addText('Bentuk setiap formulir diterbitkan melalui aplikasi ERPIKA menu AREP > Kendali Mutu (PDF dan Excel), satu lembar per formulir.', ['italic' => true, 'size' => 10], ['alignment' => Jc::BOTH]);
+        $this->ttdPenetapan($lam, $tahun, $namaInsp, $nipS, false);
 
         return $this->simpan($doc);
+    }
+
+    /** @param array<string,mixed> $x */
+    private function daftarWord(Section $sec, array $x): void
+    {
+        if (isset($x['tabel'])) {
+            [$kepala, $baris] = $x['tabel'];
+            $t = $sec->addTable(['borderSize' => 6, 'borderColor' => '000000', 'cellMargin' => 60]);
+            $lebar = [2300, 2600, 4400];
+            $t->addRow();
+            foreach ($kepala as $i => $h) {
+                $t->addCell($lebar[$i] ?? 2000, ['bgColor' => 'EFEFEF'])->addText($h, ['bold' => true], ['alignment' => Jc::CENTER, 'spaceAfter' => 0]);
+            }
+            foreach ($baris as $r) {
+                $t->addRow();
+                foreach ($r as $i => $v) {
+                    $t->addCell($lebar[$i] ?? 2000)->addText($v, [], ['spaceAfter' => 0]);
+                }
+            }
+            $sec->addTextBreak(1);
+
+            return;
+        }
+        $jenis = isset($x['angka']) ? 'angka' : (isset($x['huruf']) ? 'huruf' : 'butir');
+        foreach ($x[$jenis] as $i => $b) {
+            [$teks, $sub] = is_array($b) ? [$b[0], $b[1] ?? []] : [$b, []];
+            $pen = match ($jenis) { 'angka' => ($i + 1).'.', 'huruf' => chr(97 + $i).'.', default => '•' };
+            $sec->addText($pen."\t".$teks, [], ['alignment' => Jc::BOTH, 'spaceAfter' => 60, 'indentation' => ['left' => 850, 'hanging' => 425], 'tabs' => [new Tab('left', 850)]]);
+            foreach ($sub as $j => $s) {
+                $sec->addText(chr(97 + $j).".\t".$s, [], ['alignment' => Jc::BOTH, 'spaceAfter' => 40, 'indentation' => ['left' => 1275, 'hanging' => 425], 'tabs' => [new Tab('left', 1275)]]);
+            }
+        }
+    }
+
+    private function ttdPenetapan(Section $sec, int $tahun, string $nama, string $nip, bool $lengkap = true): void
+    {
+        $sec->addTextBreak(1);
+        $ttd = ['alignment' => Jc::CENTER, 'spaceAfter' => 0, 'indentation' => ['left' => 4800]];
+        if ($lengkap) {
+            $sec->addText('Ditetapkan di Meulaboh', [], $ttd);
+            $sec->addText('pada tanggal .................... '.$tahun, [], $ttd);
+            $sec->addTextBreak(1);
+        }
+        $sec->addText('INSPEKTUR KABUPATEN ACEH BARAT,', [], $ttd);
+        $sec->addTextBreak(3);
+        $sec->addText($nama, ['bold' => true, 'underline' => 'single'], $ttd);
+        $sec->addText('NIP. '.$nip, [], $ttd);
     }
 
     /** @param array<string,mixed> $d */
@@ -145,7 +231,12 @@ class ArepWordService
         $t->addCell(4200)->addText('1 (satu) lembar');
         $sel = $t->addCell(3800);
         $sel->addText('Kepada Yth,', [], ['spaceAfter' => 0]);
-        $sel->addText('Pimpinan '.$d['objek'], ['bold' => true], ['spaceAfter' => 0]);
+        foreach ($d['kepada'] ?: ['Pimpinan Perangkat Daerah terkait'] as $k) {
+            $sel->addText($k, ['bold' => true], ['spaceAfter' => 0]);
+        }
+        if (count($d['kepada']) > 1) {
+            $sel->addText('Masing-masing', [], ['spaceAfter' => 0]);
+        }
         $sel->addText('di -', [], ['spaceAfter' => 0]);
         $sel->addText('        Tempat', ['underline' => 'single'], ['spaceAfter' => 0]);
         $t->addRow();

@@ -3,7 +3,7 @@
  * Suntingan hanya untuk berkas yang diunduh — data RPP tidak berubah. */
 import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
-import { Bold, FileText, Italic, PencilLine, RotateCcw, Underline } from 'lucide-react';
+import { Bold, FileSpreadsheet, FileText, Italic, PencilLine, RotateCcw, Underline } from 'lucide-react';
 import { type RefObject, useState } from 'react';
 import { toast } from 'sonner';
 
@@ -18,20 +18,21 @@ interface Props {
     setSunting: (v: boolean) => void;
     pdfUrl: string;
     wordUrl?: string;
+    excelUrl?: string;
     filename: string;
     /** Field tambahan ikut dikirim (mis. dok / landscape). */
     body?: Record<string, string | number | boolean>;
 }
 
-export function SuntingBar({ contentRef, sunting, setSunting, pdfUrl, wordUrl, filename, body = {} }: Props) {
-    const [sibuk, setSibuk] = useState<'pdf' | 'word' | null>(null);
+export function SuntingBar({ contentRef, sunting, setSunting, pdfUrl, wordUrl, excelUrl, filename, body = {} }: Props) {
+    const [sibuk, setSibuk] = useState<'pdf' | 'word' | 'excel' | null>(null);
     const perintah = (cmd: 'bold' | 'italic' | 'underline') => document.execCommand(cmd);
 
-    const unduh = async (jenis: 'pdf' | 'word') => {
+    const unduh = async (jenis: 'pdf' | 'word' | 'excel') => {
         if (!contentRef.current) return;
         setSibuk(jenis);
         try {
-            const url = jenis === 'pdf' ? pdfUrl : wordUrl!;
+            const url = jenis === 'pdf' ? pdfUrl : jenis === 'excel' ? excelUrl! : wordUrl!;
             const r = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -47,7 +48,7 @@ export function SuntingBar({ contentRef, sunting, setSunting, pdfUrl, wordUrl, f
             const blob = await r.blob();
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `${filename}-suntingan.${jenis === 'pdf' ? 'pdf' : 'docx'}`;
+            a.download = `${filename}-suntingan.${jenis === 'pdf' ? 'pdf' : jenis === 'excel' ? 'xlsx' : 'docx'}`;
             a.click();
             URL.revokeObjectURL(a.href);
         } catch {
@@ -93,6 +94,11 @@ export function SuntingBar({ contentRef, sunting, setSunting, pdfUrl, wordUrl, f
             {wordUrl && (
                 <Button variant="outline" size="sm" onClick={() => unduh('word')} disabled={sibuk !== null}>
                     <FileText className="mr-1 h-4 w-4" /> {sibuk === 'word' ? 'Membuat…' : 'Unduh Word'}
+                </Button>
+            )}
+            {excelUrl && (
+                <Button variant="outline" size="sm" onClick={() => unduh('excel')} disabled={sibuk !== null}>
+                    <FileSpreadsheet className="mr-1 h-4 w-4" /> {sibuk === 'excel' ? 'Membuat…' : 'Unduh Excel'}
                 </Button>
             )}
             <Button size="sm" onClick={() => unduh('pdf')} disabled={sibuk !== null}>

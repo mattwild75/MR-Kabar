@@ -90,9 +90,12 @@ function SuratPengantar({ d }: { d: ArepData }) {
                         <td className="py-0.5">1 (satu) lembar</td>
                         <td className="py-0.5 pl-2 align-top" rowSpan={2}>
                             Kepada Yth,
-                            <br />
-                            <span className="font-bold">Pimpinan {d.objek}</span>
-                            <br />
+                            {(d.kepada.length ? d.kepada : ['Pimpinan Perangkat Daerah terkait']).map((k, i) => (
+                                <div key={i} className="font-bold">
+                                    {k}
+                                </div>
+                            ))}
+                            {d.kepada.length > 1 && <div>Masing-masing</div>}
                             di -
                             <br />
                             &nbsp;&nbsp;&nbsp;&nbsp;<span className="underline">Tempat</span>

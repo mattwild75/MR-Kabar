@@ -357,6 +357,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
         Route::get('/{penugasan}/pdf', [KendaliMutuController::class, 'pdf'])->name('pdf');
         Route::get('/{penugasan}/excel', [KendaliMutuController::class, 'excel'])->name('excel');
         Route::post('/{penugasan}/pdf-suntingan', [KendaliMutuController::class, 'pdfSuntingan'])->name('pdf-suntingan');
+        Route::post('/{penugasan}/excel-suntingan', [KendaliMutuController::class, 'excelSuntingan'])->name('excel-suntingan');
     });
     // ERPIKA > Laporan Penugasan > Database LHP — manajemen LHP (pindahan SimHPPemda).
     // '/buat' didaftarkan sebelum '/{lhp}' agar tidak tertangkap route model binding.

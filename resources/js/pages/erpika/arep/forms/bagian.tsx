@@ -49,6 +49,9 @@ export interface ArepData {
     tanggal: { st: string; st_iso: string | null; surat: string };
     objek: string;
     frasa: string;
+    auditi: string[];
+    /** Tujuan SP: jabatan pimpinan tiap auditi. */
+    kepada: string[];
     obriks: string[];
     uraian: string | null;
     sifat: string | null;
@@ -126,7 +129,8 @@ export function muatSatuHalaman(akar: HTMLElement | null, pemilih: string): void
     const mmKePx = 96 / 25.4;
     akar.querySelectorAll<HTMLElement>(pemilih).forEach((el) => {
         el.style.removeProperty('zoom');
-        const tinggiHalaman = (el.classList.contains('landscape') ? 210 : 297) * mmKePx - 4;
+        // Margin aman 3%: metrik huruf saat cetak sedikit berbeda dari saat diukur di layar.
+        const tinggiHalaman = (el.classList.contains('landscape') ? 210 : 297) * mmKePx * 0.97;
         const tinggi = el.scrollHeight;
         if (tinggi > tinggiHalaman) {
             el.style.setProperty('zoom', String(Math.floor((tinggiHalaman / tinggi) * 1000) / 1000));
