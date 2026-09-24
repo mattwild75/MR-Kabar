@@ -12,6 +12,13 @@ function bacaXsrf(): string {
     return m ? decodeURIComponent(m[1]) : '';
 }
 
+/** HTML suntingan tanpa elemen bantu layar (mis. tombol Contoh). */
+function htmlBersih(el: HTMLElement): string {
+    const salin = el.cloneNode(true) as HTMLElement;
+    salin.querySelectorAll('[data-abaikan]').forEach((n) => n.remove());
+    return salin.innerHTML;
+}
+
 interface Props {
     contentRef: RefObject<HTMLElement | null>;
     sunting: boolean;
@@ -42,7 +49,7 @@ export function SuntingBar({ contentRef, sunting, setSunting, pdfUrl, wordUrl, e
                     'X-Requested-With': 'XMLHttpRequest',
                 },
                 credentials: 'same-origin',
-                body: JSON.stringify({ html: contentRef.current.innerHTML, ...body }),
+                body: JSON.stringify({ html: htmlBersih(contentRef.current), ...body }),
             });
             if (!r.ok) throw new Error(String(r.status));
             const blob = await r.blob();

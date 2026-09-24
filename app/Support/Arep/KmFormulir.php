@@ -76,6 +76,14 @@ class KmFormulir
         return array_values(array_filter(array_map(fn ($m) => $m['nama'], $this->d['tim'])));
     }
 
+    /** Auditor pelaksana lapangan (Ketua Tim + Anggota Tim) — KMA 8/13. */
+    private function pelaksana(): string
+    {
+        $n = array_filter([$this->nama('kt'), ...array_map(fn ($a) => $a['nama'], $this->d['anggota'])]);
+
+        return implode(', ', $n) ?: implode(', ', $this->namaTim());
+    }
+
     private function periode(): string
     {
         return $this->d['jangka']['rentang'];
@@ -187,7 +195,7 @@ class KmFormulir
                 ['Nama Auditi', $this->d['objek'], 'Ketua Tim', $this->nama('kt')],
                 ['Alamat', 'Kabupaten Aceh Barat', 'Penanggung Jawab Teknis', $this->pjt()],
                 ['No. Surat Tugas', $this->d['nomor']['st'].' tanggal '.$this->d['tanggal']['st'], '', ''],
-                ['Nama Auditor', implode(', ', $this->namaTim()), '', ''],
+                ['Nama Auditor', $this->pelaksana(), '', ''],
             ]],
             ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['Tgl', 'Prosedur', 'Realisasi Jam', 'Anggaran Jam', 'Realisasi Biaya', 'Anggaran Biaya']), 'nomor' => true, 'kosong' => 8,
                 'kaki' => [[['t' => 'Total', 'c' => 2, 'a' => 'c', 'b' => true], '', '', '', '']], 'lebar' => [10, 40, 12, 12, 13, 13]],
@@ -313,9 +321,12 @@ class KmFormulir
                 ['Nama Auditi', $this->d['objek'], 'Penanggung Jawab Teknis', $this->pjt()],
                 ['Alamat', 'Kabupaten Aceh Barat', 'Ketua Tim', $this->nama('kt')],
                 ['Periode', $this->periode(), 'Tanggal', null],
-                ['Auditor', implode(', ', $this->namaTim()), '', ''],
+                ['Auditor', $this->pelaksana(), '', ''],
             ]],
-            ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['No', 'Prosedur Audit', 'Realisasi Jam', 'Realisasi Jam s.d tanggal', 'Estimasi Jam untuk penyelesaian', 'Anggaran Jam', 'Anggaran Biaya', 'Realisasi Biaya s.d tanggal', 'Anggaran Biaya']), 'nomor' => true, 'kosong' => 7, 'lebar' => [4, 28, 9, 9, 10, 9, 10, 11, 10]],
+            // Kepala menurut petunjuk pengisian lampiran (kolom 1 = tanggal,
+            // kolom 6 = realisasi biaya minggu ini); kepala cetakan lampiran
+            // Permenpan 19/2009 mengulang "Anggaran Biaya" — salah ketik.
+            ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['Tgl', 'Prosedur Audit', 'Realisasi Jam', 'Realisasi Jam s.d tanggal', 'Estimasi Jam untuk penyelesaian', 'Anggaran Jam', 'Realisasi Biaya', 'Realisasi Biaya s.d tanggal', 'Anggaran Biaya']), 'nomor' => true, 'kosong' => 7, 'lebar' => [8, 26, 8, 9, 10, 8, 10, 11, 10]],
             ['jenis' => 'info', 'isi' => [['Nama Auditor', null], ['Analisis Penyimpangan', null], ['Ketua Tim', $this->nama('kt')], ['Penanggung Jawab Teknis', $this->pjt()]]],
         ]];
     }
@@ -461,7 +472,7 @@ class KmFormulir
                 ['Auditi', $this->d['objek']], ['Periode Audit', $this->periode()], ['Nomor Surat Tugas', $this->d['nomor']['st']],
                 ['Nomor LHP', $this->nomorLhp()], ['Nomor Formulir Penyampaian', null], ['Disampaikan Tanggal', null], ['Rapat Penutupan Audit Tanggal', null],
             ]],
-            ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['No', 'Kondisi', 'Kriteria', 'Sebab', 'Akibat', 'Rekomendasi', 'Rencana Tindak Lanjut', 'Komentar Auditi', 'Komentar Auditor', 'Keterangan']), 'nomor' => true, 'baris' => $baris, 'kosong' => $baris ? 0 : 5, 'lebar' => [3, 24, 8, 14, 7, 22, 7, 5, 5, 5]],
+            ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['No', 'Kondisi', 'Kriteria', 'Sebab', 'Akibat', 'Rekomendasi', 'Rencana Tindak Lanjut', 'Komentar Auditi', 'Komentar Auditor', 'Keterangan']), 'nomor' => true, 'baris' => $baris, 'kosong' => $baris ? 0 : 5, 'lebar' => [3, 18, 11, 13, 10, 17, 8, 7, 6, 7]],
             ['jenis' => 'ttd', 'kolom' => [['', 'Penanggung Jawab Teknis', $this->pjt(), $this->nip('dalnis')], ['', 'Ketua Tim', $this->nama('kt'), $this->nip('kt')]]],
         ]];
     }
@@ -607,17 +618,25 @@ class KmFormulir
         ]];
     }
 
+    /**
+     * Lampiran Permenpan 19/2009 hanya menyebut KMA 26 tanpa bentuk; bentuk
+     * yang terbit dipakai daerah: Keputusan Inspektur Kota Yogyakarta
+     * No. 33/2018 (Nama Peminjam, Jabatan, Bagian/Bidang, Tanggal, File
+     * Tentang; empat kotak paraf). Tabel rincian berkas ditambahkan supaya
+     * pengembalian tiap berkas bisa dicentang.
+     */
     private function kma26(): array
     {
         return ['blok' => [
             $this->judul('BON PEMINJAMAN BERKAS', 'Nomor : ..............................'),
             ['jenis' => 'info', 'isi' => [
-                ['Nama Peminjam', $this->nama('kt')], ['NIP', $this->nip('kt')], ['Jabatan dalam Tim', 'Ketua Tim'],
-                ['Untuk Keperluan', $this->d['frasa']], ['Surat Tugas', $this->d['nomor']['st'].' tanggal '.$this->d['tanggal']['st']],
-                ['Tanggal Pinjam', null], ['Rencana Tanggal Kembali', $this->d['jangka']['selesai']],
+                ['Nama Peminjam', $this->nama('kt')], ['Jabatan', $this->d['kt']['pangkat'] ? $this->d['kt']['pangkat'].' / Ketua Tim' : 'Ketua Tim'],
+                ['Bagian/Bidang', null], ['Tanggal', null],
+                ['File Tentang', null], ['Untuk Keperluan', $this->d['frasa'].' (Surat Tugas '.$this->d['nomor']['st'].')'],
             ]],
-            ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['No', 'Nama/Jenis Berkas', 'Nomor Berkas/Indeks', 'Jumlah', 'Tanggal Kembali', 'Keterangan']), 'nomor' => true, 'kosong' => 8, 'lebar' => [5, 35, 18, 9, 15, 18]],
-            ['jenis' => 'ttd', 'tanggal' => 'Meulaboh, ....................', 'kolom' => [['Yang Menyerahkan,', 'Petugas Arsip/Tata Usaha', null, null], ['Yang Meminjam,', 'Ketua Tim', $this->nama('kt'), $this->nip('kt')]]],
+            ['jenis' => 'tabel', 'kepala' => $this->kepalaSederhana(['No', 'Nama/Jenis Berkas', 'Nomor Berkas/Indeks', 'Jumlah', 'Tanggal Kembali', 'Keterangan']), 'nomor' => true, 'kosong' => 6, 'lebar' => [5, 35, 18, 9, 15, 18]],
+            ['jenis' => 'ttd', 'kolom' => [['', 'Peminjam', $this->nama('kt'), $this->nip('kt')], ['', 'Disetujui oleh', null, null], ['', 'Pengembalian', null, null], ['', 'Petugas Arsip', null, null]]],
+            ['jenis' => 'teks', 'isi' => ['Catatan : Bon Peminjaman Berkas dicatat oleh Sekretariat (Subbagian Umum dan Kepegawaian).']],
         ]];
     }
 
@@ -665,7 +684,7 @@ class KmFormulir
             $this->judul('FORMULIR PENILAIAN KINERJA AUDITOR/P2UPD ATAS PENUGASAN AUDIT'),
             ['jenis' => 'info', 'isi' => [
                 ['Nama', null, 'Pangkat', null],
-                ['Status dalam Tim', null, 'Fungsi yang diaudit', $this->d['jenis']['nama']],
+                ['Status dalam Tim', null, 'Fungsi yang diaudit', $this->d['jenis']['sebutan'] ?? $this->d['jenis']['nama']],
                 ['Nama Ketua Tim', $this->nama('kt'), 'Obyek yang diaudit', $this->d['objek']],
                 ['Nama Penanggung Jawab Teknis', $this->pjt(), 'Periode', $this->periode()],
                 ['Nama Penanggung Jawab', $this->nama('pj'), 'No. Surat Tugas', $this->d['nomor']['st']],

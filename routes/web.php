@@ -353,6 +353,7 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
         Route::get('/keputusan/pdf', [KendaliMutuController::class, 'keputusanPdf'])->name('keputusan.pdf');
         Route::get('/keputusan/word', [KendaliMutuController::class, 'keputusanWord'])->name('keputusan.word');
         Route::get('/suntingan/{token}', [KendaliMutuController::class, 'suntingan'])->name('suntingan');
+        Route::get('/contoh/{no}', [KendaliMutuController::class, 'contoh'])->whereNumber('no')->name('contoh');
         Route::get('/{penugasan}/preview', [KendaliMutuController::class, 'preview'])->name('preview');
         Route::get('/{penugasan}/pdf', [KendaliMutuController::class, 'pdf'])->name('pdf');
         Route::get('/{penugasan}/excel', [KendaliMutuController::class, 'excel'])->name('excel');

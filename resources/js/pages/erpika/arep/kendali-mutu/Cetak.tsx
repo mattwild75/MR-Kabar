@@ -1,13 +1,14 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
+import { muatSatuHalaman, type ArepData } from '@/pages/erpika/arep/forms/bagian';
+import { TombolContoh } from '@/pages/erpika/arep/forms/contoh';
+import { FormulirKm, type KmMeta } from '@/pages/erpika/arep/forms/km';
+import { type Spek } from '@/pages/erpika/arep/forms/spek';
+import { SuntingBar } from '@/pages/erpika/arep/forms/sunting';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { FileSpreadsheet } from 'lucide-react';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { muatSatuHalaman, type ArepData } from '@/pages/erpika/arep/forms/bagian';
-import { FormulirKm, type KmMeta } from '@/pages/erpika/arep/forms/km';
-import { type Spek } from '@/pages/erpika/arep/forms/spek';
-import { SuntingBar } from '@/pages/erpika/arep/forms/sunting';
 
 interface Props {
     data?: ArepData;
@@ -45,12 +46,15 @@ const gaya = (landscape: boolean, campur = false, akhirLanskap = false) => `
     .km-lembar { font-family:'Bookman Old Style','URW Bookman',Bookman,'DejaVu Serif',serif; color:#000; background:#fff; }
     .km-lembar.portrait { width:210mm; padding:12mm 14mm; }
     .km-lembar.landscape { width:297mm; padding:10mm 12mm; }
-    .km-lembar + .km-lembar { margin-top:8mm; }
+    .km-baris.portrait { page: tegak; }
+    .km-baris.landscape { page: lanskap; }
+    .km-lembar + .km-lembar, .km-baris + .km-baris { margin-top:8mm; }
     [contenteditable="true"] .km-lembar { outline: 2px dashed #2563eb; outline-offset: 4px; }
     @media print {
         body { background:#fff; }
         .km-lembar { margin:0 !important; box-shadow:none !important; page-break-after: always; }
-        .km-lembar:last-child { page-break-after:auto; }
+        .km-baris:last-child > .km-lembar, .km-lembar:last-child:not(.km-baris > .km-lembar) { page-break-after:auto; }
+        .km-baris { display: contents !important; }
         .min-h-svh { min-height:0 !important; }
     }
 `;
@@ -63,9 +67,7 @@ export default function KendaliMutuCetak({ data, katalog, forms, spek = {}, mula
         muatSatuHalaman(isi.current, '.km-lembar');
         muatSatuHalaman(akarSuntingan.current, '.km-lembar');
     });
-    const dipilih = forms
-        .map((no) => katalog.find((k) => k.no === no))
-        .filter((m): m is KmMeta => !!m);
+    const dipilih = forms.map((no) => katalog.find((k) => k.no === no)).filter((m): m is KmMeta => !!m);
     const semuaLandscape = dipilih.length > 0 && dipilih.every((m) => m.orientasi === 'landscape');
 
     const q = forms.join(',');
@@ -132,12 +134,22 @@ export default function KendaliMutuCetak({ data, katalog, forms, spek = {}, mula
                 ref={isi}
                 contentEditable={sunting}
                 suppressContentEditableWarning
-                className="bg-muted/40 pb-8 print:bg-white print:pb-0"
+                className="bg-muted/40 pb-8 md:pr-28 print:bg-white print:pr-0 print:pb-0"
             >
+                {/* Tiap lembar dibungkus .km-baris bersama tombol Contoh di kanannya;
+                    saat cetak pembungkus lebur (display: contents) sehingga
+                    pemisah halaman & halaman bernama tetap milik lembar. */}
                 {dipilih.map((meta) => (
-                    <section key={meta.no} className={`km-lembar ${meta.orientasi} mx-auto max-w-full text-[11pt] leading-snug`}>
-                        <FormulirKm d={data} meta={meta} spek={spek[meta.no]} />
-                    </section>
+                    <div key={meta.no} className={`km-baris ${meta.orientasi} relative mx-auto w-fit max-w-full`}>
+                        <section className={`km-lembar ${meta.orientasi} mx-auto max-w-full text-[11pt] leading-snug`}>
+                            <FormulirKm d={data} meta={meta} spek={spek[meta.no]} />
+                        </section>
+                        <div contentEditable={false} data-abaikan className="absolute inset-y-0 left-full ml-3 print:hidden">
+                            <div className="sticky top-4">
+                                <TombolContoh meta={meta} />
+                            </div>
+                        </div>
+                    </div>
                 ))}
             </div>
         </AppLayout>

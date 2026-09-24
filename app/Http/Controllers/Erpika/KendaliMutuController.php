@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Erpika;
 
 use App\Http\Controllers\Controller;
 use App\Models\RppPenugasan;
+use App\Models\RppSetting;
 use App\Services\Arep\ArepData;
 use App\Services\Arep\ArepWordService;
 use App\Services\Arep\HtmlKeExcel;
 use App\Services\Arep\KmExcelService;
 use App\Services\PdfPrintService;
+use App\Support\Arep\KmContoh;
 use App\Support\Arep\KmFormulir;
 use App\Support\Arep\KmKatalog;
 use App\Support\Arep\PedomanKendaliMutu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 /**
@@ -48,10 +52,19 @@ class KendaliMutuController extends Controller
         ]);
     }
 
+    /**
+     * Contoh pengisian satu formulir (tombol "Contoh" di pratinjau): data
+     * penugasan rekaan, bentuk formulir terisi, petunjuk pengisian, rujukan.
+     */
+    public function contoh(int $no)
+    {
+        return response()->json(KmContoh::untuk($no) ?? abort(404));
+    }
+
     /** Halaman render HTML hasil suntingan (dikunjungi Browsershot untuk PDF). */
     public function suntingan(string $token)
     {
-        $html = \Illuminate\Support\Facades\Cache::get('arep-km-suntingan:'.$token) ?? abort(404);
+        $html = Cache::get('arep-km-suntingan:'.$token) ?? abort(404);
 
         return Inertia::render('erpika/arep/kendali-mutu/Cetak', ['suntingan' => $html, 'katalog' => KmKatalog::semua(), 'forms' => []]);
     }
@@ -60,8 +73,8 @@ class KendaliMutuController extends Controller
     public function pdfSuntingan(Request $request, RppPenugasan $penugasan)
     {
         $v = $request->validate(['html' => ['required', 'string', 'max:5000000'], 'landscape' => ['nullable', 'boolean']]);
-        $token = \Illuminate\Support\Str::random(32);
-        \Illuminate\Support\Facades\Cache::put('arep-km-suntingan:'.$token, $v['html'], 600);
+        $token = Str::random(32);
+        Cache::put('arep-km-suntingan:'.$token, $v['html'], 600);
         $url = url('/erpika/arep/kendali-mutu/suntingan/'.$token).($request->boolean('landscape') ? '?ls=1' : '');
 
         return PdfPrintService::downloadFromUrl($request, $url, 'Kendali-Mutu-'.str($penugasan->nomor_st)->slug()->limit(40, '').'-suntingan', PdfPrintService::ukuranDariCss());
@@ -99,7 +112,7 @@ class KendaliMutuController extends Controller
 
     public function keputusanPreview()
     {
-        $insp = \App\Models\RppSetting::inspektur();
+        $insp = RppSetting::inspektur();
         $nip = preg_replace('/\D/', '', (string) ($insp?->nip ?? ''));
         $nipSpasi = strlen($nip) === 18
             ? substr($nip, 0, 8).' '.substr($nip, 8, 6).' '.substr($nip, 14, 1).' '.substr($nip, 15)

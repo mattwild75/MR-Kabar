@@ -4,9 +4,14 @@ namespace Tests\Feature;
 
 use App\Models\Rpp;
 use App\Models\RppCategory;
+use App\Models\RppPenugasan;
 use App\Models\User;
+use App\Services\Arep\ArepData;
+use App\Support\Arep\KmContoh;
+use App\Support\Arep\KmFormulir;
 use Database\Seeders\RppCategorySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
@@ -133,8 +138,9 @@ class ArepTest extends TestCase
             ->assertOk()
             ->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     }
+
     /** Tim lima peran lengkap (format RPP 2026) untuk uji KM 6/7. */
-    private function timLengkap(User $u): \App\Models\RppPenugasan
+    private function timLengkap(User $u): RppPenugasan
     {
         $p = $this->penugasanContoh($u)->penugasan->first();
         $p->teamMembers()->create(['role' => 'wpj', 'nama' => 'Ivan Vanova', 'hari_kantor' => 3, 'hari_lapangan' => 2, 'order' => 2]);
@@ -148,7 +154,7 @@ class ArepTest extends TestCase
     public function test_km7_hari_dan_jam_dihitung_dari_rpp(): void
     {
         $p = $this->timLengkap($this->adminBaru());
-        $aw = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p)['anggaran_waktu'];
+        $aw = app(ArepData::class)->untukPenugasan($p)['anggaran_waktu'];
 
         // Total per peran = DK + LK di RPP; Jam = HP x 6,5.
         $this->assertSame(['hp' => 5, 'jam' => 32.5], $aw['total']['wpj']);
@@ -165,7 +171,7 @@ class ArepTest extends TestCase
     public function test_hari_kerja_surat_tugas_mengikuti_hari_ketua_tim_di_rpp(): void
     {
         $p = $this->penugasanContoh($this->adminBaru())->penugasan->first();
-        $j = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p)['jangka'];
+        $j = app(ArepData::class)->untukPenugasan($p)['jangka'];
 
         $this->assertSame(10, $j['hari_kerja']);
         $this->assertSame('sepuluh', $j['hari_kerja_terbilang']);
@@ -176,7 +182,7 @@ class ArepTest extends TestCase
         $u = $this->adminBaru();
         $p = $this->penugasanContoh($u)->penugasan->first();
         $p->teamMembers()->create(['role' => 'wpj', 'nama' => 'Fahrizal', 'order' => 2]);
-        $d = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p->fresh());
+        $d = app(ArepData::class)->untukPenugasan($p->fresh());
 
         $this->assertTrue($d['dalnis_rangkap']);
         $this->assertSame('Fahrizal', $d['dalnis']['nama']);
@@ -189,7 +195,7 @@ class ArepTest extends TestCase
         $p = $this->penugasanContoh($u)->penugasan->first();
         $p->update(['uraian' => 'Reviu pada Dinas Setdakab terhadap RKA tambahan TKDD TA 2026']);
         $p->obriks()->update(['nama' => 'Reviu pada Dinas PUPR terhadap DAK Fisik TA 2026']);
-        $d = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p->fresh());
+        $d = app(ArepData::class)->untukPenugasan($p->fresh());
 
         $this->assertSame('Reviu pada Dinas Setdakab terhadap RKA tambahan TKDD TA 2026. Dan Reviu pada Dinas PUPR terhadap DAK Fisik TA 2026', $d['objek']);
         $this->assertSame(['Sekretaris Daerah Kabupaten Aceh Barat', 'Kepala Dinas PUPR'], $d['kepada']);
@@ -199,10 +205,10 @@ class ArepTest extends TestCase
     {
         $u = $this->adminBaru();
         $p = $this->timLengkap($u);
-        $d = app(\App\Services\Arep\ArepData::class)->untukPenugasan($p);
+        $d = app(ArepData::class)->untukPenugasan($p);
         foreach (range(1, 30) as $n) {
             if (! in_array($n, [6, 7], true)) {
-                $this->assertNotNull(\App\Support\Arep\KmFormulir::untuk($n, $d), "KMA {$n} tanpa bentuk");
+                $this->assertNotNull(KmFormulir::untuk($n, $d), "KMA {$n} tanpa bentuk");
             }
         }
 
@@ -219,9 +225,48 @@ class ArepTest extends TestCase
 
         $r = $this->actingAs($u)->post("/erpika/arep/kendali-mutu/{$p->id}/excel-suntingan", ['html' => $html]);
         $r->assertOk()->assertHeader('content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        $ss = \PhpOffice\PhpSpreadsheet\IOFactory::load($r->baseResponse->getFile()->getPathname());
+        $ss = IOFactory::load($r->baseResponse->getFile()->getPathname());
         $this->assertSame('KM 12', $ss->getSheet(0)->getTitle());
         $this->assertSame('LEMBAR REVIU (DISUNTING)', $ss->getSheet(0)->getCell('A2')->getValue());
+    }
+
+    public function test_contoh_pengisian_tersedia_untuk_30_formulir(): void
+    {
+        $u = $this->adminBaru();
+        foreach (range(1, 30) as $n) {
+            $r = $this->actingAs($u)->getJson("/erpika/arep/kendali-mutu/contoh/{$n}")->assertOk();
+            $this->assertNotEmpty($r->json('petunjuk'), "KMA {$n} tanpa petunjuk");
+            $this->assertNotEmpty($r->json('sumber'), "KMA {$n} tanpa rujukan");
+            $this->assertSame('ST-12/AO-INS/2026', $r->json('d.nomor.st'));
+            if (! in_array($n, [6, 7], true)) {
+                $this->assertNotNull($r->json('spek'), "KMA {$n} tanpa contoh bentuk");
+            }
+        }
+        // Contoh tidak menyentuh basis data (model RPP tak tersimpan).
+        $this->assertDatabaseMissing('rpp_penugasan', ['nomor_st' => 'ST-12/AO-INS/2026']);
+        $this->actingAs($u)->getJson('/erpika/arep/kendali-mutu/contoh/31')->assertNotFound();
+
+        // Contoh KMA 18 terisi lengkap: kriteria & komentar tidak kosong.
+        $baris = collect(KmContoh::untuk(18)['spek']['blok'])->firstWhere('jenis', 'tabel')['baris'];
+        $this->assertCount(3, $baris);
+        $this->assertNotSame('', $baris[0][2]);
+        $this->assertSame('Sependapat', $baris[0][7]);
+    }
+
+    public function test_kma13_kepala_mengikuti_petunjuk_dan_auditor_pelaksana(): void
+    {
+        $d = KmContoh::data();
+        $s = KmFormulir::untuk(13, $d);
+        $kepala = array_column(collect($s['blok'])->firstWhere('jenis', 'tabel')['kepala'][0], 't');
+        $this->assertSame('Tgl', $kepala[0]);
+        $this->assertSame('Realisasi Biaya', $kepala[6]);
+        $this->assertSame(1, count(array_keys($kepala, 'Anggaran Biaya', true)));
+        // Auditor = Ketua Tim + Anggota Tim, tanpa PJ/WPJ/Dalnis.
+        $info = collect($s['blok'])->firstWhere('jenis', 'info')['isi'];
+        $this->assertSame('Rahmat Hidayat, S.E., Nurul Fadhilah, S.Ak., Zulfikar, A.Md.', $info[3][1]);
+        // KMA 26 bentuk Yogyakarta: empat kotak paraf.
+        $ttd = collect(KmFormulir::untuk(26, $d)['blok'])->firstWhere('jenis', 'ttd');
+        $this->assertSame(['Peminjam', 'Disetujui oleh', 'Pengembalian', 'Petugas Arsip'], array_column($ttd['kolom'], 1));
     }
 
     public function test_keputusan_memuat_lampiran_pedoman(): void
