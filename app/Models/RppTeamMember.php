@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Kolom `role` diubah ke ENUM lima peran oleh migrasi
+ * 2026_09_12_170000 lewat ALTER TABLE mentah (tak terbaca Larastan).
+ *
+ * @property 'pj'|'wpj'|'dalnis'|'kt'|'at' $role
+ */
 class RppTeamMember extends Model
 {
     /** Susunan baku tim penugasan APIP (arahan 12 September 2026). */
@@ -46,6 +52,6 @@ class RppTeamMember extends Model
     /** Label peran pada cetakan: teks bebas bila diisi, selain itu label baku. */
     public function peranTampil(): string
     {
-        return $this->peran_teks ?: (self::PERAN[$this->role] ?? $this->role);
+        return $this->peran_teks ?: self::PERAN[$this->role];
     }
 }

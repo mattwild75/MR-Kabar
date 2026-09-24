@@ -35,6 +35,9 @@ export interface AnggaranWaktu {
     jam_per_hp: number;
     jumlah_anggota: number;
     baris: AwBaris[];
+    /** KM 6 no. 8: anggaran waktu per orang (HP = DK + LK di RPP). */
+    orang: { label: string; nama: string; hp: number; jam: number }[];
+    tahap: { persiapan: string; pelaksanaan: string; penyelesaian: string };
     total: { wpj: AwSel; dalnis: AwSel; kt: AwSel; at: AwSel; jumlah: AwSel };
 }
 
@@ -57,6 +60,9 @@ export interface ArepData {
         hari_kerja: number;
         hari_kerja_terbilang: string;
         tmt: string | null;
+        bulan_mulai: string;
+        bulan_selesai: string;
+        bulan_selesai_tahun: string;
     };
     jumlah_laporan: number;
     laporan_kepada: string;
@@ -108,4 +114,22 @@ export function TtdInspektur({ d, tanggal }: { d: ArepData; tanggal?: string }) 
             <div>NIP. {d.inspektur.nip_spasi}</div>
         </div>
     );
+}
+
+/**
+ * Pastikan tiap lembar cetak tepat SATU halaman A4: lembar yang lebih tinggi
+ * dari halamannya diperkecil proporsional (CSS zoom, dikenali Chromium/
+ * Browsershot). Dipanggil sesudah render; aman dipanggil berulang.
+ */
+export function muatSatuHalaman(akar: HTMLElement | null, pemilih: string): void {
+    if (!akar) return;
+    const mmKePx = 96 / 25.4;
+    akar.querySelectorAll<HTMLElement>(pemilih).forEach((el) => {
+        el.style.removeProperty('zoom');
+        const tinggiHalaman = (el.classList.contains('landscape') ? 210 : 297) * mmKePx - 4;
+        const tinggi = el.scrollHeight;
+        if (tinggi > tinggiHalaman) {
+            el.style.setProperty('zoom', String(Math.floor((tinggiHalaman / tinggi) * 1000) / 1000));
+        }
+    });
 }

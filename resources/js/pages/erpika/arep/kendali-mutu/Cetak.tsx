@@ -3,8 +3,8 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { FileSpreadsheet } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { type ArepData } from '@/pages/erpika/arep/forms/bagian';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { muatSatuHalaman, type ArepData } from '@/pages/erpika/arep/forms/bagian';
 import { FormulirKm, type KmMeta } from '@/pages/erpika/arep/forms/km';
 import { SuntingBar } from '@/pages/erpika/arep/forms/sunting';
 
@@ -41,6 +41,11 @@ const gaya = (landscape: boolean) => `
 export default function KendaliMutuCetak({ data, katalog, forms, mulaiSunting, suntingan }: Props) {
     const [sunting, setSunting] = useState(!!mulaiSunting);
     const isi = useRef<HTMLDivElement>(null);
+    const akarSuntingan = useRef<HTMLDivElement>(null);
+    useLayoutEffect(() => {
+        muatSatuHalaman(isi.current, '.km-lembar');
+        muatSatuHalaman(akarSuntingan.current, '.km-lembar');
+    });
     const dipilih = forms
         .map((no) => katalog.find((k) => k.no === no))
         .filter((m): m is KmMeta => !!m);
@@ -54,7 +59,7 @@ export default function KendaliMutuCetak({ data, katalog, forms, mulaiSunting, s
             <>
                 <Head title="Kendali Mutu" />
                 <style>{gaya(ls)}</style>
-                <div className="bg-white" dangerouslySetInnerHTML={{ __html: suntingan }} />
+                <div ref={akarSuntingan} className="bg-white" dangerouslySetInnerHTML={{ __html: suntingan }} />
             </>
         );
     }

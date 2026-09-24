@@ -81,10 +81,13 @@ class AnevaTest extends TestCase
             ->has('seksi.0.baris', 3));
     }
 
-    public function test_menu_arep_terbuka_kosong_dan_database_lhp_tersedia(): void
+    public function test_menu_arep_mengarah_ke_surat_tugas_dan_database_lhp_tersedia(): void
     {
         $u = $this->adminBaru();
-        $this->actingAs($u)->get('/erpika/arep')->assertOk();
+        // AREP kini kelompok menu (Surat Tugas + Kendali Mutu); /erpika/arep diarahkan ke Surat Tugas.
+        $this->actingAs($u)->get('/erpika/arep')->assertRedirect(route('erpika.arep.surat-tugas.index'));
+        $this->actingAs($u)->get('/erpika/arep/surat-tugas')->assertOk();
+        $this->actingAs($u)->get('/erpika/arep/kendali-mutu')->assertOk();
         // Laporan Penugasan kini kelompok menu; anaknya Database LHP.
         $this->actingAs($u)->get('/erpika/laporan-penugasan/database-lhp')->assertOk();
     }

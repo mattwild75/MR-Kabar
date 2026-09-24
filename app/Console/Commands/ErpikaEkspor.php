@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\File;
  */
 class ErpikaEkspor extends Command
 {
-    public const TABEL = ['rpp_categories', 'employees', 'rpp_settings', 'rpps', 'rpp_penugasan', 'rpp_team_members', 'rpp_obriks', 'rpp_laporans'];
+    public const TABEL = ['rpp_categories', 'employees', 'rpp_settings', 'rpps', 'rpp_penugasan', 'rpp_team_members', 'rpp_obriks', 'rpp_laporans', 'rpp_koreksi_peran'];
 
     protected $signature = 'erpika:ekspor {--tujuan= : jalur berkas .sql (bawaan: storage/app/private/erpika-<tanggal>.sql)}';
 

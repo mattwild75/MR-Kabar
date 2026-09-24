@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import { type ReactNode, useRef, useState } from 'react';
-import { KopSurat, TtdInspektur, type ArepData } from '@/pages/erpika/arep/forms/bagian';
+import { type ReactNode, useLayoutEffect, useRef, useState } from 'react';
+import { KopSurat, muatSatuHalaman, TtdInspektur, type ArepData } from '@/pages/erpika/arep/forms/bagian';
 import { SuntingBar } from '@/pages/erpika/arep/forms/sunting';
 
 interface Props {
@@ -212,6 +212,11 @@ const GAYA = `
 export default function SuratTugasCetak({ data, dokumen = 'semua', mulaiSunting, suntingan }: Props) {
     const [sunting, setSunting] = useState(!!mulaiSunting);
     const isi = useRef<HTMLDivElement>(null);
+    const akarSuntingan = useRef<HTMLDivElement>(null);
+    useLayoutEffect(() => {
+        muatSatuHalaman(isi.current, '.lembar');
+        muatSatuHalaman(akarSuntingan.current, '.lembar');
+    });
 
     // Jalur render PDF suntingan: tampilkan HTML apa adanya, tanpa kontrol.
     if (suntingan) {
@@ -219,7 +224,7 @@ export default function SuratTugasCetak({ data, dokumen = 'semua', mulaiSunting,
             <>
                 <Head title="Surat Tugas" />
                 <style>{GAYA}</style>
-                <div className="bg-white" dangerouslySetInnerHTML={{ __html: suntingan }} />
+                <div ref={akarSuntingan} className="bg-white" dangerouslySetInnerHTML={{ __html: suntingan }} />
             </>
         );
     }
