@@ -115,3 +115,8 @@ Schedule::command('audit:arsip')->dailyAt('00:40')->name('audit-arsip')->without
 // Pengingat ERPIKA ke lonceng Super Admin: laporan terlambat (>14 hari
 // setelah masa tugas) dan ST belum terbit menjelang masa tugas.
 Schedule::command('erpika:ingatkan')->dailyAt('07:00')->name('erpika-ingatkan');
+
+// Graphify: bangun ulang peta pengetahuan tiap hari 02:15, sesudah cadangan
+// malam, supaya Utilities > Graphify selalu mencerminkan kode dan skema
+// terbaru (juga bisa dibangun ulang manual lewat tombol di halamannya).
+Schedule::command('graphify:bangun')->dailyAt('02:15')->withoutOverlapping();

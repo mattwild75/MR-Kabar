@@ -26,6 +26,7 @@ use App\Http\Controllers\Erpika\LhpController;
 use App\Http\Controllers\Erpika\PegawaiController;
 use App\Http\Controllers\Erpika\SuratTugasController;
 use App\Http\Controllers\FraudRisikoController;
+use App\Http\Controllers\GraphifyController;
 use App\Http\Controllers\IroPdController;
 use App\Http\Controllers\IrsPdController;
 use App\Http\Controllers\IrsPemdaController;
@@ -450,6 +451,13 @@ Route::middleware(['auth', 'menu.permission'])->group(function () {
     // ke Laravel.
     Route::get('/penyimpanan', [PenyimpananController::class, 'index'])->name('storage.index');
     Route::delete('/penyimpanan', [PenyimpananController::class, 'hapus'])->name('storage.hapus');
+
+    // Utilities > Graphify — peta pengetahuan seluruh aplikasi. Menu ber-izin
+    // 'graphify-view' (admin); controller menolak peran selain admin/super-admin.
+    Route::get('/graphify', [GraphifyController::class, 'index'])->name('graphify.index');
+    Route::get('/graphify/data', [GraphifyController::class, 'data'])->name('graphify.data');
+    Route::post('/graphify/bangun', [GraphifyController::class, 'bangun'])->name('graphify.bangun');
+    Route::get('/graphify/unduh/{jenis}', [GraphifyController::class, 'unduh'])->whereIn('jenis', ['json', 'laporan'])->name('graphify.unduh');
     Route::post('/penyimpanan/bersihkan-cache', [PenyimpananController::class, 'bersihkanCache'])->name('storage.bersihkan-cache');
 
     Route::get('/backup', [BackupController::class, 'index'])->name('backup.index');

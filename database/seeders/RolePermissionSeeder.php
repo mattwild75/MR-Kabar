@@ -55,6 +55,8 @@ class RolePermissionSeeder extends Seeder
                 'filemanager-view',
                 'troubleshoot-view',
                 'storage-view',
+                // Graphify: admin dan super-admin saja (bukan peninjau).
+                'graphify-view',
             ],
         ];
 
@@ -116,7 +118,8 @@ class RolePermissionSeeder extends Seeder
         $izinAdmin = $admin->permissions()->pluck('name')->all();
         foreach (Permission::all() as $permission) {
             // ERPIKA sementara tertutup untuk peninjau (17 Sep 2026).
-            $boleh = in_array($permission->name, $izinAdmin, true) && $permission->name !== 'erpika-view';
+            // Graphify juga khusus admin dan super-admin.
+            $boleh = in_array($permission->name, $izinAdmin, true) && ! in_array($permission->name, ['erpika-view', 'graphify-view'], true);
             if ($boleh && ! $eksekutif->hasPermissionTo($permission)) {
                 $eksekutif->givePermissionTo($permission);
             } elseif (! $boleh && $eksekutif->hasPermissionTo($permission)) {

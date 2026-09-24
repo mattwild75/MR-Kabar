@@ -268,6 +268,21 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // Graphify — peta pengetahuan seluruh aplikasi (kode, rute, menu,
+        // izin, basis data, halaman, dokumen, regulasi, konsep). Hanya admin
+        // dan super-admin: izin 'graphify-view' diberikan ke admin saja
+        // (tidak ke peninjau, lihat RolePermissionSeeder), dan
+        // GraphifyController menolak peran lain.
+        Menu::updateOrCreate(
+            ['title' => 'Graphify', 'parent_id' => $utilities->id],
+            [
+                'icon' => 'Network',
+                'route' => '/graphify',
+                'order' => 9,
+                'permission_name' => 'graphify-view',
+            ]
+        );
+
         // GROUP: Form Input — wadah untuk seluruh menu input data risiko
         // (Risiko Strategis Pemda/PD & Risiko Operasional PD beserta
         // turunannya). Ketiga grup risiko kini menjadi SUB-grup di bawah sini,
