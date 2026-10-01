@@ -198,7 +198,7 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                                 chapterNav={video.bawaan}
                             />
                             <p className="text-muted-foreground mt-3 text-xs">
-                                {video.bawaan && 'Durasi 29 menit. '}
+                                {video.bawaan && 'Durasi 15 menit. '}
                                 Versi dengan daftar bab, penyaring per peran, dan uji pemahaman tersedia di menu{' '}
                                 <span className="font-medium">Panduan</span> setelah Anda masuk.
                             </p>

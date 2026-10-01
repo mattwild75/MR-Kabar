@@ -41,3 +41,12 @@ transkrip.txt
 # git, dan menyimpannya berdampingan justru mengundang orang membangun ulang
 # dari naskah yang sudah ditinggalkan.
 *.simpan
+
+# v6: foto Commons (unduh ulang: v6/foto/ambil_foto.py lalu grade_foto.py),
+# huruf (v6/ambil_huruf.py), frame uji & lembar kontak, isyarat bunyi turunan.
+v6/foto/*.jpg
+v6/fonts/
+v6/smoke/
+v6/kontak*.jpg
+v6/isyarat.json
+v6/render_ekor_log.txt

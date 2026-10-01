@@ -1,0 +1,52 @@
+[
+ {
+  "id": "s1",
+  "judul": "Pembuka: laut tak pernah tenang",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s2",
+  "judul": "Babak 1 · Apa itu risiko",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s3",
+  "judul": "Babak 2 · Mengapa harus dikelola",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s4",
+  "judul": "Babak 3 · Siapa nakhodanya",
+  "sasaran": "Pimpinan"
+ },
+ {
+  "id": "s5",
+  "judul": "Babak 4 · Kapan berlayar",
+  "sasaran": "Pimpinan"
+ },
+ {
+  "id": "s6",
+  "judul": "Babak 5 · Lima tahap & memeriksa kapal (CEE)",
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s7",
+  "judul": "Babak 6 · Membaca peta risiko",
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s8",
+  "judul": "Babak 7 · Mengendalikan & memantau",
+  "sasaran": "PIC OPD"
+ },
+ {
+  "id": "s9",
+  "judul": "Babak 8 · Satu risiko, satu perjalanan",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s10",
+  "judul": "Penutup · Tiga pelajaran",
+  "sasaran": "Semua"
+ }
+]
