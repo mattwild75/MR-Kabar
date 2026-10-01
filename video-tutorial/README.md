@@ -1,5 +1,12 @@
 # Video Tutorial MR Kabar
 
+> **Versi yang terpasang sekarang: v2 di folder [`v2/`](v2/README.md)**
+> (1 Oktober 2026) — dibuat ulang utuh: ±35 menit, 13 bab, dua suara
+> bercakap, kartu bab beranimasi, rekaman 1,5× lebih besar, musik dan efek
+> suara baru. Folder ini (v1) tetap menyimpan perkakas bersama yang dipakai
+> v2 — `akun.php`, `bersihkan.php`, `sandi.cjs`, `alat/` (FluidSynth +
+> soundfont) — dan riwayat naskah v1. Dokumen di bawah ini menerangkan v1.
+
 **Satu** video rekaman aplikasi sungguhan, di **kaki halaman `/panduan`** di
 bawah video edukasi.
 

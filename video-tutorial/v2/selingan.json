@@ -1,0 +1,333 @@
+[
+ {
+  "adegan": "buka",
+  "voice": "gadis",
+  "display": "Surat penunjukannya sudah saya terima: PIC manajemen risiko di perangkat daerah saya. Aplikasinya MR Kabar. Pertanyaan saya cuma satu: dari mana mulainya?",
+  "id": "s001",
+  "tts": "Surat penunjukannya sudah saya terima: Pi-Ai-Si manajemen risiko di perangkat daerah saya. Aplikasinya Em-Er Kabar. Pertanyaan saya cuma satu: dari mana mulainya?"
+ },
+ {
+  "adegan": "buka",
+  "voice": "ardi",
+  "display": "Dari menu paling atas. Dalam video ini kita menempuh satu tahun penilaian penuh, di satu perangkat daerah: Inspektorat.",
+  "id": "s002",
+  "tts": "Dari menu paling atas. Dalam video ini kita menempuh satu tahun penilaian penuh, di satu perangkat daerah: Inspektorat."
+ },
+ {
+  "adegan": "buka",
+  "voice": "ardi",
+  "display": "Ada dua belas bab. Data Umum dan CEE, tiga tingkatan risiko, pemantauan, kejadian yang benar-benar terjadi, sampai formulir cetak, laporan, dan cara pimpinan membacanya.",
+  "id": "s003",
+  "tts": "Ada dua belas bab. Data Umum dan Ce-E-E, tiga tingkatan risiko, pemantauan, kejadian yang benar-benar terjadi, sampai formulir cetak, laporan, dan cara pimpinan membacanya."
+ },
+ {
+  "adegan": "buka",
+  "voice": "gadis",
+  "display": "Satu hal penting: seluruh isian dalam video ini data contoh. Dibuat untuk menunjukkan caranya, bukan untuk disalin.",
+  "id": "s004",
+  "tts": "Satu hal penting: seluruh isian dalam video ini data contoh. Dibuat untuk menunjukkan caranya, bukan untuk disalin."
+ },
+ {
+  "adegan": "buka",
+  "voice": "ardi",
+  "display": "Daftar bab ada di bawah video; lompat saja ke bagian yang Anda perlukan. Mari mulai.",
+  "id": "s005",
+  "tts": "Daftar bab ada di bawah video; lompat saja ke bagian yang Anda perlukan. Mari mulai."
+ },
+ {
+  "adegan": "kartu-1",
+  "voice": "gadis",
+  "display": "Bab satu. Masuk, dan mengenal layar.",
+  "id": "s006",
+  "tts": "Bab satu. Masuk, dan mengenal layar."
+ },
+ {
+  "adegan": "kartu-2",
+  "voice": "gadis",
+  "display": "Bab dua. Data Umum.",
+  "id": "s007",
+  "tts": "Bab dua. Data Umum."
+ },
+ {
+  "adegan": "kartu-3",
+  "voice": "gadis",
+  "display": "Bab tiga. CEE, memeriksa kapal sebelum berlayar.",
+  "id": "s008",
+  "tts": "Bab tiga. Ce-E-E, memeriksa kapal sebelum berlayar."
+ },
+ {
+  "adegan": "kartu-4",
+  "voice": "gadis",
+  "display": "Bab empat. Risiko Strategis Pemerintah Daerah.",
+  "id": "s009",
+  "tts": "Bab empat. Risiko Strategis Pemerintah Daerah."
+ },
+ {
+  "adegan": "kartu-5",
+  "voice": "gadis",
+  "display": "Bab lima. Risiko Strategis Perangkat Daerah.",
+  "id": "s010",
+  "tts": "Bab lima. Risiko Strategis Perangkat Daerah."
+ },
+ {
+  "adegan": "kartu-6",
+  "voice": "gadis",
+  "display": "Bab enam. Risiko Operasional.",
+  "id": "s011",
+  "tts": "Bab enam. Risiko Operasional."
+ },
+ {
+  "adegan": "kartu-7",
+  "voice": "gadis",
+  "display": "Bab tujuh. Memantau rencana tindak.",
+  "id": "s012",
+  "tts": "Bab tujuh. Memantau rencana tindak."
+ },
+ {
+  "adegan": "kartu-8",
+  "voice": "gadis",
+  "display": "Bab delapan. Ketika risikonya benar-benar terjadi.",
+  "id": "s013",
+  "tts": "Bab delapan. Ketika risikonya benar-benar terjadi."
+ },
+ {
+  "adegan": "kartu-9",
+  "voice": "gadis",
+  "display": "Bab sembilan. Dari laporan, menjadi catatan resmi.",
+  "id": "s014",
+  "tts": "Bab sembilan. Dari laporan, menjadi catatan resmi."
+ },
+ {
+  "adegan": "kartu-10",
+  "voice": "gadis",
+  "display": "Bab sepuluh. Form Cetak.",
+  "id": "s015",
+  "tts": "Bab sepuluh. Form Cetak."
+ },
+ {
+  "adegan": "kartu-11",
+  "voice": "gadis",
+  "display": "Bab sebelas. Laporan.",
+  "id": "s016",
+  "tts": "Bab sebelas. Laporan."
+ },
+ {
+  "adegan": "kartu-12",
+  "voice": "gadis",
+  "display": "Bab dua belas. Membaca hasilnya.",
+  "id": "s017",
+  "tts": "Bab dua belas. Membaca hasilnya."
+ },
+ {
+  "adegan": "kartu-13",
+  "voice": "gadis",
+  "display": "Terakhir, tiga penolong kecil.",
+  "id": "s018",
+  "tts": "Terakhir, tiga penolong kecil."
+ },
+ {
+  "adegan": "catatan-2",
+  "voice": "ardi",
+  "display": "Catatan bab dua. Isi Data Umum paling awal. Periode Penilaian adalah periode Renstra. Dan tiga dokumen sumber untuk tiga tingkatan risiko.",
+  "poin": [
+   "Isi Data Umum paling awal",
+   "Periode Penilaian = periode Renstra",
+   "Tiga dokumen sumber, tiga tingkatan"
+  ],
+  "pemicu": [
+   "isi",
+   "periode",
+   "tiga"
+  ],
+  "id": "s019",
+  "tts": "Catatan bab dua. Isi Data Umum paling awal. Periode Penilaian adalah periode Renstra. Dan tiga dokumen sumber untuk tiga tingkatan risiko."
+ },
+ {
+  "adegan": "catatan-3",
+  "voice": "ardi",
+  "display": "Catatan bab tiga. Nilailah yang dijalankan, bukan yang ada. Bukti dokumen menang atas persepsi. Dan RTP CEE berbeda dengan RTP risiko.",
+  "poin": [
+   "Nilai yang dijalankan, bukan yang ada",
+   "Bukti dokumen menang atas persepsi",
+   "RTP CEE berbeda dengan RTP risiko"
+  ],
+  "pemicu": [
+   "nilailah",
+   "bukti",
+   "er-te-pe"
+  ],
+  "id": "s020",
+  "tts": "Catatan bab tiga. Nilailah yang dijalankan, bukan yang ada. Bukti dokumen menang atas persepsi. Dan Er-Te-Pe Ce-E-E berbeda dengan Er-Te-Pe risiko."
+ },
+ {
+  "adegan": "catatan-4",
+  "voice": "ardi",
+  "display": "Catatan bab empat. Konteks dulu, baru risiko. Risiko adalah peristiwa yang bisa terjadi. Dan rencana tindak menurunkan kemungkinan, bukan dampak.",
+  "poin": [
+   "Konteks dulu, baru risiko",
+   "Risiko = peristiwa yang bisa terjadi",
+   "RTP menurunkan kemungkinan, bukan dampak"
+  ],
+  "pemicu": [
+   "konteks",
+   "risiko",
+   "rencana"
+  ],
+  "id": "s021",
+  "tts": "Catatan bab empat. Konteks dulu, baru risiko. Risiko adalah peristiwa yang bisa terjadi. Dan rencana tindak menurunkan kemungkinan, bukan dampak."
+ },
+ {
+  "adegan": "catatan-5",
+  "voice": "ardi",
+  "display": "Catatan bab lima. Baseline adalah realisasi tahun lalu. C atau UC ditentukan oleh satu pertanyaan: bisakah dikendalikan? Dan ada prosedur belum tentu efektif.",
+  "poin": [
+   "Baseline = realisasi tahun lalu",
+   "C atau UC: bisakah dikendalikan?",
+   "Ada prosedur belum tentu efektif"
+  ],
+  "pemicu": [
+   "baseline",
+   "ce",
+   "ada"
+  ],
+  "id": "s022",
+  "tts": "Catatan bab lima. Baseline adalah realisasi tahun lalu. Ce atau U-Ce ditentukan oleh satu pertanyaan: bisakah dikendalikan? Dan ada prosedur belum tentu efektif."
+ },
+ {
+  "adegan": "catatan-6",
+  "voice": "ardi",
+  "display": "Catatan bab enam. Tahap menunjukkan di mana risiko melekat. Untuk penyebab UC, rencana tindak tetap dalam kuasa sendiri. Dan celah pengendalian dipilih dari lima kriteria Perdep.",
+  "poin": [
+   "Tahap: di mana risiko melekat",
+   "UC: rencana tetap dalam kuasa sendiri",
+   "Celah: lima kriteria Perdep"
+  ],
+  "pemicu": [
+   "tahap",
+   "untuk",
+   "celah"
+  ],
+  "id": "s023",
+  "tts": "Catatan bab enam. Tahap menunjukkan di mana risiko melekat. Untuk penyebab U-Ce, rencana tindak tetap dalam kuasa sendiri. Dan celah pengendalian dipilih dari lima kriteria Perdep."
+ },
+ {
+  "adegan": "catatan-7",
+  "voice": "ardi",
+  "display": "Catatan bab tujuh. Formulir delapan: dikomunikasikan kepada siapa. Formulir sembilan: dipantau bagaimana. Formulir sepuluh: yang sudah terjadi.",
+  "poin": [
+   "Formulir 8: dikomunikasikan kepada siapa",
+   "Formulir 9: dipantau bagaimana",
+   "Formulir 10: yang sudah terjadi"
+  ],
+  "pemicu": [
+   "formulir",
+   "formulir",
+   "formulir"
+  ],
+  "id": "s024",
+  "tts": "Catatan bab tujuh. Formulir delapan: dikomunikasikan kepada siapa. Formulir sembilan: dipantau bagaimana. Formulir sepuluh: yang sudah terjadi."
+ },
+ {
+  "adegan": "catatan-8",
+  "voice": "ardi",
+  "display": "Catatan bab delapan. Lapor lewat kode QR, tanpa akun. Tulis kejadiannya: kapan, di mana, berapa. Dan kalau ragu, pilih Lapor Kejadian Baru.",
+  "poin": [
+   "Lapor lewat kode QR, tanpa akun",
+   "Kejadian: kapan, di mana, berapa",
+   "Ragu? Pilih Lapor Kejadian Baru"
+  ],
+  "pemicu": [
+   "lapor",
+   "tulis",
+   "dan"
+  ],
+  "id": "s025",
+  "tts": "Catatan bab delapan. Lapor lewat kode Kiu-Ar, tanpa akun. Tulis kejadiannya: kapan, di mana, berapa. Dan kalau ragu, pilih Lapor Kejadian Baru."
+ },
+ {
+  "adegan": "catatan-9",
+  "voice": "ardi",
+  "display": "Catatan bab sembilan. Verifikasi dulu, baru tindak lanjuti. Formulir sepuluh butuh risiko yang terdaftar. Dan kejadian dirumuskan ulang menjadi risiko.",
+  "poin": [
+   "Verifikasi dulu, baru tindak lanjuti",
+   "Formulir 10 butuh risiko terdaftar",
+   "Kejadian dirumuskan ulang jadi risiko"
+  ],
+  "pemicu": [
+   "verifikasi",
+   "formulir",
+   "dan"
+  ],
+  "id": "s026",
+  "tts": "Catatan bab sembilan. Verifikasi dulu, baru tindak lanjuti. Formulir sepuluh butuh risiko yang terdaftar. Dan kejadian dirumuskan ulang menjadi risiko."
+ },
+ {
+  "adegan": "catatan-10",
+  "voice": "ardi",
+  "display": "Catatan bab sepuluh. Form Cetak tidak diisi. Kalau ada yang kosong, perbaiki di formulir asalnya. Dan prioritas adalah yang di luar Selera Risiko.",
+  "poin": [
+   "Form Cetak tidak diisi",
+   "Perbaiki di formulir asalnya",
+   "Prioritas = di luar Selera Risiko"
+  ],
+  "pemicu": [
+   "form",
+   "kalau",
+   "dan"
+  ],
+  "id": "s027",
+  "tts": "Catatan bab sepuluh. Form Cetak tidak diisi. Kalau ada yang kosong, perbaiki di formulir asalnya. Dan prioritas adalah yang di luar Selera Risiko."
+ },
+ {
+  "adegan": "catatan-12",
+  "voice": "ardi",
+  "display": "Catatan bab dua belas. Baca angkanya bersama, bukan sendiri-sendiri. Klik sampai ke nama risiko dan pemiliknya. Dan gunakan ranking untuk pendampingan, bukan sanksi.",
+  "poin": [
+   "Baca angka bersama, bukan sendiri-sendiri",
+   "Klik sampai ke nama dan pemiliknya",
+   "Ranking untuk pendampingan, bukan sanksi"
+  ],
+  "pemicu": [
+   "baca",
+   "klik",
+   "dan"
+  ],
+  "id": "s028",
+  "tts": "Catatan bab dua belas. Baca angkanya bersama, bukan sendiri-sendiri. Klik sampai ke nama risiko dan pemiliknya. Dan gunakan ranking untuk pendampingan, bukan sanksi."
+ },
+ {
+  "adegan": "tutup",
+  "voice": "gadis",
+  "display": "Jadi, dari mana saya mulai?",
+  "id": "s029",
+  "tts": "Jadi, dari mana saya mulai?"
+ },
+ {
+  "adegan": "tutup",
+  "voice": "ardi",
+  "display": "Dari menu paling atas, lalu turun satu per satu. Urutan menu adalah urutan kerjanya.",
+  "id": "s030",
+  "tts": "Dari menu paling atas, lalu turun satu per satu. Urutan menu adalah urutan kerjanya."
+ },
+ {
+  "adegan": "tutup",
+  "voice": "ardi",
+  "display": "Sekali lagi, seluruh isian tadi data contoh. Penilaian yang sesungguhnya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.",
+  "id": "s031",
+  "tts": "Sekali lagi, seluruh isian tadi data contoh. Penilaian yang sesungguhnya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing."
+ },
+ {
+  "adegan": "tutup",
+  "voice": "gadis",
+  "display": "Selamat bekerja. Dan selamat berlayar.",
+  "id": "s032",
+  "tts": "Selamat bekerja. Dan selamat berlayar."
+ },
+ {
+  "adegan": "tutup",
+  "voice": "ardi",
+  "display": "Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.",
+  "id": "s033",
+  "tts": "Kopirait 2026, Sistem Arkitekcer en Divelopmen bai Nurhikmat Muhammad, Inspektorat Aceh Barat."
+ }
+]

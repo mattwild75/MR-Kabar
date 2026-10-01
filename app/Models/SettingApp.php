@@ -30,6 +30,7 @@ class SettingApp extends Model
         'tutorial_video_subtitle_path',
         'tutorial_video_gain_narration',
         'tutorial_video_gain_music',
+        'tutorial_video_gain_sfx',
         'tutorial_video_subtitle_enabled',
         'tutorial_video_subtitle_size',
         'warna',
@@ -54,6 +55,7 @@ class SettingApp extends Model
         'tutorial_video_enabled' => 'boolean',
         'tutorial_video_gain_narration' => 'integer',
         'tutorial_video_gain_music' => 'integer',
+        'tutorial_video_gain_sfx' => 'integer',
         'tutorial_video_subtitle_enabled' => 'boolean',
         'tutorial_video_subtitle_size' => 'integer',
     ];

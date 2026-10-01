@@ -20,6 +20,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
+import { pemicuKeFormatPenyebab } from '@/lib/irs-reference-data';
 import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { Eye, FileCheck2, Search, Trash2 } from 'lucide-react';
@@ -235,7 +236,7 @@ export default function LaporKejadianRekap({ laporan, filters, opdList, statuses
     const bukaFormRisiko = (l: Laporan, tipe: 'irs_pemda' | 'irs_pd' | 'iro_pd') => {
         const params = new URLSearchParams({
             prefill_uraian_risiko: l.kejadian,
-            prefill_penyebab_risiko: l.pemicu ?? '',
+            prefill_penyebab_risiko: pemicuKeFormatPenyebab(l.pemicu ?? ''),
             prefill_opd: l.opd?.nama ?? '',
         });
         window.open(`${RISIKO_ROUTE[tipe]}?${params.toString()}`, '_blank');

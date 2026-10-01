@@ -9,7 +9,7 @@ import MultiCategoryTextarea from '@/components/ui/multi-category-textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { TimePicker } from '@/components/ui/time-picker';
-import { PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS } from '@/lib/irs-reference-data';
+import { PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS, penyebabKategoriSuffix } from '@/lib/irs-reference-data';
 import { LAPOR_KEJADIAN_FIELD_INFO } from '@/lib/lapor-kejadian-field-info';
 import { useForm } from '@inertiajs/react';
 import { PlayCircle, Search, Siren, X } from 'lucide-react';
@@ -336,6 +336,11 @@ export default function FormKejadianRisiko({ opdList }: Props) {
                                 onChange={(val) => setData('pemicu', val)}
                                 categories={PENYEBAB_5M_KATEGORI}
                                 groupLabels={PENYEBAB_GROUP_LABELS}
+                                // Disimpan "Method - Int (uraian)", format yang sama dengan
+                                // penyebab di formulir risiko: pemicu yang terisi dari risiko
+                                // terdaftar terbaca per kategori, dan laporan yang diteruskan
+                                // ke "Input ke Register Risiko" langsung tercentang benar.
+                                categorySuffix={penyebabKategoriSuffix}
                                 uraianPlaceholder="Apa yang memicu kejadian ini?"
                                 rows={2}
                             />

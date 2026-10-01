@@ -15,9 +15,7 @@ export const TUTORIAL_VTT_BAWAAN = '/video/tutorial-subtitle.vtt';
 export const TUTORIAL_STEM_BAWAAN = {
     narration: '/video/tutorial-narration.mp3',
     music: '/video/tutorial-music.mp3',
-    // Video tutorial tidak punya efek suara. Jalur ketiga tetap ada karena
-    // pemutar mengharapkan tiga jalur, tetapi isinya senyap dan slidernya
-    // sengaja tidak ditampilkan di halaman pengaturan.
+    // Efek suara (klik, ketikan, bunyi tersimpan) sejak tutorial v2.
     sfx: '/video/tutorial-sfx.mp3',
 };
 
@@ -27,6 +25,7 @@ interface SettingTutorial {
     tutorial_video_subtitle_path?: string | null;
     tutorial_video_gain_narration?: number;
     tutorial_video_gain_music?: number;
+    tutorial_video_gain_sfx?: number;
     tutorial_video_subtitle_enabled?: boolean;
     tutorial_video_subtitle_size?: number;
 }
@@ -66,8 +65,7 @@ export function useTutorialVideo() {
         gains: {
             narration: setting?.tutorial_video_gain_narration ?? 100,
             music: setting?.tutorial_video_gain_music ?? 100,
-            // Tidak ada efek suara pada video ini; jalurnya senyap.
-            sfx: 100,
+            sfx: setting?.tutorial_video_gain_sfx ?? 100,
         },
         subtitleEnabled: setting?.tutorial_video_subtitle_enabled ?? true,
         subtitleSize: setting?.tutorial_video_subtitle_size ?? 70,

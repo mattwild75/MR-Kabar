@@ -1,0 +1,9 @@
+# Hasil antara tutorial v2 - semuanya dibuat ulang dari skrip di folder ini.
+# (audio/, rekam/, keluaran/, *.wav, *.mid, dan skrip sekali-pakai _* sudah
+# diabaikan oleh ../.gitignore.)
+selingan/selingan.mp4
+selingan/animation.html
+selingan/smoke/
+selingan/render_log.txt
+selingan/isyarat.json
+__pycache__/

@@ -40,6 +40,7 @@ interface SettingApp {
     tutorial_video_subtitle_path: string | null;
     tutorial_video_gain_narration: number;
     tutorial_video_gain_music: number;
+    tutorial_video_gain_sfx: number;
     tutorial_video_subtitle_enabled: boolean;
     tutorial_video_subtitle_size: number;
     seo: {
@@ -79,12 +80,14 @@ export default function SettingForm({ setting }: Props) {
     const versiVideo = useVersiVideo();
     const [hapusSubtitle, setHapusSubtitle] = useState(false);
 
-    // Video tutorial pengisian. Setelannya sejajar dengan video edukasi di atas,
-    // hanya tanpa jalur efek suara: video tutorial cuma punya narasi dan musik.
+    // Video tutorial pengisian. Setelannya sejajar dengan video edukasi di atas;
+    // sejak v2 (Oktober 2026) ia juga punya jalur efek suara (klik, ketikan,
+    // bunyi tersimpan) yang dibangun dari peristiwa rekaman.
     const [tutEnabled, setTutEnabled] = useState(setting?.tutorial_video_enabled ?? true);
     const [tutRemove, setTutRemove] = useState(false);
     const [tutGainNarration, setTutGainNarration] = useState(setting?.tutorial_video_gain_narration ?? 100);
     const [tutGainMusic, setTutGainMusic] = useState(setting?.tutorial_video_gain_music ?? 100);
+    const [tutGainSfx, setTutGainSfx] = useState(setting?.tutorial_video_gain_sfx ?? 100);
     const [tutSubtitleEnabled, setTutSubtitleEnabled] = useState(setting?.tutorial_video_subtitle_enabled ?? true);
     const [tutSubtitleSize, setTutSubtitleSize] = useState(setting?.tutorial_video_subtitle_size ?? 70);
     const [tutHapusSubtitle, setTutHapusSubtitle] = useState(false);
@@ -148,6 +151,7 @@ export default function SettingForm({ setting }: Props) {
             tutorial_video_subtitle_remove: tutHapusSubtitle,
             tutorial_video_gain_narration: tutGainNarration,
             tutorial_video_gain_music: tutGainMusic,
+            tutorial_video_gain_sfx: tutGainSfx,
             tutorial_video_subtitle_enabled: tutSubtitleEnabled,
             tutorial_video_subtitle_size: tutSubtitleSize,
         }));
@@ -698,7 +702,7 @@ export default function SettingForm({ setting }: Props) {
                                                                 sfx: TUTORIAL_STEM_BAWAAN.sfx + versiTutorial,
                                                             }}
                                                             vtt={TUTORIAL_VTT_BAWAAN + versiTutorial}
-                                                            gains={{ narration: tutGainNarration, music: tutGainMusic, sfx: 100 }}
+                                                            gains={{ narration: tutGainNarration, music: tutGainMusic, sfx: tutGainSfx }}
                                                             subtitleEnabled={tutSubtitleEnabled}
                                                             subtitleSize={tutSubtitleSize}
                                                             chapters={BAB_TUTORIAL}
@@ -844,14 +848,14 @@ export default function SettingForm({ setting }: Props) {
                                         <div>
                                             <Label>Volume mix audio</Label>
                                             <p className="text-muted-foreground mt-1 text-xs">
-                                                Video tutorial dikirim ke pemutar sebagai dua jalur audio terpisah &mdash; narasi dan musik. Perubahan
-                                                di sini langsung terdengar tanpa render ulang. Tidak ada jalur efek suara karena video ini memang
-                                                tidak memakainya.
+                                                Video tutorial dikirim ke pemutar sebagai tiga jalur audio terpisah &mdash; narasi, musik, dan efek
+                                                suara (klik, ketikan, bunyi tersimpan). Perubahan di sini langsung terdengar tanpa render ulang.
                                             </p>
                                         </div>
                                         {[
                                             { label: 'Narasi', value: tutGainNarration, set: setTutGainNarration },
                                             { label: 'Musik', value: tutGainMusic, set: setTutGainMusic },
+                                            { label: 'Efek suara (SFX)', value: tutGainSfx, set: setTutGainSfx },
                                         ].map((row) => (
                                             <div key={row.label} className="flex items-center gap-4">
                                                 <span className="w-36 shrink-0 text-sm">{row.label}</span>
@@ -874,9 +878,10 @@ export default function SettingForm({ setting }: Props) {
                                             onClick={() => {
                                                 setTutGainNarration(100);
                                                 setTutGainMusic(100);
+                                                setTutGainSfx(100);
                                             }}
                                         >
-                                            Kembalikan ke bawaan (100% / 100%)
+                                            Kembalikan ke bawaan (100% / 100% / 100%)
                                         </Button>
                                     </div>
                                 </div>

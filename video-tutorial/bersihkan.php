@@ -15,12 +15,13 @@
  *   php bersihkan.php periksa
  *   php bersihkan.php hapus
  */
+// `use` WAJIB di atas pemakaiannya; lihat catatan yang sama di akun.php.
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\DB;
+
 require __DIR__.'/../vendor/autoload.php';
 $app = require_once __DIR__.'/../bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
-
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Support\Facades\DB;
 
 const USERNAME = 'PIC_INSPEKTORAT';
 const TAHUN = 2026;
@@ -51,21 +52,46 @@ if ($aksi === 'tandai') {
 $batas = file_exists(PENANDA) ? json_decode(trim(file_get_contents(PENANDA)), true) : null;
 $sejakRekam = $batas['_waktu'] ?? null;
 
-// [tabel, penyaring tahun, keterangan]
+// [tabel, penyaring tahun, tipe di monitoring_rtp / pencatatan_kejadian_risiko]
 $bertahun = [
-    ['tbl_irs_pemda', 'TAHUN DINILAI RISIKO'],
-    ['tbl_irs_pd', 'TAHUN DINILAI RISIKO'],
-    ['tbl_iro_pd', 'TAHUN DINILAI RISIKO'],
+    ['tbl_irs_pemda', 'TAHUN DINILAI RISIKO', 'irs_pemda'],
+    ['tbl_irs_pd', 'TAHUN DINILAI RISIKO', 'irs_pd'],
+    ['tbl_iro_pd', 'TAHUN DINILAI RISIKO', 'iro_pd'],
 ];
 
 $total = 0;
 echo '== baris milik '.USERNAME.' untuk tahun '.TAHUN."\n";
 
-foreach ($bertahun as [$tabel, $kolom]) {
+/**
+ * Formulir 8-9 (monitoring_rtp) dan Formulir 10 (pencatatan_kejadian_risiko)
+ * menunjuk baris risiko/RTP lewat pasangan tipe+id, tanpa kunci asing.
+ * Menghapus risikonya saja meninggalkan baris yatim yang tetap terhitung di
+ * Dasbor (Kepatuhan Pelaporan, Log Kejadian), jadi keduanya ikut dibuang.
+ */
+$anak = function (string $tipe, $ids) use ($aksi, &$total) {
+    if ($ids->isEmpty()) {
+        return;
+    }
+    $m = DB::table('monitoring_rtp')->where('rtp_sumber_tipe', $tipe)->whereIn('rtp_sumber_id', $ids);
+    $k = DB::table('pencatatan_kejadian_risiko')->where('risiko_tipe', $tipe)->whereIn('risiko_id', $ids);
+    $nm = (clone $m)->count();
+    $nk = (clone $k)->count();
+    $total += $nm + $nk;
+    if ($nm || $nk) {
+        printf("    + monitoring_rtp %d, pencatatan_kejadian %d (tipe %s)\n", $nm, $nk, $tipe);
+    }
+    if ($aksi === 'hapus') {
+        $m->delete();
+        $k->delete();
+    }
+};
+
+foreach ($bertahun as [$tabel, $kolom, $tipe]) {
     $q = DB::table($tabel)->where('user_id', $uid)->where($kolom, TAHUN);
     $n = (clone $q)->count();
     $total += $n;
     printf("  %-16s %d baris\n", $tabel, $n);
+    $anak($tipe, (clone $q)->pluck('id'));
     if ($aksi === 'hapus' && $n) {
         $q->delete();
     }
@@ -100,6 +126,9 @@ foreach (['cee_jawaban', 'cee_kelemahan_dokumen', 'cee_simpulan', 'cee_rtp'] as 
     $n = (clone $q)->count();
     $total += $n;
     printf("  %-16s %d baris\n", $tabel, $n);
+    if ($tabel === 'cee_rtp') {
+        $anak('cee_rtp', (clone $q)->pluck('id'));
+    }
     if ($aksi === 'hapus' && $n) {
         $q->delete();
     }
@@ -117,6 +146,11 @@ if ($sejakRekam) {
     if ($aksi === 'hapus' && $n) {
         $ids = (clone $q)->pluck('id');
         DB::table('pencatatan_kejadian_risiko')->whereIn('laporan_kejadian_id', $ids)->delete();
+        // Pemberitahuan "laporan kejadian risiko baru" untuk PIC dan Admin:
+        // tanpa ini lonceng notifikasi menunjuk laporan yang sudah tidak ada.
+        $nn = DB::table('notifications')->where('created_at', '>=', $sejakRekam)
+            ->where('data', 'like', '%laporan_kejadian_risiko%')->delete();
+        printf("    + notifikasi laporan %d\n", $nn);
         $q->delete();
     }
 } else {

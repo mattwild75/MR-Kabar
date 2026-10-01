@@ -1,0 +1,2818 @@
+{
+ "total_duration": 324.565,
+ "lead_in": 0,
+ "scenes": [
+  {
+   "id": "buka",
+   "start": 0.0,
+   "end": 56.301,
+   "first_line": 3.6
+  },
+  {
+   "id": "kartu-1",
+   "start": 56.301,
+   "end": 62.746,
+   "first_line": 57.30100000000001
+  },
+  {
+   "id": "kartu-2",
+   "start": 62.746,
+   "end": 68.023,
+   "first_line": 63.74600000000001
+  },
+  {
+   "id": "catatan-2",
+   "start": 68.023,
+   "end": 80.514,
+   "first_line": 68.72300000000001
+  },
+  {
+   "id": "kartu-3",
+   "start": 80.514,
+   "end": 88.02,
+   "first_line": 81.51400000000001
+  },
+  {
+   "id": "catatan-3",
+   "start": 88.02,
+   "end": 101.213,
+   "first_line": 88.72000000000001
+  },
+  {
+   "id": "kartu-4",
+   "start": 101.213,
+   "end": 107.941,
+   "first_line": 102.21300000000001
+  },
+  {
+   "id": "catatan-4",
+   "start": 107.941,
+   "end": 121.489,
+   "first_line": 108.64100000000002
+  },
+  {
+   "id": "kartu-5",
+   "start": 121.489,
+   "end": 128.146,
+   "first_line": 122.48900000000002
+  },
+  {
+   "id": "catatan-5",
+   "start": 128.146,
+   "end": 142.006,
+   "first_line": 128.846
+  },
+  {
+   "id": "kartu-6",
+   "start": 142.006,
+   "end": 147.932,
+   "first_line": 143.006
+  },
+  {
+   "id": "catatan-6",
+   "start": 147.932,
+   "end": 161.994,
+   "first_line": 148.632
+  },
+  {
+   "id": "kartu-7",
+   "start": 161.994,
+   "end": 167.979,
+   "first_line": 162.994
+  },
+  {
+   "id": "catatan-7",
+   "start": 167.979,
+   "end": 182.124,
+   "first_line": 168.679
+  },
+  {
+   "id": "kartu-8",
+   "start": 182.124,
+   "end": 189.064,
+   "first_line": 183.124
+  },
+  {
+   "id": "catatan-8",
+   "start": 189.064,
+   "end": 203.852,
+   "first_line": 189.76399999999998
+  },
+  {
+   "id": "kartu-9",
+   "start": 203.852,
+   "end": 211.276,
+   "first_line": 204.85199999999998
+  },
+  {
+   "id": "catatan-9",
+   "start": 211.276,
+   "end": 224.731,
+   "first_line": 211.97599999999997
+  },
+  {
+   "id": "kartu-10",
+   "start": 224.731,
+   "end": 229.973,
+   "first_line": 225.73099999999997
+  },
+  {
+   "id": "catatan-10",
+   "start": 229.973,
+   "end": 242.844,
+   "first_line": 230.67299999999997
+  },
+  {
+   "id": "kartu-11",
+   "start": 242.844,
+   "end": 248.145,
+   "first_line": 243.84399999999997
+  },
+  {
+   "id": "kartu-12",
+   "start": 248.145,
+   "end": 254.283,
+   "first_line": 249.14499999999998
+  },
+  {
+   "id": "catatan-12",
+   "start": 254.283,
+   "end": 268.547,
+   "first_line": 254.98299999999998
+  },
+  {
+   "id": "kartu-13",
+   "start": 268.547,
+   "end": 273.403,
+   "first_line": 269.547
+  },
+  {
+   "id": "tutup",
+   "start": 273.403,
+   "end": 324.565,
+   "first_line": 274.303
+  }
+ ],
+ "cards": [],
+ "lines": [
+  {
+   "id": "s001",
+   "scene": "buka",
+   "voice": "gadis",
+   "display": "Surat penunjukannya sudah saya terima: PIC manajemen risiko di perangkat daerah saya. Aplikasinya MR Kabar. Pertanyaan saya cuma satu: dari mana mulainya?",
+   "start": 3.6,
+   "end": 17.291,
+   "words": [
+    {
+     "t": 3.66,
+     "d": 0.436,
+     "w": "Surat"
+    },
+    {
+     "t": 4.096,
+     "d": 0.731,
+     "w": "penunjukannya"
+    },
+    {
+     "t": 4.827,
+     "d": 0.295,
+     "w": "sudah"
+    },
+    {
+     "t": 5.122,
+     "d": 0.271,
+     "w": "saya"
+    },
+    {
+     "t": 5.393,
+     "d": 0.59,
+     "w": "terima"
+    },
+    {
+     "t": 6.313,
+     "d": 0.519,
+     "w": "Pi-Ai-Si"
+    },
+    {
+     "t": 6.832,
+     "d": 0.554,
+     "w": "manajemen"
+    },
+    {
+     "t": 7.386,
+     "d": 0.649,
+     "w": "risiko"
+    },
+    {
+     "t": 8.035,
+     "d": 0.141,
+     "w": "di"
+    },
+    {
+     "t": 8.177,
+     "d": 0.542,
+     "w": "perangkat"
+    },
+    {
+     "t": 8.719,
+     "d": 0.448,
+     "w": "daerah"
+    },
+    {
+     "t": 9.167,
+     "d": 0.542,
+     "w": "saya"
+    },
+    {
+     "t": 10.497,
+     "d": 0.884,
+     "w": "Aplikasinya"
+    },
+    {
+     "t": 11.381,
+     "d": 0.519,
+     "w": "Em-Er"
+    },
+    {
+     "t": 11.9,
+     "d": 0.637,
+     "w": "Kabar"
+    },
+    {
+     "t": 13.325,
+     "d": 0.802,
+     "w": "Pertanyaan"
+    },
+    {
+     "t": 14.127,
+     "d": 0.295,
+     "w": "saya"
+    },
+    {
+     "t": 14.422,
+     "d": 0.342,
+     "w": "cuma"
+    },
+    {
+     "t": 14.764,
+     "d": 0.566,
+     "w": "satu"
+    },
+    {
+     "t": 15.719,
+     "d": 0.295,
+     "w": "dari"
+    },
+    {
+     "t": 16.014,
+     "d": 0.307,
+     "w": "mana"
+    },
+    {
+     "t": 16.32,
+     "d": 0.731,
+     "w": "mulainya"
+    }
+   ]
+  },
+  {
+   "id": "s002",
+   "scene": "buka",
+   "voice": "ardi",
+   "display": "Dari menu paling atas. Dalam video ini kita menempuh satu tahun penilaian penuh, di satu perangkat daerah: Inspektorat.",
+   "start": 18.811,
+   "end": 26.285,
+   "words": [
+    {
+     "t": 18.871,
+     "d": 0.309,
+     "w": "Dari"
+    },
+    {
+     "t": 19.18,
+     "d": 0.19,
+     "w": "menu"
+    },
+    {
+     "t": 19.371,
+     "d": 0.238,
+     "w": "paling"
+    },
+    {
+     "t": 19.609,
+     "d": 0.548,
+     "w": "atas"
+    },
+    {
+     "t": 20.962,
+     "d": 0.25,
+     "w": "Dalam"
+    },
+    {
+     "t": 21.212,
+     "d": 0.238,
+     "w": "video"
+    },
+    {
+     "t": 21.45,
+     "d": 0.286,
+     "w": "ini"
+    },
+    {
+     "t": 21.736,
+     "d": 0.202,
+     "w": "kita"
+    },
+    {
+     "t": 21.938,
+     "d": 0.31,
+     "w": "menempuh"
+    },
+    {
+     "t": 22.248,
+     "d": 0.202,
+     "w": "satu"
+    },
+    {
+     "t": 22.45,
+     "d": 0.262,
+     "w": "tahun"
+    },
+    {
+     "t": 22.712,
+     "d": 0.405,
+     "w": "penilaian"
+    },
+    {
+     "t": 23.117,
+     "d": 0.429,
+     "w": "penuh"
+    },
+    {
+     "t": 23.819,
+     "d": 0.119,
+     "w": "di"
+    },
+    {
+     "t": 23.938,
+     "d": 0.25,
+     "w": "satu"
+    },
+    {
+     "t": 24.188,
+     "d": 0.298,
+     "w": "perangkat"
+    },
+    {
+     "t": 24.486,
+     "d": 0.524,
+     "w": "daerah"
+    },
+    {
+     "t": 25.188,
+     "d": 0.857,
+     "w": "Inspektorat"
+    }
+   ]
+  },
+  {
+   "id": "s003",
+   "scene": "buka",
+   "voice": "ardi",
+   "display": "Ada dua belas bab. Data Umum dan CEE, tiga tingkatan risiko, pemantauan, kejadian yang benar-benar terjadi, sampai formulir cetak, laporan, dan cara pimpinan membacanya.",
+   "start": 26.625,
+   "end": 38.48,
+   "words": [
+    {
+     "t": 26.685,
+     "d": 0.309,
+     "w": "Ada"
+    },
+    {
+     "t": 26.994,
+     "d": 0.19,
+     "w": "dua"
+    },
+    {
+     "t": 27.185,
+     "d": 0.274,
+     "w": "belas"
+    },
+    {
+     "t": 27.459,
+     "d": 0.405,
+     "w": "bab"
+    },
+    {
+     "t": 28.669,
+     "d": 0.25,
+     "w": "Data"
+    },
+    {
+     "t": 28.919,
+     "d": 0.31,
+     "w": "Umum"
+    },
+    {
+     "t": 29.228,
+     "d": 0.167,
+     "w": "dan"
+    },
+    {
+     "t": 29.395,
+     "d": 0.524,
+     "w": "Ce-E-E"
+    },
+    {
+     "t": 30.181,
+     "d": 0.262,
+     "w": "tiga"
+    },
+    {
+     "t": 30.443,
+     "d": 0.369,
+     "w": "tingkatan"
+    },
+    {
+     "t": 30.812,
+     "d": 0.607,
+     "w": "risiko"
+    },
+    {
+     "t": 31.669,
+     "d": 0.75,
+     "w": "pemantauan"
+    },
+    {
+     "t": 32.669,
+     "d": 0.429,
+     "w": "kejadian"
+    },
+    {
+     "t": 33.098,
+     "d": 0.119,
+     "w": "yang"
+    },
+    {
+     "t": 33.217,
+     "d": 0.405,
+     "w": "benar-benar"
+    },
+    {
+     "t": 33.621,
+     "d": 0.631,
+     "w": "terjadi"
+    },
+    {
+     "t": 34.502,
+     "d": 0.357,
+     "w": "sampai"
+    },
+    {
+     "t": 34.859,
+     "d": 0.369,
+     "w": "formulir"
+    },
+    {
+     "t": 35.228,
+     "d": 0.476,
+     "w": "cetak"
+    },
+    {
+     "t": 35.931,
+     "d": 0.595,
+     "w": "laporan"
+    },
+    {
+     "t": 36.764,
+     "d": 0.214,
+     "w": "dan"
+    },
+    {
+     "t": 36.978,
+     "d": 0.19,
+     "w": "cara"
+    },
+    {
+     "t": 37.169,
+     "d": 0.393,
+     "w": "pimpinan"
+    },
+    {
+     "t": 37.562,
+     "d": 0.679,
+     "w": "membacanya"
+    }
+   ]
+  },
+  {
+   "id": "s004",
+   "scene": "buka",
+   "voice": "gadis",
+   "display": "Satu hal penting: seluruh isian dalam video ini data contoh. Dibuat untuk menunjukkan caranya, bukan untuk disalin.",
+   "start": 39.12,
+   "end": 48.686,
+   "words": [
+    {
+     "t": 39.18,
+     "d": 0.483,
+     "w": "Satu"
+    },
+    {
+     "t": 39.663,
+     "d": 0.2,
+     "w": "hal"
+    },
+    {
+     "t": 39.864,
+     "d": 0.601,
+     "w": "penting"
+    },
+    {
+     "t": 40.772,
+     "d": 0.424,
+     "w": "seluruh"
+    },
+    {
+     "t": 41.196,
+     "d": 0.46,
+     "w": "isian"
+    },
+    {
+     "t": 41.656,
+     "d": 0.271,
+     "w": "dalam"
+    },
+    {
+     "t": 41.928,
+     "d": 0.389,
+     "w": "video"
+    },
+    {
+     "t": 42.317,
+     "d": 0.401,
+     "w": "ini"
+    },
+    {
+     "t": 42.718,
+     "d": 0.389,
+     "w": "data"
+    },
+    {
+     "t": 43.107,
+     "d": 0.66,
+     "w": "contoh"
+    },
+    {
+     "t": 44.555,
+     "d": 0.472,
+     "w": "Dibuat"
+    },
+    {
+     "t": 45.026,
+     "d": 0.46,
+     "w": "untuk"
+    },
+    {
+     "t": 45.486,
+     "d": 0.519,
+     "w": "menunjukkan"
+    },
+    {
+     "t": 46.005,
+     "d": 0.649,
+     "w": "caranya"
+    },
+    {
+     "t": 46.925,
+     "d": 0.342,
+     "w": "bukan"
+    },
+    {
+     "t": 47.267,
+     "d": 0.46,
+     "w": "untuk"
+    },
+    {
+     "t": 47.727,
+     "d": 0.719,
+     "w": "disalin"
+    }
+   ]
+  },
+  {
+   "id": "s005",
+   "scene": "buka",
+   "voice": "ardi",
+   "display": "Daftar bab ada di bawah video; lompat saja ke bagian yang Anda perlukan. Mari mulai.",
+   "start": 49.326,
+   "end": 55.101,
+   "words": [
+    {
+     "t": 49.386,
+     "d": 0.405,
+     "w": "Daftar"
+    },
+    {
+     "t": 49.791,
+     "d": 0.202,
+     "w": "bab"
+    },
+    {
+     "t": 49.993,
+     "d": 0.226,
+     "w": "ada"
+    },
+    {
+     "t": 50.219,
+     "d": 0.083,
+     "w": "di"
+    },
+    {
+     "t": 50.303,
+     "d": 0.226,
+     "w": "bawah"
+    },
+    {
+     "t": 50.529,
+     "d": 0.536,
+     "w": "video"
+    },
+    {
+     "t": 51.338,
+     "d": 0.274,
+     "w": "lompat"
+    },
+    {
+     "t": 51.612,
+     "d": 0.298,
+     "w": "saja"
+    },
+    {
+     "t": 51.91,
+     "d": 0.071,
+     "w": "ke"
+    },
+    {
+     "t": 51.981,
+     "d": 0.345,
+     "w": "bagian"
+    },
+    {
+     "t": 52.327,
+     "d": 0.119,
+     "w": "yang"
+    },
+    {
+     "t": 52.446,
+     "d": 0.19,
+     "w": "Anda"
+    },
+    {
+     "t": 52.636,
+     "d": 0.583,
+     "w": "perlukan"
+    },
+    {
+     "t": 54.016,
+     "d": 0.321,
+     "w": "Mari"
+    },
+    {
+     "t": 54.337,
+     "d": 0.524,
+     "w": "mulai"
+    }
+   ]
+  },
+  {
+   "id": "s006",
+   "scene": "kartu-1",
+   "voice": "gadis",
+   "display": "Bab satu. Masuk, dan mengenal layar.",
+   "start": 57.301,
+   "end": 61.596,
+   "words": [
+    {
+     "t": 57.361,
+     "d": 0.283,
+     "w": "Bab"
+    },
+    {
+     "t": 57.644,
+     "d": 0.672,
+     "w": "satu"
+    },
+    {
+     "t": 59.103,
+     "d": 0.613,
+     "w": "Masuk"
+    },
+    {
+     "t": 60.07,
+     "d": 0.236,
+     "w": "dan"
+    },
+    {
+     "t": 60.306,
+     "d": 0.46,
+     "w": "mengenal"
+    },
+    {
+     "t": 60.766,
+     "d": 0.59,
+     "w": "layar"
+    }
+   ]
+  },
+  {
+   "id": "s007",
+   "scene": "kartu-2",
+   "voice": "gadis",
+   "display": "Bab dua. Data Umum.",
+   "start": 63.746,
+   "end": 66.873,
+   "words": [
+    {
+     "t": 63.806,
+     "d": 0.354,
+     "w": "Bab"
+    },
+    {
+     "t": 64.16,
+     "d": 0.578,
+     "w": "dua"
+    },
+    {
+     "t": 65.525,
+     "d": 0.46,
+     "w": "Data"
+    },
+    {
+     "t": 65.985,
+     "d": 0.649,
+     "w": "Umum"
+    }
+   ]
+  },
+  {
+   "id": "s019",
+   "scene": "catatan-2",
+   "voice": "ardi",
+   "display": "Catatan bab dua. Isi Data Umum paling awal. Periode Penilaian adalah periode Renstra. Dan tiga dokumen sumber untuk tiga tingkatan risiko.",
+   "start": 68.723,
+   "end": 78.914,
+   "words": [
+    {
+     "t": 68.783,
+     "d": 0.5,
+     "w": "Catatan"
+    },
+    {
+     "t": 69.283,
+     "d": 0.202,
+     "w": "bab"
+    },
+    {
+     "t": 69.485,
+     "d": 0.464,
+     "w": "dua"
+    },
+    {
+     "t": 70.745,
+     "d": 0.298,
+     "w": "Isi"
+    },
+    {
+     "t": 71.043,
+     "d": 0.19,
+     "w": "Data"
+    },
+    {
+     "t": 71.233,
+     "d": 0.274,
+     "w": "Umum"
+    },
+    {
+     "t": 71.507,
+     "d": 0.214,
+     "w": "paling"
+    },
+    {
+     "t": 71.721,
+     "d": 0.5,
+     "w": "awal"
+    },
+    {
+     "t": 73.019,
+     "d": 0.369,
+     "w": "Periode"
+    },
+    {
+     "t": 73.388,
+     "d": 0.559,
+     "w": "Penilaian"
+    },
+    {
+     "t": 73.947,
+     "d": 0.357,
+     "w": "adalah"
+    },
+    {
+     "t": 74.304,
+     "d": 0.333,
+     "w": "periode"
+    },
+    {
+     "t": 74.638,
+     "d": 0.595,
+     "w": "Renstra"
+    },
+    {
+     "t": 76.031,
+     "d": 0.262,
+     "w": "Dan"
+    },
+    {
+     "t": 76.293,
+     "d": 0.214,
+     "w": "tiga"
+    },
+    {
+     "t": 76.507,
+     "d": 0.298,
+     "w": "dokumen"
+    },
+    {
+     "t": 76.804,
+     "d": 0.357,
+     "w": "sumber"
+    },
+    {
+     "t": 77.162,
+     "d": 0.274,
+     "w": "untuk"
+    },
+    {
+     "t": 77.435,
+     "d": 0.274,
+     "w": "tiga"
+    },
+    {
+     "t": 77.709,
+     "d": 0.381,
+     "w": "tingkatan"
+    },
+    {
+     "t": 78.09,
+     "d": 0.583,
+     "w": "risiko"
+    }
+   ],
+   "poin": [
+    "Isi Data Umum paling awal",
+    "Periode Penilaian = periode Renstra",
+    "Tiga dokumen sumber, tiga tingkatan"
+   ],
+   "pemicu": [
+    "isi",
+    "periode",
+    "tiga"
+   ]
+  },
+  {
+   "id": "s008",
+   "scene": "kartu-3",
+   "voice": "gadis",
+   "display": "Bab tiga. CEE, memeriksa kapal sebelum berlayar.",
+   "start": 81.514,
+   "end": 86.87,
+   "words": [
+    {
+     "t": 81.574,
+     "d": 0.307,
+     "w": "Bab"
+    },
+    {
+     "t": 81.881,
+     "d": 0.66,
+     "w": "tiga"
+    },
+    {
+     "t": 83.328,
+     "d": 0.873,
+     "w": "Ce-E-E"
+    },
+    {
+     "t": 84.519,
+     "d": 0.483,
+     "w": "memeriksa"
+    },
+    {
+     "t": 85.003,
+     "d": 0.436,
+     "w": "kapal"
+    },
+    {
+     "t": 85.439,
+     "d": 0.46,
+     "w": "sebelum"
+    },
+    {
+     "t": 85.899,
+     "d": 0.731,
+     "w": "berlayar"
+    }
+   ]
+  },
+  {
+   "id": "s020",
+   "scene": "catatan-3",
+   "voice": "ardi",
+   "display": "Catatan bab tiga. Nilailah yang dijalankan, bukan yang ada. Bukti dokumen menang atas persepsi. Dan RTP CEE berbeda dengan RTP risiko.",
+   "start": 88.72,
+   "end": 99.613,
+   "words": [
+    {
+     "t": 88.78,
+     "d": 0.488,
+     "w": "Catatan"
+    },
+    {
+     "t": 89.268,
+     "d": 0.19,
+     "w": "bab"
+    },
+    {
+     "t": 89.459,
+     "d": 0.512,
+     "w": "tiga"
+    },
+    {
+     "t": 90.766,
+     "d": 0.464,
+     "w": "Nilailah"
+    },
+    {
+     "t": 91.23,
+     "d": 0.119,
+     "w": "yang"
+    },
+    {
+     "t": 91.349,
+     "d": 0.738,
+     "w": "dijalankan"
+    },
+    {
+     "t": 92.325,
+     "d": 0.345,
+     "w": "bukan"
+    },
+    {
+     "t": 92.671,
+     "d": 0.131,
+     "w": "yang"
+    },
+    {
+     "t": 92.801,
+     "d": 0.464,
+     "w": "ada"
+    },
+    {
+     "t": 94.065,
+     "d": 0.369,
+     "w": "Bukti"
+    },
+    {
+     "t": 94.434,
+     "d": 0.333,
+     "w": "dokumen"
+    },
+    {
+     "t": 94.767,
+     "d": 0.298,
+     "w": "menang"
+    },
+    {
+     "t": 95.065,
+     "d": 0.262,
+     "w": "atas"
+    },
+    {
+     "t": 95.326,
+     "d": 0.679,
+     "w": "persepsi"
+    },
+    {
+     "t": 96.801,
+     "d": 0.262,
+     "w": "Dan"
+    },
+    {
+     "t": 97.063,
+     "d": 0.417,
+     "w": "Er-Te-Pe"
+    },
+    {
+     "t": 97.48,
+     "d": 0.214,
+     "w": "Ce-E-E"
+    },
+    {
+     "t": 97.694,
+     "d": 0.464,
+     "w": "berbeda"
+    },
+    {
+     "t": 98.159,
+     "d": 0.25,
+     "w": "dengan"
+    },
+    {
+     "t": 98.409,
+     "d": 0.393,
+     "w": "Er-Te-Pe"
+    },
+    {
+     "t": 98.801,
+     "d": 0.571,
+     "w": "risiko"
+    }
+   ],
+   "poin": [
+    "Nilai yang dijalankan, bukan yang ada",
+    "Bukti dokumen menang atas persepsi",
+    "RTP CEE berbeda dengan RTP risiko"
+   ],
+   "pemicu": [
+    "nilailah",
+    "bukti",
+    "er-te-pe"
+   ]
+  },
+  {
+   "id": "s009",
+   "scene": "kartu-4",
+   "voice": "gadis",
+   "display": "Bab empat. Risiko Strategis Pemerintah Daerah.",
+   "start": 102.213,
+   "end": 106.791,
+   "words": [
+    {
+     "t": 102.273,
+     "d": 0.307,
+     "w": "Bab"
+    },
+    {
+     "t": 102.58,
+     "d": 0.542,
+     "w": "empat"
+    },
+    {
+     "t": 103.909,
+     "d": 0.578,
+     "w": "Risiko"
+    },
+    {
+     "t": 104.487,
+     "d": 0.708,
+     "w": "Strategis"
+    },
+    {
+     "t": 105.195,
+     "d": 0.684,
+     "w": "Pemerintah"
+    },
+    {
+     "t": 105.879,
+     "d": 0.672,
+     "w": "Daerah"
+    }
+   ]
+  },
+  {
+   "id": "s021",
+   "scene": "catatan-4",
+   "voice": "ardi",
+   "display": "Catatan bab empat. Konteks dulu, baru risiko. Risiko adalah peristiwa yang bisa terjadi. Dan rencana tindak menurunkan kemungkinan, bukan dampak.",
+   "start": 108.641,
+   "end": 119.889,
+   "words": [
+    {
+     "t": 108.701,
+     "d": 0.512,
+     "w": "Catatan"
+    },
+    {
+     "t": 109.213,
+     "d": 0.19,
+     "w": "bab"
+    },
+    {
+     "t": 109.403,
+     "d": 0.512,
+     "w": "empat"
+    },
+    {
+     "t": 110.71,
+     "d": 0.405,
+     "w": "Konteks"
+    },
+    {
+     "t": 111.115,
+     "d": 0.464,
+     "w": "dulu"
+    },
+    {
+     "t": 111.829,
+     "d": 0.286,
+     "w": "baru"
+    },
+    {
+     "t": 112.115,
+     "d": 0.607,
+     "w": "risiko"
+    },
+    {
+     "t": 113.521,
+     "d": 0.512,
+     "w": "Risiko"
+    },
+    {
+     "t": 114.033,
+     "d": 0.262,
+     "w": "adalah"
+    },
+    {
+     "t": 114.294,
+     "d": 0.44,
+     "w": "peristiwa"
+    },
+    {
+     "t": 114.735,
+     "d": 0.155,
+     "w": "yang"
+    },
+    {
+     "t": 114.89,
+     "d": 0.214,
+     "w": "bisa"
+    },
+    {
+     "t": 115.104,
+     "d": 0.655,
+     "w": "terjadi"
+    },
+    {
+     "t": 116.566,
+     "d": 0.226,
+     "w": "Dan"
+    },
+    {
+     "t": 116.792,
+     "d": 0.357,
+     "w": "rencana"
+    },
+    {
+     "t": 117.149,
+     "d": 0.309,
+     "w": "tindak"
+    },
+    {
+     "t": 117.459,
+     "d": 0.417,
+     "w": "menurunkan"
+    },
+    {
+     "t": 117.875,
+     "d": 0.679,
+     "w": "kemungkinan"
+    },
+    {
+     "t": 118.756,
+     "d": 0.369,
+     "w": "bukan"
+    },
+    {
+     "t": 119.125,
+     "d": 0.524,
+     "w": "dampak"
+    }
+   ],
+   "poin": [
+    "Konteks dulu, baru risiko",
+    "Risiko = peristiwa yang bisa terjadi",
+    "RTP menurunkan kemungkinan, bukan dampak"
+   ],
+   "pemicu": [
+    "konteks",
+    "risiko",
+    "rencana"
+   ]
+  },
+  {
+   "id": "s010",
+   "scene": "kartu-5",
+   "voice": "gadis",
+   "display": "Bab lima. Risiko Strategis Perangkat Daerah.",
+   "start": 122.489,
+   "end": 126.996,
+   "words": [
+    {
+     "t": 122.549,
+     "d": 0.33,
+     "w": "Bab"
+    },
+    {
+     "t": 122.879,
+     "d": 0.613,
+     "w": "lima"
+    },
+    {
+     "t": 124.28,
+     "d": 0.566,
+     "w": "Risiko"
+    },
+    {
+     "t": 124.846,
+     "d": 0.696,
+     "w": "Strategis"
+    },
+    {
+     "t": 125.541,
+     "d": 0.542,
+     "w": "Perangkat"
+    },
+    {
+     "t": 126.084,
+     "d": 0.672,
+     "w": "Daerah"
+    }
+   ]
+  },
+  {
+   "id": "s022",
+   "scene": "catatan-5",
+   "voice": "ardi",
+   "display": "Catatan bab lima. Baseline adalah realisasi tahun lalu. C atau UC ditentukan oleh satu pertanyaan: bisakah dikendalikan? Dan ada prosedur belum tentu efektif.",
+   "start": 128.846,
+   "end": 140.406,
+   "words": [
+    {
+     "t": 128.906,
+     "d": 0.488,
+     "w": "Catatan"
+    },
+    {
+     "t": 129.394,
+     "d": 0.202,
+     "w": "bab"
+    },
+    {
+     "t": 129.596,
+     "d": 0.476,
+     "w": "lima"
+    },
+    {
+     "t": 130.869,
+     "d": 0.56,
+     "w": "Baseline"
+    },
+    {
+     "t": 131.428,
+     "d": 0.321,
+     "w": "adalah"
+    },
+    {
+     "t": 131.749,
+     "d": 0.524,
+     "w": "realisasi"
+    },
+    {
+     "t": 132.273,
+     "d": 0.262,
+     "w": "tahun"
+    },
+    {
+     "t": 132.535,
+     "d": 0.452,
+     "w": "lalu"
+    },
+    {
+     "t": 133.785,
+     "d": 0.214,
+     "w": "Ce"
+    },
+    {
+     "t": 133.999,
+     "d": 0.345,
+     "w": "atau"
+    },
+    {
+     "t": 134.344,
+     "d": 0.25,
+     "w": "U-Ce"
+    },
+    {
+     "t": 134.594,
+     "d": 0.44,
+     "w": "ditentukan"
+    },
+    {
+     "t": 135.035,
+     "d": 0.167,
+     "w": "oleh"
+    },
+    {
+     "t": 135.201,
+     "d": 0.19,
+     "w": "satu"
+    },
+    {
+     "t": 135.392,
+     "d": 0.702,
+     "w": "pertanyaan"
+    },
+    {
+     "t": 136.344,
+     "d": 0.417,
+     "w": "bisakah"
+    },
+    {
+     "t": 136.761,
+     "d": 0.643,
+     "w": "dikendalikan"
+    },
+    {
+     "t": 138.202,
+     "d": 0.25,
+     "w": "Dan"
+    },
+    {
+     "t": 138.452,
+     "d": 0.179,
+     "w": "ada"
+    },
+    {
+     "t": 138.63,
+     "d": 0.452,
+     "w": "prosedur"
+    },
+    {
+     "t": 139.083,
+     "d": 0.238,
+     "w": "belum"
+    },
+    {
+     "t": 139.321,
+     "d": 0.19,
+     "w": "tentu"
+    },
+    {
+     "t": 139.511,
+     "d": 0.655,
+     "w": "efektif"
+    }
+   ],
+   "poin": [
+    "Baseline = realisasi tahun lalu",
+    "C atau UC: bisakah dikendalikan?",
+    "Ada prosedur belum tentu efektif"
+   ],
+   "pemicu": [
+    "baseline",
+    "ce",
+    "ada"
+   ]
+  },
+  {
+   "id": "s011",
+   "scene": "kartu-6",
+   "voice": "gadis",
+   "display": "Bab enam. Risiko Operasional.",
+   "start": 143.006,
+   "end": 146.782,
+   "words": [
+    {
+     "t": 143.066,
+     "d": 0.307,
+     "w": "Bab"
+    },
+    {
+     "t": 143.373,
+     "d": 0.637,
+     "w": "enam"
+    },
+    {
+     "t": 144.797,
+     "d": 0.613,
+     "w": "Risiko"
+    },
+    {
+     "t": 145.41,
+     "d": 1.132,
+     "w": "Operasional"
+    }
+   ]
+  },
+  {
+   "id": "s023",
+   "scene": "catatan-6",
+   "voice": "ardi",
+   "display": "Catatan bab enam. Tahap menunjukkan di mana risiko melekat. Untuk penyebab UC, rencana tindak tetap dalam kuasa sendiri. Dan celah pengendalian dipilih dari lima kriteria Perdep.",
+   "start": 148.632,
+   "end": 160.394,
+   "words": [
+    {
+     "t": 148.692,
+     "d": 0.5,
+     "w": "Catatan"
+    },
+    {
+     "t": 149.192,
+     "d": 0.19,
+     "w": "bab"
+    },
+    {
+     "t": 149.382,
+     "d": 0.476,
+     "w": "enam"
+    },
+    {
+     "t": 150.654,
+     "d": 0.286,
+     "w": "Tahap"
+    },
+    {
+     "t": 150.94,
+     "d": 0.512,
+     "w": "menunjukkan"
+    },
+    {
+     "t": 151.452,
+     "d": 0.083,
+     "w": "di"
+    },
+    {
+     "t": 151.535,
+     "d": 0.202,
+     "w": "mana"
+    },
+    {
+     "t": 151.737,
+     "d": 0.321,
+     "w": "risiko"
+    },
+    {
+     "t": 152.059,
+     "d": 0.5,
+     "w": "melekat"
+    },
+    {
+     "t": 153.367,
+     "d": 0.238,
+     "w": "Untuk"
+    },
+    {
+     "t": 153.605,
+     "d": 0.321,
+     "w": "penyebab"
+    },
+    {
+     "t": 153.927,
+     "d": 0.464,
+     "w": "U-Ce"
+    },
+    {
+     "t": 154.688,
+     "d": 0.369,
+     "w": "rencana"
+    },
+    {
+     "t": 155.058,
+     "d": 0.321,
+     "w": "tindak"
+    },
+    {
+     "t": 155.379,
+     "d": 0.274,
+     "w": "tetap"
+    },
+    {
+     "t": 155.653,
+     "d": 0.226,
+     "w": "dalam"
+    },
+    {
+     "t": 155.879,
+     "d": 0.262,
+     "w": "kuasa"
+    },
+    {
+     "t": 156.141,
+     "d": 0.548,
+     "w": "sendiri"
+    },
+    {
+     "t": 157.487,
+     "d": 0.25,
+     "w": "Dan"
+    },
+    {
+     "t": 157.737,
+     "d": 0.202,
+     "w": "celah"
+    },
+    {
+     "t": 157.94,
+     "d": 0.512,
+     "w": "pengendalian"
+    },
+    {
+     "t": 158.452,
+     "d": 0.381,
+     "w": "dipilih"
+    },
+    {
+     "t": 158.832,
+     "d": 0.202,
+     "w": "dari"
+    },
+    {
+     "t": 159.035,
+     "d": 0.262,
+     "w": "lima"
+    },
+    {
+     "t": 159.297,
+     "d": 0.369,
+     "w": "kriteria"
+    },
+    {
+     "t": 159.666,
+     "d": 0.488,
+     "w": "Perdep"
+    }
+   ],
+   "poin": [
+    "Tahap: di mana risiko melekat",
+    "UC: rencana tetap dalam kuasa sendiri",
+    "Celah: lima kriteria Perdep"
+   ],
+   "pemicu": [
+    "tahap",
+    "untuk",
+    "celah"
+   ]
+  },
+  {
+   "id": "s012",
+   "scene": "kartu-7",
+   "voice": "gadis",
+   "display": "Bab tujuh. Memantau rencana tindak.",
+   "start": 162.994,
+   "end": 166.829,
+   "words": [
+    {
+     "t": 163.054,
+     "d": 0.33,
+     "w": "Bab"
+    },
+    {
+     "t": 163.384,
+     "d": 0.684,
+     "w": "tujuh"
+    },
+    {
+     "t": 164.855,
+     "d": 0.66,
+     "w": "Memantau"
+    },
+    {
+     "t": 165.516,
+     "d": 0.578,
+     "w": "rencana"
+    },
+    {
+     "t": 166.094,
+     "d": 0.495,
+     "w": "tindak"
+    }
+   ]
+  },
+  {
+   "id": "s024",
+   "scene": "catatan-7",
+   "voice": "ardi",
+   "display": "Catatan bab tujuh. Formulir delapan: dikomunikasikan kepada siapa. Formulir sembilan: dipantau bagaimana. Formulir sepuluh: yang sudah terjadi.",
+   "start": 168.679,
+   "end": 180.524,
+   "words": [
+    {
+     "t": 168.739,
+     "d": 0.512,
+     "w": "Catatan"
+    },
+    {
+     "t": 169.251,
+     "d": 0.19,
+     "w": "bab"
+    },
+    {
+     "t": 169.441,
+     "d": 0.548,
+     "w": "tujuh"
+    },
+    {
+     "t": 170.784,
+     "d": 0.417,
+     "w": "Formulir"
+    },
+    {
+     "t": 171.2,
+     "d": 0.595,
+     "w": "delapan"
+    },
+    {
+     "t": 172.069,
+     "d": 0.833,
+     "w": "dikomunikasikan"
+    },
+    {
+     "t": 172.903,
+     "d": 0.286,
+     "w": "kepada"
+    },
+    {
+     "t": 173.188,
+     "d": 0.583,
+     "w": "siapa"
+    },
+    {
+     "t": 174.569,
+     "d": 0.429,
+     "w": "Formulir"
+    },
+    {
+     "t": 174.998,
+     "d": 0.631,
+     "w": "sembilan"
+    },
+    {
+     "t": 175.891,
+     "d": 0.5,
+     "w": "dipantau"
+    },
+    {
+     "t": 176.391,
+     "d": 0.726,
+     "w": "bagaimana"
+    },
+    {
+     "t": 177.915,
+     "d": 0.429,
+     "w": "Formulir"
+    },
+    {
+     "t": 178.343,
+     "d": 0.607,
+     "w": "sepuluh"
+    },
+    {
+     "t": 179.188,
+     "d": 0.202,
+     "w": "yang"
+    },
+    {
+     "t": 179.391,
+     "d": 0.25,
+     "w": "sudah"
+    },
+    {
+     "t": 179.641,
+     "d": 0.643,
+     "w": "terjadi"
+    }
+   ],
+   "poin": [
+    "Formulir 8: dikomunikasikan kepada siapa",
+    "Formulir 9: dipantau bagaimana",
+    "Formulir 10: yang sudah terjadi"
+   ],
+   "pemicu": [
+    "formulir",
+    "formulir",
+    "formulir"
+   ]
+  },
+  {
+   "id": "s013",
+   "scene": "kartu-8",
+   "voice": "gadis",
+   "display": "Bab delapan. Ketika risikonya benar-benar terjadi.",
+   "start": 183.124,
+   "end": 187.914,
+   "words": [
+    {
+     "t": 183.184,
+     "d": 0.366,
+     "w": "Bab"
+    },
+    {
+     "t": 183.55,
+     "d": 0.731,
+     "w": "delapan"
+    },
+    {
+     "t": 185.068,
+     "d": 0.483,
+     "w": "Ketika"
+    },
+    {
+     "t": 185.551,
+     "d": 0.625,
+     "w": "risikonya"
+    },
+    {
+     "t": 186.176,
+     "d": 0.672,
+     "w": "benar-benar"
+    },
+    {
+     "t": 186.849,
+     "d": 0.825,
+     "w": "terjadi"
+    }
+   ]
+  },
+  {
+   "id": "s025",
+   "scene": "catatan-8",
+   "voice": "ardi",
+   "display": "Catatan bab delapan. Lapor lewat kode QR, tanpa akun. Tulis kejadiannya: kapan, di mana, berapa. Dan kalau ragu, pilih Lapor Kejadian Baru.",
+   "start": 189.764,
+   "end": 202.252,
+   "words": [
+    {
+     "t": 189.824,
+     "d": 0.488,
+     "w": "Catatan"
+    },
+    {
+     "t": 190.312,
+     "d": 0.202,
+     "w": "bab"
+    },
+    {
+     "t": 190.514,
+     "d": 0.607,
+     "w": "delapan"
+    },
+    {
+     "t": 191.917,
+     "d": 0.345,
+     "w": "Lapor"
+    },
+    {
+     "t": 192.262,
+     "d": 0.238,
+     "w": "lewat"
+    },
+    {
+     "t": 192.5,
+     "d": 0.179,
+     "w": "kode"
+    },
+    {
+     "t": 192.679,
+     "d": 0.536,
+     "w": "Kiu-Ar"
+    },
+    {
+     "t": 193.453,
+     "d": 0.298,
+     "w": "tanpa"
+    },
+    {
+     "t": 193.75,
+     "d": 0.488,
+     "w": "akun"
+    },
+    {
+     "t": 195.036,
+     "d": 0.274,
+     "w": "Tulis"
+    },
+    {
+     "t": 195.31,
+     "d": 0.81,
+     "w": "kejadiannya"
+    },
+    {
+     "t": 196.393,
+     "d": 0.524,
+     "w": "kapan"
+    },
+    {
+     "t": 197.155,
+     "d": 0.143,
+     "w": "di"
+    },
+    {
+     "t": 197.298,
+     "d": 0.5,
+     "w": "mana"
+    },
+    {
+     "t": 197.976,
+     "d": 0.631,
+     "w": "berapa"
+    },
+    {
+     "t": 199.405,
+     "d": 0.25,
+     "w": "Dan"
+    },
+    {
+     "t": 199.655,
+     "d": 0.214,
+     "w": "kalau"
+    },
+    {
+     "t": 199.869,
+     "d": 0.488,
+     "w": "ragu"
+    },
+    {
+     "t": 200.631,
+     "d": 0.262,
+     "w": "pilih"
+    },
+    {
+     "t": 200.893,
+     "d": 0.262,
+     "w": "Lapor"
+    },
+    {
+     "t": 201.155,
+     "d": 0.44,
+     "w": "Kejadian"
+    },
+    {
+     "t": 201.595,
+     "d": 0.417,
+     "w": "Baru"
+    }
+   ],
+   "poin": [
+    "Lapor lewat kode QR, tanpa akun",
+    "Kejadian: kapan, di mana, berapa",
+    "Ragu? Pilih Lapor Kejadian Baru"
+   ],
+   "pemicu": [
+    "lapor",
+    "tulis",
+    "dan"
+   ]
+  },
+  {
+   "id": "s014",
+   "scene": "kartu-9",
+   "voice": "gadis",
+   "display": "Bab sembilan. Dari laporan, menjadi catatan resmi.",
+   "start": 204.852,
+   "end": 210.126,
+   "words": [
+    {
+     "t": 204.912,
+     "d": 0.307,
+     "w": "Bab"
+    },
+    {
+     "t": 205.219,
+     "d": 0.825,
+     "w": "sembilan"
+    },
+    {
+     "t": 206.831,
+     "d": 0.33,
+     "w": "Dari"
+    },
+    {
+     "t": 207.162,
+     "d": 0.684,
+     "w": "laporan"
+    },
+    {
+     "t": 208.176,
+     "d": 0.472,
+     "w": "menjadi"
+    },
+    {
+     "t": 208.647,
+     "d": 0.601,
+     "w": "catatan"
+    },
+    {
+     "t": 209.249,
+     "d": 0.637,
+     "w": "resmi"
+    }
+   ]
+  },
+  {
+   "id": "s026",
+   "scene": "catatan-9",
+   "voice": "ardi",
+   "display": "Catatan bab sembilan. Verifikasi dulu, baru tindak lanjuti. Formulir sepuluh butuh risiko yang terdaftar. Dan kejadian dirumuskan ulang menjadi risiko.",
+   "start": 211.976,
+   "end": 223.131,
+   "words": [
+    {
+     "t": 212.036,
+     "d": 0.5,
+     "w": "Catatan"
+    },
+    {
+     "t": 212.536,
+     "d": 0.179,
+     "w": "bab"
+    },
+    {
+     "t": 212.715,
+     "d": 0.631,
+     "w": "sembilan"
+    },
+    {
+     "t": 214.141,
+     "d": 0.607,
+     "w": "Verifikasi"
+    },
+    {
+     "t": 214.748,
+     "d": 0.452,
+     "w": "dulu"
+    },
+    {
+     "t": 215.45,
+     "d": 0.262,
+     "w": "baru"
+    },
+    {
+     "t": 215.712,
+     "d": 0.298,
+     "w": "tindak"
+    },
+    {
+     "t": 216.01,
+     "d": 0.631,
+     "w": "lanjuti"
+    },
+    {
+     "t": 217.438,
+     "d": 0.476,
+     "w": "Formulir"
+    },
+    {
+     "t": 217.915,
+     "d": 0.298,
+     "w": "sepuluh"
+    },
+    {
+     "t": 218.212,
+     "d": 0.226,
+     "w": "butuh"
+    },
+    {
+     "t": 218.438,
+     "d": 0.369,
+     "w": "risiko"
+    },
+    {
+     "t": 218.807,
+     "d": 0.155,
+     "w": "yang"
+    },
+    {
+     "t": 218.962,
+     "d": 0.726,
+     "w": "terdaftar"
+    },
+    {
+     "t": 220.486,
+     "d": 0.262,
+     "w": "Dan"
+    },
+    {
+     "t": 220.748,
+     "d": 0.44,
+     "w": "kejadian"
+    },
+    {
+     "t": 221.188,
+     "d": 0.488,
+     "w": "dirumuskan"
+    },
+    {
+     "t": 221.676,
+     "d": 0.286,
+     "w": "ulang"
+    },
+    {
+     "t": 221.962,
+     "d": 0.345,
+     "w": "menjadi"
+    },
+    {
+     "t": 222.307,
+     "d": 0.583,
+     "w": "risiko"
+    }
+   ],
+   "poin": [
+    "Verifikasi dulu, baru tindak lanjuti",
+    "Formulir 10 butuh risiko terdaftar",
+    "Kejadian dirumuskan ulang jadi risiko"
+   ],
+   "pemicu": [
+    "verifikasi",
+    "formulir",
+    "dan"
+   ]
+  },
+  {
+   "id": "s015",
+   "scene": "kartu-10",
+   "voice": "gadis",
+   "display": "Bab sepuluh. Form Cetak.",
+   "start": 225.731,
+   "end": 228.823,
+   "words": [
+    {
+     "t": 225.791,
+     "d": 0.295,
+     "w": "Bab"
+    },
+    {
+     "t": 226.086,
+     "d": 0.766,
+     "w": "sepuluh"
+    },
+    {
+     "t": 227.64,
+     "d": 0.46,
+     "w": "Form"
+    },
+    {
+     "t": 228.1,
+     "d": 0.483,
+     "w": "Cetak"
+    }
+   ]
+  },
+  {
+   "id": "s027",
+   "scene": "catatan-10",
+   "voice": "ardi",
+   "display": "Catatan bab sepuluh. Form Cetak tidak diisi. Kalau ada yang kosong, perbaiki di formulir asalnya. Dan prioritas adalah yang di luar Selera Risiko.",
+   "start": 230.673,
+   "end": 241.244,
+   "words": [
+    {
+     "t": 230.733,
+     "d": 0.512,
+     "w": "Catatan"
+    },
+    {
+     "t": 231.245,
+     "d": 0.167,
+     "w": "bab"
+    },
+    {
+     "t": 231.412,
+     "d": 0.571,
+     "w": "sepuluh"
+    },
+    {
+     "t": 232.778,
+     "d": 0.274,
+     "w": "Form"
+    },
+    {
+     "t": 233.052,
+     "d": 0.369,
+     "w": "Cetak"
+    },
+    {
+     "t": 233.421,
+     "d": 0.25,
+     "w": "tidak"
+    },
+    {
+     "t": 233.671,
+     "d": 0.548,
+     "w": "diisi"
+    },
+    {
+     "t": 235.016,
+     "d": 0.25,
+     "w": "Kalau"
+    },
+    {
+     "t": 235.266,
+     "d": 0.167,
+     "w": "ada"
+    },
+    {
+     "t": 235.432,
+     "d": 0.131,
+     "w": "yang"
+    },
+    {
+     "t": 235.563,
+     "d": 0.488,
+     "w": "kosong"
+    },
+    {
+     "t": 236.325,
+     "d": 0.44,
+     "w": "perbaiki"
+    },
+    {
+     "t": 236.766,
+     "d": 0.083,
+     "w": "di"
+    },
+    {
+     "t": 236.849,
+     "d": 0.369,
+     "w": "formulir"
+    },
+    {
+     "t": 237.218,
+     "d": 0.607,
+     "w": "asalnya"
+    },
+    {
+     "t": 238.623,
+     "d": 0.25,
+     "w": "Dan"
+    },
+    {
+     "t": 238.873,
+     "d": 0.524,
+     "w": "prioritas"
+    },
+    {
+     "t": 239.397,
+     "d": 0.321,
+     "w": "adalah"
+    },
+    {
+     "t": 239.718,
+     "d": 0.143,
+     "w": "yang"
+    },
+    {
+     "t": 239.861,
+     "d": 0.071,
+     "w": "di"
+    },
+    {
+     "t": 239.932,
+     "d": 0.179,
+     "w": "luar"
+    },
+    {
+     "t": 240.111,
+     "d": 0.298,
+     "w": "Selera"
+    },
+    {
+     "t": 240.409,
+     "d": 0.595,
+     "w": "Risiko"
+    }
+   ],
+   "poin": [
+    "Form Cetak tidak diisi",
+    "Perbaiki di formulir asalnya",
+    "Prioritas = di luar Selera Risiko"
+   ],
+   "pemicu": [
+    "form",
+    "kalau",
+    "dan"
+   ]
+  },
+  {
+   "id": "s016",
+   "scene": "kartu-11",
+   "voice": "gadis",
+   "display": "Bab sebelas. Laporan.",
+   "start": 243.844,
+   "end": 246.995,
+   "words": [
+    {
+     "t": 243.904,
+     "d": 0.295,
+     "w": "Bab"
+    },
+    {
+     "t": 244.199,
+     "d": 0.873,
+     "w": "sebelas"
+    },
+    {
+     "t": 245.859,
+     "d": 0.896,
+     "w": "Laporan"
+    }
+   ]
+  },
+  {
+   "id": "s017",
+   "scene": "kartu-12",
+   "voice": "gadis",
+   "display": "Bab dua belas. Membaca hasilnya.",
+   "start": 249.145,
+   "end": 253.133,
+   "words": [
+    {
+     "t": 249.205,
+     "d": 0.366,
+     "w": "Bab"
+    },
+    {
+     "t": 249.571,
+     "d": 0.318,
+     "w": "dua"
+    },
+    {
+     "t": 249.889,
+     "d": 0.696,
+     "w": "belas"
+    },
+    {
+     "t": 251.372,
+     "d": 0.625,
+     "w": "Membaca"
+    },
+    {
+     "t": 251.997,
+     "d": 0.896,
+     "w": "hasilnya"
+    }
+   ]
+  },
+  {
+   "id": "s028",
+   "scene": "catatan-12",
+   "voice": "ardi",
+   "display": "Catatan bab dua belas. Baca angkanya bersama, bukan sendiri-sendiri. Klik sampai ke nama risiko dan pemiliknya. Dan gunakan ranking untuk pendampingan, bukan sanksi.",
+   "start": 254.983,
+   "end": 266.947,
+   "words": [
+    {
+     "t": 255.043,
+     "d": 0.524,
+     "w": "Catatan"
+    },
+    {
+     "t": 255.567,
+     "d": 0.202,
+     "w": "bab"
+    },
+    {
+     "t": 255.769,
+     "d": 0.19,
+     "w": "dua"
+    },
+    {
+     "t": 255.96,
+     "d": 0.5,
+     "w": "belas"
+    },
+    {
+     "t": 257.255,
+     "d": 0.345,
+     "w": "Baca"
+    },
+    {
+     "t": 257.6,
+     "d": 0.298,
+     "w": "angkanya"
+    },
+    {
+     "t": 257.898,
+     "d": 0.655,
+     "w": "bersama"
+    },
+    {
+     "t": 258.791,
+     "d": 0.333,
+     "w": "bukan"
+    },
+    {
+     "t": 259.124,
+     "d": 0.893,
+     "w": "sendiri-sendiri"
+    },
+    {
+     "t": 260.814,
+     "d": 0.25,
+     "w": "Klik"
+    },
+    {
+     "t": 261.064,
+     "d": 0.321,
+     "w": "sampai"
+    },
+    {
+     "t": 261.386,
+     "d": 0.083,
+     "w": "ke"
+    },
+    {
+     "t": 261.469,
+     "d": 0.179,
+     "w": "nama"
+    },
+    {
+     "t": 261.648,
+     "d": 0.405,
+     "w": "risiko"
+    },
+    {
+     "t": 262.053,
+     "d": 0.179,
+     "w": "dan"
+    },
+    {
+     "t": 262.231,
+     "d": 0.667,
+     "w": "pemiliknya"
+    },
+    {
+     "t": 263.695,
+     "d": 0.238,
+     "w": "Dan"
+    },
+    {
+     "t": 263.933,
+     "d": 0.333,
+     "w": "gunakan"
+    },
+    {
+     "t": 264.267,
+     "d": 0.369,
+     "w": "ranking"
+    },
+    {
+     "t": 264.636,
+     "d": 0.202,
+     "w": "untuk"
+    },
+    {
+     "t": 264.838,
+     "d": 0.726,
+     "w": "pendampingan"
+    },
+    {
+     "t": 265.779,
+     "d": 0.345,
+     "w": "bukan"
+    },
+    {
+     "t": 266.124,
+     "d": 0.583,
+     "w": "sanksi"
+    }
+   ],
+   "poin": [
+    "Baca angka bersama, bukan sendiri-sendiri",
+    "Klik sampai ke nama dan pemiliknya",
+    "Ranking untuk pendampingan, bukan sanksi"
+   ],
+   "pemicu": [
+    "baca",
+    "klik",
+    "dan"
+   ]
+  },
+  {
+   "id": "s018",
+   "scene": "kartu-13",
+   "voice": "gadis",
+   "display": "Terakhir, tiga penolong kecil.",
+   "start": 269.547,
+   "end": 272.253,
+   "words": [
+    {
+     "t": 269.607,
+     "d": 0.684,
+     "w": "Terakhir"
+    },
+    {
+     "t": 270.562,
+     "d": 0.342,
+     "w": "tiga"
+    },
+    {
+     "t": 270.904,
+     "d": 0.531,
+     "w": "penolong"
+    },
+    {
+     "t": 271.435,
+     "d": 0.578,
+     "w": "kecil"
+    }
+   ]
+  },
+  {
+   "id": "s029",
+   "scene": "tutup",
+   "voice": "gadis",
+   "display": "Jadi, dari mana saya mulai?",
+   "start": 274.303,
+   "end": 277.115,
+   "words": [
+    {
+     "t": 274.363,
+     "d": 0.672,
+     "w": "Jadi"
+    },
+    {
+     "t": 275.46,
+     "d": 0.295,
+     "w": "dari"
+    },
+    {
+     "t": 275.755,
+     "d": 0.318,
+     "w": "mana"
+    },
+    {
+     "t": 276.073,
+     "d": 0.295,
+     "w": "saya"
+    },
+    {
+     "t": 276.368,
+     "d": 0.507,
+     "w": "mulai"
+    }
+   ]
+  },
+  {
+   "id": "s030",
+   "scene": "tutup",
+   "voice": "ardi",
+   "display": "Dari menu paling atas, lalu turun satu per satu. Urutan menu adalah urutan kerjanya.",
+   "start": 278.035,
+   "end": 283.715,
+   "words": [
+    {
+     "t": 278.095,
+     "d": 0.238,
+     "w": "Dari"
+    },
+    {
+     "t": 278.333,
+     "d": 0.167,
+     "w": "menu"
+    },
+    {
+     "t": 278.5,
+     "d": 0.19,
+     "w": "paling"
+    },
+    {
+     "t": 278.69,
+     "d": 0.5,
+     "w": "atas"
+    },
+    {
+     "t": 279.428,
+     "d": 0.238,
+     "w": "lalu"
+    },
+    {
+     "t": 279.666,
+     "d": 0.25,
+     "w": "turun"
+    },
+    {
+     "t": 279.916,
+     "d": 0.25,
+     "w": "satu"
+    },
+    {
+     "t": 280.166,
+     "d": 0.107,
+     "w": "per"
+    },
+    {
+     "t": 280.274,
+     "d": 0.512,
+     "w": "satu"
+    },
+    {
+     "t": 281.582,
+     "d": 0.369,
+     "w": "Urutan"
+    },
+    {
+     "t": 281.951,
+     "d": 0.262,
+     "w": "menu"
+    },
+    {
+     "t": 282.213,
+     "d": 0.298,
+     "w": "adalah"
+    },
+    {
+     "t": 282.511,
+     "d": 0.321,
+     "w": "urutan"
+    },
+    {
+     "t": 282.832,
+     "d": 0.643,
+     "w": "kerjanya"
+    }
+   ]
+  },
+  {
+   "id": "s031",
+   "scene": "tutup",
+   "voice": "ardi",
+   "display": "Sekali lagi, seluruh isian tadi data contoh. Penilaian yang sesungguhnya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.",
+   "start": 284.055,
+   "end": 292.638,
+   "words": [
+    {
+     "t": 284.115,
+     "d": 0.345,
+     "w": "Sekali"
+    },
+    {
+     "t": 284.46,
+     "d": 0.488,
+     "w": "lagi"
+    },
+    {
+     "t": 285.21,
+     "d": 0.333,
+     "w": "seluruh"
+    },
+    {
+     "t": 285.544,
+     "d": 0.333,
+     "w": "isian"
+    },
+    {
+     "t": 285.877,
+     "d": 0.25,
+     "w": "tadi"
+    },
+    {
+     "t": 286.127,
+     "d": 0.202,
+     "w": "data"
+    },
+    {
+     "t": 286.329,
+     "d": 0.548,
+     "w": "contoh"
+    },
+    {
+     "t": 287.672,
+     "d": 0.476,
+     "w": "Penilaian"
+    },
+    {
+     "t": 288.148,
+     "d": 0.107,
+     "w": "yang"
+    },
+    {
+     "t": 288.255,
+     "d": 0.571,
+     "w": "sesungguhnya"
+    },
+    {
+     "t": 288.827,
+     "d": 0.345,
+     "w": "kembali"
+    },
+    {
+     "t": 289.172,
+     "d": 0.262,
+     "w": "kepada"
+    },
+    {
+     "t": 289.434,
+     "d": 0.488,
+     "w": "pertimbangan"
+    },
+    {
+     "t": 289.922,
+     "d": 0.286,
+     "w": "penilai"
+    },
+    {
+     "t": 290.208,
+     "d": 0.429,
+     "w": "risiko"
+    },
+    {
+     "t": 290.636,
+     "d": 0.095,
+     "w": "di"
+    },
+    {
+     "t": 290.732,
+     "d": 0.333,
+     "w": "perangkat"
+    },
+    {
+     "t": 291.065,
+     "d": 0.31,
+     "w": "daerah"
+    },
+    {
+     "t": 291.375,
+     "d": 0.274,
+     "w": "Anda"
+    },
+    {
+     "t": 291.648,
+     "d": 0.75,
+     "w": "masing-masing"
+    }
+   ]
+  },
+  {
+   "id": "s032",
+   "scene": "tutup",
+   "voice": "gadis",
+   "display": "Selamat bekerja. Dan selamat berlayar.",
+   "start": 293.478,
+   "end": 297.549,
+   "words": [
+    {
+     "t": 293.538,
+     "d": 0.649,
+     "w": "Selamat"
+    },
+    {
+     "t": 294.187,
+     "d": 0.755,
+     "w": "bekerja"
+    },
+    {
+     "t": 295.729,
+     "d": 0.295,
+     "w": "Dan"
+    },
+    {
+     "t": 296.023,
+     "d": 0.507,
+     "w": "selamat"
+    },
+    {
+     "t": 296.53,
+     "d": 0.778,
+     "w": "berlayar"
+    }
+   ]
+  },
+  {
+   "id": "s033",
+   "scene": "tutup",
+   "voice": "ardi",
+   "display": "Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.",
+   "start": 299.289,
+   "end": 305.565,
+   "words": [
+    {
+     "t": 299.349,
+     "d": 0.429,
+     "w": "Kopirait"
+    },
+    {
+     "t": 299.778,
+     "d": 1.024,
+     "w": "2026"
+    },
+    {
+     "t": 301.087,
+     "d": 0.333,
+     "w": "Sistem"
+    },
+    {
+     "t": 301.42,
+     "d": 0.5,
+     "w": "Arkitekcer"
+    },
+    {
+     "t": 301.92,
+     "d": 0.19,
+     "w": "en"
+    },
+    {
+     "t": 302.111,
+     "d": 0.5,
+     "w": "Divelopmen"
+    },
+    {
+     "t": 302.611,
+     "d": 0.19,
+     "w": "bai"
+    },
+    {
+     "t": 302.801,
+     "d": 0.44,
+     "w": "Nurhikmat"
+    },
+    {
+     "t": 303.242,
+     "d": 0.524,
+     "w": "Muhammad"
+    },
+    {
+     "t": 304.028,
+     "d": 0.595,
+     "w": "Inspektorat"
+    },
+    {
+     "t": 304.623,
+     "d": 0.274,
+     "w": "Aceh"
+    },
+    {
+     "t": 304.897,
+     "d": 0.429,
+     "w": "Barat"
+    }
+   ]
+  }
+ ],
+ "kartu": {
+  "1": [
+   "Masuk dan mengenal layar",
+   "Akun, Dasbor, sesi, dan urutan menu"
+  ],
+  "2": [
+   "Data Umum",
+   "Kepala setiap formulir cetak"
+  ],
+  "3": [
+   "CEE",
+   "Memeriksa kapal sebelum berlayar"
+  ],
+  "4": [
+   "Risiko Strategis Pemda",
+   "Formulir 1a dan 1b"
+  ],
+  "5": [
+   "Risiko Strategis PD",
+   "Formulir 2a dan 2b"
+  ],
+  "6": [
+   "Risiko Operasional",
+   "Formulir 3a dan 3b"
+  ],
+  "7": [
+   "Monitoring dan Evaluasi",
+   "Formulir 8, 9, dan 10"
+  ],
+  "8": [
+   "Ketika risiko terjadi",
+   "Sisi pelapor, lewat kode QR"
+  ],
+  "9": [
+   "Dari laporan jadi catatan",
+   "Sisi PIC: telaah, daftarkan, catat"
+  ],
+  "10": [
+   "Form Cetak",
+   "Kertas kerja siap tanda tangan"
+  ],
+  "11": [
+   "Laporan",
+   "Laporan 11 sampai 14"
+  ],
+  "12": [
+   "Membaca hasilnya",
+   "Dasbor untuk pimpinan"
+  ],
+  "13": [
+   "Penutup",
+   "Tiga penolong kecil"
+  ]
+ }
+}

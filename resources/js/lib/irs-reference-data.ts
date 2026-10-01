@@ -71,6 +71,35 @@ export function penyebabKategoriSuffix(kategori: string): string {
     return PENYEBAB_INTERNAL_KATEGORI.includes(kategori) ? '- Int' : '- Eks';
 }
 
+// Pemicu laporan kejadian yang tersimpan SEBELUM formulir lapor memakai
+// suffix di atas berbentuk "Method (uraian)". Formulir risiko hanya mengenali
+// "Method - Int (uraian)", sehingga tanpa konversi ini seluruh pemicu jatuh
+// ke kotak kategori pertama (Men) saat laporan dibuka lewat "Input ke Register
+// Risiko". Segmen yang sudah bersuffix atau tidak dikenal dibiarkan apa adanya.
+export function pemicuKeFormatPenyebab(teks: string): string {
+    const kategori = [...PENYEBAB_INTERNAL_KATEGORI, ...PENYEBAB_EKSTERNAL_KATEGORI];
+    const segmen: string[] = [];
+    let kedalaman = 0;
+    let kini = '';
+    for (const ch of teks ?? '') {
+        if (ch === '(') kedalaman++;
+        if (ch === ')') kedalaman--;
+        if (ch === ';' && kedalaman === 0) {
+            segmen.push(kini.trim());
+            kini = '';
+            continue;
+        }
+        kini += ch;
+    }
+    if (kini.trim()) segmen.push(kini.trim());
+    return segmen
+        .map((s) => {
+            const k = kategori.find((c) => s === c || s.startsWith(`${c} (`));
+            return k ? `${k} ${penyebabKategoriSuffix(k)}${s.slice(k.length)}` : s;
+        })
+        .join('; ');
+}
+
 // Hitung "SUMBER SEBAB RISIKO" (Internal / Eksternal / Internal dan
 // Eksternal) dari isi "URAIAN PENYEBAB RISIKO" — dipakai form irs/irs_pd/
 // iro_pd supaya field itu tidak lagi diisi manual, cukup tersirat dari

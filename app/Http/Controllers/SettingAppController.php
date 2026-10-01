@@ -80,6 +80,7 @@ class SettingAppController extends Controller
             'tutorial_video_subtitle_remove' => 'nullable|boolean',
             'tutorial_video_gain_narration' => 'nullable|integer|min:0|max:200',
             'tutorial_video_gain_music' => 'nullable|integer|min:0|max:200',
+            'tutorial_video_gain_sfx' => 'nullable|integer|min:0|max:200',
             'tutorial_video_subtitle_enabled' => 'nullable|boolean',
             'tutorial_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             'warna' => 'nullable|string|max:20',

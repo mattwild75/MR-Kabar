@@ -153,11 +153,11 @@ export default function PanduanIndex({ bolehLihatRekap = false, rekapKuis = null
                         <section id="video-tutorial" className="bg-card scroll-mt-20 rounded-md border p-5">
                             <h2 className="mb-1 text-lg font-semibold">Video Tutorial (dari awal sampai laporan)</h2>
                             <p className="text-muted-foreground mb-3 text-sm">
-                                Satu perangkat daerah menempuh satu tahun penuh — dari Data Umum, CEE, penetapan konteks, identifikasi dan analisis
-                                risiko, rencana tindak, monitoring, sampai formulir cetaknya siap ditandatangani. Di tengahnya, apa yang dikerjakan
-                                ketika risikonya benar-benar terjadi: dari sisi pelapor yang masuk lewat kode QR tanpa punya akun, sampai sisi PIC
-                                yang menelaahnya menjadi catatan resmi di Formulir 10. Ditutup dengan cara pimpinan membaca datanya lewat akun
-                                peninjau. Setiap isian dan setiap pilihan dijelaskan alasannya. Klik judul bab untuk melompat ke bagiannya.
+                                Tiga belas bab, dipandu dua suara: Ardi yang memperagakan, dan Gadis sebagai PIC baru yang bertanya. Satu perangkat
+                                daerah menempuh satu tahun penilaian penuh — Data Umum, CEE, tiga tingkatan risiko, pengisian Formulir 8 sampai 10,
+                                kejadian risiko dari sisi pelapor (lewat kode QR, tanpa akun) dan sisi PIC yang mencatatnya ke Formulir 10, sampai
+                                formulir cetak, laporan, dan cara pimpinan membaca Dasbor. Setiap bab diakhiri catatan singkat; bagian pengetikan yang
+                                panjang dipercepat. Klik judul bab untuk melompat ke bagiannya.
                             </p>
                             <p className="mb-4 rounded-md border border-amber-500/60 bg-amber-50 p-3 text-sm text-amber-900 dark:bg-amber-950/30 dark:text-amber-200">
                                 <strong>Seluruh isian dalam video ini adalah data contoh.</strong> Isinya disusun agar masuk akal dan mendekati
