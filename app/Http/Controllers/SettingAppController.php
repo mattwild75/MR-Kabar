@@ -131,10 +131,10 @@ class SettingAppController extends Controller
             $data['login_splash_video'] = $request->file('login_splash_video')->store('login-splash', 'public');
         } elseif ($removeSplashVideo) {
             // Hapus video splash kembali ke "tanpa video kustom" — halaman
-            // login-splash.tsx fallback ke video statis bawaan
-            // (/media/logo-animation.mp4) kalau kolom ini kosong, BUKAN
-            // langsung menonaktifkan splash sama sekali (itu tanggung
-            // jawab toggle login_splash_enabled yang terpisah).
+            // login-splash.tsx memakai animasi logo bawaan (lapisan di
+            // public/media/splash, dibuat scripts/splash/lapisan.py) kalau
+            // kolom ini kosong, BUKAN langsung menonaktifkan splash sama
+            // sekali (itu tanggung jawab toggle login_splash_enabled).
             $data['login_splash_video'] = null;
         } else {
             unset($data['login_splash_video']);

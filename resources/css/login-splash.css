@@ -1,0 +1,258 @@
+/*
+ * Splash sesudah login (resources/js/components/login-splash.tsx).
+ *
+ * Warna diambil dari logo: biru peta, kuning cincin dan simpul, oranye
+ * segitiga risiko. Tema gelap hanya mengganti token di bawah - semua elemen
+ * memakai token, tidak ada warna yang ditulis langsung di aturan lain.
+ */
+.splash {
+    --sp-latar: #f3f7fc;
+    --sp-teks: #0c1b30;
+    --sp-redup: #5a6a80;
+    --sp-biru: 14 165 233;
+    --sp-kuning: 250 204 21;
+    --sp-oranye: 249 115 22;
+    --sp-tinta: 15 40 80;
+    --sp-kisi: 0.075;
+    --sp-tombol: rgb(255 255 255 / 0.62);
+    background: var(--sp-latar);
+    color: var(--sp-teks);
+    overflow: hidden;
+}
+
+.dark .splash {
+    --sp-latar: #050b16;
+    --sp-teks: #eef4ff;
+    --sp-redup: #8b9db6;
+    --sp-tinta: 170 205 255;
+    --sp-kisi: 0.07;
+    --sp-tombol: rgb(255 255 255 / 0.06);
+}
+
+/*
+ * Cahaya aurora: gumpal warna logo yang melayang pelan. SENGAJA tanpa
+ * filter blur: blur pada lapisan seluas 150% layar yang bergerak harus
+ * dihitung ulang tiap bingkai dan membuat bingkai pertama tersendat di
+ * komputer kantor; gradien radialnya sendiri sudah cukup lembut.
+ */
+.splash-aurora {
+    position: absolute;
+    inset: -25%;
+    background:
+        radial-gradient(38% 34% at 24% 30%, rgb(var(--sp-biru) / 0.3), transparent 70%),
+        radial-gradient(34% 30% at 78% 72%, rgb(var(--sp-kuning) / 0.28), transparent 70%),
+        radial-gradient(28% 26% at 82% 24%, rgb(var(--sp-oranye) / 0.17), transparent 70%),
+        radial-gradient(30% 30% at 20% 78%, rgb(var(--sp-oranye) / 0.1), transparent 70%);
+    will-change: transform, opacity;
+}
+
+.dark .splash-aurora {
+    background:
+        radial-gradient(38% 34% at 24% 30%, rgb(var(--sp-biru) / 0.34), transparent 70%),
+        radial-gradient(34% 30% at 78% 72%, rgb(var(--sp-kuning) / 0.16), transparent 70%),
+        radial-gradient(28% 26% at 82% 24%, rgb(var(--sp-oranye) / 0.2), transparent 70%),
+        radial-gradient(30% 30% at 20% 78%, rgb(var(--sp-biru) / 0.14), transparent 70%);
+}
+
+/* Kisi titik seperti kertas peta, memudar ke tepi. */
+.splash-kisi {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at center, rgb(var(--sp-tinta) / var(--sp-kisi)) 1.2px, transparent 1.7px);
+    background-size: 28px 28px;
+    background-position: center;
+    mask-image: radial-gradient(ellipse 58% 56% at 50% 46%, #000 25%, transparent 80%);
+}
+
+/* Butiran halus supaya gradasi tidak tampak berpita. */
+.splash-butir {
+    position: absolute;
+    inset: 0;
+    opacity: 0.045;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.dark .splash-butir {
+    opacity: 0.06;
+}
+
+.splash-panggung {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(10px, 2.2vh, 24px);
+    perspective: 1400px;
+}
+
+.splash-logo {
+    position: relative;
+    height: min(62vh, 610px);
+    max-width: 88vw;
+    aspect-ratio: 1479 / 1374;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.splash-logo > svg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.splash-bayang {
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    bottom: -5%;
+    height: 11%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(var(--sp-tinta) / 0.18), rgb(var(--sp-tinta) / 0.06) 60%, transparent);
+}
+
+.dark .splash-bayang {
+    background: radial-gradient(closest-side, rgb(var(--sp-biru) / 0.22), transparent);
+}
+
+/*
+ * Kilau terakhir yang menyapu logo: pita cahaya di dalam elemen bertopeng
+ * siluet logo. Dikerjakan kompositor (transform pada anak elemen bertopeng),
+ * bukan digambar ulang tiap bingkai seperti topeng SVG.
+ */
+.splash-kilau {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+    -webkit-mask-image: var(--sp-siluet);
+    mask-image: var(--sp-siluet);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    will-change: transform;
+}
+
+.splash-kilau > i {
+    position: absolute;
+    top: -20%;
+    bottom: -20%;
+    left: 0;
+    width: 42%;
+    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.95) 50%, transparent);
+    transform: translateX(-120%) skewX(-16deg);
+    will-change: transform;
+}
+
+/*
+ * Tahap pemanasan (lihat komponen): logo utuh digambar nyaris tak terlihat
+ * selama beberapa bingkai, supaya biaya gambar pertamanya tidak jatuh di
+ * tengah animasi.
+ */
+.splash--panas .splash-panggung {
+    opacity: 0.002 !important;
+}
+
+.splash--panas svg [data-sp] {
+    opacity: 1 !important;
+}
+
+.splash--panas svg [data-sp='m-peta'],
+.splash--panas svg [data-sp='m-garis'],
+.splash--panas svg [data-sp='m-tagline'] {
+    transform: none !important;
+}
+
+.splash--panas svg [data-sp='m-cincin'] {
+    stroke-dashoffset: 0 !important;
+}
+
+/* Elemen SVG yang diputar/diskalakan di sekitar dirinya sendiri. */
+.splash svg .sp-diri {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+.splash svg .sp-alas {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+}
+
+.splash svg .sp-kiri {
+    transform-box: fill-box;
+    transform-origin: 0% 50%;
+}
+
+.splash svg .sp-kanvas {
+    transform-box: view-box;
+}
+
+.splash-sapa {
+    text-align: center;
+    line-height: 1.35;
+    text-wrap: balance;
+}
+
+.splash-sapa p {
+    margin: 0;
+    font-size: clamp(15px, 1.9vh, 19px);
+    letter-spacing: 0.005em;
+}
+
+.splash-sapa strong {
+    font-weight: 650;
+}
+
+.splash-sapa small {
+    display: block;
+    margin-top: 4px;
+    font-size: clamp(11px, 1.35vh, 13px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--sp-redup);
+}
+
+.splash-lewati {
+    position: absolute;
+    right: clamp(16px, 2.2vw, 30px);
+    bottom: clamp(16px, 2.6vh, 28px);
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 14px 7px 8px;
+    border-radius: 999px;
+    border: 1px solid rgb(var(--sp-tinta) / 0.14);
+    background: var(--sp-tombol);
+    color: var(--sp-redup);
+    font-size: 13px;
+    cursor: pointer;
+    transition:
+        color 0.2s,
+        border-color 0.2s;
+}
+
+.splash-lewati:hover {
+    color: var(--sp-teks);
+    border-color: rgb(var(--sp-tinta) / 0.3);
+}
+
+.splash-lewati:focus-visible {
+    outline: 2px solid rgb(var(--sp-biru));
+    outline-offset: 3px;
+}
+
+.splash-lewati svg {
+    width: 20px;
+    height: 20px;
+    transform: rotate(-90deg);
+}
+
+.splash-lewati kbd {
+    font: inherit;
+    font-size: 11px;
+    line-height: 1;
+    padding: 3px 6px;
+    border-radius: 6px;
+    border: 1px solid rgb(var(--sp-tinta) / 0.18);
+}

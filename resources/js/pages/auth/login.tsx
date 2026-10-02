@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, useForm, usePage } from '@inertiajs/react';
 import { ArrowRight, LoaderCircle, PlayCircle } from 'lucide-react';
 import { FormEventHandler, useEffect, useState } from 'react';
 
@@ -14,6 +14,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { QrCodeWithLogo } from '@/components/ui/qr-code-with-logo';
 import AuthLayout from '@/layouts/auth-layout';
 import { useEduVideo } from '@/lib/edu-video';
+import { muatSplashLebihDulu } from '@/lib/splash-logo';
 
 type LoginForm = {
     username: string;
@@ -37,6 +38,16 @@ export default function Login({ status, canResetPassword }: LoginProps) {
     // (pola yang sama dengan lapor-qr-code.tsx supaya aman untuk SSR).
     const [laporUrl, setLaporUrl] = useState('/login/lapor-kejadian');
     useEffect(() => setLaporUrl(`${window.location.origin}/login/lapor-kejadian`), []);
+
+    // Lapisan splash sesudah login dimuat selagi pengguna mengetik sandi, supaya
+    // animasinya langsung mulai dari cache begitu masuk. Hanya bila splash
+    // bawaan yang akan dipakai (aktif dan tanpa video unggahan Admin).
+    const splash = (usePage().props as { setting?: { login_splash_enabled?: boolean; login_splash_video?: string | null } }).setting;
+    useEffect(() => {
+        if (splash?.login_splash_enabled === false || splash?.login_splash_video) return;
+        const id = window.setTimeout(muatSplashLebihDulu, 1200);
+        return () => window.clearTimeout(id);
+    }, [splash?.login_splash_enabled, splash?.login_splash_video]);
 
     const video = useEduVideo();
 

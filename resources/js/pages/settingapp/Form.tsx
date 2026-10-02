@@ -298,8 +298,9 @@ export default function SettingForm({ setting }: Props) {
                             <Separator />
                             <h3 className="text-lg font-semibold">Login Splash Screen</h3>
                             <p className="text-muted-foreground text-sm">
-                                Video yang tampil sesaat setelah user berhasil login (sebelum masuk ke Dashboard). Kalau tidak mengunggah video
-                                sendiri, aplikasi memakai video contoh bawaan.
+                                Tampil sesaat setelah user berhasil login (sebelum masuk ke Dashboard). Bawaannya animasi logo MR Kabar: ±4,5 detik,
+                                tajam di layar apa pun, ikut tema terang/gelap, menyapa nama user, dan bisa dilewati (tombol Lewati atau Esc). Unggah
+                                video sendiri hanya kalau ingin menggantinya.
                             </p>
 
                             <div className="flex items-center gap-3 rounded-md border p-3">
@@ -350,7 +351,7 @@ export default function SettingForm({ setting }: Props) {
                                                             setData('login_splash_video', null);
                                                         }}
                                                     >
-                                                        Hapus Video (kembali ke video contoh bawaan)
+                                                        Hapus Video (kembali ke animasi logo bawaan)
                                                     </Button>
                                                 </div>
                                             </div>
@@ -358,13 +359,13 @@ export default function SettingForm({ setting }: Props) {
 
                                         {removeSplashVideo && (
                                             <p className="text-sm text-amber-600">
-                                                Video kustom akan dihapus saat disimpan — akan kembali memakai video contoh bawaan.
+                                                Video kustom akan dihapus saat disimpan — akan kembali memakai animasi logo bawaan.
                                             </p>
                                         )}
 
                                         {!splashVideoPreview && !removeSplashVideo && (
                                             <p className="text-muted-foreground text-xs italic">
-                                                Belum ada video kustom — saat ini memakai video contoh bawaan.
+                                                Belum ada video kustom — saat ini memakai animasi logo bawaan.
                                             </p>
                                         )}
                                     </div>
@@ -376,13 +377,14 @@ export default function SettingForm({ setting }: Props) {
                                             onCheckedChange={(checked) => setSplashMuted(checked === true)}
                                         />
                                         <Label htmlFor="splash_muted" className="flex-1 text-sm font-normal">
-                                            Bisukan suara video (disarankan tetap dicentang)
+                                            Bisukan suara splash (disarankan tetap dicentang)
                                         </Label>
                                     </div>
                                     {!splashMuted && (
                                         <p className="text-xs text-amber-600">
-                                            Peringatan: browser modern (Chrome/Safari) sering memblokir autoplay video BERSUARA tanpa interaksi user
-                                            terlebih dulu — video mungkin tidak otomatis berbunyi di beberapa perangkat walau opsi ini dinyalakan.
+                                            Animasi logo bawaan akan berbunyi lembut (denting simpul, desir cincin, akor penutup). Browser modern
+                                            (Chrome/Safari) bisa memblokir suara yang diputar otomatis, jadi di beberapa perangkat splash tetap senyap
+                                            walau opsi ini dimatikan.
                                         </p>
                                     )}
                                 </>
