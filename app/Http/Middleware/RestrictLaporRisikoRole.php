@@ -17,6 +17,11 @@ class RestrictLaporRisikoRole
 {
     private const ALLOWED_PREFIXES = [
         '/lapor-kejadian',
+        // Laporan dugaan kecurangan dari tab kedua halaman Lapor: kirim,
+        // cek status, dan jawab lewat tiket. Tanpa baris ini kirimannya
+        // dipantulkan ke /dashboard TANPA tersimpan — dan karena pantulan itu
+        // kunjungan yang berhasil, formulir justru menampilkan "terkirim".
+        '/lapor-kecurangan',
         '/dashboard',
         '/panduan',
         // Lihat catatan yang sama di RestrictCeeSurveyRole: URL QR harus

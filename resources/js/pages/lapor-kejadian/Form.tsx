@@ -160,7 +160,7 @@ export default function FormKejadianRisiko({ opdList }: Props) {
                     <CardTitle className="text-base">Mode Pelaporan</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                         <Button type="button" variant={mode === 'terdaftar' ? 'default' : 'outline'} size="sm" onClick={() => setMode('terdaftar')}>
                             Cek Risiko yang Sudah Terjadi
                         </Button>

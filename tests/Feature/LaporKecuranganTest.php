@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /**
@@ -30,6 +31,54 @@ class LaporKecuranganTest extends TestCase
     private function pelapor(): User
     {
         return User::factory()->create();
+    }
+
+    /** Akun bersama yang dipakai publik lewat kode QR, lengkap dengan perannya. */
+    private function akunBersamaLapor(): User
+    {
+        Role::findOrCreate('lapor-risiko', 'web');
+        $u = User::factory()->create();
+        $u->assignRole('lapor-risiko');
+
+        return $u;
+    }
+
+    /**
+     * Pelapor sungguhan tidak memakai akun biasa: ia masuk lewat QR ke akun
+     * bersama LAPOR, yang dikunci RestrictLaporRisikoRole ke daftar alamat
+     * tertentu. Uji lain di berkas ini memakai akun biasa, jadi tidak akan
+     * pernah melihat kalau alamat /lapor-kecurangan tertinggal dari daftar itu
+     * — dan memang pernah tertinggal: kirimannya dipantulkan ke /dashboard
+     * tanpa tersimpan, sementara formulir menampilkan "terkirim".
+     */
+    public function test_akun_bersama_lapor_lewat_qr_bisa_mengirim_mengecek_dan_menjawab(): void
+    {
+        $lapor = $this->akunBersamaLapor();
+
+        $this->actingAs($lapor)->post('/lapor-kecurangan', [
+            'mode_pelapor' => 'anonim_penuh',
+            'uraian_kejadian' => 'Pungutan tanpa kuitansi di loket pelayanan',
+        ])->assertRedirect()->assertSessionHas('tiketBaru');
+
+        $this->assertSame(1, LaporanKecurangan::count(), 'laporan dari akun bersama LAPOR harus tersimpan');
+        $tiket = session('tiketBaru');
+
+        $this->actingAs($lapor)->post('/lapor-kecurangan/status', [
+            'nomor_tiket' => $tiket['nomor_tiket'],
+            'kode_akses' => $tiket['kode_akses'],
+        ])->assertSessionHas('hasilTiket');
+
+        $this->actingAs($lapor)->post('/lapor-kecurangan/balas', [
+            'nomor_tiket' => $tiket['nomor_tiket'],
+            'kode_akses' => $tiket['kode_akses'],
+            'isi' => 'Sekitar pukul sepuluh pagi.',
+        ])->assertSessionHas('success');
+
+        $this->assertDatabaseHas('pesan_laporan_kecurangan', ['dari' => 'pelapor', 'isi' => 'Sekitar pukul sepuluh pagi.']);
+
+        // Membuka alamat kirim tidak berarti membuka rekap: rekap tetap
+        // tertutup bagi akun yang kredensialnya dipegang publik.
+        $this->actingAs($lapor)->get('/fraud/rekap-lapor')->assertRedirect('/dashboard');
     }
 
     public function test_halaman_lapor_memuat_kedua_formulir_dalam_satu_halaman(): void
