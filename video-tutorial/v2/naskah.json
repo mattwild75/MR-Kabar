@@ -25,13 +25,22 @@
       {
        "t": "sorot",
        "ms": 1800,
-       "sel": "#username"
+       "sel": "#username",
+       "pada": [
+        0,
+        "nama"
+       ]
       },
       {
        "t": "ketik",
        "teks": "{AKUN}",
-       "laju": 1.0,
+       "laju": 1.5,
        "sel": "#username"
+      },
+      {
+       "t": "sorot",
+       "ms": 1500,
+       "sel": "#password"
       }
      ],
      "id": "1-01"
@@ -111,6 +120,13 @@
        "voice": "gadis",
        "teks": "Dan tidak satu angka pun di sini diketik tangan. Semuanya dihitung dari formulir yang sebentar lagi kita isi.",
        "tts": "Dan tidak satu angka pun di sini diketik tangan. Semuanya dihitung dari formulir yang sebentar lagi kita isi."
+      },
+      {
+       "id": "n007",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Satu kartu yang perlu diingat: Jadwal Penilaian Risiko. Tenggat setiap tahapan ada di sana, dan garis waktunya terbuka kalau diklik.",
+       "tts": "Satu kartu yang perlu diingat: Jadwal Penilaian Risiko. Tenggat setiap tahapan ada di sana, dan garis waktunya terbuka kalau diklik."
       }
      ],
      "aksi": [
@@ -132,15 +148,28 @@
       },
       {
        "t": "catat",
-       "judul": "Jadwal",
-       "isi": "Tenggat tiap tahapan penilaian ada di sini. Klik untuk melihat garis waktunya.",
+       "judul": "Dihitung otomatis",
+       "isi": "Tidak ada angka Dasbor yang diketik. Semuanya berasal dari formulir.",
        "jenis": "tips",
-       "ms": 5600,
-       "teks": "Jadwal Penilaian Risiko 2026",
+       "ms": 5200,
+       "teks": "RTP Selesai Disusun",
        "latar": true,
        "pada": [
         1,
         "dihitung"
+       ]
+      },
+      {
+       "t": "catat",
+       "judul": "Jadwal",
+       "isi": "Tenggat tiap tahapan penilaian ada di sini. Klik untuk melihat garis waktunya.",
+       "jenis": "tips",
+       "ms": 6400,
+       "teks": "Jadwal Penilaian Risiko 2026",
+       "latar": true,
+       "pada": [
+        2,
+        "jadwal"
        ]
       }
      ],
@@ -149,14 +178,14 @@
     {
      "narasi": [
       {
-       "id": "n007",
+       "id": "n008",
        "suara": "a",
        "voice": "ardi",
        "teks": "Satu kebiasaan sejak hari pertama. Sesi berakhir otomatis empat jam sesudah masuk, dihitung sejak login, bukan sejak terakhir aktif.",
        "tts": "Satu kebiasaan sejak hari pertama. Sesi berakhir otomatis empat jam sesudah masuk, dihitung sejak login, bukan sejak terakhir aktif."
       },
       {
-       "id": "n008",
+       "id": "n009",
        "suara": "g",
        "voice": "gadis",
        "teks": "Semenit sebelum habis muncul peringatan Lanjutkan atau Keluar. Simpan dulu isian Anda, baru pilih Lanjutkan.",
@@ -182,14 +211,14 @@
     {
      "narasi": [
       {
-       "id": "n009",
+       "id": "n010",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sekarang menu di kiri. Urutannya bukan asal; inilah urutan kerjanya.",
        "tts": "Sekarang menu di kiri. Urutannya bukan asal; inilah urutan kerjanya."
       },
       {
-       "id": "n010",
+       "id": "n011",
        "suara": "g",
        "voice": "gadis",
        "teks": "Form Input dulu, lalu Form Monitoring dan Evaluasi, baru Form Cetak. Kerjakan dari atas ke bawah, dan tidak ada yang terlewat.",
@@ -243,7 +272,7 @@
     {
      "narasi": [
       {
-       "id": "n011",
+       "id": "n012",
        "suara": "a",
        "voice": "ardi",
        "teks": "Menu pertama di bawah Form Input: Data Umum. Diisi paling awal, karena isinya menjadi kepala setiap formulir cetak dan blok tanda tangannya.",
@@ -271,14 +300,14 @@
     {
      "narasi": [
       {
-       "id": "n012",
+       "id": "n013",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kolom bertanda bintang sudah terisi dari pengaturan pemerintah daerah. Sisanya menerangkan siapa yang mengisi.",
        "tts": "Kolom bertanda bintang sudah terisi dari pengaturan pemerintah daerah. Sisanya menerangkan siapa yang mengisi."
       },
       {
-       "id": "n013",
+       "id": "n014",
        "suara": "a",
        "voice": "ardi",
        "teks": "Nama dinas ditulis lengkap, karena kalimat inilah yang tercetak di kepala formulir.",
@@ -287,16 +316,29 @@
      ],
      "aksi": [
       {
+       "t": "sorot",
+       "ms": 2200,
+       "sel": "#pemerintah_kabkota",
+       "pada": [
+        0,
+        "kolom"
+       ]
+      },
+      {
        "t": "ketik",
        "teks": "UNSUR PENGAWASAN URUSAN PEMERINTAHAN (PENUNJANG)",
-       "laju": 3.2,
+       "laju": 3.6,
        "sel": "#nama_urusan",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        0,
+        "sisanya"
+       ]
       },
       {
        "t": "ketik",
        "teks": "INSPEKTORAT DAERAH",
-       "laju": 3.0,
+       "laju": 3.4,
        "sel": "#nama_sub_urusan",
        "bersihkan": true
       },
@@ -305,7 +347,11 @@
        "teks": "INSPEKTORAT KABUPATEN ACEH BARAT",
        "laju": 3.0,
        "sel": "#nama_dinas_opd",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        1,
+        "nama"
+       ]
       }
      ],
      "id": "2-02"
@@ -313,14 +359,14 @@
     {
      "narasi": [
       {
-       "id": "n014",
+       "id": "n015",
        "suara": "g",
        "voice": "gadis",
        "teks": "Periode Penilaian. Ini yang paling sering keliru.",
        "tts": "Periode Penilaian. Ini yang paling sering keliru."
       },
       {
-       "id": "n015",
+       "id": "n016",
        "suara": "a",
        "voice": "ardi",
        "teks": "Isinya periode Renstra, dua ribu dua puluh lima sampai dua ribu dua puluh sembilan, bukan tahun berjalan. Yang menyekat data per tahun adalah Tahun Penilaian di kanan atas.",
@@ -329,11 +375,13 @@
      ],
      "aksi": [
       {
-       "t": "ketik",
-       "teks": "2025-2029",
-       "laju": 1.4,
+       "t": "sorot",
+       "ms": 1800,
        "sel": "#periode_penilaian",
-       "bersihkan": true
+       "pada": [
+        0,
+        "periode"
+       ]
       },
       {
        "t": "catat",
@@ -346,6 +394,17 @@
        "pada": [
         1,
         "renstra"
+       ]
+      },
+      {
+       "t": "ketik",
+       "teks": "2025-2029",
+       "laju": 1.4,
+       "sel": "#periode_penilaian",
+       "bersihkan": true,
+       "pada": [
+        1,
+        "dua"
        ]
       },
       {
@@ -364,16 +423,23 @@
     {
      "narasi": [
       {
-       "id": "n016",
+       "id": "n017",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Lalu kepala perangkat daerah dan PIC penilai risiko, lengkap dengan jabatan dan NIP.",
-       "tts": "Lalu kepala perangkat daerah dan Pi-Ai-Si penilai risiko, lengkap dengan jabatan dan Nip."
+       "teks": "Lalu kepala perangkat daerah: nama, jabatan, dan NIP.",
+       "tts": "Lalu kepala perangkat daerah: nama, jabatan, dan Nip."
       },
       {
-       "id": "n017",
+       "id": "n018",
        "suara": "g",
        "voice": "gadis",
+       "teks": "Kemudian PIC penilai risiko, dengan isian yang sama.",
+       "tts": "Kemudian Pi-Ai-Si penilai risiko, dengan isian yang sama."
+      },
+      {
+       "id": "n019",
+       "suara": "a",
+       "voice": "ardi",
        "teks": "Yang mengisi dan yang menandatangani itu dua hal berbeda, dan aplikasi memang memisahkannya.",
        "tts": "Yang mengisi dan yang menandatangani itu dua hal berbeda, dan aplikasi memang memisahkannya."
       }
@@ -382,42 +448,50 @@
       {
        "t": "ketik",
        "teks": "ZAKARIA, S.E., CGCAE",
-       "laju": 3.0,
+       "laju": 3.6,
        "sel": "#nama_kepala_dinas",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        0,
+        "nama"
+       ]
       },
       {
        "t": "ketik",
        "teks": "INSPEKTUR KABUPATEN ACEH BARAT",
-       "laju": 3.4,
+       "laju": 4.0,
        "sel": "#jabatan_kepala_dinas",
        "bersihkan": true
       },
       {
        "t": "ketik",
        "teks": "19720504 200112 1 002",
-       "laju": 3.0,
+       "laju": 3.6,
        "sel": "#nip_kepala_dinas",
        "bersihkan": true
       },
       {
        "t": "ketik",
        "teks": "JUPRI FEBRIAN, A.Md.",
-       "laju": 3.0,
+       "laju": 3.6,
        "sel": "#nama_pic",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        1,
+        "kemudian"
+       ]
       },
       {
        "t": "ketik",
        "teks": "AUDITOR TERAMPIL",
-       "laju": 3.2,
+       "laju": 3.6,
        "sel": "#jabatan_pic",
        "bersihkan": true
       },
       {
        "t": "ketik",
        "teks": "19940207 202203 1 005",
-       "laju": 3.0,
+       "laju": 3.6,
        "sel": "#nip_pic",
        "bersihkan": true
       }
@@ -427,21 +501,21 @@
     {
      "narasi": [
       {
-       "id": "n018",
+       "id": "n020",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sekarang tiga kolom dokumen sumber. Ketiganya bukan pengulangan.",
        "tts": "Sekarang tiga kolom dokumen sumber. Ketiganya bukan pengulangan."
       },
       {
-       "id": "n019",
+       "id": "n021",
        "suara": "g",
        "voice": "gadis",
        "teks": "RSP untuk risiko strategis pemda, sumbernya RPJMD. RSO untuk strategis perangkat daerah, sumbernya Renstra. ROO untuk operasional, sumbernya Renja dan DPA.",
        "tts": "Er-Es-Pe untuk risiko strategis pemda, sumbernya Er-Pe-Je-Em-De. Er-Es-O untuk strategis perangkat daerah, sumbernya Renstra. Er-O-O untuk operasional, sumbernya Renja dan De-Pe-A."
       },
       {
-       "id": "n020",
+       "id": "n022",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kalau ketiganya diisi dokumen yang sama, tingkatan risikonya belum dibedakan, dan kekeliruan itu terbawa sampai ke formulir cetak.",
@@ -465,14 +539,22 @@
        "teks": "Renstra Inspektorat Kabupaten Aceh Barat Tahun 2025-2029",
        "laju": 3.4,
        "sel": "#dokumen_sumber_rso",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        1,
+        "er-es-o"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Renja dan DPA Inspektorat Kabupaten Aceh Barat Tahun 2026",
        "laju": 3.4,
        "sel": "#dokumen_sumber_roo",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        1,
+        "er-o-o"
+       ]
       },
       {
        "t": "catat",
@@ -493,21 +575,21 @@
     {
      "narasi": [
       {
-       "id": "n021",
+       "id": "n023",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tempat dan tanggal tercetak tepat di atas tanda tangan.",
        "tts": "Tempat dan tanggal tercetak tepat di atas tanda tangan."
       },
       {
-       "id": "n022",
+       "id": "n024",
        "suara": "g",
        "voice": "gadis",
        "teks": "Lalu daftar penanda tangan milik perangkat daerah ini. Urutan barisnya menjadi urutan dari kiri ke kanan di formulir cetak.",
        "tts": "Lalu daftar penanda tangan milik perangkat daerah ini. Urutan barisnya menjadi urutan dari kiri ke kanan di formulir cetak."
       },
       {
-       "id": "n023",
+       "id": "n025",
        "suara": "a",
        "voice": "ardi",
        "teks": "Daftar ini tersambung dua arah dengan kolom Penyusun di Formulir 1c CEE, dicocokkan lewat jabatan. Jadi tulis jabatan dengan sebutan yang sama di kedua tempat.",
@@ -535,7 +617,11 @@
       {
        "t": "klik",
        "teks": "Tambah Penanda Tangan",
-       "tunggu": 600
+       "tunggu": 600,
+       "pada": [
+        1,
+        "daftar"
+       ]
       },
       {
        "t": "ttd",
@@ -591,14 +677,14 @@
     {
      "narasi": [
       {
-       "id": "n024",
+       "id": "n026",
        "suara": "g",
        "voice": "gadis",
        "teks": "Simpan.",
        "tts": "Simpan."
       },
       {
-       "id": "n025",
+       "id": "n027",
        "suara": "a",
        "voice": "ardi",
        "teks": "Mulai sekarang setiap formulir cetak sudah punya kepala dan blok tanda tangannya sendiri.",
@@ -627,21 +713,21 @@
     {
      "narasi": [
       {
-       "id": "n026",
+       "id": "n028",
        "suara": "a",
        "voice": "ardi",
        "teks": "Menu berikutnya CEE, Control Environment Evaluation: evaluasi lingkungan pengendalian.",
        "tts": "Menu berikutnya Ce-E-E, Kontrol Invaironment Evaluesyen: evaluasi lingkungan pengendalian."
       },
       {
-       "id": "n027",
+       "id": "n029",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kenapa dikerjakan sebelum penilaian risiko?",
        "tts": "Kenapa dikerjakan sebelum penilaian risiko?"
       },
       {
-       "id": "n028",
+       "id": "n030",
        "suara": "a",
        "voice": "ardi",
        "teks": "Karena kalau lingkungan pengendaliannya lemah, penilaian risiko di atasnya ikut rapuh. Ada empat formulir berurutan: 1a, 1b, 1c, dan 1d.",
@@ -670,14 +756,14 @@
     {
      "narasi": [
       {
-       "id": "n029",
+       "id": "n031",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 1a, kuesioner persepsi. Tiga puluh tujuh pertanyaan di delapan unsur.",
        "tts": "Formulir satu a, kuesioner persepsi. Tiga puluh tujuh pertanyaan di delapan unsur."
       },
       {
-       "id": "n030",
+       "id": "n032",
        "suara": "g",
        "voice": "gadis",
        "teks": "Respondennya minimal eselon empat, dan tidak cukup satu orang. Hasilnya baru bermakna setelah jawaban banyak responden dirata-ratakan.",
@@ -686,11 +772,25 @@
      ],
      "aksi": [
       {
+       "t": "sorot",
+       "ms": 2400,
+       "teks": "Terjawab",
+       "pada": [
+        0,
+        "tiga"
+       ],
+       "cadangan": true
+      },
+      {
        "t": "ketik",
        "teks": "JUPRI FEBRIAN, A.Md.",
        "laju": 3.0,
        "sel": "#responden_nama",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        1,
+        "respondennya"
+       ]
       },
       {
        "t": "ketik",
@@ -705,21 +805,21 @@
     {
      "narasi": [
       {
-       "id": "n031",
+       "id": "n033",
        "suara": "a",
        "voice": "ardi",
        "teks": "Pilihan jawabannya empat. Satu, belum ada. Dua, ada tetapi belum konsisten. Tiga, sudah baik. Empat, sangat baik, bahkan bisa ditularkan ke perangkat daerah lain.",
        "tts": "Pilihan jawabannya empat. Satu, belum ada. Dua, ada tetapi belum konsisten. Tiga, sudah baik. Empat, sangat baik, bahkan bisa ditularkan ke perangkat daerah lain."
       },
       {
-       "id": "n032",
+       "id": "n034",
        "suara": "g",
        "voice": "gadis",
        "teks": "Jebakannya: menjawab empat begitu aturannya ada. Yang ditanyakan bukan ada atau tidaknya aturan, melainkan apakah ia dijalankan.",
        "tts": "Jebakannya: menjawab empat begitu aturannya ada. Yang ditanyakan bukan ada atau tidaknya aturan, melainkan apakah ia dijalankan."
       },
       {
-       "id": "n033",
+       "id": "n035",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kode etik kita sudah ada dan dipakai, tetapi penerapannya masih bisa diperkuat. Jadi, tiga.",
@@ -728,13 +828,44 @@
      ],
      "aksi": [
       {
-       "t": "kuesioner",
+       "t": "sorotKuesioner",
+       "nomor": 1,
+       "nilai": 1,
+       "ms": 1500,
+       "pada": [
+        0,
+        "satu"
+       ]
+      },
+      {
+       "t": "sorotKuesioner",
+       "nomor": 1,
+       "nilai": 2,
+       "ms": 1500,
+       "pada": [
+        0,
+        "dua"
+       ]
+      },
+      {
+       "t": "sorotKuesioner",
        "nomor": 1,
        "nilai": 3,
-       "tunggu": 400,
+       "ms": 1500,
        "pada": [
-        2,
+        0,
         "tiga"
+       ]
+      },
+      {
+       "t": "sorotKuesioner",
+       "nomor": 1,
+       "nilai": 4,
+       "ms": 1800,
+       "pada": [
+        0,
+        "empat",
+        2
        ]
       },
       {
@@ -750,6 +881,16 @@
         "jebakannya"
        ],
        "cadangan": true
+      },
+      {
+       "t": "kuesioner",
+       "nomor": 1,
+       "nilai": 3,
+       "tunggu": 400,
+       "pada": [
+        2,
+        "tiga"
+       ]
       }
      ],
      "id": "3-03"
@@ -757,21 +898,21 @@
     {
      "narasi": [
       {
-       "id": "n034",
+       "id": "n036",
        "suara": "g",
        "voice": "gadis",
        "teks": "Sisanya kita jawab lebih cepat, dengan pegangan yang sama: jawab keadaan sebenarnya, bukan yang ingin dilaporkan.",
        "tts": "Sisanya kita jawab lebih cepat, dengan pegangan yang sama: jawab keadaan sebenarnya, bukan yang ingin dilaporkan."
       },
       {
-       "id": "n035",
+       "id": "n037",
        "suara": "a",
        "voice": "ardi",
        "teks": "Beberapa butir sengaja dijawab dua. Setiap jawaban dua nanti harus punya pasangannya di Formulir 1b: kelemahan yang sama, kali ini dengan bukti dokumen.",
        "tts": "Beberapa butir sengaja dijawab dua. Setiap jawaban dua nanti harus punya pasangannya di Formulir satu be: kelemahan yang sama, kali ini dengan bukti dokumen."
       },
       {
-       "id": "n036",
+       "id": "n038",
        "suara": "g",
        "voice": "gadis",
        "teks": "Satu catatan untuk Inspektorat. Unsur ketujuh menilai peran APIP, artinya kita menilai diri sendiri. Justru di situ kita harus paling hati-hati.",
@@ -951,13 +1092,35 @@
        "t": "kuesioner",
        "nomor": 30,
        "nilai": 3,
-       "tunggu": 140
+       "tunggu": 140,
+       "pada": [
+        2,
+        "satu"
+       ]
+      },
+      {
+       "t": "catat",
+       "judul": "Unsur G",
+       "isi": "Inspektorat menilai dirinya sendiri. Jawab paling hati-hati di sini.",
+       "jenis": "awas",
+       "ms": 4600,
+       "teks": "G. Perwujudan Peran",
+       "latar": true,
+       "pada": [
+        2,
+        "ketujuh"
+       ],
+       "cadangan": true
       },
       {
        "t": "kuesioner",
        "nomor": 31,
        "nilai": 3,
-       "tunggu": 140
+       "tunggu": 400,
+       "pada": [
+        2,
+        "unsur"
+       ]
       },
       {
        "t": "kuesioner",
@@ -1001,7 +1164,7 @@
     {
      "narasi": [
       {
-       "id": "n037",
+       "id": "n039",
        "suara": "a",
        "voice": "ardi",
        "teks": "Simpan jawaban. Simpulan tiap unsur, memadai atau kurang memadai, dihitung sendiri dari rata-rata seluruh responden.",
@@ -1021,14 +1184,14 @@
     {
      "narasi": [
       {
-       "id": "n038",
+       "id": "n040",
        "suara": "g",
        "voice": "gadis",
        "teks": "Formulir 1b, CEE berdasarkan dokumen. Bedanya: 1a menanyakan persepsi orang, 1b memeriksa berkas.",
        "tts": "Formulir satu be, Ce-E-E berdasarkan dokumen. Bedanya: satu a menanyakan persepsi orang, satu be memeriksa berkas."
       },
       {
-       "id": "n039",
+       "id": "n041",
        "suara": "a",
        "voice": "ardi",
        "teks": "Keduanya sengaja dipisah supaya pertentangannya kelihatan. Orang bisa merasa semuanya baik, sementara dokumennya bercerita lain.",
@@ -1071,7 +1234,7 @@
     {
      "narasi": [
       {
-       "id": "n040",
+       "id": "n042",
        "suara": "a",
        "voice": "ardi",
        "teks": "Setiap kelemahan wajib menyebut sumber datanya. Kalau tidak bisa ditunjuk berkasnya, itu pendapat, dan tempatnya di 1a.",
@@ -1083,13 +1246,6 @@
        "t": "select",
        "nilai": "1",
        "cocokOpsi": "A. Penegakan"
-      },
-      {
-       "t": "ketik",
-       "teks": "Dokumen kepegawaian dan notula rapat internal Tahun 2025",
-       "laju": 3.2,
-       "sel": "#sumber_data",
-       "bersihkan": true
       },
       {
        "t": "catat",
@@ -1106,8 +1262,19 @@
       },
       {
        "t": "ketik",
+       "teks": "Dokumen kepegawaian dan notula rapat internal Tahun 2025",
+       "laju": 3.2,
+       "sel": "#sumber_data",
+       "bersihkan": true,
+       "pada": [
+        0,
+        "sumber"
+       ]
+      },
+      {
+       "t": "ketik",
        "teks": "Penyampaian dan penegasan kembali kode etik APIP kepada seluruh pegawai belum dilakukan secara berkala dan belum terdokumentasi.",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "#uraian_kelemahan",
        "bersihkan": true
       },
@@ -1123,14 +1290,14 @@
     {
      "narasi": [
       {
-       "id": "n041",
+       "id": "n043",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kelemahan kedua: rasio auditor yang belum ideal. Inilah pasangan jawaban dua di kuesioner tadi.",
        "tts": "Kelemahan kedua: rasio auditor yang belum ideal. Inilah pasangan jawaban dua di kuesioner tadi."
       },
       {
-       "id": "n042",
+       "id": "n044",
        "suara": "a",
        "voice": "ardi",
        "teks": "Yang ketiga, pemantauan tindak lanjut hasil pengawasan yang belum terjadwal. Ingat yang satu ini. Nanti ia muncul lagi sebagai penyebab risiko strategis.",
@@ -1153,7 +1320,7 @@
       {
        "t": "ketik",
        "teks": "Rasio auditor dan pejabat pengawas urusan pemerintahan daerah terhadap jumlah objek pengawasan belum ideal, dan belum seluruhnya tersertifikasi.",
-       "laju": 4.4,
+       "laju": 4.8,
        "sel": "#uraian_kelemahan",
        "bersihkan": true
       },
@@ -1166,7 +1333,11 @@
       {
        "t": "select",
        "nilai": "7",
-       "cocokOpsi": "A. Penegakan"
+       "cocokOpsi": "A. Penegakan",
+       "pada": [
+        1,
+        "ketiga"
+       ]
       },
       {
        "t": "ketik",
@@ -1178,7 +1349,7 @@
       {
        "t": "ketik",
        "teks": "Pemantauan tindak lanjut hasil pengawasan belum terjadwal dan belum terpantau secara berkala, sehingga penyelesaiannya bergantung pada inisiatif masing-masing perangkat daerah.",
-       "laju": 4.4,
+       "laju": 4.8,
        "sel": "#uraian_kelemahan",
        "bersihkan": true
       },
@@ -1194,21 +1365,21 @@
     {
      "narasi": [
       {
-       "id": "n043",
+       "id": "n045",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 1c mempertemukan dua sumber tadi, lalu menarik simpulan per unsur.",
        "tts": "Formulir satu ce mempertemukan dua sumber tadi, lalu menarik simpulan per unsur."
       },
       {
-       "id": "n044",
+       "id": "n046",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kalau kuesioner bilang baik tetapi dokumen bilang lemah, mana yang dipakai?",
        "tts": "Kalau kuesioner bilang baik tetapi dokumen bilang lemah, mana yang dipakai?"
       },
       {
-       "id": "n045",
+       "id": "n047",
        "suara": "a",
        "voice": "ardi",
        "teks": "Yang bisa dibuktikan: dokumen. Dan alasannya ditulis di kolom dasar simpulan, supaya penilai tahun depan tahu kenapa keputusannya begitu.",
@@ -1265,21 +1436,21 @@
     {
      "narasi": [
       {
-       "id": "n046",
+       "id": "n048",
        "suara": "g",
        "voice": "gadis",
        "teks": "Simpulan awalnya sudah dihitung dari kuesioner. Tugas kita di sini bukan menghitung ulang, melainkan menimbang.",
        "tts": "Simpulan awalnya sudah dihitung dari kuesioner. Tugas kita di sini bukan menghitung ulang, melainkan menimbang."
       },
       {
-       "id": "n047",
+       "id": "n049",
        "suara": "a",
        "voice": "ardi",
        "teks": "Unsur yang punya kelemahan dokumen kita simpulkan kurang memadai, lengkap dengan dasarnya. Sisanya memadai.",
        "tts": "Unsur yang punya kelemahan dokumen kita simpulkan kurang memadai, lengkap dengan dasarnya. Sisanya memadai."
       },
       {
-       "id": "n048",
+       "id": "n050",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kolom dasar simpulan itu satu-satunya tempat di aplikasi yang merekam pertimbangan manusia di balik keputusan. Isi dengan sungguh-sungguh.",
@@ -1299,14 +1470,14 @@
     {
      "narasi": [
       {
-       "id": "n049",
+       "id": "n051",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir terakhir, 1d: rencana tindak atas unsur yang kurang memadai.",
        "tts": "Formulir terakhir, satu de: rencana tindak atas unsur yang kurang memadai."
       },
       {
-       "id": "n050",
+       "id": "n052",
        "suara": "g",
        "voice": "gadis",
        "teks": "Bedakan dengan RTP di Formulir 7 nanti. Yang ini memperbaiki lingkungan pengendalian; yang di Formulir 7 menangani risiko tertentu. Isinya tidak boleh sama.",
@@ -1347,7 +1518,7 @@
     {
      "narasi": [
       {
-       "id": "n051",
+       "id": "n053",
        "suara": "a",
        "voice": "ardi",
        "teks": "Perhatikan bentuk kalimat rencananya: apa yang dikerjakan, oleh siapa, dan kapan selesai. Rencana berbunyi meningkatkan integritas tidak akan pernah bisa dipantau.",
@@ -1358,20 +1529,32 @@
       {
        "t": "centang",
        "label": "Abate",
-       "laju": 4.0,
-       "teks": "Menyusun jadwal penegasan kode etik APIP dua kali setahun, disertai pernyataan kepatuhan tahunan yang ditandatangani seluruh pegawai."
+       "laju": 4.4,
+       "teks": "Menyusun jadwal penegasan kode etik APIP dua kali setahun, disertai pernyataan kepatuhan tahunan yang ditandatangani seluruh pegawai.",
+       "pada": [
+        0,
+        "apa"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Sekretariat Inspektorat",
        "laju": 3.2,
        "sel": "#penanggung_jawab",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        0,
+        "oleh"
+       ]
       },
       {
        "t": "pilih",
        "nilai": "Triwulan II (April/Mei/Juni)",
-       "kolomLabel": "Target Waktu Penyelesaian — Triwulan"
+       "kolomLabel": "Target Waktu Penyelesaian — Triwulan",
+       "pada": [
+        0,
+        "kapan"
+       ]
       },
       {
        "t": "klik",
@@ -1385,11 +1568,18 @@
     {
      "narasi": [
       {
-       "id": "n052",
+       "id": "n054",
        "suara": "g",
        "voice": "gadis",
-       "teks": "Rencana kedua, untuk pemantauan tindak lanjut. Simpan, dan CEE selesai.",
-       "tts": "Rencana kedua, untuk pemantauan tindak lanjut. Simpan, dan Ce-E-E selesai."
+       "teks": "Rencana kedua, untuk pemantauan tindak lanjut. Polanya sama: kondisinya, rencananya, penanggung jawab, dan triwulan targetnya.",
+       "tts": "Rencana kedua, untuk pemantauan tindak lanjut. Polanya sama: kondisinya, rencananya, penanggung jawab, dan triwulan targetnya."
+      },
+      {
+       "id": "n055",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Simpan, dan CEE selesai.",
+       "tts": "Simpan, dan Ce-E-E selesai."
       }
      ],
      "aksi": [
@@ -1403,31 +1593,51 @@
        "teks": "Pemantauan tindak lanjut hasil pengawasan belum terjadwal dan belum terpantau berkala.",
        "laju": 4.4,
        "sel": "#kondisi_kurang_memadai",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        0,
+        "kondisinya"
+       ]
       },
       {
        "t": "centang",
        "label": "Abate",
-       "laju": 4.4,
-       "teks": "Menetapkan satu pejabat pengendali tindak lanjut untuk tiap wilayah pengawasan, lengkap dengan uraian tugas dan pelaporannya kepada Inspektur."
+       "laju": 4.8,
+       "teks": "Menetapkan satu pejabat pengendali tindak lanjut untuk tiap wilayah pengawasan, lengkap dengan uraian tugas dan pelaporannya kepada Inspektur.",
+       "pada": [
+        0,
+        "rencananya"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Inspektur Pembantu Wilayah I sampai IV",
        "laju": 3.6,
        "sel": "#penanggung_jawab",
-       "bersihkan": true
+       "bersihkan": true,
+       "pada": [
+        0,
+        "penanggung"
+       ]
       },
       {
        "t": "pilih",
        "nilai": "Triwulan III (Juli/Agustus/September)",
-       "kolomLabel": "Target Waktu Penyelesaian — Triwulan"
+       "kolomLabel": "Target Waktu Penyelesaian — Triwulan",
+       "pada": [
+        0,
+        "triwulan"
+       ]
       },
       {
        "t": "klik",
        "teks": "Tambah",
        "tunggu": 1800,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        1,
+        "simpan"
+       ]
       }
      ],
      "id": "3-13"
@@ -1444,14 +1654,14 @@
     {
      "narasi": [
       {
-       "id": "n053",
+       "id": "n056",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sekarang inti aplikasi ini: penilaian risiko, dalam tiga tingkatan. Strategis pemerintah daerah, strategis perangkat daerah, lalu operasional.",
        "tts": "Sekarang inti aplikasi ini: penilaian risiko, dalam tiga tingkatan. Strategis pemerintah daerah, strategis perangkat daerah, lalu operasional."
       },
       {
-       "id": "n054",
+       "id": "n057",
        "suara": "g",
        "voice": "gadis",
        "teks": "Tiap tingkatan punya dua formulir. Huruf a untuk konteks, huruf b untuk risikonya. Konteks selalu lebih dulu.",
@@ -1481,7 +1691,7 @@
     {
      "narasi": [
       {
-       "id": "n055",
+       "id": "n058",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 1a berisi tujuan dan sasaran RPJMD. Ini diisi Admin, bukan PIC, karena harus satu untuk seluruh kabupaten. Kita cukup membacanya sebagai acuan.",
@@ -1507,7 +1717,7 @@
     {
      "narasi": [
       {
-       "id": "n056",
+       "id": "n059",
        "suara": "g",
        "voice": "gadis",
        "teks": "Formulir 1b, Identifikasi Risiko Strategis Pemda. Di sini perangkat daerah boleh ikut mengisi, karena risiko tingkat pemda dipikul bersama.",
@@ -1535,21 +1745,21 @@
     {
      "narasi": [
       {
-       "id": "n057",
+       "id": "n060",
        "suara": "a",
        "voice": "ardi",
        "teks": "Pilih sasaran RPJMD, lalu rumuskan risikonya sebagai peristiwa yang bisa terjadi dan mengancam sasaran itu.",
        "tts": "Pilih sasaran Er-Pe-Je-Em-De, lalu rumuskan risikonya sebagai peristiwa yang bisa terjadi dan mengancam sasaran itu."
       },
       {
-       "id": "n058",
+       "id": "n061",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kurangnya anggaran? Itu penyebab. SDM terbatas? Juga penyebab. Pelayanan buruk? Itu keluhan.",
        "tts": "Kurangnya anggaran? Itu penyebab. SDM terbatas? Juga penyebab. Pelayanan buruk? Itu keluhan."
       },
       {
-       "id": "n059",
+       "id": "n062",
        "suara": "a",
        "voice": "ardi",
        "teks": "Yang benar menyebut peristiwanya: maturitas SPIP tidak naik ke tingkat yang ditargetkan.",
@@ -1564,23 +1774,27 @@
        "sel": "[id='SASARAN RPJMD']"
       },
       {
+       "t": "catat",
+       "judul": "Rumus risiko",
+       "isi": "Peristiwa yang BISA terjadi dan mengancam sasaran. Bukan penyebab, bukan keluhan.",
+       "jenis": "penting",
+       "ms": 6400,
+       "sel": "[id='URAIAN RISIKO']",
+       "latar": true,
+       "pada": [
+        1,
+        "kurangnya"
+       ]
+      },
+      {
        "t": "ketik",
        "teks": "Maturitas penyelenggaraan SPIP terintegrasi Pemerintah Kabupaten Aceh Barat tidak naik ke tingkat yang ditargetkan",
-       "laju": 3.0,
+       "laju": 3.4,
        "sel": "[id='URAIAN RISIKO']",
        "pada": [
         2,
         "maturitas"
        ]
-      },
-      {
-       "t": "catat",
-       "judul": "Rumus risiko",
-       "isi": "Peristiwa yang BISA terjadi dan mengancam sasaran. Bukan penyebab, bukan keluhan.",
-       "jenis": "penting",
-       "ms": 5000,
-       "sel": "[id='URAIAN RISIKO']",
-       "latar": true
       },
       {
        "t": "pilih",
@@ -1594,14 +1808,14 @@
     {
      "narasi": [
       {
-       "id": "n060",
+       "id": "n063",
        "suara": "a",
        "voice": "ardi",
        "teks": "Pemilik risiko adalah pihak yang sasarannya terancam. Untuk tingkat pemda, itu Sekretaris Daerah, bukan Inspektorat.",
        "tts": "Pemilik risiko adalah pihak yang sasarannya terancam. Untuk tingkat pemda, itu Sekretaris Daerah, bukan Inspektorat."
       },
       {
-       "id": "n061",
+       "id": "n064",
        "suara": "g",
        "voice": "gadis",
        "teks": "Penanggung jawab pengendalian, yang mengerjakan penanganannya, baru boleh Inspektorat. Dua kolom, dua peran.",
@@ -1638,14 +1852,14 @@
     {
      "narasi": [
       {
-       "id": "n062",
+       "id": "n065",
        "suara": "a",
        "voice": "ardi",
        "teks": "Penyebab dikelompokkan: delapan kategori internal, enam eksternal. Gunanya memaksa kita mencari dari beberapa sisi.",
        "tts": "Penyebab dikelompokkan: delapan kategori internal, enam eksternal. Gunanya memaksa kita mencari dari beberapa sisi."
       },
       {
-       "id": "n063",
+       "id": "n066",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kita pilih Men untuk pemahaman yang belum merata, dan Method untuk penilaian mandiri yang belum berkala. Keduanya bisa kita kendalikan, jadi C.",
@@ -1656,7 +1870,7 @@
       {
        "t": "centang",
        "label": "Men",
-       "laju": 3.0,
+       "laju": 3.6,
        "teks": "Pemahaman SPIP berbasis risiko belum merata di seluruh perangkat daerah",
        "pada": [
         1,
@@ -1666,13 +1880,21 @@
       {
        "t": "centang",
        "label": "Method",
-       "laju": 3.0,
-       "teks": "Penilaian mandiri maturitas SPIP belum berjalan berkala dan belum terjadwal"
+       "laju": 3.6,
+       "teks": "Penilaian mandiri maturitas SPIP belum berjalan berkala dan belum terjadwal",
+       "pada": [
+        1,
+        "metod"
+       ]
       },
       {
        "t": "klik",
        "teks": "C",
-       "tunggu": 500
+       "tunggu": 500,
+       "pada": [
+        1,
+        "ce"
+       ]
       }
      ],
      "id": "4-06"
@@ -1680,14 +1902,14 @@
     {
      "narasi": [
       {
-       "id": "n064",
+       "id": "n067",
        "suara": "a",
        "voice": "ardi",
        "teks": "Dampak ditulis pada sasarannya, bukan pada kesibukan kantor.",
        "tts": "Dampak ditulis pada sasarannya, bukan pada kesibukan kantor."
       },
       {
-       "id": "n065",
+       "id": "n068",
        "suara": "g",
        "voice": "gadis",
        "teks": "Pengendalian yang sudah ada? Ada asistensi dan penilaian mandiri tahunan, tetapi masih lemah. Kategorinya KE, kurang efektif.",
@@ -1720,13 +1942,21 @@
       {
        "t": "ketik",
        "teks": "Asistensi penyelenggaraan SPIP kepada perangkat daerah dan penilaian mandiri maturitas SPIP tahunan",
-       "laju": 3.6,
-       "sel": "[id='URAIAN PENGENDALIAN YANG SUDAH ADA']"
+       "laju": 4.0,
+       "sel": "[id='URAIAN PENGENDALIAN YANG SUDAH ADA']",
+       "pada": [
+        1,
+        "asistensi"
+       ]
       },
       {
        "t": "klik",
        "teks": "KE",
-       "tunggu": 500
+       "tunggu": 500,
+       "pada": [
+        1,
+        "ka-e"
+       ]
       },
       {
        "t": "centang",
@@ -1740,21 +1970,21 @@
     {
      "narasi": [
       {
-       "id": "n066",
+       "id": "n069",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sekarang matriks lima kali lima, dengan tiga titik. Inheren: seandainya tanpa pengendalian. Residual: keadaan sekarang. Target: setelah rencana tindak.",
        "tts": "Sekarang matriks lima kali lima, dengan tiga titik. Inheren: seandainya tanpa pengendalian. Residual: keadaan sekarang. Target: setelah rencana tindak."
       },
       {
-       "id": "n067",
+       "id": "n070",
        "suara": "g",
        "voice": "gadis",
        "teks": "Inheren, dampak empat, kemungkinan lima. Sekarang, dampak empat, kemungkinan empat.",
        "tts": "Inheren, dampak empat, kemungkinan lima. Sekarang, dampak empat, kemungkinan empat."
       },
       {
-       "id": "n068",
+       "id": "n071",
        "suara": "a",
        "voice": "ardi",
        "teks": "Selisih keduanya adalah nilai pengendalian yang ada. Kalau tidak ada selisih, berarti pengendaliannya belum bekerja.",
@@ -1766,6 +1996,36 @@
        "t": "klik",
        "teks": "Isi Nilai Risiko",
        "tunggu": 1300
+      },
+      {
+       "t": "sorot",
+       "ms": 1600,
+       "teks": "IInheren",
+       "pada": [
+        0,
+        "inheren"
+       ],
+       "diam": true
+      },
+      {
+       "t": "sorot",
+       "ms": 1600,
+       "teks": "RResidual/Current",
+       "pada": [
+        0,
+        "residual"
+       ],
+       "diam": true
+      },
+      {
+       "t": "sorot",
+       "ms": 1600,
+       "teks": "TTarget",
+       "pada": [
+        0,
+        "target"
+       ],
+       "diam": true
       },
       {
        "t": "matriks",
@@ -1799,14 +2059,14 @@
     {
      "narasi": [
       {
-       "id": "n069",
+       "id": "n072",
        "suara": "g",
        "voice": "gadis",
        "teks": "Rencana tindak punya lima pilihan: Avoid, Abate, Mitigate, Share, dan Accept.",
        "tts": "Rencana tindak punya lima pilihan: Evoid, Ebeit, Mitigeit, Syer, dan Eksept."
       },
       {
-       "id": "n070",
+       "id": "n073",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kita pilih Abate, karena penyebabnya masih bisa kita kendalikan. Isinya konkret: jadwal penilaian mandiri per semester, dan asistensi ke perangkat daerah yang nilainya terendah.",
@@ -1815,10 +2075,64 @@
      ],
      "aksi": [
       {
+       "t": "sorot",
+       "ms": 1300,
+       "teks": "Avoid",
+       "pada": [
+        0,
+        "evoid"
+       ],
+       "cadangan": true
+      },
+      {
+       "t": "sorot",
+       "ms": 1300,
+       "teks": "Abate",
+       "pada": [
+        0,
+        "ebeit"
+       ],
+       "cadangan": true
+      },
+      {
+       "t": "sorot",
+       "ms": 1300,
+       "teks": "Mitigate",
+       "pada": [
+        0,
+        "mitigeit"
+       ],
+       "cadangan": true
+      },
+      {
+       "t": "sorot",
+       "ms": 1300,
+       "teks": "Share",
+       "pada": [
+        0,
+        "syer"
+       ],
+       "cadangan": true
+      },
+      {
+       "t": "sorot",
+       "ms": 1300,
+       "teks": "Accept",
+       "pada": [
+        0,
+        "eksept"
+       ],
+       "cadangan": true
+      },
+      {
        "t": "centang",
        "label": "Abate",
-       "laju": 3.4,
-       "teks": "Menyusun jadwal penilaian mandiri maturitas SPIP per semester dan asistensi berbasis risiko kepada perangkat daerah yang nilainya terendah"
+       "laju": 3.8,
+       "teks": "Menyusun jadwal penilaian mandiri maturitas SPIP per semester dan asistensi berbasis risiko kepada perangkat daerah yang nilainya terendah",
+       "pada": [
+        1,
+        "pilih"
+       ]
       },
       {
        "t": "pilih",
@@ -1850,14 +2164,14 @@
     {
      "narasi": [
       {
-       "id": "n071",
+       "id": "n074",
        "suara": "g",
        "voice": "gadis",
        "teks": "Proyeksinya setelah rencana tindak: cukup efektif. Target, dampak empat, kemungkinan tiga.",
        "tts": "Proyeksinya setelah rencana tindak: cukup efektif. Target, dampak empat, kemungkinan tiga."
       },
       {
-       "id": "n072",
+       "id": "n075",
        "suara": "a",
        "voice": "ardi",
        "teks": "Perhatikan: dampaknya tidak turun, yang turun kemungkinannya. Rencana tindak biasanya menurunkan peluang, bukan akibat. Menurunkan keduanya butuh alasan yang kuat.",
@@ -1933,14 +2247,14 @@
     {
      "narasi": [
       {
-       "id": "n073",
+       "id": "n076",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tingkat kedua. Konteksnya dulu, Formulir 2a: sasaran RPJMD diturunkan sampai subkegiatan, mengikuti Renstra.",
        "tts": "Tingkat kedua. Konteksnya dulu, Formulir dua a: sasaran Er-Pe-Je-Em-De diturunkan sampai subkegiatan, mengikuti Renstra."
       },
       {
-       "id": "n074",
+       "id": "n077",
        "suara": "g",
        "voice": "gadis",
        "teks": "Enam tingkat, masing-masing dengan indikator, baseline, target, dan satuan.",
@@ -1980,14 +2294,21 @@
     {
      "narasi": [
       {
-       "id": "n075",
+       "id": "n078",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Tujuan strategis dan indikatornya, sesuai Renstra.",
+       "tts": "Tujuan strategis dan indikatornya, sesuai Renstra."
+      },
+      {
+       "id": "n079",
        "suara": "a",
        "voice": "ardi",
        "teks": "Satu yang sering lolos: baseline dua ribu dua puluh enam adalah realisasi dua ribu dua puluh lima, bukan baseline tahun lalu yang disalin.",
        "tts": "Satu yang sering lolos: baseline dua ribu dua puluh enam adalah realisasi dua ribu dua puluh lima, bukan baseline tahun lalu yang disalin."
       },
       {
-       "id": "n076",
+       "id": "n080",
        "suara": "g",
        "voice": "gadis",
        "teks": "Aplikasi menerima angka apa saja, jadi tidak ada yang akan menolak kekeliruan ini. Kitalah yang harus teliti.",
@@ -2008,10 +2329,27 @@
        "sel": "[id='IK TUJUAN STRATEGIS PD']"
       },
       {
+       "t": "catat",
+       "judul": "Sering keliru",
+       "isi": "Baseline = realisasi tahun lalu, bukan baseline lama yang disalin.",
+       "jenis": "awas",
+       "ms": 5200,
+       "sel": "[id='BASELINE IK TUJUAN STRATEGIS PD']",
+       "latar": true,
+       "pada": [
+        1,
+        "realisasi"
+       ]
+      },
+      {
        "t": "ketik",
        "teks": "Level 3",
        "laju": 2.0,
-       "sel": "[id='BASELINE IK TUJUAN STRATEGIS PD']"
+       "sel": "[id='BASELINE IK TUJUAN STRATEGIS PD']",
+       "pada": [
+        1,
+        "baseline"
+       ]
       },
       {
        "t": "ketik",
@@ -2024,19 +2362,6 @@
        "teks": "Level",
        "laju": 2.0,
        "sel": "[id='SATUAN IK TUJUAN STRATEGIS PD']"
-      },
-      {
-       "t": "catat",
-       "judul": "Sering keliru",
-       "isi": "Baseline = realisasi tahun lalu, bukan baseline lama yang disalin.",
-       "jenis": "awas",
-       "ms": 5200,
-       "sel": "[id='BASELINE IK TUJUAN STRATEGIS PD']",
-       "latar": true,
-       "pada": [
-        0,
-        "realisasi"
-       ]
       }
      ],
      "id": "5-02"
@@ -2044,25 +2369,39 @@
     {
      "narasi": [
       {
-       "id": "n077",
+       "id": "n081",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Sasaran strategis, program, kegiatan, dan subkegiatan diisi dengan cara yang sama. Sumbernya Renstra dan DPA, jangan dikarang.",
-       "tts": "Sasaran strategis, program, kegiatan, dan subkegiatan diisi dengan cara yang sama. Sumbernya Renstra dan De-Pe-A, jangan dikarang."
+       "teks": "Sasaran strategis diisi dengan cara yang sama: indikator, baseline, target, dan satuan.",
+       "tts": "Sasaran strategis diisi dengan cara yang sama: indikator, baseline, target, dan satuan."
       },
       {
-       "id": "n078",
+       "id": "n082",
        "suara": "g",
        "voice": "gadis",
-       "teks": "Kalau rumusannya beda dari dokumen resmi, formulir cetaknya tidak cocok dengan dokumen perencanaan, dan itu jadi temuan.",
-       "tts": "Kalau rumusannya beda dari dokumen resmi, formulir cetaknya tidak cocok dengan dokumen perencanaan, dan itu jadi temuan."
+       "teks": "Lalu program. Sumbernya Renstra dan DPA, jangan dikarang.",
+       "tts": "Lalu program. Sumbernya Renstra dan De-Pe-A, jangan dikarang."
       },
       {
-       "id": "n079",
+       "id": "n083",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Halaman konteks ini tidak punya kolom tahun. Yang berganti tiap tahun adalah risikonya, bukan hierarki Renstranya.",
-       "tts": "Halaman konteks ini tidak punya kolom tahun. Yang berganti tiap tahun adalah risikonya, bukan hierarki Renstranya."
+       "teks": "Kegiatan. Kalau rumusannya beda dari dokumen resmi, formulir cetaknya tidak cocok dengan dokumen perencanaan, dan itu jadi temuan.",
+       "tts": "Kegiatan. Kalau rumusannya beda dari dokumen resmi, formulir cetaknya tidak cocok dengan dokumen perencanaan, dan itu jadi temuan."
+      },
+      {
+       "id": "n084",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Subkegiatan, sampai perangkat daerah penanggung jawabnya.",
+       "tts": "Subkegiatan, sampai perangkat daerah penanggung jawabnya."
+      },
+      {
+       "id": "n085",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Halaman konteks ini tidak punya kolom tahun. Yang berganti tiap tahun adalah risikonya, bukan hierarki Renstranya. Simpan.",
+       "tts": "Halaman konteks ini tidak punya kolom tahun. Yang berganti tiap tahun adalah risikonya, bukan hierarki Renstranya. Simpan."
       }
      ],
      "aksi": [
@@ -2100,7 +2439,11 @@
        "t": "ketik",
        "teks": "Program Penyelenggaraan Pengawasan",
        "laju": 4.0,
-       "sel": "[id='PROGRAM PD']"
+       "sel": "[id='PROGRAM PD']",
+       "pada": [
+        1,
+        "lalu"
+       ]
       },
       {
        "t": "ketik",
@@ -2130,7 +2473,11 @@
        "t": "ketik",
        "teks": "Penyelenggaraan Pengawasan Internal",
        "laju": 4.0,
-       "sel": "[id='KEGIATAN PD']"
+       "sel": "[id='KEGIATAN PD']",
+       "pada": [
+        2,
+        "kegiatan"
+       ]
       },
       {
        "t": "ketik",
@@ -2160,7 +2507,11 @@
        "t": "ketik",
        "teks": "Pelaksanaan Pengawasan Internal secara Berkala",
        "laju": 4.2,
-       "sel": "[id='SUBKEGIATAN PD']"
+       "sel": "[id='SUBKEGIATAN PD']",
+       "pada": [
+        3,
+        "subkegiatan"
+       ]
       },
       {
        "t": "ketik",
@@ -2196,7 +2547,11 @@
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2600,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        4,
+        "simpan"
+       ]
       }
      ],
      "id": "5-03"
@@ -2204,14 +2559,14 @@
     {
      "narasi": [
       {
-       "id": "n080",
+       "id": "n086",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sekarang Formulir 2b. Kita isi satu risiko dengan teliti, karena polanya berlaku di semua tingkatan.",
        "tts": "Sekarang Formulir dua be. Kita isi satu risiko dengan teliti, karena polanya berlaku di semua tingkatan."
       },
       {
-       "id": "n081",
+       "id": "n087",
        "suara": "g",
        "voice": "gadis",
        "teks": "Risikonya: rendahnya kepatuhan perangkat daerah menindaklanjuti rekomendasi hasil pengawasan. Kelanjutan kelemahan yang kita catat di CEE tadi.",
@@ -2274,14 +2629,14 @@
     {
      "narasi": [
       {
-       "id": "n082",
+       "id": "n088",
        "suara": "a",
        "voice": "ardi",
        "teks": "Penyebabnya dua. Men: komitmen pimpinan perangkat daerah belum merata. Method: pemantauan belum terjadwal, dan tidak ada konsekuensi atas keterlambatan.",
        "tts": "Penyebabnya dua. Men: komitmen pimpinan perangkat daerah belum merata. Metod: pemantauan belum terjadwal, dan tidak ada konsekuensi atas keterlambatan."
       },
       {
-       "id": "n083",
+       "id": "n089",
        "suara": "g",
        "voice": "gadis",
        "teks": "Ujian untuk setiap penyebab: bisakah ia dikendalikan? Keduanya bisa, jadi C, controllable.",
@@ -2296,7 +2651,7 @@
       {
        "t": "centang",
        "label": "Men",
-       "laju": 3.0,
+       "laju": 3.4,
        "teks": "Komitmen pimpinan perangkat daerah dalam menindaklanjuti rekomendasi belum merata",
        "pada": [
         0,
@@ -2306,8 +2661,26 @@
       {
        "t": "centang",
        "label": "Method",
-       "laju": 3.4,
-       "teks": "Pemantauan tindak lanjut belum terjadwal, dan belum ada konsekuensi atas keterlambatan penyelesaiannya"
+       "laju": 3.8,
+       "teks": "Pemantauan tindak lanjut belum terjadwal, dan belum ada konsekuensi atas keterlambatan penyelesaiannya",
+       "pada": [
+        0,
+        "metod"
+       ]
+      },
+      {
+       "t": "catat",
+       "judul": "Uji penyebab",
+       "isi": "Bisa dikendalikan sendiri? C. Di luar kuasa kita? UC.",
+       "jenis": "tips",
+       "ms": 5600,
+       "teks": "UC",
+       "latar": true,
+       "pada": [
+        1,
+        "ujian"
+       ],
+       "dekatkan": true
       },
       {
        "t": "klik",
@@ -2318,15 +2691,6 @@
         "ce",
         1
        ]
-      },
-      {
-       "t": "catat",
-       "judul": "Uji penyebab",
-       "isi": "Bisa dikendalikan sendiri? C. Di luar kuasa kita? UC.",
-       "jenis": "tips",
-       "ms": 4600,
-       "teks": "UC",
-       "latar": true
       }
      ],
      "id": "5-05"
@@ -2334,7 +2698,7 @@
     {
      "narasi": [
       {
-       "id": "n084",
+       "id": "n090",
        "suara": "a",
        "voice": "ardi",
        "teks": "Dampak pada sasaran, dan siapa yang terkena. Makin luas pihak yang terkena, makin besar skala dampaknya.",
@@ -2345,14 +2709,18 @@
       {
        "t": "ketik",
        "teks": "Transparansi dan akuntabilitas pengelolaan anggaran tidak meningkat, serta nilai MCP dan maturitas SPIP tertahan",
-       "laju": 3.6,
+       "laju": 4.0,
        "sel": "[id='URAIAN DAMPAK RISIKO']"
       },
       {
        "t": "ketik",
        "teks": "Inspektorat, Perangkat Daerah, Bupati, dan masyarakat",
        "laju": 3.4,
-       "sel": "[id='PIHAK YANG TERKENA DAMPAK RISIKO']"
+       "sel": "[id='PIHAK YANG TERKENA DAMPAK RISIKO']",
+       "pada": [
+        0,
+        "makin"
+       ]
       }
      ],
      "id": "5-06"
@@ -2360,14 +2728,14 @@
     {
      "narasi": [
       {
-       "id": "n085",
+       "id": "n091",
        "suara": "g",
        "voice": "gadis",
        "teks": "Pengendalian yang sudah ada ditulis apa adanya. Godaannya selalu melebih-lebihkan. Jangan.",
        "tts": "Pengendalian yang sudah ada ditulis apa adanya. Godaannya selalu melebih-lebihkan. Jangan."
       },
       {
-       "id": "n086",
+       "id": "n092",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sudah ada pemantauan berkala, tetapi tidak semua perangkat daerah menindaklanjuti tepat waktu. Jadi kurang efektif. Ada prosedur tidak otomatis berarti efektif; yang dinilai hasilnya.",
@@ -2410,13 +2778,18 @@
        "pada": [
         1,
         "prosedur"
-       ]
+       ],
+       "dekatkan": true
       },
       {
        "t": "centang",
        "label": "e.Pengendalian sudah berjalan namun masih lemah",
        "laju": 2.6,
-       "tunggu": 400
+       "tunggu": 400,
+       "pada": [
+        1,
+        "hasilnya"
+       ]
       }
      ],
      "id": "5-07"
@@ -2424,21 +2797,21 @@
     {
      "narasi": [
       {
-       "id": "n087",
+       "id": "n093",
        "suara": "a",
        "voice": "ardi",
        "teks": "Matriks. Inheren: bayangkan tanpa pemantauan sama sekali. Dampak empat, kemungkinan lima, hampir pasti terjadi.",
        "tts": "Matriks. Inheren: bayangkan tanpa pemantauan sama sekali. Dampak empat, kemungkinan lima, hampir pasti terjadi."
       },
       {
-       "id": "n088",
+       "id": "n094",
        "suara": "g",
        "voice": "gadis",
        "teks": "Sekarang, dengan pemantauan yang ada: dampak tiga, kemungkinan empat.",
        "tts": "Sekarang, dengan pemantauan yang ada: dampak tiga, kemungkinan empat."
       },
       {
-       "id": "n089",
+       "id": "n095",
        "suara": "a",
        "voice": "ardi",
        "teks": "Angka di dalam sel bukan hasil perkalian. Itu peringkat satu sampai dua puluh lima, yang sengaja membobot dampak lebih berat.",
@@ -2491,14 +2864,14 @@
     {
      "narasi": [
       {
-       "id": "n090",
+       "id": "n096",
        "suara": "g",
        "voice": "gadis",
        "teks": "Target: dampak tetap tiga, kemungkinan turun jadi tiga.",
        "tts": "Target: dampak tetap tiga, kemungkinan turun jadi tiga."
       },
       {
-       "id": "n091",
+       "id": "n097",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tiga titik kini berjajar: dari seandainya tidak ditangani, ke keadaan sekarang, sampai yang dituju. Itulah perjalanan satu risiko.",
@@ -2546,18 +2919,25 @@
     {
      "narasi": [
       {
-       "id": "n092",
+       "id": "n098",
        "suara": "a",
        "voice": "ardi",
        "teks": "Rencana tindaknya Abate, dengan tiga hal konkret: pemantauan terjadwal per triwulan, ekspose kepada Bupati, dan tindak lanjut masuk penilaian kinerja.",
        "tts": "Rencana tindaknya Ebeit, dengan tiga hal konkret: pemantauan terjadwal per triwulan, ekspose kepada Bupati, dan tindak lanjut masuk penilaian kinerja."
       },
       {
-       "id": "n093",
+       "id": "n099",
        "suara": "g",
        "voice": "gadis",
        "teks": "Penanggung jawab pengendaliannya Inspektur Pembantu Wilayah, bukan Inspektur. Inspektur tadi pemilik risikonya.",
        "tts": "Penanggung jawab pengendaliannya Inspektur Pembantu Wilayah, bukan Inspektur. Inspektur tadi pemilik risikonya."
+      },
+      {
+       "id": "n100",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Target triwulan empat, proyeksinya cukup efektif. Simpan.",
+       "tts": "Target triwulan empat, proyeksinya cukup efektif. Simpan."
       }
      ],
      "aksi": [
@@ -2568,8 +2948,12 @@
       {
        "t": "centang",
        "label": "Abate",
-       "laju": 4.0,
-       "teks": "Menyusun mekanisme pemantauan tindak lanjut terjadwal per triwulan, ekspose hasilnya kepada Bupati, serta memasukkan penyelesaian tindak lanjut sebagai unsur penilaian kinerja perangkat daerah"
+       "laju": 4.4,
+       "teks": "Menyusun mekanisme pemantauan tindak lanjut terjadwal per triwulan, ekspose hasilnya kepada Bupati, serta memasukkan penyelesaian tindak lanjut sebagai unsur penilaian kinerja perangkat daerah",
+       "pada": [
+        0,
+        "ebeit"
+       ]
       },
       {
        "t": "pilih",
@@ -2581,12 +2965,20 @@
        "t": "ketik",
        "teks": "Inspektur Pembantu Wilayah I sampai IV",
        "laju": 3.0,
-       "sel": "[id='PENANGGUNG JAWAB PENGENDALIAN']"
+       "sel": "[id='PENANGGUNG JAWAB PENGENDALIAN']",
+       "pada": [
+        1,
+        "penanggung"
+       ]
       },
       {
        "t": "pilih",
        "nilai": "Triwulan IV (Oktober/November/Desember)",
-       "ph": "Pilih Triwulan"
+       "ph": "Pilih Triwulan",
+       "pada": [
+        2,
+        "target"
+       ]
       },
       {
        "t": "ketik",
@@ -2598,13 +2990,21 @@
       {
        "t": "klik",
        "teks": "CE",
-       "tunggu": 500
+       "tunggu": 500,
+       "pada": [
+        2,
+        "cukup"
+       ]
       },
       {
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2800,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        2,
+        "simpan"
+       ]
       }
      ],
      "id": "5-10"
@@ -2612,14 +3012,14 @@
     {
      "narasi": [
       {
-       "id": "n094",
+       "id": "n101",
        "suara": "a",
        "voice": "ardi",
        "teks": "Risiko kedua lebih cepat: pemanfaatan teknologi informasi dalam pengawasan belum optimal.",
        "tts": "Risiko kedua lebih cepat: pemanfaatan teknologi informasi dalam pengawasan belum optimal."
       },
       {
-       "id": "n095",
+       "id": "n102",
        "suara": "g",
        "voice": "gadis",
        "teks": "Penyebabnya campuran. Machine dari dalam, Technological dari luar.",
@@ -2635,14 +3035,18 @@
       {
        "t": "ketik",
        "teks": "Meningkatnya Transparansi Pengelolaan Anggaran",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='SASARAN RENSTRA']"
       },
       {
        "t": "ketik",
        "teks": "Belum optimalnya pemanfaatan teknologi informasi dalam pengawasan dan pelaporan keuangan",
-       "laju": 3.8,
-       "sel": "[id='URAIAN RISIKO']"
+       "laju": 4.0,
+       "sel": "[id='URAIAN RISIKO']",
+       "pada": [
+        0,
+        "pemanfaatan"
+       ]
       },
       {
        "t": "pilih",
@@ -2653,20 +3057,28 @@
       {
        "t": "ketik",
        "teks": "Inspektur Kabupaten Aceh Barat",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='PEMILIK RISIKO']"
       },
       {
        "t": "centang",
        "label": "Machine",
        "laju": 4.0,
-       "teks": "Sistem pengawasan masih manual dan belum terintegrasi dengan SIPD"
+       "teks": "Sistem pengawasan masih manual dan belum terintegrasi dengan SIPD",
+       "pada": [
+        1,
+        "mesyin"
+       ]
       },
       {
        "t": "centang",
        "label": "Technological",
        "laju": 4.0,
-       "teks": "Integrasi aplikasi pengawasan dengan SIPD dan SPBE belum optimal"
+       "teks": "Integrasi aplikasi pengawasan dengan SIPD dan SPBE belum optimal",
+       "pada": [
+        1,
+        "teknolojikal"
+       ]
       },
       {
        "t": "klik",
@@ -2676,13 +3088,13 @@
       {
        "t": "ketik",
        "teks": "Informasi pengelolaan anggaran tidak tersedia secara cepat dan sulit diakses",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='URAIAN DAMPAK RISIKO']"
       },
       {
        "t": "ketik",
        "teks": "Inspektorat, Perangkat Daerah, dan masyarakat",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='PIHAK YANG TERKENA DAMPAK RISIKO']"
       }
      ],
@@ -2691,18 +3103,25 @@
     {
      "narasi": [
       {
-       "id": "n096",
+       "id": "n103",
        "suara": "a",
        "voice": "ardi",
        "teks": "Pengendaliannya belum ada sama sekali, jadi kita jawab Tidak. Formulirnya menyesuaikan: skala inheren dan skala sekarang dianggap sama.",
        "tts": "Pengendaliannya belum ada sama sekali, jadi kita jawab Tidak. Formulirnya menyesuaikan: skala inheren dan skala sekarang dianggap sama."
       },
       {
-       "id": "n097",
+       "id": "n104",
        "suara": "g",
        "voice": "gadis",
-       "teks": "Dua risiko strategis perangkat daerah tercatat. Dalam kenyataan bisa lima sampai sepuluh, sebanyak yang benar-benar mengancam sasaran.",
-       "tts": "Dua risiko strategis perangkat daerah tercatat. Dalam kenyataan bisa lima sampai sepuluh, sebanyak yang benar-benar mengancam sasaran."
+       "teks": "Rencana tindaknya Abate juga: sistem informasi pengawasan yang terhubung dengan SIPD.",
+       "tts": "Rencana tindaknya Ebeit juga: sistem informasi pengawasan yang terhubung dengan Es-I-Pe-De."
+      },
+      {
+       "id": "n105",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Simpan. Dua risiko strategis perangkat daerah tercatat. Dalam kenyataan bisa lima sampai sepuluh, sebanyak yang benar-benar mengancam sasaran.",
+       "tts": "Simpan. Dua risiko strategis perangkat daerah tercatat. Dalam kenyataan bisa lima sampai sepuluh, sebanyak yang benar-benar mengancam sasaran."
       }
      ],
      "aksi": [
@@ -2718,13 +3137,21 @@
       {
        "t": "klik",
        "teks": "Isi Nilai Risiko",
-       "tunggu": 1300
+       "tunggu": 1300,
+       "pada": [
+        0,
+        "formulirnya"
+       ]
       },
       {
        "t": "matriks",
        "titik": "IInheren",
        "d": 5,
-       "k": 4
+       "k": 4,
+       "pada": [
+        0,
+        "inheren"
+       ]
       },
       {
        "t": "matriks",
@@ -2741,7 +3168,11 @@
        "t": "centang",
        "label": "Abate",
        "laju": 4.4,
-       "teks": "Mengembangkan sistem informasi pengawasan yang terintegrasi dengan SIPD dan mendigitalkan pelaporan hasil pengawasan"
+       "teks": "Mengembangkan sistem informasi pengawasan yang terintegrasi dengan SIPD dan mendigitalkan pelaporan hasil pengawasan",
+       "pada": [
+        1,
+        "rencana"
+       ]
       },
       {
        "t": "pilih",
@@ -2776,7 +3207,11 @@
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2800,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        2,
+        "simpan"
+       ]
       }
      ],
      "id": "5-12"
@@ -2793,25 +3228,32 @@
     {
      "narasi": [
       {
-       "id": "n098",
+       "id": "n106",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tingkat ketiga. Konteks operasional, Formulir 3a, turun sampai kegiatan yang ada anggarannya di DPA.",
        "tts": "Tingkat ketiga. Konteks operasional, Formulir tiga a, turun sampai kegiatan yang ada anggarannya di De-Pe-A."
       },
       {
-       "id": "n099",
+       "id": "n107",
        "suara": "g",
        "voice": "gadis",
        "teks": "Isinya mirip konteks strategis, karena dokumennya sama. Bedanya di ujung: strategis berhenti di sasaran, operasional turun ke pekerjaan yang mengerjakannya.",
        "tts": "Isinya mirip konteks strategis, karena dokumennya sama. Bedanya di ujung: strategis berhenti di sasaran, operasional turun ke pekerjaan yang mengerjakannya."
       },
       {
-       "id": "n100",
+       "id": "n108",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tidak semua kegiatan wajib dinilai. Pilih kegiatan yang kalau gagal, sasaran perangkat daerah ikut terancam.",
        "tts": "Tidak semua kegiatan wajib dinilai. Pilih kegiatan yang kalau gagal, sasaran perangkat daerah ikut terancam."
+      },
+      {
+       "id": "n109",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Turun lagi ke subkegiatannya, lalu simpan.",
+       "tts": "Turun lagi ke subkegiatannya, lalu simpan."
       }
      ],
      "aksi": [
@@ -2875,7 +3317,11 @@
        "t": "ketik",
        "teks": "Penyelenggaraan Pengawasan Internal",
        "laju": 4.6,
-       "sel": "[id='KEGIATAN PD']"
+       "sel": "[id='KEGIATAN PD']",
+       "pada": [
+        2,
+        "pilih"
+       ]
       },
       {
        "t": "ketik",
@@ -2905,7 +3351,11 @@
        "t": "ketik",
        "teks": "Pelaksanaan Pengawasan Internal secara Berkala",
        "laju": 4.8,
-       "sel": "[id='SUBKEGIATAN PD']"
+       "sel": "[id='SUBKEGIATAN PD']",
+       "pada": [
+        3,
+        "turun"
+       ]
       },
       {
        "t": "ketik",
@@ -2941,7 +3391,11 @@
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2600,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        3,
+        "simpan"
+       ]
       }
      ],
      "id": "6-01"
@@ -2949,18 +3403,25 @@
     {
      "narasi": [
       {
-       "id": "n101",
+       "id": "n110",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Formulir 3b punya satu kolom yang tidak ada di tingkat lain: Tahap. Perencanaan, pelaksanaan, pengawasan, atau pelaporan.",
-       "tts": "Formulir tiga be punya satu kolom yang tidak ada di tingkat lain: Tahap. Perencanaan, pelaksanaan, pengawasan, atau pelaporan."
+       "teks": "Formulir 3b. Risiko pertama: pengawasan tidak sesuai Program Kerja Pengawasan Tahunan.",
+       "tts": "Formulir tiga be. Risiko pertama: pengawasan tidak sesuai Program Kerja Pengawasan Tahunan."
       },
       {
-       "id": "n102",
+       "id": "n111",
        "suara": "g",
        "voice": "gadis",
-       "teks": "Risiko pertama: pengawasan tidak sesuai Program Kerja Pengawasan Tahunan. Tahapnya pengawasan.",
-       "tts": "Risiko pertama: pengawasan tidak sesuai Program Kerja Pengawasan Tahunan. Tahapnya pengawasan."
+       "teks": "Formulir ini punya satu kolom yang tidak ada di tingkat lain: Tahap. Perencanaan, pelaksanaan, pengawasan, atau pelaporan.",
+       "tts": "Formulir ini punya satu kolom yang tidak ada di tingkat lain: Tahap. Perencanaan, pelaksanaan, pengawasan, atau pelaporan."
+      },
+      {
+       "id": "n112",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Risiko kita melekat di tahap pengawasan.",
+       "tts": "Risiko kita melekat di tahap pengawasan."
       }
      ],
      "aksi": [
@@ -2994,7 +3455,11 @@
        "t": "ketik",
        "teks": "Pelaksanaan pengawasan internal tidak sesuai dengan Program Kerja Pengawasan Tahunan",
        "laju": 5.0,
-       "sel": "[id='URAIAN RISIKO']"
+       "sel": "[id='URAIAN RISIKO']",
+       "pada": [
+        0,
+        "pengawasan"
+       ]
       },
       {
        "t": "pilih",
@@ -3003,23 +3468,28 @@
        "cari": "Pembinaan"
       },
       {
-       "t": "pilih",
-       "nilai": "Pengawasan",
-       "ph": "Pilih Tahap",
-       "pada": [
-        1,
-        "tahapnya"
-       ]
-      },
-      {
        "t": "catat",
        "judul": "Khusus 3b",
        "isi": "Tahap: di langkah kegiatan mana risiko melekat.",
        "jenis": "tips",
-       "ms": 4200,
+       "ms": 5200,
        "teks": "TAHAP",
        "latar": true,
-       "cadangan": true
+       "pada": [
+        1,
+        "tahap"
+       ],
+       "cadangan": true,
+       "dekatkan": true
+      },
+      {
+       "t": "pilih",
+       "nilai": "Pengawasan",
+       "ph": "Pilih Tahap",
+       "pada": [
+        2,
+        "tahap"
+       ]
       },
       {
        "t": "ketik",
@@ -3033,21 +3503,21 @@
     {
      "narasi": [
       {
-       "id": "n103",
+       "id": "n113",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Sekarang pembeda yang paling sering diisi asal: C dan UC. Penyebabnya auditor terbatas dan jadwal yang padat.",
-       "tts": "Sekarang pembeda yang paling sering diisi asal: Ce dan U-Ce. Penyebabnya auditor terbatas dan jadwal yang padat."
+       "teks": "Sekarang pembeda yang paling sering diisi asal: C dan UC. Penyebabnya: auditor terbatas, dan jadwal yang padat.",
+       "tts": "Sekarang pembeda yang paling sering diisi asal: Ce dan U-Ce. Penyebabnya: auditor terbatas, dan jadwal yang padat."
       },
       {
-       "id": "n104",
+       "id": "n114",
        "suara": "g",
        "voice": "gadis",
        "teks": "Bisakah Inspektorat menambah auditor sendiri?",
        "tts": "Bisakah Inspektorat menambah auditor sendiri?"
       },
       {
-       "id": "n105",
+       "id": "n115",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tidak. Itu bukan keputusan Inspektorat. Maka UC, tidak terkendali, dan rencana tindaknya bukan menambah auditor, melainkan menyusun prioritas berbasis risiko dengan auditor yang ada.",
@@ -3058,14 +3528,22 @@
       {
        "t": "centang",
        "label": "Men",
-       "laju": 3.4,
-       "teks": "Jumlah auditor dan pejabat pengawas terbatas dibandingkan jumlah objek pengawasan"
+       "laju": 3.6,
+       "teks": "Jumlah auditor dan pejabat pengawas terbatas dibandingkan jumlah objek pengawasan",
+       "pada": [
+        0,
+        "auditor"
+       ]
       },
       {
        "t": "centang",
        "label": "Method",
-       "laju": 3.6,
-       "teks": "Jadwal penugasan padat dan sering berbenturan dengan permintaan pengawasan di luar rencana"
+       "laju": 3.8,
+       "teks": "Jadwal penugasan padat dan sering berbenturan dengan permintaan pengawasan di luar rencana",
+       "pada": [
+        0,
+        "jadwal"
+       ]
       },
       {
        "t": "klik",
@@ -3107,25 +3585,32 @@
     {
      "narasi": [
       {
-       "id": "n106",
+       "id": "n116",
        "suara": "g",
        "voice": "gadis",
        "teks": "Pengendalian yang ada: PKPT dan surat tugas. Kurang efektif, dengan celah kriteria a: prosedurnya sudah dijalankan, tetapi belum mampu menangani risikonya.",
        "tts": "Pengendalian yang ada: Pe-Ka-Pe-Te dan surat tugas. Kurang efektif, dengan celah kriteria a: prosedurnya sudah dijalankan, tetapi belum mampu menangani risikonya."
       },
       {
-       "id": "n107",
+       "id": "n117",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kelima kriteria celah itu datang dari Perdep, bukan karangan aplikasi. Kriteria inilah yang menerangkan kenapa pengendalian belum cukup, dan dari situ rencana tindaknya diturunkan.",
        "tts": "Kelima kriteria celah itu datang dari Perdep, bukan karangan aplikasi. Kriteria inilah yang menerangkan kenapa pengendalian belum cukup, dan dari situ rencana tindaknya diturunkan."
       },
       {
-       "id": "n108",
+       "id": "n118",
        "suara": "a",
        "voice": "ardi",
        "teks": "Skalanya: inheren lima-lima, sekarang lima-empat, target lima-tiga. Dampaknya tidak turun, karena PKPT mengurangi peluang terlewat, bukan akibatnya.",
        "tts": "Skalanya: inheren lima-lima, sekarang lima-empat, target lima-tiga. Dampaknya tidak turun, karena Pe-Ka-Pe-Te mengurangi peluang terlewat, bukan akibatnya."
+      },
+      {
+       "id": "n119",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Rencana tindaknya: PKPT berbasis risiko, dengan prioritas objek sesuai auditor yang ada. Simpan.",
+       "tts": "Rencana tindaknya: Pe-Ka-Pe-Te berbasis risiko, dengan prioritas objek sesuai auditor yang ada. Simpan."
       }
      ],
      "aksi": [
@@ -3143,7 +3628,11 @@
       {
        "t": "klik",
        "teks": "KE",
-       "tunggu": 500
+       "tunggu": 500,
+       "pada": [
+        0,
+        "kurang"
+       ]
       },
       {
        "t": "centang",
@@ -3168,19 +3657,31 @@
        "t": "matriks",
        "titik": "IInheren",
        "d": 5,
-       "k": 5
+       "k": 5,
+       "pada": [
+        2,
+        "inheren"
+       ]
       },
       {
        "t": "matriks",
        "titik": "RResidual/Current",
        "d": 5,
-       "k": 4
+       "k": 4,
+       "pada": [
+        2,
+        "sekarang"
+       ]
       },
       {
        "t": "matriks",
        "titik": "TTarget",
        "d": 5,
-       "k": 3
+       "k": 3,
+       "pada": [
+        2,
+        "target"
+       ]
       },
       {
        "t": "klik",
@@ -3190,8 +3691,12 @@
       {
        "t": "centang",
        "label": "Abate",
-       "laju": 4.0,
-       "teks": "Menyusun Program Kerja Pengawasan Tahunan berbasis risiko dan menetapkan prioritas objek pengawasan sesuai ketersediaan auditor"
+       "laju": 4.4,
+       "teks": "Menyusun Program Kerja Pengawasan Tahunan berbasis risiko dan menetapkan prioritas objek pengawasan sesuai ketersediaan auditor",
+       "pada": [
+        3,
+        "rencana"
+       ]
       },
       {
        "t": "pilih",
@@ -3226,7 +3731,11 @@
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2800,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        3,
+        "simpan"
+       ]
       }
      ],
      "id": "6-04"
@@ -3234,25 +3743,39 @@
     {
      "narasi": [
       {
-       "id": "n109",
+       "id": "n120",
        "suara": "a",
        "voice": "ardi",
        "teks": "Satu lagi, lebih cepat: dokumentasi hasil pengawasan tidak lengkap, tahap pelaporan.",
        "tts": "Satu lagi, lebih cepat: dokumentasi hasil pengawasan tidak lengkap, tahap pelaporan."
       },
       {
-       "id": "n110",
+       "id": "n121",
        "suara": "g",
        "voice": "gadis",
        "teks": "Satu kegiatan boleh punya risiko di beberapa tahap. Kalau semua risiko Anda menumpuk di satu tahap, tahap yang lain mungkin belum dipikirkan.",
        "tts": "Satu kegiatan boleh punya risiko di beberapa tahap. Kalau semua risiko Anda menumpuk di satu tahap, tahap yang lain mungkin belum dipikirkan."
       },
       {
-       "id": "n111",
+       "id": "n122",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Celahnya kriteria c: kebijakan ada, tetapi belum diikuti prosedur baku. Maka rencana tindaknya memperkuat reviu berjenjang, bukan membuat kebijakan baru.",
-       "tts": "Celahnya kriteria c: kebijakan ada, tetapi belum diikuti prosedur baku. Maka rencana tindaknya memperkuat reviu berjenjang, bukan membuat kebijakan baru."
+       "teks": "Penyebabnya Method: kertas kerja audit belum tertib. Masih dalam kuasa kita, jadi C.",
+       "tts": "Penyebabnya Metod: kertas kerja audit belum tertib. Masih dalam kuasa kita, jadi Ce."
+      },
+      {
+       "id": "n123",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Celahnya kriteria c: kebijakan ada, tetapi belum diikuti prosedur baku.",
+       "tts": "Celahnya kriteria c: kebijakan ada, tetapi belum diikuti prosedur baku."
+      },
+      {
+       "id": "n124",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Maka rencana tindaknya memperkuat reviu berjenjang, bukan membuat kebijakan baru. Simpan.",
+       "tts": "Maka rencana tindaknya memperkuat reviu berjenjang, bukan membuat kebijakan baru. Simpan."
       }
      ],
      "aksi": [
@@ -3270,7 +3793,11 @@
        "t": "ketik",
        "teks": "Dokumentasi hasil pengawasan tidak lengkap",
        "laju": 3.6,
-       "sel": "[id='URAIAN RISIKO']"
+       "sel": "[id='URAIAN RISIKO']",
+       "pada": [
+        0,
+        "dokumentasi"
+       ]
       },
       {
        "t": "pilih",
@@ -3281,7 +3808,11 @@
       {
        "t": "pilih",
        "nilai": "Pertanggungjawaban / Pelaporan",
-       "ph": "Pilih Tahap"
+       "ph": "Pilih Tahap",
+       "pada": [
+        0,
+        "tahap"
+       ]
       },
       {
        "t": "ketik",
@@ -3293,23 +3824,31 @@
        "t": "centang",
        "label": "Method",
        "laju": 4.4,
-       "teks": "Administrasi kertas kerja audit belum tertib dan kepatuhan terhadap prosedur baku masih rendah"
+       "teks": "Administrasi kertas kerja audit belum tertib dan kepatuhan terhadap prosedur baku masih rendah",
+       "pada": [
+        2,
+        "penyebabnya"
+       ]
       },
       {
        "t": "klik",
        "teks": "C",
-       "tunggu": 400
+       "tunggu": 400,
+       "pada": [
+        2,
+        "ce"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Rekomendasi sulit ditindaklanjuti karena dasar buktinya tidak lengkap",
-       "laju": 4.4,
+       "laju": 4.6,
        "sel": "[id='URAIAN DAMPAK RISIKO']"
       },
       {
        "t": "ketik",
        "teks": "Perangkat Daerah dan Inspektorat",
-       "laju": 4.4,
+       "laju": 4.6,
        "sel": "[id='PIHAK YANG TERKENA DAMPAK RISIKO']"
       },
       {
@@ -3320,7 +3859,7 @@
       {
        "t": "ketik",
        "teks": "Prosedur baku administrasi audit dan reviu berjenjang atas kertas kerja",
-       "laju": 4.4,
+       "laju": 4.6,
        "sel": "[id='URAIAN PENGENDALIAN YANG SUDAH ADA']"
       },
       {
@@ -3332,7 +3871,11 @@
        "t": "centang",
        "label": "c.Kebijakan belum diikuti dengan prosedur baku",
        "laju": 2.6,
-       "tunggu": 400
+       "tunggu": 400,
+       "pada": [
+        3,
+        "celahnya"
+       ]
       },
       {
        "t": "klik",
@@ -3366,7 +3909,11 @@
        "t": "centang",
        "label": "Abate",
        "laju": 4.4,
-       "teks": "Memperkuat reviu berjenjang atas berkas hasil audit sebelum laporan diterbitkan"
+       "teks": "Memperkuat reviu berjenjang atas berkas hasil audit sebelum laporan diterbitkan",
+       "pada": [
+        4,
+        "maka"
+       ]
       },
       {
        "t": "pilih",
@@ -3401,7 +3948,11 @@
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2800,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        4,
+        "simpan"
+       ]
       }
      ],
      "id": "6-05"
@@ -3418,14 +3969,14 @@
     {
      "narasi": [
       {
-       "id": "n112",
+       "id": "n125",
        "suara": "a",
        "voice": "ardi",
        "teks": "Semua risiko sudah dinilai, dan setiap rencana tindak punya penanggung jawab serta tenggat. Sekarang membuktikan bahwa rencana itu dijalankan.",
        "tts": "Semua risiko sudah dinilai, dan setiap rencana tindak punya penanggung jawab serta tenggat. Sekarang membuktikan bahwa rencana itu dijalankan."
       },
       {
-       "id": "n113",
+       "id": "n126",
        "suara": "g",
        "voice": "gadis",
        "teks": "Daftar di Formulir 8 dan 9 ini tidak diketik ulang. Rencana tindak dari tiga formulir risiko tadi muncul sendiri di sini.",
@@ -3466,14 +4017,14 @@
     {
      "narasi": [
       {
-       "id": "n114",
+       "id": "n127",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Kita isi rencana tindak yang pertama. Formulir 8 mencatat kepada siapa rencana itu dikomunikasikan, dan lewat apa.",
-       "tts": "Kita isi rencana tindak yang pertama. Formulir 8 mencatat kepada siapa rencana itu dikomunikasikan, dan lewat apa."
+       "teks": "Kita isi rencana tindak yang pertama. Formulir 8 mencatat lewat apa rencana itu dikomunikasikan, oleh siapa, dan kepada siapa.",
+       "tts": "Kita isi rencana tindak yang pertama. Formulir 8 mencatat lewat apa rencana itu dikomunikasikan, oleh siapa, dan kepada siapa."
       },
       {
-       "id": "n115",
+       "id": "n128",
        "suara": "g",
        "voice": "gadis",
        "teks": "Formulir 9 mencatat bagaimana pelaksanaannya dipantau, dan oleh siapa.",
@@ -3491,19 +4042,31 @@
        "t": "ketik",
        "teks": "Rapat koordinasi dan surat edaran",
        "laju": 5.0,
-       "ph": "mis. Rapat"
+       "ph": "mis. Rapat",
+       "pada": [
+        0,
+        "lewat"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Inspektur Kabupaten Aceh Barat",
        "laju": 5.0,
-       "ph": "mis. Sekda/Bappeda"
+       "ph": "mis. Sekda/Bappeda",
+       "pada": [
+        0,
+        "oleh"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Seluruh Perangkat Daerah",
        "laju": 5.0,
-       "ph": "mis. Dinas Kesehatan"
+       "ph": "mis. Dinas Kesehatan",
+       "pada": [
+        0,
+        "kepada"
+       ]
       },
       {
        "t": "ketik",
@@ -3512,14 +4075,18 @@
        "ph": "mis. Konfirmasi/pemantauan berkelanjutan",
        "pada": [
         1,
-        "dipantau"
+        "bagaimana"
        ]
       },
       {
        "t": "ketik",
        "teks": "Inspektur Pembantu Wilayah I sampai IV",
        "laju": 5.0,
-       "ph": "mis. Kepala Dinas Kesehatan"
+       "ph": "mis. Kepala Dinas Kesehatan",
+       "pada": [
+        1,
+        "oleh"
+       ]
       }
      ],
      "id": "7-02"
@@ -3527,14 +4094,14 @@
     {
      "narasi": [
       {
-       "id": "n116",
+       "id": "n129",
        "suara": "a",
        "voice": "ardi",
        "teks": "Keduanya punya kolom rencana dan realisasi. Rencana diisi di awal tahun; realisasinya menyusul setelah dikerjakan.",
        "tts": "Keduanya punya kolom rencana dan realisasi. Rencana diisi di awal tahun; realisasinya menyusul setelah dikerjakan."
       },
       {
-       "id": "n117",
+       "id": "n130",
        "suara": "g",
        "voice": "gadis",
        "teks": "Itu sebabnya rencana tindak tidak boleh berbunyi niat yang kabur. Yang bisa dilaporkan hanya yang punya wujud.",
@@ -3545,7 +4112,12 @@
       {
        "t": "pilih",
        "nilai": "Triwulan I (Januari/Februari/Maret)",
-       "pemicu": "Pilih Triwulan"
+       "pemicu": "Pilih Triwulan",
+       "pada": [
+        0,
+        "rencana",
+        2
+       ]
       },
       {
        "t": "ketik",
@@ -3600,14 +4172,14 @@
     {
      "narasi": [
       {
-       "id": "n118",
+       "id": "n131",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 10 berbeda. Semua yang tadi kita isi bicara tentang yang belum terjadi; Formulir 10 mencatat yang sudah terjadi.",
        "tts": "Formulir 10 berbeda. Semua yang tadi kita isi bicara tentang yang belum terjadi; Formulir 10 mencatat yang sudah terjadi."
       },
       {
-       "id": "n119",
+       "id": "n132",
        "suara": "g",
        "voice": "gadis",
        "teks": "Catatan ini menjadi bukti tahun depan. Kalau sebuah risiko dinilai jarang tetapi terjadi lima kali setahun, penilaiannya harus berubah.",
@@ -3660,21 +4232,21 @@
     {
      "narasi": [
       {
-       "id": "n120",
+       "id": "n133",
        "suara": "a",
        "voice": "ardi",
        "teks": "Cepat atau lambat, salah satu risiko yang kita daftarkan benar-benar terjadi. Siapa pun yang melihatnya bisa melapor, termasuk pegawai yang tidak punya akun.",
        "tts": "Cepat atau lambat, salah satu risiko yang kita daftarkan benar-benar terjadi. Siapa pun yang melihatnya bisa melapor, termasuk pegawai yang tidak punya akun."
       },
       {
-       "id": "n121",
+       "id": "n134",
        "suara": "g",
        "voice": "gadis",
        "teks": "Tanpa nama pengguna dan kata sandi?",
        "tts": "Tanpa nama pengguna dan kata sandi?"
       },
       {
-       "id": "n122",
+       "id": "n135",
        "suara": "a",
        "voice": "ardi",
        "teks": "Ya. Pelapor memindai kode QR ini, di halaman masuk, di dinding kantor, atau di pesan berantai, dan langsung sampai di formulir lapor.",
@@ -3726,7 +4298,7 @@
     {
      "narasi": [
       {
-       "id": "n123",
+       "id": "n136",
        "suara": "g",
        "voice": "gadis",
        "teks": "Menunya cuma sedikit. Akun bersama ini sengaja dibuat sempit: tidak bisa membuka data risiko, tidak bisa mengubah apa pun, dan tidak bisa melihat laporan orang lain.",
@@ -3746,14 +4318,14 @@
     {
      "narasi": [
       {
-       "id": "n124",
+       "id": "n137",
        "suara": "a",
        "voice": "ardi",
        "teks": "Ada dua mode. Cek Risiko yang Sudah Terjadi, kalau pelapor tahu risikonya sudah terdaftar. Lapor Kejadian Baru, kalau tidak.",
        "tts": "Ada dua mode. Cek Risiko yang Sudah Terjadi, kalau pelapor tahu risikonya sudah terdaftar. Lapor Kejadian Baru, kalau tidak."
       },
       {
-       "id": "n125",
+       "id": "n138",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kalau ragu, pilih Lapor Kejadian Baru. Menautkannya pekerjaan PIC, bukan pelapor.",
@@ -3798,7 +4370,7 @@
     {
      "narasi": [
       {
-       "id": "n126",
+       "id": "n139",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kita cari risiko pengawasan yang tidak sesuai PKPT. Begitu dipilih, laporan ini otomatis tertaut ke sana.",
@@ -3819,14 +4391,14 @@
     {
      "narasi": [
       {
-       "id": "n127",
+       "id": "n140",
        "suara": "g",
        "voice": "gadis",
        "teks": "Nama wajib. Surel dan telepon boleh kosong; banyak pelapor tidak ingin dihubungi.",
        "tts": "Nama wajib. Surel dan telepon boleh kosong; banyak pelapor tidak ingin dihubungi."
       },
       {
-       "id": "n128",
+       "id": "n141",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kolom kejadian ditulis sebagai sesuatu yang sudah terjadi: kapan, di mana, dan berapa. Makin jelas, makin sedikit PIC menebak.",
@@ -3844,7 +4416,11 @@
        "t": "ketik",
        "teks": "rahmat.hidayat@contoh.go.id",
        "laju": 4.6,
-       "kolomLabel": "Email"
+       "kolomLabel": "Email",
+       "pada": [
+        0,
+        "surel"
+       ]
       },
       {
        "t": "pilih",
@@ -3874,14 +4450,14 @@
     {
      "narasi": [
       {
-       "id": "n129",
+       "id": "n142",
        "suara": "a",
        "voice": "ardi",
        "teks": "Waktu kejadian, lalu pemicunya. Karena risikonya sudah dipilih, pemicu terisi dari penyebab yang terdaftar. Pelapor cukup memeriksa, dan menambah kalau melihat yang lain.",
        "tts": "Waktu kejadian, lalu pemicunya. Karena risikonya sudah dipilih, pemicu terisi dari penyebab yang terdaftar. Pelapor cukup memeriksa, dan menambah kalau melihat yang lain."
       },
       {
-       "id": "n130",
+       "id": "n143",
        "suara": "g",
        "voice": "gadis",
        "teks": "Bukti foto atau PDF boleh dilampirkan, sampai lima berkas.",
@@ -3925,7 +4501,7 @@
     {
      "narasi": [
       {
-       "id": "n131",
+       "id": "n144",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kirim. PIC perangkat daerah terkait langsung menerima pemberitahuan, dan pekerjaan pelapor selesai di sini.",
@@ -3945,14 +4521,14 @@
     {
      "narasi": [
       {
-       "id": "n132",
+       "id": "n145",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kasus kedua: kejadian yang risikonya belum terdaftar di mana pun. Surat tugas pemeriksaan terbit sesudah kegiatannya dimulai.",
        "tts": "Kasus kedua: kejadian yang risikonya belum terdaftar di mana pun. Surat tugas pemeriksaan terbit sesudah kegiatannya dimulai."
       },
       {
-       "id": "n133",
+       "id": "n146",
        "suara": "a",
        "voice": "ardi",
        "teks": "Pilih Lapor Kejadian Baru. Kolom pencarian risiko tidak muncul, karena memang tidak ada yang bisa dicari.",
@@ -3997,7 +4573,14 @@
     {
      "narasi": [
       {
-       "id": "n134",
+       "id": "n147",
+       "suara": "a",
+       "voice": "ardi",
+       "teks": "Tempat kejadian, lalu waktunya.",
+       "tts": "Tempat kejadian, lalu waktunya."
+      },
+      {
+       "id": "n148",
        "suara": "g",
        "voice": "gadis",
        "teks": "Pemicunya Method, karena persoalannya pada urutan prosedur, bukan pada orangnya. Kirim.",
@@ -4009,12 +4592,20 @@
        "t": "ketik",
        "teks": "Kantor Inspektorat Kabupaten Aceh Barat",
        "laju": 5.2,
-       "kolomLabel": "Tempat"
+       "kolomLabel": "Tempat",
+       "pada": [
+        0,
+        "tempat"
+       ]
       },
       {
        "t": "klik",
        "teks": "Pilih tanggal",
-       "tunggu": 1000
+       "tunggu": 1000,
+       "pada": [
+        0,
+        "lalu"
+       ]
       },
       {
        "t": "klik",
@@ -4025,7 +4616,11 @@
        "t": "centang",
        "label": "Method",
        "laju": 5.5,
-       "teks": "Penerbitan surat tugas belum diatur harus selesai sebelum kegiatan dimulai"
+       "teks": "Penerbitan surat tugas belum diatur harus selesai sebelum kegiatan dimulai",
+       "pada": [
+        1,
+        "metod"
+       ]
       },
       {
        "t": "klik",
@@ -4033,7 +4628,7 @@
        "tunggu": 2800,
        "simpan": true,
        "pada": [
-        0,
+        1,
         "kirim"
        ]
       }
@@ -4053,14 +4648,14 @@
     {
      "narasi": [
       {
-       "id": "n135",
+       "id": "n149",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kembali ke akun PIC. Laporan masuk ke menu Utilities, Rekap Lapor Kejadian Risiko, dan PIC menerima pemberitahuannya.",
        "tts": "Kembali ke akun Pi-Ai-Si. Laporan masuk ke menu Utilities, Rekap Lapor Kejadian Risiko, dan Pi-Ai-Si menerima pemberitahuannya."
       },
       {
-       "id": "n136",
+       "id": "n150",
        "suara": "g",
        "voice": "gadis",
        "teks": "Statusnya berjalan berurutan: baru, diverifikasi, ditindaklanjuti, lalu selesai.",
@@ -4103,14 +4698,14 @@
     {
      "narasi": [
       {
-       "id": "n137",
+       "id": "n151",
        "suara": "a",
        "voice": "ardi",
        "teks": "Buka laporan pertama. Langkah pertama bukan menindaklanjuti, melainkan memverifikasi: benarkah kejadiannya, benarkah urusan kita, dan tepatkah risiko yang tertaut.",
        "tts": "Buka laporan pertama. Langkah pertama bukan menindaklanjuti, melainkan memverifikasi: benarkah kejadiannya, benarkah urusan kita, dan tepatkah risiko yang tertaut."
       },
       {
-       "id": "n138",
+       "id": "n152",
        "suara": "g",
        "voice": "gadis",
        "teks": "Laporan ini sudah tertaut karena pelapor memilihnya sendiri. Kalau keliru, tautannya bisa diganti dari sini.",
@@ -4140,14 +4735,14 @@
     {
      "narasi": [
       {
-       "id": "n139",
+       "id": "n153",
        "suara": "a",
        "voice": "ardi",
        "teks": "Karena risikonya sudah terdaftar, tombol Catat ke Form 10 tersedia. Inilah yang mengubah laporan menjadi catatan resmi.",
        "tts": "Karena risikonya sudah terdaftar, tombol Catat ke Form 10 tersedia. Inilah yang mengubah laporan menjadi catatan resmi."
       },
       {
-       "id": "n140",
+       "id": "n154",
        "suara": "g",
        "voice": "gadis",
        "teks": "Formulir 10 terbuka dengan tanggal, sebab, dan dampak sudah terisi dari laporan. PIC tinggal meninjau, lalu menyimpan.",
@@ -4170,13 +4765,14 @@
        "isi": "Tanggal, sebab, dan dampak diambil dari laporan.",
        "jenis": "tips",
        "ms": 4400,
-       "kolomLabel": "Tanggal Terjadi",
+       "teks": "Tanggal Terjadi",
        "latar": true,
        "pada": [
         1,
         "terisi"
        ],
-       "cadangan": true
+       "cadangan": true,
+       "dekatkan": true
       },
       {
        "t": "klik",
@@ -4194,7 +4790,7 @@
     {
      "narasi": [
       {
-       "id": "n141",
+       "id": "n155",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kembali ke rekap. Naikkan statusnya menjadi ditindaklanjuti, dan tulis catatannya. Catatan itulah yang menjelaskan apa yang benar-benar dikerjakan.",
@@ -4218,13 +4814,21 @@
       {
        "t": "pilih",
        "nilai": "Ditindaklanjuti",
-       "kolomLabel": "Status Tindak Lanjut"
+       "kolomLabel": "Status Tindak Lanjut",
+       "pada": [
+        0,
+        "naikkan"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Kejadian dicatat di Formulir 10. Penjadwalan ulang penugasan dibahas pada rapat evaluasi PKPT triwulan berikutnya.",
        "laju": 4.4,
-       "ph": "Catatan tindak lanjut"
+       "ph": "Catatan tindak lanjut",
+       "pada": [
+        0,
+        "tulis"
+       ]
       },
       {
        "t": "klik",
@@ -4238,18 +4842,25 @@
     {
      "narasi": [
       {
-       "id": "n142",
+       "id": "n156",
        "suara": "g",
        "voice": "gadis",
        "teks": "Laporan kedua berbeda. Tombol Catat ke Form 10 tidak ada.",
        "tts": "Laporan kedua berbeda. Tombol Catat ke Form 10 tidak ada."
       },
       {
-       "id": "n143",
+       "id": "n157",
        "suara": "a",
        "voice": "ardi",
        "teks": "Disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi risikonya harus terdaftar dulu. Untuk itu ada tombol Input ke Register Risiko.",
        "tts": "Disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi risikonya harus terdaftar dulu. Untuk itu ada tombol Input ke Register Risiko."
+      },
+      {
+       "id": "n158",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Kejadian ini operasional, jadi tingkat tiga.",
+       "tts": "Kejadian ini operasional, jadi tingkat tiga."
       }
      ],
      "aksi": [
@@ -4273,8 +4884,8 @@
        "teks": "IRO PD",
        "tunggu": 3000,
        "pada": [
-        1,
-        "register"
+        2,
+        "tingkat"
        ]
       }
      ],
@@ -4283,21 +4894,21 @@
     {
      "narasi": [
       {
-       "id": "n144",
+       "id": "n159",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 3b terbuka dengan uraian dari laporan. Tetapi yang tertulis masih kejadian, padahal yang harus dicatat di sini adalah risikonya.",
        "tts": "Formulir tiga be terbuka dengan uraian dari laporan. Tetapi yang tertulis masih kejadian, padahal yang harus dicatat di sini adalah risikonya."
       },
       {
-       "id": "n145",
+       "id": "n160",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kejadian itu satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi.",
        "tts": "Kejadian itu satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi."
       },
       {
-       "id": "n146",
+       "id": "n161",
        "suara": "a",
        "voice": "ardi",
        "teks": "Jadi kita rumuskan ulang: penerbitan surat tugas terlambat, sehingga penugasan dimulai tanpa dasar administratif yang lengkap. Tahapnya perencanaan.",
@@ -4343,7 +4954,11 @@
       {
        "t": "pilih",
        "nilai": "Perencanaan",
-       "ph": "Pilih Tahap"
+       "ph": "Pilih Tahap",
+       "pada": [
+        2,
+        "tahapnya"
+       ]
       },
       {
        "t": "ketik",
@@ -4357,21 +4972,21 @@
     {
      "narasi": [
       {
-       "id": "n147",
+       "id": "n162",
        "suara": "g",
        "voice": "gadis",
        "teks": "Penyebabnya sudah terisi dari pemicu yang ditulis pelapor. Kita tinggal menentukan apakah ia terkendali. Penerbitan surat tugas sepenuhnya di tangan Inspektorat, jadi C.",
        "tts": "Penyebabnya sudah terisi dari pemicu yang ditulis pelapor. Kita tinggal menentukan apakah ia terkendali. Penerbitan surat tugas sepenuhnya di tangan Inspektorat, jadi Ce."
       },
       {
-       "id": "n148",
+       "id": "n163",
        "suara": "a",
        "voice": "ardi",
        "teks": "Prosedur penugasan ada, tetapi belum mengatur urutan waktunya: kurang efektif, celah kriteria c.",
        "tts": "Prosedur penugasan ada, tetapi belum mengatur urutan waktunya: kurang efektif, celah kriteria c."
       },
       {
-       "id": "n149",
+       "id": "n164",
        "suara": "a",
        "voice": "ardi",
        "teks": "Dan kemungkinannya tidak boleh dinilai rendah. Ia sudah terjadi sekali, dan itu catatan, bukan dugaan.",
@@ -4382,6 +4997,16 @@
       {
        "t": "lompat",
        "teks": "Penyebab dan Dampak"
+      },
+      {
+       "t": "sorot",
+       "ms": 2600,
+       "teks": "Method",
+       "pada": [
+        0,
+        "penyebabnya"
+       ],
+       "cadangan": true
       },
       {
        "t": "klik",
@@ -4396,36 +5021,48 @@
       {
        "t": "ketik",
        "teks": "Sebagian kegiatan pemeriksaan berjalan tanpa dasar administratif yang lengkap sehingga hasilnya berpotensi dipersoalkan",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='URAIAN DAMPAK RISIKO']"
       },
       {
        "t": "ketik",
        "teks": "Inspektorat dan Perangkat Daerah yang diperiksa",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='PIHAK YANG TERKENA DAMPAK RISIKO']"
       },
       {
        "t": "klik",
        "teks": "Ya",
-       "tunggu": 700
+       "tunggu": 700,
+       "pada": [
+        1,
+        "prosedur"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Prosedur penugasan pengawasan dan penerbitan surat tugas oleh Sekretariat",
-       "laju": 4.0,
+       "laju": 4.4,
        "sel": "[id='URAIAN PENGENDALIAN YANG SUDAH ADA']"
       },
       {
        "t": "klik",
        "teks": "KE",
-       "tunggu": 400
+       "tunggu": 400,
+       "pada": [
+        1,
+        "kurang"
+       ]
       },
       {
        "t": "centang",
        "label": "c.Kebijakan belum diikuti dengan prosedur baku",
        "laju": 2.6,
-       "tunggu": 400
+       "tunggu": 400,
+       "pada": [
+        1,
+        "celah"
+       ]
       },
       {
        "t": "kartu",
@@ -4445,11 +5082,18 @@
     {
      "narasi": [
       {
-       "id": "n150",
+       "id": "n165",
        "suara": "a",
        "voice": "ardi",
        "teks": "Skalanya: inheren tiga-empat, sekarang tiga-tiga, target tiga-dua. Rencana tindaknya: surat tugas terbit paling lambat sehari sebelum kegiatan dimulai, dan itu masuk prosedur baku.",
        "tts": "Skalanya: inheren tiga-empat, sekarang tiga-tiga, target tiga-dua. Rencana tindaknya: surat tugas terbit paling lambat sehari sebelum kegiatan dimulai, dan itu masuk prosedur baku."
+      },
+      {
+       "id": "n166",
+       "suara": "g",
+       "voice": "gadis",
+       "teks": "Penanggung jawabnya Sekretaris Inspektorat. Simpan.",
+       "tts": "Penanggung jawabnya Sekretaris Inspektorat. Simpan."
       }
      ],
      "aksi": [
@@ -4462,19 +5106,31 @@
        "t": "matriks",
        "titik": "IInheren",
        "d": 3,
-       "k": 4
+       "k": 4,
+       "pada": [
+        0,
+        "inheren"
+       ]
       },
       {
        "t": "matriks",
        "titik": "RResidual/Current",
        "d": 3,
-       "k": 3
+       "k": 3,
+       "pada": [
+        0,
+        "sekarang"
+       ]
       },
       {
        "t": "matriks",
        "titik": "TTarget",
        "d": 3,
-       "k": 2
+       "k": 2,
+       "pada": [
+        0,
+        "target"
+       ]
       },
       {
        "t": "klik",
@@ -4485,13 +5141,21 @@
        "t": "centang",
        "label": "Abate",
        "laju": 4.4,
-       "teks": "Menetapkan dalam prosedur baku bahwa surat tugas pemeriksaan terbit paling lambat satu hari sebelum kegiatan dimulai"
+       "teks": "Menetapkan dalam prosedur baku bahwa surat tugas pemeriksaan terbit paling lambat satu hari sebelum kegiatan dimulai",
+       "pada": [
+        0,
+        "rencana"
+       ]
       },
       {
        "t": "ketik",
        "teks": "Sekretaris Inspektorat",
        "laju": 3.0,
-       "sel": "[id='PENANGGUNG JAWAB PENGENDALIAN']"
+       "sel": "[id='PENANGGUNG JAWAB PENGENDALIAN']",
+       "pada": [
+        1,
+        "penanggung"
+       ]
       },
       {
        "t": "pilih",
@@ -4514,7 +5178,11 @@
        "t": "klik",
        "teks": "Simpan",
        "tunggu": 2800,
-       "simpan": true
+       "simpan": true,
+       "pada": [
+        1,
+        "simpan"
+       ]
       }
      ],
      "id": "9-08"
@@ -4522,14 +5190,14 @@
     {
      "narasi": [
       {
-       "id": "n151",
+       "id": "n167",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kembali ke rekap. Tautkan laporan kedua ke risiko yang baru dibuat, dan tombol Catat ke Form 10 pun muncul.",
        "tts": "Kembali ke rekap. Tautkan laporan kedua ke risiko yang baru dibuat, dan tombol Catat ke Form 10 pun muncul."
       },
       {
-       "id": "n152",
+       "id": "n168",
        "suara": "a",
        "voice": "ardi",
        "teks": "Urutannya tidak bisa dibalik: risikonya dulu, baru kejadiannya dicatat.",
@@ -4566,6 +5234,16 @@
        "tunggu": 1800
       },
       {
+       "t": "sorot",
+       "ms": 2200,
+       "teks": "Catat ke Form 10",
+       "pada": [
+        0,
+        "catat"
+       ],
+       "cadangan": true
+      },
+      {
        "t": "klik",
        "teks": "Catat ke Form 10",
        "tunggu": 3000,
@@ -4586,14 +5264,14 @@
     {
      "narasi": [
       {
-       "id": "n153",
+       "id": "n169",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 10 kini memuat kedua kejadian. Seorang pegawai melihat sesuatu dan melapor tanpa akun; PIC menelaah, mendaftarkan risikonya, dan menyusun perbaikannya.",
        "tts": "Formulir 10 kini memuat kedua kejadian. Seorang pegawai melihat sesuatu dan melapor tanpa akun; Pi-Ai-Si menelaah, mendaftarkan risikonya, dan menyusun perbaikannya."
       },
       {
-       "id": "n154",
+       "id": "n170",
        "suara": "g",
        "voice": "gadis",
        "teks": "Itulah manajemen risiko yang bekerja, bukan dokumen yang disusun sekali setahun lalu disimpan.",
@@ -4638,14 +5316,14 @@
     {
      "narasi": [
       {
-       "id": "n155",
+       "id": "n171",
        "suara": "a",
        "voice": "ardi",
        "teks": "Bagian yang paling ringan: tidak ada yang perlu diketik. Form Cetak menyusun seluruh kertas kerja, siap ditandatangani.",
        "tts": "Bagian yang paling ringan: tidak ada yang perlu diketik. Form Cetak menyusun seluruh kertas kerja, siap ditandatangani."
       },
       {
-       "id": "n156",
+       "id": "n172",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kalau ada yang kosong di sini, yang diperbaiki formulir asalnya, bukan halaman cetaknya.",
@@ -4690,7 +5368,7 @@
     {
      "narasi": [
       {
-       "id": "n157",
+       "id": "n173",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 2b, konteks strategis perangkat daerah. Kepala halamannya, nama perangkat daerah, periode, dan tahun, semuanya datang dari Data Umum.",
@@ -4735,14 +5413,14 @@
     {
      "narasi": [
       {
-       "id": "n158",
+       "id": "n174",
        "suara": "g",
        "voice": "gadis",
        "teks": "Formulir 3b menjajarkan seluruh kolom risiko dalam satu tabel. Formulir 4, hasil analisis. Formulir 5, daftar risiko prioritas.",
        "tts": "Formulir tiga be menjajarkan seluruh kolom risiko dalam satu tabel. Formulir 4, hasil analisis. Formulir 5, daftar risiko prioritas."
       },
       {
-       "id": "n159",
+       "id": "n175",
        "suara": "a",
        "voice": "ardi",
        "teks": "Tidak semua risiko masuk daftar prioritas, hanya yang di luar Selera Risiko. Selera Risiko Aceh Barat sampai dengan Sedang, jadi yang Tinggi dan Sangat Tinggi wajib ditangani.",
@@ -4818,7 +5496,7 @@
     {
      "narasi": [
       {
-       "id": "n160",
+       "id": "n176",
        "suara": "a",
        "voice": "ardi",
        "teks": "Formulir 7, rencana tindak atas hasil identifikasi risiko. Setiap formulir bisa diunduh sebagai PDF, lengkap dengan blok tanda tangan dari Data Umum.",
@@ -4864,14 +5542,14 @@
     {
      "narasi": [
       {
-       "id": "n161",
+       "id": "n177",
        "suara": "a",
        "voice": "ardi",
        "teks": "Empat laporan menutup rangkaian ini, dan yang membedakannya siapa penyusunnya.",
        "tts": "Empat laporan menutup rangkaian ini, dan yang membedakannya siapa penyusunnya."
       },
       {
-       "id": "n162",
+       "id": "n178",
        "suara": "g",
        "voice": "gadis",
        "teks": "Laporan 11, pelaksanaan penilaian risiko, dan Laporan 12, laporan berkala. Keduanya disusun perangkat daerah.",
@@ -4908,14 +5586,14 @@
     {
      "narasi": [
       {
-       "id": "n163",
+       "id": "n179",
        "suara": "a",
        "voice": "ardi",
        "teks": "Laporan 13 dari Unit Kepatuhan, dan Laporan 14 dari Komite Pengelolaan Risiko. Keduanya disusun di tingkat pemerintah daerah, dan paling sering terlewat.",
        "tts": "Laporan 13 dari Unit Kepatuhan, dan Laporan 14 dari Komite Pengelolaan Risiko. Keduanya disusun di tingkat pemerintah daerah, dan paling sering terlewat."
       },
       {
-       "id": "n164",
+       "id": "n180",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kalau keduanya belum pernah ada, bukan berarti tidak wajib. Artinya strukturnya belum berjalan.",
@@ -4966,14 +5644,14 @@
     {
      "narasi": [
       {
-       "id": "n165",
+       "id": "n181",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sekarang kacamatanya diganti. Bab ini untuk yang tidak mengisi, tetapi mengambil keputusan: Bupati, Sekretaris Daerah, dan kepala perangkat daerah.",
        "tts": "Sekarang kacamatanya diganti. Bab ini untuk yang tidak mengisi, tetapi mengambil keputusan: Bupati, Sekretaris Daerah, dan kepala perangkat daerah."
       },
       {
-       "id": "n166",
+       "id": "n182",
        "suara": "g",
        "voice": "gadis",
        "teks": "Akunnya akun peninjau, yang hanya bisa membaca. Perintah menulis ditolak di server, bukan sekadar tombolnya disembunyikan.",
@@ -5010,7 +5688,7 @@
     {
      "narasi": [
       {
-       "id": "n167",
+       "id": "n183",
        "suara": "a",
        "voice": "ardi",
        "teks": "Dua penyaring di kanan atas: perangkat daerah dan tahun. Pilih satu dinas, dan setiap angka hanya bicara tentang dinas itu. Begitulah menyiapkan rapat dengan satu perangkat daerah.",
@@ -5055,21 +5733,21 @@
     {
      "narasi": [
       {
-       "id": "n168",
+       "id": "n184",
        "suara": "g",
        "voice": "gadis",
        "teks": "Empat kartu ringkasan dibaca bersama, bukan satu per satu.",
        "tts": "Empat kartu ringkasan dibaca bersama, bukan satu per satu."
       },
       {
-       "id": "n169",
+       "id": "n185",
        "suara": "a",
        "voice": "ardi",
-       "teks": "Perhatikan RTP Selesai Disusun dan Kepatuhan Pelaporan. Kalau yang pertama tinggi tetapi yang kedua rendah, rencananya lengkap, tetapi bukti pelaksanaannya hampir tidak ada.",
-       "tts": "Perhatikan Er-Te-Pe Selesai Disusun dan Kepatuhan Pelaporan. Kalau yang pertama tinggi tetapi yang kedua rendah, rencananya lengkap, tetapi bukti pelaksanaannya hampir tidak ada."
+       "teks": "Perhatikan RTP Selesai Disusun, lalu Kepatuhan Pelaporan. Kalau yang pertama tinggi tetapi yang kedua rendah, rencananya lengkap, tetapi bukti pelaksanaannya hampir tidak ada.",
+       "tts": "Perhatikan Er-Te-Pe Selesai Disusun, lalu Kepatuhan Pelaporan. Kalau yang pertama tinggi tetapi yang kedua rendah, rencananya lengkap, tetapi bukti pelaksanaannya hampir tidak ada."
       },
       {
-       "id": "n170",
+       "id": "n186",
        "suara": "g",
        "voice": "gadis",
        "teks": "Yang tinggi itu niat, bukan hasil. Arahannya: Formulir 8, 9, dan 10 harus diisi.",
@@ -5123,21 +5801,21 @@
     {
      "narasi": [
       {
-       "id": "n171",
+       "id": "n187",
        "suara": "a",
        "voice": "ardi",
        "teks": "Peta Risiko. Yang dibaca ke mana massanya condong. Garis putus-putus adalah batas Selera Risiko; semua yang di luarnya wajib punya rencana tindak.",
        "tts": "Peta Risiko. Yang dibaca ke mana massanya condong. Garis putus-putus adalah batas Selera Risiko; semua yang di luarnya wajib punya rencana tindak."
       },
       {
-       "id": "n172",
+       "id": "n188",
        "suara": "g",
        "voice": "gadis",
        "teks": "Dan angka di dalam sel bisa diklik.",
        "tts": "Dan angka di dalam sel bisa diklik."
       },
       {
-       "id": "n173",
+       "id": "n189",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sel dampak lima, kemungkinan lima. Terbuka nama-nama risikonya, lengkap dengan perangkat daerah dan tanda apakah RTP-nya sudah tersusun. Daftar inilah agenda rapat.",
@@ -5183,7 +5861,7 @@
     {
      "narasi": [
       {
-       "id": "n174",
+       "id": "n190",
        "suara": "g",
        "voice": "gadis",
        "teks": "Klik namanya: muncul rincian risiko, dan tombol Buka Daftar menuju baris aslinya. Tiga klik dari angka ringkasan sampai satu baris milik satu dinas.",
@@ -5223,14 +5901,14 @@
     {
      "narasi": [
       {
-       "id": "n175",
+       "id": "n191",
        "suara": "a",
        "voice": "ardi",
        "teks": "Progres Tahapan per UPR menjawab siapa yang belum selesai. Klik satu perangkat daerah, dan terlihat persis di tahap mana ia tersendat.",
        "tts": "Progres Tahapan per U-Pe-Er menjawab siapa yang belum selesai. Klik satu perangkat daerah, dan terlihat persis di tahap mana ia tersendat."
       },
       {
-       "id": "n176",
+       "id": "n192",
        "suara": "g",
        "voice": "gadis",
        "teks": "Arahan rapat pun berubah, dari segera lengkapi manajemen risikonya, menjadi selesaikan formulir 1a sampai 1c minggu ini.",
@@ -5268,14 +5946,14 @@
     {
      "narasi": [
       {
-       "id": "n177",
+       "id": "n193",
        "suara": "a",
        "voice": "ardi",
        "teks": "Siklus empat skor: inheren, residual, target, dan aktual. Satu pertanyaan saja: apakah aktual bergerak mendekati target?",
        "tts": "Siklus empat skor: inheren, residual, target, dan aktual. Satu pertanyaan saja: apakah aktual bergerak mendekati target?"
       },
       {
-       "id": "n178",
+       "id": "n194",
        "suara": "g",
        "voice": "gadis",
        "teks": "Kalau tidak, ada tiga kemungkinan: rencananya keliru, tidak dijalankan, atau penyebabnya bukan yang diduga. Tiga keputusan yang berbeda.",
@@ -5311,18 +5989,18 @@
     {
      "narasi": [
       {
-       "id": "n179",
+       "id": "n195",
        "suara": "a",
        "voice": "ardi",
        "teks": "Ranking eksposur bukan daftar perangkat daerah terburuk. Yang di atas sering justru yang paling jujur menilai dirinya. Pakai untuk menentukan ke mana pendampingan diarahkan, bukan untuk sanksi.",
        "tts": "Ranking eksposur bukan daftar perangkat daerah terburuk. Yang di atas sering justru yang paling jujur menilai dirinya. Pakai untuk menentukan ke mana pendampingan diarahkan, bukan untuk sanksi."
       },
       {
-       "id": "n180",
+       "id": "n196",
        "suara": "g",
        "voice": "gadis",
-       "teks": "Log kejadian membandingkan laporan warga dengan pencatatan internal. Kalau laporan warga jauh lebih banyak, deteksi internal kita yang lemah.",
-       "tts": "Log kejadian membandingkan laporan warga dengan pencatatan internal. Kalau laporan warga jauh lebih banyak, deteksi internal kita yang lemah."
+       "teks": "Log kejadian membandingkan dua sumber: laporan warga, dan pencatatan internal. Kalau laporan warga jauh lebih banyak, deteksi internal kita yang lemah.",
+       "tts": "Log kejadian membandingkan dua sumber: laporan warga, dan pencatatan internal. Kalau laporan warga jauh lebih banyak, deteksi internal kita yang lemah."
       }
      ],
      "aksi": [
@@ -5346,7 +6024,7 @@
       {
        "t": "klik",
        "teks": "Laporan Warga",
-       "tunggu": 1200,
+       "tunggu": 500,
        "pada": [
         1,
         "warga"
@@ -5372,7 +6050,7 @@
     {
      "narasi": [
       {
-       "id": "n181",
+       "id": "n197",
        "suara": "a",
        "voice": "ardi",
        "teks": "Terakhir, formulir dari akun peninjau. Bisa dibaca sampai kolom terakhir, tanpa tombol tambah, ubah, atau hapus. Aman diberikan kepada siapa pun yang perlu melihat.",
@@ -5416,14 +6094,14 @@
     {
      "narasi": [
       {
-       "id": "n182",
+       "id": "n198",
        "suara": "a",
        "voice": "ardi",
        "teks": "Sebelum berpisah, tiga penolong kecil.",
        "tts": "Sebelum berpisah, tiga penolong kecil."
       },
       {
-       "id": "n183",
+       "id": "n199",
        "suara": "g",
        "voice": "gadis",
        "teks": "Pertama, Data Risiko gabungan. Lupa risiko itu ada di tingkat mana? Cari di sini, klik Lihat Data, dan aplikasi melompat ke barisnya.",
@@ -5460,7 +6138,7 @@
     {
      "narasi": [
       {
-       "id": "n184",
+       "id": "n200",
        "suara": "a",
        "voice": "ardi",
        "teks": "Kedua, tekan Ctrl+K di halaman mana pun untuk mencari menu, risiko, atau perangkat daerah.",
@@ -5507,7 +6185,7 @@
     {
      "narasi": [
       {
-       "id": "n185",
+       "id": "n201",
        "suara": "g",
        "voice": "gadis",
        "teks": "Ketiga, menghapus tidak berarti hilang. Baris yang dihapus masuk ke Data Terhapus dan bisa dipulihkan. Jadi jangan takut mencoba.",
@@ -5528,7 +6206,7 @@
     {
      "narasi": [
       {
-       "id": "n186",
+       "id": "n202",
        "suara": "a",
        "voice": "ardi",
        "teks": "Dan Dasbor kita, yang tadi kosong, sekarang terisi. Tidak satu angka pun diketik; semuanya lahir dari formulir yang kita kerjakan.",

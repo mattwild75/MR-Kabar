@@ -15,253 +15,269 @@ Suara: Ardi (pemandu) dan Gadis (PIC baru).
 [00:57] Gadis: Bab satu. Masuk, dan mengenal layar.
 [01:03] Gadis: Kita mulai dari halaman masuk. Nama pengguna dan kata sandinya diberikan admin aplikasi.
 [01:10] Ardi: Ada tiga jenis akun. PIC mengisi data perangkat daerahnya sendiri, Admin mengelola seluruh perangkat daerah, dan akun peninjau hanya bisa membaca.
-[01:20] Gadis: Yang kita pakai akun PIC, karena akun inilah yang dipegang kebanyakan dari kita.
+[01:19] Gadis: Yang kita pakai akun PIC, karena akun inilah yang dipegang kebanyakan dari kita.
 [01:26] Ardi: Animasi pembukanya boleh dilewati.
-[01:31] Ardi: Halaman pertama adalah Dasbor. Hampir semuanya masih nol, karena tahun dua ribu dua puluh enam belum diisi.
-[01:38] Gadis: Dan tidak satu angka pun di sini diketik tangan. Semuanya dihitung dari formulir yang sebentar lagi kita isi.
-[01:46] Ardi: Satu kebiasaan sejak hari pertama. Sesi berakhir otomatis empat jam sesudah masuk, dihitung sejak login, bukan sejak terakhir aktif.
-[01:55] Gadis: Semenit sebelum habis muncul peringatan Lanjutkan atau Keluar. Simpan dulu isian Anda, baru pilih Lanjutkan.
-[02:04] Ardi: Sekarang menu di kiri. Urutannya bukan asal; inilah urutan kerjanya.
-[02:09] Gadis: Form Input dulu, lalu Form Monitoring dan Evaluasi, baru Form Cetak. Kerjakan dari atas ke bawah, dan tidak ada yang terlewat.
+[01:29] Ardi: Halaman pertama adalah Dasbor. Hampir semuanya masih nol, karena tahun dua ribu dua puluh enam belum diisi.
+[01:37] Gadis: Dan tidak satu angka pun di sini diketik tangan. Semuanya dihitung dari formulir yang sebentar lagi kita isi.
+[01:45] Ardi: Satu kartu yang perlu diingat: Jadwal Penilaian Risiko. Tenggat setiap tahapan ada di sana, dan garis waktunya terbuka kalau diklik.
+[01:54] Ardi: Satu kebiasaan sejak hari pertama. Sesi berakhir otomatis empat jam sesudah masuk, dihitung sejak login, bukan sejak terakhir aktif.
+[02:02] Gadis: Semenit sebelum habis muncul peringatan Lanjutkan atau Keluar. Simpan dulu isian Anda, baru pilih Lanjutkan.
+[02:12] Ardi: Sekarang menu di kiri. Urutannya bukan asal; inilah urutan kerjanya.
+[02:17] Gadis: Form Input dulu, lalu Form Monitoring dan Evaluasi, baru Form Cetak. Kerjakan dari atas ke bawah, dan tidak ada yang terlewat.
 
 == 2. Data Umum
 
-[02:22] Gadis: Bab dua. Data Umum.
-[02:27] Ardi: Menu pertama di bawah Form Input: Data Umum. Diisi paling awal, karena isinya menjadi kepala setiap formulir cetak dan blok tanda tangannya.
-[02:36] Gadis: Kolom bertanda bintang sudah terisi dari pengaturan pemerintah daerah. Sisanya menerangkan siapa yang mengisi.
-[02:44] Ardi: Nama dinas ditulis lengkap, karena kalimat inilah yang tercetak di kepala formulir.
-[02:51] Gadis: Periode Penilaian. Ini yang paling sering keliru.
-[02:56] Ardi: Isinya periode Renstra, dua ribu dua puluh lima sampai dua ribu dua puluh sembilan, bukan tahun berjalan. Yang menyekat data per tahun adalah Tahun Penilaian di kanan atas.
-[03:09] Ardi: Lalu kepala perangkat daerah dan PIC penilai risiko, lengkap dengan jabatan dan NIP.
-[03:14] Gadis: Yang mengisi dan yang menandatangani itu dua hal berbeda, dan aplikasi memang memisahkannya.
-[03:25] Ardi: Sekarang tiga kolom dokumen sumber. Ketiganya bukan pengulangan.
-[03:30] Gadis: RSP untuk risiko strategis pemda, sumbernya RPJMD. RSO untuk strategis perangkat daerah, sumbernya Renstra. ROO untuk operasional, sumbernya Renja dan DPA.
-[03:45] Ardi: Kalau ketiganya diisi dokumen yang sama, tingkatan risikonya belum dibedakan, dan kekeliruan itu terbawa sampai ke formulir cetak.
-[03:52] Ardi: Tempat dan tanggal tercetak tepat di atas tanda tangan.
-[03:55] Gadis: Lalu daftar penanda tangan milik perangkat daerah ini. Urutan barisnya menjadi urutan dari kiri ke kanan di formulir cetak.
-[04:04] Ardi: Daftar ini tersambung dua arah dengan kolom Penyusun di Formulir 1c CEE, dicocokkan lewat jabatan. Jadi tulis jabatan dengan sebutan yang sama di kedua tempat.
-[04:20] Gadis: Simpan.
-[04:21] Ardi: Mulai sekarang setiap formulir cetak sudah punya kepala dan blok tanda tangannya sendiri.
-[04:29] Ardi: Catatan bab dua. Isi Data Umum paling awal. Periode Penilaian adalah periode Renstra. Dan tiga dokumen sumber untuk tiga tingkatan risiko.
+[02:30] Gadis: Bab dua. Data Umum.
+[02:35] Ardi: Menu pertama di bawah Form Input: Data Umum. Diisi paling awal, karena isinya menjadi kepala setiap formulir cetak dan blok tanda tangannya.
+[02:45] Gadis: Kolom bertanda bintang sudah terisi dari pengaturan pemerintah daerah. Sisanya menerangkan siapa yang mengisi.
+[02:55] Ardi: Nama dinas ditulis lengkap, karena kalimat inilah yang tercetak di kepala formulir.
+[03:02] Gadis: Periode Penilaian. Ini yang paling sering keliru.
+[03:07] Ardi: Isinya periode Renstra, dua ribu dua puluh lima sampai dua ribu dua puluh sembilan, bukan tahun berjalan. Yang menyekat data per tahun adalah Tahun Penilaian di kanan atas.
+[03:18] Ardi: Lalu kepala perangkat daerah: nama, jabatan, dan NIP.
+[03:26] Gadis: Kemudian PIC penilai risiko, dengan isian yang sama.
+[03:31] Ardi: Yang mengisi dan yang menandatangani itu dua hal berbeda, dan aplikasi memang memisahkannya.
+[03:37] Ardi: Sekarang tiga kolom dokumen sumber. Ketiganya bukan pengulangan.
+[03:41] Gadis: RSP untuk risiko strategis pemda, sumbernya RPJMD. RSO untuk strategis perangkat daerah, sumbernya Renstra. ROO untuk operasional, sumbernya Renja dan DPA.
+[03:57] Ardi: Kalau ketiganya diisi dokumen yang sama, tingkatan risikonya belum dibedakan, dan kekeliruan itu terbawa sampai ke formulir cetak.
+[04:04] Ardi: Tempat dan tanggal tercetak tepat di atas tanda tangan.
+[04:10] Gadis: Lalu daftar penanda tangan milik perangkat daerah ini. Urutan barisnya menjadi urutan dari kiri ke kanan di formulir cetak.
+[04:19] Ardi: Daftar ini tersambung dua arah dengan kolom Penyusun di Formulir 1c CEE, dicocokkan lewat jabatan. Jadi tulis jabatan dengan sebutan yang sama di kedua tempat.
+[04:34] Gadis: Simpan.
+[04:35] Ardi: Mulai sekarang setiap formulir cetak sudah punya kepala dan blok tanda tangannya sendiri.
+[04:42] Ardi: Catatan bab dua. Isi Data Umum paling awal. Periode Penilaian adalah periode Renstra. Dan tiga dokumen sumber untuk tiga tingkatan risiko.
 
 == 3. CEE — lingkungan pengendalian
 
-[04:41] Gadis: Bab tiga. CEE, memeriksa kapal sebelum berlayar.
-[04:49] Ardi: Menu berikutnya CEE, Control Environment Evaluation: evaluasi lingkungan pengendalian.
-[04:54] Gadis: Kenapa dikerjakan sebelum penilaian risiko?
-[04:58] Ardi: Karena kalau lingkungan pengendaliannya lemah, penilaian risiko di atasnya ikut rapuh. Ada empat formulir berurutan: 1a, 1b, 1c, dan 1d.
-[05:09] Ardi: Formulir 1a, kuesioner persepsi. Tiga puluh tujuh pertanyaan di delapan unsur.
-[05:15] Gadis: Respondennya minimal eselon empat, dan tidak cukup satu orang. Hasilnya baru bermakna setelah jawaban banyak responden dirata-ratakan.
-[05:26] Ardi: Pilihan jawabannya empat. Satu, belum ada. Dua, ada tetapi belum konsisten. Tiga, sudah baik. Empat, sangat baik, bahkan bisa ditularkan ke perangkat daerah lain.
-[05:40] Gadis: Jebakannya: menjawab empat begitu aturannya ada. Yang ditanyakan bukan ada atau tidaknya aturan, melainkan apakah ia dijalankan.
-[05:51] Ardi: Kode etik kita sudah ada dan dipakai, tetapi penerapannya masih bisa diperkuat. Jadi, tiga.
-[06:00] Gadis: Sisanya kita jawab lebih cepat, dengan pegangan yang sama: jawab keadaan sebenarnya, bukan yang ingin dilaporkan.
-[06:09] Ardi: Beberapa butir sengaja dijawab dua. Setiap jawaban dua nanti harus punya pasangannya di Formulir 1b: kelemahan yang sama, kali ini dengan bukti dokumen.
-[06:18] Gadis: Satu catatan untuk Inspektorat. Unsur ketujuh menilai peran APIP, artinya kita menilai diri sendiri. Justru di situ kita harus paling hati-hati.
-[06:36] Ardi: Simpan jawaban. Simpulan tiap unsur, memadai atau kurang memadai, dihitung sendiri dari rata-rata seluruh responden.
-[06:44] Gadis: Formulir 1b, CEE berdasarkan dokumen. Bedanya: 1a menanyakan persepsi orang, 1b memeriksa berkas.
-[06:55] Ardi: Keduanya sengaja dipisah supaya pertentangannya kelihatan. Orang bisa merasa semuanya baik, sementara dokumennya bercerita lain.
-[07:03] Ardi: Setiap kelemahan wajib menyebut sumber datanya. Kalau tidak bisa ditunjuk berkasnya, itu pendapat, dan tempatnya di 1a.
-[07:15] Gadis: Kelemahan kedua: rasio auditor yang belum ideal. Inilah pasangan jawaban dua di kuesioner tadi.
-[07:24] Ardi: Yang ketiga, pemantauan tindak lanjut hasil pengawasan yang belum terjadwal. Ingat yang satu ini. Nanti ia muncul lagi sebagai penyebab risiko strategis.
-[07:39] Ardi: Formulir 1c mempertemukan dua sumber tadi, lalu menarik simpulan per unsur.
-[07:44] Gadis: Kalau kuesioner bilang baik tetapi dokumen bilang lemah, mana yang dipakai?
-[07:50] Ardi: Yang bisa dibuktikan: dokumen. Dan alasannya ditulis di kolom dasar simpulan, supaya penilai tahun depan tahu kenapa keputusannya begitu.
-[07:59] Gadis: Simpulan awalnya sudah dihitung dari kuesioner. Tugas kita di sini bukan menghitung ulang, melainkan menimbang.
-[08:08] Ardi: Unsur yang punya kelemahan dokumen kita simpulkan kurang memadai, lengkap dengan dasarnya. Sisanya memadai.
-[08:14] Gadis: Kolom dasar simpulan itu satu-satunya tempat di aplikasi yang merekam pertimbangan manusia di balik keputusan. Isi dengan sungguh-sungguh.
-[08:41] Ardi: Formulir terakhir, 1d: rencana tindak atas unsur yang kurang memadai.
-[08:46] Gadis: Bedakan dengan RTP di Formulir 7 nanti. Yang ini memperbaiki lingkungan pengendalian; yang di Formulir 7 menangani risiko tertentu. Isinya tidak boleh sama.
-[08:59] Ardi: Perhatikan bentuk kalimat rencananya: apa yang dikerjakan, oleh siapa, dan kapan selesai. Rencana berbunyi meningkatkan integritas tidak akan pernah bisa dipantau.
-[09:14] Gadis: Rencana kedua, untuk pemantauan tindak lanjut. Simpan, dan CEE selesai.
-[09:30] Ardi: Catatan bab tiga. Nilailah yang dijalankan, bukan yang ada. Bukti dokumen menang atas persepsi. Dan RTP CEE berbeda dengan RTP risiko.
+[04:54] Gadis: Bab tiga. CEE, memeriksa kapal sebelum berlayar.
+[05:02] Ardi: Menu berikutnya CEE, Control Environment Evaluation: evaluasi lingkungan pengendalian.
+[05:07] Gadis: Kenapa dikerjakan sebelum penilaian risiko?
+[05:11] Ardi: Karena kalau lingkungan pengendaliannya lemah, penilaian risiko di atasnya ikut rapuh. Ada empat formulir berurutan: 1a, 1b, 1c, dan 1d.
+[05:22] Ardi: Formulir 1a, kuesioner persepsi. Tiga puluh tujuh pertanyaan di delapan unsur.
+[05:28] Gadis: Respondennya minimal eselon empat, dan tidak cukup satu orang. Hasilnya baru bermakna setelah jawaban banyak responden dirata-ratakan.
+[05:39] Ardi: Pilihan jawabannya empat. Satu, belum ada. Dua, ada tetapi belum konsisten. Tiga, sudah baik. Empat, sangat baik, bahkan bisa ditularkan ke perangkat daerah lain.
+[05:54] Gadis: Jebakannya: menjawab empat begitu aturannya ada. Yang ditanyakan bukan ada atau tidaknya aturan, melainkan apakah ia dijalankan.
+[06:05] Ardi: Kode etik kita sudah ada dan dipakai, tetapi penerapannya masih bisa diperkuat. Jadi, tiga.
+[06:12] Gadis: Sisanya kita jawab lebih cepat, dengan pegangan yang sama: jawab keadaan sebenarnya, bukan yang ingin dilaporkan.
+[06:20] Ardi: Beberapa butir sengaja dijawab dua. Setiap jawaban dua nanti harus punya pasangannya di Formulir 1b: kelemahan yang sama, kali ini dengan bukti dokumen.
+[06:34] Gadis: Satu catatan untuk Inspektorat. Unsur ketujuh menilai peran APIP, artinya kita menilai diri sendiri. Justru di situ kita harus paling hati-hati.
+[06:47] Ardi: Simpan jawaban. Simpulan tiap unsur, memadai atau kurang memadai, dihitung sendiri dari rata-rata seluruh responden.
+[06:55] Gadis: Formulir 1b, CEE berdasarkan dokumen. Bedanya: 1a menanyakan persepsi orang, 1b memeriksa berkas.
+[07:06] Ardi: Keduanya sengaja dipisah supaya pertentangannya kelihatan. Orang bisa merasa semuanya baik, sementara dokumennya bercerita lain.
+[07:16] Ardi: Setiap kelemahan wajib menyebut sumber datanya. Kalau tidak bisa ditunjuk berkasnya, itu pendapat, dan tempatnya di 1a.
+[07:27] Gadis: Kelemahan kedua: rasio auditor yang belum ideal. Inilah pasangan jawaban dua di kuesioner tadi.
+[07:39] Ardi: Yang ketiga, pemantauan tindak lanjut hasil pengawasan yang belum terjadwal. Ingat yang satu ini. Nanti ia muncul lagi sebagai penyebab risiko strategis.
+[07:53] Ardi: Formulir 1c mempertemukan dua sumber tadi, lalu menarik simpulan per unsur.
+[07:58] Gadis: Kalau kuesioner bilang baik tetapi dokumen bilang lemah, mana yang dipakai?
+[08:03] Ardi: Yang bisa dibuktikan: dokumen. Dan alasannya ditulis di kolom dasar simpulan, supaya penilai tahun depan tahu kenapa keputusannya begitu.
+[08:12] Gadis: Simpulan awalnya sudah dihitung dari kuesioner. Tugas kita di sini bukan menghitung ulang, melainkan menimbang.
+[08:21] Ardi: Unsur yang punya kelemahan dokumen kita simpulkan kurang memadai, lengkap dengan dasarnya. Sisanya memadai.
+[08:28] Gadis: Kolom dasar simpulan itu satu-satunya tempat di aplikasi yang merekam pertimbangan manusia di balik keputusan. Isi dengan sungguh-sungguh.
+[08:47] Ardi: Formulir terakhir, 1d: rencana tindak atas unsur yang kurang memadai.
+[08:52] Gadis: Bedakan dengan RTP di Formulir 7 nanti. Yang ini memperbaiki lingkungan pengendalian; yang di Formulir 7 menangani risiko tertentu. Isinya tidak boleh sama.
+[09:06] Ardi: Perhatikan bentuk kalimat rencananya: apa yang dikerjakan, oleh siapa, dan kapan selesai. Rencana berbunyi meningkatkan integritas tidak akan pernah bisa dipantau.
+[09:22] Gadis: Rencana kedua, untuk pemantauan tindak lanjut. Polanya sama: kondisinya, rencananya, penanggung jawab, dan triwulan targetnya.
+[09:45] Ardi: Simpan, dan CEE selesai.
+[09:50] Ardi: Catatan bab tiga. Nilailah yang dijalankan, bukan yang ada. Bukti dokumen menang atas persepsi. Dan RTP CEE berbeda dengan RTP risiko.
 
 == 4. Risiko Strategis Pemerintah Daerah
 
-[09:44] Gadis: Bab empat. Risiko Strategis Pemerintah Daerah.
-[09:50] Ardi: Sekarang inti aplikasi ini: penilaian risiko, dalam tiga tingkatan. Strategis pemerintah daerah, strategis perangkat daerah, lalu operasional.
-[10:00] Gadis: Tiap tingkatan punya dua formulir. Huruf a untuk konteks, huruf b untuk risikonya. Konteks selalu lebih dulu.
-[10:11] Ardi: Formulir 1a berisi tujuan dan sasaran RPJMD. Ini diisi Admin, bukan PIC, karena harus satu untuk seluruh kabupaten. Kita cukup membacanya sebagai acuan.
-[10:23] Gadis: Formulir 1b, Identifikasi Risiko Strategis Pemda. Di sini perangkat daerah boleh ikut mengisi, karena risiko tingkat pemda dipikul bersama.
-[10:35] Ardi: Pilih sasaran RPJMD, lalu rumuskan risikonya sebagai peristiwa yang bisa terjadi dan mengancam sasaran itu.
-[10:41] Gadis: Kurangnya anggaran? Itu penyebab. SDM terbatas? Juga penyebab. Pelayanan buruk? Itu keluhan.
-[10:53] Ardi: Yang benar menyebut peristiwanya: maturitas SPIP tidak naik ke tingkat yang ditargetkan.
-[11:02] Ardi: Pemilik risiko adalah pihak yang sasarannya terancam. Untuk tingkat pemda, itu Sekretaris Daerah, bukan Inspektorat.
-[11:10] Gadis: Penanggung jawab pengendalian, yang mengerjakan penanganannya, baru boleh Inspektorat. Dua kolom, dua peran.
-[11:19] Ardi: Penyebab dikelompokkan: delapan kategori internal, enam eksternal. Gunanya memaksa kita mencari dari beberapa sisi.
-[11:27] Gadis: Kita pilih Men untuk pemahaman yang belum merata, dan Method untuk penilaian mandiri yang belum berkala. Keduanya bisa kita kendalikan, jadi C.
-[11:43] Ardi: Dampak ditulis pada sasarannya, bukan pada kesibukan kantor.
-[11:47] Gadis: Pengendalian yang sudah ada? Ada asistensi dan penilaian mandiri tahunan, tetapi masih lemah. Kategorinya KE, kurang efektif.
-[12:03] Ardi: Sekarang matriks lima kali lima, dengan tiga titik. Inheren: seandainya tanpa pengendalian. Residual: keadaan sekarang. Target: setelah rencana tindak.
-[12:15] Gadis: Inheren, dampak empat, kemungkinan lima. Sekarang, dampak empat, kemungkinan empat.
-[12:24] Ardi: Selisih keduanya adalah nilai pengendalian yang ada. Kalau tidak ada selisih, berarti pengendaliannya belum bekerja.
-[12:34] Gadis: Rencana tindak punya lima pilihan: Avoid, Abate, Mitigate, Share, dan Accept.
-[12:42] Ardi: Kita pilih Abate, karena penyebabnya masih bisa kita kendalikan. Isinya konkret: jadwal penilaian mandiri per semester, dan asistensi ke perangkat daerah yang nilainya terendah.
-[12:57] Gadis: Proyeksinya setelah rencana tindak: cukup efektif. Target, dampak empat, kemungkinan tiga.
-[13:06] Ardi: Perhatikan: dampaknya tidak turun, yang turun kemungkinannya. Rencana tindak biasanya menurunkan peluang, bukan akibat. Menurunkan keduanya butuh alasan yang kuat.
-[13:23] Ardi: Catatan bab empat. Konteks dulu, baru risiko. Risiko adalah peristiwa yang bisa terjadi. Dan rencana tindak menurunkan kemungkinan, bukan dampak.
+[10:04] Gadis: Bab empat. Risiko Strategis Pemerintah Daerah.
+[10:10] Ardi: Sekarang inti aplikasi ini: penilaian risiko, dalam tiga tingkatan. Strategis pemerintah daerah, strategis perangkat daerah, lalu operasional.
+[10:20] Gadis: Tiap tingkatan punya dua formulir. Huruf a untuk konteks, huruf b untuk risikonya. Konteks selalu lebih dulu.
+[10:31] Ardi: Formulir 1a berisi tujuan dan sasaran RPJMD. Ini diisi Admin, bukan PIC, karena harus satu untuk seluruh kabupaten. Kita cukup membacanya sebagai acuan.
+[10:42] Gadis: Formulir 1b, Identifikasi Risiko Strategis Pemda. Di sini perangkat daerah boleh ikut mengisi, karena risiko tingkat pemda dipikul bersama.
+[10:54] Ardi: Pilih sasaran RPJMD, lalu rumuskan risikonya sebagai peristiwa yang bisa terjadi dan mengancam sasaran itu.
+[11:01] Gadis: Kurangnya anggaran? Itu penyebab. SDM terbatas? Juga penyebab. Pelayanan buruk? Itu keluhan.
+[11:12] Ardi: Yang benar menyebut peristiwanya: maturitas SPIP tidak naik ke tingkat yang ditargetkan.
+[11:20] Ardi: Pemilik risiko adalah pihak yang sasarannya terancam. Untuk tingkat pemda, itu Sekretaris Daerah, bukan Inspektorat.
+[11:28] Gadis: Penanggung jawab pengendalian, yang mengerjakan penanganannya, baru boleh Inspektorat. Dua kolom, dua peran.
+[11:37] Ardi: Penyebab dikelompokkan: delapan kategori internal, enam eksternal. Gunanya memaksa kita mencari dari beberapa sisi.
+[11:45] Gadis: Kita pilih Men untuk pemahaman yang belum merata, dan Method untuk penilaian mandiri yang belum berkala. Keduanya bisa kita kendalikan, jadi C.
+[12:01] Ardi: Dampak ditulis pada sasarannya, bukan pada kesibukan kantor.
+[12:07] Gadis: Pengendalian yang sudah ada? Ada asistensi dan penilaian mandiri tahunan, tetapi masih lemah. Kategorinya KE, kurang efektif.
+[12:20] Ardi: Sekarang matriks lima kali lima, dengan tiga titik. Inheren: seandainya tanpa pengendalian. Residual: keadaan sekarang. Target: setelah rencana tindak.
+[12:32] Gadis: Inheren, dampak empat, kemungkinan lima. Sekarang, dampak empat, kemungkinan empat.
+[12:44] Ardi: Selisih keduanya adalah nilai pengendalian yang ada. Kalau tidak ada selisih, berarti pengendaliannya belum bekerja.
+[12:52] Gadis: Rencana tindak punya lima pilihan: Avoid, Abate, Mitigate, Share, dan Accept.
+[13:00] Ardi: Kita pilih Abate, karena penyebabnya masih bisa kita kendalikan. Isinya konkret: jadwal penilaian mandiri per semester, dan asistensi ke perangkat daerah yang nilainya terendah.
+[13:15] Gadis: Proyeksinya setelah rencana tindak: cukup efektif. Target, dampak empat, kemungkinan tiga.
+[13:27] Ardi: Perhatikan: dampaknya tidak turun, yang turun kemungkinannya. Rencana tindak biasanya menurunkan peluang, bukan akibat. Menurunkan keduanya butuh alasan yang kuat.
+[13:44] Ardi: Catatan bab empat. Konteks dulu, baru risiko. Risiko adalah peristiwa yang bisa terjadi. Dan rencana tindak menurunkan kemungkinan, bukan dampak.
 
 == 5. Risiko Strategis Perangkat Daerah
 
-[13:37] Gadis: Bab lima. Risiko Strategis Perangkat Daerah.
-[13:44] Ardi: Tingkat kedua. Konteksnya dulu, Formulir 2a: sasaran RPJMD diturunkan sampai subkegiatan, mengikuti Renstra.
-[13:52] Gadis: Enam tingkat, masing-masing dengan indikator, baseline, target, dan satuan.
-[14:04] Ardi: Satu yang sering lolos: baseline dua ribu dua puluh enam adalah realisasi dua ribu dua puluh lima, bukan baseline tahun lalu yang disalin.
-[14:11] Gadis: Aplikasi menerima angka apa saja, jadi tidak ada yang akan menolak kekeliruan ini. Kitalah yang harus teliti.
-[14:22] Ardi: Sasaran strategis, program, kegiatan, dan subkegiatan diisi dengan cara yang sama. Sumbernya Renstra dan DPA, jangan dikarang.
-[14:31] Gadis: Kalau rumusannya beda dari dokumen resmi, formulir cetaknya tidak cocok dengan dokumen perencanaan, dan itu jadi temuan.
-[14:40] Ardi: Halaman konteks ini tidak punya kolom tahun. Yang berganti tiap tahun adalah risikonya, bukan hierarki Renstranya.
-[14:55] Ardi: Sekarang Formulir 2b. Kita isi satu risiko dengan teliti, karena polanya berlaku di semua tingkatan.
-[15:02] Gadis: Risikonya: rendahnya kepatuhan perangkat daerah menindaklanjuti rekomendasi hasil pengawasan. Kelanjutan kelemahan yang kita catat di CEE tadi.
-[15:18] Ardi: Penyebabnya dua. Men: komitmen pimpinan perangkat daerah belum merata. Method: pemantauan belum terjadwal, dan tidak ada konsekuensi atas keterlambatan.
-[15:28] Gadis: Ujian untuk setiap penyebab: bisakah ia dikendalikan? Keduanya bisa, jadi C, controllable.
-[15:42] Ardi: Dampak pada sasaran, dan siapa yang terkena. Makin luas pihak yang terkena, makin besar skala dampaknya.
-[15:51] Gadis: Pengendalian yang sudah ada ditulis apa adanya. Godaannya selalu melebih-lebihkan. Jangan.
-[16:00] Ardi: Sudah ada pemantauan berkala, tetapi tidak semua perangkat daerah menindaklanjuti tepat waktu. Jadi kurang efektif. Ada prosedur tidak otomatis berarti efektif; yang dinilai hasilnya.
-[16:14] Ardi: Matriks. Inheren: bayangkan tanpa pemantauan sama sekali. Dampak empat, kemungkinan lima, hampir pasti terjadi.
-[16:23] Gadis: Sekarang, dengan pemantauan yang ada: dampak tiga, kemungkinan empat.
-[16:29] Ardi: Angka di dalam sel bukan hasil perkalian. Itu peringkat satu sampai dua puluh lima, yang sengaja membobot dampak lebih berat.
-[16:37] Gadis: Target: dampak tetap tiga, kemungkinan turun jadi tiga.
-[16:42] Ardi: Tiga titik kini berjajar: dari seandainya tidak ditangani, ke keadaan sekarang, sampai yang dituju. Itulah perjalanan satu risiko.
-[16:55] Ardi: Rencana tindaknya Abate, dengan tiga hal konkret: pemantauan terjadwal per triwulan, ekspose kepada Bupati, dan tindak lanjut masuk penilaian kinerja.
-[17:03] Gadis: Penanggung jawab pengendaliannya Inspektur Pembantu Wilayah, bukan Inspektur. Inspektur tadi pemilik risikonya.
-[17:18] Ardi: Risiko kedua lebih cepat: pemanfaatan teknologi informasi dalam pengawasan belum optimal.
-[17:23] Gadis: Penyebabnya campuran. Machine dari dalam, Technological dari luar.
-[17:38] Ardi: Pengendaliannya belum ada sama sekali, jadi kita jawab Tidak. Formulirnya menyesuaikan: skala inheren dan skala sekarang dianggap sama.
-[17:46] Gadis: Dua risiko strategis perangkat daerah tercatat. Dalam kenyataan bisa lima sampai sepuluh, sebanyak yang benar-benar mengancam sasaran.
-[18:07] Ardi: Catatan bab lima. Baseline adalah realisasi tahun lalu. C atau UC ditentukan oleh satu pertanyaan: bisakah dikendalikan? Dan ada prosedur belum tentu efektif.
+[13:57] Gadis: Bab lima. Risiko Strategis Perangkat Daerah.
+[14:04] Ardi: Tingkat kedua. Konteksnya dulu, Formulir 2a: sasaran RPJMD diturunkan sampai subkegiatan, mengikuti Renstra.
+[14:12] Gadis: Enam tingkat, masing-masing dengan indikator, baseline, target, dan satuan.
+[14:21] Gadis: Tujuan strategis dan indikatornya, sesuai Renstra.
+[14:26] Ardi: Satu yang sering lolos: baseline dua ribu dua puluh enam adalah realisasi dua ribu dua puluh lima, bukan baseline tahun lalu yang disalin.
+[14:34] Gadis: Aplikasi menerima angka apa saja, jadi tidak ada yang akan menolak kekeliruan ini. Kitalah yang harus teliti.
+[14:43] Ardi: Sasaran strategis diisi dengan cara yang sama: indikator, baseline, target, dan satuan.
+[14:52] Gadis: Lalu program. Sumbernya Renstra dan DPA, jangan dikarang.
+[15:00] Ardi: Kegiatan. Kalau rumusannya beda dari dokumen resmi, formulir cetaknya tidak cocok dengan dokumen perencanaan, dan itu jadi temuan.
+[15:11] Gadis: Subkegiatan, sampai perangkat daerah penanggung jawabnya.
+[15:16] Ardi: Halaman konteks ini tidak punya kolom tahun. Yang berganti tiap tahun adalah risikonya, bukan hierarki Renstranya. Simpan.
+[15:28] Ardi: Sekarang Formulir 2b. Kita isi satu risiko dengan teliti, karena polanya berlaku di semua tingkatan.
+[15:35] Gadis: Risikonya: rendahnya kepatuhan perangkat daerah menindaklanjuti rekomendasi hasil pengawasan. Kelanjutan kelemahan yang kita catat di CEE tadi.
+[15:51] Ardi: Penyebabnya dua. Men: komitmen pimpinan perangkat daerah belum merata. Method: pemantauan belum terjadwal, dan tidak ada konsekuensi atas keterlambatan.
+[16:07] Gadis: Ujian untuk setiap penyebab: bisakah ia dikendalikan? Keduanya bisa, jadi C, controllable.
+[16:16] Ardi: Dampak pada sasaran, dan siapa yang terkena. Makin luas pihak yang terkena, makin besar skala dampaknya.
+[16:24] Gadis: Pengendalian yang sudah ada ditulis apa adanya. Godaannya selalu melebih-lebihkan. Jangan.
+[16:33] Ardi: Sudah ada pemantauan berkala, tetapi tidak semua perangkat daerah menindaklanjuti tepat waktu. Jadi kurang efektif. Ada prosedur tidak otomatis berarti efektif; yang dinilai hasilnya.
+[16:45] Ardi: Matriks. Inheren: bayangkan tanpa pemantauan sama sekali. Dampak empat, kemungkinan lima, hampir pasti terjadi.
+[16:56] Gadis: Sekarang, dengan pemantauan yang ada: dampak tiga, kemungkinan empat.
+[17:04] Ardi: Angka di dalam sel bukan hasil perkalian. Itu peringkat satu sampai dua puluh lima, yang sengaja membobot dampak lebih berat.
+[17:11] Gadis: Target: dampak tetap tiga, kemungkinan turun jadi tiga.
+[17:18] Ardi: Tiga titik kini berjajar: dari seandainya tidak ditangani, ke keadaan sekarang, sampai yang dituju. Itulah perjalanan satu risiko.
+[17:29] Ardi: Rencana tindaknya Abate, dengan tiga hal konkret: pemantauan terjadwal per triwulan, ekspose kepada Bupati, dan tindak lanjut masuk penilaian kinerja.
+[17:41] Gadis: Penanggung jawab pengendaliannya Inspektur Pembantu Wilayah, bukan Inspektur. Inspektur tadi pemilik risikonya.
+[17:50] Ardi: Target triwulan empat, proyeksinya cukup efektif. Simpan.
+[18:03] Ardi: Risiko kedua lebih cepat: pemanfaatan teknologi informasi dalam pengawasan belum optimal.
+[18:11] Gadis: Penyebabnya campuran. Machine dari dalam, Technological dari luar.
+[18:28] Ardi: Pengendaliannya belum ada sama sekali, jadi kita jawab Tidak. Formulirnya menyesuaikan: skala inheren dan skala sekarang dianggap sama.
+[18:45] Gadis: Rencana tindaknya Abate juga: sistem informasi pengawasan yang terhubung dengan SIPD.
+[18:56] Ardi: Simpan. Dua risiko strategis perangkat daerah tercatat. Dalam kenyataan bisa lima sampai sepuluh, sebanyak yang benar-benar mengancam sasaran.
+[19:08] Ardi: Catatan bab lima. Baseline adalah realisasi tahun lalu. C atau UC ditentukan oleh satu pertanyaan: bisakah dikendalikan? Dan ada prosedur belum tentu efektif.
 
 == 6. Risiko Operasional Perangkat Daerah
 
-[18:21] Gadis: Bab enam. Risiko Operasional.
-[18:27] Ardi: Tingkat ketiga. Konteks operasional, Formulir 3a, turun sampai kegiatan yang ada anggarannya di DPA.
-[18:34] Gadis: Isinya mirip konteks strategis, karena dokumennya sama. Bedanya di ujung: strategis berhenti di sasaran, operasional turun ke pekerjaan yang mengerjakannya.
-[18:46] Ardi: Tidak semua kegiatan wajib dinilai. Pilih kegiatan yang kalau gagal, sasaran perangkat daerah ikut terancam.
-[19:02] Ardi: Formulir 3b punya satu kolom yang tidak ada di tingkat lain: Tahap. Perencanaan, pelaksanaan, pengawasan, atau pelaporan.
-[19:11] Gadis: Risiko pertama: pengawasan tidak sesuai Program Kerja Pengawasan Tahunan. Tahapnya pengawasan.
-[19:24] Ardi: Sekarang pembeda yang paling sering diisi asal: C dan UC. Penyebabnya auditor terbatas dan jadwal yang padat.
-[19:31] Gadis: Bisakah Inspektorat menambah auditor sendiri?
-[19:35] Ardi: Tidak. Itu bukan keputusan Inspektorat. Maka UC, tidak terkendali, dan rencana tindaknya bukan menambah auditor, melainkan menyusun prioritas berbasis risiko dengan auditor yang ada.
-[19:52] Gadis: Pengendalian yang ada: PKPT dan surat tugas. Kurang efektif, dengan celah kriteria a: prosedurnya sudah dijalankan, tetapi belum mampu menangani risikonya.
-[20:05] Ardi: Kelima kriteria celah itu datang dari Perdep, bukan karangan aplikasi. Kriteria inilah yang menerangkan kenapa pengendalian belum cukup, dan dari situ rencana tindaknya diturunkan.
-[20:15] Ardi: Skalanya: inheren lima-lima, sekarang lima-empat, target lima-tiga. Dampaknya tidak turun, karena PKPT mengurangi peluang terlewat, bukan akibatnya.
-[20:37] Ardi: Satu lagi, lebih cepat: dokumentasi hasil pengawasan tidak lengkap, tahap pelaporan.
-[20:43] Gadis: Satu kegiatan boleh punya risiko di beberapa tahap. Kalau semua risiko Anda menumpuk di satu tahap, tahap yang lain mungkin belum dipikirkan.
-[20:53] Ardi: Celahnya kriteria c: kebijakan ada, tetapi belum diikuti prosedur baku. Maka rencana tindaknya memperkuat reviu berjenjang, bukan membuat kebijakan baru.
-[21:23] Ardi: Catatan bab enam. Tahap menunjukkan di mana risiko melekat. Untuk penyebab UC, rencana tindak tetap dalam kuasa sendiri. Dan celah pengendalian dipilih dari lima kriteria Perdep.
+[19:22] Gadis: Bab enam. Risiko Operasional.
+[19:28] Ardi: Tingkat ketiga. Konteks operasional, Formulir 3a, turun sampai kegiatan yang ada anggarannya di DPA.
+[19:35] Gadis: Isinya mirip konteks strategis, karena dokumennya sama. Bedanya di ujung: strategis berhenti di sasaran, operasional turun ke pekerjaan yang mengerjakannya.
+[19:48] Ardi: Tidak semua kegiatan wajib dinilai. Pilih kegiatan yang kalau gagal, sasaran perangkat daerah ikut terancam.
+[20:00] Gadis: Turun lagi ke subkegiatannya, lalu simpan.
+[20:11] Ardi: Formulir 3b. Risiko pertama: pengawasan tidak sesuai Program Kerja Pengawasan Tahunan.
+[20:28] Gadis: Formulir ini punya satu kolom yang tidak ada di tingkat lain: Tahap. Perencanaan, pelaksanaan, pengawasan, atau pelaporan.
+[20:39] Ardi: Risiko kita melekat di tahap pengawasan.
+[20:43] Ardi: Sekarang pembeda yang paling sering diisi asal: C dan UC. Penyebabnya: auditor terbatas, dan jadwal yang padat.
+[20:54] Gadis: Bisakah Inspektorat menambah auditor sendiri?
+[20:58] Ardi: Tidak. Itu bukan keputusan Inspektorat. Maka UC, tidak terkendali, dan rencana tindaknya bukan menambah auditor, melainkan menyusun prioritas berbasis risiko dengan auditor yang ada.
+[21:11] Gadis: Pengendalian yang ada: PKPT dan surat tugas. Kurang efektif, dengan celah kriteria a: prosedurnya sudah dijalankan, tetapi belum mampu menangani risikonya.
+[21:26] Ardi: Kelima kriteria celah itu datang dari Perdep, bukan karangan aplikasi. Kriteria inilah yang menerangkan kenapa pengendalian belum cukup, dan dari situ rencana tindaknya diturunkan.
+[21:37] Ardi: Skalanya: inheren lima-lima, sekarang lima-empat, target lima-tiga. Dampaknya tidak turun, karena PKPT mengurangi peluang terlewat, bukan akibatnya.
+[21:57] Gadis: Rencana tindaknya: PKPT berbasis risiko, dengan prioritas objek sesuai auditor yang ada. Simpan.
+[22:13] Ardi: Satu lagi, lebih cepat: dokumentasi hasil pengawasan tidak lengkap, tahap pelaporan.
+[22:25] Gadis: Satu kegiatan boleh punya risiko di beberapa tahap. Kalau semua risiko Anda menumpuk di satu tahap, tahap yang lain mungkin belum dipikirkan.
+[22:36] Ardi: Penyebabnya Method: kertas kerja audit belum tertib. Masih dalam kuasa kita, jadi C.
+[22:49] Gadis: Celahnya kriteria c: kebijakan ada, tetapi belum diikuti prosedur baku.
+[23:00] Ardi: Maka rencana tindaknya memperkuat reviu berjenjang, bukan membuat kebijakan baru. Simpan.
+[23:15] Ardi: Catatan bab enam. Tahap menunjukkan di mana risiko melekat. Untuk penyebab UC, rencana tindak tetap dalam kuasa sendiri. Dan celah pengendalian dipilih dari lima kriteria Perdep.
 
 == 7. Monitoring dan Evaluasi
 
-[21:38] Gadis: Bab tujuh. Memantau rencana tindak.
-[21:43] Ardi: Semua risiko sudah dinilai, dan setiap rencana tindak punya penanggung jawab serta tenggat. Sekarang membuktikan bahwa rencana itu dijalankan.
-[21:52] Gadis: Daftar di Formulir 8 dan 9 ini tidak diketik ulang. Rencana tindak dari tiga formulir risiko tadi muncul sendiri di sini.
-[22:02] Ardi: Kita isi rencana tindak yang pertama. Formulir 8 mencatat kepada siapa rencana itu dikomunikasikan, dan lewat apa.
-[22:10] Gadis: Formulir 9 mencatat bagaimana pelaksanaannya dipantau, dan oleh siapa.
-[22:20] Ardi: Keduanya punya kolom rencana dan realisasi. Rencana diisi di awal tahun; realisasinya menyusul setelah dikerjakan.
-[22:28] Gadis: Itu sebabnya rencana tindak tidak boleh berbunyi niat yang kabur. Yang bisa dilaporkan hanya yang punya wujud.
-[22:41] Ardi: Formulir 10 berbeda. Semua yang tadi kita isi bicara tentang yang belum terjadi; Formulir 10 mencatat yang sudah terjadi.
-[22:49] Gadis: Catatan ini menjadi bukti tahun depan. Kalau sebuah risiko dinilai jarang tetapi terjadi lima kali setahun, penilaiannya harus berubah.
-[23:01] Ardi: Catatan bab tujuh. Formulir delapan: dikomunikasikan kepada siapa. Formulir sembilan: dipantau bagaimana. Formulir sepuluh: yang sudah terjadi.
+[23:29] Gadis: Bab tujuh. Memantau rencana tindak.
+[23:35] Ardi: Semua risiko sudah dinilai, dan setiap rencana tindak punya penanggung jawab serta tenggat. Sekarang membuktikan bahwa rencana itu dijalankan.
+[23:43] Gadis: Daftar di Formulir 8 dan 9 ini tidak diketik ulang. Rencana tindak dari tiga formulir risiko tadi muncul sendiri di sini.
+[23:54] Ardi: Kita isi rencana tindak yang pertama. Formulir 8 mencatat lewat apa rencana itu dikomunikasikan, oleh siapa, dan kepada siapa.
+[24:06] Gadis: Formulir 9 mencatat bagaimana pelaksanaannya dipantau, dan oleh siapa.
+[24:13] Ardi: Keduanya punya kolom rencana dan realisasi. Rencana diisi di awal tahun; realisasinya menyusul setelah dikerjakan.
+[24:23] Gadis: Itu sebabnya rencana tindak tidak boleh berbunyi niat yang kabur. Yang bisa dilaporkan hanya yang punya wujud.
+[24:34] Ardi: Formulir 10 berbeda. Semua yang tadi kita isi bicara tentang yang belum terjadi; Formulir 10 mencatat yang sudah terjadi.
+[24:42] Gadis: Catatan ini menjadi bukti tahun depan. Kalau sebuah risiko dinilai jarang tetapi terjadi lima kali setahun, penilaiannya harus berubah.
+[24:54] Ardi: Catatan bab tujuh. Formulir delapan: dikomunikasikan kepada siapa. Formulir sembilan: dipantau bagaimana. Formulir sepuluh: yang sudah terjadi.
 
 == 8. Ketika risiko terjadi: pelapor
 
-[23:15] Gadis: Bab delapan. Ketika risikonya benar-benar terjadi.
-[23:22] Ardi: Cepat atau lambat, salah satu risiko yang kita daftarkan benar-benar terjadi. Siapa pun yang melihatnya bisa melapor, termasuk pegawai yang tidak punya akun.
-[23:31] Gadis: Tanpa nama pengguna dan kata sandi?
-[23:34] Ardi: Ya. Pelapor memindai kode QR ini, di halaman masuk, di dinding kantor, atau di pesan berantai, dan langsung sampai di formulir lapor.
-[23:45] Gadis: Menunya cuma sedikit. Akun bersama ini sengaja dibuat sempit: tidak bisa membuka data risiko, tidak bisa mengubah apa pun, dan tidak bisa melihat laporan orang lain.
-[23:58] Ardi: Ada dua mode. Cek Risiko yang Sudah Terjadi, kalau pelapor tahu risikonya sudah terdaftar. Lapor Kejadian Baru, kalau tidak.
-[24:07] Gadis: Kalau ragu, pilih Lapor Kejadian Baru. Menautkannya pekerjaan PIC, bukan pelapor.
-[24:15] Ardi: Kita cari risiko pengawasan yang tidak sesuai PKPT. Begitu dipilih, laporan ini otomatis tertaut ke sana.
-[24:23] Gadis: Nama wajib. Surel dan telepon boleh kosong; banyak pelapor tidak ingin dihubungi.
-[24:30] Ardi: Kolom kejadian ditulis sebagai sesuatu yang sudah terjadi: kapan, di mana, dan berapa. Makin jelas, makin sedikit PIC menebak.
-[24:43] Ardi: Waktu kejadian, lalu pemicunya. Karena risikonya sudah dipilih, pemicu terisi dari penyebab yang terdaftar. Pelapor cukup memeriksa, dan menambah kalau melihat yang lain.
-[24:55] Gadis: Bukti foto atau PDF boleh dilampirkan, sampai lima berkas.
-[25:00] Ardi: Kirim. PIC perangkat daerah terkait langsung menerima pemberitahuan, dan pekerjaan pelapor selesai di sini.
-[25:08] Gadis: Kasus kedua: kejadian yang risikonya belum terdaftar di mana pun. Surat tugas pemeriksaan terbit sesudah kegiatannya dimulai.
-[25:17] Ardi: Pilih Lapor Kejadian Baru. Kolom pencarian risiko tidak muncul, karena memang tidak ada yang bisa dicari.
-[25:29] Gadis: Pemicunya Method, karena persoalannya pada urutan prosedur, bukan pada orangnya. Kirim.
-[25:43] Ardi: Catatan bab delapan. Lapor lewat kode QR, tanpa akun. Tulis kejadiannya: kapan, di mana, berapa. Dan kalau ragu, pilih Lapor Kejadian Baru.
+[25:08] Gadis: Bab delapan. Ketika risikonya benar-benar terjadi.
+[25:15] Ardi: Cepat atau lambat, salah satu risiko yang kita daftarkan benar-benar terjadi. Siapa pun yang melihatnya bisa melapor, termasuk pegawai yang tidak punya akun.
+[25:24] Gadis: Tanpa nama pengguna dan kata sandi?
+[25:27] Ardi: Ya. Pelapor memindai kode QR ini, di halaman masuk, di dinding kantor, atau di pesan berantai, dan langsung sampai di formulir lapor.
+[25:38] Gadis: Menunya cuma sedikit. Akun bersama ini sengaja dibuat sempit: tidak bisa membuka data risiko, tidak bisa mengubah apa pun, dan tidak bisa melihat laporan orang lain.
+[25:50] Ardi: Ada dua mode. Cek Risiko yang Sudah Terjadi, kalau pelapor tahu risikonya sudah terdaftar. Lapor Kejadian Baru, kalau tidak.
+[26:02] Gadis: Kalau ragu, pilih Lapor Kejadian Baru. Menautkannya pekerjaan PIC, bukan pelapor.
+[26:10] Ardi: Kita cari risiko pengawasan yang tidak sesuai PKPT. Begitu dipilih, laporan ini otomatis tertaut ke sana.
+[26:18] Gadis: Nama wajib. Surel dan telepon boleh kosong; banyak pelapor tidak ingin dihubungi.
+[26:29] Ardi: Kolom kejadian ditulis sebagai sesuatu yang sudah terjadi: kapan, di mana, dan berapa. Makin jelas, makin sedikit PIC menebak.
+[26:38] Ardi: Waktu kejadian, lalu pemicunya. Karena risikonya sudah dipilih, pemicu terisi dari penyebab yang terdaftar. Pelapor cukup memeriksa, dan menambah kalau melihat yang lain.
+[26:51] Gadis: Bukti foto atau PDF boleh dilampirkan, sampai lima berkas.
+[26:56] Ardi: Kirim. PIC perangkat daerah terkait langsung menerima pemberitahuan, dan pekerjaan pelapor selesai di sini.
+[27:04] Gadis: Kasus kedua: kejadian yang risikonya belum terdaftar di mana pun. Surat tugas pemeriksaan terbit sesudah kegiatannya dimulai.
+[27:13] Ardi: Pilih Lapor Kejadian Baru. Kolom pencarian risiko tidak muncul, karena memang tidak ada yang bisa dicari.
+[27:25] Ardi: Tempat kejadian, lalu waktunya.
+[27:31] Gadis: Pemicunya Method, karena persoalannya pada urutan prosedur, bukan pada orangnya. Kirim.
+[27:45] Ardi: Catatan bab delapan. Lapor lewat kode QR, tanpa akun. Tulis kejadiannya: kapan, di mana, berapa. Dan kalau ragu, pilih Lapor Kejadian Baru.
 
 == 9. Dari laporan menjadi catatan
 
-[25:58] Gadis: Bab sembilan. Dari laporan, menjadi catatan resmi.
-[26:05] Ardi: Kembali ke akun PIC. Laporan masuk ke menu Utilities, Rekap Lapor Kejadian Risiko, dan PIC menerima pemberitahuannya.
-[26:13] Gadis: Statusnya berjalan berurutan: baru, diverifikasi, ditindaklanjuti, lalu selesai.
-[26:23] Ardi: Buka laporan pertama. Langkah pertama bukan menindaklanjuti, melainkan memverifikasi: benarkah kejadiannya, benarkah urusan kita, dan tepatkah risiko yang tertaut.
-[26:34] Gadis: Laporan ini sudah tertaut karena pelapor memilihnya sendiri. Kalau keliru, tautannya bisa diganti dari sini.
-[26:42] Ardi: Karena risikonya sudah terdaftar, tombol Catat ke Form 10 tersedia. Inilah yang mengubah laporan menjadi catatan resmi.
-[26:50] Gadis: Formulir 10 terbuka dengan tanggal, sebab, dan dampak sudah terisi dari laporan. PIC tinggal meninjau, lalu menyimpan.
-[27:04] Ardi: Kembali ke rekap. Naikkan statusnya menjadi ditindaklanjuti, dan tulis catatannya. Catatan itulah yang menjelaskan apa yang benar-benar dikerjakan.
-[27:19] Gadis: Laporan kedua berbeda. Tombol Catat ke Form 10 tidak ada.
-[27:25] Ardi: Disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi risikonya harus terdaftar dulu. Untuk itu ada tombol Input ke Register Risiko.
-[27:37] Ardi: Formulir 3b terbuka dengan uraian dari laporan. Tetapi yang tertulis masih kejadian, padahal yang harus dicatat di sini adalah risikonya.
-[27:46] Gadis: Kejadian itu satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi.
-[27:54] Ardi: Jadi kita rumuskan ulang: penerbitan surat tugas terlambat, sehingga penugasan dimulai tanpa dasar administratif yang lengkap. Tahapnya perencanaan.
-[28:07] Gadis: Penyebabnya sudah terisi dari pemicu yang ditulis pelapor. Kita tinggal menentukan apakah ia terkendali. Penerbitan surat tugas sepenuhnya di tangan Inspektorat, jadi C.
-[28:21] Ardi: Prosedur penugasan ada, tetapi belum mengatur urutan waktunya: kurang efektif, celah kriteria c.
-[28:27] Ardi: Dan kemungkinannya tidak boleh dinilai rendah. Ia sudah terjadi sekali, dan itu catatan, bukan dugaan.
-[28:39] Ardi: Skalanya: inheren tiga-empat, sekarang tiga-tiga, target tiga-dua. Rencana tindaknya: surat tugas terbit paling lambat sehari sebelum kegiatan dimulai, dan itu masuk prosedur baku.
-[29:00] Gadis: Kembali ke rekap. Tautkan laporan kedua ke risiko yang baru dibuat, dan tombol Catat ke Form 10 pun muncul.
-[29:08] Ardi: Urutannya tidak bisa dibalik: risikonya dulu, baru kejadiannya dicatat.
-[29:18] Ardi: Formulir 10 kini memuat kedua kejadian. Seorang pegawai melihat sesuatu dan melapor tanpa akun; PIC menelaah, mendaftarkan risikonya, dan menyusun perbaikannya.
-[29:28] Gadis: Itulah manajemen risiko yang bekerja, bukan dokumen yang disusun sekali setahun lalu disimpan.
-[29:37] Ardi: Catatan bab sembilan. Verifikasi dulu, baru tindak lanjuti. Formulir sepuluh butuh risiko yang terdaftar. Dan kejadian dirumuskan ulang menjadi risiko.
+[28:00] Gadis: Bab sembilan. Dari laporan, menjadi catatan resmi.
+[28:07] Ardi: Kembali ke akun PIC. Laporan masuk ke menu Utilities, Rekap Lapor Kejadian Risiko, dan PIC menerima pemberitahuannya.
+[28:15] Gadis: Statusnya berjalan berurutan: baru, diverifikasi, ditindaklanjuti, lalu selesai.
+[28:23] Ardi: Buka laporan pertama. Langkah pertama bukan menindaklanjuti, melainkan memverifikasi: benarkah kejadiannya, benarkah urusan kita, dan tepatkah risiko yang tertaut.
+[28:34] Gadis: Laporan ini sudah tertaut karena pelapor memilihnya sendiri. Kalau keliru, tautannya bisa diganti dari sini.
+[28:43] Ardi: Karena risikonya sudah terdaftar, tombol Catat ke Form 10 tersedia. Inilah yang mengubah laporan menjadi catatan resmi.
+[28:51] Gadis: Formulir 10 terbuka dengan tanggal, sebab, dan dampak sudah terisi dari laporan. PIC tinggal meninjau, lalu menyimpan.
+[29:05] Ardi: Kembali ke rekap. Naikkan statusnya menjadi ditindaklanjuti, dan tulis catatannya. Catatan itulah yang menjelaskan apa yang benar-benar dikerjakan.
+[29:21] Gadis: Laporan kedua berbeda. Tombol Catat ke Form 10 tidak ada.
+[29:27] Ardi: Disengaja. Formulir 10 mencatat kejadian dari sebuah risiko, jadi risikonya harus terdaftar dulu. Untuk itu ada tombol Input ke Register Risiko.
+[29:37] Gadis: Kejadian ini operasional, jadi tingkat tiga.
+[29:43] Ardi: Formulir 3b terbuka dengan uraian dari laporan. Tetapi yang tertulis masih kejadian, padahal yang harus dicatat di sini adalah risikonya.
+[29:51] Gadis: Kejadian itu satu peristiwa yang sudah lewat. Risiko adalah kemungkinan peristiwa itu terjadi lagi.
+[29:59] Ardi: Jadi kita rumuskan ulang: penerbitan surat tugas terlambat, sehingga penugasan dimulai tanpa dasar administratif yang lengkap. Tahapnya perencanaan.
+[30:13] Gadis: Penyebabnya sudah terisi dari pemicu yang ditulis pelapor. Kita tinggal menentukan apakah ia terkendali. Penerbitan surat tugas sepenuhnya di tangan Inspektorat, jadi C.
+[30:30] Ardi: Prosedur penugasan ada, tetapi belum mengatur urutan waktunya: kurang efektif, celah kriteria c.
+[30:39] Ardi: Dan kemungkinannya tidak boleh dinilai rendah. Ia sudah terjadi sekali, dan itu catatan, bukan dugaan.
+[30:47] Ardi: Skalanya: inheren tiga-empat, sekarang tiga-tiga, target tiga-dua. Rencana tindaknya: surat tugas terbit paling lambat sehari sebelum kegiatan dimulai, dan itu masuk prosedur baku.
+[31:13] Gadis: Penanggung jawabnya Sekretaris Inspektorat. Simpan.
+[31:25] Gadis: Kembali ke rekap. Tautkan laporan kedua ke risiko yang baru dibuat, dan tombol Catat ke Form 10 pun muncul.
+[31:38] Ardi: Urutannya tidak bisa dibalik: risikonya dulu, baru kejadiannya dicatat.
+[31:49] Ardi: Formulir 10 kini memuat kedua kejadian. Seorang pegawai melihat sesuatu dan melapor tanpa akun; PIC menelaah, mendaftarkan risikonya, dan menyusun perbaikannya.
+[31:59] Gadis: Itulah manajemen risiko yang bekerja, bukan dokumen yang disusun sekali setahun lalu disimpan.
+[32:08] Ardi: Catatan bab sembilan. Verifikasi dulu, baru tindak lanjuti. Formulir sepuluh butuh risiko yang terdaftar. Dan kejadian dirumuskan ulang menjadi risiko.
 
 == 10. Form Cetak
 
-[29:51] Gadis: Bab sepuluh. Form Cetak.
-[29:56] Ardi: Bagian yang paling ringan: tidak ada yang perlu diketik. Form Cetak menyusun seluruh kertas kerja, siap ditandatangani.
-[30:03] Gadis: Kalau ada yang kosong di sini, yang diperbaiki formulir asalnya, bukan halaman cetaknya.
-[30:10] Ardi: Formulir 2b, konteks strategis perangkat daerah. Kepala halamannya, nama perangkat daerah, periode, dan tahun, semuanya datang dari Data Umum.
-[30:23] Gadis: Formulir 3b menjajarkan seluruh kolom risiko dalam satu tabel. Formulir 4, hasil analisis. Formulir 5, daftar risiko prioritas.
-[30:36] Ardi: Tidak semua risiko masuk daftar prioritas, hanya yang di luar Selera Risiko. Selera Risiko Aceh Barat sampai dengan Sedang, jadi yang Tinggi dan Sangat Tinggi wajib ditangani.
-[30:48] Ardi: Formulir 7, rencana tindak atas hasil identifikasi risiko. Setiap formulir bisa diunduh sebagai PDF, lengkap dengan blok tanda tangan dari Data Umum.
-[31:01] Ardi: Catatan bab sepuluh. Form Cetak tidak diisi. Kalau ada yang kosong, perbaiki di formulir asalnya. Dan prioritas adalah yang di luar Selera Risiko.
+[32:22] Gadis: Bab sepuluh. Form Cetak.
+[32:27] Ardi: Bagian yang paling ringan: tidak ada yang perlu diketik. Form Cetak menyusun seluruh kertas kerja, siap ditandatangani.
+[32:34] Gadis: Kalau ada yang kosong di sini, yang diperbaiki formulir asalnya, bukan halaman cetaknya.
+[32:41] Ardi: Formulir 2b, konteks strategis perangkat daerah. Kepala halamannya, nama perangkat daerah, periode, dan tahun, semuanya datang dari Data Umum.
+[32:54] Gadis: Formulir 3b menjajarkan seluruh kolom risiko dalam satu tabel. Formulir 4, hasil analisis. Formulir 5, daftar risiko prioritas.
+[33:12] Ardi: Tidak semua risiko masuk daftar prioritas, hanya yang di luar Selera Risiko. Selera Risiko Aceh Barat sampai dengan Sedang, jadi yang Tinggi dan Sangat Tinggi wajib ditangani.
+[33:22] Ardi: Formulir 7, rencana tindak atas hasil identifikasi risiko. Setiap formulir bisa diunduh sebagai PDF, lengkap dengan blok tanda tangan dari Data Umum.
+[33:35] Ardi: Catatan bab sepuluh. Form Cetak tidak diisi. Kalau ada yang kosong, perbaiki di formulir asalnya. Dan prioritas adalah yang di luar Selera Risiko.
 
 == 11. Laporan
 
-[31:15] Gadis: Bab sebelas. Laporan.
-[31:20] Ardi: Empat laporan menutup rangkaian ini, dan yang membedakannya siapa penyusunnya.
-[31:24] Gadis: Laporan 11, pelaksanaan penilaian risiko, dan Laporan 12, laporan berkala. Keduanya disusun perangkat daerah.
-[31:35] Ardi: Laporan 13 dari Unit Kepatuhan, dan Laporan 14 dari Komite Pengelolaan Risiko. Keduanya disusun di tingkat pemerintah daerah, dan paling sering terlewat.
-[31:44] Gadis: Kalau keduanya belum pernah ada, bukan berarti tidak wajib. Artinya strukturnya belum berjalan.
+[33:48] Gadis: Bab sebelas. Laporan.
+[33:53] Ardi: Empat laporan menutup rangkaian ini, dan yang membedakannya siapa penyusunnya.
+[33:58] Gadis: Laporan 11, pelaksanaan penilaian risiko, dan Laporan 12, laporan berkala. Keduanya disusun perangkat daerah.
+[34:09] Ardi: Laporan 13 dari Unit Kepatuhan, dan Laporan 14 dari Komite Pengelolaan Risiko. Keduanya disusun di tingkat pemerintah daerah, dan paling sering terlewat.
+[34:20] Gadis: Kalau keduanya belum pernah ada, bukan berarti tidak wajib. Artinya strukturnya belum berjalan.
 
 == 12. Membaca hasilnya
 
-[31:54] Gadis: Bab dua belas. Membaca hasilnya.
-[32:00] Ardi: Sekarang kacamatanya diganti. Bab ini untuk yang tidak mengisi, tetapi mengambil keputusan: Bupati, Sekretaris Daerah, dan kepala perangkat daerah.
-[32:10] Gadis: Akunnya akun peninjau, yang hanya bisa membaca. Perintah menulis ditolak di server, bukan sekadar tombolnya disembunyikan.
-[32:20] Ardi: Dua penyaring di kanan atas: perangkat daerah dan tahun. Pilih satu dinas, dan setiap angka hanya bicara tentang dinas itu. Begitulah menyiapkan rapat dengan satu perangkat daerah.
-[32:36] Gadis: Empat kartu ringkasan dibaca bersama, bukan satu per satu.
-[32:41] Ardi: Perhatikan RTP Selesai Disusun dan Kepatuhan Pelaporan. Kalau yang pertama tinggi tetapi yang kedua rendah, rencananya lengkap, tetapi bukti pelaksanaannya hampir tidak ada.
-[32:51] Gadis: Yang tinggi itu niat, bukan hasil. Arahannya: Formulir 8, 9, dan 10 harus diisi.
-[33:01] Ardi: Peta Risiko. Yang dibaca ke mana massanya condong. Garis putus-putus adalah batas Selera Risiko; semua yang di luarnya wajib punya rencana tindak.
-[33:11] Gadis: Dan angka di dalam sel bisa diklik.
-[33:14] Ardi: Sel dampak lima, kemungkinan lima. Terbuka nama-nama risikonya, lengkap dengan perangkat daerah dan tanda apakah RTP-nya sudah tersusun. Daftar inilah agenda rapat.
-[33:25] Gadis: Klik namanya: muncul rincian risiko, dan tombol Buka Daftar menuju baris aslinya. Tiga klik dari angka ringkasan sampai satu baris milik satu dinas.
-[33:37] Ardi: Progres Tahapan per UPR menjawab siapa yang belum selesai. Klik satu perangkat daerah, dan terlihat persis di tahap mana ia tersendat.
-[33:45] Gadis: Arahan rapat pun berubah, dari segera lengkapi manajemen risikonya, menjadi selesaikan formulir 1a sampai 1c minggu ini.
-[33:55] Ardi: Siklus empat skor: inheren, residual, target, dan aktual. Satu pertanyaan saja: apakah aktual bergerak mendekati target?
-[34:05] Gadis: Kalau tidak, ada tiga kemungkinan: rencananya keliru, tidak dijalankan, atau penyebabnya bukan yang diduga. Tiga keputusan yang berbeda.
-[34:16] Ardi: Ranking eksposur bukan daftar perangkat daerah terburuk. Yang di atas sering justru yang paling jujur menilai dirinya. Pakai untuk menentukan ke mana pendampingan diarahkan, bukan untuk sanksi.
-[34:27] Gadis: Log kejadian membandingkan laporan warga dengan pencatatan internal. Kalau laporan warga jauh lebih banyak, deteksi internal kita yang lemah.
-[34:40] Ardi: Terakhir, formulir dari akun peninjau. Bisa dibaca sampai kolom terakhir, tanpa tombol tambah, ubah, atau hapus. Aman diberikan kepada siapa pun yang perlu melihat.
-[34:56] Ardi: Catatan bab dua belas. Baca angkanya bersama, bukan sendiri-sendiri. Klik sampai ke nama risiko dan pemiliknya. Dan gunakan ranking untuk pendampingan, bukan sanksi.
+[34:30] Gadis: Bab dua belas. Membaca hasilnya.
+[34:36] Ardi: Sekarang kacamatanya diganti. Bab ini untuk yang tidak mengisi, tetapi mengambil keputusan: Bupati, Sekretaris Daerah, dan kepala perangkat daerah.
+[34:46] Gadis: Akunnya akun peninjau, yang hanya bisa membaca. Perintah menulis ditolak di server, bukan sekadar tombolnya disembunyikan.
+[34:58] Ardi: Dua penyaring di kanan atas: perangkat daerah dan tahun. Pilih satu dinas, dan setiap angka hanya bicara tentang dinas itu. Begitulah menyiapkan rapat dengan satu perangkat daerah.
+[35:13] Gadis: Empat kartu ringkasan dibaca bersama, bukan satu per satu.
+[35:18] Ardi: Perhatikan RTP Selesai Disusun, lalu Kepatuhan Pelaporan. Kalau yang pertama tinggi tetapi yang kedua rendah, rencananya lengkap, tetapi bukti pelaksanaannya hampir tidak ada.
+[35:31] Gadis: Yang tinggi itu niat, bukan hasil. Arahannya: Formulir 8, 9, dan 10 harus diisi.
+[35:41] Ardi: Peta Risiko. Yang dibaca ke mana massanya condong. Garis putus-putus adalah batas Selera Risiko; semua yang di luarnya wajib punya rencana tindak.
+[35:50] Gadis: Dan angka di dalam sel bisa diklik.
+[35:53] Ardi: Sel dampak lima, kemungkinan lima. Terbuka nama-nama risikonya, lengkap dengan perangkat daerah dan tanda apakah RTP-nya sudah tersusun. Daftar inilah agenda rapat.
+[36:05] Gadis: Klik namanya: muncul rincian risiko, dan tombol Buka Daftar menuju baris aslinya. Tiga klik dari angka ringkasan sampai satu baris milik satu dinas.
+[36:18] Ardi: Progres Tahapan per UPR menjawab siapa yang belum selesai. Klik satu perangkat daerah, dan terlihat persis di tahap mana ia tersendat.
+[36:26] Gadis: Arahan rapat pun berubah, dari segera lengkapi manajemen risikonya, menjadi selesaikan formulir 1a sampai 1c minggu ini.
+[36:36] Ardi: Siklus empat skor: inheren, residual, target, dan aktual. Satu pertanyaan saja: apakah aktual bergerak mendekati target?
+[36:46] Gadis: Kalau tidak, ada tiga kemungkinan: rencananya keliru, tidak dijalankan, atau penyebabnya bukan yang diduga. Tiga keputusan yang berbeda.
+[36:57] Ardi: Ranking eksposur bukan daftar perangkat daerah terburuk. Yang di atas sering justru yang paling jujur menilai dirinya. Pakai untuk menentukan ke mana pendampingan diarahkan, bukan untuk sanksi.
+[37:08] Gadis: Log kejadian membandingkan dua sumber: laporan warga, dan pencatatan internal. Kalau laporan warga jauh lebih banyak, deteksi internal kita yang lemah.
+[37:21] Ardi: Terakhir, formulir dari akun peninjau. Bisa dibaca sampai kolom terakhir, tanpa tombol tambah, ubah, atau hapus. Aman diberikan kepada siapa pun yang perlu melihat.
+[37:36] Ardi: Catatan bab dua belas. Baca angkanya bersama, bukan sendiri-sendiri. Klik sampai ke nama risiko dan pemiliknya. Dan gunakan ranking untuk pendampingan, bukan sanksi.
 
 == Penutup: tiga penolong kecil
 
-[35:11] Gadis: Terakhir, tiga penolong kecil.
-[35:15] Ardi: Sebelum berpisah, tiga penolong kecil.
-[35:18] Gadis: Pertama, Data Risiko gabungan. Lupa risiko itu ada di tingkat mana? Cari di sini, klik Lihat Data, dan aplikasi melompat ke barisnya.
-[35:31] Ardi: Kedua, tekan Ctrl+K di halaman mana pun untuk mencari menu, risiko, atau perangkat daerah.
-[35:37] Gadis: Ketiga, menghapus tidak berarti hilang. Baris yang dihapus masuk ke Data Terhapus dan bisa dipulihkan. Jadi jangan takut mencoba.
-[35:49] Ardi: Dan Dasbor kita, yang tadi kosong, sekarang terisi. Tidak satu angka pun diketik; semuanya lahir dari formulir yang kita kerjakan.
-[36:01] Gadis: Jadi, dari mana saya mulai?
-[36:05] Ardi: Dari menu paling atas, lalu turun satu per satu. Urutan menu adalah urutan kerjanya.
-[36:11] Ardi: Sekali lagi, seluruh isian tadi data contoh. Penilaian yang sesungguhnya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
-[36:20] Gadis: Selamat bekerja. Dan selamat berlayar.
-[36:26] Ardi: Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.
+[37:50] Gadis: Terakhir, tiga penolong kecil.
+[37:55] Ardi: Sebelum berpisah, tiga penolong kecil.
+[37:58] Gadis: Pertama, Data Risiko gabungan. Lupa risiko itu ada di tingkat mana? Cari di sini, klik Lihat Data, dan aplikasi melompat ke barisnya.
+[38:11] Ardi: Kedua, tekan Ctrl+K di halaman mana pun untuk mencari menu, risiko, atau perangkat daerah.
+[38:17] Gadis: Ketiga, menghapus tidak berarti hilang. Baris yang dihapus masuk ke Data Terhapus dan bisa dipulihkan. Jadi jangan takut mencoba.
+[38:29] Ardi: Dan Dasbor kita, yang tadi kosong, sekarang terisi. Tidak satu angka pun diketik; semuanya lahir dari formulir yang kita kerjakan.
+[38:42] Gadis: Jadi, dari mana saya mulai?
+[38:46] Ardi: Dari menu paling atas, lalu turun satu per satu. Urutan menu adalah urutan kerjanya.
+[38:52] Ardi: Sekali lagi, seluruh isian tadi data contoh. Penilaian yang sesungguhnya kembali kepada pertimbangan penilai risiko di perangkat daerah Anda masing-masing.
+[39:01] Gadis: Selamat bekerja. Dan selamat berlayar.
+[39:07] Ardi: Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.
 
 Copyright © 2026 System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.
 Foto pada adegan animasi: Wikimedia Commons (lisensi terbuka, rincian di kredit akhir video).

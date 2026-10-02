@@ -53,11 +53,15 @@ class Tangan {
   /** Gambar kursor mengikuti tetikus sungguhan. */
   async _taruh(x, y) {
     this.x = x; this.y = y;
-    await this.page.mouse.move(x, y);
     // Saat halaman sedang di-zoom, koordinat halaman dan koordinat layar
     // tidak lagi sama. Tetikus sungguhan tetap memakai koordinat layar (yang
     // di sini), sedangkan kursor gambar harus ditaruh di tempat yang sama.
-    await this.page.evaluate((a, b) => window.__kursorKe && window.__kursorKe(a, b), x, y);
+    // Keduanya dikirim bersamaan: menunggu satu per satu menggandakan waktu
+    // tiap bingkai gerak di halaman yang sibuk.
+    await Promise.all([
+      this.page.mouse.move(x, y),
+      this.page.evaluate((a, b) => window.__kursorKe && window.__kursorKe(a, b), x, y),
+    ]);
   }
 
   /**
@@ -87,7 +91,6 @@ class Tangan {
     // Lama gerak mengikuti jarak, mirip hukum Fitts: dekat cepat, jauh tidak
     // sebanding jauhnya.
     const ms = Math.min(1150, 190 + Math.pow(jarak, 0.78) * 5.2) * this._r(0.88, 1.14);
-    const bingkai = Math.max(4, Math.round((ms / 1000) * this.fps));
 
     // Titik kendali dilempar tegak lurus lintasan supaya jalannya melengkung.
     const nx = -(y - y0) / (jarak || 1), ny = (x - x0) / (jarak || 1);
@@ -97,8 +100,15 @@ class Tangan {
     const c2x = x0 + (x - x0) * 0.68 + nx * simpang * 0.55;
     const c2y = y0 + (y - y0) * 0.68 + ny * simpang * 0.55;
 
-    for (let i = 1; i <= bingkai; i++) {
-      const p = i / bingkai;
+    // Kemajuan gerak dihitung dari JAM, bukan dari jumlah bingkai. Tiap
+    // bingkai butuh pulang-pergi ke peramban; di halaman formulir yang berat
+    // itu bisa 50 ms lebih, dan gerak "satu detik" yang dihitung per bingkai
+    // molor jadi tiga-empat detik - aksinya tertinggal jauh dari narasi.
+    // Dengan jam, geraknya selalu selesai tepat waktu; di halaman yang lambat
+    // bingkainya saja yang lebih jarang.
+    const t0 = Date.now();
+    for (;;) {
+      const p = Math.min(1, (Date.now() - t0) / ms);
       // Perlambatan di kedua ujung.
       const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
       const u = 1 - e;
@@ -110,7 +120,8 @@ class Tangan {
         Math.round(bx + this._r(-g, g)),
         Math.round(by + this._r(-g, g)),
       );
-      await tidur(1000 / this.fps);
+      if (p >= 1) break;
+      await tidur(Math.max(0, 1000 / this.fps - 4));
     }
     await this._taruh(Math.round(x), Math.round(y));
   }
@@ -137,12 +148,18 @@ class Tangan {
    * sesekali salah lalu dihapus.
    * @param {number} laju pengali kecepatan; >1 lebih cepat
    */
-  async ketik(teks, { laju = 1, salahKetik = true } = {}) {
+  async ketik(teks, { laju = 1, salahKetik = true, kelompok = 1 } = {}) {
     const kb = this.page.keyboard;
     const dekat = 'qwertyuiopasdfghjklzxcvbnm';
     let sejakSalah = 0;
 
-    for (let i = 0; i < teks.length; i++) {
+    // `kelompok` > 1: beberapa huruf (acak 1..kelompok) dikirim sebagai satu
+    // peristiwa masukan. Di formulir yang berat, setiap peristiwa memicu
+    // render ulang React yang memakan 100 ms lebih, sehingga ketikan huruf
+    // demi huruf jauh lebih lambat dari lajunya dan gambar tertinggal dari
+    // narasi. Hanya untuk kolom isian biasa: kotak pilihan Radix yang mencari
+    // lewat papan ketik butuh peristiwa tombol per huruf (kelompok = 1).
+    for (let i = 0; i < teks.length;) {
       const c = teks[i];
 
       if (salahKetik && sejakSalah > 24 && this.acak() < 0.016 && /[a-z]/i.test(c)) {
@@ -156,14 +173,19 @@ class Tangan {
         sejakSalah = 0;
       }
 
-      await kb.type(c);
-      this.lapor(c === ' ' ? 'spasi' : 'ketuk');
-      sejakSalah++;
+      const n = kelompok > 1 ? Math.min(teks.length - i, 1 + Math.floor(this.acak() * kelompok)) : 1;
+      const potong = teks.slice(i, i + n);
+      if (n === 1) await kb.type(potong);
+      else await kb.sendCharacter(potong);
+      this.lapor(potong.trim() === '' ? 'spasi' : 'ketuk');
+      sejakSalah += n;
+      i += n;
 
+      const akhir = potong[potong.length - 1];
       let jeda = this._r(38, 112);
-      if (c === ' ') jeda += this._r(10, 55);
-      if (',;:'.includes(c)) jeda += this._r(90, 210);
-      if ('.!?'.includes(c)) jeda += this._r(180, 380);
+      if (akhir === ' ') jeda += this._r(10, 55);
+      if (',;:'.includes(akhir)) jeda += this._r(90, 210);
+      if ('.!?'.includes(akhir)) jeda += this._r(180, 380);
       // Sesekali berhenti sejenak, seperti orang memikirkan kalimat.
       if (this.acak() < 0.022) jeda += this._r(220, 620);
       await tidur(jeda / laju);

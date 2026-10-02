@@ -25,7 +25,7 @@ for b in $(seq "$DARI" "$SAMPAI"); do
   if ! node pengendali.cjs --bab "$b" > "rekam/log-$b.txt" 2>&1; then
     tail -8 "rekam/log-$b.txt"; echo "BAB $b GAGAL - perekaman dihentikan."; exit 1
   fi
-  grep -E "SUNYI|terlambat|PERINGATAN|dilewati" "rekam/log-$b.txt" || true
+  grep -E "SUNYI|terlambat|menunggu|PERINGATAN|dilewati" "rekam/log-$b.txt" || true
   tail -1 "rekam/log-$b.txt"
 done
 echo; echo "== selesai $(date +%H:%M:%S)"

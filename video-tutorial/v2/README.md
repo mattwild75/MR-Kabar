@@ -34,12 +34,37 @@ aplikasi sungguhan.
 ## Cara kerjanya
 
 - **Narasi dulu, gambar belakangan** (sama dengan v1). `suara.py` memangkas
-  hening edge-tts dan menyimpan waktu tiap kata; pengendali menahan tiap
-  langkah sampai narasinya habis.
+  hening edge-tts dan menyimpan waktu tiap kata, plus tanda apakah kata itu
+  diikuti tanda baca; pengendali menahan tiap langkah sampai narasinya habis.
 - **`pada: [k, 'kata']`** pada aksi mana pun: aksi menunggu kata itu diucapkan
   di kalimat ke-k langkah tersebut (ejaan mesin suara, mis. `pi-ai-si`).
-  Aksi hiasan (`latar: true` — catatan, kartu, papan judul) dijadwalkan tanpa
-  menahan aksi berikutnya.
+  Setiap aksi yang disebut narasi WAJIB berjangkar; tanpa jangkar ia berjalan
+  sesuka lajunya dan bisa mendahului atau tertinggal dari kalimatnya.
+- **Jadwal narasi yang mengalah** (`Jadwal` di pengendali). Kalau sebuah aksi
+  berjangkar terlambat (aksi sebelumnya — isian panjang, halaman yang dimuat —
+  lebih lama dari kalimatnya), narasinya yang menunggu: kalimat dipotong di
+  tanda baca terdekat sebelum kata itu dan sisanya digeser sampai kata itu
+  jatuh tepat saat aksinya terjadi. Kata yang sudah dipakai aksi lain tidak
+  ikut tergeser. Jadwal akhir (`potongan`) disimpan di `waktu-N.json`, dan
+  `rakit.py` menaruh suara serta subtitle per potongan persis di sana. Pada
+  rekaman pertama v2 (jadwal tetap) 27 aksi tertinggal sampai 14,5 dtk dari
+  katanya; itulah yang terasa "narasinya menjelaskan apa, gambarnya apa".
+- **Tunjuk dulu, picu pada kata** (`_picu` di pengendali). Aksi berjangkar
+  mulai bersiap paling cepat 2,2 dtk sebelum katanya — gulir, kursor menuju
+  sasaran, membuka grup menu, memilih titik matriks — lalu menunggu TEPAT
+  sebelum klik, ketukan pertama, atau sorotannya. Jarak tempuh kursor tidak
+  perlu ditebak lagi: dengan tebakan tetap (`MAJU`, kini hanya untuk aksi
+  tanpa picu), gambar masih tertinggal median 0,6 dtk dan sampai 2,3 dtk;
+  dengan picu, median 0,0 dtk dan 90% di bawah 0,2 dtk.
+- **Gerak kursor berbasis jam**, bukan hitungan bingkai: tiap bingkai butuh
+  pulang-pergi ke peramban (puluhan ms di formulir berat), dan gerak "satu
+  detik" sempat molor jadi 3–4 detik. Isian biasa diketik 1–3 huruf per
+  peristiwa (`kelompok`) karena tiap peristiwa memicu render ulang React.
+- Aksi hiasan (`latar: true` — catatan, kartu, papan judul) yang berjangkar
+  dijadwalkan sejak awal langkah dan menunggu katanya di latar, tidak
+  tertahan aksi panjang yang tertulis sebelumnya.
+- `python periksa_sinkron.py` sesudah merekam: selisih tiap aksi berjangkar
+  terhadap katanya, dan daftar yang meleset lebih dari 1 dtk.
 - **Zoom 1,5 lewat CSS, bukan deviceScaleFactor.** Perekam layar Chromium
   memotret ukuran jendela dalam DIP dan mengabaikan deviceScaleFactor maupun
   `scale` emulasi — keduanya menghasilkan 1280×720. Jadi jendela dibuat
@@ -55,10 +80,11 @@ aplikasi sungguhan.
 - **window.open diarahkan ke tab yang sama** di peramban perekam, karena
   "Catat ke Form 10" dan "Input ke Register Risiko" membuka tab baru yang tidak
   ikut terekam.
-- **Percepatan** (`rakit.py`): untuk tiap langkah, bagian dari 0,45 dtk sesudah
-  narasinya habis sampai langkah berakhir, kalau lebih dari 2,5 dtk, diputar
-  2–6× lebih cepat. Narasi tidak pernah jatuh di dalamnya; ketukan papan ketik
-  di bagian itu dijarangkan sebanding.
+- **Percepatan** (`rakit.py`): setiap jeda sunyi lebih dari 3,8 dtk — di ujung
+  langkah maupun di tengahnya saat narasi menunggu gambar — diputar 2–6× lebih
+  cepat (tepi 0,45/0,35 dtk tetap biasa). Yang tidak pernah dipercepat: narasi
+  dan masa tampil hiasan (catatan, kartu, papan judul, sorotan, Tersimpan).
+  Ketukan papan ketik di bagian itu dijarangkan sebanding.
 
 ## Urutan membangun
 
@@ -75,6 +101,7 @@ aplikasi sungguhan.
     php ../akun.php pasang mrkabarvip
     node pengendali.cjs --bab 5 --cepat --potret   (uji tanpa merekam/menunggu)
     bash rekam.sh                        -> rekam/bab-N.webm, waktu-N.json, peristiwa-N.json
+    python periksa_sinkron.py            -> selisih aksi berjangkar vs katanya
     python rakit.py                      -> keluaran/gambar.mp4, narasi.wav, isyarat.json,
                                             subtitle.srt/.vtt, bab.json, transkrip.txt
     python musik.py                      -> keluaran/musik.wav
@@ -108,3 +135,14 @@ menelaah laporan dari bab 8.
   yang benar-benar baru yang disuarakan.
 - Rekaman webm Puppeteer tidak menulis durasi; `rakit.py` menghitungnya dari
   jumlah paket (30 bingkai/detik tetap).
+- Dua jangkar berurutan di kalimat yang sama HARUS dipisah tanda baca
+  ("Penyebabnya: auditor terbatas, dan jadwal yang padat"). Tanpa itu, kalau
+  aksi pertama lebih lama dari jarak kedua katanya, narasi terpaksa dipotong di
+  tengah frasa ("...terbatas dan ‖ jadwal").
+- Catatan berpanah yang sasarannya bisa di luar layar diberi `dekatkan=True`:
+  ia menggulir sasarannya dulu, tetapi HANYA saat aksi utama sedang diam
+  menunggu kata. Gulir di tengah ketikan ditarik balik peramban ke kolom yang
+  sedang diketik, dan catatannya batal karena sasarannya keluar layar lagi.
+- Aksi yang menggulir halaman (centang kriteria, kolom di bawah) jangan
+  dijalankan selagi catatan masih menunjuk elemen di atasnya; beri jangkar di
+  akhir kalimat catatan itu.

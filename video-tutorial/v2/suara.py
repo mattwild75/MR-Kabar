@@ -128,6 +128,33 @@ async def satu(b, ulang):
             await asyncio.sleep(2 * coba)
 
 
+TANDA_BACA = set(",.;:?!")
+
+
+def tanda_jeda(tts, kata):
+    """Untuk tiap kata: apakah di naskah ia diikuti tanda baca (koma, titik, ...).
+
+    Pengendali boleh memotong sebuah kalimat dan menyisipkan jeda HANYA di
+    batas seperti ini, supaya narasi yang menunggu gambar terdengar seperti
+    orang yang berhenti sejenak di akhir anak kalimat, bukan terputus di
+    tengah frasa. Kata dari WordBoundary dicocokkan berurutan ke teks yang
+    dikirim ke mesin suara.
+    """
+    hasil, pos, rendah = [], 0, tts.lower()
+    for w in kata:
+        i = rendah.find(w["w"].lower(), pos)
+        if i < 0:
+            hasil.append(False)
+            continue
+        j = i + len(w["w"])
+        k = j
+        while k < len(tts) and not tts[k].isalnum():
+            k += 1
+        hasil.append(any(c in TANDA_BACA for c in tts[j:k]))
+        pos = j
+    return hasil
+
+
 def panjang(path):
     k = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                         "-of", "default=nw=1:nk=1", path], capture_output=True, text=True, check=True)
@@ -170,9 +197,11 @@ async def main():
         a = max(0.0, kata[0]["t"] - 0.06)
         z = min(lama, kata[-1]["t"] + kata[-1]["d"] + 0.24)
         jeda = JEDA_TANYA if b["teks"].rstrip().endswith("?") else JEDA
+        sela = tanda_jeda(b["tts"], kata)
         waktu[b["id"]] = {
             "a": round(a, 3), "b": round(z, 3), "dur": round(z - a, 3), "jeda": jeda,
-            "kata": [{"t": round(w["t"] - a, 3), "d": round(w["d"], 3), "w": w["w"]} for w in kata],
+            "kata": [{"t": round(w["t"] - a, 3), "d": round(w["d"], 3), "w": w["w"], "p": sela[i]}
+                     for i, w in enumerate(kata)],
         }
         total += z - a + jeda
     json.dump(waktu, open(os.path.join(AUDIO, "waktu.json"), "w", encoding="utf-8"), ensure_ascii=False)

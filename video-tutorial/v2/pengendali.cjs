@@ -181,9 +181,15 @@ const CARI = (spek) => {
   if (!el) return null;
   if (spek.tandaiEl) {
     // Penanda untuk lapisan (sorot, catat, gulir): elemen yang SAMA dengan
-    // yang ditemukan di sini, tanpa mengulang aturan pencariannya.
-    document.querySelectorAll('[data-tl-sasaran]').forEach((e) => e.removeAttribute('data-tl-sasaran'));
-    el.setAttribute('data-tl-sasaran', '1');
+    // yang ditemukan di sini, tanpa mengulang aturan pencariannya. Catatan
+    // memakai penanda bernama sendiri (tandaiEl berupa nama atribut): ia
+    // berjalan di latar, dan aksi lain yang menandai sasarannya bersamaan
+    // akan memindahkan penanda bersama ke elemen lain.
+    const nama = typeof spek.tandaiEl === 'string' ? spek.tandaiEl : 'data-tl-sasaran';
+    if (nama === 'data-tl-sasaran') {
+      document.querySelectorAll('[data-tl-sasaran]').forEach((e) => e.removeAttribute('data-tl-sasaran'));
+    }
+    el.setAttribute(nama, '1');
   }
   if (spek.tandai) {
     document.querySelectorAll('[data-tutorial-menu]')
@@ -220,6 +226,34 @@ class Perekam {
   }
 
   detik() { return (Date.now() - this.mulaiRekam) / 1000; }
+
+  /**
+   * Dipanggil sebuah aksi TEPAT sebelum saat yang menentukan - klik, huruf
+   * pertama, sorotan - sesudah kursornya sampai di sasaran. Kalau aksinya
+   * terikat kata, di sinilah ia menunggu katanya (lihat langkah()). Seperti
+   * presenter: menunjuk dulu, baru mengklik sambil menyebutnya.
+   * Mengembalikan true kalau sempat menunggu, supaya posisi sasarannya
+   * diperiksa ulang (halaman bisa bergeser selama menunggu).
+   */
+  async _picu() {
+    const f = this.__picu;
+    this.__picu = null;
+    return f ? f() : false;
+  }
+
+  /** Kursor sudah di sasaran: tunggu kata, periksa ulang posisi, lalu klik. */
+  async _klikTepat(r, spek) {
+    await this.t.ke(r.x, r.y);
+    if (await this._picu() && spek) {
+      const r2 = await this._cari(spek, 1500).catch(() => null);
+      if (r2 && Math.hypot(r2.x - r.x, r2.y - r.y) > 6) {
+        r.x = r2.x; r.y = r2.y;
+        await this.t.ke(r.x, r.y);
+      }
+    }
+    await this.t.klikDiSini();
+    return r;
+  }
 
   /**
    * Tunggu sampai video pembuka sesudah masuk benar-benar hilang.
@@ -398,7 +432,7 @@ class Perekam {
 
       case 'judul':
         await p.evaluate((k, s, ms) => window.__judul(k, s, ms), aksi.kicker || '', aksi.teks, aksi.ms || 4600);
-        this.catatP('judul');
+        this.catatP('judul', { ms: aksi.ms || 4600 });
         break;
 
       case 'buka':
@@ -443,7 +477,8 @@ class Perekam {
             continue;   // anaknya memang sudah terbuka, di grup yang benar
           }
 
-          await t.klikTitik(r.x, r.y);
+          if (i === aksi.jalur.length - 1) await this._klikTepat(r, spek);
+          else await t.klikTitik(r.x, r.y);
 
           if (spekAnak) {
             const batas = Date.now() + 6000;
@@ -492,6 +527,7 @@ class Perekam {
         // ikut berubah — pencarian berikutnya otomatis memakai yang baru.
         const spek = aksi.sel ? { sel: aksi.sel } : { teks: aksi.teks };
         await this._dekatkan(spek);
+        await this._picu();
         const ok = await p.evaluate(async (s, sk, ms) => {
           // Daftar kandidatnya disamakan dengan CARI, termasuk elemen daun,
           // supaya judul kartu yang berupa <div> biasa ikut terjangkau.
@@ -531,31 +567,38 @@ class Perekam {
           console.log(`  (sorot dilewati, sasaran tidak ada: ${JSON.stringify(spek)})`);
           break;
         }
-        await p.evaluate(CARI, { ...spek, tandaiEl: true });
         if (!aksi.diam) await t.ke(r.x + Math.min(40, r.tinggi), r.y + 4);
+        await this._picu();
+        // Ditandai SESUDAH menunggu: selama menunggu, halaman bisa dirender
+        // ulang dan elemen yang tadi ditandai sudah diganti yang baru.
+        await p.evaluate(CARI, { ...spek, tandaiEl: true });
         await p.evaluate((ms, redup) => window.__sorot('[data-tl-sasaran]', ms, redup), aksi.ms || 2000, !!aksi.redup);
-        this.catatP('sorot');
+        this.catatP('sorot', { ms: aksi.ms || 2000 });
         await tidur(aksi.tunggu ?? 300);
         break;
       }
 
       case 'catat': {
-        const spek = aksi.sel ? { sel: aksi.sel } : aksi.ph ? { ph: aksi.ph } : aksi.label ? { label: aksi.label }
-          : aksi.kolomLabel ? { kolomLabel: aksi.kolomLabel } : { teks: aksi.teks };
+        const spek = spekCatat(aksi);
+        // `dekatkan`: sasaran digulir halus ke tengah dulu. Hanya untuk catatan
+        // yang muncul saat aksi utama sedang diam menunggu katanya - gulir di
+        // tengah aksi lain bisa memindahkan sasaran klik aksi itu.
+        if (aksi.dekatkan) await this._dekatkan(spek).catch(() => null);
         const r = await this._cari(spek, 1800).catch(() => null);
         if (!r || r.bawah < 60 || r.atas > TINGGI - 45) {
           console.log(`  (catatan dilewati, sasaran tidak terlihat: ${JSON.stringify(spek)})`);
           break;
         }
-        await p.evaluate(CARI, { ...spek, tandaiEl: true });
-        await p.evaluate((j, i, w, ms) => window.__catat('[data-tl-sasaran]', j, i, w, ms), aksi.judul, aksi.isi, aksi.jenis || 'awas', aksi.ms || 5000);
-        this.catatP('catat', { jenis: aksi.jenis || 'awas' });
+        const tanda = `data-tl-c${(this._noCatat = (this._noCatat || 0) + 1)}`;
+        await p.evaluate(CARI, { ...spek, tandaiEl: tanda });
+        await p.evaluate((s, j, i, w, ms) => window.__catat(s, j, i, w, ms), `[${tanda}]`, aksi.judul, aksi.isi, aksi.jenis || 'awas', aksi.ms || 5000);
+        this.catatP('catat', { jenis: aksi.jenis || 'awas', ms: aksi.ms || 5000 });
         break;
       }
 
       case 'kartu':
         await p.evaluate((j, i, w, ms) => window.__kartu(j, i, w, ms), aksi.judul, aksi.isi, aksi.jenis || 'info', aksi.ms || 5200);
-        this.catatP('kartu');
+        this.catatP('kartu', { ms: aksi.ms || 5200 });
         break;
 
       case 'lompat': {
@@ -571,7 +614,7 @@ class Perekam {
           return { x: k.left + k.width / 2, y: k.top + k.height / 2 };
         }, aksi.teks);
         if (!r) { console.log(`  (bilah lompat "${aksi.teks}" tidak ada)`); break; }
-        await t.klikTitik(r.x, r.y);
+        await this._klikTepat(r, null);
         this.catatP('gulir');
         await tidur(aksi.tunggu ?? 900);
         break;
@@ -593,7 +636,7 @@ class Perekam {
 
       case 'kombinasi': {
         await p.evaluate((lab) => window.__tombol(lab, 2600), aksi.label || aksi.kunci);
-        this.catatP('kartu');
+        this.catatP('kartu', { ms: 2600 });
         await tidur(500);
         const k = aksi.kunci;
         for (const x of k.slice(0, -1)) await p.keyboard.down(x);
@@ -613,7 +656,7 @@ class Perekam {
         const spek = aksi.sel ? { sel: aksi.sel }
           : aksi.teks ? { teks: aksi.teks, dekat: aksi.dekat, persis: aksi.persis } : { ph: aksi.ph };
         const r = await this._dekatkan(spek);
-        await t.klikTitik(r.x, r.y);
+        await this._klikTepat(r, spek);
         await tidur(aksi.tunggu ?? 420);
 
         // Tombol simpan ditandai `simpan: true`. Sesudah diklik, halaman
@@ -678,7 +721,7 @@ class Perekam {
         const spek = aksi.sel ? { sel: aksi.sel, ke: aksi.ke }
           : aksi.ph ? { ph: aksi.ph, ke: aksi.ke } : { kolomLabel: aksi.kolomLabel };
         const r = await this._dekatkan(spek);
-        await t.klikTitik(r.x, r.y);
+        await this._klikTepat(r, spek);
         if (aksi.bersihkan) {
           await p.keyboard.down('Control'); await p.keyboard.press('KeyA'); await p.keyboard.up('Control');
           await tidur(120);
@@ -686,7 +729,7 @@ class Perekam {
         // {AKUN} dan {SANDI} tidak ditulis di naskah supaya naskahnya tetap
         // aman dibaca siapa pun dan disimpan di dalam repositori.
         const isi = aksi.teks.replace('{AKUN}', AKUN_AKTIF.user).replace('{SANDI}', AKUN_AKTIF.sandi);
-        await t.ketik(isi, { laju: aksi.laju || 1 });
+        await t.ketik(isi, { laju: aksi.laju || 1, kelompok: kelompokKetik(aksi) });
         await tidur(aksi.tunggu ?? 260);
         break;
       }
@@ -695,13 +738,12 @@ class Perekam {
         // Kotak pilihan: diklik dulu, daftarnya muncul, baru pilihannya diklik.
         // Pemicunya kadang <input> ber-placeholder, kadang <button> berteks —
         // keduanya dipakai di aplikasi ini, jadi keduanya didukung.
-        const r = await this._dekatkan(
-          aksi.sel ? { sel: aksi.sel }
-            : aksi.ph ? { ph: aksi.ph }
-              : aksi.kolomLabel ? { kolomLabel: aksi.kolomLabel }
-                : { teks: aksi.pemicu },
-        );
-        await t.klikTitik(r.x, r.y);
+        const spekPilih = aksi.sel ? { sel: aksi.sel }
+          : aksi.ph ? { ph: aksi.ph }
+            : aksi.kolomLabel ? { kolomLabel: aksi.kolomLabel }
+              : { teks: aksi.pemicu };
+        const r = await this._dekatkan(spekPilih);
+        await this._klikTepat(r, spekPilih);
         await tidur(520);
         if (process.env.POTRET_AKSI) {
           await p.screenshot({ path: path.join(DIR, 'rekam', 'potret', `pilih-${String(aksi.nilai).slice(0, 12)}.png`) }).catch(() => {});
@@ -737,7 +779,7 @@ class Perekam {
       case 'centang': {
         // Pasangan kotak centang + kolom uraian pada penyebab dan RTP.
         const c = await this._dekatkan({ label: aksi.label });
-        await t.klikTitik(c.x, c.y);
+        await this._klikTepat(c, { label: aksi.label });
         await tidur(420);
         if (aksi.teks) {
           const isi = await this._cari({
@@ -764,7 +806,7 @@ class Perekam {
             if (!r) throw new Error('kolom uraian untuk "' + aksi.label + '" tidak ketemu');
             await t.klikTitik(r.x, r.y);
           }
-          await t.ketik(aksi.teks, { laju: aksi.laju || 1 });
+          await t.ketik(aksi.teks, { laju: aksi.laju || 1, kelompok: kelompokKetik(aksi) });
         }
         await tidur(aksi.tunggu ?? 320);
         break;
@@ -834,7 +876,7 @@ class Perekam {
             await t.klikTitik(b2.ta.x, b2.ta.y);
             await t.ketik(
               b.bertentangan ? aksi.dasarBertentangan : aksi.dasarLemah,
-              { laju: aksi.laju || 3.0, salahKetik: false },
+              { laju: aksi.laju || 3.0, salahKetik: false, kelompok: kelompokKetik(aksi) },
             );
             await tidur(220);
           }
@@ -873,6 +915,43 @@ class Perekam {
         break;
       }
 
+      case 'sorotKuesioner': {
+        const ok = await p.evaluate((nomor, nilai) => {
+          const punyaAnak = (par, n) => [...par.children]
+            .some((c) => c.tagName === 'BUTTON' && c.textContent.trim() === n);
+          const baris = [...new Set(
+            [...document.querySelectorAll('button')]
+              .filter((b) => b.textContent.trim() === '1')
+              .map((b) => b.parentElement),
+          )].filter((par) => par && ['1', '2', '3', '4'].every((n) => punyaAnak(par, n)));
+          const el = baris[nomor - 1];
+          const tb = el && [...el.children].find((b) => b.tagName === 'BUTTON' && b.textContent.trim() === String(nilai));
+          if (!tb) return null;
+          document.querySelectorAll('[data-tl-sasaran]').forEach((e) => e.removeAttribute('data-tl-sasaran'));
+          tb.setAttribute('data-tl-sasaran', '1');
+          const b = tb.getBoundingClientRect();
+          return { x: b.left + b.width / 2, y: b.top + b.height / 2 };
+        }, aksi.nomor, aksi.nilai);
+        if (!ok) { console.log(`  (sorot jawaban ${aksi.nomor}/${aksi.nilai} dilewati)`); break; }
+        if (ok.y < 138 || ok.y > TINGGI - 150) {
+          // Di luar daerah nyaman: gulir halus dulu, lalu ukur ulang.
+          const r2 = await p.evaluate(async () => {
+            const el = document.querySelector('[data-tl-sasaran]');
+            await window.__bawaKeTengah(el);
+            const b = el.getBoundingClientRect();
+            return { x: b.left + b.width / 2, y: b.top + b.height / 2 };
+          });
+          this.catatP('gulir');
+          ok.x = r2.x; ok.y = r2.y;
+        }
+        await t.ke(ok.x + 18, ok.y + 6);
+        await this._picu();
+        await p.evaluate((ms) => window.__sorot('[data-tl-sasaran]', ms, false), aksi.ms || 1500);
+        this.catatP('sorot', { ms: aksi.ms || 1500 });
+        await tidur(aksi.tunggu ?? 200);
+        break;
+      }
+
       case 'kuesioner': {
         // Kuesioner 1a: 37 pertanyaan, tiap pertanyaan punya empat tombol
         // berlabel 1 sampai 4. Tombolnya tidak punya pengenal sendiri, jadi
@@ -902,7 +981,7 @@ class Perekam {
         }, aksi.nomor, aksi.nilai);
         if (!r) throw new Error(`pertanyaan ke-${aksi.nomor} atau nilai ${aksi.nilai} tidak ketemu`);
         await tidur(240);
-        await t.klikTitik(r.x, r.y);
+        await this._klikTepat(r, null);
         await tidur(aksi.tunggu ?? 240);
         break;
       }
@@ -925,6 +1004,7 @@ class Perekam {
         }, aksi.cocokOpsi);
         if (!nomor) throw new Error('select berisi pilihan "' + aksi.cocokOpsi + '" tidak ketemu');
         await t.ke(nomor.x, nomor.y);
+        await this._picu();
         this.catatP('klik');
         await p.select('select[data-tutorial-select="1"]', aksi.nilai);
         await p.evaluate(() => document.querySelector('select[data-tutorial-select="1"]')
@@ -961,7 +1041,7 @@ class Perekam {
           if (!r) throw new Error(`kolom ${kolom} baris penanda tangan ke-${aksi.baris} tidak ketemu`);
           await tidur(260);
           await t.klikTitik(r.x, r.y);
-          await t.ketik(aksi[kolom], { laju: aksi.laju || 1.5, salahKetik: false });
+          await t.ketik(aksi[kolom], { laju: aksi.laju || 1.5, salahKetik: false, kelompok: kelompokKetik(aksi) });
           await tidur(180);
         }
         break;
@@ -994,7 +1074,7 @@ class Perekam {
           };
         }, aksi.d, aksi.k);
         if (!sel) throw new Error(`sel matriks D${aksi.d} K${aksi.k} tidak ketemu`);
-        await t.klikTitik(sel.x, sel.y);
+        await this._klikTepat(sel, null);
         this.catatP('ping', { d: aksi.d, k: aksi.k });
         await tidur(aksi.tunggu ?? 750);
         break;
@@ -1005,59 +1085,144 @@ class Perekam {
     }
   }
 
-  /** Lama narasi satu langkah = jumlah (potongan + jeda) seluruh kalimatnya. */
+  /** Lama narasi satu langkah menurut jadwal statis (dipakai mode --cepat). */
   lamaNarasi(l) {
     return (l.narasi || []).reduce((s, n) => s + (WAKTU[n.id] ? WAKTU[n.id].dur + WAKTU[n.id].jeda : 0), 0);
   }
 
-  /** Detik (relatif awal langkah) saat kata ke-n diucapkan di kalimat ke-k. */
-  waktuKata(l, k, kata, n = 1) {
-    let off = 0;
-    for (let i = 0; i < k; i++) {
-      const w = WAKTU[l.narasi[i].id];
-      if (w) off += w.dur + w.jeda;
-    }
-    const w = WAKTU[l.narasi[k]?.id];
-    if (!w) return off;
-    const kk = kata.toLowerCase();
-    let c = 0;
-    for (const x of w.kata) {
-      const s = x.w.toLowerCase().replace(/[^a-z0-9-]/g, '');
-      if (s.startsWith(kk) && ++c === n) return off + x.t;
-    }
-    console.log(`  PERINGATAN: kata "${kata}" #${n} tidak ada di ${l.narasi[k].id}`);
-    return off;
-  }
-
   async langkah(l) {
     const mulai = this.detik();
-    const lama = CEPAT ? 0 : this.lamaNarasi(l);
+    const jadwal = new Jadwal(l);
     const adaDialog = () => this.page.evaluate(() =>
       [...document.querySelectorAll('button')].some((e) => {
         const b = e.getBoundingClientRect();
         return b.height > 0 && e.textContent.trim() === 'Batal';
       }));
     const terjadwal = [];
+    const catatAksi = [];
+    const kataDari = (a) => {
+      const [k, kata, n = 1] = a.pada;
+      const wi = jadwal.cariKata(k, kata, n);
+      if (wi < 0) console.log(`  PERINGATAN: kata "${kata}" #${n} tidak ada di kalimat ${k} langkah ${l.id}`);
+      return [k, wi, kata];
+    };
+
+    // Hiasan yang terikat kata (catatan, kartu, papan judul) dijadwalkan SEJAK
+    // AWAL langkah, masing-masing menunggu katanya di latar. Kalau baru
+    // dijadwalkan saat giliran urutannya tiba, hiasan yang ditulis sesudah
+    // aksi panjang ikut tertahan aksi itu, lalu muncul jauh sesudah katanya
+    // diucapkan. Sasarannya dihitung ulang terus karena jadwal bisa bergeser.
+    //
+    // Hiasan juga menunggu sampai semua aksi UTAMA yang jangkarnya lebih awal
+    // sudah lewat. Tanpa itu, hiasan bisa muncul menurut jadwal lama selagi
+    // aksi utama sebelumnya masih tertahan, lalu mengunci katanya (pakai) -
+    // dan narasi tidak bisa lagi mengalah untuk aksi utama itu.
+    const jangkar = new Map();
+    for (const a of l.aksi || []) if (a.pada && !CEPAT) jangkar.set(a, kataDari(a));
+    const urutUtama = [...jangkar].filter(([a, [, wi]]) => !a.latar && wi >= 0).map(([, [k, wi]]) => [k, wi]);
+    const tidakLebih = (x, y) => x[0] < y[0] || (x[0] === y[0] && x[1] <= y[1]);
+    let utamaLewat = 0;
+    if (!CEPAT) {
+      for (const a of l.aksi || []) {
+        if (!a.latar || !a.pada) continue;
+        const [k, wi] = jangkar.get(a);
+        if (wi < 0) continue;
+        const perlu = urutUtama.filter((u) => tidakLebih(u, [k, wi])).length;
+        // Catatan yang menggulir sasarannya dulu (`dekatkan`) bersiap 1,2 dtk
+        // lebih awal: gulir dulu, lalu tetap MUNCUL tepat pada katanya. Ia
+        // juga menunggu aksi utama DIAM (menunggu kata berikutnya) - gulir di
+        // tengah ketikan ditarik balik oleh peramban ke kolom yang sedang
+        // diketik, dan sasarannya keluar layar lagi.
+        const awal = a.dekatkan ? 1.2 : 0;
+        terjadwal.push((async () => {
+          for (;;) {
+            const kurang = mulai + jadwal.waktu(k, wi) + (a.geser || 0) - awal - this.detik();
+            if (kurang <= 0.02 && utamaLewat >= perlu && (!a.dekatkan || this.utamaDiam)) break;
+            await tidur(Math.max(20, Math.min(60, kurang * 1000)));
+          }
+          if (a.dekatkan) {
+            await this._dekatkan(spekCatat(a)).catch(() => null);
+            for (;;) {
+              const kurang = mulai + jadwal.waktu(k, wi) + (a.geser || 0) - this.detik();
+              if (kurang <= 0.02) break;
+              await tidur(Math.min(60, kurang * 1000));
+            }
+          }
+          jadwal.pakai(k, wi);
+          const m = this.detik() - mulai;
+          await this.jalankan({ ...a, dekatkan: false })
+            .catch((e) => console.log(`  (hiasan gagal: ${e.message.split('\n')[0]})`));
+          catatAksi.push({ t: a.t, m: +m.toFixed(2), s: +(this.detik() - mulai).toFixed(2), pada: a.pada });
+        })());
+      }
+    }
 
     for (const a of l.aksi || []) {
-      // Aksi yang terikat kata: tunggu sampai katanya diucapkan.
-      if (a.pada && !CEPAT) {
-        const sasaran = mulai + this.waktuKata(l, a.pada[0], a.pada[1], a.pada[2] || 1) + (a.geser || 0);
-        const kurang = sasaran - this.detik();
-        if (a.latar) {
-          // Hiasan: dijadwalkan, aksi berikutnya tidak ikut menunggu.
-          terjadwal.push(new Promise((res) => setTimeout(() => this.jalankan(a).catch((e) => {
-            console.log(`  (hiasan gagal: ${e.message.split('\n')[0]})`);
-          }).finally(res), Math.max(0, kurang * 1000))));
-          continue;
+      if (a.latar && a.pada && !CEPAT) continue;
+      // Aksi yang terikat kata: tunggu sampai katanya diucapkan. Kalau aksi
+      // sebelumnya membuat ia TERLAMBAT, narasinya yang mengalah: sisa
+      // kalimat digeser (lihat Jadwal.geser) sampai kata itu jatuh tepat
+      // saat aksinya terjadi.
+      //
+      // Aksi yang menggerakkan kursor dimulai sedikit LEBIH AWAL dari
+      // katanya (MAJU): perjalanan kursor ke sasaran makan 0,5-1 detik, dan
+      // yang harus jatuh pada kata itu adalah kliknya, bukan awal geraknya.
+      let sesudah = null;
+      if (a.pada && !CEPAT && a.t in PICU && a.geser == null) {
+        // Tunjuk dulu, picu pada kata: aksi mulai paling cepat SIAP detik
+        // sebelum katanya (kursor menuju sasaran, gulir, membuka grup menu),
+        // lalu menunggu di _picu tepat sebelum klik/ketukan/sorotannya.
+        const [k, wi, kata] = jangkar.get(a);
+        if (wi >= 0) {
+          const sisa = mulai + jadwal.waktu(k, wi) - SIAP - this.detik();
+          if (sisa > 0) { this.utamaDiam = true; await tidur(sisa * 1000); this.utamaDiam = false; }
+          let sudah = false;
+          const picu = async () => {
+            if (sudah) return false;
+            sudah = true;
+            const lat = PICU[a.t];
+            const kurang = mulai + jadwal.waktu(k, wi) - lat - this.detik();
+            let menunggu = false;
+            if (kurang > 0) {
+              this.utamaDiam = true;
+              await tidur(kurang * 1000);
+              this.utamaDiam = false;
+              menunggu = kurang > 0.25;
+            } else if (kurang < -0.3) {
+              // Kata diucapkan tepat saat hasil aksinya tampak.
+              const geser = jadwal.geser(k, wi, this.detik() - mulai + lat);
+              if (-kurang >= 0.5) {
+                this.terlambat.push({ langkah: l.id, aksi: a.t, kata, detik: +(-kurang).toFixed(1), cara: geser });
+                console.log(`  (narasi menunggu ${(-kurang).toFixed(1)} dtk, ${geser}: ${a.t} "${kata}")`);
+              }
+            }
+            jadwal.pakai(k, wi);
+            utamaLewat += 1;
+            return menunggu;
+          };
+          this.__picu = picu;
+          sesudah = picu;
         }
-        if (kurang > 0) await tidur(kurang * 1000);
-        else if (kurang < -1.2) {
-          this.terlambat.push({ langkah: l.id, aksi: a.t, detik: +(-kurang).toFixed(1) });
-          console.log(`  (terlambat ${(-kurang).toFixed(1)} dtk: ${a.t} ${a.pada[1]})`);
+      } else if (a.pada && !CEPAT) {
+        const [k, wi, kata] = jangkar.get(a);
+        if (wi >= 0) {
+          const maju = a.geser ?? -(MAJU[a.t] || 0);
+          const kurang = mulai + jadwal.waktu(k, wi) + maju - this.detik();
+          if (kurang > 0) { this.utamaDiam = true; await tidur(kurang * 1000); this.utamaDiam = false; }
+          else if (kurang < -0.3) {
+            // Kata diucapkan sedikit (0,1 dtk) sebelum hasil aksinya tampak.
+            const geser = jadwal.geser(k, wi, this.detik() - mulai - maju - 0.1);
+            if (-kurang >= 0.5) {
+              this.terlambat.push({ langkah: l.id, aksi: a.t, kata, detik: +(-kurang).toFixed(1), cara: geser });
+              console.log(`  (narasi menunggu ${(-kurang).toFixed(1)} dtk, ${geser}: ${a.t} "${kata}")`);
+            }
+          }
+          jadwal.pakai(k, wi);
+          utamaLewat += 1;
         }
       }
       const dialogSebelum = await adaDialog();
+      const m = this.detik() - mulai;
       try {
         if (a.cadangan) {
           await this.jalankan(a).catch((e) => console.log(`  (dilewati: ${e.message.split('\n')[0].slice(0, 120)})`));
@@ -1067,6 +1232,12 @@ class Perekam {
       } catch (e) {
         throw new Error(`langkah ${l.id}, aksi ${JSON.stringify(a).slice(0, 200)}\n  -> ${e.message}`);
       }
+      // Aksi yang tidak sampai memanggil _picu (sasarannya dilewati): jadwal
+      // dan hitungan jangkarnya tetap dituntaskan.
+      this.__picu = null;
+      if (sesudah) await sesudah();
+      catatAksi.push({ t: a.t, m: +m.toFixed(2), s: +(this.detik() - mulai).toFixed(2), ...(a.pada ? { pada: a.pada } : {}) });
+      if (process.env.WAKTU_AKSI) console.log(`    ${a.t.padEnd(10)} ${(this.detik() - mulai - m).toFixed(2)} dtk  ${String(a.teks || a.sel || a.ph || a.label || a.nilai || '').slice(0, 40)}`);
       if (process.env.POTRET_AKSI) {
         this._noAksi = (this._noAksi || 0) + 1;
         await this.page.screenshot({ path: path.join(DIR, 'rekam', 'potret', `${l.id}-aksi${String(this._noAksi).padStart(2, '0')}-${a.t}.png`) }).catch(() => {});
@@ -1076,16 +1247,175 @@ class Perekam {
       }
     }
     if (POTRET) await this.page.screenshot({ path: path.join(DIR, 'rekam', 'potret', `${l.id}-a.png`) }).catch(() => {});
+    this.utamaDiam = true;
     await Promise.all(terjadwal);
+    this.utamaDiam = false;
     if (POTRET) await this.page.screenshot({ path: path.join(DIR, 'rekam', 'potret', `${l.id}-b.png`) }).catch(() => {});
+    const lama = CEPAT ? 0 : jadwal.akhir();
     const kurang = lama - (this.detik() - mulai);
     if (kurang > 0) await tidur(kurang * 1000);
     await tidur(CEPAT ? 100 : 180);
     const gambar = this.detik() - mulai;
-    this.waktu.push({ id: l.id, mulai: +mulai.toFixed(3), selesai: +this.detik().toFixed(3), narasi: +lama.toFixed(3) });
+    this.waktu.push({
+      id: l.id, mulai: +mulai.toFixed(3), selesai: +this.detik().toFixed(3), narasi: +lama.toFixed(3),
+      // Jadwal akhir narasi langkah ini: potongan kalimat dan detik mulainya
+      // (relatif awal langkah). rakit.py menaruh suara persis di sini.
+      potongan: jadwal.pot.map((p) => ({
+        id: jadwal.kal[p.k].id, k: p.k, w0: p.w0, w1: p.w1, a: +p.a.toFixed(3), b: +p.b.toFixed(3), t: +p.t.toFixed(3),
+      })),
+      // Kapan tiap aksi mulai (m) dan selesai (s), untuk memeriksa sinkron
+      // sesudah merekam (periksa_sinkron.py).
+      aksi: catatAksi,
+    });
     const sunyi = gambar - lama;
     const tanda = !CEPAT && sunyi > 6 ? '  <-- SUNYI ' + sunyi.toFixed(0) + ' dtk' : '';
     process.stdout.write(`  ${l.id.padEnd(7)} ${mulai.toFixed(1).padStart(6)}s  narasi ${lama.toFixed(1).padStart(5)}  gambar ${gambar.toFixed(1).padStart(5)}${tanda}\n`);
+  }
+}
+
+/**
+ * Berapa detik sebuah aksi dimulai sebelum kata jangkarnya: kira-kira lama
+ * perjalanan kursor sampai klik (atau sampai huruf pertama terketik).
+ * Hiasan yang muncul seketika (catatan, kartu, gulir) tidak perlu maju.
+ */
+// Diukur dari rekaman sebelumnya (jarak kata -> klik/ketukan pertama saat
+// aksinya dimulai tepat pada kata). Matriks dua kali klik: titik, lalu sel.
+/**
+ * Aksi yang menunggu katanya di dalam aksi itu sendiri (_picu), dan jeda dari
+ * picu sampai hasilnya tampak: klik ~0,15 dtk (tunda klikDiSini), ketik ~0,35
+ * (klik, pilih-semua, huruf pertama), sorotan hampir seketika.
+ */
+const PICU = {
+  klik: 0.15, ketik: 0.35, pilih: 0.15, centang: 0.15, matriks: 0.15, kuesioner: 0.15,
+  sorotKuesioner: 0.05, sorot: 0.05, select: 0.05, zoom: 0.1, lompat: 0.15, menu: 0.15,
+};
+/** Paling cepat sekian detik sebelum katanya, aksi berjangkar mulai bersiap. */
+const SIAP = 2.2;
+
+/** Sasaran sebuah catatan berpanah. */
+const spekCatat = (a) => (a.sel ? { sel: a.sel } : a.ph ? { ph: a.ph } : a.label ? { label: a.label }
+  : a.kolomLabel ? { kolomLabel: a.kolomLabel } : { teks: a.teks });
+
+/** Huruf per peristiwa masukan (lihat Tangan.ketik): makin cepat lajunya, makin besar. */
+const kelompokKetik = (aksi) => aksi.kelompok ?? ((aksi.laju || 1) >= 3 ? 3 : (aksi.laju || 1) >= 2.4 ? 2 : 1);
+
+const MAJU = {
+  klik: 0.9, matriks: 1.7, centang: 0.8, ketik: 1.0, pilih: 0.7, kuesioner: 0.8,
+  sorotKuesioner: 0.5, select: 0.7, sorot: 0.6, menu: 0.9, lompat: 0.5, zoom: 0.3,
+};
+
+/**
+ * Jadwal narasi SATU langkah, dalam detik relatif awal langkah.
+ *
+ * Mula-mula tiap kalimat satu potongan, berurutan dengan jedanya - persis
+ * jadwal tetap yang dipakai sebelumnya. Bedanya: jadwal ini bisa MENGALAH.
+ * Kalau sebuah aksi yang terikat kata ternyata terlambat (aksi sebelumnya -
+ * mengetik isian panjang, memuat halaman - makan waktu lebih lama dari
+ * narasinya), sisa narasi digeser sampai kata itu jatuh tepat saat aksinya
+ * terjadi. Potongan dibuat di batas tanda baca terdekat SEBELUM kata itu,
+ * jadi yang terdengar adalah narator yang berhenti sejenak di akhir anak
+ * kalimat lalu melanjutkan begitu gambarnya sampai, bukan suara yang
+ * mendahului gambar.
+ *
+ * Kata yang sudah dipakai aksi lain (`pakai`) tidak boleh ikut tergeser:
+ * aksinya sudah terjadi tepat pada kata itu. Potongan karena itu selalu dibuat
+ * SESUDAH kata terpakai terakhir; kalau di antaranya tidak ada tanda baca,
+ * potongan dibuat tepat sebelum kata yang ditunggu.
+ *
+ * Potongan: { k: kalimat ke-, w0..w1: rentang kata, a..b: rentang audio
+ * (detik dalam potongan suara kalimat itu), t: detik mulai di langkah }.
+ */
+class Jadwal {
+  constructor(l) {
+    this.kal = (l.narasi || []).map((n) => ({ id: n.id, w: WAKTU[n.id] }));
+    this.pot = [];
+    this.kunci = { k: -1, wi: -1 };
+    let t = 0;
+    this.kal.forEach((x, k) => {
+      if (!x.w) return;
+      this.pot.push({ k, w0: 0, w1: x.w.kata.length, a: 0, b: x.w.dur, t });
+      t += x.w.dur + x.w.jeda;
+    });
+  }
+
+  /** Hening sesudah potongan: jeda kalimat kalau ia ujung kalimat. */
+  sela(p) {
+    const w = this.kal[p.k].w;
+    return p.w1 >= w.kata.length ? w.jeda : 0;
+  }
+
+  akhir() {
+    const p = this.pot[this.pot.length - 1];
+    return p ? p.t + (p.b - p.a) + this.sela(p) : 0;
+  }
+
+  cariKata(k, kata, n = 1) {
+    const w = this.kal[k] && this.kal[k].w;
+    if (!w) return -1;
+    const kk = kata.toLowerCase();
+    let c = 0;
+    for (let i = 0; i < w.kata.length; i++) {
+      const s = w.kata[i].w.toLowerCase().replace(/[^a-z0-9-]/g, '');
+      if (s.startsWith(kk) && ++c === n) return i;
+    }
+    return -1;
+  }
+
+  /** Tandai kata ke-wi kalimat k sudah dipakai sebuah aksi. */
+  pakai(k, wi) {
+    if (k > this.kunci.k || (k === this.kunci.k && wi > this.kunci.wi)) this.kunci = { k, wi };
+  }
+
+  _indeks(k, wi) {
+    return this.pot.findIndex((p) => p.k === k && p.w0 <= wi && wi < p.w1);
+  }
+
+  /** Detik (relatif awal langkah) saat kata ke-wi kalimat k diucapkan. */
+  waktu(k, wi) {
+    const p = this.pot[this._indeks(k, wi)];
+    return p ? p.t + (this.kal[k].w.kata[wi].t - p.a) : 0;
+  }
+
+  /**
+   * Geser narasi supaya kata wi kalimat k jatuh pada detik `kini`.
+   * Mengembalikan cara penggesarannya, untuk log.
+   */
+  geser(k, wi, kini) {
+    let i = this._indeks(k, wi);
+    if (i < 0) return 'tidak ada';
+    const p = this.pot[i];
+    const kt = this.kal[k].w.kata;
+    if (kini <= p.t + (kt[wi].t - p.a)) return 'tepat';
+    // Ada kata terpakai di potongan ini? Potongan harus dibuat sesudahnya.
+    const terkunci = this.kunci.k === k && this.kunci.wi >= p.w0;
+    if (terkunci && this.kunci.wi >= wi) return 'kata sudah terpakai';
+    const bawah = terkunci ? Math.max(p.w0 + 1, this.kunci.wi + 1) : p.w0 + 1;
+    let bi = -1;
+    for (let j = wi; j >= bawah; j--) if (kt[j - 1].p) { bi = j; break; }
+    let cara = bi > 0 ? 'di tanda baca' : 'sekalimat';
+    if (bi < 0 && terkunci) { bi = wi; cara = 'di tengah frasa'; }
+    if (bi > p.w0) {
+      // Titik potong: sedikit sesudah kata sebelumnya habis, tetapi tidak
+      // pernah melewati awal kata berikutnya - kalau melewati, awal kata itu
+      // terdengar dua kali (sekali terpotong, sekali utuh sesudah jeda).
+      const akhirKata = kt[bi - 1].t + kt[bi - 1].d;
+      const potong = Math.min(p.b, akhirKata + 0.12, Math.max(akhirKata, kt[bi].t - 0.02));
+      const baru = { k, w0: bi, w1: p.w1, a: Math.max(potong, kt[bi].t - 0.05), b: p.b, t: 0 };
+      p.w1 = bi;
+      p.b = potong;
+      baru.t = kini - (kt[wi].t - baru.a);
+      this.pot.splice(i + 1, 0, baru);
+      i += 1;
+    } else {
+      p.t = kini - (kt[wi].t - p.a);
+    }
+    // Potongan yang digeser tidak boleh menumpuk potongan sebelumnya, dan
+    // semua sesudahnya ikut terdorong.
+    for (let j = Math.max(1, i); j < this.pot.length; j++) {
+      const q = this.pot[j - 1];
+      this.pot[j].t = Math.max(this.pot[j].t, q.t + (q.b - q.a) + this.sela(q));
+    }
+    return cara;
   }
 }
 
@@ -1156,11 +1486,15 @@ class Perekam {
 
   await tidur(900);
   if (screencast) await screencast.stop();
-  if (!UJI) {
-    fs.writeFileSync(path.join(DIR, 'rekam', `waktu-${bab.nomor}.json`), JSON.stringify(rec.waktu, null, 1));
-    fs.writeFileSync(path.join(DIR, 'rekam', `peristiwa-${bab.nomor}.json`), JSON.stringify(rec.peristiwa));
+  if (!CEPAT) {
+    // Uji (tanpa video) tetap menyimpan jadwal & peristiwanya, dengan awalan
+    // "uji-", supaya sinkronnya bisa diperiksa (periksa_sinkron.py --uji)
+    // tanpa menimpa milik rekaman sungguhan.
+    const awal = UJI ? 'uji-' : '';
+    fs.writeFileSync(path.join(DIR, 'rekam', `${awal}waktu-${bab.nomor}.json`), JSON.stringify(rec.waktu, null, 1));
+    fs.writeFileSync(path.join(DIR, 'rekam', `${awal}peristiwa-${bab.nomor}.json`), JSON.stringify(rec.peristiwa));
   }
-  if (rec.terlambat.length) console.log('aksi terlambat:', JSON.stringify(rec.terlambat));
+  if (rec.terlambat.length) console.log('narasi menunggu gambar:', JSON.stringify(rec.terlambat));
   await browser.close();
   console.log(process.exitCode ? 'GAGAL.' : 'selesai.');
 })();
