@@ -1,0 +1,7386 @@
+{
+ "total_duration": 761.87,
+ "lead_in": 4.0,
+ "scenes": [
+  {
+   "id": "s1",
+   "start": 0.0,
+   "end": 47.992,
+   "first_line": 4.0
+  },
+  {
+   "id": "s2",
+   "start": 47.992,
+   "end": 120.4,
+   "first_line": 51.192
+  },
+  {
+   "id": "s3",
+   "start": 120.4,
+   "end": 178.776,
+   "first_line": 123.6
+  },
+  {
+   "id": "s4",
+   "start": 178.776,
+   "end": 260.913,
+   "first_line": 181.976
+  },
+  {
+   "id": "s5",
+   "start": 260.913,
+   "end": 321.029,
+   "first_line": 264.113
+  },
+  {
+   "id": "s6",
+   "start": 321.029,
+   "end": 400.979,
+   "first_line": 324.229
+  },
+  {
+   "id": "s7",
+   "start": 400.979,
+   "end": 474.401,
+   "first_line": 404.179
+  },
+  {
+   "id": "s8",
+   "start": 474.401,
+   "end": 541.349,
+   "first_line": 477.601
+  },
+  {
+   "id": "s9",
+   "start": 541.349,
+   "end": 613.241,
+   "first_line": 544.549
+  },
+  {
+   "id": "s10",
+   "start": 613.241,
+   "end": 664.773,
+   "first_line": 616.441
+  },
+  {
+   "id": "s11",
+   "start": 664.773,
+   "end": 761.87,
+   "first_line": 667.973
+  }
+ ],
+ "cards": [
+  {
+   "scene": "s2",
+   "start": 47.992,
+   "end": 51.192
+  },
+  {
+   "scene": "s3",
+   "start": 120.4,
+   "end": 123.6
+  },
+  {
+   "scene": "s4",
+   "start": 178.776,
+   "end": 181.976
+  },
+  {
+   "scene": "s5",
+   "start": 260.913,
+   "end": 264.113
+  },
+  {
+   "scene": "s6",
+   "start": 321.029,
+   "end": 324.229
+  },
+  {
+   "scene": "s7",
+   "start": 400.979,
+   "end": 404.179
+  },
+  {
+   "scene": "s8",
+   "start": 474.401,
+   "end": 477.601
+  },
+  {
+   "scene": "s9",
+   "start": 541.349,
+   "end": 544.549
+  },
+  {
+   "scene": "s10",
+   "start": 613.241,
+   "end": 616.441
+  },
+  {
+   "scene": "s11",
+   "start": 664.773,
+   "end": 667.973
+  }
+ ],
+ "lines": [
+  {
+   "id": 1,
+   "scene": "s1",
+   "voice": "ardi",
+   "display": "Kapal bisa karam karena badai. Itu risiko, dan pelaut belajar membacanya.",
+   "start": 4.0,
+   "end": 9.265,
+   "words": [
+    {
+     "t": 4.06,
+     "d": 0.312,
+     "w": "Kapal"
+    },
+    {
+     "t": 4.372,
+     "d": 0.208,
+     "w": "bisa"
+    },
+    {
+     "t": 4.581,
+     "d": 0.312,
+     "w": "karam"
+    },
+    {
+     "t": 4.893,
+     "d": 0.243,
+     "w": "karena"
+    },
+    {
+     "t": 5.136,
+     "d": 0.509,
+     "w": "badai"
+    },
+    {
+     "t": 6.417,
+     "d": 0.22,
+     "w": "Itu"
+    },
+    {
+     "t": 6.637,
+     "d": 0.59,
+     "w": "risiko"
+    },
+    {
+     "t": 7.482,
+     "d": 0.231,
+     "w": "dan"
+    },
+    {
+     "t": 7.714,
+     "d": 0.232,
+     "w": "pelaut"
+    },
+    {
+     "t": 7.945,
+     "d": 0.405,
+     "w": "belajar"
+    },
+    {
+     "t": 8.35,
+     "d": 0.694,
+     "w": "membacanya"
+    }
+   ]
+  },
+  {
+   "id": 2,
+   "scene": "s1",
+   "voice": "ardi",
+   "display": "Tapi kapal juga bisa karam di laut yang tenang, karena seseorang diam-diam melubangi lambungnya dari dalam.",
+   "start": 10.185,
+   "end": 15.268,
+   "words": [
+    {
+     "t": 10.245,
+     "d": 0.255,
+     "w": "Tapi"
+    },
+    {
+     "t": 10.499,
+     "d": 0.243,
+     "w": "kapal"
+    },
+    {
+     "t": 10.742,
+     "d": 0.197,
+     "w": "juga"
+    },
+    {
+     "t": 10.939,
+     "d": 0.208,
+     "w": "bisa"
+    },
+    {
+     "t": 11.147,
+     "d": 0.243,
+     "w": "karam"
+    },
+    {
+     "t": 11.391,
+     "d": 0.069,
+     "w": "di"
+    },
+    {
+     "t": 11.46,
+     "d": 0.22,
+     "w": "laut"
+    },
+    {
+     "t": 11.68,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 11.796,
+     "d": 0.44,
+     "w": "tenang"
+    },
+    {
+     "t": 12.502,
+     "d": 0.255,
+     "w": "karena"
+    },
+    {
+     "t": 12.756,
+     "d": 0.405,
+     "w": "seseorang"
+    },
+    {
+     "t": 13.161,
+     "d": 0.405,
+     "w": "diam-diam"
+    },
+    {
+     "t": 13.566,
+     "d": 0.37,
+     "w": "melubangi"
+    },
+    {
+     "t": 13.937,
+     "d": 0.451,
+     "w": "lambungnya"
+    },
+    {
+     "t": 14.388,
+     "d": 0.174,
+     "w": "dari"
+    },
+    {
+     "t": 14.562,
+     "d": 0.486,
+     "w": "dalam"
+    }
+   ]
+  },
+  {
+   "id": 3,
+   "scene": "s1",
+   "voice": "gadis",
+   "display": "Dan yang lebih berbahaya dari lubang itu: awak yang melihatnya, lalu memilih diam.",
+   "start": 16.888,
+   "end": 22.592,
+   "words": [
+    {
+     "t": 16.948,
+     "d": 0.264,
+     "w": "Dan"
+    },
+    {
+     "t": 17.212,
+     "d": 0.149,
+     "w": "yang"
+    },
+    {
+     "t": 17.361,
+     "d": 0.298,
+     "w": "lebih"
+    },
+    {
+     "t": 17.659,
+     "d": 0.55,
+     "w": "berbahaya"
+    },
+    {
+     "t": 18.209,
+     "d": 0.241,
+     "w": "dari"
+    },
+    {
+     "t": 18.45,
+     "d": 0.333,
+     "w": "lubang"
+    },
+    {
+     "t": 18.783,
+     "d": 0.482,
+     "w": "itu"
+    },
+    {
+     "t": 19.643,
+     "d": 0.298,
+     "w": "awak"
+    },
+    {
+     "t": 19.941,
+     "d": 0.092,
+     "w": "yang"
+    },
+    {
+     "t": 20.033,
+     "d": 0.688,
+     "w": "melihatnya"
+    },
+    {
+     "t": 20.939,
+     "d": 0.401,
+     "w": "lalu"
+    },
+    {
+     "t": 21.34,
+     "d": 0.505,
+     "w": "memilih"
+    },
+    {
+     "t": 21.845,
+     "d": 0.528,
+     "w": "diam"
+    }
+   ]
+  },
+  {
+   "id": 4,
+   "scene": "s1",
+   "voice": "ardi",
+   "display": "Di pemerintahan, lubang itu bernama kecurangan. Lonceng tanda bahayanya bernama laporan.",
+   "start": 23.912,
+   "end": 29.757,
+   "words": [
+    {
+     "t": 23.972,
+     "d": 0.174,
+     "w": "Di"
+    },
+    {
+     "t": 24.146,
+     "d": 0.741,
+     "w": "pemerintahan"
+    },
+    {
+     "t": 25.153,
+     "d": 0.266,
+     "w": "lubang"
+    },
+    {
+     "t": 25.419,
+     "d": 0.231,
+     "w": "itu"
+    },
+    {
+     "t": 25.65,
+     "d": 0.347,
+     "w": "bernama"
+    },
+    {
+     "t": 25.998,
+     "d": 0.671,
+     "w": "kecurangan"
+    },
+    {
+     "t": 27.442,
+     "d": 0.417,
+     "w": "Lonceng"
+    },
+    {
+     "t": 27.858,
+     "d": 0.22,
+     "w": "tanda"
+    },
+    {
+     "t": 28.078,
+     "d": 0.521,
+     "w": "bahayanya"
+    },
+    {
+     "t": 28.599,
+     "d": 0.359,
+     "w": "bernama"
+    },
+    {
+     "t": 28.958,
+     "d": 0.579,
+     "w": "laporan"
+    }
+   ]
+  },
+  {
+   "id": 5,
+   "scene": "s1",
+   "voice": "gadis",
+   "display": "Video ini tentang cara membunyikan lonceng itu. Dengan benar, dan dengan aman.",
+   "start": 30.777,
+   "end": 37.211,
+   "words": [
+    {
+     "t": 30.837,
+     "d": 0.424,
+     "w": "Video"
+    },
+    {
+     "t": 31.261,
+     "d": 0.333,
+     "w": "ini"
+    },
+    {
+     "t": 31.593,
+     "d": 0.378,
+     "w": "tentang"
+    },
+    {
+     "t": 31.972,
+     "d": 0.298,
+     "w": "cara"
+    },
+    {
+     "t": 32.27,
+     "d": 0.585,
+     "w": "membunyikan"
+    },
+    {
+     "t": 32.855,
+     "d": 0.436,
+     "w": "lonceng"
+    },
+    {
+     "t": 33.291,
+     "d": 0.482,
+     "w": "itu"
+    },
+    {
+     "t": 34.537,
+     "d": 0.39,
+     "w": "Dengan"
+    },
+    {
+     "t": 34.927,
+     "d": 0.482,
+     "w": "benar"
+    },
+    {
+     "t": 35.718,
+     "d": 0.264,
+     "w": "dan"
+    },
+    {
+     "t": 35.982,
+     "d": 0.378,
+     "w": "dengan"
+    },
+    {
+     "t": 36.36,
+     "d": 0.631,
+     "w": "aman"
+    }
+   ]
+  },
+  {
+   "id": 6,
+   "scene": "s1",
+   "voice": "ardi",
+   "display": "Sembilan babak, dari mengenali kecurangan sampai apa yang terjadi setelah Anda melapor lewat MR Kabar.",
+   "start": 42.031,
+   "end": 47.172,
+   "words": [
+    {
+     "t": 42.091,
+     "d": 0.347,
+     "w": "Sembilan"
+    },
+    {
+     "t": 42.438,
+     "d": 0.475,
+     "w": "babak"
+    },
+    {
+     "t": 43.167,
+     "d": 0.208,
+     "w": "dari"
+    },
+    {
+     "t": 43.375,
+     "d": 0.312,
+     "w": "mengenali"
+    },
+    {
+     "t": 43.688,
+     "d": 0.451,
+     "w": "kecurangan"
+    },
+    {
+     "t": 44.139,
+     "d": 0.266,
+     "w": "sampai"
+    },
+    {
+     "t": 44.406,
+     "d": 0.197,
+     "w": "apa"
+    },
+    {
+     "t": 44.602,
+     "d": 0.127,
+     "w": "yang"
+    },
+    {
+     "t": 44.73,
+     "d": 0.394,
+     "w": "terjadi"
+    },
+    {
+     "t": 45.123,
+     "d": 0.289,
+     "w": "setelah"
+    },
+    {
+     "t": 45.412,
+     "d": 0.185,
+     "w": "Anda"
+    },
+    {
+     "t": 45.598,
+     "d": 0.359,
+     "w": "melapor"
+    },
+    {
+     "t": 45.956,
+     "d": 0.266,
+     "w": "lewat"
+    },
+    {
+     "t": 46.223,
+     "d": 0.243,
+     "w": "Em-Er"
+    },
+    {
+     "t": 46.466,
+     "d": 0.486,
+     "w": "Kabar"
+    }
+   ]
+  },
+  {
+   "id": 7,
+   "scene": "s2",
+   "voice": "gadis",
+   "display": "Mulai dari yang paling dasar. Apa itu kecurangan?",
+   "start": 51.192,
+   "end": 55.539,
+   "words": [
+    {
+     "t": 51.252,
+     "d": 0.424,
+     "w": "Mulai"
+    },
+    {
+     "t": 51.676,
+     "d": 0.31,
+     "w": "dari"
+    },
+    {
+     "t": 51.986,
+     "d": 0.161,
+     "w": "yang"
+    },
+    {
+     "t": 52.146,
+     "d": 0.367,
+     "w": "paling"
+    },
+    {
+     "t": 52.513,
+     "d": 0.573,
+     "w": "dasar"
+    },
+    {
+     "t": 53.851,
+     "d": 0.344,
+     "w": "Apa"
+    },
+    {
+     "t": 54.195,
+     "d": 0.333,
+     "w": "itu"
+    },
+    {
+     "t": 54.528,
+     "d": 0.791,
+     "w": "kecurangan"
+    }
+   ]
+  },
+  {
+   "id": 8,
+   "scene": "s2",
+   "voice": "ardi",
+   "display": "Kecurangan, atau fraud, adalah perbuatan yang disengaja, dengan tipu daya atau penyalahgunaan kepercayaan, untuk memperoleh keuntungan secara tidak sah.",
+   "start": 56.289,
+   "end": 64.451,
+   "words": [
+    {
+     "t": 56.349,
+     "d": 0.671,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 57.275,
+     "d": 0.278,
+     "w": "atau"
+    },
+    {
+     "t": 57.553,
+     "d": 0.405,
+     "w": "frod"
+    },
+    {
+     "t": 58.201,
+     "d": 0.289,
+     "w": "adalah"
+    },
+    {
+     "t": 58.49,
+     "d": 0.417,
+     "w": "perbuatan"
+    },
+    {
+     "t": 58.907,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 59.022,
+     "d": 0.66,
+     "w": "disengaja"
+    },
+    {
+     "t": 59.902,
+     "d": 0.255,
+     "w": "dengan"
+    },
+    {
+     "t": 60.157,
+     "d": 0.185,
+     "w": "tipu"
+    },
+    {
+     "t": 60.342,
+     "d": 0.266,
+     "w": "daya"
+    },
+    {
+     "t": 60.608,
+     "d": 0.185,
+     "w": "atau"
+    },
+    {
+     "t": 60.793,
+     "d": 0.579,
+     "w": "penyalahgunaan"
+    },
+    {
+     "t": 61.372,
+     "d": 0.752,
+     "w": "kepercayaan"
+    },
+    {
+     "t": 62.367,
+     "d": 0.232,
+     "w": "untuk"
+    },
+    {
+     "t": 62.599,
+     "d": 0.324,
+     "w": "memperoleh"
+    },
+    {
+     "t": 62.923,
+     "d": 0.417,
+     "w": "keuntungan"
+    },
+    {
+     "t": 63.34,
+     "d": 0.278,
+     "w": "secara"
+    },
+    {
+     "t": 63.617,
+     "d": 0.232,
+     "w": "tidak"
+    },
+    {
+     "t": 63.849,
+     "d": 0.382,
+     "w": "sah"
+    }
+   ]
+  },
+  {
+   "id": 9,
+   "scene": "s2",
+   "voice": "gadis",
+   "display": "Sengaja: pelakunya tahu. Tipu daya: ada yang disembunyikan. Tidak sah: ada yang diambil tanpa hak.",
+   "start": 65.571,
+   "end": 75.067,
+   "words": [
+    {
+     "t": 65.631,
+     "d": 0.826,
+     "w": "Sengaja"
+    },
+    {
+     "t": 66.743,
+     "d": 0.608,
+     "w": "pelakunya"
+    },
+    {
+     "t": 67.351,
+     "d": 0.539,
+     "w": "tahu"
+    },
+    {
+     "t": 68.654,
+     "d": 0.333,
+     "w": "Tipu"
+    },
+    {
+     "t": 68.987,
+     "d": 0.539,
+     "w": "daya"
+    },
+    {
+     "t": 69.858,
+     "d": 0.298,
+     "w": "ada"
+    },
+    {
+     "t": 70.156,
+     "d": 0.206,
+     "w": "yang"
+    },
+    {
+     "t": 70.363,
+     "d": 1.009,
+     "w": "disembunyikan"
+    },
+    {
+     "t": 72.14,
+     "d": 0.344,
+     "w": "Tidak"
+    },
+    {
+     "t": 72.484,
+     "d": 0.355,
+     "w": "sah"
+    },
+    {
+     "t": 73.195,
+     "d": 0.275,
+     "w": "ada"
+    },
+    {
+     "t": 73.471,
+     "d": 0.172,
+     "w": "yang"
+    },
+    {
+     "t": 73.643,
+     "d": 0.505,
+     "w": "diambil"
+    },
+    {
+     "t": 74.147,
+     "d": 0.413,
+     "w": "tanpa"
+    },
+    {
+     "t": 74.56,
+     "d": 0.287,
+     "w": "hak"
+    }
+   ]
+  },
+  {
+   "id": 10,
+   "scene": "s2",
+   "voice": "ardi",
+   "display": "Lalu apa bedanya dengan kejadian risiko? Kejadian risiko terjadi tanpa niat: banjir merendam arsip, server mati, angka keliru diketik.",
+   "start": 76.087,
+   "end": 84.509,
+   "words": [
+    {
+     "t": 76.147,
+     "d": 0.266,
+     "w": "Lalu"
+    },
+    {
+     "t": 76.413,
+     "d": 0.174,
+     "w": "apa"
+    },
+    {
+     "t": 76.587,
+     "d": 0.394,
+     "w": "bedanya"
+    },
+    {
+     "t": 76.98,
+     "d": 0.208,
+     "w": "dengan"
+    },
+    {
+     "t": 77.189,
+     "d": 0.382,
+     "w": "kejadian"
+    },
+    {
+     "t": 77.57,
+     "d": 0.567,
+     "w": "risiko"
+    },
+    {
+     "t": 78.919,
+     "d": 0.417,
+     "w": "Kejadian"
+    },
+    {
+     "t": 79.336,
+     "d": 0.324,
+     "w": "risiko"
+    },
+    {
+     "t": 79.66,
+     "d": 0.359,
+     "w": "terjadi"
+    },
+    {
+     "t": 80.019,
+     "d": 0.243,
+     "w": "tanpa"
+    },
+    {
+     "t": 80.262,
+     "d": 0.428,
+     "w": "niat"
+    },
+    {
+     "t": 80.933,
+     "d": 0.37,
+     "w": "banjir"
+    },
+    {
+     "t": 81.303,
+     "d": 0.301,
+     "w": "merendam"
+    },
+    {
+     "t": 81.604,
+     "d": 0.44,
+     "w": "arsip"
+    },
+    {
+     "t": 82.252,
+     "d": 0.336,
+     "w": "server"
+    },
+    {
+     "t": 82.588,
+     "d": 0.498,
+     "w": "mati"
+    },
+    {
+     "t": 83.317,
+     "d": 0.266,
+     "w": "angka"
+    },
+    {
+     "t": 83.583,
+     "d": 0.255,
+     "w": "keliru"
+    },
+    {
+     "t": 83.838,
+     "d": 0.451,
+     "w": "diketik"
+    }
+   ]
+  },
+  {
+   "id": 11,
+   "scene": "s2",
+   "voice": "ardi",
+   "display": "Kecurangan selalu punya niat. Kalau badai itu risiko, lubang yang sengaja dibor itulah kecurangan.",
+   "start": 84.929,
+   "end": 90.968,
+   "words": [
+    {
+     "t": 84.989,
+     "d": 0.532,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 85.522,
+     "d": 0.324,
+     "w": "selalu"
+    },
+    {
+     "t": 85.846,
+     "d": 0.232,
+     "w": "punya"
+    },
+    {
+     "t": 86.077,
+     "d": 0.475,
+     "w": "niat"
+    },
+    {
+     "t": 87.333,
+     "d": 0.197,
+     "w": "Kalau"
+    },
+    {
+     "t": 87.53,
+     "d": 0.22,
+     "w": "badai"
+    },
+    {
+     "t": 87.75,
+     "d": 0.174,
+     "w": "itu"
+    },
+    {
+     "t": 87.924,
+     "d": 0.567,
+     "w": "risiko"
+    },
+    {
+     "t": 88.757,
+     "d": 0.312,
+     "w": "lubang"
+    },
+    {
+     "t": 89.069,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 89.174,
+     "d": 0.359,
+     "w": "sengaja"
+    },
+    {
+     "t": 89.532,
+     "d": 0.278,
+     "w": "dibor"
+    },
+    {
+     "t": 89.81,
+     "d": 0.289,
+     "w": "itulah"
+    },
+    {
+     "t": 90.1,
+     "d": 0.648,
+     "w": "kecurangan"
+    }
+   ]
+  },
+  {
+   "id": 12,
+   "scene": "s2",
+   "voice": "gadis",
+   "display": "Salah hitung bukan kecurangan. Tapi menyembunyikan salah hitung supaya ada yang diuntungkan, itu lain cerita.",
+   "start": 92.088,
+   "end": 100.219,
+   "words": [
+    {
+     "t": 92.148,
+     "d": 0.413,
+     "w": "Salah"
+    },
+    {
+     "t": 92.561,
+     "d": 0.413,
+     "w": "hitung"
+    },
+    {
+     "t": 92.973,
+     "d": 0.436,
+     "w": "bukan"
+    },
+    {
+     "t": 93.409,
+     "d": 0.849,
+     "w": "kecurangan"
+    },
+    {
+     "t": 95.022,
+     "d": 0.367,
+     "w": "Tapi"
+    },
+    {
+     "t": 95.389,
+     "d": 0.7,
+     "w": "menyembunyikan"
+    },
+    {
+     "t": 96.089,
+     "d": 0.287,
+     "w": "salah"
+    },
+    {
+     "t": 96.375,
+     "d": 0.333,
+     "w": "hitung"
+    },
+    {
+     "t": 96.708,
+     "d": 0.47,
+     "w": "supaya"
+    },
+    {
+     "t": 97.178,
+     "d": 0.378,
+     "w": "ada"
+    },
+    {
+     "t": 97.556,
+     "d": 0.172,
+     "w": "yang"
+    },
+    {
+     "t": 97.728,
+     "d": 0.757,
+     "w": "diuntungkan"
+    },
+    {
+     "t": 98.783,
+     "d": 0.241,
+     "w": "itu"
+    },
+    {
+     "t": 99.024,
+     "d": 0.413,
+     "w": "lain"
+    },
+    {
+     "t": 99.437,
+     "d": 0.562,
+     "w": "cerita"
+    }
+   ]
+  },
+  {
+   "id": 13,
+   "scene": "s2",
+   "voice": "ardi",
+   "display": "Di halaman Lapor, keduanya punya pintu sendiri, dan bedanya penting. Laporan kejadian risiko meminta nama Anda, lalu diteruskan ke perangkat daerah terkait.",
+   "start": 101.139,
+   "end": 110.163,
+   "words": [
+    {
+     "t": 101.199,
+     "d": 0.162,
+     "w": "Di"
+    },
+    {
+     "t": 101.361,
+     "d": 0.278,
+     "w": "halaman"
+    },
+    {
+     "t": 101.639,
+     "d": 0.475,
+     "w": "Lapor"
+    },
+    {
+     "t": 102.38,
+     "d": 0.382,
+     "w": "keduanya"
+    },
+    {
+     "t": 102.762,
+     "d": 0.22,
+     "w": "punya"
+    },
+    {
+     "t": 102.981,
+     "d": 0.185,
+     "w": "pintu"
+    },
+    {
+     "t": 103.167,
+     "d": 0.532,
+     "w": "sendiri"
+    },
+    {
+     "t": 103.931,
+     "d": 0.243,
+     "w": "dan"
+    },
+    {
+     "t": 104.174,
+     "d": 0.347,
+     "w": "bedanya"
+    },
+    {
+     "t": 104.521,
+     "d": 0.509,
+     "w": "penting"
+    },
+    {
+     "t": 105.812,
+     "d": 0.347,
+     "w": "Laporan"
+    },
+    {
+     "t": 106.159,
+     "d": 0.37,
+     "w": "kejadian"
+    },
+    {
+     "t": 106.529,
+     "d": 0.324,
+     "w": "risiko"
+    },
+    {
+     "t": 106.853,
+     "d": 0.278,
+     "w": "meminta"
+    },
+    {
+     "t": 107.131,
+     "d": 0.185,
+     "w": "nama"
+    },
+    {
+     "t": 107.316,
+     "d": 0.475,
+     "w": "Anda"
+    },
+    {
+     "t": 108.092,
+     "d": 0.231,
+     "w": "lalu"
+    },
+    {
+     "t": 108.323,
+     "d": 0.451,
+     "w": "diteruskan"
+    },
+    {
+     "t": 108.775,
+     "d": 0.058,
+     "w": "ke"
+    },
+    {
+     "t": 108.832,
+     "d": 0.336,
+     "w": "perangkat"
+    },
+    {
+     "t": 109.168,
+     "d": 0.255,
+     "w": "daerah"
+    },
+    {
+     "t": 109.423,
+     "d": 0.521,
+     "w": "terkait"
+    }
+   ]
+  },
+  {
+   "id": 14,
+   "scene": "s2",
+   "voice": "gadis",
+   "display": "Jadi kalau Anda menduga ada kesengajaan, pakai pintu Dugaan Kecurangan. Pintu ini hanya dibuka penindaklanjut.",
+   "start": 110.583,
+   "end": 119.38,
+   "words": [
+    {
+     "t": 110.643,
+     "d": 0.482,
+     "w": "Jadi"
+    },
+    {
+     "t": 111.125,
+     "d": 0.298,
+     "w": "kalau"
+    },
+    {
+     "t": 111.423,
+     "d": 0.333,
+     "w": "Anda"
+    },
+    {
+     "t": 111.756,
+     "d": 0.47,
+     "w": "menduga"
+    },
+    {
+     "t": 112.226,
+     "d": 0.287,
+     "w": "ada"
+    },
+    {
+     "t": 112.513,
+     "d": 0.872,
+     "w": "kesengajaan"
+    },
+    {
+     "t": 113.671,
+     "d": 0.333,
+     "w": "pakai"
+    },
+    {
+     "t": 114.004,
+     "d": 0.424,
+     "w": "pintu"
+    },
+    {
+     "t": 114.428,
+     "d": 0.573,
+     "w": "Dugaan"
+    },
+    {
+     "t": 115.001,
+     "d": 0.78,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 116.545,
+     "d": 0.378,
+     "w": "Pintu"
+    },
+    {
+     "t": 116.924,
+     "d": 0.333,
+     "w": "ini"
+    },
+    {
+     "t": 117.256,
+     "d": 0.378,
+     "w": "hanya"
+    },
+    {
+     "t": 117.635,
+     "d": 0.505,
+     "w": "dibuka"
+    },
+    {
+     "t": 118.139,
+     "d": 1.021,
+     "w": "penindaklanjut"
+    }
+   ]
+  },
+  {
+   "id": 15,
+   "scene": "s3",
+   "voice": "gadis",
+   "display": "Kenapa orang yang tadinya jujur bisa berbuat curang?",
+   "start": 123.6,
+   "end": 127.045,
+   "words": [
+    {
+     "t": 123.66,
+     "d": 0.47,
+     "w": "Kenapa"
+    },
+    {
+     "t": 124.13,
+     "d": 0.355,
+     "w": "orang"
+    },
+    {
+     "t": 124.486,
+     "d": 0.126,
+     "w": "yang"
+    },
+    {
+     "t": 124.612,
+     "d": 0.424,
+     "w": "tadinya"
+    },
+    {
+     "t": 125.036,
+     "d": 0.505,
+     "w": "jujur"
+    },
+    {
+     "t": 125.541,
+     "d": 0.413,
+     "w": "bisa"
+    },
+    {
+     "t": 125.954,
+     "d": 0.378,
+     "w": "berbuat"
+    },
+    {
+     "t": 126.332,
+     "d": 0.493,
+     "w": "curang"
+    }
+   ]
+  },
+  {
+   "id": 16,
+   "scene": "s3",
+   "voice": "ardi",
+   "display": "Lebih dari tujuh puluh tahun lalu, kriminolog Donald Cressey mewawancarai para narapidana kasus penggelapan. Ia menemukan tiga hal yang hampir selalu hadir bersamaan.",
+   "start": 127.795,
+   "end": 136.58,
+   "words": [
+    {
+     "t": 127.855,
+     "d": 0.231,
+     "w": "Lebih"
+    },
+    {
+     "t": 128.087,
+     "d": 0.15,
+     "w": "dari"
+    },
+    {
+     "t": 128.237,
+     "d": 0.231,
+     "w": "tujuh"
+    },
+    {
+     "t": 128.469,
+     "d": 0.15,
+     "w": "puluh"
+    },
+    {
+     "t": 128.619,
+     "d": 0.208,
+     "w": "tahun"
+    },
+    {
+     "t": 128.827,
+     "d": 0.417,
+     "w": "lalu"
+    },
+    {
+     "t": 129.545,
+     "d": 0.428,
+     "w": "kriminolog"
+    },
+    {
+     "t": 129.973,
+     "d": 0.266,
+     "w": "Donald"
+    },
+    {
+     "t": 130.239,
+     "d": 0.301,
+     "w": "Kresi"
+    },
+    {
+     "t": 130.54,
+     "d": 0.625,
+     "w": "mewawancarai"
+    },
+    {
+     "t": 131.165,
+     "d": 0.197,
+     "w": "para"
+    },
+    {
+     "t": 131.362,
+     "d": 0.486,
+     "w": "narapidana"
+    },
+    {
+     "t": 131.848,
+     "d": 0.312,
+     "w": "kasus"
+    },
+    {
+     "t": 132.161,
+     "d": 0.637,
+     "w": "penggelapan"
+    },
+    {
+     "t": 133.571,
+     "d": 0.174,
+     "w": "Ia"
+    },
+    {
+     "t": 133.744,
+     "d": 0.428,
+     "w": "menemukan"
+    },
+    {
+     "t": 134.173,
+     "d": 0.232,
+     "w": "tiga"
+    },
+    {
+     "t": 134.404,
+     "d": 0.185,
+     "w": "hal"
+    },
+    {
+     "t": 134.589,
+     "d": 0.15,
+     "w": "yang"
+    },
+    {
+     "t": 134.74,
+     "d": 0.312,
+     "w": "hampir"
+    },
+    {
+     "t": 135.052,
+     "d": 0.289,
+     "w": "selalu"
+    },
+    {
+     "t": 135.342,
+     "d": 0.301,
+     "w": "hadir"
+    },
+    {
+     "t": 135.643,
+     "d": 0.718,
+     "w": "bersamaan"
+    }
+   ]
+  },
+  {
+   "id": 17,
+   "scene": "s3",
+   "voice": "ardi",
+   "display": "Tekanan: utang, gaya hidup, atau target yang tidak masuk akal. Kesempatan: pengawasan longgar, satu orang memegang semua kunci.",
+   "start": 137.3,
+   "end": 146.257,
+   "words": [
+    {
+     "t": 137.36,
+     "d": 0.602,
+     "w": "Tekanan"
+    },
+    {
+     "t": 138.228,
+     "d": 0.509,
+     "w": "utang"
+    },
+    {
+     "t": 138.969,
+     "d": 0.266,
+     "w": "gaya"
+    },
+    {
+     "t": 139.235,
+     "d": 0.463,
+     "w": "hidup"
+    },
+    {
+     "t": 139.906,
+     "d": 0.208,
+     "w": "atau"
+    },
+    {
+     "t": 140.115,
+     "d": 0.37,
+     "w": "target"
+    },
+    {
+     "t": 140.485,
+     "d": 0.139,
+     "w": "yang"
+    },
+    {
+     "t": 140.624,
+     "d": 0.197,
+     "w": "tidak"
+    },
+    {
+     "t": 140.821,
+     "d": 0.243,
+     "w": "masuk"
+    },
+    {
+     "t": 141.064,
+     "d": 0.463,
+     "w": "akal"
+    },
+    {
+     "t": 142.299,
+     "d": 0.706,
+     "w": "Kesempatan"
+    },
+    {
+     "t": 143.271,
+     "d": 0.44,
+     "w": "pengawasan"
+    },
+    {
+     "t": 143.711,
+     "d": 0.498,
+     "w": "longgar"
+    },
+    {
+     "t": 144.428,
+     "d": 0.278,
+     "w": "satu"
+    },
+    {
+     "t": 144.706,
+     "d": 0.185,
+     "w": "orang"
+    },
+    {
+     "t": 144.891,
+     "d": 0.347,
+     "w": "memegang"
+    },
+    {
+     "t": 145.238,
+     "d": 0.278,
+     "w": "semua"
+    },
+    {
+     "t": 145.516,
+     "d": 0.521,
+     "w": "kunci"
+    }
+   ]
+  },
+  {
+   "id": 18,
+   "scene": "s3",
+   "voice": "ardi",
+   "display": "Dan rasionalisasi: cara pelaku membenarkan dirinya sendiri.",
+   "start": 146.977,
+   "end": 150.613,
+   "words": [
+    {
+     "t": 147.037,
+     "d": 0.231,
+     "w": "Dan"
+    },
+    {
+     "t": 147.268,
+     "d": 0.995,
+     "w": "rasionalisasi"
+    },
+    {
+     "t": 148.542,
+     "d": 0.208,
+     "w": "cara"
+    },
+    {
+     "t": 148.75,
+     "d": 0.301,
+     "w": "pelaku"
+    },
+    {
+     "t": 149.051,
+     "d": 0.486,
+     "w": "membenarkan"
+    },
+    {
+     "t": 149.537,
+     "d": 0.289,
+     "w": "dirinya"
+    },
+    {
+     "t": 149.826,
+     "d": 0.567,
+     "w": "sendiri"
+    }
+   ]
+  },
+  {
+   "id": 19,
+   "scene": "s3",
+   "voice": "gadis",
+   "display": "Cuma pinjam, nanti dikembalikan. Semua juga begitu. Ini kan cuma uang terima kasih.",
+   "start": 151.333,
+   "end": 159.671,
+   "words": [
+    {
+     "t": 151.393,
+     "d": 0.333,
+     "w": "Cuma"
+    },
+    {
+     "t": 151.726,
+     "d": 0.631,
+     "w": "pinjam"
+    },
+    {
+     "t": 152.666,
+     "d": 0.482,
+     "w": "nanti"
+    },
+    {
+     "t": 153.148,
+     "d": 1.032,
+     "w": "dikembalikan"
+    },
+    {
+     "t": 154.944,
+     "d": 0.539,
+     "w": "Semua"
+    },
+    {
+     "t": 155.483,
+     "d": 0.424,
+     "w": "juga"
+    },
+    {
+     "t": 155.908,
+     "d": 0.654,
+     "w": "begitu"
+    },
+    {
+     "t": 157.33,
+     "d": 0.321,
+     "w": "Ini"
+    },
+    {
+     "t": 157.651,
+     "d": 0.275,
+     "w": "kan"
+    },
+    {
+     "t": 157.926,
+     "d": 0.287,
+     "w": "cuma"
+    },
+    {
+     "t": 158.213,
+     "d": 0.355,
+     "w": "uang"
+    },
+    {
+     "t": 158.568,
+     "d": 0.321,
+     "w": "terima"
+    },
+    {
+     "t": 158.889,
+     "d": 0.562,
+     "w": "kasih"
+    }
+   ]
+  },
+  {
+   "id": 20,
+   "scene": "s3",
+   "voice": "ardi",
+   "display": "Kalimat paling berbahaya di sebuah kantor mungkin hanya dua kata: sudah biasa.",
+   "start": 161.091,
+   "end": 165.144,
+   "words": [
+    {
+     "t": 161.151,
+     "d": 0.347,
+     "w": "Kalimat"
+    },
+    {
+     "t": 161.498,
+     "d": 0.185,
+     "w": "paling"
+    },
+    {
+     "t": 161.684,
+     "d": 0.428,
+     "w": "berbahaya"
+    },
+    {
+     "t": 162.112,
+     "d": 0.069,
+     "w": "di"
+    },
+    {
+     "t": 162.181,
+     "d": 0.289,
+     "w": "sebuah"
+    },
+    {
+     "t": 162.471,
+     "d": 0.243,
+     "w": "kantor"
+    },
+    {
+     "t": 162.714,
+     "d": 0.336,
+     "w": "mungkin"
+    },
+    {
+     "t": 163.049,
+     "d": 0.22,
+     "w": "hanya"
+    },
+    {
+     "t": 163.269,
+     "d": 0.15,
+     "w": "dua"
+    },
+    {
+     "t": 163.42,
+     "d": 0.428,
+     "w": "kata"
+    },
+    {
+     "t": 164.068,
+     "d": 0.336,
+     "w": "sudah"
+    },
+    {
+     "t": 164.404,
+     "d": 0.521,
+     "w": "biasa"
+    }
+   ]
+  },
+  {
+   "id": 21,
+   "scene": "s3",
+   "voice": "gadis",
+   "display": "Dari tiga sisi itu, mana yang bisa kita tutup?",
+   "start": 166.664,
+   "end": 170.178,
+   "words": [
+    {
+     "t": 166.724,
+     "d": 0.31,
+     "w": "Dari"
+    },
+    {
+     "t": 167.034,
+     "d": 0.355,
+     "w": "tiga"
+    },
+    {
+     "t": 167.389,
+     "d": 0.287,
+     "w": "sisi"
+    },
+    {
+     "t": 167.676,
+     "d": 0.47,
+     "w": "itu"
+    },
+    {
+     "t": 168.548,
+     "d": 0.344,
+     "w": "mana"
+    },
+    {
+     "t": 168.892,
+     "d": 0.161,
+     "w": "yang"
+    },
+    {
+     "t": 169.052,
+     "d": 0.275,
+     "w": "bisa"
+    },
+    {
+     "t": 169.328,
+     "d": 0.241,
+     "w": "kita"
+    },
+    {
+     "t": 169.568,
+     "d": 0.39,
+     "w": "tutup"
+    }
+   ]
+  },
+  {
+   "id": 22,
+   "scene": "s3",
+   "voice": "ardi",
+   "display": "Kesempatan. Dan kesempatan paling sempit ketika pelaku tahu: ada yang melihat, dan yang melihat berani bicara.",
+   "start": 170.928,
+   "end": 177.556,
+   "words": [
+    {
+     "t": 170.988,
+     "d": 0.845,
+     "w": "Kesempatan"
+    },
+    {
+     "t": 172.614,
+     "d": 0.197,
+     "w": "Dan"
+    },
+    {
+     "t": 172.81,
+     "d": 0.463,
+     "w": "kesempatan"
+    },
+    {
+     "t": 173.273,
+     "d": 0.174,
+     "w": "paling"
+    },
+    {
+     "t": 173.447,
+     "d": 0.301,
+     "w": "sempit"
+    },
+    {
+     "t": 173.748,
+     "d": 0.243,
+     "w": "ketika"
+    },
+    {
+     "t": 173.991,
+     "d": 0.232,
+     "w": "pelaku"
+    },
+    {
+     "t": 174.223,
+     "d": 0.44,
+     "w": "tahu"
+    },
+    {
+     "t": 174.905,
+     "d": 0.22,
+     "w": "ada"
+    },
+    {
+     "t": 175.125,
+     "d": 0.127,
+     "w": "yang"
+    },
+    {
+     "t": 175.253,
+     "d": 0.451,
+     "w": "melihat"
+    },
+    {
+     "t": 175.912,
+     "d": 0.22,
+     "w": "dan"
+    },
+    {
+     "t": 176.132,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 176.236,
+     "d": 0.289,
+     "w": "melihat"
+    },
+    {
+     "t": 176.526,
+     "d": 0.255,
+     "w": "berani"
+    },
+    {
+     "t": 176.78,
+     "d": 0.556,
+     "w": "bicara"
+    }
+   ]
+  },
+  {
+   "id": 23,
+   "scene": "s4",
+   "voice": "ardi",
+   "display": "Kecurangan yang paling serius di pemerintahan adalah korupsi. Puluhan pasal dalam Undang-Undang Nomor 31 Tahun 1999, yang diubah dengan Undang-Undang Nomor 20 Tahun 2001, dikelompokkan menjadi tujuh bentuk.",
+   "start": 181.976,
+   "end": 194.658,
+   "words": [
+    {
+     "t": 182.036,
+     "d": 0.451,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 182.487,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 182.603,
+     "d": 0.185,
+     "w": "paling"
+    },
+    {
+     "t": 182.788,
+     "d": 0.37,
+     "w": "serius"
+    },
+    {
+     "t": 183.159,
+     "d": 0.058,
+     "w": "di"
+    },
+    {
+     "t": 183.216,
+     "d": 0.567,
+     "w": "pemerintahan"
+    },
+    {
+     "t": 183.784,
+     "d": 0.324,
+     "w": "adalah"
+    },
+    {
+     "t": 184.108,
+     "d": 0.579,
+     "w": "korupsi"
+    },
+    {
+     "t": 185.468,
+     "d": 0.301,
+     "w": "Puluhan"
+    },
+    {
+     "t": 185.769,
+     "d": 0.312,
+     "w": "pasal"
+    },
+    {
+     "t": 186.081,
+     "d": 0.185,
+     "w": "dalam"
+    },
+    {
+     "t": 186.266,
+     "d": 0.544,
+     "w": "Undang-Undang"
+    },
+    {
+     "t": 186.81,
+     "d": 0.208,
+     "w": "Nomor"
+    },
+    {
+     "t": 187.019,
+     "d": 0.567,
+     "w": "31"
+    },
+    {
+     "t": 187.586,
+     "d": 0.289,
+     "w": "Tahun"
+    },
+    {
+     "t": 187.875,
+     "d": 1.643,
+     "w": "1999"
+    },
+    {
+     "t": 189.82,
+     "d": 0.185,
+     "w": "yang"
+    },
+    {
+     "t": 190.005,
+     "d": 0.312,
+     "w": "diubah"
+    },
+    {
+     "t": 190.317,
+     "d": 0.22,
+     "w": "dengan"
+    },
+    {
+     "t": 190.537,
+     "d": 0.532,
+     "w": "Undang-Undang"
+    },
+    {
+     "t": 191.07,
+     "d": 0.22,
+     "w": "Nomor"
+    },
+    {
+     "t": 191.29,
+     "d": 0.312,
+     "w": "20"
+    },
+    {
+     "t": 191.602,
+     "d": 0.232,
+     "w": "Tahun"
+    },
+    {
+     "t": 191.834,
+     "d": 0.764,
+     "w": "2001"
+    },
+    {
+     "t": 192.864,
+     "d": 0.567,
+     "w": "dikelompokkan"
+    },
+    {
+     "t": 193.431,
+     "d": 0.312,
+     "w": "menjadi"
+    },
+    {
+     "t": 193.743,
+     "d": 0.289,
+     "w": "tujuh"
+    },
+    {
+     "t": 194.033,
+     "d": 0.405,
+     "w": "bentuk"
+    }
+   ]
+  },
+  {
+   "id": 24,
+   "scene": "s4",
+   "voice": "gadis",
+   "display": "Satu, kerugian keuangan negara: volume dikurangi tapi dibayar penuh, harga digelembungkan, kegiatan fiktif.",
+   "start": 195.578,
+   "end": 204.046,
+   "words": [
+    {
+     "t": 195.638,
+     "d": 0.688,
+     "w": "Satu"
+    },
+    {
+     "t": 196.681,
+     "d": 0.482,
+     "w": "kerugian"
+    },
+    {
+     "t": 197.163,
+     "d": 0.447,
+     "w": "keuangan"
+    },
+    {
+     "t": 197.61,
+     "d": 0.596,
+     "w": "negara"
+    },
+    {
+     "t": 198.551,
+     "d": 0.482,
+     "w": "volume"
+    },
+    {
+     "t": 199.032,
+     "d": 0.482,
+     "w": "dikurangi"
+    },
+    {
+     "t": 199.514,
+     "d": 0.401,
+     "w": "tapi"
+    },
+    {
+     "t": 199.915,
+     "d": 0.378,
+     "w": "dibayar"
+    },
+    {
+     "t": 200.294,
+     "d": 0.482,
+     "w": "penuh"
+    },
+    {
+     "t": 201.039,
+     "d": 0.378,
+     "w": "harga"
+    },
+    {
+     "t": 201.418,
+     "d": 0.894,
+     "w": "digelembungkan"
+    },
+    {
+     "t": 202.519,
+     "d": 0.596,
+     "w": "kegiatan"
+    },
+    {
+     "t": 203.115,
+     "d": 0.711,
+     "w": "fiktif"
+    }
+   ]
+  },
+  {
+   "id": 25,
+   "scene": "s4",
+   "voice": "ardi",
+   "display": "Dua, suap-menyuap: memberi atau menerima sesuatu supaya keputusan berpihak.",
+   "start": 204.466,
+   "end": 209.098,
+   "words": [
+    {
+     "t": 204.526,
+     "d": 0.532,
+     "w": "Dua"
+    },
+    {
+     "t": 205.301,
+     "d": 0.787,
+     "w": "suap-menyuap"
+    },
+    {
+     "t": 206.343,
+     "d": 0.289,
+     "w": "memberi"
+    },
+    {
+     "t": 206.632,
+     "d": 0.197,
+     "w": "atau"
+    },
+    {
+     "t": 206.829,
+     "d": 0.336,
+     "w": "menerima"
+    },
+    {
+     "t": 207.165,
+     "d": 0.359,
+     "w": "sesuatu"
+    },
+    {
+     "t": 207.524,
+     "d": 0.359,
+     "w": "supaya"
+    },
+    {
+     "t": 207.882,
+     "d": 0.451,
+     "w": "keputusan"
+    },
+    {
+     "t": 208.334,
+     "d": 0.544,
+     "w": "berpihak"
+    }
+   ]
+  },
+  {
+   "id": 26,
+   "scene": "s4",
+   "voice": "gadis",
+   "display": "Tiga, penggelapan dalam jabatan: uang atau barang yang dipercayakan, dipakai sendiri, lalu catatannya dipalsukan.",
+   "start": 209.518,
+   "end": 217.894,
+   "words": [
+    {
+     "t": 209.578,
+     "d": 0.562,
+     "w": "Tiga"
+    },
+    {
+     "t": 210.426,
+     "d": 0.55,
+     "w": "penggelapan"
+    },
+    {
+     "t": 210.977,
+     "d": 0.264,
+     "w": "dalam"
+    },
+    {
+     "t": 211.241,
+     "d": 0.642,
+     "w": "jabatan"
+    },
+    {
+     "t": 212.261,
+     "d": 0.252,
+     "w": "uang"
+    },
+    {
+     "t": 212.513,
+     "d": 0.287,
+     "w": "atau"
+    },
+    {
+     "t": 212.8,
+     "d": 0.344,
+     "w": "barang"
+    },
+    {
+     "t": 213.144,
+     "d": 0.092,
+     "w": "yang"
+    },
+    {
+     "t": 213.236,
+     "d": 0.849,
+     "w": "dipercayakan"
+    },
+    {
+     "t": 214.36,
+     "d": 0.436,
+     "w": "dipakai"
+    },
+    {
+     "t": 214.796,
+     "d": 0.631,
+     "w": "sendiri"
+    },
+    {
+     "t": 215.702,
+     "d": 0.321,
+     "w": "lalu"
+    },
+    {
+     "t": 216.023,
+     "d": 0.654,
+     "w": "catatannya"
+    },
+    {
+     "t": 216.676,
+     "d": 0.998,
+     "w": "dipalsukan"
+    }
+   ]
+  },
+  {
+   "id": 27,
+   "scene": "s4",
+   "voice": "ardi",
+   "display": "Empat, pemerasan: layanan yang seharusnya gratis, tapi dimintai bayaran.",
+   "start": 218.314,
+   "end": 223.189,
+   "words": [
+    {
+     "t": 218.374,
+     "d": 0.532,
+     "w": "Empat"
+    },
+    {
+     "t": 219.138,
+     "d": 0.648,
+     "w": "pemerasan"
+    },
+    {
+     "t": 220.041,
+     "d": 0.394,
+     "w": "layanan"
+    },
+    {
+     "t": 220.434,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 220.538,
+     "d": 0.451,
+     "w": "seharusnya"
+    },
+    {
+     "t": 220.99,
+     "d": 0.532,
+     "w": "gratis"
+    },
+    {
+     "t": 221.742,
+     "d": 0.255,
+     "w": "tapi"
+    },
+    {
+     "t": 221.997,
+     "d": 0.382,
+     "w": "dimintai"
+    },
+    {
+     "t": 222.379,
+     "d": 0.59,
+     "w": "bayaran"
+    }
+   ]
+  },
+  {
+   "id": 28,
+   "scene": "s4",
+   "voice": "gadis",
+   "display": "Lima, perbuatan curang: pemborong atau pengawas sengaja mengurangi mutu, sehingga bangunan membahayakan.",
+   "start": 223.609,
+   "end": 231.056,
+   "words": [
+    {
+     "t": 223.669,
+     "d": 0.573,
+     "w": "Lima"
+    },
+    {
+     "t": 224.483,
+     "d": 0.573,
+     "w": "perbuatan"
+    },
+    {
+     "t": 225.057,
+     "d": 0.539,
+     "w": "curang"
+    },
+    {
+     "t": 225.882,
+     "d": 0.516,
+     "w": "pemborong"
+    },
+    {
+     "t": 226.398,
+     "d": 0.321,
+     "w": "atau"
+    },
+    {
+     "t": 226.719,
+     "d": 0.436,
+     "w": "pengawas"
+    },
+    {
+     "t": 227.155,
+     "d": 0.447,
+     "w": "sengaja"
+    },
+    {
+     "t": 227.602,
+     "d": 0.447,
+     "w": "mengurangi"
+    },
+    {
+     "t": 228.05,
+     "d": 0.505,
+     "w": "mutu"
+    },
+    {
+     "t": 228.852,
+     "d": 0.459,
+     "w": "sehingga"
+    },
+    {
+     "t": 229.311,
+     "d": 0.516,
+     "w": "bangunan"
+    },
+    {
+     "t": 229.827,
+     "d": 1.009,
+     "w": "membahayakan"
+    }
+   ]
+  },
+  {
+   "id": 29,
+   "scene": "s4",
+   "voice": "ardi",
+   "display": "Enam, benturan kepentingan dalam pengadaan: pejabat yang ditugasi mengurus pengadaan, tapi ikut bermain di dalamnya.",
+   "start": 231.476,
+   "end": 237.798,
+   "words": [
+    {
+     "t": 231.536,
+     "d": 0.428,
+     "w": "Enam"
+    },
+    {
+     "t": 232.219,
+     "d": 0.347,
+     "w": "benturan"
+    },
+    {
+     "t": 232.566,
+     "d": 0.417,
+     "w": "kepentingan"
+    },
+    {
+     "t": 232.983,
+     "d": 0.174,
+     "w": "dalam"
+    },
+    {
+     "t": 233.157,
+     "d": 0.625,
+     "w": "pengadaan"
+    },
+    {
+     "t": 234.036,
+     "d": 0.428,
+     "w": "pejabat"
+    },
+    {
+     "t": 234.465,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 234.569,
+     "d": 0.382,
+     "w": "ditugasi"
+    },
+    {
+     "t": 234.951,
+     "d": 0.289,
+     "w": "mengurus"
+    },
+    {
+     "t": 235.24,
+     "d": 0.625,
+     "w": "pengadaan"
+    },
+    {
+     "t": 236.12,
+     "d": 0.231,
+     "w": "tapi"
+    },
+    {
+     "t": 236.351,
+     "d": 0.208,
+     "w": "ikut"
+    },
+    {
+     "t": 236.559,
+     "d": 0.359,
+     "w": "bermain"
+    },
+    {
+     "t": 236.918,
+     "d": 0.069,
+     "w": "di"
+    },
+    {
+     "t": 236.988,
+     "d": 0.59,
+     "w": "dalamnya"
+    }
+   ]
+  },
+  {
+   "id": 30,
+   "scene": "s4",
+   "voice": "gadis",
+   "display": "Tujuh, gratifikasi: hadiah yang diterima karena jabatan, sekalipun dibungkus ucapan terima kasih.",
+   "start": 238.218,
+   "end": 245.574,
+   "words": [
+    {
+     "t": 238.278,
+     "d": 0.631,
+     "w": "Tujuh"
+    },
+    {
+     "t": 239.207,
+     "d": 1.021,
+     "w": "gratifikasi"
+    },
+    {
+     "t": 240.549,
+     "d": 0.482,
+     "w": "hadiah"
+    },
+    {
+     "t": 241.03,
+     "d": 0.103,
+     "w": "yang"
+    },
+    {
+     "t": 241.133,
+     "d": 0.413,
+     "w": "diterima"
+    },
+    {
+     "t": 241.546,
+     "d": 0.321,
+     "w": "karena"
+    },
+    {
+     "t": 241.867,
+     "d": 0.665,
+     "w": "jabatan"
+    },
+    {
+     "t": 242.819,
+     "d": 0.608,
+     "w": "sekalipun"
+    },
+    {
+     "t": 243.427,
+     "d": 0.482,
+     "w": "dibungkus"
+    },
+    {
+     "t": 243.909,
+     "d": 0.539,
+     "w": "ucapan"
+    },
+    {
+     "t": 244.448,
+     "d": 0.321,
+     "w": "terima"
+    },
+    {
+     "t": 244.769,
+     "d": 0.585,
+     "w": "kasih"
+    }
+   ]
+  },
+  {
+   "id": 31,
+   "scene": "s4",
+   "voice": "ardi",
+   "display": "Gratifikasi wajib dilaporkan ke KPK paling lambat tiga puluh hari kerja. Kalau tidak, ia dapat dianggap suap.",
+   "start": 245.994,
+   "end": 252.844,
+   "words": [
+    {
+     "t": 246.054,
+     "d": 0.648,
+     "w": "Gratifikasi"
+    },
+    {
+     "t": 246.702,
+     "d": 0.312,
+     "w": "wajib"
+    },
+    {
+     "t": 247.014,
+     "d": 0.509,
+     "w": "dilaporkan"
+    },
+    {
+     "t": 247.523,
+     "d": 0.081,
+     "w": "ke"
+    },
+    {
+     "t": 247.605,
+     "d": 0.521,
+     "w": "Ka-Pe-Ka"
+    },
+    {
+     "t": 248.125,
+     "d": 0.243,
+     "w": "paling"
+    },
+    {
+     "t": 248.368,
+     "d": 0.278,
+     "w": "lambat"
+    },
+    {
+     "t": 248.646,
+     "d": 0.231,
+     "w": "tiga"
+    },
+    {
+     "t": 248.878,
+     "d": 0.174,
+     "w": "puluh"
+    },
+    {
+     "t": 249.051,
+     "d": 0.15,
+     "w": "hari"
+    },
+    {
+     "t": 249.202,
+     "d": 0.498,
+     "w": "kerja"
+    },
+    {
+     "t": 250.471,
+     "d": 0.22,
+     "w": "Kalau"
+    },
+    {
+     "t": 250.691,
+     "d": 0.498,
+     "w": "tidak"
+    },
+    {
+     "t": 251.409,
+     "d": 0.185,
+     "w": "ia"
+    },
+    {
+     "t": 251.594,
+     "d": 0.266,
+     "w": "dapat"
+    },
+    {
+     "t": 251.86,
+     "d": 0.324,
+     "w": "dianggap"
+    },
+    {
+     "t": 252.184,
+     "d": 0.44,
+     "w": "suap"
+    }
+   ]
+  },
+  {
+   "id": 32,
+   "scene": "s4",
+   "voice": "gadis",
+   "display": "Tidak perlu dihafal. Di formulir laporan, ketujuhnya tersedia sebagai pilihan.",
+   "start": 253.864,
+   "end": 260.493,
+   "words": [
+    {
+     "t": 253.924,
+     "d": 0.333,
+     "w": "Tidak"
+    },
+    {
+     "t": 254.257,
+     "d": 0.367,
+     "w": "perlu"
+    },
+    {
+     "t": 254.624,
+     "d": 0.757,
+     "w": "dihafal"
+    },
+    {
+     "t": 256.145,
+     "d": 0.183,
+     "w": "Di"
+    },
+    {
+     "t": 256.328,
+     "d": 0.482,
+     "w": "formulir"
+    },
+    {
+     "t": 256.81,
+     "d": 0.619,
+     "w": "laporan"
+    },
+    {
+     "t": 257.762,
+     "d": 0.608,
+     "w": "ketujuhnya"
+    },
+    {
+     "t": 258.369,
+     "d": 0.573,
+     "w": "tersedia"
+    },
+    {
+     "t": 258.943,
+     "d": 0.55,
+     "w": "sebagai"
+    },
+    {
+     "t": 259.493,
+     "d": 0.78,
+     "w": "pilihan"
+    }
+   ]
+  },
+  {
+   "id": 33,
+   "scene": "s5",
+   "voice": "ardi",
+   "display": "Kecurangan jarang terlihat langsung. Yang terlihat biasanya rembesannya.",
+   "start": 264.113,
+   "end": 268.603,
+   "words": [
+    {
+     "t": 264.173,
+     "d": 0.498,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 264.671,
+     "d": 0.289,
+     "w": "jarang"
+    },
+    {
+     "t": 264.96,
+     "d": 0.359,
+     "w": "terlihat"
+    },
+    {
+     "t": 265.319,
+     "d": 0.556,
+     "w": "langsung"
+    },
+    {
+     "t": 266.647,
+     "d": 0.22,
+     "w": "Yang"
+    },
+    {
+     "t": 266.867,
+     "d": 0.405,
+     "w": "terlihat"
+    },
+    {
+     "t": 267.272,
+     "d": 0.428,
+     "w": "biasanya"
+    },
+    {
+     "t": 267.7,
+     "d": 0.683,
+     "w": "rembesannya"
+    }
+   ]
+  },
+  {
+   "id": 34,
+   "scene": "s5",
+   "voice": "gadis",
+   "display": "Pekerjaan selesai di atas kertas, tapi tidak di lapangan.",
+   "start": 269.423,
+   "end": 273.728,
+   "words": [
+    {
+     "t": 269.483,
+     "d": 0.7,
+     "w": "Pekerjaan"
+    },
+    {
+     "t": 270.183,
+     "d": 0.493,
+     "w": "selesai"
+    },
+    {
+     "t": 270.676,
+     "d": 0.126,
+     "w": "di"
+    },
+    {
+     "t": 270.802,
+     "d": 0.298,
+     "w": "atas"
+    },
+    {
+     "t": 271.1,
+     "d": 0.573,
+     "w": "kertas"
+    },
+    {
+     "t": 271.937,
+     "d": 0.298,
+     "w": "tapi"
+    },
+    {
+     "t": 272.236,
+     "d": 0.424,
+     "w": "tidak"
+    },
+    {
+     "t": 272.66,
+     "d": 0.138,
+     "w": "di"
+    },
+    {
+     "t": 272.797,
+     "d": 0.711,
+     "w": "lapangan"
+    }
+   ]
+  },
+  {
+   "id": 35,
+   "scene": "s5",
+   "voice": "ardi",
+   "display": "Harga jauh di atas pasaran. Pemenang yang itu-itu saja.",
+   "start": 274.148,
+   "end": 278.186,
+   "words": [
+    {
+     "t": 274.208,
+     "d": 0.347,
+     "w": "Harga"
+    },
+    {
+     "t": 274.556,
+     "d": 0.382,
+     "w": "jauh"
+    },
+    {
+     "t": 274.938,
+     "d": 0.093,
+     "w": "di"
+    },
+    {
+     "t": 275.03,
+     "d": 0.22,
+     "w": "atas"
+    },
+    {
+     "t": 275.25,
+     "d": 0.579,
+     "w": "pasaran"
+    },
+    {
+     "t": 276.601,
+     "d": 0.405,
+     "w": "Pemenang"
+    },
+    {
+     "t": 277.006,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 277.11,
+     "d": 0.324,
+     "w": "itu-itu"
+    },
+    {
+     "t": 277.434,
+     "d": 0.532,
+     "w": "saja"
+    }
+   ]
+  },
+  {
+   "id": 36,
+   "scene": "s5",
+   "voice": "gadis",
+   "display": "Pungutan tanpa kuitansi. Pegawai yang tak pernah mau cuti, dan tak membiarkan siapa pun menyentuh pekerjaannya.",
+   "start": 278.606,
+   "end": 286.887,
+   "words": [
+    {
+     "t": 278.666,
+     "d": 0.619,
+     "w": "Pungutan"
+    },
+    {
+     "t": 279.286,
+     "d": 0.401,
+     "w": "tanpa"
+    },
+    {
+     "t": 279.687,
+     "d": 0.906,
+     "w": "kuitansi"
+    },
+    {
+     "t": 281.357,
+     "d": 0.562,
+     "w": "Pegawai"
+    },
+    {
+     "t": 281.919,
+     "d": 0.183,
+     "w": "yang"
+    },
+    {
+     "t": 282.103,
+     "d": 0.149,
+     "w": "tak"
+    },
+    {
+     "t": 282.252,
+     "d": 0.31,
+     "w": "pernah"
+    },
+    {
+     "t": 282.561,
+     "d": 0.195,
+     "w": "mau"
+    },
+    {
+     "t": 282.756,
+     "d": 0.539,
+     "w": "cuti"
+    },
+    {
+     "t": 283.72,
+     "d": 0.229,
+     "w": "dan"
+    },
+    {
+     "t": 283.949,
+     "d": 0.172,
+     "w": "tak"
+    },
+    {
+     "t": 284.121,
+     "d": 0.505,
+     "w": "membiarkan"
+    },
+    {
+     "t": 284.625,
+     "d": 0.333,
+     "w": "siapa"
+    },
+    {
+     "t": 284.958,
+     "d": 0.241,
+     "w": "pun"
+    },
+    {
+     "t": 285.199,
+     "d": 0.505,
+     "w": "menyentuh"
+    },
+    {
+     "t": 285.703,
+     "d": 0.963,
+     "w": "pekerjaannya"
+    }
+   ]
+  },
+  {
+   "id": 37,
+   "scene": "s5",
+   "voice": "ardi",
+   "display": "Dan gaya hidup yang jauh melampaui penghasilan. Menurut laporan ACFE tahun 2026, inilah tanda yang paling sering muncul.",
+   "start": 287.307,
+   "end": 295.0,
+   "words": [
+    {
+     "t": 287.367,
+     "d": 0.255,
+     "w": "Dan"
+    },
+    {
+     "t": 287.621,
+     "d": 0.185,
+     "w": "gaya"
+    },
+    {
+     "t": 287.807,
+     "d": 0.324,
+     "w": "hidup"
+    },
+    {
+     "t": 288.131,
+     "d": 0.162,
+     "w": "yang"
+    },
+    {
+     "t": 288.293,
+     "d": 0.278,
+     "w": "jauh"
+    },
+    {
+     "t": 288.57,
+     "d": 0.451,
+     "w": "melampaui"
+    },
+    {
+     "t": 289.022,
+     "d": 0.729,
+     "w": "penghasilan"
+    },
+    {
+     "t": 290.532,
+     "d": 0.301,
+     "w": "Menurut"
+    },
+    {
+     "t": 290.833,
+     "d": 0.336,
+     "w": "laporan"
+    },
+    {
+     "t": 291.169,
+     "d": 0.428,
+     "w": "A-Ce-Ef-E"
+    },
+    {
+     "t": 291.597,
+     "d": 0.312,
+     "w": "tahun"
+    },
+    {
+     "t": 291.91,
+     "d": 0.995,
+     "w": "2026"
+    },
+    {
+     "t": 293.171,
+     "d": 0.289,
+     "w": "inilah"
+    },
+    {
+     "t": 293.461,
+     "d": 0.255,
+     "w": "tanda"
+    },
+    {
+     "t": 293.715,
+     "d": 0.15,
+     "w": "yang"
+    },
+    {
+     "t": 293.866,
+     "d": 0.22,
+     "w": "paling"
+    },
+    {
+     "t": 294.086,
+     "d": 0.197,
+     "w": "sering"
+    },
+    {
+     "t": 294.282,
+     "d": 0.498,
+     "w": "muncul"
+    }
+   ]
+  },
+  {
+   "id": 38,
+   "scene": "s5",
+   "voice": "gadis",
+   "display": "84 persen pelaku sudah menunjukkan setidaknya satu tanda, sebelum akhirnya ketahuan.",
+   "start": 295.82,
+   "end": 302.178,
+   "words": [
+    {
+     "t": 295.88,
+     "d": 1.032,
+     "w": "84"
+    },
+    {
+     "t": 296.912,
+     "d": 0.287,
+     "w": "persen"
+    },
+    {
+     "t": 297.199,
+     "d": 0.424,
+     "w": "pelaku"
+    },
+    {
+     "t": 297.623,
+     "d": 0.344,
+     "w": "sudah"
+    },
+    {
+     "t": 297.967,
+     "d": 0.596,
+     "w": "menunjukkan"
+    },
+    {
+     "t": 298.564,
+     "d": 0.505,
+     "w": "setidaknya"
+    },
+    {
+     "t": 299.068,
+     "d": 0.344,
+     "w": "satu"
+    },
+    {
+     "t": 299.412,
+     "d": 0.539,
+     "w": "tanda"
+    },
+    {
+     "t": 300.249,
+     "d": 0.401,
+     "w": "sebelum"
+    },
+    {
+     "t": 300.651,
+     "d": 0.528,
+     "w": "akhirnya"
+    },
+    {
+     "t": 301.178,
+     "d": 0.78,
+     "w": "ketahuan"
+    }
+   ]
+  },
+  {
+   "id": 39,
+   "scene": "s5",
+   "voice": "ardi",
+   "display": "KPK memantau area yang rawan, antara lain pengadaan barang dan jasa, perizinan, hibah dan bantuan sosial, penganggaran, dan manajemen ASN.",
+   "start": 303.198,
+   "end": 312.043,
+   "words": [
+    {
+     "t": 303.258,
+     "d": 0.486,
+     "w": "Ka-Pe-Ka"
+    },
+    {
+     "t": 303.744,
+     "d": 0.347,
+     "w": "memantau"
+    },
+    {
+     "t": 304.091,
+     "d": 0.22,
+     "w": "area"
+    },
+    {
+     "t": 304.311,
+     "d": 0.15,
+     "w": "yang"
+    },
+    {
+     "t": 304.462,
+     "d": 0.486,
+     "w": "rawan"
+    },
+    {
+     "t": 305.214,
+     "d": 0.278,
+     "w": "antara"
+    },
+    {
+     "t": 305.492,
+     "d": 0.208,
+     "w": "lain"
+    },
+    {
+     "t": 305.7,
+     "d": 0.347,
+     "w": "pengadaan"
+    },
+    {
+     "t": 306.047,
+     "d": 0.232,
+     "w": "barang"
+    },
+    {
+     "t": 306.279,
+     "d": 0.162,
+     "w": "dan"
+    },
+    {
+     "t": 306.441,
+     "d": 0.532,
+     "w": "jasa"
+    },
+    {
+     "t": 307.228,
+     "d": 0.648,
+     "w": "perizinan"
+    },
+    {
+     "t": 308.096,
+     "d": 0.347,
+     "w": "hibah"
+    },
+    {
+     "t": 308.443,
+     "d": 0.162,
+     "w": "dan"
+    },
+    {
+     "t": 308.605,
+     "d": 0.289,
+     "w": "bantuan"
+    },
+    {
+     "t": 308.895,
+     "d": 0.544,
+     "w": "sosial"
+    },
+    {
+     "t": 309.647,
+     "d": 0.66,
+     "w": "penganggaran"
+    },
+    {
+     "t": 310.538,
+     "d": 0.22,
+     "w": "dan"
+    },
+    {
+     "t": 310.758,
+     "d": 0.451,
+     "w": "manajemen"
+    },
+    {
+     "t": 311.209,
+     "d": 0.613,
+     "w": "A-Es-En"
+    }
+   ]
+  },
+  {
+   "id": 40,
+   "scene": "s5",
+   "voice": "gadis",
+   "display": "Satu tanda belum tentu kecurangan. Tapi tanda yang Anda saksikan sendiri, layak dilaporkan.",
+   "start": 312.463,
+   "end": 320.009,
+   "words": [
+    {
+     "t": 312.523,
+     "d": 0.459,
+     "w": "Satu"
+    },
+    {
+     "t": 312.982,
+     "d": 0.401,
+     "w": "tanda"
+    },
+    {
+     "t": 313.383,
+     "d": 0.321,
+     "w": "belum"
+    },
+    {
+     "t": 313.704,
+     "d": 0.401,
+     "w": "tentu"
+    },
+    {
+     "t": 314.105,
+     "d": 0.872,
+     "w": "kecurangan"
+    },
+    {
+     "t": 315.741,
+     "d": 0.355,
+     "w": "Tapi"
+    },
+    {
+     "t": 316.097,
+     "d": 0.355,
+     "w": "tanda"
+    },
+    {
+     "t": 316.452,
+     "d": 0.183,
+     "w": "yang"
+    },
+    {
+     "t": 316.636,
+     "d": 0.344,
+     "w": "Anda"
+    },
+    {
+     "t": 316.98,
+     "d": 0.493,
+     "w": "saksikan"
+    },
+    {
+     "t": 317.473,
+     "d": 0.608,
+     "w": "sendiri"
+    },
+    {
+     "t": 318.367,
+     "d": 0.482,
+     "w": "layak"
+    },
+    {
+     "t": 318.849,
+     "d": 0.94,
+     "w": "dilaporkan"
+    }
+   ]
+  },
+  {
+   "id": 41,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Kalau tandanya terlihat, kenapa jarang dilaporkan? Biasanya, karena lima alasan ini.",
+   "start": 324.229,
+   "end": 330.073,
+   "words": [
+    {
+     "t": 324.289,
+     "d": 0.255,
+     "w": "Kalau"
+    },
+    {
+     "t": 324.544,
+     "d": 0.324,
+     "w": "tandanya"
+    },
+    {
+     "t": 324.868,
+     "d": 0.59,
+     "w": "terlihat"
+    },
+    {
+     "t": 325.678,
+     "d": 0.312,
+     "w": "kenapa"
+    },
+    {
+     "t": 325.991,
+     "d": 0.243,
+     "w": "jarang"
+    },
+    {
+     "t": 326.234,
+     "d": 0.625,
+     "w": "dilaporkan"
+    },
+    {
+     "t": 327.631,
+     "d": 0.752,
+     "w": "Biasanya"
+    },
+    {
+     "t": 328.649,
+     "d": 0.289,
+     "w": "karena"
+    },
+    {
+     "t": 328.938,
+     "d": 0.22,
+     "w": "lima"
+    },
+    {
+     "t": 329.158,
+     "d": 0.289,
+     "w": "alasan"
+    },
+    {
+     "t": 329.448,
+     "d": 0.405,
+     "w": "ini"
+    }
+   ]
+  },
+  {
+   "id": 42,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Takut dibalas.",
+   "start": 330.993,
+   "end": 332.614,
+   "words": [
+    {
+     "t": 331.053,
+     "d": 0.482,
+     "w": "Takut"
+    },
+    {
+     "t": 331.534,
+     "d": 0.86,
+     "w": "dibalas"
+    }
+   ]
+  },
+  {
+   "id": 43,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Wajar. Karena itu, Anda boleh melapor tanpa nama.",
+   "start": 333.034,
+   "end": 337.152,
+   "words": [
+    {
+     "t": 333.094,
+     "d": 0.718,
+     "w": "Wajar"
+    },
+    {
+     "t": 334.582,
+     "d": 0.243,
+     "w": "Karena"
+    },
+    {
+     "t": 334.825,
+     "d": 0.44,
+     "w": "itu"
+    },
+    {
+     "t": 335.554,
+     "d": 0.232,
+     "w": "Anda"
+    },
+    {
+     "t": 335.786,
+     "d": 0.185,
+     "w": "boleh"
+    },
+    {
+     "t": 335.971,
+     "d": 0.301,
+     "w": "melapor"
+    },
+    {
+     "t": 336.272,
+     "d": 0.255,
+     "w": "tanpa"
+    },
+    {
+     "t": 336.526,
+     "d": 0.405,
+     "w": "nama"
+    }
+   ]
+  },
+  {
+   "id": 44,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Sungkan, dia atasan saya.",
+   "start": 338.072,
+   "end": 340.783,
+   "words": [
+    {
+     "t": 338.132,
+     "d": 0.745,
+     "w": "Sungkan"
+    },
+    {
+     "t": 339.221,
+     "d": 0.298,
+     "w": "dia"
+    },
+    {
+     "t": 339.519,
+     "d": 0.482,
+     "w": "atasan"
+    },
+    {
+     "t": 340.001,
+     "d": 0.562,
+     "w": "saya"
+    }
+   ]
+  },
+  {
+   "id": 45,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Laporan ini tidak bisa dibuka akun perangkat daerah mana pun, termasuk akun kantor tempat Anda bekerja.",
+   "start": 341.203,
+   "end": 346.228,
+   "words": [
+    {
+     "t": 341.263,
+     "d": 0.301,
+     "w": "Laporan"
+    },
+    {
+     "t": 341.564,
+     "d": 0.22,
+     "w": "ini"
+    },
+    {
+     "t": 341.783,
+     "d": 0.197,
+     "w": "tidak"
+    },
+    {
+     "t": 341.98,
+     "d": 0.185,
+     "w": "bisa"
+    },
+    {
+     "t": 342.165,
+     "d": 0.312,
+     "w": "dibuka"
+    },
+    {
+     "t": 342.478,
+     "d": 0.208,
+     "w": "akun"
+    },
+    {
+     "t": 342.686,
+     "d": 0.301,
+     "w": "perangkat"
+    },
+    {
+     "t": 342.987,
+     "d": 0.266,
+     "w": "daerah"
+    },
+    {
+     "t": 343.253,
+     "d": 0.197,
+     "w": "mana"
+    },
+    {
+     "t": 343.45,
+     "d": 0.347,
+     "w": "pun"
+    },
+    {
+     "t": 344.064,
+     "d": 0.359,
+     "w": "termasuk"
+    },
+    {
+     "t": 344.422,
+     "d": 0.232,
+     "w": "akun"
+    },
+    {
+     "t": 344.654,
+     "d": 0.266,
+     "w": "kantor"
+    },
+    {
+     "t": 344.92,
+     "d": 0.278,
+     "w": "tempat"
+    },
+    {
+     "t": 345.198,
+     "d": 0.232,
+     "w": "Anda"
+    },
+    {
+     "t": 345.429,
+     "d": 0.579,
+     "w": "bekerja"
+    }
+   ]
+  },
+  {
+   "id": 46,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Belum punya bukti.",
+   "start": 347.148,
+   "end": 348.747,
+   "words": [
+    {
+     "t": 347.208,
+     "d": 0.413,
+     "w": "Belum"
+    },
+    {
+     "t": 347.621,
+     "d": 0.333,
+     "w": "punya"
+    },
+    {
+     "t": 347.953,
+     "d": 0.573,
+     "w": "bukti"
+    }
+   ]
+  },
+  {
+   "id": 47,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Anda pelapor, bukan penyidik. Sampaikan yang Anda ketahui. Membuktikannya tugas pemeriksa.",
+   "start": 349.167,
+   "end": 356.122,
+   "words": [
+    {
+     "t": 349.227,
+     "d": 0.255,
+     "w": "Anda"
+    },
+    {
+     "t": 349.481,
+     "d": 0.521,
+     "w": "pelapor"
+    },
+    {
+     "t": 350.211,
+     "d": 0.347,
+     "w": "bukan"
+    },
+    {
+     "t": 350.558,
+     "d": 0.532,
+     "w": "penyidik"
+    },
+    {
+     "t": 351.863,
+     "d": 0.625,
+     "w": "Sampaikan"
+    },
+    {
+     "t": 352.488,
+     "d": 0.139,
+     "w": "yang"
+    },
+    {
+     "t": 352.627,
+     "d": 0.231,
+     "w": "Anda"
+    },
+    {
+     "t": 352.858,
+     "d": 0.613,
+     "w": "ketahui"
+    },
+    {
+     "t": 354.247,
+     "d": 0.694,
+     "w": "Membuktikannya"
+    },
+    {
+     "t": 354.942,
+     "d": 0.312,
+     "w": "tugas"
+    },
+    {
+     "t": 355.254,
+     "d": 0.648,
+     "w": "pemeriksa"
+    }
+   ]
+  },
+  {
+   "id": 48,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Percuma, tidak akan ditindaklanjuti.",
+   "start": 357.042,
+   "end": 360.247,
+   "words": [
+    {
+     "t": 357.102,
+     "d": 0.768,
+     "w": "Percuma"
+    },
+    {
+     "t": 358.169,
+     "d": 0.287,
+     "w": "tidak"
+    },
+    {
+     "t": 358.455,
+     "d": 0.333,
+     "w": "akan"
+    },
+    {
+     "t": 358.788,
+     "d": 1.239,
+     "w": "ditindaklanjuti"
+    }
+   ]
+  },
+  {
+   "id": 49,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Setiap laporan punya nomor tiket dan status yang bisa Anda pantau sendiri.",
+   "start": 360.667,
+   "end": 364.268,
+   "words": [
+    {
+     "t": 360.727,
+     "d": 0.347,
+     "w": "Setiap"
+    },
+    {
+     "t": 361.074,
+     "d": 0.359,
+     "w": "laporan"
+    },
+    {
+     "t": 361.433,
+     "d": 0.197,
+     "w": "punya"
+    },
+    {
+     "t": 361.629,
+     "d": 0.197,
+     "w": "nomor"
+    },
+    {
+     "t": 361.826,
+     "d": 0.336,
+     "w": "tiket"
+    },
+    {
+     "t": 362.162,
+     "d": 0.15,
+     "w": "dan"
+    },
+    {
+     "t": 362.312,
+     "d": 0.417,
+     "w": "status"
+    },
+    {
+     "t": 362.729,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 362.833,
+     "d": 0.185,
+     "w": "bisa"
+    },
+    {
+     "t": 363.018,
+     "d": 0.243,
+     "w": "Anda"
+    },
+    {
+     "t": 363.261,
+     "d": 0.255,
+     "w": "pantau"
+    },
+    {
+     "t": 363.516,
+     "d": 0.532,
+     "w": "sendiri"
+    }
+   ]
+  },
+  {
+   "id": 50,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Bukan urusan saya.",
+   "start": 365.188,
+   "end": 366.948,
+   "words": [
+    {
+     "t": 365.248,
+     "d": 0.401,
+     "w": "Bukan"
+    },
+    {
+     "t": 365.65,
+     "d": 0.539,
+     "w": "urusan"
+    },
+    {
+     "t": 366.189,
+     "d": 0.539,
+     "w": "saya"
+    }
+   ]
+  },
+  {
+   "id": 51,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Uang yang hilang adalah uang jalan, sekolah, dan puskesmas Anda sendiri.",
+   "start": 367.368,
+   "end": 371.745,
+   "words": [
+    {
+     "t": 367.428,
+     "d": 0.174,
+     "w": "Uang"
+    },
+    {
+     "t": 367.601,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 367.705,
+     "d": 0.289,
+     "w": "hilang"
+    },
+    {
+     "t": 367.995,
+     "d": 0.266,
+     "w": "adalah"
+    },
+    {
+     "t": 368.261,
+     "d": 0.197,
+     "w": "uang"
+    },
+    {
+     "t": 368.458,
+     "d": 0.486,
+     "w": "jalan"
+    },
+    {
+     "t": 369.175,
+     "d": 0.637,
+     "w": "sekolah"
+    },
+    {
+     "t": 370.032,
+     "d": 0.208,
+     "w": "dan"
+    },
+    {
+     "t": 370.24,
+     "d": 0.509,
+     "w": "puskesmas"
+    },
+    {
+     "t": 370.749,
+     "d": 0.243,
+     "w": "Anda"
+    },
+    {
+     "t": 370.992,
+     "d": 0.532,
+     "w": "sendiri"
+    }
+   ]
+  },
+  {
+   "id": 52,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Padahal, diam itu mahal.",
+   "start": 372.765,
+   "end": 375.361,
+   "words": [
+    {
+     "t": 372.825,
+     "d": 0.768,
+     "w": "Padahal"
+    },
+    {
+     "t": 373.903,
+     "d": 0.31,
+     "w": "diam"
+    },
+    {
+     "t": 374.213,
+     "d": 0.344,
+     "w": "itu"
+    },
+    {
+     "t": 374.557,
+     "d": 0.585,
+     "w": "mahal"
+    }
+   ]
+  },
+  {
+   "id": 53,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Laporan ACFE tahun 2026 mempelajari 2.402 kasus kecurangan di 143 negara. 43 persen terungkap karena ada yang melapor, jauh melampaui audit.",
+   "start": 376.481,
+   "end": 387.08,
+   "words": [
+    {
+     "t": 376.541,
+     "d": 0.394,
+     "w": "Laporan"
+    },
+    {
+     "t": 376.935,
+     "d": 0.428,
+     "w": "A-Ce-Ef-E"
+    },
+    {
+     "t": 377.363,
+     "d": 0.312,
+     "w": "tahun"
+    },
+    {
+     "t": 377.676,
+     "d": 0.88,
+     "w": "2026"
+    },
+    {
+     "t": 378.555,
+     "d": 0.498,
+     "w": "mempelajari"
+    },
+    {
+     "t": 379.053,
+     "d": 0.162,
+     "w": "dua"
+    },
+    {
+     "t": 379.215,
+     "d": 0.174,
+     "w": "ribu"
+    },
+    {
+     "t": 379.389,
+     "d": 0.197,
+     "w": "empat"
+    },
+    {
+     "t": 379.585,
+     "d": 0.278,
+     "w": "ratus"
+    },
+    {
+     "t": 379.863,
+     "d": 0.139,
+     "w": "dua"
+    },
+    {
+     "t": 380.002,
+     "d": 0.255,
+     "w": "kasus"
+    },
+    {
+     "t": 380.257,
+     "d": 0.498,
+     "w": "kecurangan"
+    },
+    {
+     "t": 380.754,
+     "d": 0.081,
+     "w": "di"
+    },
+    {
+     "t": 380.835,
+     "d": 0.937,
+     "w": "143"
+    },
+    {
+     "t": 381.773,
+     "d": 0.498,
+     "w": "negara"
+    },
+    {
+     "t": 383.052,
+     "d": 0.544,
+     "w": "43"
+    },
+    {
+     "t": 383.596,
+     "d": 0.278,
+     "w": "persen"
+    },
+    {
+     "t": 383.874,
+     "d": 0.37,
+     "w": "terungkap"
+    },
+    {
+     "t": 384.244,
+     "d": 0.208,
+     "w": "karena"
+    },
+    {
+     "t": 384.452,
+     "d": 0.185,
+     "w": "ada"
+    },
+    {
+     "t": 384.638,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 384.753,
+     "d": 0.486,
+     "w": "melapor"
+    },
+    {
+     "t": 385.494,
+     "d": 0.359,
+     "w": "jauh"
+    },
+    {
+     "t": 385.853,
+     "d": 0.451,
+     "w": "melampaui"
+    },
+    {
+     "t": 386.304,
+     "d": 0.556,
+     "w": "audit"
+    }
+   ]
+  },
+  {
+   "id": 54,
+   "scene": "s6",
+   "voice": "gadis",
+   "display": "Dan lebih dari separuh laporan itu datang dari pegawai sendiri.",
+   "start": 388.1,
+   "end": 392.336,
+   "words": [
+    {
+     "t": 388.16,
+     "d": 0.241,
+     "w": "Dan"
+    },
+    {
+     "t": 388.401,
+     "d": 0.367,
+     "w": "lebih"
+    },
+    {
+     "t": 388.768,
+     "d": 0.218,
+     "w": "dari"
+    },
+    {
+     "t": 388.986,
+     "d": 0.447,
+     "w": "separuh"
+    },
+    {
+     "t": 389.433,
+     "d": 0.344,
+     "w": "laporan"
+    },
+    {
+     "t": 389.777,
+     "d": 0.401,
+     "w": "itu"
+    },
+    {
+     "t": 390.178,
+     "d": 0.539,
+     "w": "datang"
+    },
+    {
+     "t": 390.717,
+     "d": 0.264,
+     "w": "dari"
+    },
+    {
+     "t": 390.981,
+     "d": 0.493,
+     "w": "pegawai"
+    },
+    {
+     "t": 391.474,
+     "d": 0.642,
+     "w": "sendiri"
+    }
+   ]
+  },
+  {
+   "id": 55,
+   "scene": "s6",
+   "voice": "ardi",
+   "display": "Umumnya, kecurangan berjalan dua belas bulan sebelum terbongkar. Makin lama dibiarkan, makin besar kerugiannya.",
+   "start": 392.756,
+   "end": 399.759,
+   "words": [
+    {
+     "t": 392.816,
+     "d": 0.613,
+     "w": "Umumnya"
+    },
+    {
+     "t": 393.696,
+     "d": 0.417,
+     "w": "kecurangan"
+    },
+    {
+     "t": 394.113,
+     "d": 0.394,
+     "w": "berjalan"
+    },
+    {
+     "t": 394.506,
+     "d": 0.127,
+     "w": "dua"
+    },
+    {
+     "t": 394.633,
+     "d": 0.208,
+     "w": "belas"
+    },
+    {
+     "t": 394.842,
+     "d": 0.289,
+     "w": "bulan"
+    },
+    {
+     "t": 395.131,
+     "d": 0.312,
+     "w": "sebelum"
+    },
+    {
+     "t": 395.444,
+     "d": 0.648,
+     "w": "terbongkar"
+    },
+    {
+     "t": 396.865,
+     "d": 0.324,
+     "w": "Makin"
+    },
+    {
+     "t": 397.189,
+     "d": 0.174,
+     "w": "lama"
+    },
+    {
+     "t": 397.363,
+     "d": 0.637,
+     "w": "dibiarkan"
+    },
+    {
+     "t": 398.266,
+     "d": 0.289,
+     "w": "makin"
+    },
+    {
+     "t": 398.555,
+     "d": 0.266,
+     "w": "besar"
+    },
+    {
+     "t": 398.821,
+     "d": 0.718,
+     "w": "kerugiannya"
+    }
+   ]
+  },
+  {
+   "id": 56,
+   "scene": "s7",
+   "voice": "gadis",
+   "display": "Lalu, seperti apa laporan yang baik?",
+   "start": 404.179,
+   "end": 407.005,
+   "words": [
+    {
+     "t": 404.239,
+     "d": 0.585,
+     "w": "Lalu"
+    },
+    {
+     "t": 405.133,
+     "d": 0.447,
+     "w": "seperti"
+    },
+    {
+     "t": 405.581,
+     "d": 0.287,
+     "w": "apa"
+    },
+    {
+     "t": 405.867,
+     "d": 0.447,
+     "w": "laporan"
+    },
+    {
+     "t": 406.315,
+     "d": 0.149,
+     "w": "yang"
+    },
+    {
+     "t": 406.464,
+     "d": 0.321,
+     "w": "baik"
+    }
+   ]
+  },
+  {
+   "id": 57,
+   "scene": "s7",
+   "voice": "ardi",
+   "display": "Mulailah dari fakta, bukan kesimpulan. Bukan: kantor itu korup. Tapi: Senin lalu, petugas loket meminta lima puluh ribu rupiah untuk surat yang seharusnya gratis, tanpa kuitansi.",
+   "start": 407.755,
+   "end": 419.823,
+   "words": [
+    {
+     "t": 407.815,
+     "d": 0.44,
+     "w": "Mulailah"
+    },
+    {
+     "t": 408.255,
+     "d": 0.174,
+     "w": "dari"
+    },
+    {
+     "t": 408.428,
+     "d": 0.532,
+     "w": "fakta"
+    },
+    {
+     "t": 409.18,
+     "d": 0.324,
+     "w": "bukan"
+    },
+    {
+     "t": 409.505,
+     "d": 0.683,
+     "w": "kesimpulan"
+    },
+    {
+     "t": 410.96,
+     "d": 0.567,
+     "w": "Bukan"
+    },
+    {
+     "t": 411.793,
+     "d": 0.289,
+     "w": "kantor"
+    },
+    {
+     "t": 412.083,
+     "d": 0.174,
+     "w": "itu"
+    },
+    {
+     "t": 412.256,
+     "d": 0.428,
+     "w": "korup"
+    },
+    {
+     "t": 413.469,
+     "d": 0.486,
+     "w": "Tapi"
+    },
+    {
+     "t": 414.198,
+     "d": 0.255,
+     "w": "Senin"
+    },
+    {
+     "t": 414.453,
+     "d": 0.44,
+     "w": "lalu"
+    },
+    {
+     "t": 415.159,
+     "d": 0.37,
+     "w": "petugas"
+    },
+    {
+     "t": 415.529,
+     "d": 0.22,
+     "w": "loket"
+    },
+    {
+     "t": 415.749,
+     "d": 0.289,
+     "w": "meminta"
+    },
+    {
+     "t": 416.038,
+     "d": 0.174,
+     "w": "lima"
+    },
+    {
+     "t": 416.212,
+     "d": 0.174,
+     "w": "puluh"
+    },
+    {
+     "t": 416.386,
+     "d": 0.162,
+     "w": "ribu"
+    },
+    {
+     "t": 416.548,
+     "d": 0.312,
+     "w": "rupiah"
+    },
+    {
+     "t": 416.86,
+     "d": 0.197,
+     "w": "untuk"
+    },
+    {
+     "t": 417.057,
+     "d": 0.255,
+     "w": "surat"
+    },
+    {
+     "t": 417.312,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 417.416,
+     "d": 0.44,
+     "w": "seharusnya"
+    },
+    {
+     "t": 417.855,
+     "d": 0.532,
+     "w": "gratis"
+    },
+    {
+     "t": 418.573,
+     "d": 0.336,
+     "w": "tanpa"
+    },
+    {
+     "t": 418.909,
+     "d": 0.694,
+     "w": "kuitansi"
+    }
+   ]
+  },
+  {
+   "id": 58,
+   "scene": "s7",
+   "voice": "gadis",
+   "display": "Formulir menuntun Anda dengan lima pertanyaan: apa, di mana, kapan, siapa, dan bagaimana.",
+   "start": 420.943,
+   "end": 429.274,
+   "words": [
+    {
+     "t": 421.003,
+     "d": 0.608,
+     "w": "Formulir"
+    },
+    {
+     "t": 421.611,
+     "d": 0.413,
+     "w": "menuntun"
+    },
+    {
+     "t": 422.024,
+     "d": 0.401,
+     "w": "Anda"
+    },
+    {
+     "t": 422.425,
+     "d": 0.298,
+     "w": "dengan"
+    },
+    {
+     "t": 422.723,
+     "d": 0.333,
+     "w": "lima"
+    },
+    {
+     "t": 423.056,
+     "d": 0.849,
+     "w": "pertanyaan"
+    },
+    {
+     "t": 424.271,
+     "d": 0.528,
+     "w": "apa"
+    },
+    {
+     "t": 425.063,
+     "d": 0.161,
+     "w": "di"
+    },
+    {
+     "t": 425.223,
+     "d": 0.55,
+     "w": "mana"
+    },
+    {
+     "t": 426.072,
+     "d": 0.608,
+     "w": "kapan"
+    },
+    {
+     "t": 426.966,
+     "d": 0.688,
+     "w": "siapa"
+    },
+    {
+     "t": 427.907,
+     "d": 0.264,
+     "w": "dan"
+    },
+    {
+     "t": 428.171,
+     "d": 0.883,
+     "w": "bagaimana"
+    }
+   ]
+  },
+  {
+   "id": 59,
+   "scene": "s7",
+   "voice": "ardi",
+   "display": "Untuk siapa, jabatan atau peran lebih menolong daripada nama. Sebutkan juga bukti yang Anda punya.",
+   "start": 429.994,
+   "end": 436.15,
+   "words": [
+    {
+     "t": 430.054,
+     "d": 0.255,
+     "w": "Untuk"
+    },
+    {
+     "t": 430.308,
+     "d": 0.579,
+     "w": "siapa"
+    },
+    {
+     "t": 431.176,
+     "d": 0.486,
+     "w": "jabatan"
+    },
+    {
+     "t": 431.662,
+     "d": 0.185,
+     "w": "atau"
+    },
+    {
+     "t": 431.848,
+     "d": 0.22,
+     "w": "peran"
+    },
+    {
+     "t": 432.067,
+     "d": 0.174,
+     "w": "lebih"
+    },
+    {
+     "t": 432.241,
+     "d": 0.347,
+     "w": "menolong"
+    },
+    {
+     "t": 432.588,
+     "d": 0.37,
+     "w": "daripada"
+    },
+    {
+     "t": 432.959,
+     "d": 0.44,
+     "w": "nama"
+    },
+    {
+     "t": 434.17,
+     "d": 0.498,
+     "w": "Sebutkan"
+    },
+    {
+     "t": 434.668,
+     "d": 0.197,
+     "w": "juga"
+    },
+    {
+     "t": 434.865,
+     "d": 0.289,
+     "w": "bukti"
+    },
+    {
+     "t": 435.154,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 435.27,
+     "d": 0.197,
+     "w": "Anda"
+    },
+    {
+     "t": 435.467,
+     "d": 0.463,
+     "w": "punya"
+    }
+   ]
+  },
+  {
+   "id": 60,
+   "scene": "s7",
+   "voice": "gadis",
+   "display": "Dan ada empat larangan.",
+   "start": 436.87,
+   "end": 438.984,
+   "words": [
+    {
+     "t": 436.93,
+     "d": 0.264,
+     "w": "Dan"
+    },
+    {
+     "t": 437.193,
+     "d": 0.401,
+     "w": "ada"
+    },
+    {
+     "t": 437.595,
+     "d": 0.47,
+     "w": "empat"
+    },
+    {
+     "t": 438.065,
+     "d": 0.7,
+     "w": "larangan"
+    }
+   ]
+  },
+  {
+   "id": 61,
+   "scene": "s7",
+   "voice": "ardi",
+   "display": "Jangan menyelidiki sendiri, apalagi menjebak. Jangan mengambil dokumen yang bukan hak Anda.",
+   "start": 439.404,
+   "end": 445.191,
+   "words": [
+    {
+     "t": 439.464,
+     "d": 0.347,
+     "w": "Jangan"
+    },
+    {
+     "t": 439.812,
+     "d": 0.405,
+     "w": "menyelidiki"
+    },
+    {
+     "t": 440.217,
+     "d": 0.59,
+     "w": "sendiri"
+    },
+    {
+     "t": 441.062,
+     "d": 0.451,
+     "w": "apalagi"
+    },
+    {
+     "t": 441.513,
+     "d": 0.59,
+     "w": "menjebak"
+    },
+    {
+     "t": 442.876,
+     "d": 0.359,
+     "w": "Jangan"
+    },
+    {
+     "t": 443.235,
+     "d": 0.324,
+     "w": "mengambil"
+    },
+    {
+     "t": 443.559,
+     "d": 0.37,
+     "w": "dokumen"
+    },
+    {
+     "t": 443.929,
+     "d": 0.15,
+     "w": "yang"
+    },
+    {
+     "t": 444.08,
+     "d": 0.255,
+     "w": "bukan"
+    },
+    {
+     "t": 444.334,
+     "d": 0.162,
+     "w": "hak"
+    },
+    {
+     "t": 444.496,
+     "d": 0.475,
+     "w": "Anda"
+    }
+   ]
+  },
+  {
+   "id": 62,
+   "scene": "s7",
+   "voice": "gadis",
+   "display": "Jangan memviralkan dulu di media sosial. Bukti bisa keburu dihilangkan, dan tuduhan di ruang publik bisa berbalik menjerat Anda.",
+   "start": 445.911,
+   "end": 455.43,
+   "words": [
+    {
+     "t": 445.971,
+     "d": 0.459,
+     "w": "Jangan"
+    },
+    {
+     "t": 446.43,
+     "d": 0.608,
+     "w": "memviralkan"
+    },
+    {
+     "t": 447.037,
+     "d": 0.447,
+     "w": "dulu"
+    },
+    {
+     "t": 447.485,
+     "d": 0.183,
+     "w": "di"
+    },
+    {
+     "t": 447.668,
+     "d": 0.436,
+     "w": "media"
+    },
+    {
+     "t": 448.104,
+     "d": 0.711,
+     "w": "sosial"
+    },
+    {
+     "t": 449.579,
+     "d": 0.436,
+     "w": "Bukti"
+    },
+    {
+     "t": 450.015,
+     "d": 0.252,
+     "w": "bisa"
+    },
+    {
+     "t": 450.267,
+     "d": 0.378,
+     "w": "keburu"
+    },
+    {
+     "t": 450.646,
+     "d": 0.814,
+     "w": "dihilangkan"
+    },
+    {
+     "t": 451.838,
+     "d": 0.218,
+     "w": "dan"
+    },
+    {
+     "t": 452.056,
+     "d": 0.459,
+     "w": "tuduhan"
+    },
+    {
+     "t": 452.515,
+     "d": 0.103,
+     "w": "di"
+    },
+    {
+     "t": 452.618,
+     "d": 0.252,
+     "w": "ruang"
+    },
+    {
+     "t": 452.87,
+     "d": 0.47,
+     "w": "publik"
+    },
+    {
+     "t": 453.341,
+     "d": 0.321,
+     "w": "bisa"
+    },
+    {
+     "t": 453.662,
+     "d": 0.55,
+     "w": "berbalik"
+    },
+    {
+     "t": 454.212,
+     "d": 0.413,
+     "w": "menjerat"
+    },
+    {
+     "t": 454.625,
+     "d": 0.585,
+     "w": "Anda"
+    }
+   ]
+  },
+  {
+   "id": 63,
+   "scene": "s7",
+   "voice": "ardi",
+   "display": "Dan jangan pernah mengarang. Laporan palsu merugikan orang yang tidak bersalah, dan bisa dipidana.",
+   "start": 456.15,
+   "end": 462.062,
+   "words": [
+    {
+     "t": 456.21,
+     "d": 0.255,
+     "w": "Dan"
+    },
+    {
+     "t": 456.464,
+     "d": 0.301,
+     "w": "jangan"
+    },
+    {
+     "t": 456.765,
+     "d": 0.243,
+     "w": "pernah"
+    },
+    {
+     "t": 457.008,
+     "d": 0.544,
+     "w": "mengarang"
+    },
+    {
+     "t": 458.323,
+     "d": 0.382,
+     "w": "Laporan"
+    },
+    {
+     "t": 458.705,
+     "d": 0.278,
+     "w": "palsu"
+    },
+    {
+     "t": 458.983,
+     "d": 0.382,
+     "w": "merugikan"
+    },
+    {
+     "t": 459.365,
+     "d": 0.22,
+     "w": "orang"
+    },
+    {
+     "t": 459.585,
+     "d": 0.127,
+     "w": "yang"
+    },
+    {
+     "t": 459.712,
+     "d": 0.197,
+     "w": "tidak"
+    },
+    {
+     "t": 459.909,
+     "d": 0.579,
+     "w": "bersalah"
+    },
+    {
+     "t": 460.742,
+     "d": 0.22,
+     "w": "dan"
+    },
+    {
+     "t": 460.962,
+     "d": 0.255,
+     "w": "bisa"
+    },
+    {
+     "t": 461.217,
+     "d": 0.625,
+     "w": "dipidana"
+    }
+   ]
+  },
+  {
+   "id": 64,
+   "scene": "s7",
+   "voice": "gadis",
+   "display": "Satu lagi bila Anda anonim: detail yang hanya Anda ketahui bisa menunjuk balik ke diri Anda. Tulis yang perlu diperiksa, timbang sisanya.",
+   "start": 462.882,
+   "end": 473.181,
+   "words": [
+    {
+     "t": 462.942,
+     "d": 0.47,
+     "w": "Satu"
+    },
+    {
+     "t": 463.412,
+     "d": 0.367,
+     "w": "lagi"
+    },
+    {
+     "t": 463.779,
+     "d": 0.264,
+     "w": "bila"
+    },
+    {
+     "t": 464.043,
+     "d": 0.355,
+     "w": "Anda"
+    },
+    {
+     "t": 464.398,
+     "d": 0.654,
+     "w": "anonim"
+    },
+    {
+     "t": 465.361,
+     "d": 0.447,
+     "w": "detail"
+    },
+    {
+     "t": 465.809,
+     "d": 0.126,
+     "w": "yang"
+    },
+    {
+     "t": 465.935,
+     "d": 0.275,
+     "w": "hanya"
+    },
+    {
+     "t": 466.21,
+     "d": 0.321,
+     "w": "Anda"
+    },
+    {
+     "t": 466.531,
+     "d": 0.55,
+     "w": "ketahui"
+    },
+    {
+     "t": 467.082,
+     "d": 0.39,
+     "w": "bisa"
+    },
+    {
+     "t": 467.472,
+     "d": 0.424,
+     "w": "menunjuk"
+    },
+    {
+     "t": 467.896,
+     "d": 0.378,
+     "w": "balik"
+    },
+    {
+     "t": 468.274,
+     "d": 0.126,
+     "w": "ke"
+    },
+    {
+     "t": 468.4,
+     "d": 0.287,
+     "w": "diri"
+    },
+    {
+     "t": 468.687,
+     "d": 0.539,
+     "w": "Anda"
+    },
+    {
+     "t": 469.99,
+     "d": 0.436,
+     "w": "Tulis"
+    },
+    {
+     "t": 470.426,
+     "d": 0.138,
+     "w": "yang"
+    },
+    {
+     "t": 470.564,
+     "d": 0.252,
+     "w": "perlu"
+    },
+    {
+     "t": 470.816,
+     "d": 0.677,
+     "w": "diperiksa"
+    },
+    {
+     "t": 471.779,
+     "d": 0.459,
+     "w": "timbang"
+    },
+    {
+     "t": 472.238,
+     "d": 0.722,
+     "w": "sisanya"
+    }
+   ]
+  },
+  {
+   "id": 65,
+   "scene": "s8",
+   "voice": "ardi",
+   "display": "Sekarang praktiknya. Pindai kode QR Lapor dengan kamera ponsel. Halaman Lapor langsung terbuka, tanpa perlu membuat akun.",
+   "start": 477.601,
+   "end": 485.792,
+   "words": [
+    {
+     "t": 477.661,
+     "d": 0.463,
+     "w": "Sekarang"
+    },
+    {
+     "t": 478.123,
+     "d": 0.706,
+     "w": "praktiknya"
+    },
+    {
+     "t": 479.599,
+     "d": 0.312,
+     "w": "Pindai"
+    },
+    {
+     "t": 479.912,
+     "d": 0.232,
+     "w": "kode"
+    },
+    {
+     "t": 480.143,
+     "d": 0.255,
+     "w": "Kiu-Ar"
+    },
+    {
+     "t": 480.398,
+     "d": 0.347,
+     "w": "Lapor"
+    },
+    {
+     "t": 480.745,
+     "d": 0.255,
+     "w": "dengan"
+    },
+    {
+     "t": 481.0,
+     "d": 0.243,
+     "w": "kamera"
+    },
+    {
+     "t": 481.243,
+     "d": 0.567,
+     "w": "ponsel"
+    },
+    {
+     "t": 482.586,
+     "d": 0.336,
+     "w": "Halaman"
+    },
+    {
+     "t": 482.921,
+     "d": 0.243,
+     "w": "Lapor"
+    },
+    {
+     "t": 483.164,
+     "d": 0.289,
+     "w": "langsung"
+    },
+    {
+     "t": 483.454,
+     "d": 0.579,
+     "w": "terbuka"
+    },
+    {
+     "t": 484.298,
+     "d": 0.278,
+     "w": "tanpa"
+    },
+    {
+     "t": 484.576,
+     "d": 0.243,
+     "w": "perlu"
+    },
+    {
+     "t": 484.819,
+     "d": 0.289,
+     "w": "membuat"
+    },
+    {
+     "t": 485.109,
+     "d": 0.463,
+     "w": "akun"
+    }
+   ]
+  },
+  {
+   "id": 66,
+   "scene": "s8",
+   "voice": "gadis",
+   "display": "Pilih tab Dugaan Kecurangan, lalu tentukan identitas Anda.",
+   "start": 487.012,
+   "end": 491.627,
+   "words": [
+    {
+     "t": 487.072,
+     "d": 0.413,
+     "w": "Pilih"
+    },
+    {
+     "t": 487.484,
+     "d": 0.252,
+     "w": "tab"
+    },
+    {
+     "t": 487.737,
+     "d": 0.447,
+     "w": "Dugaan"
+    },
+    {
+     "t": 488.184,
+     "d": 0.757,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 489.251,
+     "d": 0.31,
+     "w": "lalu"
+    },
+    {
+     "t": 489.56,
+     "d": 0.505,
+     "w": "tentukan"
+    },
+    {
+     "t": 490.065,
+     "d": 0.757,
+     "w": "identitas"
+    },
+    {
+     "t": 490.822,
+     "d": 0.585,
+     "w": "Anda"
+    }
+   ]
+  },
+  {
+   "id": 67,
+   "scene": "s8",
+   "voice": "ardi",
+   "display": "Terbuka: nama dan kontak tersimpan. Anonim tetapi bisa dihubungi: nama tidak disimpan, kontak hanya terbaca penindaklanjut. Anonim penuh: keduanya tidak disimpan sama sekali.",
+   "start": 492.647,
+   "end": 504.254,
+   "words": [
+    {
+     "t": 492.707,
+     "d": 0.671,
+     "w": "Terbuka"
+    },
+    {
+     "t": 493.621,
+     "d": 0.312,
+     "w": "nama"
+    },
+    {
+     "t": 493.933,
+     "d": 0.174,
+     "w": "dan"
+    },
+    {
+     "t": 494.107,
+     "d": 0.266,
+     "w": "kontak"
+    },
+    {
+     "t": 494.373,
+     "d": 0.671,
+     "w": "tersimpan"
+    },
+    {
+     "t": 495.816,
+     "d": 0.37,
+     "w": "Anonim"
+    },
+    {
+     "t": 496.187,
+     "d": 0.289,
+     "w": "tetapi"
+    },
+    {
+     "t": 496.476,
+     "d": 0.197,
+     "w": "bisa"
+    },
+    {
+     "t": 496.673,
+     "d": 0.602,
+     "w": "dihubungi"
+    },
+    {
+     "t": 497.529,
+     "d": 0.255,
+     "w": "nama"
+    },
+    {
+     "t": 497.784,
+     "d": 0.197,
+     "w": "tidak"
+    },
+    {
+     "t": 497.981,
+     "d": 0.59,
+     "w": "disimpan"
+    },
+    {
+     "t": 498.849,
+     "d": 0.266,
+     "w": "kontak"
+    },
+    {
+     "t": 499.115,
+     "d": 0.162,
+     "w": "hanya"
+    },
+    {
+     "t": 499.277,
+     "d": 0.37,
+     "w": "terbaca"
+    },
+    {
+     "t": 499.647,
+     "d": 0.857,
+     "w": "penindaklanjut"
+    },
+    {
+     "t": 501.279,
+     "d": 0.347,
+     "w": "Anonim"
+    },
+    {
+     "t": 501.626,
+     "d": 0.451,
+     "w": "penuh"
+    },
+    {
+     "t": 502.321,
+     "d": 0.394,
+     "w": "keduanya"
+    },
+    {
+     "t": 502.714,
+     "d": 0.197,
+     "w": "tidak"
+    },
+    {
+     "t": 502.911,
+     "d": 0.394,
+     "w": "disimpan"
+    },
+    {
+     "t": 503.305,
+     "d": 0.197,
+     "w": "sama"
+    },
+    {
+     "t": 503.501,
+     "d": 0.532,
+     "w": "sekali"
+    }
+   ]
+  },
+  {
+   "id": 68,
+   "scene": "s8",
+   "voice": "gadis",
+   "display": "Ceritakan kejadiannya lewat lima pertanyaan tadi. Hanya yang pertama wajib diisi.",
+   "start": 505.474,
+   "end": 511.885,
+   "words": [
+    {
+     "t": 505.534,
+     "d": 0.631,
+     "w": "Ceritakan"
+    },
+    {
+     "t": 506.165,
+     "d": 0.677,
+     "w": "kejadiannya"
+    },
+    {
+     "t": 506.841,
+     "d": 0.367,
+     "w": "lewat"
+    },
+    {
+     "t": 507.208,
+     "d": 0.355,
+     "w": "lima"
+    },
+    {
+     "t": 507.564,
+     "d": 0.665,
+     "w": "pertanyaan"
+    },
+    {
+     "t": 508.229,
+     "d": 0.493,
+     "w": "tadi"
+    },
+    {
+     "t": 509.486,
+     "d": 0.459,
+     "w": "Hanya"
+    },
+    {
+     "t": 509.945,
+     "d": 0.161,
+     "w": "yang"
+    },
+    {
+     "t": 510.105,
+     "d": 0.401,
+     "w": "pertama"
+    },
+    {
+     "t": 510.507,
+     "d": 0.516,
+     "w": "wajib"
+    },
+    {
+     "t": 511.023,
+     "d": 0.642,
+     "w": "diisi"
+    }
+   ]
+  },
+  {
+   "id": 69,
+   "scene": "s8",
+   "voice": "ardi",
+   "display": "Bila tahu, lengkapi keterangan tambahan: perangkat daerah, tahapan proses, dugaan bentuk kecurangan, dan perkiraan kerugiannya.",
+   "start": 512.905,
+   "end": 520.627,
+   "words": [
+    {
+     "t": 512.965,
+     "d": 0.22,
+     "w": "Bila"
+    },
+    {
+     "t": 513.185,
+     "d": 0.475,
+     "w": "tahu"
+    },
+    {
+     "t": 513.926,
+     "d": 0.382,
+     "w": "lengkapi"
+    },
+    {
+     "t": 514.308,
+     "d": 0.359,
+     "w": "keterangan"
+    },
+    {
+     "t": 514.666,
+     "d": 0.59,
+     "w": "tambahan"
+    },
+    {
+     "t": 515.5,
+     "d": 0.324,
+     "w": "perangkat"
+    },
+    {
+     "t": 515.824,
+     "d": 0.498,
+     "w": "daerah"
+    },
+    {
+     "t": 516.541,
+     "d": 0.324,
+     "w": "tahapan"
+    },
+    {
+     "t": 516.865,
+     "d": 0.521,
+     "w": "proses"
+    },
+    {
+     "t": 517.618,
+     "d": 0.359,
+     "w": "dugaan"
+    },
+    {
+     "t": 517.977,
+     "d": 0.22,
+     "w": "bentuk"
+    },
+    {
+     "t": 518.196,
+     "d": 0.59,
+     "w": "kecurangan"
+    },
+    {
+     "t": 519.03,
+     "d": 0.232,
+     "w": "dan"
+    },
+    {
+     "t": 519.261,
+     "d": 0.44,
+     "w": "perkiraan"
+    },
+    {
+     "t": 519.701,
+     "d": 0.706,
+     "w": "kerugiannya"
+    }
+   ]
+  },
+  {
+   "id": 70,
+   "scene": "s8",
+   "voice": "gadis",
+   "display": "Lampirkan bukti bila ada: foto atau PDF, paling banyak lima berkas.",
+   "start": 521.647,
+   "end": 527.569,
+   "words": [
+    {
+     "t": 521.707,
+     "d": 0.642,
+     "w": "Lampirkan"
+    },
+    {
+     "t": 522.349,
+     "d": 0.355,
+     "w": "bukti"
+    },
+    {
+     "t": 522.705,
+     "d": 0.31,
+     "w": "bila"
+    },
+    {
+     "t": 523.014,
+     "d": 0.516,
+     "w": "ada"
+    },
+    {
+     "t": 523.863,
+     "d": 0.413,
+     "w": "foto"
+    },
+    {
+     "t": 524.276,
+     "d": 0.31,
+     "w": "atau"
+    },
+    {
+     "t": 524.586,
+     "d": 0.722,
+     "w": "Pe-De-Ef"
+    },
+    {
+     "t": 525.526,
+     "d": 0.344,
+     "w": "paling"
+    },
+    {
+     "t": 525.87,
+     "d": 0.424,
+     "w": "banyak"
+    },
+    {
+     "t": 526.294,
+     "d": 0.344,
+     "w": "lima"
+    },
+    {
+     "t": 526.638,
+     "d": 0.711,
+     "w": "berkas"
+    }
+   ]
+  },
+  {
+   "id": 71,
+   "scene": "s8",
+   "voice": "ardi",
+   "display": "Tekan Lapor Dugaan Kecurangan. Layar menampilkan nomor tiket dan kode akses.",
+   "start": 528.489,
+   "end": 533.407,
+   "words": [
+    {
+     "t": 528.549,
+     "d": 0.278,
+     "w": "Tekan"
+    },
+    {
+     "t": 528.827,
+     "d": 0.301,
+     "w": "Lapor"
+    },
+    {
+     "t": 529.128,
+     "d": 0.359,
+     "w": "Dugaan"
+    },
+    {
+     "t": 529.487,
+     "d": 0.66,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 530.918,
+     "d": 0.301,
+     "w": "Layar"
+    },
+    {
+     "t": 531.219,
+     "d": 0.498,
+     "w": "menampilkan"
+    },
+    {
+     "t": 531.717,
+     "d": 0.208,
+     "w": "nomor"
+    },
+    {
+     "t": 531.925,
+     "d": 0.324,
+     "w": "tiket"
+    },
+    {
+     "t": 532.249,
+     "d": 0.197,
+     "w": "dan"
+    },
+    {
+     "t": 532.446,
+     "d": 0.174,
+     "w": "kode"
+    },
+    {
+     "t": 532.62,
+     "d": 0.567,
+     "w": "akses"
+    }
+   ]
+  },
+  {
+   "id": 72,
+   "scene": "s8",
+   "voice": "gadis",
+   "display": "Catat keduanya sekarang juga. Kode akses hanya muncul sekali.",
+   "start": 534.727,
+   "end": 540.129,
+   "words": [
+    {
+     "t": 534.787,
+     "d": 0.39,
+     "w": "Catat"
+    },
+    {
+     "t": 535.177,
+     "d": 0.55,
+     "w": "keduanya"
+    },
+    {
+     "t": 535.727,
+     "d": 0.539,
+     "w": "sekarang"
+    },
+    {
+     "t": 536.266,
+     "d": 0.528,
+     "w": "juga"
+    },
+    {
+     "t": 537.558,
+     "d": 0.333,
+     "w": "Kode"
+    },
+    {
+     "t": 537.89,
+     "d": 0.459,
+     "w": "akses"
+    },
+    {
+     "t": 538.349,
+     "d": 0.401,
+     "w": "hanya"
+    },
+    {
+     "t": 538.751,
+     "d": 0.505,
+     "w": "muncul"
+    },
+    {
+     "t": 539.255,
+     "d": 0.654,
+     "w": "sekali"
+    }
+   ]
+  },
+  {
+   "id": 73,
+   "scene": "s9",
+   "voice": "ardi",
+   "display": "Pertanyaan yang paling sering diajukan: seberapa aman saya?",
+   "start": 544.549,
+   "end": 547.803,
+   "words": [
+    {
+     "t": 544.609,
+     "d": 0.521,
+     "w": "Pertanyaan"
+    },
+    {
+     "t": 545.13,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 545.245,
+     "d": 0.185,
+     "w": "paling"
+    },
+    {
+     "t": 545.43,
+     "d": 0.231,
+     "w": "sering"
+    },
+    {
+     "t": 545.662,
+     "d": 0.648,
+     "w": "diajukan"
+    },
+    {
+     "t": 546.553,
+     "d": 0.382,
+     "w": "seberapa"
+    },
+    {
+     "t": 546.935,
+     "d": 0.162,
+     "w": "aman"
+    },
+    {
+     "t": 547.097,
+     "d": 0.486,
+     "w": "saya"
+    }
+   ]
+  },
+  {
+   "id": 74,
+   "scene": "s9",
+   "voice": "gadis",
+   "display": "Pada mode anonim, nama Anda tidak disimpan. Bukan disembunyikan: server membuangnya, sekalipun ikut terkirim.",
+   "start": 548.553,
+   "end": 557.903,
+   "words": [
+    {
+     "t": 548.613,
+     "d": 0.39,
+     "w": "Pada"
+    },
+    {
+     "t": 549.003,
+     "d": 0.344,
+     "w": "mode"
+    },
+    {
+     "t": 549.347,
+     "d": 0.654,
+     "w": "anonim"
+    },
+    {
+     "t": 550.311,
+     "d": 0.31,
+     "w": "nama"
+    },
+    {
+     "t": 550.62,
+     "d": 0.355,
+     "w": "Anda"
+    },
+    {
+     "t": 550.976,
+     "d": 0.424,
+     "w": "tidak"
+    },
+    {
+     "t": 551.4,
+     "d": 0.745,
+     "w": "disimpan"
+    },
+    {
+     "t": 552.913,
+     "d": 0.424,
+     "w": "Bukan"
+    },
+    {
+     "t": 553.337,
+     "d": 0.849,
+     "w": "disembunyikan"
+    },
+    {
+     "t": 554.507,
+     "d": 0.47,
+     "w": "server"
+    },
+    {
+     "t": 554.977,
+     "d": 0.791,
+     "w": "membuangnya"
+    },
+    {
+     "t": 555.998,
+     "d": 0.631,
+     "w": "sekalipun"
+    },
+    {
+     "t": 556.628,
+     "d": 0.367,
+     "w": "ikut"
+    },
+    {
+     "t": 556.995,
+     "d": 0.688,
+     "w": "terkirim"
+    }
+   ]
+  },
+  {
+   "id": 75,
+   "scene": "s9",
+   "voice": "ardi",
+   "display": "Foto dibersihkan dari data tersembunyi: lokasi pengambilan, jenis ponsel, dan waktu pemotretan.",
+   "start": 558.723,
+   "end": 564.501,
+   "words": [
+    {
+     "t": 558.783,
+     "d": 0.243,
+     "w": "Foto"
+    },
+    {
+     "t": 559.026,
+     "d": 0.521,
+     "w": "dibersihkan"
+    },
+    {
+     "t": 559.547,
+     "d": 0.15,
+     "w": "dari"
+    },
+    {
+     "t": 559.698,
+     "d": 0.185,
+     "w": "data"
+    },
+    {
+     "t": 559.883,
+     "d": 0.671,
+     "w": "tersembunyi"
+    },
+    {
+     "t": 560.82,
+     "d": 0.359,
+     "w": "lokasi"
+    },
+    {
+     "t": 561.179,
+     "d": 0.648,
+     "w": "pengambilan"
+    },
+    {
+     "t": 562.07,
+     "d": 0.289,
+     "w": "jenis"
+    },
+    {
+     "t": 562.36,
+     "d": 0.544,
+     "w": "ponsel"
+    },
+    {
+     "t": 563.089,
+     "d": 0.22,
+     "w": "dan"
+    },
+    {
+     "t": 563.309,
+     "d": 0.278,
+     "w": "waktu"
+    },
+    {
+     "t": 563.587,
+     "d": 0.694,
+     "w": "pemotretan"
+    }
+   ]
+  },
+  {
+   "id": 76,
+   "scene": "s9",
+   "voice": "gadis",
+   "display": "PDF tidak bisa dibersihkan, dan sering memuat nama penyusunnya. Bila khawatir, kirim tangkapan layarnya sebagai gambar.",
+   "start": 565.321,
+   "end": 574.725,
+   "words": [
+    {
+     "t": 565.381,
+     "d": 0.539,
+     "w": "Pe-De-Ef"
+    },
+    {
+     "t": 565.92,
+     "d": 0.31,
+     "w": "tidak"
+    },
+    {
+     "t": 566.23,
+     "d": 0.287,
+     "w": "bisa"
+    },
+    {
+     "t": 566.516,
+     "d": 0.791,
+     "w": "dibersihkan"
+    },
+    {
+     "t": 567.64,
+     "d": 0.218,
+     "w": "dan"
+    },
+    {
+     "t": 567.858,
+     "d": 0.367,
+     "w": "sering"
+    },
+    {
+     "t": 568.225,
+     "d": 0.436,
+     "w": "memuat"
+    },
+    {
+     "t": 568.661,
+     "d": 0.367,
+     "w": "nama"
+    },
+    {
+     "t": 569.028,
+     "d": 0.86,
+     "w": "penyusunnya"
+    },
+    {
+     "t": 570.652,
+     "d": 0.367,
+     "w": "Bila"
+    },
+    {
+     "t": 571.019,
+     "d": 0.677,
+     "w": "khawatir"
+    },
+    {
+     "t": 572.04,
+     "d": 0.298,
+     "w": "kirim"
+    },
+    {
+     "t": 572.338,
+     "d": 0.47,
+     "w": "tangkapan"
+    },
+    {
+     "t": 572.808,
+     "d": 0.539,
+     "w": "layarnya"
+    },
+    {
+     "t": 573.347,
+     "d": 0.516,
+     "w": "sebagai"
+    },
+    {
+     "t": 573.863,
+     "d": 0.642,
+     "w": "gambar"
+    }
+   ]
+  },
+  {
+   "id": 77,
+   "scene": "s9",
+   "voice": "ardi",
+   "display": "Bukti disimpan di penyimpanan tertutup. Kode akses pun tidak disimpan apa adanya: tak seorang pun bisa membacanya, termasuk Inspektorat. Karena itu, kalau hilang, tidak bisa dipulihkan.",
+   "start": 575.645,
+   "end": 587.286,
+   "words": [
+    {
+     "t": 575.705,
+     "d": 0.37,
+     "w": "Bukti"
+    },
+    {
+     "t": 576.076,
+     "d": 0.451,
+     "w": "disimpan"
+    },
+    {
+     "t": 576.527,
+     "d": 0.069,
+     "w": "di"
+    },
+    {
+     "t": 576.597,
+     "d": 0.451,
+     "w": "penyimpanan"
+    },
+    {
+     "t": 577.048,
+     "d": 0.59,
+     "w": "tertutup"
+    },
+    {
+     "t": 578.419,
+     "d": 0.174,
+     "w": "Kode"
+    },
+    {
+     "t": 578.592,
+     "d": 0.289,
+     "w": "akses"
+    },
+    {
+     "t": 578.882,
+     "d": 0.197,
+     "w": "pun"
+    },
+    {
+     "t": 579.078,
+     "d": 0.185,
+     "w": "tidak"
+    },
+    {
+     "t": 579.264,
+     "d": 0.336,
+     "w": "disimpan"
+    },
+    {
+     "t": 579.599,
+     "d": 0.162,
+     "w": "apa"
+    },
+    {
+     "t": 579.761,
+     "d": 0.544,
+     "w": "adanya"
+    },
+    {
+     "t": 580.56,
+     "d": 0.139,
+     "w": "tak"
+    },
+    {
+     "t": 580.699,
+     "d": 0.266,
+     "w": "seorang"
+    },
+    {
+     "t": 580.965,
+     "d": 0.15,
+     "w": "pun"
+    },
+    {
+     "t": 581.116,
+     "d": 0.174,
+     "w": "bisa"
+    },
+    {
+     "t": 581.289,
+     "d": 0.694,
+     "w": "membacanya"
+    },
+    {
+     "t": 582.215,
+     "d": 0.37,
+     "w": "termasuk"
+    },
+    {
+     "t": 582.585,
+     "d": 0.764,
+     "w": "Inspektorat"
+    },
+    {
+     "t": 584.127,
+     "d": 0.255,
+     "w": "Karena"
+    },
+    {
+     "t": 584.381,
+     "d": 0.451,
+     "w": "itu"
+    },
+    {
+     "t": 585.087,
+     "d": 0.208,
+     "w": "kalau"
+    },
+    {
+     "t": 585.296,
+     "d": 0.463,
+     "w": "hilang"
+    },
+    {
+     "t": 585.99,
+     "d": 0.208,
+     "w": "tidak"
+    },
+    {
+     "t": 586.198,
+     "d": 0.197,
+     "w": "bisa"
+    },
+    {
+     "t": 586.395,
+     "d": 0.671,
+     "w": "dipulihkan"
+    }
+   ]
+  },
+  {
+   "id": 78,
+   "scene": "s9",
+   "voice": "gadis",
+   "display": "Bagaimana kalau perkaranya sampai ke penegak hukum?",
+   "start": 588.206,
+   "end": 591.399,
+   "words": [
+    {
+     "t": 588.266,
+     "d": 0.654,
+     "w": "Bagaimana"
+    },
+    {
+     "t": 588.92,
+     "d": 0.287,
+     "w": "kalau"
+    },
+    {
+     "t": 589.207,
+     "d": 0.562,
+     "w": "perkaranya"
+    },
+    {
+     "t": 589.769,
+     "d": 0.447,
+     "w": "sampai"
+    },
+    {
+     "t": 590.216,
+     "d": 0.138,
+     "w": "ke"
+    },
+    {
+     "t": 590.354,
+     "d": 0.333,
+     "w": "penegak"
+    },
+    {
+     "t": 590.686,
+     "d": 0.493,
+     "w": "hukum"
+    }
+   ]
+  },
+  {
+   "id": 79,
+   "scene": "s9",
+   "voice": "ardi",
+   "display": "Undang-Undang Nomor 31 Tahun 2014 tentang Perlindungan Saksi dan Korban menyatakan: pelapor tidak dapat dituntut, pidana maupun perdata, atas laporannya. LPSK pun dapat memberi perlindungan.",
+   "start": 592.149,
+   "end": 603.504,
+   "words": [
+    {
+     "t": 592.209,
+     "d": 0.498,
+     "w": "Undang-Undang"
+    },
+    {
+     "t": 592.707,
+     "d": 0.208,
+     "w": "Nomor"
+    },
+    {
+     "t": 592.915,
+     "d": 0.532,
+     "w": "31"
+    },
+    {
+     "t": 593.448,
+     "d": 0.266,
+     "w": "Tahun"
+    },
+    {
+     "t": 593.714,
+     "d": 0.729,
+     "w": "2014"
+    },
+    {
+     "t": 594.443,
+     "d": 0.255,
+     "w": "tentang"
+    },
+    {
+     "t": 594.698,
+     "d": 0.382,
+     "w": "Perlindungan"
+    },
+    {
+     "t": 595.08,
+     "d": 0.347,
+     "w": "Saksi"
+    },
+    {
+     "t": 595.427,
+     "d": 0.174,
+     "w": "dan"
+    },
+    {
+     "t": 595.6,
+     "d": 0.255,
+     "w": "Korban"
+    },
+    {
+     "t": 595.855,
+     "d": 0.613,
+     "w": "menyatakan"
+    },
+    {
+     "t": 596.746,
+     "d": 0.347,
+     "w": "pelapor"
+    },
+    {
+     "t": 597.093,
+     "d": 0.208,
+     "w": "tidak"
+    },
+    {
+     "t": 597.302,
+     "d": 0.208,
+     "w": "dapat"
+    },
+    {
+     "t": 597.51,
+     "d": 0.532,
+     "w": "dituntut"
+    },
+    {
+     "t": 598.286,
+     "d": 0.324,
+     "w": "pidana"
+    },
+    {
+     "t": 598.61,
+     "d": 0.255,
+     "w": "maupun"
+    },
+    {
+     "t": 598.864,
+     "d": 0.579,
+     "w": "perdata"
+    },
+    {
+     "t": 599.605,
+     "d": 0.312,
+     "w": "atas"
+    },
+    {
+     "t": 599.918,
+     "d": 0.648,
+     "w": "laporannya"
+    },
+    {
+     "t": 601.339,
+     "d": 0.556,
+     "w": "El-Pe-Es-Ka"
+    },
+    {
+     "t": 601.895,
+     "d": 0.22,
+     "w": "pun"
+    },
+    {
+     "t": 602.115,
+     "d": 0.232,
+     "w": "dapat"
+    },
+    {
+     "t": 602.346,
+     "d": 0.231,
+     "w": "memberi"
+    },
+    {
+     "t": 602.578,
+     "d": 0.706,
+     "w": "perlindungan"
+    }
+   ]
+  },
+  {
+   "id": 80,
+   "scene": "s9",
+   "voice": "gadis",
+   "display": "Syaratnya satu: iktikad baik. Perlindungan itu untuk yang jujur, bukan untuk yang memfitnah.",
+   "start": 604.524,
+   "end": 611.921,
+   "words": [
+    {
+     "t": 604.584,
+     "d": 0.596,
+     "w": "Syaratnya"
+    },
+    {
+     "t": 605.18,
+     "d": 0.55,
+     "w": "satu"
+    },
+    {
+     "t": 606.029,
+     "d": 0.539,
+     "w": "iktikad"
+    },
+    {
+     "t": 606.568,
+     "d": 0.401,
+     "w": "baik"
+    },
+    {
+     "t": 607.733,
+     "d": 0.642,
+     "w": "Perlindungan"
+    },
+    {
+     "t": 608.375,
+     "d": 0.378,
+     "w": "itu"
+    },
+    {
+     "t": 608.754,
+     "d": 0.401,
+     "w": "untuk"
+    },
+    {
+     "t": 609.155,
+     "d": 0.126,
+     "w": "yang"
+    },
+    {
+     "t": 609.281,
+     "d": 0.528,
+     "w": "jujur"
+    },
+    {
+     "t": 610.084,
+     "d": 0.287,
+     "w": "bukan"
+    },
+    {
+     "t": 610.371,
+     "d": 0.47,
+     "w": "untuk"
+    },
+    {
+     "t": 610.841,
+     "d": 0.161,
+     "w": "yang"
+    },
+    {
+     "t": 611.002,
+     "d": 0.7,
+     "w": "memfitnah"
+    }
+   ]
+  },
+  {
+   "id": 81,
+   "scene": "s10",
+   "voice": "ardi",
+   "display": "Lalu, apa yang terjadi setelah tombol ditekan?",
+   "start": 616.441,
+   "end": 619.221,
+   "words": [
+    {
+     "t": 616.501,
+     "d": 0.532,
+     "w": "Lalu"
+    },
+    {
+     "t": 617.288,
+     "d": 0.208,
+     "w": "apa"
+    },
+    {
+     "t": 617.496,
+     "d": 0.104,
+     "w": "yang"
+    },
+    {
+     "t": 617.601,
+     "d": 0.359,
+     "w": "terjadi"
+    },
+    {
+     "t": 617.959,
+     "d": 0.289,
+     "w": "setelah"
+    },
+    {
+     "t": 618.249,
+     "d": 0.255,
+     "w": "tombol"
+    },
+    {
+     "t": 618.503,
+     "d": 0.498,
+     "w": "ditekan"
+    }
+   ]
+  },
+  {
+   "id": 82,
+   "scene": "s10",
+   "voice": "gadis",
+   "display": "Laporan Anda ditelaah. Statusnya bergerak dari Baru, Diverifikasi, Ditindaklanjuti, sampai Selesai.",
+   "start": 619.971,
+   "end": 628.974,
+   "words": [
+    {
+     "t": 620.031,
+     "d": 0.528,
+     "w": "Laporan"
+    },
+    {
+     "t": 620.559,
+     "d": 0.424,
+     "w": "Anda"
+    },
+    {
+     "t": 620.983,
+     "d": 0.814,
+     "w": "ditelaah"
+    },
+    {
+     "t": 622.561,
+     "d": 0.7,
+     "w": "Statusnya"
+    },
+    {
+     "t": 623.261,
+     "d": 0.413,
+     "w": "bergerak"
+    },
+    {
+     "t": 623.674,
+     "d": 0.218,
+     "w": "dari"
+    },
+    {
+     "t": 623.892,
+     "d": 0.482,
+     "w": "Baru"
+    },
+    {
+     "t": 624.729,
+     "d": 1.112,
+     "w": "Diverifikasi"
+    },
+    {
+     "t": 626.139,
+     "d": 1.147,
+     "w": "Ditindaklanjuti"
+    },
+    {
+     "t": 627.516,
+     "d": 0.539,
+     "w": "sampai"
+    },
+    {
+     "t": 628.054,
+     "d": 0.7,
+     "w": "Selesai"
+    }
+   ]
+  },
+  {
+   "id": 83,
+   "scene": "s10",
+   "voice": "ardi",
+   "display": "Bila perlu keterangan, penindaklanjut menulis pertanyaan di tiket Anda. Buka tab Cek Status Laporan, masukkan nomor tiket dan kode akses, lalu jawab. Bukti tambahan pun bisa dilampirkan.",
+   "start": 629.794,
+   "end": 641.367,
+   "words": [
+    {
+     "t": 629.854,
+     "d": 0.243,
+     "w": "Bila"
+    },
+    {
+     "t": 630.097,
+     "d": 0.22,
+     "w": "perlu"
+    },
+    {
+     "t": 630.317,
+     "d": 0.579,
+     "w": "keterangan"
+    },
+    {
+     "t": 631.185,
+     "d": 0.625,
+     "w": "penindaklanjut"
+    },
+    {
+     "t": 631.81,
+     "d": 0.266,
+     "w": "menulis"
+    },
+    {
+     "t": 632.076,
+     "d": 0.498,
+     "w": "pertanyaan"
+    },
+    {
+     "t": 632.574,
+     "d": 0.093,
+     "w": "di"
+    },
+    {
+     "t": 632.666,
+     "d": 0.255,
+     "w": "tiket"
+    },
+    {
+     "t": 632.921,
+     "d": 0.475,
+     "w": "Anda"
+    },
+    {
+     "t": 634.177,
+     "d": 0.255,
+     "w": "Buka"
+    },
+    {
+     "t": 634.432,
+     "d": 0.185,
+     "w": "tab"
+    },
+    {
+     "t": 634.617,
+     "d": 0.174,
+     "w": "Cek"
+    },
+    {
+     "t": 634.791,
+     "d": 0.324,
+     "w": "Status"
+    },
+    {
+     "t": 635.115,
+     "d": 0.521,
+     "w": "Laporan"
+    },
+    {
+     "t": 635.913,
+     "d": 0.382,
+     "w": "masukkan"
+    },
+    {
+     "t": 636.295,
+     "d": 0.185,
+     "w": "nomor"
+    },
+    {
+     "t": 636.48,
+     "d": 0.289,
+     "w": "tiket"
+    },
+    {
+     "t": 636.77,
+     "d": 0.162,
+     "w": "dan"
+    },
+    {
+     "t": 636.932,
+     "d": 0.15,
+     "w": "kode"
+    },
+    {
+     "t": 637.082,
+     "d": 0.498,
+     "w": "akses"
+    },
+    {
+     "t": 637.742,
+     "d": 0.266,
+     "w": "lalu"
+    },
+    {
+     "t": 638.008,
+     "d": 0.521,
+     "w": "jawab"
+    },
+    {
+     "t": 639.307,
+     "d": 0.336,
+     "w": "Bukti"
+    },
+    {
+     "t": 639.643,
+     "d": 0.359,
+     "w": "tambahan"
+    },
+    {
+     "t": 640.002,
+     "d": 0.197,
+     "w": "pun"
+    },
+    {
+     "t": 640.198,
+     "d": 0.232,
+     "w": "bisa"
+    },
+    {
+     "t": 640.43,
+     "d": 0.718,
+     "w": "dilampirkan"
+    }
+   ]
+  },
+  {
+   "id": 84,
+   "scene": "s10",
+   "voice": "gadis",
+   "display": "Tanpa Anda pernah menyebut siapa diri Anda.",
+   "start": 642.287,
+   "end": 645.377,
+   "words": [
+    {
+     "t": 642.347,
+     "d": 0.413,
+     "w": "Tanpa"
+    },
+    {
+     "t": 642.76,
+     "d": 0.298,
+     "w": "Anda"
+    },
+    {
+     "t": 643.058,
+     "d": 0.367,
+     "w": "pernah"
+    },
+    {
+     "t": 643.425,
+     "d": 0.447,
+     "w": "menyebut"
+    },
+    {
+     "t": 643.873,
+     "d": 0.436,
+     "w": "siapa"
+    },
+    {
+     "t": 644.308,
+     "d": 0.31,
+     "w": "diri"
+    },
+    {
+     "t": 644.618,
+     "d": 0.539,
+     "w": "Anda"
+    }
+   ]
+  },
+  {
+   "id": 85,
+   "scene": "s10",
+   "voice": "ardi",
+   "display": "Bersabarlah. Pemeriksaan butuh waktu, tidak setiap dugaan terbukti, dan yang dilaporkan berhak atas asas praduga tak bersalah.",
+   "start": 646.397,
+   "end": 654.066,
+   "words": [
+    {
+     "t": 646.457,
+     "d": 0.949,
+     "w": "Bersabarlah"
+    },
+    {
+     "t": 648.186,
+     "d": 0.451,
+     "w": "Pemeriksaan"
+    },
+    {
+     "t": 648.637,
+     "d": 0.208,
+     "w": "butuh"
+    },
+    {
+     "t": 648.846,
+     "d": 0.498,
+     "w": "waktu"
+    },
+    {
+     "t": 649.598,
+     "d": 0.208,
+     "w": "tidak"
+    },
+    {
+     "t": 649.806,
+     "d": 0.266,
+     "w": "setiap"
+    },
+    {
+     "t": 650.072,
+     "d": 0.278,
+     "w": "dugaan"
+    },
+    {
+     "t": 650.35,
+     "d": 0.567,
+     "w": "terbukti"
+    },
+    {
+     "t": 651.183,
+     "d": 0.22,
+     "w": "dan"
+    },
+    {
+     "t": 651.403,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 651.519,
+     "d": 0.463,
+     "w": "dilaporkan"
+    },
+    {
+     "t": 651.982,
+     "d": 0.289,
+     "w": "berhak"
+    },
+    {
+     "t": 652.271,
+     "d": 0.22,
+     "w": "atas"
+    },
+    {
+     "t": 652.491,
+     "d": 0.243,
+     "w": "asas"
+    },
+    {
+     "t": 652.734,
+     "d": 0.394,
+     "w": "praduga"
+    },
+    {
+     "t": 653.128,
+     "d": 0.127,
+     "w": "tak"
+    },
+    {
+     "t": 653.255,
+     "d": 0.59,
+     "w": "bersalah"
+    }
+   ]
+  },
+  {
+   "id": 86,
+   "scene": "s10",
+   "voice": "ardi",
+   "display": "Tapi laporan yang belum terbukti pun berguna: ia menunjukkan celah. Di MR Kabar, celah itu dapat dicatat sebagai risiko kecurangan, lalu ditutup.",
+   "start": 654.886,
+   "end": 663.553,
+   "words": [
+    {
+     "t": 654.946,
+     "d": 0.243,
+     "w": "Tapi"
+    },
+    {
+     "t": 655.189,
+     "d": 0.347,
+     "w": "laporan"
+    },
+    {
+     "t": 655.536,
+     "d": 0.127,
+     "w": "yang"
+    },
+    {
+     "t": 655.663,
+     "d": 0.162,
+     "w": "belum"
+    },
+    {
+     "t": 655.825,
+     "d": 0.324,
+     "w": "terbukti"
+    },
+    {
+     "t": 656.149,
+     "d": 0.139,
+     "w": "pun"
+    },
+    {
+     "t": 656.288,
+     "d": 0.556,
+     "w": "berguna"
+    },
+    {
+     "t": 657.087,
+     "d": 0.208,
+     "w": "ia"
+    },
+    {
+     "t": 657.295,
+     "d": 0.451,
+     "w": "menunjukkan"
+    },
+    {
+     "t": 657.746,
+     "d": 0.44,
+     "w": "celah"
+    },
+    {
+     "t": 658.958,
+     "d": 0.162,
+     "w": "Di"
+    },
+    {
+     "t": 659.12,
+     "d": 0.22,
+     "w": "Em-Er"
+    },
+    {
+     "t": 659.34,
+     "d": 0.463,
+     "w": "Kabar"
+    },
+    {
+     "t": 660.092,
+     "d": 0.185,
+     "w": "celah"
+    },
+    {
+     "t": 660.277,
+     "d": 0.197,
+     "w": "itu"
+    },
+    {
+     "t": 660.474,
+     "d": 0.22,
+     "w": "dapat"
+    },
+    {
+     "t": 660.694,
+     "d": 0.382,
+     "w": "dicatat"
+    },
+    {
+     "t": 661.076,
+     "d": 0.324,
+     "w": "sebagai"
+    },
+    {
+     "t": 661.4,
+     "d": 0.266,
+     "w": "risiko"
+    },
+    {
+     "t": 661.666,
+     "d": 0.625,
+     "w": "kecurangan"
+    },
+    {
+     "t": 662.511,
+     "d": 0.278,
+     "w": "lalu"
+    },
+    {
+     "t": 662.789,
+     "d": 0.544,
+     "w": "ditutup"
+    }
+   ]
+  },
+  {
+   "id": 87,
+   "scene": "s11",
+   "voice": "gadis",
+   "display": "Jadi, apa yang kita bawa pulang?",
+   "start": 667.973,
+   "end": 670.81,
+   "words": [
+    {
+     "t": 668.033,
+     "d": 0.631,
+     "w": "Jadi"
+    },
+    {
+     "t": 669.088,
+     "d": 0.298,
+     "w": "apa"
+    },
+    {
+     "t": 669.386,
+     "d": 0.161,
+     "w": "yang"
+    },
+    {
+     "t": 669.547,
+     "d": 0.287,
+     "w": "kita"
+    },
+    {
+     "t": 669.834,
+     "d": 0.229,
+     "w": "bawa"
+    },
+    {
+     "t": 670.063,
+     "d": 0.528,
+     "w": "pulang"
+    }
+   ]
+  },
+  {
+   "id": 88,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Pertama. Kecurangan butuh kesempatan. Pengawasan dan keberanian bicara menutupnya.",
+   "start": 671.56,
+   "end": 677.738,
+   "words": [
+    {
+     "t": 671.62,
+     "d": 0.729,
+     "w": "Pertama"
+    },
+    {
+     "t": 673.119,
+     "d": 0.509,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 673.629,
+     "d": 0.255,
+     "w": "butuh"
+    },
+    {
+     "t": 673.883,
+     "d": 0.683,
+     "w": "kesempatan"
+    },
+    {
+     "t": 675.342,
+     "d": 0.556,
+     "w": "Pengawasan"
+    },
+    {
+     "t": 675.897,
+     "d": 0.127,
+     "w": "dan"
+    },
+    {
+     "t": 676.025,
+     "d": 0.475,
+     "w": "keberanian"
+    },
+    {
+     "t": 676.499,
+     "d": 0.336,
+     "w": "bicara"
+    },
+    {
+     "t": 676.835,
+     "d": 0.683,
+     "w": "menutupnya"
+    }
+   ]
+  },
+  {
+   "id": 89,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Kedua. Diam tidak pernah netral. Diam adalah kesempatan terbesar bagi kecurangan.",
+   "start": 679.058,
+   "end": 685.304,
+   "words": [
+    {
+     "t": 679.118,
+     "d": 0.683,
+     "w": "Kedua"
+    },
+    {
+     "t": 680.571,
+     "d": 0.312,
+     "w": "Diam"
+    },
+    {
+     "t": 680.884,
+     "d": 0.231,
+     "w": "tidak"
+    },
+    {
+     "t": 681.115,
+     "d": 0.255,
+     "w": "pernah"
+    },
+    {
+     "t": 681.37,
+     "d": 0.532,
+     "w": "netral"
+    },
+    {
+     "t": 682.677,
+     "d": 0.336,
+     "w": "Diam"
+    },
+    {
+     "t": 683.013,
+     "d": 0.278,
+     "w": "adalah"
+    },
+    {
+     "t": 683.29,
+     "d": 0.417,
+     "w": "kesempatan"
+    },
+    {
+     "t": 683.707,
+     "d": 0.417,
+     "w": "terbesar"
+    },
+    {
+     "t": 684.124,
+     "d": 0.289,
+     "w": "bagi"
+    },
+    {
+     "t": 684.413,
+     "d": 0.671,
+     "w": "kecurangan"
+    }
+   ]
+  },
+  {
+   "id": 90,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Ketiga. Laporkan fakta, bukan prasangka. Dengan iktikad baik, dan dengan hati-hati.",
+   "start": 686.624,
+   "end": 693.704,
+   "words": [
+    {
+     "t": 686.684,
+     "d": 0.775,
+     "w": "Ketiga"
+    },
+    {
+     "t": 688.23,
+     "d": 0.428,
+     "w": "Laporkan"
+    },
+    {
+     "t": 688.658,
+     "d": 0.544,
+     "w": "fakta"
+    },
+    {
+     "t": 689.422,
+     "d": 0.347,
+     "w": "bukan"
+    },
+    {
+     "t": 689.769,
+     "d": 0.671,
+     "w": "prasangka"
+    },
+    {
+     "t": 691.216,
+     "d": 0.266,
+     "w": "Dengan"
+    },
+    {
+     "t": 691.482,
+     "d": 0.301,
+     "w": "iktikad"
+    },
+    {
+     "t": 691.783,
+     "d": 0.405,
+     "w": "baik"
+    },
+    {
+     "t": 692.408,
+     "d": 0.243,
+     "w": "dan"
+    },
+    {
+     "t": 692.651,
+     "d": 0.185,
+     "w": "dengan"
+    },
+    {
+     "t": 692.836,
+     "d": 0.648,
+     "w": "hati-hati"
+    }
+   ]
+  },
+  {
+   "id": 91,
+   "scene": "s11",
+   "voice": "gadis",
+   "display": "Aceh Barat telah memiliki Peraturan Bupati Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan, dengan prinsip toleransi nol. Berlaku dari perangkat daerah, BUMD, BLUD, sampai pemerintahan gampong.",
+   "start": 695.224,
+   "end": 710.878,
+   "words": [
+    {
+     "t": 695.284,
+     "d": 0.355,
+     "w": "Aceh"
+    },
+    {
+     "t": 695.64,
+     "d": 0.321,
+     "w": "Barat"
+    },
+    {
+     "t": 695.961,
+     "d": 0.241,
+     "w": "telah"
+    },
+    {
+     "t": 696.202,
+     "d": 0.447,
+     "w": "memiliki"
+    },
+    {
+     "t": 696.649,
+     "d": 0.447,
+     "w": "Peraturan"
+    },
+    {
+     "t": 697.096,
+     "d": 0.47,
+     "w": "Bupati"
+    },
+    {
+     "t": 697.566,
+     "d": 0.321,
+     "w": "Nomor"
+    },
+    {
+     "t": 697.887,
+     "d": 0.355,
+     "w": "6"
+    },
+    {
+     "t": 698.243,
+     "d": 0.333,
+     "w": "Tahun"
+    },
+    {
+     "t": 698.576,
+     "d": 1.239,
+     "w": "2025"
+    },
+    {
+     "t": 699.814,
+     "d": 0.39,
+     "w": "tentang"
+    },
+    {
+     "t": 700.204,
+     "d": 0.505,
+     "w": "Pengendalian"
+    },
+    {
+     "t": 700.709,
+     "d": 0.711,
+     "w": "Kecurangan"
+    },
+    {
+     "t": 701.718,
+     "d": 0.31,
+     "w": "dengan"
+    },
+    {
+     "t": 702.027,
+     "d": 0.505,
+     "w": "prinsip"
+    },
+    {
+     "t": 702.532,
+     "d": 0.619,
+     "w": "toleransi"
+    },
+    {
+     "t": 703.151,
+     "d": 0.447,
+     "w": "nol"
+    },
+    {
+     "t": 704.363,
+     "d": 0.562,
+     "w": "Berlaku"
+    },
+    {
+     "t": 704.925,
+     "d": 0.195,
+     "w": "dari"
+    },
+    {
+     "t": 705.12,
+     "d": 0.436,
+     "w": "perangkat"
+    },
+    {
+     "t": 705.555,
+     "d": 0.573,
+     "w": "daerah"
+    },
+    {
+     "t": 706.496,
+     "d": 0.906,
+     "w": "Be-U-Em-De"
+    },
+    {
+     "t": 707.677,
+     "d": 0.883,
+     "w": "Be-El-U-De"
+    },
+    {
+     "t": 708.824,
+     "d": 0.436,
+     "w": "sampai"
+    },
+    {
+     "t": 709.259,
+     "d": 0.688,
+     "w": "pemerintahan"
+    },
+    {
+     "t": 709.948,
+     "d": 0.711,
+     "w": "gampong"
+    }
+   ]
+  },
+  {
+   "id": 92,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Tapi toleransi nol hanya bermakna, bila yang melihat tidak memilih diam.",
+   "start": 711.698,
+   "end": 715.52,
+   "words": [
+    {
+     "t": 711.758,
+     "d": 0.22,
+     "w": "Tapi"
+    },
+    {
+     "t": 711.978,
+     "d": 0.428,
+     "w": "toleransi"
+    },
+    {
+     "t": 712.407,
+     "d": 0.22,
+     "w": "nol"
+    },
+    {
+     "t": 712.627,
+     "d": 0.197,
+     "w": "hanya"
+    },
+    {
+     "t": 712.823,
+     "d": 0.625,
+     "w": "bermakna"
+    },
+    {
+     "t": 713.726,
+     "d": 0.232,
+     "w": "bila"
+    },
+    {
+     "t": 713.958,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 714.073,
+     "d": 0.301,
+     "w": "melihat"
+    },
+    {
+     "t": 714.374,
+     "d": 0.22,
+     "w": "tidak"
+    },
+    {
+     "t": 714.594,
+     "d": 0.266,
+     "w": "memilih"
+    },
+    {
+     "t": 714.86,
+     "d": 0.44,
+     "w": "diam"
+    }
+   ]
+  },
+  {
+   "id": 93,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan edukasi pencegahan kecurangan.",
+   "start": 717.04,
+   "end": 721.765,
+   "words": [
+    {
+     "t": 717.1,
+     "d": 0.312,
+     "w": "Video"
+    },
+    {
+     "t": 717.413,
+     "d": 0.255,
+     "w": "ini"
+    },
+    {
+     "t": 717.667,
+     "d": 0.37,
+     "w": "disusun"
+    },
+    {
+     "t": 718.038,
+     "d": 0.509,
+     "w": "Inspektorat"
+    },
+    {
+     "t": 718.547,
+     "d": 0.417,
+     "w": "Kabupaten"
+    },
+    {
+     "t": 718.964,
+     "d": 0.22,
+     "w": "Aceh"
+    },
+    {
+     "t": 719.183,
+     "d": 0.289,
+     "w": "Barat"
+    },
+    {
+     "t": 719.473,
+     "d": 0.312,
+     "w": "sebagai"
+    },
+    {
+     "t": 719.785,
+     "d": 0.243,
+     "w": "bahan"
+    },
+    {
+     "t": 720.028,
+     "d": 0.405,
+     "w": "edukasi"
+    },
+    {
+     "t": 720.433,
+     "d": 0.463,
+     "w": "pencegahan"
+    },
+    {
+     "t": 720.896,
+     "d": 0.648,
+     "w": "kecurangan"
+    }
+   ]
+  },
+  {
+   "id": 94,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Laut tidak selalu tenang. Tapi kapal yang awaknya berani membunyikan lonceng, selalu punya kesempatan untuk pulang.",
+   "start": 722.685,
+   "end": 729.15,
+   "words": [
+    {
+     "t": 722.745,
+     "d": 0.347,
+     "w": "Laut"
+    },
+    {
+     "t": 723.092,
+     "d": 0.208,
+     "w": "tidak"
+    },
+    {
+     "t": 723.3,
+     "d": 0.255,
+     "w": "selalu"
+    },
+    {
+     "t": 723.555,
+     "d": 0.463,
+     "w": "tenang"
+    },
+    {
+     "t": 724.798,
+     "d": 0.208,
+     "w": "Tapi"
+    },
+    {
+     "t": 725.007,
+     "d": 0.278,
+     "w": "kapal"
+    },
+    {
+     "t": 725.284,
+     "d": 0.116,
+     "w": "yang"
+    },
+    {
+     "t": 725.4,
+     "d": 0.347,
+     "w": "awaknya"
+    },
+    {
+     "t": 725.747,
+     "d": 0.289,
+     "w": "berani"
+    },
+    {
+     "t": 726.037,
+     "d": 0.417,
+     "w": "membunyikan"
+    },
+    {
+     "t": 726.453,
+     "d": 0.532,
+     "w": "lonceng"
+    },
+    {
+     "t": 727.252,
+     "d": 0.336,
+     "w": "selalu"
+    },
+    {
+     "t": 727.588,
+     "d": 0.208,
+     "w": "punya"
+    },
+    {
+     "t": 727.796,
+     "d": 0.463,
+     "w": "kesempatan"
+    },
+    {
+     "t": 728.259,
+     "d": 0.232,
+     "w": "untuk"
+    },
+    {
+     "t": 728.49,
+     "d": 0.44,
+     "w": "pulang"
+    }
+   ]
+  },
+  {
+   "id": 95,
+   "scene": "s11",
+   "voice": "gadis",
+   "display": "MR Kabar. Risiko TerKabar, Daerah Terjaga.",
+   "start": 731.17,
+   "end": 736.159,
+   "words": [
+    {
+     "t": 731.23,
+     "d": 0.482,
+     "w": "Em-Er"
+    },
+    {
+     "t": 731.712,
+     "d": 0.631,
+     "w": "Kabar"
+    },
+    {
+     "t": 733.107,
+     "d": 0.505,
+     "w": "Risiko"
+    },
+    {
+     "t": 733.611,
+     "d": 0.711,
+     "w": "terkabar"
+    },
+    {
+     "t": 734.598,
+     "d": 0.505,
+     "w": "Daerah"
+    },
+    {
+     "t": 735.102,
+     "d": 0.837,
+     "w": "Terjaga"
+    }
+   ]
+  },
+  {
+   "id": 96,
+   "scene": "s11",
+   "voice": "ardi",
+   "display": "Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.",
+   "start": 737.779,
+   "end": 743.87,
+   "words": [
+    {
+     "t": 737.839,
+     "d": 0.417,
+     "w": "Kopirait"
+    },
+    {
+     "t": 738.256,
+     "d": 0.995,
+     "w": "2026"
+    },
+    {
+     "t": 739.529,
+     "d": 0.324,
+     "w": "Sistem"
+    },
+    {
+     "t": 739.853,
+     "d": 0.486,
+     "w": "Arkitekcer"
+    },
+    {
+     "t": 740.339,
+     "d": 0.185,
+     "w": "en"
+    },
+    {
+     "t": 740.525,
+     "d": 0.486,
+     "w": "Divelopmen"
+    },
+    {
+     "t": 741.011,
+     "d": 0.185,
+     "w": "bai"
+    },
+    {
+     "t": 741.196,
+     "d": 0.428,
+     "w": "Nurhikmat"
+    },
+    {
+     "t": 741.624,
+     "d": 0.509,
+     "w": "Muhammad"
+    },
+    {
+     "t": 742.388,
+     "d": 0.579,
+     "w": "Inspektorat"
+    },
+    {
+     "t": 742.967,
+     "d": 0.266,
+     "w": "Aceh"
+    },
+    {
+     "t": 743.233,
+     "d": 0.417,
+     "w": "Barat"
+    }
+   ]
+  }
+ ]
+}

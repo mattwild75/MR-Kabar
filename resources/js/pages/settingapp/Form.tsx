@@ -443,10 +443,11 @@ export default function SettingForm({ setting }: Props) {
                                             <div className="mt-2 space-y-2">
                                                 {/* Untuk video BAWAAN, pratinjaunya memakai pemutar yang
                             sama persis dengan yang dilihat pengguna — bukan
-                            elemen <video> polos. Bedanya nyata: suara video
-                            bawaan datang dari tiga jalur audio terpisah, jadi
-                            hanya pemutar inilah yang membunyikannya, menuruti
-                            tombol bisu, dan menerapkan keempat setelan di bawah.
+                            elemen <video> polos. Bedanya nyata: begitu slider
+                            mix di bawah digeser dari 100%, suara video bawaan
+                            datang dari tiga jalur audio terpisah, dan hanya
+                            pemutar inilah yang membunyikannya, menuruti tombol
+                            bisu, dan menerapkan keempat setelan di bawah.
                             Nilainya diambil dari state form, bukan dari yang
                             tersimpan — supaya bisa didengar & dilihat SEBELUM
                             disimpan. Berkas unggahan admin audionya menyatu di
@@ -607,8 +608,10 @@ export default function SettingForm({ setting }: Props) {
                                         <div>
                                             <Label>Volume mix audio</Label>
                                             <p className="text-muted-foreground mt-1 text-xs">
-                                                Video bawaan dikirim ke pemutar sebagai tiga jalur audio terpisah (narasi, musik, efek suara) —
-                                                perubahan di sini langsung terdengar tanpa render ulang.
+                                                Video bawaan berupa MP4 lengkap: suaranya menyatu, subtitle dan daftar babnya tertanam, sehingga bisa
+                                                diputar & diunduh seperti video biasa. Selama ketiga slider 100%, suara MP4 itu yang diputar. Kalau
+                                                diubah, pemutar beralih ke tiga jalur audio terpisah (narasi, musik, efek suara) — perubahan di sini
+                                                langsung terdengar tanpa render ulang.
                                             </p>
                                         </div>
                                         {[
@@ -850,8 +853,10 @@ export default function SettingForm({ setting }: Props) {
                                         <div>
                                             <Label>Volume mix audio</Label>
                                             <p className="text-muted-foreground mt-1 text-xs">
-                                                Video tutorial dikirim ke pemutar sebagai tiga jalur audio terpisah &mdash; narasi, musik, dan efek
-                                                suara (klik, ketikan, bunyi tersimpan). Perubahan di sini langsung terdengar tanpa render ulang.
+                                                Video tutorial berupa MP4 lengkap &mdash; suara menyatu, subtitle dan daftar bab tertanam. Selama
+                                                ketiga slider 100%, suara MP4 itu yang diputar. Kalau diubah, pemutar beralih ke tiga jalur audio
+                                                terpisah &mdash; narasi, musik, dan efek suara (klik, ketikan, bunyi tersimpan). Perubahan di sini
+                                                langsung terdengar tanpa render ulang.
                                             </p>
                                         </div>
                                         {[

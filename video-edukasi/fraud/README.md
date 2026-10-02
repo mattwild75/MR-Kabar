@@ -1,4 +1,10 @@
-# Video Edukasi Lapor Dugaan Kecurangan (±9 menit)
+# Video Edukasi Lapor Dugaan Kecurangan (±9 menit) — DIGANTIKAN
+
+> Versi yang terpasang sekarang adalah **v2 "Bunyikan Lonceng"** di folder
+> [`v2/`](v2/README.md). Folder ini menyimpan sumber versi pertama sebagai
+> arsip. Catatan: versi pertama menyarankan "kalau ragu, pilih salah satu
+> tab" — keliru, karena laporan Kejadian Risiko wajib menyertakan nama dan
+> diteruskan ke perangkat daerah terkait (lihat v2/README.md).
 
 Video pendamping tautan "Tonton video edukasi" di samping judul **Lapor
 Dugaan Kecurangan** pada halaman Lapor (/lapor-kejadian), diputar di

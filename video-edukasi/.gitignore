@@ -50,3 +50,11 @@ v6/smoke/
 v6/kontak*.jpg
 v6/isyarat.json
 v6/render_ekor_log.txt
+
+# fraud/v2: foto & huruf disalin dari v6, ikon dari node_modules (ambil_ikon.py),
+# frame uji, isyarat bunyi turunan.
+fraud/v2/foto/*.jpg
+fraud/v2/fonts/
+fraud/v2/smoke/
+fraud/v2/isyarat.json
+fraud/v2/ikon.json

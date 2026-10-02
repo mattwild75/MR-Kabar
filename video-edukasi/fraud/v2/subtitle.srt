@@ -1,650 +1,648 @@
-WEBVTT
-
 1
-00:00:04.000 --> 00:00:09.265
+00:00:04,000 --> 00:00:09,265
 Kapal bisa karam karena badai. Itu risiko, dan pelaut belajar membacanya.
 
 2
-00:00:10.185 --> 00:00:12.439
+00:00:10,185 --> 00:00:12,439
 Tapi kapal juga bisa karam di laut yang tenang,
 
 3
-00:00:12.439 --> 00:00:15.268
+00:00:12,439 --> 00:00:15,268
 karena seseorang diam-diam melubangi lambungnya dari dalam.
 
 4
-00:00:16.888 --> 00:00:21.324
+00:00:16,888 --> 00:00:21,324
 Dan yang lebih berbahaya dari lubang itu: awak yang melihatnya,
 
 5
-00:00:21.324 --> 00:00:22.592
+00:00:21,324 --> 00:00:22,592
 lalu memilih diam.
 
 6
-00:00:23.912 --> 00:00:27.070
+00:00:23,912 --> 00:00:27,070
 Di pemerintahan, lubang itu bernama kecurangan.
 
 7
-00:00:27.070 --> 00:00:29.757
+00:00:27,070 --> 00:00:29,757
 Lonceng tanda bahayanya bernama laporan.
 
 8
-00:00:30.777 --> 00:00:34.704
+00:00:30,777 --> 00:00:34,704
 Video ini tentang cara membunyikan lonceng itu.
 
 9
-00:00:34.704 --> 00:00:37.211
+00:00:34,704 --> 00:00:37,211
 Dengan benar, dan dengan aman.
 
 10
-00:00:42.031 --> 00:00:47.172
+00:00:42,031 --> 00:00:47,172
 Sembilan babak, dari mengenali kecurangan sampai apa yang terjadi setelah Anda melapor lewat MR Kabar.
 
 11
-00:00:51.192 --> 00:00:55.539
+00:00:51,192 --> 00:00:55,539
 Mulai dari yang paling dasar. Apa itu kecurangan?
 
 12
-00:00:56.289 --> 00:00:59.336
+00:00:56,289 --> 00:00:59,336
 Kecurangan, atau fraud, adalah perbuatan yang disengaja,
 
 13
-00:00:59.336 --> 00:01:02.002
+00:00:59,336 --> 00:01:02,002
 dengan tipu daya atau penyalahgunaan kepercayaan,
 
 14
-00:01:02.002 --> 00:01:04.451
+00:01:02,002 --> 00:01:04,451
 untuk memperoleh keuntungan secara tidak sah.
 
 15
-00:01:05.571 --> 00:01:11.347
+00:01:05,571 --> 00:01:11,347
 Sengaja: pelakunya tahu. Tipu daya: ada yang disembunyikan.
 
 16
-00:01:11.347 --> 00:01:15.067
+00:01:11,347 --> 00:01:15,067
 Tidak sah: ada yang diambil tanpa hak.
 
 17
-00:01:16.087 --> 00:01:20.900
+00:01:16,087 --> 00:01:20,900
 Lalu apa bedanya dengan kejadian risiko? Kejadian risiko terjadi tanpa niat:
 
 18
-00:01:20.900 --> 00:01:24.509
+00:01:20,900 --> 00:01:24,509
 banjir merendam arsip, server mati, angka keliru diketik.
 
 19
-00:01:24.929 --> 00:01:28.229
+00:01:24,929 --> 00:01:28,229
 Kecurangan selalu punya niat. Kalau badai itu risiko,
 
 20
-00:01:28.229 --> 00:01:30.968
+00:01:28,229 --> 00:01:30,968
 lubang yang sengaja dibor itulah kecurangan.
 
 21
-00:01:32.088 --> 00:01:40.219
+00:01:32,088 --> 00:01:40,219
 Salah hitung bukan kecurangan. Tapi menyembunyikan salah hitung supaya ada yang diuntungkan, itu lain cerita.
 
 22
-00:01:41.139 --> 00:01:43.893
+00:01:41,139 --> 00:01:43,893
 Di halaman Lapor, keduanya punya pintu sendiri,
 
 23
-00:01:43.893 --> 00:01:47.585
+00:01:43,893 --> 00:01:47,585
 dan bedanya penting. Laporan kejadian risiko meminta nama Anda,
 
 24
-00:01:47.585 --> 00:01:50.163
+00:01:47,585 --> 00:01:50,163
 lalu diteruskan ke perangkat daerah terkait.
 
 25
-00:01:50.583 --> 00:01:56.313
+00:01:50,583 --> 00:01:56,313
 Jadi kalau Anda menduga ada kesengajaan, pakai pintu Dugaan Kecurangan.
 
 26
-00:01:56.313 --> 00:01:59.380
+00:01:56,313 --> 00:01:59,380
 Pintu ini hanya dibuka penindaklanjut.
 
 27
-00:02:03.600 --> 00:02:07.045
+00:02:03,600 --> 00:02:07,045
 Kenapa orang yang tadinya jujur bisa berbuat curang?
 
 28
-00:02:07.795 --> 00:02:12.534
+00:02:07,795 --> 00:02:12,534
 Lebih dari tujuh puluh tahun lalu, kriminolog Donald Cressey mewawancarai para narapidana
 
 29
-00:02:12.534 --> 00:02:16.580
+00:02:12,534 --> 00:02:16,580
 kasus penggelapan. Ia menemukan tiga hal yang hampir selalu hadir bersamaan.
 
 30
-00:02:17.300 --> 00:02:21.707
+00:02:17,300 --> 00:02:21,707
 Tekanan: utang, gaya hidup, atau target yang tidak masuk akal.
 
 31
-00:02:21.707 --> 00:02:26.257
+00:02:21,707 --> 00:02:26,257
 Kesempatan: pengawasan longgar, satu orang memegang semua kunci.
 
 32
-00:02:26.977 --> 00:02:30.613
+00:02:26,977 --> 00:02:30,613
 Dan rasionalisasi: cara pelaku membenarkan dirinya sendiri.
 
 33
-00:02:31.333 --> 00:02:36.519
+00:02:31,333 --> 00:02:36,519
 Cuma pinjam, nanti dikembalikan. Semua juga begitu.
 
 34
-00:02:36.519 --> 00:02:39.671
+00:02:36,519 --> 00:02:39,671
 Ini kan cuma uang terima kasih.
 
 35
-00:02:41.091 --> 00:02:45.144
+00:02:41,091 --> 00:02:45,144
 Kalimat paling berbahaya di sebuah kantor mungkin hanya dua kata: sudah biasa.
 
 36
-00:02:46.664 --> 00:02:50.178
+00:02:46,664 --> 00:02:50,178
 Dari tiga sisi itu, mana yang bisa kita tutup?
 
 37
-00:02:50.928 --> 00:02:54.576
+00:02:50,928 --> 00:02:54,576
 Kesempatan. Dan kesempatan paling sempit ketika pelaku tahu:
 
 38
-00:02:54.576 --> 00:02:57.556
+00:02:54,576 --> 00:02:57,556
 ada yang melihat, dan yang melihat berani bicara.
 
 39
-00:03:01.976 --> 00:03:05.787
+00:03:01,976 --> 00:03:05,787
 Kecurangan yang paling serius di pemerintahan adalah korupsi.
 
 40
-00:03:05.787 --> 00:03:09.160
+00:03:05,787 --> 00:03:09,160
 Puluhan pasal dalam Undang-Undang Nomor 31 Tahun 1999,
 
 41
-00:03:09.160 --> 00:03:12.471
+00:03:09,160 --> 00:03:12,471
 yang diubah dengan Undang-Undang Nomor 20 Tahun 2001,
 
 42
-00:03:12.471 --> 00:03:14.658
+00:03:12,471 --> 00:03:14,658
 dikelompokkan menjadi tujuh bentuk.
 
 43
-00:03:15.578 --> 00:03:21.010
+00:03:15,578 --> 00:03:21,010
 Satu, kerugian keuangan negara: volume dikurangi tapi dibayar penuh,
 
 44
-00:03:21.010 --> 00:03:24.046
+00:03:21,010 --> 00:03:24,046
 harga digelembungkan, kegiatan fiktif.
 
 45
-00:03:24.466 --> 00:03:29.098
+00:03:24,466 --> 00:03:29,098
 Dua, suap-menyuap: memberi atau menerima sesuatu supaya keputusan berpihak.
 
 46
-00:03:29.518 --> 00:03:34.603
+00:03:29,518 --> 00:03:34,603
 Tiga, penggelapan dalam jabatan: uang atau barang yang dipercayakan,
 
 47
-00:03:34.603 --> 00:03:37.894
+00:03:34,603 --> 00:03:37,894
 dipakai sendiri, lalu catatannya dipalsukan.
 
 48
-00:03:38.314 --> 00:03:41.678
+00:03:38,314 --> 00:03:41,678
 Empat, pemerasan: layanan yang seharusnya gratis,
 
 49
-00:03:41.678 --> 00:03:43.189
+00:03:41,678 --> 00:03:43,189
 tapi dimintai bayaran.
 
 50
-00:03:43.609 --> 00:03:48.815
+00:03:43,609 --> 00:03:48,815
 Lima, perbuatan curang: pemborong atau pengawas sengaja mengurangi mutu,
 
 51
-00:03:48.815 --> 00:03:51.056
+00:03:48,815 --> 00:03:51,056
 sehingga bangunan membahayakan.
 
 52
-00:03:51.476 --> 00:03:56.149
+00:03:51,476 --> 00:03:56,149
 Enam, benturan kepentingan dalam pengadaan: pejabat yang ditugasi mengurus pengadaan,
 
 53
-00:03:56.149 --> 00:03:57.798
+00:03:56,149 --> 00:03:57,798
 tapi ikut bermain di dalamnya.
 
 54
-00:03:58.218 --> 00:04:02.509
+00:03:58,218 --> 00:04:02,509
 Tujuh, gratifikasi: hadiah yang diterima karena jabatan,
 
 55
-00:04:02.509 --> 00:04:05.574
+00:04:02,509 --> 00:04:05,574
 sekalipun dibungkus ucapan terima kasih.
 
 56
-00:04:05.994 --> 00:04:10.561
+00:04:05,994 --> 00:04:10,561
 Gratifikasi wajib dilaporkan ke KPK paling lambat tiga puluh hari kerja.
 
 57
-00:04:10.561 --> 00:04:12.844
+00:04:10,561 --> 00:04:12,844
 Kalau tidak, ia dapat dianggap suap.
 
 58
-00:04:13.864 --> 00:04:20.493
+00:04:13,864 --> 00:04:20,493
 Tidak perlu dihafal. Di formulir laporan, ketujuhnya tersedia sebagai pilihan.
 
 59
-00:04:24.113 --> 00:04:28.603
+00:04:24,113 --> 00:04:28,603
 Kecurangan jarang terlihat langsung. Yang terlihat biasanya rembesannya.
 
 60
-00:04:29.423 --> 00:04:33.728
+00:04:29,423 --> 00:04:33,728
 Pekerjaan selesai di atas kertas, tapi tidak di lapangan.
 
 61
-00:04:34.148 --> 00:04:38.186
+00:04:34,148 --> 00:04:38,186
 Harga jauh di atas pasaran. Pemenang yang itu-itu saja.
 
 62
-00:04:38.606 --> 00:04:42.972
+00:04:38,606 --> 00:04:42,972
 Pungutan tanpa kuitansi. Pegawai yang tak pernah mau cuti,
 
 63
-00:04:42.972 --> 00:04:46.887
+00:04:42,972 --> 00:04:46,887
 dan tak membiarkan siapa pun menyentuh pekerjaannya.
 
 64
-00:04:47.307 --> 00:04:50.345
+00:04:47,307 --> 00:04:50,345
 Dan gaya hidup yang jauh melampaui penghasilan.
 
 65
-00:04:50.345 --> 00:04:55.000
+00:04:50,345 --> 00:04:55,000
 Menurut laporan ACFE tahun 2026, inilah tanda yang paling sering muncul.
 
 66
-00:04:55.820 --> 00:05:00.186
+00:04:55,820 --> 00:05:00,186
 84 persen pelaku sudah menunjukkan setidaknya satu tanda,
 
 67
-00:05:00.186 --> 00:05:02.178
+00:05:00,186 --> 00:05:02,178
 sebelum akhirnya ketahuan.
 
 68
-00:05:03.198 --> 00:05:07.620
+00:05:03,198 --> 00:05:07,620
 KPK memantau area yang rawan, antara lain pengadaan barang dan jasa,
 
 69
-00:05:07.620 --> 00:05:10.872
+00:05:07,620 --> 00:05:10,872
 perizinan, hibah dan bantuan sosial, penganggaran,
 
 70
-00:05:10.872 --> 00:05:12.043
+00:05:10,872 --> 00:05:12,043
 dan manajemen ASN.
 
 71
-00:05:12.463 --> 00:05:20.009
+00:05:12,463 --> 00:05:20,009
 Satu tanda belum tentu kecurangan. Tapi tanda yang Anda saksikan sendiri, layak dilaporkan.
 
 72
-00:05:24.229 --> 00:05:27.749
+00:05:24,229 --> 00:05:27,749
 Kalau tandanya terlihat, kenapa jarang dilaporkan?
 
 73
-00:05:27.749 --> 00:05:30.073
+00:05:27,749 --> 00:05:30,073
 Biasanya, karena lima alasan ini.
 
 74
-00:05:30.993 --> 00:05:32.614
+00:05:30,993 --> 00:05:32,614
 Takut dibalas.
 
 75
-00:05:33.034 --> 00:05:37.152
+00:05:33,034 --> 00:05:37,152
 Wajar. Karena itu, Anda boleh melapor tanpa nama.
 
 76
-00:05:38.072 --> 00:05:40.783
+00:05:38,072 --> 00:05:40,783
 Sungkan, dia atasan saya.
 
 77
-00:05:41.203 --> 00:05:44.208
+00:05:41,203 --> 00:05:44,208
 Laporan ini tidak bisa dibuka akun perangkat daerah mana pun,
 
 78
-00:05:44.208 --> 00:05:46.228
+00:05:44,208 --> 00:05:46,228
 termasuk akun kantor tempat Anda bekerja.
 
 79
-00:05:47.148 --> 00:05:48.747
+00:05:47,148 --> 00:05:48,747
 Belum punya bukti.
 
 80
-00:05:49.167 --> 00:05:53.699
+00:05:49,167 --> 00:05:53,699
 Anda pelapor, bukan penyidik. Sampaikan yang Anda ketahui.
 
 81
-00:05:53.699 --> 00:05:56.122
+00:05:53,699 --> 00:05:56,122
 Membuktikannya tugas pemeriksa.
 
 82
-00:05:57.042 --> 00:06:00.247
+00:05:57,042 --> 00:06:00,247
 Percuma, tidak akan ditindaklanjuti.
 
 83
-00:06:00.667 --> 00:06:04.268
+00:06:00,667 --> 00:06:04,268
 Setiap laporan punya nomor tiket dan status yang bisa Anda pantau sendiri.
 
 84
-00:06:05.188 --> 00:06:06.948
+00:06:05,188 --> 00:06:06,948
 Bukan urusan saya.
 
 85
-00:06:07.368 --> 00:06:11.745
+00:06:07,368 --> 00:06:11,745
 Uang yang hilang adalah uang jalan, sekolah, dan puskesmas Anda sendiri.
 
 86
-00:06:12.765 --> 00:06:15.361
+00:06:12,765 --> 00:06:15,361
 Padahal, diam itu mahal.
 
 87
-00:06:16.481 --> 00:06:22.047
+00:06:16,481 --> 00:06:22,047
 Laporan ACFE tahun 2026 mempelajari 2.402 kasus kecurangan di 143 negara.
 
 88
-00:06:22.047 --> 00:06:27.080
+00:06:22,047 --> 00:06:27,080
 43 persen terungkap karena ada yang melapor, jauh melampaui audit.
 
 89
-00:06:28.100 --> 00:06:32.336
+00:06:28,100 --> 00:06:32,336
 Dan lebih dari separuh laporan itu datang dari pegawai sendiri.
 
 90
-00:06:32.756 --> 00:06:36.830
+00:06:32,756 --> 00:06:36,830
 Umumnya, kecurangan berjalan dua belas bulan sebelum terbongkar.
 
 91
-00:06:36.830 --> 00:06:39.759
+00:06:36,830 --> 00:06:39,759
 Makin lama dibiarkan, makin besar kerugiannya.
 
 92
-00:06:44.179 --> 00:06:47.005
+00:06:44,179 --> 00:06:47,005
 Lalu, seperti apa laporan yang baik?
 
 93
-00:06:47.755 --> 00:06:52.075
+00:06:47,755 --> 00:06:52,075
 Mulailah dari fakta, bukan kesimpulan. Bukan: kantor itu korup.
 
 94
-00:06:52.075 --> 00:06:58.246
+00:06:52,075 --> 00:06:58,246
 Tapi: Senin lalu, petugas loket meminta lima puluh ribu rupiah untuk surat yang seharusnya
 
 95
-00:06:58.246 --> 00:06:59.823
+00:06:58,246 --> 00:06:59,823
 gratis, tanpa kuitansi.
 
 96
-00:07:00.943 --> 00:07:05.771
+00:07:00,943 --> 00:07:05,771
 Formulir menuntun Anda dengan lima pertanyaan: apa,
 
 97
-00:07:05.771 --> 00:07:09.274
+00:07:05,771 --> 00:07:09,274
 di mana, kapan, siapa, dan bagaimana.
 
 98
-00:07:09.994 --> 00:07:13.865
+00:07:09,994 --> 00:07:13,865
 Untuk siapa, jabatan atau peran lebih menolong daripada nama.
 
 99
-00:07:13.865 --> 00:07:16.150
+00:07:13,865 --> 00:07:16,150
 Sebutkan juga bukti yang Anda punya.
 
 100
-00:07:16.870 --> 00:07:18.984
+00:07:16,870 --> 00:07:18,984
 Dan ada empat larangan.
 
 101
-00:07:19.404 --> 00:07:25.191
+00:07:19,404 --> 00:07:25,191
 Jangan menyelidiki sendiri, apalagi menjebak. Jangan mengambil dokumen yang bukan hak Anda.
 
 102
-00:07:25.911 --> 00:07:31.233
+00:07:25,911 --> 00:07:31,233
 Jangan memviralkan dulu di media sosial. Bukti bisa keburu dihilangkan,
 
 103
-00:07:31.233 --> 00:07:35.430
+00:07:31,233 --> 00:07:35,430
 dan tuduhan di ruang publik bisa berbalik menjerat Anda.
 
 104
-00:07:36.150 --> 00:07:40.965
+00:07:36,150 --> 00:07:40,965
 Dan jangan pernah mengarang. Laporan palsu merugikan orang yang tidak bersalah,
 
 105
-00:07:40.965 --> 00:07:42.062
+00:07:40,965 --> 00:07:42,062
 dan bisa dipidana.
 
 106
-00:07:42.882 --> 00:07:49.395
+00:07:42,882 --> 00:07:49,395
 Satu lagi bila Anda anonim: detail yang hanya Anda ketahui bisa menunjuk balik ke diri
 
 107
-00:07:49.395 --> 00:07:53.181
+00:07:49,395 --> 00:07:53,181
 Anda. Tulis yang perlu diperiksa, timbang sisanya.
 
 108
-00:07:57.601 --> 00:08:01.901
+00:07:57,601 --> 00:08:01,901
 Sekarang praktiknya. Pindai kode QR Lapor dengan kamera ponsel.
 
 109
-00:08:01.901 --> 00:08:05.792
+00:08:01,901 --> 00:08:05,792
 Halaman Lapor langsung terbuka, tanpa perlu membuat akun.
 
 110
-00:08:07.012 --> 00:08:11.627
+00:08:07,012 --> 00:08:11,627
 Pilih tab Dugaan Kecurangan, lalu tentukan identitas Anda.
 
 111
-00:08:12.647 --> 00:08:17.033
+00:08:12,647 --> 00:08:17,033
 Terbuka: nama dan kontak tersimpan. Anonim tetapi bisa dihubungi:
 
 112
-00:08:17.033 --> 00:08:20.880
+00:08:17,033 --> 00:08:20,880
 nama tidak disimpan, kontak hanya terbaca penindaklanjut.
 
 113
-00:08:20.880 --> 00:08:24.254
+00:08:20,880 --> 00:08:24,254
 Anonim penuh: keduanya tidak disimpan sama sekali.
 
 114
-00:08:25.474 --> 00:08:29.401
+00:08:25,474 --> 00:08:29,401
 Ceritakan kejadiannya lewat lima pertanyaan tadi.
 
 115
-00:08:29.401 --> 00:08:31.885
+00:08:29,401 --> 00:08:31,885
 Hanya yang pertama wajib diisi.
 
 116
-00:08:32.905 --> 00:08:36.460
+00:08:32,905 --> 00:08:36,460
 Bila tahu, lengkapi keterangan tambahan: perangkat daerah,
 
 117
-00:08:36.460 --> 00:08:40.627
+00:08:36,460 --> 00:08:40,627
 tahapan proses, dugaan bentuk kecurangan, dan perkiraan kerugiannya.
 
 118
-00:08:41.647 --> 00:08:47.569
+00:08:41,647 --> 00:08:47,569
 Lampirkan bukti bila ada: foto atau PDF, paling banyak lima berkas.
 
 119
-00:08:48.489 --> 00:08:53.407
+00:08:48,489 --> 00:08:53,407
 Tekan Lapor Dugaan Kecurangan. Layar menampilkan nomor tiket dan kode akses.
 
 120
-00:08:54.727 --> 00:09:00.129
+00:08:54,727 --> 00:09:00,129
 Catat keduanya sekarang juga. Kode akses hanya muncul sekali.
 
 121
-00:09:04.549 --> 00:09:07.803
+00:09:04,549 --> 00:09:07,803
 Pertanyaan yang paling sering diajukan: seberapa aman saya?
 
 122
-00:09:08.553 --> 00:09:14.094
+00:09:08,553 --> 00:09:14,094
 Pada mode anonim, nama Anda tidak disimpan. Bukan disembunyikan:
 
 123
-00:09:14.094 --> 00:09:17.903
+00:09:14,094 --> 00:09:17,903
 server membuangnya, sekalipun ikut terkirim.
 
 124
-00:09:18.723 --> 00:09:22.350
+00:09:18,723 --> 00:09:22,350
 Foto dibersihkan dari data tersembunyi: lokasi pengambilan,
 
 125
-00:09:22.350 --> 00:09:24.501
+00:09:22,350 --> 00:09:24,501
 jenis ponsel, dan waktu pemotretan.
 
 126
-00:09:25.321 --> 00:09:30.342
+00:09:25,321 --> 00:09:30,342
 PDF tidak bisa dibersihkan, dan sering memuat nama penyusunnya.
 
 127
-00:09:30.342 --> 00:09:34.725
+00:09:30,342 --> 00:09:34,725
 Bila khawatir, kirim tangkapan layarnya sebagai gambar.
 
 128
-00:09:35.645 --> 00:09:40.798
+00:09:35,645 --> 00:09:40,798
 Bukti disimpan di penyimpanan tertutup. Kode akses pun tidak disimpan apa adanya:
 
 129
-00:09:40.798 --> 00:09:44.233
+00:09:40,798 --> 00:09:44,233
 tak seorang pun bisa membacanya, termasuk Inspektorat.
 
 130
-00:09:44.233 --> 00:09:47.286
+00:09:44,233 --> 00:09:47,286
 Karena itu, kalau hilang, tidak bisa dipulihkan.
 
 131
-00:09:48.206 --> 00:09:51.399
+00:09:48,206 --> 00:09:51,399
 Bagaimana kalau perkaranya sampai ke penegak hukum?
 
 132
-00:09:52.149 --> 00:09:57.162
+00:09:52,149 --> 00:09:57,162
 Undang-Undang Nomor 31 Tahun 2014 tentang Perlindungan Saksi dan Korban menyatakan:
 
 133
-00:09:57.162 --> 00:10:00.303
+00:09:57,162 --> 00:10:00,303
 pelapor tidak dapat dituntut, pidana maupun perdata,
 
 134
-00:10:00.303 --> 00:10:03.504
+00:10:00,303 --> 00:10:03,504
 atas laporannya. LPSK pun dapat memberi perlindungan.
 
 135
-00:10:04.524 --> 00:10:09.726
+00:10:04,524 --> 00:10:09,726
 Syaratnya satu: iktikad baik. Perlindungan itu untuk yang jujur,
 
 136
-00:10:09.726 --> 00:10:11.921
+00:10:09,726 --> 00:10:11,921
 bukan untuk yang memfitnah.
 
 137
-00:10:16.441 --> 00:10:19.221
+00:10:16,441 --> 00:10:19,221
 Lalu, apa yang terjadi setelah tombol ditekan?
 
 138
-00:10:19.971 --> 00:10:24.748
+00:10:19,971 --> 00:10:24,748
 Laporan Anda ditelaah. Statusnya bergerak dari Baru,
 
 139
-00:10:24.748 --> 00:10:28.974
+00:10:24,748 --> 00:10:28,974
 Diverifikasi, Ditindaklanjuti, sampai Selesai.
 
 140
-00:10:29.794 --> 00:10:34.260
+00:10:29,794 --> 00:10:34,260
 Bila perlu keterangan, penindaklanjut menulis pertanyaan di tiket Anda.
 
 141
-00:10:34.260 --> 00:10:38.348
+00:10:34,260 --> 00:10:38,348
 Buka tab Cek Status Laporan, masukkan nomor tiket dan kode akses,
 
 142
-00:10:38.348 --> 00:10:41.367
+00:10:38,348 --> 00:10:41,367
 lalu jawab. Bukti tambahan pun bisa dilampirkan.
 
 143
-00:10:42.287 --> 00:10:45.377
+00:10:42,287 --> 00:10:45,377
 Tanpa Anda pernah menyebut siapa diri Anda.
 
 144
-00:10:46.397 --> 00:10:50.508
+00:10:46,397 --> 00:10:50,508
 Bersabarlah. Pemeriksaan butuh waktu, tidak setiap dugaan terbukti,
 
 145
-00:10:50.508 --> 00:10:54.066
+00:10:50,508 --> 00:10:54,066
 dan yang dilaporkan berhak atas asas praduga tak bersalah.
 
 146
-00:10:54.886 --> 00:10:58.919
+00:10:54,886 --> 00:10:58,919
 Tapi laporan yang belum terbukti pun berguna: ia menunjukkan celah.
 
 147
-00:10:58.919 --> 00:11:03.553
+00:10:58,919 --> 00:11:03,553
 Di MR Kabar, celah itu dapat dicatat sebagai risiko kecurangan, lalu ditutup.
 
 148
-00:11:07.973 --> 00:11:10.810
+00:11:07,973 --> 00:11:10,810
 Jadi, apa yang kita bawa pulang?
 
 149
-00:11:11.560 --> 00:11:17.738
+00:11:11,560 --> 00:11:17,738
 Pertama. Kecurangan butuh kesempatan. Pengawasan dan keberanian bicara menutupnya.
 
 150
-00:11:19.058 --> 00:11:25.304
+00:11:19,058 --> 00:11:25,304
 Kedua. Diam tidak pernah netral. Diam adalah kesempatan terbesar bagi kecurangan.
 
 151
-00:11:26.624 --> 00:11:31.891
+00:11:26,624 --> 00:11:31,891
 Ketiga. Laporkan fakta, bukan prasangka. Dengan iktikad baik,
 
 152
-00:11:31.891 --> 00:11:33.704
+00:11:31,891 --> 00:11:33,704
 dan dengan hati-hati.
 
 153
-00:11:35.224 --> 00:11:42.809
+00:11:35,224 --> 00:11:42,809
 Aceh Barat telah memiliki Peraturan Bupati Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan,
 
 154
-00:11:42.809 --> 00:11:47.650
+00:11:42,809 --> 00:11:47,650
 dengan prinsip toleransi nol. Berlaku dari perangkat daerah,
 
 155
-00:11:47.650 --> 00:11:50.878
+00:11:47,650 --> 00:11:50,878
 BUMD, BLUD, sampai pemerintahan gampong.
 
 156
-00:11:51.698 --> 00:11:55.520
+00:11:51,698 --> 00:11:55,520
 Tapi toleransi nol hanya bermakna, bila yang melihat tidak memilih diam.
 
 157
-00:11:57.040 --> 00:12:01.765
+00:11:57,040 --> 00:12:01,765
 Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan edukasi pencegahan kecurangan.
 
 158
-00:12:02.685 --> 00:12:07.052
+00:12:02,685 --> 00:12:07,052
 Laut tidak selalu tenang. Tapi kapal yang awaknya berani membunyikan lonceng,
 
 159
-00:12:07.052 --> 00:12:09.150
+00:12:07,052 --> 00:12:09,150
 selalu punya kesempatan untuk pulang.
 
 160
-00:12:11.170 --> 00:12:16.159
+00:12:11,170 --> 00:12:16,159
 MR Kabar. Risiko TerKabar, Daerah Terjaga.
 
 161
-00:12:17.779 --> 00:12:22.426
+00:12:17,779 --> 00:12:22,426
 Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad,
 
 162
-00:12:22.426 --> 00:12:23.870
+00:12:22,426 --> 00:12:23,870
 Inspektorat Aceh Barat.
 

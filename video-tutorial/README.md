@@ -76,13 +76,18 @@ terlanjur direkam dan hurufnya kabur. Di sini halamannya sendiri yang
 diperbesar lewat `transform`, sehingga peramban menggambar ulang teksnya pada
 ukuran yang lebih besar dan hasilnya tetap tajam.
 
-**Audionya dikirim sebagai jalur terpisah, bukan menyatu di dalam video.**
-Berkas yang diputar di aplikasi trek audionya SENYAP; suaranya datang dari
-`tutorial-narration.mp3` dan `tutorial-music.mp3` yang dibunyikan berdampingan
-oleh pemutar. Itulah yang membuat slider volume di `/settingsapp` berpengaruh
-langsung tanpa perlu me-render ulang videonya. Berkas 720p untuk diunduh justru
-audionya menyatu, karena ditonton luring tanpa pemutar itu. Pola yang sama
-dipakai video edukasi.
+**MP4-nya lengkap; jalur audio terpisah hanya cadangan untuk slider.** Sejak
+3 Oktober 2026 berkas yang diputar di aplikasi adalah MP4 utuh yang dikemas
+`scripts/video/kemas_mp4.py`: suara menyatu, subtitle bahasa Indonesia
+tertanam (bisa dinyalakan/dimatikan di pemutar mana pun), daftar bab tertanam,
+metadata, dan gambar sampul — sehingga bisa diputar dan diunduh seperti video
+biasa. Pemutar aplikasi memutar suara MP4 itu langsung selama slider volume di
+`/settingsapp` 100%; kalau Admin mengubahnya, pemutar beralih ke
+`tutorial-narration.mp3`, `tutorial-music.mp3`, dan `tutorial-sfx.mp3` yang
+dibunyikan berdampingan (suara MP4 dibungkam lewat Web Audio). Dulu berkas
+yang diputar sengaja bertrek audio SENYAP — akibatnya berkas itu bisu begitu
+dibuka di luar aplikasi. Berkas 720p untuk diunduh subtitlenya terbakar. Pola
+yang sama dipakai video edukasi.
 
 **Musiknya dari rekaman instrumen, bukan sintesis.** Nada ditulis sebagai MIDI
 lalu dibunyikan FluidSynth memakai soundfont MuseScore General — pustaka berisi

@@ -20,11 +20,15 @@ interface Chapter {
 interface Props {
     src: string;
     /**
-     * Kalau diisi, video diputar TANPA audio internal dan tiga berkas audio
-     * ini yang dibunyikan berdampingan — inilah yang membuat slider volume di
-     * /settingsapp bisa mengubah balance narasi/musik/SFX secara langsung
-     * tanpa perlu me-render ulang videonya. Kalau kosong (mis. admin
-     * mengunggah berkas video sendiri), audio bawaan video yang dipakai.
+     * Tiga jalur audio terpisah (narasi, musik, efek suara) dari video bawaan.
+     *
+     * Berkas MP4-nya sendiri sudah LENGKAP — campuran suaranya menyatu, sama
+     * persis dengan ketiga jalur ini pada keseimbangan 100% — sehingga bisa
+     * diputar dan diunduh seperti video biasa. Jalur terpisah baru dipakai
+     * kalau Admin mengubah keseimbangan di /settingsapp (slider narasi/musik/
+     * SFX): suara MP4 lalu dibungkam lewat Web Audio dan ketiga jalur ini
+     * yang dibunyikan berdampingan. Kosong (mis. video unggahan admin) =
+     * selalu suara MP4-nya sendiri.
      */
     stems?: EduVideoStems | null;
     /** Persen 0–200 per jalur, dari pengaturan aplikasi. */
@@ -93,16 +97,39 @@ export default function EduVideoPlayer({
     const sfxRef = useRef<HTMLAudioElement>(null);
     const audioCtxRef = useRef<AudioContext | null>(null);
     const gainNodesRef = useRef<Record<string, GainNode>>({});
+    // Gain suara MP4 itu sendiri setelah dialirkan lewat Web Audio: 0 selama
+    // jalur terpisah yang berbunyi, 1 selainnya.
+    const videoGainRef = useRef<GainNode | null>(null);
+    const trackRef = useRef<HTMLTrackElement>(null);
     // Volume keseluruhan dari kontrol bawaan peramban (0 saat dibisukan).
     const masterRef = useRef(1);
     const [posisi, setPosisi] = useState(0);
     const [filter, setFilter] = useState<string>('Semua');
+    // Peramban yang menolak mengalirkan suara video lewat Web Audio membuat
+    // suara MP4 tidak bisa dibungkam; daripada berbunyi dobel, jalur terpisah
+    // ditinggalkan dan suara MP4 dipakai apa adanya.
+    const [jalurGagal, setJalurGagal] = useState(false);
 
     const pct = {
         narration: (gains?.narration ?? 100) / 100,
         music: (gains?.music ?? 100) / 100,
         sfx: (gains?.sfx ?? 100) / 100,
     };
+
+    // Keseimbangan bawaan = campuran yang sudah menyatu di MP4, jadi tidak ada
+    // alasan memutar tiga berkas tambahan: video diputar seperti video biasa.
+    const gainBawaan = pct.narration === 1 && pct.music === 1 && pct.sfx === 1;
+    const adaWebAudio =
+        typeof window !== 'undefined' &&
+        !!(window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext);
+    const pakaiJalur = !!stems && !gainBawaan && adaWebAudio && !jalurGagal;
+    // Dipatok pada URL-nya (bukan identitas objek) supaya efek sinkronisasi
+    // tidak dipasang ulang — dan audionya terhenti — tiap induknya merender.
+    const jalur = useMemo<EduVideoStems | null>(
+        () => (pakaiJalur && stems ? { narration: stems.narration, music: stems.music, sfx: stems.sfx } : null),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [pakaiJalur, stems?.narration, stems?.music, stems?.sfx],
+    );
 
     const babAktif = useMemo(() => CHAPTERS.findIndex((c) => posisi >= c.mulai && posisi < c.selesai), [posisi]);
 
@@ -113,7 +140,7 @@ export default function EduVideoPlayer({
     // ── sinkronisasi video (master) dengan ketiga jalur audio ──
     useEffect(() => {
         const video = videoRef.current;
-        if (!video || !stems) return;
+        if (!video || !jalur) return;
 
         const tracks = [narrationRef.current, musicRef.current, sfxRef.current].filter((t): t is HTMLAudioElement => t !== null);
         if (tracks.length !== 3) return;
@@ -159,6 +186,9 @@ export default function EduVideoPlayer({
         video.addEventListener('timeupdate', onTimeUpdate);
         video.addEventListener('volumechange', onVolume);
         onVolume();
+        // Jalur terpisah bisa diaktifkan saat video SEDANG diputar (pratinjau
+        // slider di /settingsapp): langsung susulkan, jangan tunggu play berikutnya.
+        if (!video.paused) onPlay();
         return () => {
             video.removeEventListener('play', onPlay);
             video.removeEventListener('pause', onPause);
@@ -168,23 +198,33 @@ export default function EduVideoPlayer({
             video.removeEventListener('volumechange', onVolume);
             tracks.forEach((t) => t.pause());
         };
-    }, [stems]);
+    }, [jalur]);
 
-    // Tanpa stem, posisi tetap perlu diikuti supaya penanda bab tetap hidup.
+    // Tanpa jalur terpisah, posisi tetap perlu diikuti supaya penanda bab tetap
+    // hidup. Kalau suara video pernah dialirkan lewat Web Audio (Admin sempat
+    // mengubah keseimbangan di pratinjau), konteksnya harus ikut dibangunkan
+    // saat diputar — tanpa itu video berjalan tanpa suara.
     useEffect(() => {
         const video = videoRef.current;
-        if (!video || stems) return;
+        if (!video || jalur) return;
         const onT = () => setPosisi(video.currentTime);
+        const onPlay = () => audioCtxRef.current?.resume().catch(() => undefined);
         video.addEventListener('timeupdate', onT);
-        return () => video.removeEventListener('timeupdate', onT);
-    }, [stems]);
+        video.addEventListener('play', onPlay);
+        return () => {
+            video.removeEventListener('timeupdate', onT);
+            video.removeEventListener('play', onPlay);
+        };
+    }, [jalur]);
 
     // ── penerapan volume ──
     // Lewat Web Audio supaya gain bisa melampaui 1 (slider sampai 200%);
     // HTMLMediaElement.volume dibatasi 0–1. Kalau Web Audio tidak tersedia,
     // jatuh ke .volume dengan nilai yang di-clamp.
     const terapkanGain = useCallback(() => {
-        if (!stems) return;
+        // Suara MP4 sendiri terdengar kembali begitu jalur terpisah tidak dipakai.
+        if (videoGainRef.current) videoGainRef.current.gain.value = jalur ? 0 : 1;
+        if (!jalur) return;
         // Slider di /settingsapp menentukan BALANCE antar jalur; kontrol bawaan
         // peramban menentukan volume KESELURUHAN. Keduanya dikalikan.
         const master = masterRef.current;
@@ -205,6 +245,24 @@ export default function EduVideoPlayer({
         if (!audioCtxRef.current) audioCtxRef.current = new Ctx();
         const ctx = audioCtxRef.current;
 
+        // MP4-nya membawa campuran suara lengkap; selama jalur terpisah yang
+        // berbunyi, suara itu dialirkan ke gain 0 supaya tidak terdengar dobel.
+        // Kontrol bisu & volume bawaan video tetap bekerja sebagai volume
+        // keseluruhan (lihat onVolume).
+        const video = videoRef.current;
+        if (video && !videoGainRef.current) {
+            try {
+                const sumber = ctx.createMediaElementSource(video);
+                const g = ctx.createGain();
+                g.gain.value = 0;
+                sumber.connect(g).connect(ctx.destination);
+                videoGainRef.current = g;
+            } catch {
+                setJalurGagal(true);
+                return;
+            }
+        }
+
         entries.forEach(([key, el, g]) => {
             if (!el) return;
             let node = gainNodesRef.current[key];
@@ -223,7 +281,7 @@ export default function EduVideoPlayer({
             }
             node.gain.value = Math.max(0, g);
         });
-    }, [stems, pct.narration, pct.music, pct.sfx]);
+    }, [jalur, pct.narration, pct.music, pct.sfx]);
 
     // Dipegang lewat ref supaya penerus volume di efek sinkronisasi selalu
     // memanggil versi terbaru tanpa perlu memasang ulang listener — memasang
@@ -357,7 +415,12 @@ export default function EduVideoPlayer({
 
         const terapkan = () => {
             track?.removeEventListener('cuechange', bacaCue);
-            track = video.textTracks[0] ?? null;
+            track = trackRef.current?.track ?? video.textTracks[0] ?? null;
+            // MP4 bawaan juga MEMBAWA subtitle tertanam (untuk pemutar di luar
+            // aplikasi). Safari menampilkannya sebagai trek teks tersendiri;
+            // dimatikan di sini supaya subtitle tidak tampil dobel — yang
+            // digambar tetap subtitle VTT milik pemutar ini.
+            for (const t of Array.from(video.textTracks)) if (t !== track) t.mode = 'disabled';
             if (!track) return;
             // 'hidden' — bukan 'showing': cue tetap dihitung dan memicu
             // cuechange, tapi peramban tidak ikut menggambarnya. Kalau
@@ -510,7 +573,7 @@ export default function EduVideoPlayer({
                     crossOrigin="anonymous"
                     className={`eduvid-video ${layarPenuh ? 'h-full w-full object-contain' : 'aspect-video w-full bg-black'}`}
                 >
-                    {vtt && <track kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />}
+                    {vtt && <track ref={trackRef} kind="subtitles" src={vtt} srcLang="id" label="Bahasa Indonesia" default />}
                 </video>
 
                 {/* Ditaruh di kanan BAWAH, tepat di atas baris kontrol bawaan —
@@ -633,11 +696,11 @@ export default function EduVideoPlayer({
                 )}
             </div>
 
-            {stems && (
+            {jalur && (
                 <>
-                    <audio ref={narrationRef} src={stems.narration} preload="none" />
-                    <audio ref={musicRef} src={stems.music} preload="none" />
-                    <audio ref={sfxRef} src={stems.sfx} preload="none" />
+                    <audio ref={narrationRef} src={jalur.narration} preload="none" />
+                    <audio ref={musicRef} src={jalur.music} preload="none" />
+                    <audio ref={sfxRef} src={jalur.sfx} preload="none" />
                 </>
             )}
 
@@ -705,6 +768,20 @@ export default function EduVideoPlayer({
                             ))}
                         </div>
                     )}
+                </div>
+            )}
+
+            {/* Tanpa daftar bab di bawah pemutar (mis. halaman video kecurangan),
+                tautan unduhan tetap harus tampil — dulu ia hanya digambar di
+                dalam blok daftar bab, sehingga di halaman seperti itu tidak
+                pernah muncul sama sekali. */}
+            {!showChapters && downloads && downloads.length > 0 && (
+                <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
+                    {downloads.map((d) => (
+                        <a key={d.href} href={d.href} download className="text-primary underline underline-offset-4 hover:no-underline">
+                            {d.label}
+                        </a>
+                    ))}
                 </div>
             )}
         </div>

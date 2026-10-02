@@ -1,0 +1,90 @@
+[
+    {
+        "id": "s1",
+        "judul": "Pembuka",
+        "mulai": 0.0,
+        "selesai": 48.0,
+        "durasi": 48.0,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s2",
+        "judul": "1. Apa itu kecurangan",
+        "mulai": 48.0,
+        "selesai": 120.4,
+        "durasi": 72.4,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s3",
+        "judul": "2. Mengapa orang berbuat curang",
+        "mulai": 120.4,
+        "selesai": 178.8,
+        "durasi": 58.4,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s4",
+        "judul": "3. Tujuh wajah korupsi",
+        "mulai": 178.8,
+        "selesai": 260.9,
+        "durasi": 82.1,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s5",
+        "judul": "4. Membaca rembesan",
+        "mulai": 260.9,
+        "selesai": 321.0,
+        "durasi": 60.1,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s6",
+        "judul": "5. Mengapa kita diam",
+        "mulai": 321.0,
+        "selesai": 401.0,
+        "durasi": 79.9,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s7",
+        "judul": "6. Melapor dengan benar",
+        "mulai": 401.0,
+        "selesai": 474.4,
+        "durasi": 73.4,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s8",
+        "judul": "7. Cara melapor di MR Kabar",
+        "mulai": 474.4,
+        "selesai": 541.3,
+        "durasi": 66.9,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s9",
+        "judul": "8. Seberapa aman?",
+        "mulai": 541.3,
+        "selesai": 613.2,
+        "durasi": 71.9,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s10",
+        "judul": "9. Setelah lonceng berbunyi",
+        "mulai": 613.2,
+        "selesai": 664.8,
+        "durasi": 51.5,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s11",
+        "judul": "Penutup",
+        "mulai": 664.8,
+        "selesai": 761.9,
+        "durasi": 97.1,
+        "sasaran": "Semua"
+    }
+]

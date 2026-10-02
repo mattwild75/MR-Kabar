@@ -61,6 +61,8 @@ dan warna level di `engine.js` (MATRIKS, LEVEL) disalin dari
     python build_deliverables.py     -> subtitle.vtt, transkrip.txt, chapters.json
     bash mux_final.sh                -> MR_Kabar_Video_Edukasi_v6(.mp4|_720p.mp4)
     bash pasang.sh                   -> public/video/* + edu-video-chapters.json
+                                        (kedua MP4 dikemas LENGKAP oleh scripts/video/kemas_mp4.py:
+                                        suara menyatu, subtitle tertanam, bab, metadata, sampul)
 
 Kalau naskah berubah: ulangi dari `naskah.py`. Semua tampilan, musik, dan SFX
 mengikuti timeline sendiri — tidak ada detik yang ditulis tangan.

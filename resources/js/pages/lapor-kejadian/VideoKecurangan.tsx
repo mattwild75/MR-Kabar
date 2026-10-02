@@ -1,5 +1,6 @@
 import EduVideoPlayer from '@/components/edu-video-player';
 import { Button } from '@/components/ui/button';
+import babData from '@/data/kecurangan-video-chapters.json';
 import AppLayout from '@/layouts/app-layout';
 import { useEduVideo } from '@/lib/edu-video';
 import { type BreadcrumbItem } from '@/types';
@@ -17,22 +18,19 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Video Edukasi Dugaan Kecurangan', href: '/lapor-kejadian/video-kecurangan' },
 ];
 
-const BAB = [
-    { judul: 'Apa itu kecurangan', mulai: '0:37' },
-    { judul: 'Beda dengan kejadian risiko', mulai: '1:41' },
-    { judul: 'Tujuh bentuk kecurangan (UU Tipikor)', mulai: '2:25' },
-    { judul: 'Tanda yang patut diwaspadai', mulai: '4:21' },
-    { judul: 'Dasar hukum dan pintu lapor', mulai: '5:10' },
-    { judul: 'Cara melapor', mulai: '5:46' },
-    { judul: 'Amankah saya?', mulai: '7:06' },
-    { judul: 'Setelah laporan terkirim', mulai: '8:03' },
-];
+// Daftar bab dibuat bersama videonya (video-edukasi/fraud/v2/build_deliverables.py),
+// dari timeline yang sama — menit-detiknya tidak ditulis tangan.
+const BAB = babData as { id: string; judul: string; mulai: number; selesai: number; durasi: number; sasaran: string }[];
+
+const jam = (d: number) => `${Math.floor(d / 60)}:${String(Math.floor(d % 60)).padStart(2, '0')}`;
 
 /**
- * Video edukasi Lapor Dugaan Kecurangan (±9 menit). Isinya edukasi untuk
- * masyarakat umum yang baru memindai kode QR Lapor — apa itu kecurangan,
- * tujuh bentuknya menurut UU Tipikor, tandanya, cara melapor, dan
- * perlindungan pelapor — BUKAN tampilan kertas kerja MR Fraud.
+ * Video edukasi Lapor Dugaan Kecurangan "Bunyikan Lonceng" (±13 menit).
+ * Isinya edukasi untuk masyarakat umum yang baru memindai kode QR Lapor:
+ * apa itu kecurangan dan mengapa terjadi, tujuh wajah korupsi, tanda-tandanya,
+ * mengapa orang memilih diam, cara melapor yang benar, perlindungan pelapor,
+ * dan apa yang terjadi setelah laporan terkirim — BUKAN tampilan kertas kerja
+ * MR Fraud.
  *
  * Videonya membawa audionya sendiri (tanpa stem terpisah seperti video
  * edukasi utama): halaman ini dibuka dari ponsel lewat QR, dan tiga berkas
@@ -51,8 +49,9 @@ export default function VideoKecurangan({ versi }: Props) {
                     <div>
                         <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Video Edukasi: Lapor Dugaan Kecurangan</h1>
                         <p className="text-muted-foreground text-sm">
-                            Sembilan menit untuk memahami apa itu kecurangan, tujuh bentuknya menurut UU No. 31/1999 jo. UU No. 20/2001,
-                            tanda-tandanya, cara melapor lewat kode QR, dan bagaimana identitas pelapor dijaga.
+                            Sekitar tiga belas menit tentang apa itu kecurangan dan mengapa terjadi, tujuh wajah korupsi menurut UU No. 31/1999 jo. UU
+                            No. 20/2001, tanda-tandanya, mengapa orang memilih diam, cara melapor yang benar lewat kode QR, bagaimana identitas
+                            pelapor dijaga, dan apa yang terjadi setelah laporan terkirim.
                         </p>
                     </div>
                 </div>
@@ -62,21 +61,28 @@ export default function VideoKecurangan({ versi }: Props) {
                     vtt={`/video/kecurangan-subtitle.vtt${v}`}
                     subtitleEnabled={setelan.subtitleEnabled}
                     subtitleSize={setelan.subtitleSize}
+                    chapters={BAB}
+                    chapterNav
                     downloads={[
-                        { label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)', href: `/video/video-edukasi-kecurangan-720p.mp4${v}` },
+                        {
+                            label: 'Unduh video 1080p (MP4 lengkap: subtitle bisa dinyalakan/dimatikan, daftar bab)',
+                            href: `/video/video-edukasi-kecurangan.mp4${v}`,
+                        },
+                        {
+                            label: 'Unduh video 720p (subtitle menempel, untuk dibagikan & sosialisasi luring)',
+                            href: `/video/video-edukasi-kecurangan-720p.mp4${v}`,
+                        },
                         { label: 'Unduh transkrip (.txt)', href: `/video/kecurangan-transkrip.txt${v}` },
                     ]}
                 />
 
                 <div className="bg-card rounded-md border p-4">
                     <h2 className="mb-2 text-sm font-semibold">Isi video</h2>
-                    <ol className="text-muted-foreground grid gap-1 text-sm sm:grid-cols-2">
-                        {BAB.map((b, i) => (
-                            <li key={b.judul} className="flex gap-2">
-                                <span className="w-5 shrink-0 text-right tabular-nums">{i + 1}.</span>
-                                <span>
-                                    {b.judul} <span className="tabular-nums">({b.mulai})</span>
-                                </span>
+                    <ol className="text-muted-foreground grid gap-1 text-sm sm:grid-cols-2 sm:gap-x-8">
+                        {BAB.map((b) => (
+                            <li key={b.id} className="flex gap-3">
+                                <span className="w-11 shrink-0 text-right font-mono text-xs leading-5 tabular-nums">{jam(b.mulai)}</span>
+                                <span>{b.judul}</span>
                             </li>
                         ))}
                     </ol>

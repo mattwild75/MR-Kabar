@@ -1,0 +1,674 @@
+[
+ {
+  "id": 1,
+  "scene": "s1",
+  "voice": "ardi",
+  "display": "Kapal bisa karam karena badai. Itu risiko, dan pelaut belajar membacanya.",
+  "text": "Kapal bisa karam karena badai. Itu risiko, dan pelaut belajar membacanya."
+ },
+ {
+  "id": 2,
+  "scene": "s1",
+  "voice": "ardi",
+  "display": "Tapi kapal juga bisa karam di laut yang tenang, karena seseorang diam-diam melubangi lambungnya dari dalam.",
+  "text": "Tapi kapal juga bisa karam di laut yang tenang, karena seseorang diam-diam melubangi lambungnya dari dalam."
+ },
+ {
+  "id": 3,
+  "scene": "s1",
+  "voice": "gadis",
+  "display": "Dan yang lebih berbahaya dari lubang itu: awak yang melihatnya, lalu memilih diam.",
+  "text": "Dan yang lebih berbahaya dari lubang itu: awak yang melihatnya, lalu memilih diam."
+ },
+ {
+  "id": 4,
+  "scene": "s1",
+  "voice": "ardi",
+  "display": "Di pemerintahan, lubang itu bernama kecurangan. Lonceng tanda bahayanya bernama laporan.",
+  "text": "Di pemerintahan, lubang itu bernama kecurangan. Lonceng tanda bahayanya bernama laporan."
+ },
+ {
+  "id": 5,
+  "scene": "s1",
+  "voice": "gadis",
+  "display": "Video ini tentang cara membunyikan lonceng itu. Dengan benar, dan dengan aman.",
+  "text": "Video ini tentang cara membunyikan lonceng itu. Dengan benar, dan dengan aman."
+ },
+ {
+  "id": 6,
+  "scene": "s1",
+  "voice": "ardi",
+  "display": "Sembilan babak, dari mengenali kecurangan sampai apa yang terjadi setelah Anda melapor lewat MR Kabar.",
+  "text": "Sembilan babak, dari mengenali kecurangan sampai apa yang terjadi setelah Anda melapor lewat Em-Er Kabar."
+ },
+ {
+  "id": 7,
+  "scene": "s2",
+  "voice": "gadis",
+  "display": "Mulai dari yang paling dasar. Apa itu kecurangan?",
+  "text": "Mulai dari yang paling dasar. Apa itu kecurangan?"
+ },
+ {
+  "id": 8,
+  "scene": "s2",
+  "voice": "ardi",
+  "display": "Kecurangan, atau fraud, adalah perbuatan yang disengaja, dengan tipu daya atau penyalahgunaan kepercayaan, untuk memperoleh keuntungan secara tidak sah.",
+  "text": "Kecurangan, atau frod, adalah perbuatan yang disengaja, dengan tipu daya atau penyalahgunaan kepercayaan, untuk memperoleh keuntungan secara tidak sah."
+ },
+ {
+  "id": 9,
+  "scene": "s2",
+  "voice": "gadis",
+  "display": "Sengaja: pelakunya tahu. Tipu daya: ada yang disembunyikan. Tidak sah: ada yang diambil tanpa hak.",
+  "text": "Sengaja: pelakunya tahu. Tipu daya: ada yang disembunyikan. Tidak sah: ada yang diambil tanpa hak."
+ },
+ {
+  "id": 10,
+  "scene": "s2",
+  "voice": "ardi",
+  "display": "Lalu apa bedanya dengan kejadian risiko? Kejadian risiko terjadi tanpa niat: banjir merendam arsip, server mati, angka keliru diketik.",
+  "text": "Lalu apa bedanya dengan kejadian risiko? Kejadian risiko terjadi tanpa niat: banjir merendam arsip, server mati, angka keliru diketik."
+ },
+ {
+  "id": 11,
+  "scene": "s2",
+  "voice": "ardi",
+  "display": "Kecurangan selalu punya niat. Kalau badai itu risiko, lubang yang sengaja dibor itulah kecurangan.",
+  "text": "Kecurangan selalu punya niat. Kalau badai itu risiko, lubang yang sengaja dibor itulah kecurangan."
+ },
+ {
+  "id": 12,
+  "scene": "s2",
+  "voice": "gadis",
+  "display": "Salah hitung bukan kecurangan. Tapi menyembunyikan salah hitung supaya ada yang diuntungkan, itu lain cerita.",
+  "text": "Salah hitung bukan kecurangan. Tapi menyembunyikan salah hitung supaya ada yang diuntungkan, itu lain cerita."
+ },
+ {
+  "id": 13,
+  "scene": "s2",
+  "voice": "ardi",
+  "display": "Di halaman Lapor, keduanya punya pintu sendiri, dan bedanya penting. Laporan kejadian risiko meminta nama Anda, lalu diteruskan ke perangkat daerah terkait.",
+  "text": "Di halaman Lapor, keduanya punya pintu sendiri, dan bedanya penting. Laporan kejadian risiko meminta nama Anda, lalu diteruskan ke perangkat daerah terkait."
+ },
+ {
+  "id": 14,
+  "scene": "s2",
+  "voice": "gadis",
+  "display": "Jadi kalau Anda menduga ada kesengajaan, pakai pintu Dugaan Kecurangan. Pintu ini hanya dibuka penindaklanjut.",
+  "text": "Jadi kalau Anda menduga ada kesengajaan, pakai pintu Dugaan Kecurangan. Pintu ini hanya dibuka penindaklanjut."
+ },
+ {
+  "id": 15,
+  "scene": "s3",
+  "voice": "gadis",
+  "display": "Kenapa orang yang tadinya jujur bisa berbuat curang?",
+  "text": "Kenapa orang yang tadinya jujur bisa berbuat curang?"
+ },
+ {
+  "id": 16,
+  "scene": "s3",
+  "voice": "ardi",
+  "display": "Lebih dari tujuh puluh tahun lalu, kriminolog Donald Cressey mewawancarai para narapidana kasus penggelapan. Ia menemukan tiga hal yang hampir selalu hadir bersamaan.",
+  "text": "Lebih dari tujuh puluh tahun lalu, kriminolog Donald Kresi mewawancarai para narapidana kasus penggelapan. Ia menemukan tiga hal yang hampir selalu hadir bersamaan."
+ },
+ {
+  "id": 17,
+  "scene": "s3",
+  "voice": "ardi",
+  "display": "Tekanan: utang, gaya hidup, atau target yang tidak masuk akal. Kesempatan: pengawasan longgar, satu orang memegang semua kunci.",
+  "text": "Tekanan: utang, gaya hidup, atau target yang tidak masuk akal. Kesempatan: pengawasan longgar, satu orang memegang semua kunci."
+ },
+ {
+  "id": 18,
+  "scene": "s3",
+  "voice": "ardi",
+  "display": "Dan rasionalisasi: cara pelaku membenarkan dirinya sendiri.",
+  "text": "Dan rasionalisasi: cara pelaku membenarkan dirinya sendiri."
+ },
+ {
+  "id": 19,
+  "scene": "s3",
+  "voice": "gadis",
+  "display": "Cuma pinjam, nanti dikembalikan. Semua juga begitu. Ini kan cuma uang terima kasih.",
+  "text": "Cuma pinjam, nanti dikembalikan. Semua juga begitu. Ini kan cuma uang terima kasih."
+ },
+ {
+  "id": 20,
+  "scene": "s3",
+  "voice": "ardi",
+  "display": "Kalimat paling berbahaya di sebuah kantor mungkin hanya dua kata: sudah biasa.",
+  "text": "Kalimat paling berbahaya di sebuah kantor mungkin hanya dua kata: sudah biasa."
+ },
+ {
+  "id": 21,
+  "scene": "s3",
+  "voice": "gadis",
+  "display": "Dari tiga sisi itu, mana yang bisa kita tutup?",
+  "text": "Dari tiga sisi itu, mana yang bisa kita tutup?"
+ },
+ {
+  "id": 22,
+  "scene": "s3",
+  "voice": "ardi",
+  "display": "Kesempatan. Dan kesempatan paling sempit ketika pelaku tahu: ada yang melihat, dan yang melihat berani bicara.",
+  "text": "Kesempatan. Dan kesempatan paling sempit ketika pelaku tahu: ada yang melihat, dan yang melihat berani bicara."
+ },
+ {
+  "id": 23,
+  "scene": "s4",
+  "voice": "ardi",
+  "display": "Kecurangan yang paling serius di pemerintahan adalah korupsi. Puluhan pasal dalam Undang-Undang Nomor 31 Tahun 1999, yang diubah dengan Undang-Undang Nomor 20 Tahun 2001, dikelompokkan menjadi tujuh bentuk.",
+  "text": "Kecurangan yang paling serius di pemerintahan adalah korupsi. Puluhan pasal dalam Undang-Undang Nomor 31 Tahun 1999, yang diubah dengan Undang-Undang Nomor 20 Tahun 2001, dikelompokkan menjadi tujuh bentuk."
+ },
+ {
+  "id": 24,
+  "scene": "s4",
+  "voice": "gadis",
+  "display": "Satu, kerugian keuangan negara: volume dikurangi tapi dibayar penuh, harga digelembungkan, kegiatan fiktif.",
+  "text": "Satu, kerugian keuangan negara: volume dikurangi tapi dibayar penuh, harga digelembungkan, kegiatan fiktif."
+ },
+ {
+  "id": 25,
+  "scene": "s4",
+  "voice": "ardi",
+  "display": "Dua, suap-menyuap: memberi atau menerima sesuatu supaya keputusan berpihak.",
+  "text": "Dua, suap-menyuap: memberi atau menerima sesuatu supaya keputusan berpihak."
+ },
+ {
+  "id": 26,
+  "scene": "s4",
+  "voice": "gadis",
+  "display": "Tiga, penggelapan dalam jabatan: uang atau barang yang dipercayakan, dipakai sendiri, lalu catatannya dipalsukan.",
+  "text": "Tiga, penggelapan dalam jabatan: uang atau barang yang dipercayakan, dipakai sendiri, lalu catatannya dipalsukan."
+ },
+ {
+  "id": 27,
+  "scene": "s4",
+  "voice": "ardi",
+  "display": "Empat, pemerasan: layanan yang seharusnya gratis, tapi dimintai bayaran.",
+  "text": "Empat, pemerasan: layanan yang seharusnya gratis, tapi dimintai bayaran."
+ },
+ {
+  "id": 28,
+  "scene": "s4",
+  "voice": "gadis",
+  "display": "Lima, perbuatan curang: pemborong atau pengawas sengaja mengurangi mutu, sehingga bangunan membahayakan.",
+  "text": "Lima, perbuatan curang: pemborong atau pengawas sengaja mengurangi mutu, sehingga bangunan membahayakan."
+ },
+ {
+  "id": 29,
+  "scene": "s4",
+  "voice": "ardi",
+  "display": "Enam, benturan kepentingan dalam pengadaan: pejabat yang ditugasi mengurus pengadaan, tapi ikut bermain di dalamnya.",
+  "text": "Enam, benturan kepentingan dalam pengadaan: pejabat yang ditugasi mengurus pengadaan, tapi ikut bermain di dalamnya."
+ },
+ {
+  "id": 30,
+  "scene": "s4",
+  "voice": "gadis",
+  "display": "Tujuh, gratifikasi: hadiah yang diterima karena jabatan, sekalipun dibungkus ucapan terima kasih.",
+  "text": "Tujuh, gratifikasi: hadiah yang diterima karena jabatan, sekalipun dibungkus ucapan terima kasih."
+ },
+ {
+  "id": 31,
+  "scene": "s4",
+  "voice": "ardi",
+  "display": "Gratifikasi wajib dilaporkan ke KPK paling lambat tiga puluh hari kerja. Kalau tidak, ia dapat dianggap suap.",
+  "text": "Gratifikasi wajib dilaporkan ke Ka-Pe-Ka paling lambat tiga puluh hari kerja. Kalau tidak, ia dapat dianggap suap."
+ },
+ {
+  "id": 32,
+  "scene": "s4",
+  "voice": "gadis",
+  "display": "Tidak perlu dihafal. Di formulir laporan, ketujuhnya tersedia sebagai pilihan.",
+  "text": "Tidak perlu dihafal. Di formulir laporan, ketujuhnya tersedia sebagai pilihan."
+ },
+ {
+  "id": 33,
+  "scene": "s5",
+  "voice": "ardi",
+  "display": "Kecurangan jarang terlihat langsung. Yang terlihat biasanya rembesannya.",
+  "text": "Kecurangan jarang terlihat langsung. Yang terlihat biasanya rembesannya."
+ },
+ {
+  "id": 34,
+  "scene": "s5",
+  "voice": "gadis",
+  "display": "Pekerjaan selesai di atas kertas, tapi tidak di lapangan.",
+  "text": "Pekerjaan selesai di atas kertas, tapi tidak di lapangan."
+ },
+ {
+  "id": 35,
+  "scene": "s5",
+  "voice": "ardi",
+  "display": "Harga jauh di atas pasaran. Pemenang yang itu-itu saja.",
+  "text": "Harga jauh di atas pasaran. Pemenang yang itu-itu saja."
+ },
+ {
+  "id": 36,
+  "scene": "s5",
+  "voice": "gadis",
+  "display": "Pungutan tanpa kuitansi. Pegawai yang tak pernah mau cuti, dan tak membiarkan siapa pun menyentuh pekerjaannya.",
+  "text": "Pungutan tanpa kuitansi. Pegawai yang tak pernah mau cuti, dan tak membiarkan siapa pun menyentuh pekerjaannya."
+ },
+ {
+  "id": 37,
+  "scene": "s5",
+  "voice": "ardi",
+  "display": "Dan gaya hidup yang jauh melampaui penghasilan. Menurut laporan ACFE tahun 2026, inilah tanda yang paling sering muncul.",
+  "text": "Dan gaya hidup yang jauh melampaui penghasilan. Menurut laporan A-Ce-Ef-E tahun 2026, inilah tanda yang paling sering muncul."
+ },
+ {
+  "id": 38,
+  "scene": "s5",
+  "voice": "gadis",
+  "display": "84 persen pelaku sudah menunjukkan setidaknya satu tanda, sebelum akhirnya ketahuan.",
+  "text": "84 persen pelaku sudah menunjukkan setidaknya satu tanda, sebelum akhirnya ketahuan."
+ },
+ {
+  "id": 39,
+  "scene": "s5",
+  "voice": "ardi",
+  "display": "KPK memantau area yang rawan, antara lain pengadaan barang dan jasa, perizinan, hibah dan bantuan sosial, penganggaran, dan manajemen ASN.",
+  "text": "Ka-Pe-Ka memantau area yang rawan, antara lain pengadaan barang dan jasa, perizinan, hibah dan bantuan sosial, penganggaran, dan manajemen A-Es-En."
+ },
+ {
+  "id": 40,
+  "scene": "s5",
+  "voice": "gadis",
+  "display": "Satu tanda belum tentu kecurangan. Tapi tanda yang Anda saksikan sendiri, layak dilaporkan.",
+  "text": "Satu tanda belum tentu kecurangan. Tapi tanda yang Anda saksikan sendiri, layak dilaporkan."
+ },
+ {
+  "id": 41,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Kalau tandanya terlihat, kenapa jarang dilaporkan? Biasanya, karena lima alasan ini.",
+  "text": "Kalau tandanya terlihat, kenapa jarang dilaporkan? Biasanya, karena lima alasan ini."
+ },
+ {
+  "id": 42,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Takut dibalas.",
+  "text": "Takut dibalas."
+ },
+ {
+  "id": 43,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Wajar. Karena itu, Anda boleh melapor tanpa nama.",
+  "text": "Wajar. Karena itu, Anda boleh melapor tanpa nama."
+ },
+ {
+  "id": 44,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Sungkan, dia atasan saya.",
+  "text": "Sungkan, dia atasan saya."
+ },
+ {
+  "id": 45,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Laporan ini tidak bisa dibuka akun perangkat daerah mana pun, termasuk akun kantor tempat Anda bekerja.",
+  "text": "Laporan ini tidak bisa dibuka akun perangkat daerah mana pun, termasuk akun kantor tempat Anda bekerja."
+ },
+ {
+  "id": 46,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Belum punya bukti.",
+  "text": "Belum punya bukti."
+ },
+ {
+  "id": 47,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Anda pelapor, bukan penyidik. Sampaikan yang Anda ketahui. Membuktikannya tugas pemeriksa.",
+  "text": "Anda pelapor, bukan penyidik. Sampaikan yang Anda ketahui. Membuktikannya tugas pemeriksa."
+ },
+ {
+  "id": 48,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Percuma, tidak akan ditindaklanjuti.",
+  "text": "Percuma, tidak akan ditindaklanjuti."
+ },
+ {
+  "id": 49,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Setiap laporan punya nomor tiket dan status yang bisa Anda pantau sendiri.",
+  "text": "Setiap laporan punya nomor tiket dan status yang bisa Anda pantau sendiri."
+ },
+ {
+  "id": 50,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Bukan urusan saya.",
+  "text": "Bukan urusan saya."
+ },
+ {
+  "id": 51,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Uang yang hilang adalah uang jalan, sekolah, dan puskesmas Anda sendiri.",
+  "text": "Uang yang hilang adalah uang jalan, sekolah, dan puskesmas Anda sendiri."
+ },
+ {
+  "id": 52,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Padahal, diam itu mahal.",
+  "text": "Padahal, diam itu mahal."
+ },
+ {
+  "id": 53,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Laporan ACFE tahun 2026 mempelajari 2.402 kasus kecurangan di 143 negara. 43 persen terungkap karena ada yang melapor, jauh melampaui audit.",
+  "text": "Laporan A-Ce-Ef-E tahun 2026 mempelajari dua ribu empat ratus dua kasus kecurangan di 143 negara. 43 persen terungkap karena ada yang melapor, jauh melampaui audit."
+ },
+ {
+  "id": 54,
+  "scene": "s6",
+  "voice": "gadis",
+  "display": "Dan lebih dari separuh laporan itu datang dari pegawai sendiri.",
+  "text": "Dan lebih dari separuh laporan itu datang dari pegawai sendiri."
+ },
+ {
+  "id": 55,
+  "scene": "s6",
+  "voice": "ardi",
+  "display": "Umumnya, kecurangan berjalan dua belas bulan sebelum terbongkar. Makin lama dibiarkan, makin besar kerugiannya.",
+  "text": "Umumnya, kecurangan berjalan dua belas bulan sebelum terbongkar. Makin lama dibiarkan, makin besar kerugiannya."
+ },
+ {
+  "id": 56,
+  "scene": "s7",
+  "voice": "gadis",
+  "display": "Lalu, seperti apa laporan yang baik?",
+  "text": "Lalu, seperti apa laporan yang baik?"
+ },
+ {
+  "id": 57,
+  "scene": "s7",
+  "voice": "ardi",
+  "display": "Mulailah dari fakta, bukan kesimpulan. Bukan: kantor itu korup. Tapi: Senin lalu, petugas loket meminta lima puluh ribu rupiah untuk surat yang seharusnya gratis, tanpa kuitansi.",
+  "text": "Mulailah dari fakta, bukan kesimpulan. Bukan: kantor itu korup. Tapi: Senin lalu, petugas loket meminta lima puluh ribu rupiah untuk surat yang seharusnya gratis, tanpa kuitansi."
+ },
+ {
+  "id": 58,
+  "scene": "s7",
+  "voice": "gadis",
+  "display": "Formulir menuntun Anda dengan lima pertanyaan: apa, di mana, kapan, siapa, dan bagaimana.",
+  "text": "Formulir menuntun Anda dengan lima pertanyaan: apa, di mana, kapan, siapa, dan bagaimana."
+ },
+ {
+  "id": 59,
+  "scene": "s7",
+  "voice": "ardi",
+  "display": "Untuk siapa, jabatan atau peran lebih menolong daripada nama. Sebutkan juga bukti yang Anda punya.",
+  "text": "Untuk siapa, jabatan atau peran lebih menolong daripada nama. Sebutkan juga bukti yang Anda punya."
+ },
+ {
+  "id": 60,
+  "scene": "s7",
+  "voice": "gadis",
+  "display": "Dan ada empat larangan.",
+  "text": "Dan ada empat larangan."
+ },
+ {
+  "id": 61,
+  "scene": "s7",
+  "voice": "ardi",
+  "display": "Jangan menyelidiki sendiri, apalagi menjebak. Jangan mengambil dokumen yang bukan hak Anda.",
+  "text": "Jangan menyelidiki sendiri, apalagi menjebak. Jangan mengambil dokumen yang bukan hak Anda."
+ },
+ {
+  "id": 62,
+  "scene": "s7",
+  "voice": "gadis",
+  "display": "Jangan memviralkan dulu di media sosial. Bukti bisa keburu dihilangkan, dan tuduhan di ruang publik bisa berbalik menjerat Anda.",
+  "text": "Jangan memviralkan dulu di media sosial. Bukti bisa keburu dihilangkan, dan tuduhan di ruang publik bisa berbalik menjerat Anda."
+ },
+ {
+  "id": 63,
+  "scene": "s7",
+  "voice": "ardi",
+  "display": "Dan jangan pernah mengarang. Laporan palsu merugikan orang yang tidak bersalah, dan bisa dipidana.",
+  "text": "Dan jangan pernah mengarang. Laporan palsu merugikan orang yang tidak bersalah, dan bisa dipidana."
+ },
+ {
+  "id": 64,
+  "scene": "s7",
+  "voice": "gadis",
+  "display": "Satu lagi bila Anda anonim: detail yang hanya Anda ketahui bisa menunjuk balik ke diri Anda. Tulis yang perlu diperiksa, timbang sisanya.",
+  "text": "Satu lagi bila Anda anonim: detail yang hanya Anda ketahui bisa menunjuk balik ke diri Anda. Tulis yang perlu diperiksa, timbang sisanya."
+ },
+ {
+  "id": 65,
+  "scene": "s8",
+  "voice": "ardi",
+  "display": "Sekarang praktiknya. Pindai kode QR Lapor dengan kamera ponsel. Halaman Lapor langsung terbuka, tanpa perlu membuat akun.",
+  "text": "Sekarang praktiknya. Pindai kode Kiu-Ar Lapor dengan kamera ponsel. Halaman Lapor langsung terbuka, tanpa perlu membuat akun."
+ },
+ {
+  "id": 66,
+  "scene": "s8",
+  "voice": "gadis",
+  "display": "Pilih tab Dugaan Kecurangan, lalu tentukan identitas Anda.",
+  "text": "Pilih tab Dugaan Kecurangan, lalu tentukan identitas Anda."
+ },
+ {
+  "id": 67,
+  "scene": "s8",
+  "voice": "ardi",
+  "display": "Terbuka: nama dan kontak tersimpan. Anonim tetapi bisa dihubungi: nama tidak disimpan, kontak hanya terbaca penindaklanjut. Anonim penuh: keduanya tidak disimpan sama sekali.",
+  "text": "Terbuka: nama dan kontak tersimpan. Anonim tetapi bisa dihubungi: nama tidak disimpan, kontak hanya terbaca penindaklanjut. Anonim penuh: keduanya tidak disimpan sama sekali."
+ },
+ {
+  "id": 68,
+  "scene": "s8",
+  "voice": "gadis",
+  "display": "Ceritakan kejadiannya lewat lima pertanyaan tadi. Hanya yang pertama wajib diisi.",
+  "text": "Ceritakan kejadiannya lewat lima pertanyaan tadi. Hanya yang pertama wajib diisi."
+ },
+ {
+  "id": 69,
+  "scene": "s8",
+  "voice": "ardi",
+  "display": "Bila tahu, lengkapi keterangan tambahan: perangkat daerah, tahapan proses, dugaan bentuk kecurangan, dan perkiraan kerugiannya.",
+  "text": "Bila tahu, lengkapi keterangan tambahan: perangkat daerah, tahapan proses, dugaan bentuk kecurangan, dan perkiraan kerugiannya."
+ },
+ {
+  "id": 70,
+  "scene": "s8",
+  "voice": "gadis",
+  "display": "Lampirkan bukti bila ada: foto atau PDF, paling banyak lima berkas.",
+  "text": "Lampirkan bukti bila ada: foto atau Pe-De-Ef, paling banyak lima berkas."
+ },
+ {
+  "id": 71,
+  "scene": "s8",
+  "voice": "ardi",
+  "display": "Tekan Lapor Dugaan Kecurangan. Layar menampilkan nomor tiket dan kode akses.",
+  "text": "Tekan Lapor Dugaan Kecurangan. Layar menampilkan nomor tiket dan kode akses."
+ },
+ {
+  "id": 72,
+  "scene": "s8",
+  "voice": "gadis",
+  "display": "Catat keduanya sekarang juga. Kode akses hanya muncul sekali.",
+  "text": "Catat keduanya sekarang juga. Kode akses hanya muncul sekali."
+ },
+ {
+  "id": 73,
+  "scene": "s9",
+  "voice": "ardi",
+  "display": "Pertanyaan yang paling sering diajukan: seberapa aman saya?",
+  "text": "Pertanyaan yang paling sering diajukan: seberapa aman saya?"
+ },
+ {
+  "id": 74,
+  "scene": "s9",
+  "voice": "gadis",
+  "display": "Pada mode anonim, nama Anda tidak disimpan. Bukan disembunyikan: server membuangnya, sekalipun ikut terkirim.",
+  "text": "Pada mode anonim, nama Anda tidak disimpan. Bukan disembunyikan: server membuangnya, sekalipun ikut terkirim."
+ },
+ {
+  "id": 75,
+  "scene": "s9",
+  "voice": "ardi",
+  "display": "Foto dibersihkan dari data tersembunyi: lokasi pengambilan, jenis ponsel, dan waktu pemotretan.",
+  "text": "Foto dibersihkan dari data tersembunyi: lokasi pengambilan, jenis ponsel, dan waktu pemotretan."
+ },
+ {
+  "id": 76,
+  "scene": "s9",
+  "voice": "gadis",
+  "display": "PDF tidak bisa dibersihkan, dan sering memuat nama penyusunnya. Bila khawatir, kirim tangkapan layarnya sebagai gambar.",
+  "text": "Pe-De-Ef tidak bisa dibersihkan, dan sering memuat nama penyusunnya. Bila khawatir, kirim tangkapan layarnya sebagai gambar."
+ },
+ {
+  "id": 77,
+  "scene": "s9",
+  "voice": "ardi",
+  "display": "Bukti disimpan di penyimpanan tertutup. Kode akses pun tidak disimpan apa adanya: tak seorang pun bisa membacanya, termasuk Inspektorat. Karena itu, kalau hilang, tidak bisa dipulihkan.",
+  "text": "Bukti disimpan di penyimpanan tertutup. Kode akses pun tidak disimpan apa adanya: tak seorang pun bisa membacanya, termasuk Inspektorat. Karena itu, kalau hilang, tidak bisa dipulihkan."
+ },
+ {
+  "id": 78,
+  "scene": "s9",
+  "voice": "gadis",
+  "display": "Bagaimana kalau perkaranya sampai ke penegak hukum?",
+  "text": "Bagaimana kalau perkaranya sampai ke penegak hukum?"
+ },
+ {
+  "id": 79,
+  "scene": "s9",
+  "voice": "ardi",
+  "display": "Undang-Undang Nomor 31 Tahun 2014 tentang Perlindungan Saksi dan Korban menyatakan: pelapor tidak dapat dituntut, pidana maupun perdata, atas laporannya. LPSK pun dapat memberi perlindungan.",
+  "text": "Undang-Undang Nomor 31 Tahun 2014 tentang Perlindungan Saksi dan Korban menyatakan: pelapor tidak dapat dituntut, pidana maupun perdata, atas laporannya. El-Pe-Es-Ka pun dapat memberi perlindungan."
+ },
+ {
+  "id": 80,
+  "scene": "s9",
+  "voice": "gadis",
+  "display": "Syaratnya satu: iktikad baik. Perlindungan itu untuk yang jujur, bukan untuk yang memfitnah.",
+  "text": "Syaratnya satu: iktikad baik. Perlindungan itu untuk yang jujur, bukan untuk yang memfitnah."
+ },
+ {
+  "id": 81,
+  "scene": "s10",
+  "voice": "ardi",
+  "display": "Lalu, apa yang terjadi setelah tombol ditekan?",
+  "text": "Lalu, apa yang terjadi setelah tombol ditekan?"
+ },
+ {
+  "id": 82,
+  "scene": "s10",
+  "voice": "gadis",
+  "display": "Laporan Anda ditelaah. Statusnya bergerak dari Baru, Diverifikasi, Ditindaklanjuti, sampai Selesai.",
+  "text": "Laporan Anda ditelaah. Statusnya bergerak dari Baru, Diverifikasi, Ditindaklanjuti, sampai Selesai."
+ },
+ {
+  "id": 83,
+  "scene": "s10",
+  "voice": "ardi",
+  "display": "Bila perlu keterangan, penindaklanjut menulis pertanyaan di tiket Anda. Buka tab Cek Status Laporan, masukkan nomor tiket dan kode akses, lalu jawab. Bukti tambahan pun bisa dilampirkan.",
+  "text": "Bila perlu keterangan, penindaklanjut menulis pertanyaan di tiket Anda. Buka tab Cek Status Laporan, masukkan nomor tiket dan kode akses, lalu jawab. Bukti tambahan pun bisa dilampirkan."
+ },
+ {
+  "id": 84,
+  "scene": "s10",
+  "voice": "gadis",
+  "display": "Tanpa Anda pernah menyebut siapa diri Anda.",
+  "text": "Tanpa Anda pernah menyebut siapa diri Anda."
+ },
+ {
+  "id": 85,
+  "scene": "s10",
+  "voice": "ardi",
+  "display": "Bersabarlah. Pemeriksaan butuh waktu, tidak setiap dugaan terbukti, dan yang dilaporkan berhak atas asas praduga tak bersalah.",
+  "text": "Bersabarlah. Pemeriksaan butuh waktu, tidak setiap dugaan terbukti, dan yang dilaporkan berhak atas asas praduga tak bersalah."
+ },
+ {
+  "id": 86,
+  "scene": "s10",
+  "voice": "ardi",
+  "display": "Tapi laporan yang belum terbukti pun berguna: ia menunjukkan celah. Di MR Kabar, celah itu dapat dicatat sebagai risiko kecurangan, lalu ditutup.",
+  "text": "Tapi laporan yang belum terbukti pun berguna: ia menunjukkan celah. Di Em-Er Kabar, celah itu dapat dicatat sebagai risiko kecurangan, lalu ditutup."
+ },
+ {
+  "id": 87,
+  "scene": "s11",
+  "voice": "gadis",
+  "display": "Jadi, apa yang kita bawa pulang?",
+  "text": "Jadi, apa yang kita bawa pulang?"
+ },
+ {
+  "id": 88,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Pertama. Kecurangan butuh kesempatan. Pengawasan dan keberanian bicara menutupnya.",
+  "text": "Pertama. Kecurangan butuh kesempatan. Pengawasan dan keberanian bicara menutupnya."
+ },
+ {
+  "id": 89,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Kedua. Diam tidak pernah netral. Diam adalah kesempatan terbesar bagi kecurangan.",
+  "text": "Kedua. Diam tidak pernah netral. Diam adalah kesempatan terbesar bagi kecurangan."
+ },
+ {
+  "id": 90,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Ketiga. Laporkan fakta, bukan prasangka. Dengan iktikad baik, dan dengan hati-hati.",
+  "text": "Ketiga. Laporkan fakta, bukan prasangka. Dengan iktikad baik, dan dengan hati-hati."
+ },
+ {
+  "id": 91,
+  "scene": "s11",
+  "voice": "gadis",
+  "display": "Aceh Barat telah memiliki Peraturan Bupati Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan, dengan prinsip toleransi nol. Berlaku dari perangkat daerah, BUMD, BLUD, sampai pemerintahan gampong.",
+  "text": "Aceh Barat telah memiliki Peraturan Bupati Nomor 6 Tahun 2025 tentang Pengendalian Kecurangan, dengan prinsip toleransi nol. Berlaku dari perangkat daerah, Be-U-Em-De, Be-El-U-De, sampai pemerintahan gampong."
+ },
+ {
+  "id": 92,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Tapi toleransi nol hanya bermakna, bila yang melihat tidak memilih diam.",
+  "text": "Tapi toleransi nol hanya bermakna, bila yang melihat tidak memilih diam."
+ },
+ {
+  "id": 93,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan edukasi pencegahan kecurangan.",
+  "text": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan edukasi pencegahan kecurangan."
+ },
+ {
+  "id": 94,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Laut tidak selalu tenang. Tapi kapal yang awaknya berani membunyikan lonceng, selalu punya kesempatan untuk pulang.",
+  "text": "Laut tidak selalu tenang. Tapi kapal yang awaknya berani membunyikan lonceng, selalu punya kesempatan untuk pulang."
+ },
+ {
+  "id": 95,
+  "scene": "s11",
+  "voice": "gadis",
+  "display": "MR Kabar. Risiko TerKabar, Daerah Terjaga.",
+  "text": "Em-Er Kabar. Risiko terkabar, Daerah Terjaga."
+ },
+ {
+  "id": 96,
+  "scene": "s11",
+  "voice": "ardi",
+  "display": "Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.",
+  "text": "Kopirait 2026, Sistem Arkitekcer en Divelopmen bai Nurhikmat Muhammad, Inspektorat Aceh Barat."
+ }
+]

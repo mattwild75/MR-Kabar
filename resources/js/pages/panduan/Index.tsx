@@ -2,8 +2,8 @@ import EduVideoPlayer from '@/components/edu-video-player';
 import EduVideoQuiz from '@/components/edu-video-quiz';
 import RekapKuisVideo, { type RekapKuis } from '@/components/ui/rekap-kuis-video';
 import AppLayout from '@/layouts/app-layout';
-import { useEduVideo } from '@/lib/edu-video';
-import { useTutorialVideo } from '@/lib/tutorial-video';
+import { useEduVideo, useVersiVideo } from '@/lib/edu-video';
+import { useTutorialVideo, useVersiTutorial } from '@/lib/tutorial-video';
 import { Head } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { SECTIONS } from './sections';
@@ -22,6 +22,10 @@ export default function PanduanIndex({ bolehLihatRekap = false, rekapKuis = null
     const [activeId, setActiveId] = useState<string>(SECTIONS[0]?.id ?? '');
     const video = useEduVideo();
     const tutorial = useTutorialVideo();
+    // Penanda versi ikut ditempel ke tautan unduhan: nama berkasnya tetap,
+    // jadi tanpa ini peramban bisa menyerahkan salinan lama dari cache.
+    const vEdu = useVersiVideo();
+    const vTutorial = useVersiTutorial();
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -115,10 +119,14 @@ export default function PanduanIndex({ bolehLihatRekap = false, rekapKuis = null
                                     video.bawaan
                                         ? [
                                               {
-                                                  label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)',
-                                                  href: '/video/video-edukasi-mr-kabar-720p.mp4',
+                                                  label: 'Unduh video 1080p (MP4 lengkap: subtitle bisa dinyalakan/dimatikan, daftar bab)',
+                                                  href: video.src,
                                               },
-                                              { label: 'Unduh transkrip (.txt)', href: '/video/edu-transkrip.txt' },
+                                              {
+                                                  label: 'Unduh video 720p (subtitle menempel, untuk dibagikan & sosialisasi luring)',
+                                                  href: '/video/video-edukasi-mr-kabar-720p.mp4' + vEdu,
+                                              },
+                                              { label: 'Unduh transkrip (.txt)', href: '/video/edu-transkrip.txt' + vEdu },
                                           ]
                                         : undefined
                                 }
@@ -179,10 +187,14 @@ export default function PanduanIndex({ bolehLihatRekap = false, rekapKuis = null
                                     tutorial.bawaan
                                         ? [
                                               {
-                                                  label: 'Unduh video 720p (bersubtitle, untuk sosialisasi luring)',
-                                                  href: '/video/tutorial-mr-kabar-720p.mp4',
+                                                  label: 'Unduh video 1080p (MP4 lengkap: subtitle bisa dinyalakan/dimatikan, daftar bab)',
+                                                  href: tutorial.src,
                                               },
-                                              { label: 'Unduh transkrip (.txt)', href: '/video/tutorial-transkrip.txt' },
+                                              {
+                                                  label: 'Unduh video 720p (subtitle menempel, untuk dibagikan & sosialisasi luring)',
+                                                  href: '/video/tutorial-mr-kabar-720p.mp4' + vTutorial,
+                                              },
+                                              { label: 'Unduh transkrip (.txt)', href: '/video/tutorial-transkrip.txt' + vTutorial },
                                           ]
                                         : undefined
                                 }

@@ -1,0 +1,57 @@
+[
+ {
+  "id": "s1",
+  "judul": "Pembuka",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s2",
+  "judul": "Apa itu kecurangan",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s3",
+  "judul": "Mengapa orang berbuat curang",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s4",
+  "judul": "Tujuh wajah korupsi",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s5",
+  "judul": "Membaca rembesan",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s6",
+  "judul": "Mengapa kita diam",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s7",
+  "judul": "Melapor dengan benar",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s8",
+  "judul": "Cara melapor di MR Kabar",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s9",
+  "judul": "Seberapa aman?",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s10",
+  "judul": "Setelah lonceng berbunyi",
+  "sasaran": "Semua"
+ },
+ {
+  "id": "s11",
+  "judul": "Penutup",
+  "sasaran": "Semua"
+ }
+]
