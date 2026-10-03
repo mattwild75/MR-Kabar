@@ -19,9 +19,10 @@
 #
 # Langkah: pull --ff-only origin main -> composer install (bila composer.lock
 # berubah) -> migrate --force -> npm install (bila package-lock berubah) ->
-# npm run build -> optimize -> chown -> reload php-fpm. Berhenti pada galat
-# pertama; cadangan basis data dibuat oleh aplikasi SEBELUM skrip ini
-# dipanggil. Tidak menerima argumen apa pun.
+# npm run build -> optimize -> bangun ulang Graphify -> chown -> reload
+# php-fpm. Berhenti pada galat pertama (kecuali Graphify: peta pengetahuan yang
+# gagal dibangun tidak boleh menggagalkan deploy); cadangan basis data dibuat
+# oleh aplikasi SEBELUM skrip ini dipanggil. Tidak menerima argumen apa pun.
 set -euo pipefail
 export HOME=/root
 APP=/var/www/mrkabar
@@ -52,6 +53,9 @@ fi
 npm run build 2>&1 | grep -E 'built in|error' | tee -a "$LOG"
 
 php artisan optimize 2>&1 | tail -1 | tee -a "$LOG"
+# Graphify harus selalu mencerminkan kode yang baru terpasang, bukan menunggu
+# jadwal harian 02:15 (hanya ±1 detik).
+php artisan graphify:bangun 2>&1 | tail -1 | tee -a "$LOG" || true
 chown -R www-data:www-data bootstrap/cache public/build storage
 systemctl reload php8.4-fpm
 echo "selesai: $(git log --oneline -1)" | tee -a "$LOG"
