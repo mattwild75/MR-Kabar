@@ -14,6 +14,7 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { QrCodeWithLogo } from '@/components/ui/qr-code-with-logo';
 import AuthLayout from '@/layouts/auth-layout';
 import { useEduVideo } from '@/lib/edu-video';
+import { muatBunyiSplash } from '@/lib/splash-bunyi';
 import { muatSplashLebihDulu } from '@/lib/splash-logo';
 
 type LoginForm = {
@@ -41,13 +42,20 @@ export default function Login({ status, canResetPassword }: LoginProps) {
 
     // Lapisan splash sesudah login dimuat selagi pengguna mengetik sandi, supaya
     // animasinya langsung mulai dari cache begitu masuk. Hanya bila splash
-    // bawaan yang akan dipakai (aktif dan tanpa video unggahan Admin).
-    const splash = (usePage().props as { setting?: { login_splash_enabled?: boolean; login_splash_video?: string | null } }).setting;
+    // bawaan yang akan dipakai (aktif dan tanpa video unggahan Admin). Efek
+    // suaranya ikut didekode kalau splash tidak dibisukan: halaman ini dan
+    // dasbor sesudahnya satu muatan JavaScript, jadi hasilnya langsung terpakai.
+    const splash = (
+        usePage().props as { setting?: { login_splash_enabled?: boolean; login_splash_video?: string | null; login_splash_muted?: boolean } }
+    ).setting;
     useEffect(() => {
         if (splash?.login_splash_enabled === false || splash?.login_splash_video) return;
-        const id = window.setTimeout(muatSplashLebihDulu, 1200);
+        const id = window.setTimeout(() => {
+            muatSplashLebihDulu();
+            if (splash?.login_splash_muted === false) muatBunyiSplash();
+        }, 1200);
         return () => window.clearTimeout(id);
-    }, [splash?.login_splash_enabled, splash?.login_splash_video]);
+    }, [splash?.login_splash_enabled, splash?.login_splash_video, splash?.login_splash_muted]);
 
     const video = useEduVideo();
 

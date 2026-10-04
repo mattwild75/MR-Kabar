@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { useKecuranganVideo } from '@/lib/kecurangan-video';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import { Copy, PlayCircle, ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
@@ -64,6 +65,8 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
     // Nomor tiket + kode akses hasil pengiriman barusan. Lewat flash, bukan
     // prop tetap: kode aksesnya hanya boleh muncul SEKALI, sebab yang tersimpan
     // di server cuma hashnya dan tidak ada cara memulihkannya.
+    // Tombol video ikut hilang kalau Admin mematikan videonya di /settingsapp.
+    const videoAktif = useKecuranganVideo().enabled;
     const tiketBaru = (usePage().props as unknown as { flash?: { tiketBaru?: { nomor_tiket: string; kode_akses: string } } }).flash?.tiketBaru;
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -142,14 +145,16 @@ export default function FormKecurangan({ opdList, tahapanOptions, kelompokOption
                 <div>
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <h2 className="text-xl font-semibold">Lapor Dugaan Kecurangan</h2>
-                        <Link
-                            href="/lapor-kejadian/video-kecurangan"
-                            className="border-border bg-background/60 text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors"
-                            title="Video edukasi: apa itu kecurangan, bentuk dan tandanya, cara melapor dengan aman"
-                        >
-                            <PlayCircle className="h-4 w-4" />
-                            Tonton video edukasi
-                        </Link>
+                        {videoAktif && (
+                            <Link
+                                href="/lapor-kejadian/video-kecurangan"
+                                className="border-border bg-background/60 text-foreground hover:border-primary hover:bg-primary/10 hover:text-primary inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors"
+                                title="Video edukasi: apa itu kecurangan, bentuk dan tandanya, cara melapor dengan aman"
+                            >
+                                <PlayCircle className="h-4 w-4" />
+                                Tonton video edukasi
+                            </Link>
+                        )}
                     </div>
                     <p className="text-muted-foreground text-sm">
                         Laporkan dugaan kecurangan — penyuapan, gratifikasi, mark up, benturan kepentingan, dan sejenisnya — pada penyelenggaraan

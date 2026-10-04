@@ -84,7 +84,7 @@ dan sampel kebocoran untuk bunyi air.
     node ekspor_isyarat.cjs          -> isyarat.json
     python musik.py                  -> music_bg.wav
     python build_sfx.py              -> sfx_bus.wav
-    python mix_audio.py              -> audio_final.mp3 (+ stem, tidak dipasang)
+    python mix_audio.py              -> audio_final.mp3 + stem-*.mp3 (stem dipasang untuk slider mix di /settingsapp)
     node render_video.cjs            -> video_noaudio.mp4 (±50 menit)
     python build_deliverables.py     -> subtitle.vtt, transkrip.txt, chapters.json
     bash mux_final.sh                -> Video_Edukasi_Kecurangan(.mp4|_720p.mp4)

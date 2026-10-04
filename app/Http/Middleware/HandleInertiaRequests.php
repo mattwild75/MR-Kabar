@@ -127,6 +127,8 @@ class HandleInertiaRequests extends Middleware
             'eduVideoVersion' => fn () => @filemtime(public_path('video/video-edukasi-mr-kabar.mp4')) ?: null,
             // Penanda versi video tutorial pengisian, alasannya sama persis.
             'tutorialVideoVersion' => fn () => @filemtime(public_path('video/tutorial-mr-kabar.mp4')) ?: null,
+            // ...dan video edukasi Lapor Dugaan Kecurangan.
+            'kecuranganVideoVersion' => fn () => @filemtime(public_path('video/video-edukasi-kecurangan.mp4')) ?: null,
             // Dulu ada 'laporVideoVersion' di sini. Video Lapor sudah tidak
             // ada lagi sebagai video tersendiri sejak 13 Agustus 2026 — isinya
             // jadi bab VIII-XIII di dalam video tutorial. Penanda itu tertinggal

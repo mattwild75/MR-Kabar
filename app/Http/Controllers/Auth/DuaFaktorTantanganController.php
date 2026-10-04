@@ -86,6 +86,13 @@ class DuaFaktorTantanganController extends Controller
         // memotong jatah empat jam sesi.
         $request->session()->put('login_at', now()->timestamp);
 
+        // Splash sesudah login. Penanda yang dipasang saat sandi diterima
+        // (AuthenticatedSessionController) sudah hangus di permintaan
+        // /dashboard yang dipantulkan ke layar ini, sehingga akun ber-2FA -
+        // Admin dan Super Admin - dulu tidak pernah melihat splash. Masuknya
+        // baru tuntas di sini, jadi penandanya dipasang ulang.
+        $request->session()->flash('just_logged_in', true);
+
         return redirect()->intended(route('dashboard'));
     }
 

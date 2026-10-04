@@ -1,4 +1,5 @@
 import geo from '@/data/splash-logo.json';
+import { buatPemutarBunyi, DETIK_AKOR_PENUTUP, muatBunyiSplash, type PemutarBunyi } from '@/lib/splash-bunyi';
 import { berkasSplash, LAPISAN_SPLASH as LAPISAN, temaGelap, URL_SILUET, urlLapisan } from '@/lib/splash-logo';
 import { usePage } from '@inertiajs/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -8,8 +9,18 @@ interface LoginSplashProps {
     onDone: () => void;
     /** Path video kustom dari SettingApp.login_splash_video (mis. "login-splash/xxx.mp4"), diambil lewat /storage/{path}. Kosong = splash animasi logo bawaan. */
     videoPath?: string | null;
-    /** Dari SettingApp.login_splash_muted — default true. Untuk splash bawaan, false menyalakan bunyi sintetis yang halus. */
+    /** URL video langsung, menggantikan videoPath — dipakai pratinjau /settingsapp untuk berkas yang baru dipilih dan belum disimpan. */
+    videoSrc?: string | null;
+    /** Dari SettingApp.login_splash_muted. Untuk splash bawaan, false memutar efek suaranya (public/media/splash/bunyi.mp3). */
     muted?: boolean;
+    /** Dari SettingApp.login_splash_volume, 0–100. */
+    volume?: number;
+    /**
+     * Digambar di dalam bingkai pemanggilnya, bukan menutupi layar — untuk
+     * pratinjau di /settingsapp. Bingkainya wajib `container-type: size`:
+     * ukuran yang semula mengikuti layar lalu mengikuti bingkai.
+     */
+    tertanam?: boolean;
 }
 
 // Splash setelah login. Kalau Admin mengunggah video sendiri lewat
@@ -22,15 +33,29 @@ interface LoginSplashProps {
 // Tombol "Lewati" dan pembungkus `fixed inset-0 z-[100]` sengaja dipertahankan
 // apa adanya: perekam video tutorial menunggu pembungkus itu hilang dan
 // menekan tombol bertulisan Lewati.
-export function LoginSplash({ onDone, videoPath, muted = true }: LoginSplashProps) {
-    if (videoPath) return <SplashVideo onDone={onDone} src={`/storage/${videoPath}`} muted={muted} />;
-    return <SplashLogo onDone={onDone} muted={muted} />;
+export function LoginSplash({ onDone, videoPath, videoSrc, muted = true, volume = 80, tertanam = false }: LoginSplashProps) {
+    const src = videoSrc ?? (videoPath ? `/storage/${videoPath}` : null);
+    if (src) return <SplashVideo onDone={onDone} src={src} muted={muted} volume={volume} tertanam={tertanam} />;
+    return <SplashLogo onDone={onDone} muted={muted} volume={volume} tertanam={tertanam} />;
 }
 
 /* ── video unggahan Admin ─────────────────────────────────────────────────── */
 
-function SplashVideo({ onDone, src, muted }: { onDone: () => void; src: string; muted: boolean }) {
+function SplashVideo({
+    onDone,
+    src,
+    muted,
+    volume,
+    tertanam,
+}: {
+    onDone: () => void;
+    src: string;
+    muted: boolean;
+    volume: number;
+    tertanam: boolean;
+}) {
     const doneRef = useRef(false);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const [visible, setVisible] = useState(true);
 
     const finish = () => {
@@ -43,20 +68,40 @@ function SplashVideo({ onDone, src, muted }: { onDone: () => void; src: string; 
     useEffect(() => {
         // Jaring pengaman kalau 'ended'/'error' tidak pernah terpicu.
         const timeout = window.setTimeout(finish, 12000);
+        // Diputar sendiri, bukan lewat atribut autoPlay: peramban yang menolak
+        // memutar video BERSUARA tanpa interaksi pengguna akan diam saja, dan
+        // splash lalu menutupi layar sampai jaring pengaman di atas. Ditolak
+        // berarti diputar ulang dalam keadaan bisu.
+        const v = videoRef.current;
+        if (v) {
+            v.muted = muted;
+            v.volume = Math.max(0, Math.min(1, volume / 100));
+            v.play().catch(() => {
+                v.muted = true;
+                v.play().catch(finish);
+            });
+        }
         return () => window.clearTimeout(timeout);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // Bisu & volume yang diubah di pratinjau berlaku seketika.
+    useEffect(() => {
+        const v = videoRef.current;
+        if (!v) return;
+        v.muted = muted;
+        v.volume = Math.max(0, Math.min(1, volume / 100));
+    }, [muted, volume]);
+
     return (
         <div
-            className="bg-background fixed inset-0 z-[100] flex items-center justify-center transition-opacity duration-300"
+            className={`bg-background ${tertanam ? 'absolute z-10' : 'fixed z-[100]'} inset-0 flex items-center justify-center transition-opacity duration-300`}
             style={{ opacity: visible ? 1 : 0 }}
         >
             <video
-                className="max-h-[80vh] max-w-[90vw] object-contain"
+                ref={videoRef}
+                className={tertanam ? 'max-h-[80cqh] max-w-[90cqw] object-contain' : 'max-h-[80vh] max-w-[90vw] object-contain'}
                 src={src}
-                autoPlay
-                muted={muted}
                 playsInline
                 onEnded={finish}
                 onError={finish}
@@ -142,49 +187,13 @@ const PAKET: [number, number, number][] = [
 ];
 const LAJU_PAKET = 0.85; // px logo per ms
 
-/** Bunyi sintetis halus (hanya bila Admin mematikan "bisu"). */
-function buatBunyi() {
-    const Ctx = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (!Ctx) return null;
-    const ctx = new Ctx();
-    const utama = ctx.createGain();
-    utama.gain.value = 0.22;
-    utama.connect(ctx.destination);
-    const nada = (f: number, t: number, lama: number, kuat = 0.5, jenis: OscillatorType = 'sine') => {
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.type = jenis;
-        o.frequency.value = f;
-        g.gain.setValueAtTime(0, ctx.currentTime + t);
-        g.gain.linearRampToValueAtTime(kuat, ctx.currentTime + t + 0.012);
-        g.gain.exponentialRampToValueAtTime(0.0008, ctx.currentTime + t + lama);
-        o.connect(g).connect(utama);
-        o.start(ctx.currentTime + t);
-        o.stop(ctx.currentTime + t + lama + 0.05);
-    };
-    const desir = (t: number, lama: number) => {
-        const n = ctx.sampleRate * lama;
-        const buf = ctx.createBuffer(1, n, ctx.sampleRate);
-        const d = buf.getChannelData(0);
-        for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.sin((Math.PI * i) / n);
-        const s = ctx.createBufferSource();
-        s.buffer = buf;
-        const f = ctx.createBiquadFilter();
-        f.type = 'bandpass';
-        f.Q.value = 1.4;
-        f.frequency.setValueAtTime(500, ctx.currentTime + t);
-        f.frequency.exponentialRampToValueAtTime(3200, ctx.currentTime + t + lama);
-        const g = ctx.createGain();
-        g.gain.value = 0.16;
-        s.connect(f).connect(g).connect(utama);
-        s.start(ctx.currentTime + t);
-    };
-    ctx.resume().catch(() => undefined);
-    return { nada, desir, tutup: () => ctx.close().catch(() => undefined) };
-}
-
-function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
+function SplashLogo({ onDone, muted, volume, tertanam }: { onDone: () => void; muted: boolean; volume: number; tertanam: boolean }) {
     const akar = useRef<HTMLDivElement | null>(null);
+    // Bisu & volume dibaca lewat ref: mengubahnya di pratinjau /settingsapp
+    // mengatur bunyi yang sedang berjalan, tidak memulai ulang animasinya.
+    const suara = useRef({ muted, volume });
+    suara.current = { muted, volume };
+    const pemutar = useRef<PemutarBunyi | null>(null);
     // onDone dari layout adalah fungsi baru tiap render; disimpan di ref supaya
     // render ulang layout di tengah splash tidak memulai animasinya dari awal.
     const selesai = useRef(onDone);
@@ -201,6 +210,12 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
     const user = (usePage().props as { auth?: { user?: { name?: string; username?: string } } }).auth?.user;
     const nama = user?.name || user?.username || '';
     const tanggal = useMemo(() => new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), []);
+
+    // Berkas bunyi didekode sejak splash dipasang, bersamaan dengan lapisan
+    // logo di bawah, kalau ada kemungkinan dibunyikan.
+    useEffect(() => {
+        if (!muted || tertanam) muatBunyiSplash();
+    }, [muted, tertanam]);
 
     // Lapisan dimuat & didekode dulu (paling lama 1,6 dtk) supaya animasi
     // tidak tersendat atau tampil setengah jadi di koneksi lambat.
@@ -236,7 +251,11 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
         const timer: number[] = [];
         let rafId = 0;
         let pergi = false;
-        const bunyi = muted ? null : buatBunyi();
+        // Pratinjau selalu menyiapkan pemutarnya, supaya bunyi bisa dinyalakan
+        // di tengah pratinjau; splash sesudah login hanya bila tidak dibisukan.
+        const { muted: bisu, volume: vol } = suara.current;
+        const bunyi = !bisu || tertanam ? buatPemutarBunyi(vol, bisu) : null;
+        pemutar.current = bunyi;
 
         const a = (el: Element | null, kf: Keyframe[], o: KeyframeAnimationOptions) => {
             if (!el) return null;
@@ -266,8 +285,11 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
                 },
             );
             const akhir = a(root, [{ opacity: 1 }, { opacity: 0 }], { duration: lama, delay: cepat ? 0 : 90, easing: 'ease-in' });
+            // Berkas bunyinya sendiri memudar bersama kepergian logo; yang
+            // dilewati lebih awal dipudarkan secepat logonya pergi.
+            if (cepat) bunyi?.pudar(lama / 1000);
             const tuntas = () => {
-                bunyi?.tutup();
+                bunyi?.pudar(0.15);
                 selesai.current();
             };
             if (akhir) akhir.onfinish = tuntas;
@@ -292,10 +314,13 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
             });
             a(q('.splash-panggung'), [{ opacity: 0 }, { opacity: 1 }], { duration: 400 });
             a(q('[data-sp="kemajuan"]'), [{ strokeDashoffset: 62.83 }, { strokeDashoffset: 0 }], { duration: 1900 });
+            // Tanpa gerak, tanpa rangkaian bunyinya: cukup akor penutup.
+            bunyi?.mulai(DETIK_AKOR_PENUTUP);
             nanti(1900, () => keluar());
             return () => {
                 timer.forEach(clearTimeout);
                 semua.forEach((x) => x.cancel());
+                bunyi?.pudar(0.12);
             };
         }
 
@@ -377,7 +402,6 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
                     easing: 'cubic-bezier(.2,.7,.3,1)',
                 },
             );
-            nanti(t, () => bunyi?.nada(880 + i * 110, 0, 0.35, 0.25));
         });
 
         // ── segitiga risiko jatuh, beriak, dan berpendar ──
@@ -417,7 +441,6 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
                 ],
                 { duration: 2350 - t + 500, delay: t + 380, easing: 'ease-out' },
             );
-            nanti(t + 420, () => bunyi?.nada(392 - n * 30, 0, 0.5, 0.45, 'triangle'));
         });
 
         // ── paket kabar berjalan di garis ──
@@ -429,6 +452,7 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
             return { pts, panjang, mulai, lama: (panjang[panjang.length - 1] || 1) / LAJU_PAKET };
         });
         const t0 = performance.now();
+        bunyi?.mulai(0);
         const jalan = () => {
             const t = performance.now() - t0;
             let aktif = false;
@@ -491,7 +515,6 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
                 { duration: lamaSapu, delay: mulaiSapu + tunda, easing: easeSapu },
             );
         });
-        nanti(mulaiSapu, () => bunyi?.desir(0, lamaSapu / 1000));
         // Cincin menutup: denyut cahaya lembut di belakang logo.
         a(
             q('[data-sp="denyut"]'),
@@ -536,7 +559,6 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
                 { duration: 720, delay: t, easing: 'cubic-bezier(.2,.9,.25,1)' },
             );
         });
-        nanti(2380, () => bunyi?.nada(523.25, 0, 0.9, 0.18));
 
         // ── tagline tersingkap dari kiri ──
         a(q('[data-sp="m-tagline"]'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: 800, delay: 2860, easing: HALUS });
@@ -558,12 +580,6 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
             duration: 1100,
             delay: 3150,
             easing: 'cubic-bezier(.45,0,.25,1)',
-        });
-        nanti(3150, () => {
-            bunyi?.nada(440, 0, 1.8, 0.16);
-            bunyi?.nada(554.37, 0.04, 1.8, 0.12);
-            bunyi?.nada(659.25, 0.08, 1.8, 0.12);
-            bunyi?.nada(987.77, 0.12, 1.6, 0.06);
         });
         a(
             q('.splash-sapa'),
@@ -589,9 +605,15 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
             timer.forEach(clearTimeout);
             cancelAnimationFrame(rafId);
             semua.forEach((x) => x.cancel());
-            bunyi?.tutup();
+            bunyi?.pudar(0.12);
         };
-    }, [siap, muted]);
+        // tertanam tidak berubah selama splash hidup; bisu & volume lewat ref.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [siap]);
+
+    useEffect(() => {
+        pemutar.current?.atur(volume, muted);
+    }, [muted, volume]);
 
     // Latar hidup sejak splash dipasang, tidak menunggu lapisan logo dimuat:
     // tanpa ini layar sempat kosong polos selama gambar disiapkan.
@@ -642,7 +664,7 @@ function SplashLogo({ onDone, muted }: { onDone: () => void; muted: boolean }) {
     return (
         <div
             ref={akar}
-            className={`splash fixed inset-0 z-[100] flex items-center justify-center${fase === 'panas' ? 'splash--panas' : ''}`}
+            className={`splash ${tertanam ? 'splash--tertanam absolute z-10' : 'fixed z-[100]'} inset-0 flex items-center justify-center${fase === 'panas' ? 'splash--panas' : ''}`}
             role="status"
             aria-label="Memuat MR Kabar"
         >

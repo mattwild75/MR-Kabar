@@ -256,3 +256,38 @@
     border-radius: 6px;
     border: 1px solid rgb(var(--sp-tinta) / 0.18);
 }
+
+/*
+ * Pratinjau di /settingsapp: splash yang sama persis, tetapi digambar di dalam
+ * bingkai (container-type: size) alih-alih menutupi layar. Semua ukuran yang
+ * mengikuti layar (vh/vw) di atas di sini mengikuti bingkainya (cqh/cqw),
+ * supaya perbandingannya sama dengan yang dilihat pengguna sesudah login.
+ */
+.splash--tertanam .splash-panggung {
+    gap: clamp(4px, 2.2cqh, 24px);
+}
+
+.splash--tertanam .splash-logo {
+    height: min(62cqh, 610px);
+    max-width: 88cqw;
+}
+
+.splash--tertanam .splash-sapa p {
+    font-size: clamp(10px, 3.4cqh, 19px);
+}
+
+.splash--tertanam .splash-sapa small {
+    margin-top: 2px;
+    font-size: clamp(8px, 2.3cqh, 13px);
+}
+
+.splash--tertanam .splash-kisi {
+    background-size: 20px 20px;
+}
+
+.splash--tertanam .splash-lewati {
+    right: clamp(8px, 2.2cqw, 30px);
+    bottom: clamp(8px, 2.6cqh, 28px);
+    transform: scale(0.85);
+    transform-origin: 100% 100%;
+}

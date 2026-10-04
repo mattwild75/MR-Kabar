@@ -38,6 +38,15 @@ class SettingAppController extends Controller
     {
         $this->ensureAdmin();
 
+        // Tidak memakai aturan mimes: berkas .vtt/.srt terdeteksi sebagai
+        // text/plain, jadi pemeriksaannya lewat ekstensi. Ukurannya kecil
+        // (2MB sudah jauh lebih dari cukup untuk video sepanjang apa pun).
+        $aturanSubtitle = ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
+            if (! in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
+                $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
+            }
+        }];
+
         $data = $request->validate([
             'nama_app' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
@@ -49,17 +58,11 @@ class SettingAppController extends Controller
             'login_splash_video' => 'nullable|file|mimes:mp4,webm,mov|max:20480',
             'login_splash_video_remove' => 'nullable|boolean',
             'login_splash_muted' => 'nullable|boolean',
+            'login_splash_volume' => 'nullable|integer|min:0|max:100',
             'edu_video_enabled' => 'nullable|boolean',
             'edu_video_path' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
             'edu_video_remove' => 'nullable|boolean',
-            // Tidak memakai aturan mimes: berkas .vtt/.srt terdeteksi sebagai
-            // text/plain, jadi pemeriksaannya lewat ekstensi. Ukurannya kecil
-            // (2MB sudah jauh lebih dari cukup untuk video sepanjang apa pun).
-            'edu_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
-                if (! in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
-                    $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
-                }
-            }],
+            'edu_video_subtitle_path' => $aturanSubtitle,
             'edu_video_subtitle_remove' => 'nullable|boolean',
             'edu_video_gain_narration' => 'nullable|integer|min:0|max:200',
             'edu_video_gain_music' => 'nullable|integer|min:0|max:200',
@@ -67,28 +70,44 @@ class SettingAppController extends Controller
             'edu_video_subtitle_enabled' => 'nullable|boolean',
             'edu_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             // Video tutorial pengisian - aturannya disamakan dengan video
-            // edukasi, kecuali gain efek suara: video tutorial hanya punya
-            // dua lapisan audio, narasi dan musik.
+            // edukasi; sejak v2 ia juga punya jalur efek suara.
             'tutorial_video_enabled' => 'nullable|boolean',
             'tutorial_video_path' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
             'tutorial_video_remove' => 'nullable|boolean',
-            'tutorial_video_subtitle_path' => ['nullable', 'file', 'max:2048', function ($atribut, $nilai, $gagal) {
-                if (! in_array(strtolower($nilai->getClientOriginalExtension()), ['vtt', 'srt'], true)) {
-                    $gagal('Berkas subtitle harus berformat .vtt atau .srt.');
-                }
-            }],
+            'tutorial_video_subtitle_path' => $aturanSubtitle,
             'tutorial_video_subtitle_remove' => 'nullable|boolean',
             'tutorial_video_gain_narration' => 'nullable|integer|min:0|max:200',
             'tutorial_video_gain_music' => 'nullable|integer|min:0|max:200',
             'tutorial_video_gain_sfx' => 'nullable|integer|min:0|max:200',
             'tutorial_video_subtitle_enabled' => 'nullable|boolean',
             'tutorial_video_subtitle_size' => 'nullable|integer|min:50|max:200',
+            // Video edukasi Lapor Dugaan Kecurangan - setelannya sejajar
+            // dengan dua video di atas, termasuk tiga jalur mix audio.
+            'kecurangan_video_enabled' => 'nullable|boolean',
+            'kecurangan_video_path' => 'nullable|file|mimes:mp4,webm,mov|max:51200',
+            'kecurangan_video_remove' => 'nullable|boolean',
+            'kecurangan_video_subtitle_path' => $aturanSubtitle,
+            'kecurangan_video_subtitle_remove' => 'nullable|boolean',
+            'kecurangan_video_gain_narration' => 'nullable|integer|min:0|max:200',
+            'kecurangan_video_gain_music' => 'nullable|integer|min:0|max:200',
+            'kecurangan_video_gain_sfx' => 'nullable|integer|min:0|max:200',
+            'kecurangan_video_subtitle_enabled' => 'nullable|boolean',
+            'kecurangan_video_subtitle_size' => 'nullable|integer|min:50|max:200',
             'warna' => 'nullable|string|max:20',
             'seo' => 'nullable|array',
             'contact_email' => 'nullable|email|max:255',
             'contact_email_secondary' => 'nullable|email|max:255',
             'footer_credit' => 'nullable|string|max:255',
         ]);
+
+        // Angka setelan (volume, gain, ukuran subtitle) yang terkirim kosong
+        // tidak boleh menimpa kolomnya dengan null - kolom-kolom itu wajib
+        // berisi angka. Kosong berarti "tidak diubah".
+        foreach ($data as $kunci => $nilai) {
+            if ($nilai === null && preg_match('/(_volume|_gain_\w+|_subtitle_size)$/', $kunci)) {
+                unset($data[$kunci]);
+            }
+        }
 
         $setting = SettingApp::firstOrNew();
         $generateFaviconFromLogo = (bool) ($data['favicon_from_logo'] ?? false);
@@ -108,12 +127,11 @@ class SettingAppController extends Controller
         $data['edu_video_subtitle_enabled'] = $request->boolean('edu_video_subtitle_enabled');
         $data['tutorial_video_enabled'] = $request->boolean('tutorial_video_enabled');
         $data['tutorial_video_subtitle_enabled'] = $request->boolean('tutorial_video_subtitle_enabled');
+        $data['kecurangan_video_enabled'] = $request->boolean('kecurangan_video_enabled');
+        $data['kecurangan_video_subtitle_enabled'] = $request->boolean('kecurangan_video_subtitle_enabled');
 
         $removeSplashVideo = (bool) ($data['login_splash_video_remove'] ?? false);
         unset($data['login_splash_video_remove']);
-
-        $removeEduVideo = (bool) ($data['edu_video_remove'] ?? false);
-        unset($data['edu_video_remove']);
 
         if ($request->hasFile('logo')) {
             $data['logo'] = $request->file('logo')->store('logo', 'public');
@@ -140,67 +158,11 @@ class SettingAppController extends Controller
             unset($data['login_splash_video']);
         }
 
-        if ($request->hasFile('edu_video_path')) {
-            $data['edu_video_path'] = $request->file('edu_video_path')->store('edu-video', 'public');
-        } elseif ($removeEduVideo) {
-            // Kembali ke "tanpa video kustom" — login.tsx fallback ke video
-            // bawaan /video/video-edukasi-mr-kabar.mp4 kalau kolom ini
-            // kosong, BUKAN langsung menonaktifkan tombol video sama
-            // sekali (itu tanggung jawab toggle edu_video_enabled).
-            $data['edu_video_path'] = null;
-        } else {
-            unset($data['edu_video_path']);
-        }
-
-        $hapusSubtitle = (bool) ($data['edu_video_subtitle_remove'] ?? false);
-        unset($data['edu_video_subtitle_remove']);
-
-        if ($request->hasFile('edu_video_subtitle_path')) {
-            $berkas = $request->file('edu_video_subtitle_path');
-            $isi = (string) file_get_contents($berkas->getRealPath());
-            if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
-                $isi = $this->srtKeVtt($isi);
-            }
-            $nama = 'edu-video/subtitle-'.now()->format('YmdHis').'-'.Str::random(6).'.vtt';
-            Storage::disk('public')->put($nama, $isi);
-            $data['edu_video_subtitle_path'] = $nama;
-        } elseif ($hapusSubtitle) {
-            $data['edu_video_subtitle_path'] = null;
-        } else {
-            unset($data['edu_video_subtitle_path']);
-        }
-
-        $hapusVideoTutorial = (bool) ($data['tutorial_video_remove'] ?? false);
-        unset($data['tutorial_video_remove']);
-
-        if ($request->hasFile('tutorial_video_path')) {
-            $data['tutorial_video_path'] = $request->file('tutorial_video_path')->store('tutorial-video', 'public');
-        } elseif ($hapusVideoTutorial) {
-            // Kembali ke "tanpa video kustom" - halaman Panduan memakai video
-            // tutorial bawaan kalau kolom ini kosong, BUKAN menyembunyikan
-            // bagiannya sama sekali (itu tugas toggle tutorial_video_enabled).
-            $data['tutorial_video_path'] = null;
-        } else {
-            unset($data['tutorial_video_path']);
-        }
-
-        $hapusSubtitleTutorial = (bool) ($data['tutorial_video_subtitle_remove'] ?? false);
-        unset($data['tutorial_video_subtitle_remove']);
-
-        if ($request->hasFile('tutorial_video_subtitle_path')) {
-            $berkas = $request->file('tutorial_video_subtitle_path');
-            $isi = (string) file_get_contents($berkas->getRealPath());
-            if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
-                $isi = $this->srtKeVtt($isi);
-            }
-            $nama = 'tutorial-video/subtitle-'.now()->format('YmdHis').'-'.Str::random(6).'.vtt';
-            Storage::disk('public')->put($nama, $isi);
-            $data['tutorial_video_subtitle_path'] = $nama;
-        } elseif ($hapusSubtitleTutorial) {
-            $data['tutorial_video_subtitle_path'] = null;
-        } else {
-            unset($data['tutorial_video_subtitle_path']);
-        }
+        // Video bawaan dipakai lagi kalau berkas pengganti dihapus - BUKAN
+        // langsung menyembunyikan videonya (itu tugas sakelar *_enabled).
+        $this->terapkanBerkasVideo($request, $data, 'edu_video', 'edu-video');
+        $this->terapkanBerkasVideo($request, $data, 'tutorial_video', 'tutorial-video');
+        $this->terapkanBerkasVideo($request, $data, 'kecurangan_video', 'kecurangan-video');
 
         $setting->fill($data)->save();
 
@@ -216,6 +178,46 @@ class SettingAppController extends Controller
         SettingApp::clearCached();
 
         return redirect()->back()->with('success', 'Pengaturan berhasil disimpan.');
+    }
+
+    /**
+     * Berkas pengganti dan subtitle satu video ({awalan}_path dan
+     * {awalan}_subtitle_path), beserta permintaan menghapusnya.
+     *
+     * Ketiga video (edukasi, tutorial, kecurangan) diatur dengan cara yang
+     * sama persis, jadi ditangani di satu tempat: berkas baru disimpan,
+     * permintaan hapus mengosongkan kolomnya (halaman kembali memakai berkas
+     * bawaan), dan selain itu kolomnya tidak disentuh. Subtitle .srt diubah
+     * dulu ke .vtt karena hanya itu yang dibaca elemen track peramban.
+     */
+    private function terapkanBerkasVideo(Request $request, array &$data, string $awalan, string $folder): void
+    {
+        $hapusVideo = (bool) ($data[$awalan.'_remove'] ?? false);
+        $hapusSubtitle = (bool) ($data[$awalan.'_subtitle_remove'] ?? false);
+        unset($data[$awalan.'_remove'], $data[$awalan.'_subtitle_remove']);
+
+        if ($request->hasFile($awalan.'_path')) {
+            $data[$awalan.'_path'] = $request->file($awalan.'_path')->store($folder, 'public');
+        } elseif ($hapusVideo) {
+            $data[$awalan.'_path'] = null;
+        } else {
+            unset($data[$awalan.'_path']);
+        }
+
+        if ($request->hasFile($awalan.'_subtitle_path')) {
+            $berkas = $request->file($awalan.'_subtitle_path');
+            $isi = (string) file_get_contents($berkas->getRealPath());
+            if (strtolower($berkas->getClientOriginalExtension()) === 'srt') {
+                $isi = $this->srtKeVtt($isi);
+            }
+            $nama = $folder.'/subtitle-'.now()->format('YmdHis').'-'.Str::random(6).'.vtt';
+            Storage::disk('public')->put($nama, $isi);
+            $data[$awalan.'_subtitle_path'] = $nama;
+        } elseif ($hapusSubtitle) {
+            $data[$awalan.'_subtitle_path'] = null;
+        } else {
+            unset($data[$awalan.'_subtitle_path']);
+        }
     }
 
     /**

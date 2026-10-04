@@ -136,6 +136,23 @@ class DuaFaktorTest extends TestCase
         $this->actingAs($admin)->get('/dashboard')->assertOk();
     }
 
+    /**
+     * Splash sesudah login juga tampil bagi akun ber-2FA. Penandanya dipasang
+     * ulang saat tahap kedua lulus, karena penanda dari langkah sandi sudah
+     * hangus di permintaan yang dipantulkan ke layar tantangan.
+     */
+    public function test_lulus_tantangan_memunculkan_splash_sesudah_login(): void
+    {
+        [$admin, $kunci] = $this->akunBer2fa();
+
+        $this->actingAs($admin)
+            ->post(route('dua-faktor.kirim'), ['kode' => $this->kodeSaatIni($kunci)])
+            ->assertSessionHas('just_logged_in', true);
+
+        $this->actingAs($admin)->get('/dashboard')
+            ->assertInertia(fn ($page) => $page->where('flash.justLoggedIn', true));
+    }
+
     public function test_kode_salah_tidak_melewatkan_tantangan(): void
     {
         [$admin] = $this->akunBer2fa();

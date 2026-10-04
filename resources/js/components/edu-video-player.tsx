@@ -64,6 +64,13 @@ interface Props {
 // dengan berkas video yang diunduh.
 const BASE = { narration: 1.0, music: 1.15, sfx: 0.62 };
 
+// Ketiga video membuat campuran MP4-nya dengan menaikkan jumlah ketiga jalur
+// 3 dB lalu membatasi puncaknya (mix_audio.py video edukasi & kecurangan,
+// campur.sh video tutorial). Jalur terpisah mendapat perlakuan yang sama
+// (lihat terapkanGain): tanpa itu, menggeser slider mana pun dari 100%
+// membuat SELURUH video tiba-tiba 3 dB lebih pelan.
+const DONGKRAK = 10 ** (3 / 20);
+
 // Ambang koreksi hanyut. Di bawah ~0.2 dtk selisihnya tidak terdengar; kalau
 // dikoreksi terlalu agresif justru terdengar seperti audio yang tersendat.
 const DRIFT_TOLERANCE = 0.2;
@@ -100,6 +107,8 @@ export default function EduVideoPlayer({
     // Gain suara MP4 itu sendiri setelah dialirkan lewat Web Audio: 0 selama
     // jalur terpisah yang berbunyi, 1 selainnya.
     const videoGainRef = useRef<GainNode | null>(null);
+    // Pembatas puncak jalur terpisah, padanan alimiter saat MP4 dibuat.
+    const pembatasRef = useRef<DynamicsCompressorNode | null>(null);
     const trackRef = useRef<HTMLTrackElement>(null);
     // Volume keseluruhan dari kontrol bawaan peramban (0 saat dibisukan).
     const masterRef = useRef(1);
@@ -263,6 +272,18 @@ export default function EduVideoPlayer({
             }
         }
 
+        if (!pembatasRef.current) {
+            const p = ctx.createDynamicsCompressor();
+            p.threshold.value = -1;
+            p.knee.value = 0;
+            p.ratio.value = 20;
+            p.attack.value = 0.003;
+            p.release.value = 0.1;
+            p.connect(ctx.destination);
+            pembatasRef.current = p;
+        }
+        const pembatas = pembatasRef.current;
+
         entries.forEach(([key, el, g]) => {
             if (!el) return;
             let node = gainNodesRef.current[key];
@@ -272,14 +293,14 @@ export default function EduVideoPlayer({
                     // elemen; setelah itu node-nya disimpan di ref.
                     const source = ctx.createMediaElementSource(el);
                     node = ctx.createGain();
-                    source.connect(node).connect(ctx.destination);
+                    source.connect(node).connect(pembatas);
                     gainNodesRef.current[key] = node;
                 } catch {
                     el.volume = Math.min(1, Math.max(0, g));
                     return;
                 }
             }
-            node.gain.value = Math.max(0, g);
+            node.gain.value = Math.max(0, g * DONGKRAK);
         });
     }, [jalur, pct.narration, pct.music, pct.sfx]);
 

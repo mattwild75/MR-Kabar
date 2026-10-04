@@ -9,6 +9,7 @@ use App\Models\IrsPemda;
 use App\Models\LaporanKejadianRisiko;
 use App\Models\Opd;
 use App\Models\PencatatanKejadianRisiko;
+use App\Models\SettingApp;
 use App\Models\User;
 use App\Notifications\LaporanKejadianRisikoStatusChanged;
 use App\Notifications\LaporanKejadianRisikoSubmitted;
@@ -52,11 +53,18 @@ class LaporanKejadianController extends Controller
      */
     public function videoKecurangan()
     {
-        return Inertia::render('lapor-kejadian/VideoKecurangan', [
-            // Penanda versi berkas, alasannya sama dengan eduVideoVersion di
-            // HandleInertiaRequests: nama berkas tidak berubah antar-deploy.
-            'versi' => @filemtime(public_path('video/video-edukasi-kecurangan.mp4')) ?: null,
-        ]);
+        // Admin bisa mematikan video ini dari /settingsapp. Halamannya lalu
+        // tidak tersedia, dan tombol "Tonton video edukasi" di formulir Lapor
+        // ikut disembunyikan - siapa pun yang masih memegang tautannya
+        // dikembalikan ke formulir, bukan disuguhi pemutar kosong.
+        if (SettingApp::cached()?->kecurangan_video_enabled === false) {
+            return redirect()->route('lapor-kejadian.create');
+        }
+
+        // Berkas, subtitle, mix audio, dan penanda versinya dibaca halaman
+        // dari prop bersama (setting & kecuranganVideoVersion), sama seperti
+        // video edukasi dan video tutorial.
+        return Inertia::render('lapor-kejadian/VideoKecurangan');
     }
 
     /**

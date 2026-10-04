@@ -26,7 +26,7 @@ class LaporVideoKecuranganTest extends TestCase
 
         $this->actingAs($lapor)->get('/lapor-kejadian/video-kecurangan')
             ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page->component('lapor-kejadian/VideoKecurangan')->has('versi'));
+            ->assertInertia(fn (Assert $page) => $page->component('lapor-kejadian/VideoKecurangan')->has('kecuranganVideoVersion'));
 
         $this->actingAs(User::factory()->create())->get('/lapor-kejadian/video-kecurangan')->assertOk();
     }

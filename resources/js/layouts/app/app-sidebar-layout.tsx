@@ -35,6 +35,7 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
         login_splash_enabled?: boolean;
         login_splash_video?: string | null;
         login_splash_muted?: boolean;
+        login_splash_volume?: number;
         seo?: {
             title?: string;
             description?: string;
@@ -216,6 +217,7 @@ export default function AppSidebarLayout({ children, breadcrumbs = [], title = '
                     onDone={() => setShowSplash(false)}
                     videoPath={setting?.login_splash_video}
                     muted={setting?.login_splash_muted ?? true}
+                    volume={setting?.login_splash_volume ?? 80}
                 />
             )}
         </>
