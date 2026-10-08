@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import ExistingControlToggleSection from '@/components/ui/existing-control-toggle-section';
+import ExistingControlToggleSection, { penilaianTabelLengkap } from '@/components/ui/existing-control-toggle-section';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import HighlightText from '@/components/ui/highlight-text';
 import { Input } from '@/components/ui/input';
@@ -39,11 +39,13 @@ import { useSortableRows } from '@/hooks/use-sortable-rows';
 import { useIsViewer } from '@/hooks/use-viewer';
 import AppLayout from '@/layouts/app-layout';
 import { unggahTertunda } from '@/lib/bukti-tertunda';
+import { PENYEBAB_GROUP_INFO, RESPON_RISIKO_GROUP_INFO } from '@/lib/irs-field-info';
 import { IRS_PD_FIELD_INFO } from '@/lib/irs-pd-field-info';
 import {
     C_UC_OPTIONS,
     PENYEBAB_5M_KATEGORI,
     PENYEBAB_GROUP_LABELS,
+    RESPON_RISIKO_GROUP_LABELS,
     RESPON_RISIKO_KATEGORI,
     computeSumberSebabRisiko,
     penyebabKategoriSuffix,
@@ -809,6 +811,7 @@ export default function IrsPdIndex({
                                                     }}
                                                     categories={PENYEBAB_5M_KATEGORI}
                                                     groupLabels={PENYEBAB_GROUP_LABELS}
+                                                    groupInfo={PENYEBAB_GROUP_INFO}
                                                     categorySuffix={penyebabKategoriSuffix}
                                                     uraianPlaceholder="Uraian penyebab..."
                                                 />
@@ -859,6 +862,11 @@ export default function IrsPdIndex({
                                             rowId={editing?.id ?? null}
                                             isNewRow={!editing}
                                             onToggleChange={setExistingControlStatus}
+                                            kriteriaDampak={riskReference.kriteriaDampak}
+                                            kriteriaKemungkinan={riskReference.kriteriaKemungkinan}
+                                            matriks={riskReference.matriksRisiko}
+                                            riskLevels={riskReference.riskLevels}
+                                            onBukaMatriks={() => setMatrixPickerOpen(true)}
                                         />
                                     );
                                 }
@@ -875,15 +883,15 @@ export default function IrsPdIndex({
                                                     type="button"
                                                     variant="outline"
                                                     size="sm"
-                                                    disabled={existingControlStatus === null}
+                                                    disabled={!penilaianTabelLengkap(existingControlStatus, data)}
                                                     onClick={() => setMatrixPickerOpen(true)}
                                                 >
                                                     <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
                                                     Isi Nilai Risiko
                                                 </Button>
-                                                {existingControlStatus === null && (
+                                                {!penilaianTabelLengkap(existingControlStatus, data) && (
                                                     <p className="text-muted-foreground text-xs">
-                                                        Pilih dulu "Apakah sudah ada Existing Control?" di atas.
+                                                        Pilih dulu nilai risiko dari tabel Kriteria Kemungkinan &amp; Dampak di atas.
                                                     </p>
                                                 )}
                                             </div>
@@ -898,6 +906,8 @@ export default function IrsPdIndex({
                                                         value={value}
                                                         onChange={(val) => setData(field, val)}
                                                         categories={RESPON_RISIKO_KATEGORI}
+                                                        groupLabels={RESPON_RISIKO_GROUP_LABELS}
+                                                        groupInfo={RESPON_RISIKO_GROUP_INFO}
                                                         uraianPlaceholder="Uraian rencana tindak pengendalian..."
                                                     />
                                                     {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}
@@ -1229,6 +1239,13 @@ export default function IrsPdIndex({
                 kriteriaDampak={riskReference.kriteriaDampak}
                 kriteriaKemungkinan={riskReference.kriteriaKemungkinan}
                 existingControlDiisi={existingControlStatus === 'ya'}
+                // Titik yg dipilih dari tabel kriteria (Residual/Current bila "Ya",
+                // Inheren = Residual/Current bila "Tidak") terkunci di sini; yg bisa
+                // diisi/digeser hanya titik lainnya.
+                titikDitampilkan={existingControlStatus === 'ya' ? ['inheren', 'residual', 'target'] : ['inheren', 'target']}
+                titikBisaDiubah={existingControlStatus === 'ya' ? ['inheren', 'target'] : ['target']}
+                labelTitik={existingControlStatus === 'ya' ? undefined : { inheren: 'Inheren = Residual/Current' }}
+                keteranganTerkunci="dari tabel kriteria"
                 nilai={{
                     inheren: { dampak: Number(data['SKALA DAMPAK INHEREN']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN INHEREN']) || null },
                     residual: { dampak: Number(data['SKALA DAMPAK']) || null, kemungkinan: Number(data['SKALA KEMUNGKINAN']) || null },

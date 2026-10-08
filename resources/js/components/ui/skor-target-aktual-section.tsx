@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { Label } from '@/components/ui/label';
-import AutocompleteSelect from '@/components/ui/autocomplete-select';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import {
@@ -86,8 +85,8 @@ export default function SkorTargetAktualSection({
 
         {inherenBelumDiisi && (
           <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-            Isi Skala Kemungkinan Inheren di atas dulu — Skala Kemungkinan Target dihitung otomatis dari nilai
-            inheren dikali faktor reduksi kategori efektivitas.
+            Isi dulu nilai risiko Inheren di atas — Skala Kemungkinan Target dihitung otomatis dari nilai inheren
+            dikali faktor reduksi kategori efektivitas.
           </p>
         )}
 
@@ -116,42 +115,26 @@ export default function SkorTargetAktualSection({
           )}
           {kategoriProyeksi && !arah.kemungkinan && !arah.dampak && (
             <p className="text-xs text-muted-foreground">
-              Rencana Tindak Pengendalian belum menyebut respon Avoid/Abate/Mitigate/Share-Transfer — Skala
-              Kemungkinan/Dampak Target perlu diisi manual.
+              Rencana Tindak Pengendalian belum menyebut respon Avoid/Abate/Mitigate/Share-Transfer — tentukan titik Target
+              lewat Isi Nilai Risiko.
             </p>
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <Label htmlFor="SKALA DAMPAK TARGET" className="text-xs text-muted-foreground">
-              Skala Dampak Target
-            </Label>
-            <AutocompleteSelect
-              value={data['SKALA DAMPAK TARGET']}
-              onChange={(val) => setData('SKALA DAMPAK TARGET', val)}
-              options={['1', '2', '3', '4', '5']}
-              placeholder="Pilih 1-5"
-            />
-            {errors['SKALA DAMPAK TARGET'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK TARGET']}</p>}
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="SKALA KEMUNGKINAN TARGET" className="text-xs text-muted-foreground">
-              Skala Kemungkinan Target
-            </Label>
-            <AutocompleteSelect
-              value={data['SKALA KEMUNGKINAN TARGET']}
-              onChange={(val) => setData('SKALA KEMUNGKINAN TARGET', val)}
-              options={['1', '2', '3', '4', '5']}
-              placeholder="Auto/pilih 1-5"
-            />
-            {errors['SKALA KEMUNGKINAN TARGET'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN TARGET']}</p>}
-          </div>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 rounded-md bg-muted/40 p-2 text-sm">
+          <span>
+            Skala Dampak Target: <strong>{data['SKALA DAMPAK TARGET'] || '—'}</strong>
+          </span>
+          <span>
+            Skala Kemungkinan Target: <strong>{data['SKALA KEMUNGKINAN TARGET'] || '—'}</strong>
+          </span>
         </div>
+        {errors['SKALA DAMPAK TARGET'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK TARGET']}</p>}
+        {errors['SKALA KEMUNGKINAN TARGET'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN TARGET']}</p>}
         <p className="text-xs text-muted-foreground">
-          Skala Kemungkinan/Dampak Target terisi otomatis sesuai respon risiko RTP (Avoid/Abate menekan Kemungkinan,
-          Mitigate/Share-Transfer menekan Dampak) — bisa diubah manual. Skala Risiko Target dihitung otomatis saat
-          disimpan.
+          Skala Target terisi otomatis sesuai respon risiko RTP (Avoid/Abate menekan Kemungkinan, Mitigate/Share-Transfer menekan
+          Dampak). Untuk menentukan atau menggeser titik Target sendiri, pakai tombol Isi Nilai Risiko (titik Target) — skala tidak
+          lagi diketik manual. Skala Risiko Target dihitung otomatis saat disimpan.
         </p>
       </div>
     </>

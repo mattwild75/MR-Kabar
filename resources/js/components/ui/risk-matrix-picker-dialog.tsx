@@ -8,7 +8,14 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
-import { DampakCriteriaPopover, KemungkinanCriteriaPopover } from '@/components/ui/matrix-criteria-popover';
+import {
+  PanelMelayang,
+  TabelKriteriaDampak,
+  TabelKriteriaKemungkinan,
+  TombolInfoKriteria,
+  type KriteriaDampakRow,
+  type KriteriaKemungkinanRow,
+} from '@/components/ui/matrix-criteria-popover';
 
 interface MatrixCell {
   dampak: number;
@@ -21,24 +28,6 @@ interface RiskMatrixData {
   dampakLabels: string[];
   kemungkinanLabels: string[];
   cells: MatrixCell[];
-}
-
-interface KriteriaDampakRow {
-  level: number;
-  label: string | null;
-  kerugian_negara: string | null;
-  penurunan_reputasi: string | null;
-  penurunan_kinerja: string | null;
-  gangguan_pelayanan: string | null;
-  tuntutan_hukum: string | null;
-}
-
-interface KriteriaKemungkinanRow {
-  level: number;
-  nama: string;
-  probabilitas: string | null;
-  frekuensi: string | null;
-  toleransi: string | null;
 }
 
 type TitikKey = 'inheren' | 'residual' | 'target' | 'aktual';
@@ -110,6 +99,8 @@ export default function RiskMatrixPickerDialog({
   titikBisaDiubah,
   kriteriaDampak,
   kriteriaKemungkinan,
+  labelTitik,
+  keteranganTerkunci = 'read-only',
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -122,12 +113,19 @@ export default function RiskMatrixPickerDialog({
   /** Dipakai popover info di header "Dampak"/"Kemungkinan" — opsional, kalau tidak dikirim tombol info tidak ditampilkan (mis. dipanggil dari halaman yg belum mengirim riskReference lengkap). */
   kriteriaDampak?: KriteriaDampakRow[];
   kriteriaKemungkinan?: KriteriaKemungkinanRow[];
+  /** Label pengganti per titik, mis. "Inheren = Residual/Current" saat tanpa Existing Control. */
+  labelTitik?: Partial<Record<TitikKey, string>>;
+  /** Keterangan di samping titik yg tidak bisa diubah, mis. "dari tabel kriteria". */
+  keteranganTerkunci?: string;
 }) {
   const titikDefault: TitikKey[] = existingControlDiisi ? ['inheren', 'residual', 'target'] : ['inheren', 'target'];
   const titikTampil = titikDitampilkan ?? titikDefault;
   const titikEditable = titikBisaDiubah ?? titikTampil;
 
   const [titikAktif, setTitikAktif] = useState<TitikKey>(titikEditable[0]);
+  // Panel info Kriteria Dampak/Kemungkinan yg melayang (bisa digeser & ditutup).
+  const [panel, setPanel] = useState<{ dampak: boolean; kemungkinan: boolean }>({ dampak: false, kemungkinan: false });
+  const label = (t: TitikKey) => labelTitik?.[t] ?? TITIK_CONFIG[t].label;
 
   // Kalau toggle Existing Control berpindah ke "Tidak" sementara titik
   // aktif kebetulan "residual" (mis. sempat pilih Ya sebelumnya), alihkan
@@ -139,6 +137,15 @@ export default function RiskMatrixPickerDialog({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [existingControlDiisi, titikEditable.join(',')]);
 
+  // Tiap kali dibuka, aktifkan titik editable pertama yg masih kosong (mis.
+  // Inheren sesudah Residual/Current dipilih dari tabel) — dialog tetap
+  // ter-mount saat tertutup, jadi state awalnya bisa sudah basi.
+  useEffect(() => {
+    if (!open || titikEditable.length === 0) return;
+    setTitikAktif(titikEditable.find((t) => !nilai[t]?.dampak || !nilai[t]?.kemungkinan) ?? titikEditable[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
   const cellAt = (dampak: number, kemungkinan: number) =>
     matriks.cells.find((c) => c.dampak === dampak && c.kemungkinan === kemungkinan);
 
@@ -149,7 +156,9 @@ export default function RiskMatrixPickerDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-3xl overflow-y-auto">
+      {/* Dipusatkan tanpa transform (top/left/right + mx-auto): transform pada
+          dialog membuat panel info `fixed` di dalamnya ikut terpotong. */}
+      <DialogContent className="top-[4vh] right-0 left-0 mx-auto max-h-[92vh] max-w-3xl translate-none! overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Isi Nilai Risiko — Matriks Analisis Risiko (5x5)</DialogTitle>
         </DialogHeader>
@@ -193,8 +202,8 @@ export default function RiskMatrixPickerDialog({
                   >
                     {cfg.singkat}
                   </span>
-                  {cfg.label}
-                  {!editable && <span className="text-xs opacity-70">(read-only)</span>}
+                  {label(t)}
+                  {!editable && <span className="text-xs opacity-70">({keteranganTerkunci})</span>}
                   {terisi && (
                     <span className="text-xs opacity-80">
                       (D{nilaiT.dampak} K{nilaiT.kemungkinan})
@@ -215,7 +224,13 @@ export default function RiskMatrixPickerDialog({
                   <th className="border px-3 py-2" colSpan={5}>
                     <span className="inline-flex items-center gap-1.5">
                       Dampak
-                      {kriteriaDampak && <DampakCriteriaPopover rows={kriteriaDampak} />}
+                      {kriteriaDampak && (
+                        <TombolInfoKriteria
+                          label="Kriteria Dampak"
+                          aktif={panel.dampak}
+                          onClick={() => setPanel((p) => ({ ...p, dampak: !p.dampak }))}
+                        />
+                      )}
                     </span>
                   </th>
                 </tr>
@@ -236,7 +251,13 @@ export default function RiskMatrixPickerDialog({
                       <th className="border px-3 py-2 font-semibold" rowSpan={5}>
                         <span className="inline-flex items-center gap-1.5">
                           Kemungkinan
-                          {kriteriaKemungkinan && <KemungkinanCriteriaPopover rows={kriteriaKemungkinan} />}
+                          {kriteriaKemungkinan && (
+                            <TombolInfoKriteria
+                              label="Kriteria Kemungkinan"
+                              aktif={panel.kemungkinan}
+                              onClick={() => setPanel((p) => ({ ...p, kemungkinan: !p.kemungkinan }))}
+                            />
+                          )}
                         </span>
                       </th>
                     )}
@@ -277,7 +298,7 @@ export default function RiskMatrixPickerDialog({
                                     TITIK_CONFIG[t].warna,
                                     titikAktif === t && TITIK_CONFIG[t].warnaAktif,
                                   )}
-                                  title={TITIK_CONFIG[t].label}
+                                  title={label(t)}
                                 >
                                   {TITIK_CONFIG[t].singkat}
                                 </span>
@@ -299,11 +320,28 @@ export default function RiskMatrixPickerDialog({
                 <span className={cn('inline-flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold', TITIK_CONFIG[t].warna)}>
                   {TITIK_CONFIG[t].singkat}
                 </span>
-                {TITIK_CONFIG[t].label}
+                {label(t)}
               </span>
             ))}
           </div>
+          {(kriteriaDampak || kriteriaKemungkinan) && (
+            <p className="text-xs text-muted-foreground">
+              Tombol info di samping judul Dampak dan Kemungkinan membuka tabel kriteria sebagai panel melayang — geser lewat judulnya,
+              tutup dengan tombol x.
+            </p>
+          )}
         </div>
+
+        {panel.kemungkinan && kriteriaKemungkinan && (
+          <PanelMelayang judul="Kriteria Kemungkinan" urutan={1} onTutup={() => setPanel((p) => ({ ...p, kemungkinan: false }))}>
+            <TabelKriteriaKemungkinan rows={kriteriaKemungkinan} />
+          </PanelMelayang>
+        )}
+        {panel.dampak && kriteriaDampak && (
+          <PanelMelayang judul="Kriteria Dampak" onTutup={() => setPanel((p) => ({ ...p, dampak: false }))}>
+            <TabelKriteriaDampak rows={kriteriaDampak} />
+          </PanelMelayang>
+        )}
 
         <DialogFooter>
           <Button type="button" onClick={() => onOpenChange(false)}>

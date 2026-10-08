@@ -2073,14 +2073,17 @@ export const SECTIONS: Section[] = [
                                             ],
                                             [
                                                 'Apakah sudah ada Existing Control?',
-                                                'Ya: tampil Uraian Pengendalian, Kategori Existing Control (TE/KE/CE/E), Celah Pengendalian, dan Skala Inheren + Residual/Current terpisah. Tidak: field-field itu disembunyikan (dikosongkan otomatis) — cukup isi satu Skala (berlabel Inheren), yang otomatis jadi Residual/Current juga.',
+                                                'Ya: tampil Uraian Pengendalian, Kategori Existing Control (TE/KE/CE/E), Celah Pengendalian; lalu nilai risiko Residual/Current dipilih dari tabel Kriteria Kemungkinan & Dampak, dan Inheren diisi lewat Isi Nilai Risiko. Tidak: field-field itu disembunyikan (dikosongkan otomatis) — nilai yang dipilih dari tabel kriteria sekaligus menjadi Inheren dan Residual/Current.',
                                             ],
                                             ['RTP', 'Aksi konkret menutup celah, sesuaikan 5 respon risiko (Avoid/Abate/Mitigate/Share/Accept).'],
                                             [
                                                 'Penanggung Jawab Pengendalian',
                                                 'Jabatan pelaksana RTP (lihat aturan proporsionalitas di bagian "Siapa").',
                                             ],
-                                            ['Skala Dampak & Kemungkinan', 'Nilai 1–5, Skala Risiko & Prioritas dihitung otomatis dari matriks 5×5.'],
+                                            [
+                                                'Skala Dampak & Kemungkinan',
+                                                'Tidak diketik. Dipilih dengan mengeklik satu baris tabel Kriteria Kemungkinan dan satu level tabel Kriteria Dampak (isi sama dengan Keterangan Pendukung), atau lewat Isi Nilai Risiko; Skala Risiko & Prioritas langsung keluar dari matriks 5×5.',
+                                            ],
                                             [
                                                 'Skala Target',
                                                 'Proyeksi skala setelah RTP dijalankan (opsional, di bagian bawah form) — Kategori Proyeksi RTP dikalikan ke Kemungkinan DAN Dampak (RTP Avoid), Kemungkinan saja (RTP Abate), atau Dampak saja (RTP Mitigate/Share-Transfer), sesuai jenis respon risiko yang dipilih.',
@@ -2099,8 +2102,8 @@ export const SECTIONS: Section[] = [
                                                     'Uraian Pengendalian yang Sudah Ada',
                                                     'Kategori Existing Control (TE/KE/CE/E)',
                                                     'Celah Pengendalian',
-                                                    'Skala Dampak/Kemungkinan Inheren (WAJIB diisi)',
-                                                    'Skala Dampak/Kemungkinan Residual/Current (terpisah dari Inheren)',
+                                                    'Nilai Residual/Current dipilih dari tabel Kriteria Kemungkinan & Dampak',
+                                                    'Nilai Inheren (WAJIB) diisi lewat Isi Nilai Risiko sesudahnya',
                                                 ],
                                             },
                                             {
@@ -2108,41 +2111,32 @@ export const SECTIONS: Section[] = [
                                                 aktif: false,
                                                 fields: [
                                                     'Ketiga field pengendalian di atas disembunyikan & dikosongkan otomatis',
-                                                    'Cukup satu Skala Dampak/Kemungkinan (berlabel Inheren)',
-                                                    'Nilai itu otomatis disalin jadi Skala Residual/Current juga',
+                                                    'Cukup pilih satu nilai dari tabel Kriteria Kemungkinan & Dampak',
+                                                    'Nilai itu sekaligus menjadi Inheren dan Residual/Current',
                                                     'Lanjutkan langsung ke Rencana Tindak Pengendalian (RTP) baru',
                                                 ],
                                             },
                                         ]}
                                     />
-                                    <Kotak title="Tombol “Isi Nilai Risiko” — pilih skala lewat klik matriks, bukan cuma ketik angka" tone="accent">
-                                        <p>
-                                            Di atas kolom Rencana Tindak Pengendalian ada tombol <strong>Isi Nilai Risiko</strong> yang membuka
-                                            matriks 5×5 interaktif — cara visual mengisi Skala Dampak &amp; Kemungkinan, alternatif dari mengetik
-                                            angka satu-satu di kolom sebelah.
-                                        </p>
+                                    <Kotak title="Dua cara mengisi nilai risiko — tabel kriteria, lalu Isi Nilai Risiko" tone="accent">
+                                        <p>Skala Dampak &amp; Kemungkinan tidak lagi diketik sebagai angka. Ada dua cara mengisinya, berurutan:</p>
                                         <ol className="mt-1 list-decimal space-y-1 pl-5">
-                                            <li>Pilih dulu titik yang sedang diisi: tombol berlabel Inheren / Residual-Current / Target.</li>
                                             <li>
-                                                Klik satu sel matriks sesuai kombinasi Dampak × Kemungkinan yang sesuai — sel itu langsung jadi nilai
-                                                untuk titik yang sedang dipilih, ditandai badge lingkaran kecil (I/R/T) di selnya.
+                                                <strong>Pilih dari tabel kriteria</strong>, tepat sesudah isian Existing Control: klik satu baris
+                                                tabel Kriteria Kemungkinan dan satu level tabel Kriteria Dampak — skala risikonya langsung tampil.
+                                                Existing Control <strong>Tidak</strong>: nilai ini menjadi Inheren sekaligus Residual/Current.
+                                                Existing Control <strong>Ya</strong>: nilai ini menjadi Residual/Current.
                                             </li>
                                             <li>
-                                                Ketiga titik tampil SEKALIGUS di matriks yang sama, jadi posisi Inheren-Residual-Target terlihat
-                                                relatif satu sama lain dalam satu pandangan.
+                                                <strong>Isi Nilai Risiko</strong> (matriks 5×5) baru terbuka sesudah langkah 1 lengkap. Di sini diisi
+                                                titik lainnya — Inheren (bila Ya) dan Target — dengan memilih titik lalu mengeklik sel matriks. Titik
+                                                yang dipilih dari tabel tampil terkunci.
                                             </li>
                                             <li>
-                                                Kalau toggle Existing Control di atas dipilih <strong>Tidak</strong>, toggle titik Residual
-                                                disembunyikan (karena otomatis sama dengan Inheren) — klik sel saat titik Inheren aktif langsung
-                                                mengisi KEDUA field (Inheren dan Residual) sekaligus.
+                                                Tabel Kriteria Dampak dan Kriteria Kemungkinan bisa dibuka dari tombol info di judul matriks sebagai
+                                                panel melayang — geser lewat judulnya, tutup dengan tombol x.
                                             </li>
                                         </ol>
-                                        <p className="mt-1">
-                                            Isian lewat matriks dan isian manual (ketik angka langsung) saling terhubung dua arah — pilih sel di
-                                            matriks otomatis mengisi kotak angka, dan sebaliknya kotak angka yang sudah terisi langsung tampil sebagai
-                                            badge di matriks saat dibuka lagi. Boleh pakai salah satu cara, atau kombinasi keduanya (isi via matriks
-                                            lalu koreksi manual).
-                                        </p>
                                         <RiskMatrixInteractivePreview
                                             points={[
                                                 { dampak: 5, kemungkinan: 5, label: 'I', warna: 'bg-rose-600' },

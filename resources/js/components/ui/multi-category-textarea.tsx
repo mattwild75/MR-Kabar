@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
+import FieldInfoPopover from '@/components/ui/field-info-popover';
 
 interface MultiCategoryTextareaProps {
   id?: string;
@@ -23,6 +24,12 @@ interface MultiCategoryTextareaProps {
    * Key harus PERSIS salah satu elemen `categories`.
    */
   groupLabels?: Record<string, string>;
+  /**
+   * Teks info per kelompok, tampil sbg tombol info di SAMPING judul
+   * kelompoknya (mis. penjelasan AAMSA, 7M+1E, PESTLE). Kuncinya sama dgn
+   * groupLabels.
+   */
+  groupInfo?: Record<string, string>;
   /**
    * Suffix ditempel ke label kategori saat disimpan (mis. "Method - Int"),
    * murni bagian dari nama kategori tersimpan — tidak mengubah struktur
@@ -62,6 +69,7 @@ export default function MultiCategoryTextarea({
   rows = 2,
   hideUraian = false,
   groupLabels,
+  groupInfo,
   categorySuffix,
 }: MultiCategoryTextareaProps) {
   // Kategori "efektif" yg dipakai utk parse/build/simpan — sama dgn label
@@ -106,9 +114,10 @@ export default function MultiCategoryTextarea({
         return (
           <div key={c}>
             {groupLabel && (
-              <p className={`px-2 pb-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase ${i > 0 ? 'pt-3' : ''}`}>
-                {groupLabel}
-              </p>
+              <div className={`flex items-center gap-1.5 px-2 pb-1 ${i > 0 ? 'pt-3' : ''}`}>
+                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{groupLabel}</p>
+                {groupInfo?.[c] && <FieldInfoPopover text={groupInfo[c]} />}
+              </div>
             )}
             <div
               className={`grid grid-cols-1 gap-2 rounded-md p-2 sm:grid-cols-[12rem_1fr] ${

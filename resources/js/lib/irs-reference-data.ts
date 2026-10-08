@@ -47,8 +47,8 @@ export const PENYEBAB_5M_KATEGORI = [...PENYEBAB_INTERNAL_KATEGORI, ...PENYEBAB_
 // lapor-kejadian/Form10) yg memakai PENYEBAB_5M_KATEGORI konsisten,
 // tidak perlu didefinisikan ulang di tiap file.
 export const PENYEBAB_GROUP_LABELS: Record<string, string> = {
-    [PENYEBAB_INTERNAL_KATEGORI[0]]: 'Internal',
-    [PENYEBAB_EKSTERNAL_KATEGORI[0]]: 'Eksternal',
+    [PENYEBAB_INTERNAL_KATEGORI[0]]: 'Internal — 7M+1E',
+    [PENYEBAB_EKSTERNAL_KATEGORI[0]]: 'Eksternal — PESTLE',
 };
 
 // Alias ejaan lama utk data yg SUDAH tersimpan sebelum kategori ini resmi
@@ -202,6 +202,12 @@ export function ekstrakKategoriKontrol(value: string | null | undefined): string
 // Mitigate) karena satu RTP bisa menyasar frekuensi & dampak sekaligus
 // secara parsial (beda dari Avoid yang menghilangkan keduanya secara total).
 export const RESPON_RISIKO_KATEGORI = ['Avoid', 'Abate', 'Mitigate', 'Share/Transfer', 'Accept'];
+
+// Judul kelompok di atas kelima respon risiko pada Rencana Tindak
+// Pengendalian — tempat tombol info AAMSA (lihat RESPON_RISIKO_GROUP_INFO).
+export const RESPON_RISIKO_GROUP_LABELS: Record<string, string> = {
+    [RESPON_RISIKO_KATEGORI[0]]: 'AAMSA — Respon Risiko',
+};
 
 // Kategori penilaian efektivitas existing control — DIPERLUAS dari 3
 // (E/KE/TE) ke 4 tingkat (tambah CE=Cukup Efektif) mengikuti tabel faktor

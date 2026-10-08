@@ -1,3 +1,5 @@
+import { PENYEBAB_EKSTERNAL_KATEGORI, PENYEBAB_INTERNAL_KATEGORI, RESPON_RISIKO_KATEGORI } from '@/lib/irs-reference-data';
+
 // Transkrip teks MsgBox dari VBA (I_a_IRS_Pemda / I_b_IRS_Pemda) — ditampilkan
 // sebagai info popover di samping label tiap field pada form Tambah/Edit Data.
 export const IRS_FIELD_INFO: Record<string, string> = {
@@ -66,25 +68,7 @@ Contoh (level OPD): Risiko keterlambatan proyek fisik => Pemilik Risiko: Kepala 
 
     'URAIAN PENYEBAB RISIKO': `Definisi: Faktor langsung atau kondisi yang memunculkan risiko, diklasifikasikan memakai kerangka 7M+1E untuk penyebab Internal dan PESTLE untuk penyebab Eksternal — boleh pilih lebih dari 1 kategori sekaligus (bahkan lintas Internal/Eksternal) kalau risikonya disebabkan gabungan beberapa faktor.
 
-Kategori 7M+1E (INTERNAL — dalam kendali/pengaruh OPD):
-- Men (Manusia/SDM): kompetensi, jumlah, atau perilaku SDM — mis. kurangnya jumlah petugas, SDM belum terlatih.
-- Machine (Mesin/Peralatan/Sistem): peralatan, mesin, atau sistem/aplikasi — mis. server sering down, aplikasi belum terintegrasi.
-- Method (Metode/Prosedur/Kebijakan): prosedur, SOP, atau kebijakan yang belum ada/belum memadai — mis. belum ada SOP baku.
-- Material (Bahan/Data/Dokumen): ketersediaan/kualitas bahan, data, atau dokumen — mis. data tidak akurat, dokumen sumber tidak lengkap.
-- Money (Anggaran/Pembiayaan): ketersediaan/kecukupan anggaran — mis. anggaran terbatas, pencairan anggaran terlambat.
-- Management (Tata Kelola/Pengawasan): kelemahan pengawasan, koordinasi lintas unit, atau kepemimpinan — mis. belum ada mekanisme monitoring berkala, pengawasan berjenjang lemah.
-- Measurement (Pengukuran/Indikator): kesalahan atau ketiadaan indikator/standar pengukuran kinerja — mis. indikator kinerja tidak terukur jelas, tidak ada baseline data.
-- Environment (Lingkungan kerja INTERNAL): kondisi fisik kantor/fasilitas kerja — mis. ruang kerja tidak memadai, fasilitas penunjang rusak/kurang. BUKAN cuaca/bencana alam (itu masuk Environmental di PESTLE Eksternal di bawah).
-
-Kategori PESTLE (EKSTERNAL — di luar kendali OPD):
-- Political (Politik/Kebijakan): perubahan kebijakan pemerintah pusat/daerah lain, dinamika politik — mis. perubahan regulasi mendadak dari pusat.
-- Economic (Ekonomi): kondisi ekonomi makro/daerah — mis. inflasi, resesi, penurunan pendapatan daerah.
-- Social (Sosial): dinamika sosial masyarakat — mis. resistensi masyarakat, perubahan pola perilaku warga.
-- Technological (Teknologi): perkembangan/gangguan teknologi dari luar OPD — mis. serangan siber pihak luar, ketergantungan sistem pihak ketiga yang bermasalah.
-- Legal (Hukum): perubahan peraturan perundang-undangan atau putusan hukum di luar kendali OPD — mis. putusan pengadilan, perubahan undang-undang.
-- Environmental (Lingkungan alam EKSTERNAL): kondisi alam, cuaca, geografis, atau bencana alam — mis. curah hujan ekstrem, bencana alam, kondisi geografis terpencil.
-
-Catatan: "Environment" (7M+1E, Internal) dan "Environmental" (PESTLE, Eksternal) adalah DUA kategori BERBEDA meski namanya mirip — Environment soal kondisi fisik kantor, Environmental soal alam/cuaca/bencana. Penilaian apakah faktor itu bisa dikendalikan OPD tetap diisi lengkap lewat field "Sumber Sebab Risiko" (Internal/Eksternal, otomatis terhitung dari kategori yang dicentang di sini) dan "C / UC" (Controllable/Uncontrollable) di bawah — ketiganya saling melengkapi, bukan menggantikan satu sama lain.
+Kerangka tiap kelompok dijelaskan pada tombol info di samping judul kelompoknya: INTERNAL (7M+1E) dan EKSTERNAL (PESTLE).
 
 Cara mengisi: centang kategori yang relevan (boleh lebih dari satu, boleh campur Internal+Eksternal), lalu tulis uraian penyebabnya di kotak masing-masing kategori.
 
@@ -175,31 +159,7 @@ Monitoring tidak rutin, SDM pengawas terbatas`,
 
     'RENCANA TINDAK PENGENDALIAN': `Definisi: Aksi tambahan yang direncanakan untuk menutup celah pengendalian risiko.
 
-Setiap RTP diklasifikasikan ke salah satu atau kombinasi dari 5 jenis respon risiko berikut:
-
-1. Avoid (Menghindari) — Mengurangi kemungkinan: YA | Mengurangi dampak: YA
-Tidak memulai/melanjutkan kegiatan sumber risiko → secara konsep kemungkinan dan dampak idealnya sama-sama hilang total (risiko tidak lagi relevan). Di aplikasi ini, kedua sumbu tetap dihitung lewat faktor reduksi Kategori Proyeksi RTP yang sama seperti kategori lain (maksimal turun ke faktor Efektif = 0.4×, TIDAK otomatis menjadi nol) — pilih kategori efektivitas "Efektif (E)" jika RTP Avoid Anda benar-benar menghentikan sumber risiko secara tuntas.
-
-2. Abate (Mengubah/Mengurangi Kemungkinan) — Mengurangi kemungkinan: YA | Mengurangi dampak: TIDAK
-Fokus murni ke frekuensi/kemungkinan terjadinya risiko — istilah lain: pencegahan (prevention).
-
-3. Mitigate (Mengubah/Mengurangi Konsekuensi) — Mengurangi kemungkinan: TIDAK | Mengurangi dampak: YA
-Fokus murni ke besarnya dampak jika risiko terjadi — istilah lain: penanggulangan.
-
-4. Share/Transfer (Membagi/Mentransfer) — Mengurangi kemungkinan: TIDAK (probabilitas tetap sama) | Mengurangi dampak: YA (dibagi ke pihak lain)
-Tidak mengubah probabilitas terjadinya risiko, tapi mengurangi beban dampak yang ditanggung sendiri — dampak "dipindahkan" sebagian/seluruhnya ke pihak lain (asuransi, kontrak, kemitraan).
-
-5. Accept/Retain (Menerima) — Mengurangi kemungkinan: TIDAK | Mengurangi dampak: TIDAK
-Tidak ada pengurangan apa pun — risiko (sisa) diterima apa adanya.
-
-Catatan pedoman: "Abate dan Mitigate terkadang disebut dalam satu istilah, yaitu mengurangi risiko (reduce)." Keduanya bisa dikombinasikan pada satu RTP jika kegiatan pengendalian yang dirancang menyasar frekuensi maupun dampak sekaligus (secara parsial) — beda dari Avoid yang menghilangkan keduanya secara total.
-
-Ringkasan memilih:
-- RTP yang murni menyasar frekuensi/kemungkinan → Abate
-- RTP yang murni menyasar besarnya dampak → Mitigate
-- RTP yang menghilangkan keduanya secara total (hentikan sumber risiko) → Avoid
-- RTP yang memindahkan beban dampak ke pihak eksternal tanpa mengubah kemungkinan → Share/Transfer
-- Tidak ada tindakan tambahan, risiko residual diterima → Accept
+Setiap RTP diklasifikasikan ke salah satu atau kombinasi dari 5 jenis respon risiko AAMSA (Avoid, Abate, Mitigate, Share/Transfer, Accept). Penjelasan tiap jenis ada pada tombol info di samping judul kelompok AAMSA.
 
 Boleh pilih lebih dari 1 kategori sekaligus jika satu RTP dirancang mencakup lebih dari satu jenis respon (mis. kombinasi Abate + Mitigate).
 
@@ -264,4 +224,67 @@ Fungsi: Kalau diisi, menjadi dasar widget Dashboard "Siklus 4-Skor Risiko" — m
 Cara mengisi: OPSIONAL — bayangkan seandainya "Uraian Pengendalian yang Sudah Ada" TIDAK PERNAH ada, seberapa besar Dampak & Kemungkinan risiko ini? Boleh dikosongkan kalau Anda tidak ingin mengisi perbandingan inheren-residual untuk baris ini (Skala Risiko yang wajib tetap dihitung dari Skala Dampak/Kemungkinan residual di atas).
 
 Contoh: Risiko "keterlambatan verifikasi data PMKS" — TANPA pengendalian sama sekali, Dampak dinilai 4 (Tinggi) & Kemungkinan 4 (Sering Terjadi) → Skala Risiko Inheren 19. SETELAH ada SOP verifikasi berkala (existing control), Skala Risiko residual (di atas) turun jadi Dampak 3/Kemungkinan 2 = 10 — menunjukkan pengendalian yang ada cukup efektif.`,
+};
+
+/**
+ * Info per KELOMPOK kategori, ditampilkan di samping judul kelompoknya pada
+ * MultiCategoryTextarea (prop groupInfo) — bukan lagi digabung ke info
+ * field-nya. Kuncinya kategori PERTAMA tiap kelompok, sama dengan
+ * PENYEBAB_GROUP_LABELS / RESPON_RISIKO_GROUP_LABELS.
+ */
+export const INFO_KELOMPOK_7M1E = `Kategori 7M+1E (INTERNAL — dalam kendali/pengaruh OPD):
+- Men (Manusia/SDM): kompetensi, jumlah, atau perilaku SDM — mis. kurangnya jumlah petugas, SDM belum terlatih.
+- Machine (Mesin/Peralatan/Sistem): peralatan, mesin, atau sistem/aplikasi — mis. server sering down, aplikasi belum terintegrasi.
+- Method (Metode/Prosedur/Kebijakan): prosedur, SOP, atau kebijakan yang belum ada/belum memadai — mis. belum ada SOP baku.
+- Material (Bahan/Data/Dokumen): ketersediaan/kualitas bahan, data, atau dokumen — mis. data tidak akurat, dokumen sumber tidak lengkap.
+- Money (Anggaran/Pembiayaan): ketersediaan/kecukupan anggaran — mis. anggaran terbatas, pencairan anggaran terlambat.
+- Management (Tata Kelola/Pengawasan): kelemahan pengawasan, koordinasi lintas unit, atau kepemimpinan — mis. belum ada mekanisme monitoring berkala, pengawasan berjenjang lemah.
+- Measurement (Pengukuran/Indikator): kesalahan atau ketiadaan indikator/standar pengukuran kinerja — mis. indikator kinerja tidak terukur jelas, tidak ada baseline data.
+- Environment (Lingkungan kerja INTERNAL): kondisi fisik kantor/fasilitas kerja — mis. ruang kerja tidak memadai, fasilitas penunjang rusak/kurang. BUKAN cuaca/bencana alam (itu masuk Environmental di PESTLE Eksternal di bawah).
+
+Catatan: "Environment" (7M+1E, Internal) dan "Environmental" (PESTLE, Eksternal) adalah DUA kategori BERBEDA meski namanya mirip — Environment soal kondisi fisik kantor, Environmental soal alam/cuaca/bencana. Penilaian apakah faktor itu bisa dikendalikan OPD tetap diisi lengkap lewat field "Sumber Sebab Risiko" (Internal/Eksternal, otomatis terhitung dari kategori yang dicentang di sini) dan "C / UC" (Controllable/Uncontrollable) di bawah — ketiganya saling melengkapi, bukan menggantikan satu sama lain.`;
+
+export const INFO_KELOMPOK_PESTLE = `Kategori PESTLE (EKSTERNAL — di luar kendali OPD):
+- Political (Politik/Kebijakan): perubahan kebijakan pemerintah pusat/daerah lain, dinamika politik — mis. perubahan regulasi mendadak dari pusat.
+- Economic (Ekonomi): kondisi ekonomi makro/daerah — mis. inflasi, resesi, penurunan pendapatan daerah.
+- Social (Sosial): dinamika sosial masyarakat — mis. resistensi masyarakat, perubahan pola perilaku warga.
+- Technological (Teknologi): perkembangan/gangguan teknologi dari luar OPD — mis. serangan siber pihak luar, ketergantungan sistem pihak ketiga yang bermasalah.
+- Legal (Hukum): perubahan peraturan perundang-undangan atau putusan hukum di luar kendali OPD — mis. putusan pengadilan, perubahan undang-undang.
+- Environmental (Lingkungan alam EKSTERNAL): kondisi alam, cuaca, geografis, atau bencana alam — mis. curah hujan ekstrem, bencana alam, kondisi geografis terpencil.
+
+Catatan: "Environment" (7M+1E, Internal) dan "Environmental" (PESTLE, Eksternal) adalah DUA kategori BERBEDA meski namanya mirip — Environment soal kondisi fisik kantor, Environmental soal alam/cuaca/bencana. Penilaian apakah faktor itu bisa dikendalikan OPD tetap diisi lengkap lewat field "Sumber Sebab Risiko" (Internal/Eksternal, otomatis terhitung dari kategori yang dicentang di sini) dan "C / UC" (Controllable/Uncontrollable) di bawah — ketiganya saling melengkapi, bukan menggantikan satu sama lain.`;
+
+export const INFO_KELOMPOK_AAMSA = `Setiap RTP diklasifikasikan ke salah satu atau kombinasi dari 5 jenis respon risiko berikut:
+
+1. Avoid (Menghindari) — Mengurangi kemungkinan: YA | Mengurangi dampak: YA
+Tidak memulai/melanjutkan kegiatan sumber risiko → secara konsep kemungkinan dan dampak idealnya sama-sama hilang total (risiko tidak lagi relevan). Di aplikasi ini, kedua sumbu tetap dihitung lewat faktor reduksi Kategori Proyeksi RTP yang sama seperti kategori lain (maksimal turun ke faktor Efektif = 0.4×, TIDAK otomatis menjadi nol) — pilih kategori efektivitas "Efektif (E)" jika RTP Avoid Anda benar-benar menghentikan sumber risiko secara tuntas.
+
+2. Abate (Mengubah/Mengurangi Kemungkinan) — Mengurangi kemungkinan: YA | Mengurangi dampak: TIDAK
+Fokus murni ke frekuensi/kemungkinan terjadinya risiko — istilah lain: pencegahan (prevention).
+
+3. Mitigate (Mengubah/Mengurangi Konsekuensi) — Mengurangi kemungkinan: TIDAK | Mengurangi dampak: YA
+Fokus murni ke besarnya dampak jika risiko terjadi — istilah lain: penanggulangan.
+
+4. Share/Transfer (Membagi/Mentransfer) — Mengurangi kemungkinan: TIDAK (probabilitas tetap sama) | Mengurangi dampak: YA (dibagi ke pihak lain)
+Tidak mengubah probabilitas terjadinya risiko, tapi mengurangi beban dampak yang ditanggung sendiri — dampak "dipindahkan" sebagian/seluruhnya ke pihak lain (asuransi, kontrak, kemitraan).
+
+5. Accept/Retain (Menerima) — Mengurangi kemungkinan: TIDAK | Mengurangi dampak: TIDAK
+Tidak ada pengurangan apa pun — risiko (sisa) diterima apa adanya.
+
+Catatan pedoman: "Abate dan Mitigate terkadang disebut dalam satu istilah, yaitu mengurangi risiko (reduce)." Keduanya bisa dikombinasikan pada satu RTP jika kegiatan pengendalian yang dirancang menyasar frekuensi maupun dampak sekaligus (secara parsial) — beda dari Avoid yang menghilangkan keduanya secara total.
+
+Ringkasan memilih:
+- RTP yang murni menyasar frekuensi/kemungkinan → Abate
+- RTP yang murni menyasar besarnya dampak → Mitigate
+- RTP yang menghilangkan keduanya secara total (hentikan sumber risiko) → Avoid
+- RTP yang memindahkan beban dampak ke pihak eksternal tanpa mengubah kemungkinan → Share/Transfer
+- Tidak ada tindakan tambahan, risiko residual diterima → Accept`;
+
+export const PENYEBAB_GROUP_INFO: Record<string, string> = {
+    [PENYEBAB_INTERNAL_KATEGORI[0]]: INFO_KELOMPOK_7M1E,
+    [PENYEBAB_EKSTERNAL_KATEGORI[0]]: INFO_KELOMPOK_PESTLE,
+};
+
+export const RESPON_RISIKO_GROUP_INFO: Record<string, string> = {
+    [RESPON_RISIKO_KATEGORI[0]]: INFO_KELOMPOK_AAMSA,
 };

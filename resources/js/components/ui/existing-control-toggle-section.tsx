@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
+import { Grid3x3 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import AutocompleteTextarea from '@/components/ui/autocomplete-textarea';
-import AutocompleteSelect from '@/components/ui/autocomplete-select';
+import PilihKriteriaRisiko, { type MatriksRisiko } from '@/components/ui/pilih-kriteria-risiko';
+import type { KriteriaDampakRow, KriteriaKemungkinanRow } from '@/components/ui/matrix-criteria-popover';
+import { findRiskLevel, type RiskLevelBand } from '@/lib/risk-level';
+import { cn } from '@/lib/utils';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import RiskEvidenceUploader from '@/components/ui/risk-evidence-uploader';
@@ -27,6 +32,15 @@ import { KATEGORI_EXISTING_CONTROL_OPTIONS, KATEGORI_WAJIB_CELAH } from '@/lib/i
  *
  * evidenceType/rowId diteruskan ke RiskEvidenceUploader (beda per
  * halaman: irs_pemda/irs_pd/iro_pd).
+ *
+ * Skala risiko TIDAK lagi diketik (pilih angka 1–5). Sejak Oktober 2026
+ * hanya ada dua cara mengisinya:
+ *  1. Pilih langsung dari tabel Kriteria Kemungkinan & Kriteria Dampak
+ *     (PilihKriteriaRisiko) — tepat sesudah isian Existing Control. "Tidak"
+ *     -> Inheren = Residual/Current; "Ya" -> Residual/Current.
+ *  2. Fitur Isi Nilai Risiko (matriks 5×5), yang baru terbuka sesudah
+ *     langkah 1 lengkap — utk titik selain yg dipilih dari tabel: Inheren
+ *     (bila "Ya") dan Target. Titik dari tabel terkunci di matriks.
  */
 export default function ExistingControlToggleSection({
   data,
@@ -38,6 +52,11 @@ export default function ExistingControlToggleSection({
   rowId,
   isNewRow,
   onToggleChange,
+  kriteriaDampak,
+  kriteriaKemungkinan,
+  matriks,
+  riskLevels,
+  onBukaMatriks,
 }: {
   data: Record<string, string>;
   setData: (field: string, value: string) => void;
@@ -49,6 +68,12 @@ export default function ExistingControlToggleSection({
   isNewRow: boolean;
   /** Dipanggil setiap kali status toggle berubah/diketahui — dipakai parent utk mengunci tombol "Isi Nilai Risiko" sampai user memilih Ya/Tidak. */
   onToggleChange?: (status: 'ya' | 'tidak' | null) => void;
+  kriteriaDampak: KriteriaDampakRow[];
+  kriteriaKemungkinan: KriteriaKemungkinanRow[];
+  matriks: MatriksRisiko;
+  riskLevels: RiskLevelBand[];
+  /** Membuka dialog Isi Nilai Risiko (matriks 5×5) milik halaman. */
+  onBukaMatriks: () => void;
 }) {
   // Infer dari data existing saat edit — "Ya" kalau salah satu dari
   // ketiga field existing control sudah terisi, "Tidak" kalau baris baru
@@ -67,7 +92,7 @@ export default function ExistingControlToggleSection({
 
   // Re-infer setiap kali dialog dibuka utk baris lain (id sebagai proxy
   // "row berganti" — rowId null utk create), sekaligus lapor ke parent.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   useEffect(() => {
     const status = inferExistingControl();
     setHasExistingControl(status);
@@ -84,6 +109,12 @@ export default function ExistingControlToggleSection({
       setData('URAIAN PENGENDALIAN YANG SUDAH ADA', '');
       setData('KATEGORI EXISTING CONTROL', '');
       setData('CELAH PENGENDALIAN', '');
+      // Nilai yg sudah dipilih dari tabel (Residual/Current saat "Ya") tetap
+      // dipakai, kini sbg Inheren = Residual/Current.
+      if (data['SKALA DAMPAK'] && data['SKALA KEMUNGKINAN']) {
+        setData('SKALA DAMPAK INHEREN', data['SKALA DAMPAK']);
+        setData('SKALA KEMUNGKINAN INHEREN', data['SKALA KEMUNGKINAN']);
+      }
     }
   };
 
@@ -217,143 +248,163 @@ export default function ExistingControlToggleSection({
         </div>
       )}
 
-      {hasExistingControl === 'ya' && (
-        <ScoringYa data={data} setData={setData} errors={errors} info={info} />
+      {hasExistingControl !== null && (
+        <PenilaianRisiko
+          status={hasExistingControl}
+          data={data}
+          setData={setData}
+          errors={errors}
+          kriteriaDampak={kriteriaDampak}
+          kriteriaKemungkinan={kriteriaKemungkinan}
+          matriks={matriks}
+          riskLevels={riskLevels}
+          onBukaMatriks={onBukaMatriks}
+        />
       )}
-
-      {hasExistingControl === 'tidak' && <ScoringTidak data={data} setData={setData} errors={errors} info={info} />}
     </div>
   );
 }
 
-function ScoringYa({
-  data,
-  setData,
-  errors,
-  info,
-}: {
-  data: Record<string, string>;
-  setData: (field: string, value: string) => void;
-  errors: Record<string, string | undefined>;
-  info: Record<string, string>;
-}) {
-  return (
-    <div className="space-y-3 border-t pt-3">
-      <div className="grid grid-cols-2 gap-3 rounded-md border border-dashed p-3">
-        <div className="col-span-2 flex items-center gap-1.5">
-          <Label className="text-sm font-medium">Skala Risiko Inheren</Label>
-          {info['SKALA DAMPAK INHEREN'] && <FieldInfoPopover text={info['SKALA DAMPAK INHEREN']} />}
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor="SKALA DAMPAK INHEREN" className="text-xs text-muted-foreground">
-            Skala Dampak Inheren
-          </Label>
-          <AutocompleteSelect
-            value={data['SKALA DAMPAK INHEREN']}
-            onChange={(val) => setData('SKALA DAMPAK INHEREN', val)}
-            options={['1', '2', '3', '4', '5']}
-            placeholder="Pilih 1-5"
-          />
-          {errors['SKALA DAMPAK INHEREN'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK INHEREN']}</p>}
-        </div>
-        <div className="space-y-1">
-          <Label htmlFor="SKALA KEMUNGKINAN INHEREN" className="text-xs text-muted-foreground">
-            Skala Kemungkinan Inheren
-          </Label>
-          <AutocompleteSelect
-            value={data['SKALA KEMUNGKINAN INHEREN']}
-            onChange={(val) => setData('SKALA KEMUNGKINAN INHEREN', val)}
-            options={['1', '2', '3', '4', '5']}
-            placeholder="Pilih 1-5"
-          />
-          {errors['SKALA KEMUNGKINAN INHEREN'] && (
-            <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN INHEREN']}</p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-1">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="SKALA DAMPAK">SKALA DAMPAK (Residual/Current)</Label>
-            {info['SKALA DAMPAK'] && <FieldInfoPopover text={info['SKALA DAMPAK']} />}
-          </div>
-          <AutocompleteSelect
-            value={data['SKALA DAMPAK']}
-            onChange={(val) => setData('SKALA DAMPAK', val)}
-            options={['1', '2', '3', '4', '5']}
-            placeholder="Pilih 1-5"
-          />
-          {errors['SKALA DAMPAK'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK']}</p>}
-        </div>
-        <div className="space-y-1">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="SKALA KEMUNGKINAN">SKALA KEMUNGKINAN (Residual/Current)</Label>
-            {info['SKALA KEMUNGKINAN'] && <FieldInfoPopover text={info['SKALA KEMUNGKINAN']} />}
-          </div>
-          <AutocompleteSelect
-            value={data['SKALA KEMUNGKINAN']}
-            onChange={(val) => setData('SKALA KEMUNGKINAN', val)}
-            options={['1', '2', '3', '4', '5']}
-            placeholder="Pilih 1-5"
-          />
-          {errors['SKALA KEMUNGKINAN'] && <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN']}</p>}
-        </div>
-      </div>
-      <p className="text-xs text-muted-foreground">
-        Skala Risiko dan Skala Prioritas Residual/Current ditentukan otomatis dari kombinasi Dampak &amp; Kemungkinan di atas lewat tabel Matriks Analisis Risiko 5×5 — dibaca dari tabel peringkat 1–25, bukan hasil perkalian kedua angka.
-      </p>
-    </div>
-  );
+/** Skala yg dipilih dari tabel sudah lengkap (dipakai halaman utk membuka tombol Isi Nilai Risiko). */
+export function penilaianTabelLengkap(status: 'ya' | 'tidak' | null, data: Record<string, string>): boolean {
+  if (status === 'ya') return !!data['SKALA DAMPAK'] && !!data['SKALA KEMUNGKINAN'];
+  if (status === 'tidak') return !!data['SKALA DAMPAK INHEREN'] && !!data['SKALA KEMUNGKINAN INHEREN'];
+  return false;
 }
 
-function ScoringTidak({
+const GALAT_SKALA = [
+  'SKALA DAMPAK INHEREN',
+  'SKALA KEMUNGKINAN INHEREN',
+  'SKALA DAMPAK',
+  'SKALA KEMUNGKINAN',
+  'SKALA DAMPAK TARGET',
+  'SKALA KEMUNGKINAN TARGET',
+];
+
+function PenilaianRisiko({
+  status,
   data,
   setData,
   errors,
-  info,
+  kriteriaDampak,
+  kriteriaKemungkinan,
+  matriks,
+  riskLevels,
+  onBukaMatriks,
 }: {
+  status: 'ya' | 'tidak';
   data: Record<string, string>;
   setData: (field: string, value: string) => void;
   errors: Record<string, string | undefined>;
-  info: Record<string, string>;
+  kriteriaDampak: KriteriaDampakRow[];
+  kriteriaKemungkinan: KriteriaKemungkinanRow[];
+  matriks: MatriksRisiko;
+  riskLevels: RiskLevelBand[];
+  onBukaMatriks: () => void;
 }) {
+  const angka = (f: string) => Number(data[f]) || null;
+  const skalaDari = (d: number | null, k: number | null) =>
+    d && k ? (matriks.cells.find((c) => c.dampak === d && c.kemungkinan === k)?.skala_risiko ?? null) : null;
+
+  const ya = status === 'ya';
+  const dampak = angka(ya ? 'SKALA DAMPAK' : 'SKALA DAMPAK INHEREN');
+  const kemungkinan = angka(ya ? 'SKALA KEMUNGKINAN' : 'SKALA KEMUNGKINAN INHEREN');
+  const lengkap = penilaianTabelLengkap(status, data);
+
+  const pilihTabel = (d: number | null, k: number | null) => {
+    const sd = d ? String(d) : '';
+    const sk = k ? String(k) : '';
+    if (ya) {
+      setData('SKALA DAMPAK', sd);
+      setData('SKALA KEMUNGKINAN', sk);
+    } else {
+      // Tanpa Existing Control, Inheren dan Residual/Current sama persis.
+      setData('SKALA DAMPAK INHEREN', sd);
+      setData('SKALA KEMUNGKINAN INHEREN', sk);
+      setData('SKALA DAMPAK', sd);
+      setData('SKALA KEMUNGKINAN', sk);
+    }
+  };
+
+  const dInheren = angka('SKALA DAMPAK INHEREN');
+  const kInheren = angka('SKALA KEMUNGKINAN INHEREN');
+  const skalaInheren = skalaDari(dInheren, kInheren);
+  const skalaCurrent = skalaDari(dampak, kemungkinan);
+  const dTarget = angka('SKALA DAMPAK TARGET');
+  const kTarget = angka('SKALA KEMUNGKINAN TARGET');
+  const skalaTarget = skalaDari(dTarget, kTarget);
+  const galat = GALAT_SKALA.map((f) => errors[f]).filter((x, i, arr): x is string => !!x && arr.indexOf(x) === i);
+
+  const Ringkas = ({ nama, skala, d, k, kosong }: { nama: string; skala: number | null; d: number | null; k: number | null; kosong: string }) => {
+    const level = findRiskLevel(skala, riskLevels);
+    return (
+      <div className="flex items-center gap-2 text-sm">
+        <span className="w-40 shrink-0 text-muted-foreground">{nama}</span>
+        {skala !== null ? (
+          <>
+            <span className={cn('inline-flex min-w-8 justify-center rounded px-1.5 py-0.5 text-xs font-bold', level?.warna_class ?? 'bg-muted')}>
+              {skala}
+            </span>
+            <span className="text-xs text-muted-foreground">
+              {level?.label} · K{k} D{d}
+            </span>
+          </>
+        ) : (
+          <span className="text-xs text-muted-foreground italic">{kosong}</span>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-3 border-t pt-3">
-      <p className="text-xs text-muted-foreground">
-        Risiko ini belum memiliki pengendalian sama sekali — cukup isi satu skor di bawah (Skala Risiko Inheren).
-        Nilai ini akan langsung menjadi Skala Risiko Residual/Current juga (belum ada kontrol yang menekannya).
-        Lanjutkan ke Rencana Tindak Pengendalian (RTP) di bawah untuk merancang pengendalian barunya.
-      </p>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="space-y-1">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="SKALA DAMPAK INHEREN">Skala Dampak Inheren</Label>
-            {info['SKALA DAMPAK INHEREN'] && <FieldInfoPopover text={info['SKALA DAMPAK INHEREN']} />}
-          </div>
-          <AutocompleteSelect
-            value={data['SKALA DAMPAK INHEREN']}
-            onChange={(val) => setData('SKALA DAMPAK INHEREN', val)}
-            options={['1', '2', '3', '4', '5']}
-            placeholder="Pilih 1-5"
-          />
-          {errors['SKALA DAMPAK INHEREN'] && <p className="text-sm text-destructive">{errors['SKALA DAMPAK INHEREN']}</p>}
+      <PilihKriteriaRisiko
+        judul={ya ? 'Nilai Risiko Residual/Current' : 'Nilai Risiko Inheren = Residual/Current'}
+        keterangan={
+          ya
+            ? 'Nilai risiko SESUDAH pengendalian yang sudah ada di atas berjalan. Skala Inheren (sebelum pengendalian) diisi sesudah ini lewat Isi Nilai Risiko.'
+            : 'Risiko ini belum memiliki pengendalian, jadi nilai yang dipilih di sini sekaligus menjadi Inheren dan Residual/Current. Lanjutkan ke Rencana Tindak Pengendalian di bawah untuk merancang pengendaliannya.'
+        }
+        dampak={dampak}
+        kemungkinan={kemungkinan}
+        onPilih={pilihTabel}
+        kriteriaDampak={kriteriaDampak}
+        kriteriaKemungkinan={kriteriaKemungkinan}
+        matriks={matriks}
+        riskLevels={riskLevels}
+      />
+
+      <div className="space-y-2 rounded-md border p-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className="text-sm font-semibold">Isi Nilai Risiko lainnya</p>
+          <Button type="button" variant="outline" size="sm" disabled={!lengkap} onClick={onBukaMatriks}>
+            <Grid3x3 className="mr-1.5 h-3.5 w-3.5" />
+            {ya ? 'Isi Nilai Risiko — Inheren & Target' : 'Isi Nilai Risiko — Target'}
+          </Button>
         </div>
-        <div className="space-y-1">
-          <div className="flex items-center gap-1.5">
-            <Label htmlFor="SKALA KEMUNGKINAN INHEREN">Skala Kemungkinan Inheren</Label>
-            {info['SKALA KEMUNGKINAN INHEREN'] && <FieldInfoPopover text={info['SKALA KEMUNGKINAN INHEREN']} />}
-          </div>
-          <AutocompleteSelect
-            value={data['SKALA KEMUNGKINAN INHEREN']}
-            onChange={(val) => setData('SKALA KEMUNGKINAN INHEREN', val)}
-            options={['1', '2', '3', '4', '5']}
-            placeholder="Pilih 1-5"
-          />
-          {errors['SKALA KEMUNGKINAN INHEREN'] && (
-            <p className="text-sm text-destructive">{errors['SKALA KEMUNGKINAN INHEREN']}</p>
-          )}
-        </div>
+        {!lengkap && (
+          <p className="text-xs text-muted-foreground">Terbuka sesudah satu level Kemungkinan dan satu level Dampak dipilih dari tabel di atas.</p>
+        )}
+        <Ringkas
+          nama="Inheren"
+          skala={skalaInheren}
+          d={dInheren}
+          k={kInheren}
+          kosong={ya ? 'belum diisi — wajib, lewat Isi Nilai Risiko' : 'dari tabel di atas'}
+        />
+        <Ringkas nama="Residual/Current" skala={skalaCurrent} d={dampak} k={kemungkinan} kosong="pilih dari tabel di atas" />
+        <Ringkas nama="Target" skala={skalaTarget} d={dTarget} k={kTarget} kosong="opsional — dihitung dari RTP bila tidak diisi" />
+        {ya && skalaInheren !== null && skalaCurrent !== null && skalaInheren < skalaCurrent && (
+          <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+            Inheren ({skalaInheren}) lebih rendah dari Residual/Current ({skalaCurrent}). Risiko sebelum pengendalian harus sama atau lebih
+            besar — geser titik Inheren lewat Isi Nilai Risiko.
+          </p>
+        )}
+        {galat.map((g) => (
+          <p key={g} className="text-sm text-destructive">
+            {g}
+          </p>
+        ))}
       </div>
     </div>
   );

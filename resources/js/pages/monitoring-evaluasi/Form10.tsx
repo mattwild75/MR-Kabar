@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { useRowSearch } from '@/hooks/use-row-search';
 import AppLayout from '@/layouts/app-layout';
+import { PENYEBAB_GROUP_INFO } from '@/lib/irs-field-info';
 import { PENYEBAB_5M_KATEGORI, PENYEBAB_GROUP_LABELS } from '@/lib/irs-reference-data';
 import { PENCATATAN_KEJADIAN_FIELD_INFO } from '@/lib/pencatatan-kejadian-field-info';
 import { Head, Link, router } from '@inertiajs/react';
@@ -213,6 +214,7 @@ function RisikoRowCard({
                                     onChange={(val) => setField('sebab_saat_kejadian', val)}
                                     categories={PENYEBAB_5M_KATEGORI}
                                     groupLabels={PENYEBAB_GROUP_LABELS}
+                                    groupInfo={PENYEBAB_GROUP_INFO}
                                     uraianPlaceholder="Uraian sebab..."
                                     rows={2}
                                 />
