@@ -67,7 +67,7 @@ export default function PilihKriteriaRisiko({
             </span>
           ) : null}
         </p>
-        <div className="overflow-x-auto rounded border bg-background">
+        <div className="overflow-x-auto rounded border bg-background [contain:inline-size]">
           <TabelKriteriaKemungkinan rows={kriteriaKemungkinan} pilihan={kemungkinan} onPilih={(k) => onPilih(dampak, k)} />
         </div>
       </div>
@@ -81,7 +81,7 @@ export default function PilihKriteriaRisiko({
             </span>
           ) : null}
         </p>
-        <div className="overflow-x-auto rounded border bg-background">
+        <div className="overflow-x-auto rounded border bg-background [contain:inline-size]">
           <TabelKriteriaDampak rows={kriteriaDampak} pilihan={dampak} onPilih={(d) => onPilih(d, kemungkinan)} />
         </div>
       </div>

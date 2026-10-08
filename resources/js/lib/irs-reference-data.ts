@@ -204,7 +204,7 @@ export function ekstrakKategoriKontrol(value: string | null | undefined): string
 export const RESPON_RISIKO_KATEGORI = ['Avoid', 'Abate', 'Mitigate', 'Share/Transfer', 'Accept'];
 
 // Judul kelompok di atas kelima respon risiko pada Rencana Tindak
-// Pengendalian — tempat tombol info AAMSA (lihat RESPON_RISIKO_GROUP_INFO).
+// Pengendalian; info tiap respon ada di RESPON_RISIKO_KATEGORI_INFO.
 export const RESPON_RISIKO_GROUP_LABELS: Record<string, string> = {
     [RESPON_RISIKO_KATEGORI[0]]: 'AAMSA — Respon Risiko',
 };

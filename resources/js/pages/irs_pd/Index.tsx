@@ -39,7 +39,7 @@ import { useSortableRows } from '@/hooks/use-sortable-rows';
 import { useIsViewer } from '@/hooks/use-viewer';
 import AppLayout from '@/layouts/app-layout';
 import { unggahTertunda } from '@/lib/bukti-tertunda';
-import { PENYEBAB_GROUP_INFO, RESPON_RISIKO_GROUP_INFO } from '@/lib/irs-field-info';
+import { PENYEBAB_KATEGORI_INFO, RESPON_RISIKO_KATEGORI_INFO } from '@/lib/irs-field-info';
 import { IRS_PD_FIELD_INFO } from '@/lib/irs-pd-field-info';
 import {
     C_UC_OPTIONS,
@@ -811,7 +811,7 @@ export default function IrsPdIndex({
                                                     }}
                                                     categories={PENYEBAB_5M_KATEGORI}
                                                     groupLabels={PENYEBAB_GROUP_LABELS}
-                                                    groupInfo={PENYEBAB_GROUP_INFO}
+                                                    categoryInfo={PENYEBAB_KATEGORI_INFO}
                                                     categorySuffix={penyebabKategoriSuffix}
                                                     uraianPlaceholder="Uraian penyebab..."
                                                 />
@@ -907,7 +907,7 @@ export default function IrsPdIndex({
                                                         onChange={(val) => setData(field, val)}
                                                         categories={RESPON_RISIKO_KATEGORI}
                                                         groupLabels={RESPON_RISIKO_GROUP_LABELS}
-                                                        groupInfo={RESPON_RISIKO_GROUP_INFO}
+                                                        categoryInfo={RESPON_RISIKO_KATEGORI_INFO}
                                                         uraianPlaceholder="Uraian rencana tindak pengendalian..."
                                                     />
                                                     {errors[field] && <p className="text-destructive text-sm">{errors[field]}</p>}

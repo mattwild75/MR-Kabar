@@ -25,11 +25,11 @@ interface MultiCategoryTextareaProps {
    */
   groupLabels?: Record<string, string>;
   /**
-   * Teks info per kelompok, tampil sbg tombol info di SAMPING judul
-   * kelompoknya (mis. penjelasan AAMSA, 7M+1E, PESTLE). Kuncinya sama dgn
-   * groupLabels.
+   * Teks info per PILIHAN, tampil sbg tombol info di samping label tiap
+   * kategori (mis. Men, Machine, Political, Avoid). Kuncinya nama kategori
+   * tampilan (elemen `categories`).
    */
-  groupInfo?: Record<string, string>;
+  categoryInfo?: Record<string, string>;
   /**
    * Suffix ditempel ke label kategori saat disimpan (mis. "Method - Int"),
    * murni bagian dari nama kategori tersimpan — tidak mengubah struktur
@@ -69,7 +69,7 @@ export default function MultiCategoryTextarea({
   rows = 2,
   hideUraian = false,
   groupLabels,
-  groupInfo,
+  categoryInfo,
   categorySuffix,
 }: MultiCategoryTextareaProps) {
   // Kategori "efektif" yg dipakai utk parse/build/simpan — sama dgn label
@@ -114,10 +114,9 @@ export default function MultiCategoryTextarea({
         return (
           <div key={c}>
             {groupLabel && (
-              <div className={`flex items-center gap-1.5 px-2 pb-1 ${i > 0 ? 'pt-3' : ''}`}>
-                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">{groupLabel}</p>
-                {groupInfo?.[c] && <FieldInfoPopover text={groupInfo[c]} />}
-              </div>
+              <p className={`px-2 pb-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase ${i > 0 ? 'pt-3' : ''}`}>
+                {groupLabel}
+              </p>
             )}
             <div
               className={`grid grid-cols-1 gap-2 rounded-md p-2 sm:grid-cols-[12rem_1fr] ${
@@ -133,6 +132,11 @@ export default function MultiCategoryTextarea({
               <Label htmlFor={id ? `${id}-${c}` : undefined} className="cursor-pointer text-sm font-medium">
                 {c}
               </Label>
+              {categoryInfo?.[c] && (
+                <span className="pt-0.5">
+                  <FieldInfoPopover text={categoryInfo[c]} />
+                </span>
+              )}
             </div>
             {!hideUraian && (
               <Textarea
