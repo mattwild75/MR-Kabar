@@ -237,7 +237,7 @@ export default function InfoPegawai({ employeeId, nama }: { employeeId: number |
                                     RPP <span className="font-mono">{data.penugasan.terakhir.rpp}</span> · ST{' '}
                                     <span className="font-mono">{data.penugasan.terakhir.st ?? '-'}</span>
                                 </div>
-                                <div className="line-clamp-2">{data.penugasan.terakhir.obrik}</div>
+                                <div>{data.penugasan.terakhir.obrik}</div>
                             </div>
                         )}
                     </div>

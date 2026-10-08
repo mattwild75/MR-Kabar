@@ -227,7 +227,7 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                                                                             <span className="text-muted-foreground mr-2 w-10 shrink-0 tabular-nums">
                                                                                 {k.kode}
                                                                             </span>
-                                                                            <span className="truncate">{k.nama}</span>
+                                                                            <span className="truncate" title={k.nama}>{k.nama}</span>
                                                                             {k.autofill && (
                                                                                 <span className="ml-auto text-[10px] text-emerald-600">auto</span>
                                                                             )}

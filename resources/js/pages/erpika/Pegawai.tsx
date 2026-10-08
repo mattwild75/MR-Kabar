@@ -93,6 +93,15 @@ export default function Pegawai({ employees }: Props) {
     const [sunting, setSunting] = useState<Employee | null>(null);
     const [tambah, setTambah] = useState(false);
     const [hapus, setHapus] = useState<Employee | null>(null);
+    // Obrik/Objek penugasan terakhir diringkas 2 baris; klik utk membuka/menutup teks lengkapnya.
+    const [teksTerbuka, setTeksTerbuka] = useState<Set<number>>(new Set());
+    const lipat = (id: number) =>
+        setTeksTerbuka((s) => {
+            const n = new Set(s);
+            if (n.has(id)) n.delete(id);
+            else n.add(id);
+            return n;
+        });
 
     const [tampilNonaktif, setTampilNonaktif] = useIngatan('pegawai-tampil-nonaktif', false);
 
@@ -238,11 +247,18 @@ export default function Pegawai({ employees }: Props) {
                                                                 : '. . . . .'}
                                                             {e.penugasan.terakhir.tmt && <span className="ml-1">({e.penugasan.terakhir.tmt})</span>}
                                                         </div>
-                                                        <div className="line-clamp-2">
+                                                        <div
+                                                            className={`cursor-pointer ${teksTerbuka.has(e.id) ? '' : 'line-clamp-2'}`}
+                                                            onClick={() => lipat(e.id)}
+                                                            title={teksTerbuka.has(e.id) ? 'Klik untuk meringkas' : 'Klik untuk membuka teks lengkap'}
+                                                        >
                                                             <span className="font-medium">Obrik:</span> {e.penugasan.terakhir.obrik ?? '-'}
                                                         </div>
                                                         {e.penugasan.terakhir.objek.length > 0 && (
-                                                            <div className="line-clamp-2">
+                                                            <div
+                                                                className={`cursor-pointer ${teksTerbuka.has(e.id) ? '' : 'line-clamp-2'}`}
+                                                                onClick={() => lipat(e.id)}
+                                                            >
                                                                 <span className="font-medium">Objek:</span> {e.penugasan.terakhir.objek.join('; ')}
                                                             </div>
                                                         )}

@@ -217,7 +217,9 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                 const lebar = (n: number) => (j.penugasan ? `${(n / j.penugasan) * 100}%` : '0%');
                                 return (
                                     <div key={j.jenis} className="grid grid-cols-[150px_90px_1fr_auto] items-center gap-2 text-xs">
-                                        <span className="truncate">{j.jenis}</span>
+                                        <span className="truncate" title={j.jenis}>
+                                            {j.jenis}
+                                        </span>
                                         <span
                                             className="font-medium tabular-nums"
                                             title={`${j.penugasan} penugasan (ST), ${p}% sudah terbit laporan dan masuk aneva`}
@@ -374,7 +376,7 @@ export default function Aneva({ baris, ringkasan, nomorTerakhir, categories, tah
                                                 <div className="text-muted-foreground text-xs">{tgl(b.tanggal_st)}</div>
                                             </td>
                                             <td className="max-w-[380px] px-3 py-2">
-                                                <div className="line-clamp-2">{b.uraian}</div>
+                                                <div className={buka ? undefined : 'line-clamp-2'}>{b.uraian}</div>
                                                 {b.obriks.length > 0 && (
                                                     <div className="text-muted-foreground text-xs">
                                                         {b.obriks.length} obrik{b.sifat ? ` · ${b.sifat}` : ''} ·{' '}
