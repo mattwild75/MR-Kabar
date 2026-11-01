@@ -393,7 +393,7 @@ function PenilaianRisiko({
           kosong={ya ? 'belum diisi — wajib, lewat Isi Nilai Risiko' : 'dari tabel di atas'}
         />
         <Ringkas nama="Residual/Current" skala={skalaCurrent} d={dampak} k={kemungkinan} kosong="pilih dari tabel di atas" />
-        <Ringkas nama="Target" skala={skalaTarget} d={dTarget} k={kTarget} kosong="opsional — dihitung dari RTP bila tidak diisi" />
+        <Ringkas nama="Target" skala={skalaTarget} d={dTarget} k={kTarget} kosong="belum ditentukan — wajib, lewat Kategori Proyeksi RTP atau Isi Nilai Risiko" />
         {ya && skalaInheren !== null && skalaCurrent !== null && skalaInheren < skalaCurrent && (
           <p className="rounded-md border border-amber-300 bg-amber-50 p-2 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
             Inheren ({skalaInheren}) lebih rendah dari Residual/Current ({skalaCurrent}). Risiko sebelum pengendalian harus sama atau lebih

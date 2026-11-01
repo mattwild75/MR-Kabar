@@ -75,10 +75,10 @@ export default function SkorTargetAktualSection({
   return (
     <>
       {/* ── SKOR TARGET (proyeksi RTP) ── */}
-      <div className="space-y-3 rounded-md border border-dashed border-sky-400/60 p-3 dark:border-sky-700/60">
+      <div id="bagian-skala-target" className="scroll-mt-14 space-y-3 rounded-md border border-dashed border-sky-400/60 p-3 dark:border-sky-700/60">
         <div className="flex items-center gap-1.5">
           <Label className="text-sm font-medium text-sky-700 dark:text-sky-400">
-            Skala Target — Proyeksi setelah RTP dijalankan (opsional)
+            Skala Target — Proyeksi setelah RTP dijalankan (wajib)
           </Label>
           {info['KATEGORI PROYEKSI RTP'] && <FieldInfoPopover text={info['KATEGORI PROYEKSI RTP']} />}
         </div>

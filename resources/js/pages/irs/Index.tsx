@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ExistingControlToggleSection, { penilaianTabelLengkap } from '@/components/ui/existing-control-toggle-section';
+import DaftarIsianWajib from '@/components/ui/daftar-isian-wajib';
+import { periksaIsianRisiko } from '@/lib/periksa-isian-risiko';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import HighlightText from '@/components/ui/highlight-text';
 import { Input } from '@/components/ui/input';
@@ -215,6 +217,9 @@ export default function IrsIndex({
     const [refDialog, setRefDialog] = useState<null | 'jenis' | 'entitas' | 'dampak' | 'kemungkinan' | 'matriks'>(null);
     const [matrixPickerOpen, setMatrixPickerOpen] = useState(false);
     const [existingControlStatus, setExistingControlStatus] = useState<'ya' | 'tidak' | null>(null);
+    // true sesudah Simpan pernah ditekan: daftar isian wajib yang kurang tampil
+    // di bawah formulir dan berkurang seketika saat isian dilengkapi.
+    const [cobaSimpan, setCobaSimpan] = useState(false);
     // true saat form dibuka dari tombol "Input ke Register Risiko" di Rekap
     // Lapor Kejadian — Uraian Risiko/Penyebab/OPD sudah terisi otomatis dari
     // laporan warga, TAPI Sumber Sebab (Internal/Eksternal) & C/UC TIDAK ikut
@@ -225,6 +230,11 @@ export default function IrsIndex({
     const { data, setData, post, put, processing, reset, errors } = useForm<FormData>(emptyForm());
     // Draf otomatis per baris (localStorage) selama dialog terbuka; dihapus setelah tersimpan.
     const { hapusDraf } = useDrafFormulir('irs-pemda-' + (editing?.id ?? 'baru'), data, (d) => setData(d), dialogOpen);
+    const isianKurang = periksaIsianRisiko(data, {
+        kolomKonteks: 'SASARAN RPJMD',
+        labelKonteks: 'Sasaran RPJMD',
+        existingControlStatus,
+    });
 
     const {
         searchInput,
@@ -280,6 +290,7 @@ export default function IrsIndex({
 
     const openCreate = () => {
         setEditing(null);
+        setCobaSimpan(false);
         setPrefillFromLaporan(false);
         reset();
         const values = emptyForm();
@@ -314,6 +325,7 @@ export default function IrsIndex({
     }, []);
 
     const openEdit = (row: IrsRow) => {
+        setCobaSimpan(false);
         setEditing(row);
         setPrefillFromLaporan(false);
         const values = emptyForm();
@@ -325,6 +337,12 @@ export default function IrsIndex({
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
+        setCobaSimpan(true);
+        if (isianKurang.length > 0) {
+            toast.error(`${isianKurang.length} isian wajib belum lengkap — lihat daftarnya di bawah formulir.`);
+            setTimeout(() => document.getElementById('daftar-isian-wajib')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 50);
+            return;
+        }
 
         if (editing) {
             put(`/irs_pemda/${editing.id}`, {
@@ -1068,6 +1086,12 @@ export default function IrsIndex({
                         })}
 
                         <SkorTargetAktualSection data={data} setData={setData} errors={errors} info={IRS_FIELD_INFO} />
+
+                        {cobaSimpan && !isViewer && (
+                            <div id="daftar-isian-wajib" className="scroll-mt-14">
+                                <DaftarIsianWajib kurang={isianKurang} judulBagian={Object.values(BAGIAN_FORM)} />
+                            </div>
+                        )}
 
                         <DialogFooter>
                             <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
