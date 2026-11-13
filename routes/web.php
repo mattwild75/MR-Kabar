@@ -77,6 +77,10 @@ Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
 
+// Kebijakan privasi publik, wajib untuk menerbitkan aplikasi OAuth Google
+// (cadangan ke Google Drive) ke status "In production".
+Route::view('/kebijakan-privasi', 'kebijakan-privasi')->name('kebijakan-privasi');
+
 // Auto-login sekali klik ke akun bersama LAPOR — dipakai QR code di
 // /panduan, harus DI LUAR grup 'auth' karena diakses SEBELUM login.
 Route::get('/login/lapor-kejadian', LaporQrLoginController::class)
