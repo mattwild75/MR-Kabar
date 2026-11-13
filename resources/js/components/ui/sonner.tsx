@@ -10,6 +10,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       style={
         {
+          // Dialog Radix memasang pointer-events: none pada <body> selama
+          // terbuka; tanpa ini tombol aksi toast (mis. "Buang draf") tidak
+          // bisa diklik ketika muncul di atas formulir dalam dialog.
+          pointerEvents: "auto",
           "--normal-bg": "var(--popover)",
           "--normal-text": "var(--popover-foreground)",
           "--normal-border": "var(--border)",

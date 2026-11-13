@@ -31,6 +31,9 @@ export function useDrafFormulir<T extends object>(kunci: string, data: T, setDat
             if (!mentah) return;
             const { data: draf, waktu } = JSON.parse(mentah) as { data: T; waktu: string };
             if (JSON.stringify(draf) === JSON.stringify(data)) return;
+            // Isian sebelum draf dipulihkan; "Buang draf" kembali ke sini
+            // tanpa memuat ulang halaman, jadi dialog formulir tetap terbuka.
+            const awal = data;
             setData({ ...data, ...draf });
             toast.info('Draf yang belum tersimpan dipulihkan', {
                 description: `Terakhir diketik ${new Date(waktu).toLocaleString('id-ID')}. Isian kembali seperti sebelum halaman ditutup.`,
@@ -43,7 +46,11 @@ export function useDrafFormulir<T extends object>(kunci: string, data: T, setDat
                         } catch {
                             // abaikan
                         }
-                        window.location.reload();
+                        // Pengembalian isian ini bukan ketikan baru: jangan
+                        // sampai ia tersimpan lagi sebagai draf.
+                        abaikan.current = true;
+                        setData(awal);
+                        toast.success('Draf dibuang. Isian kembali seperti sebelum draf dipulihkan.');
                     },
                 },
             });
