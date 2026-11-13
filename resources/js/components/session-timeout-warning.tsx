@@ -8,7 +8,6 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { router } from '@inertiajs/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
@@ -44,11 +43,33 @@ export function SessionTimeoutWarning() {
     const [ambangPeringatan, setAmbangPeringatan] = useState(60);
     const sisaRef = useRef<number | null>(null);
     const keluarRef = useRef(false);
+    const [memproses, setMemproses] = useState(false);
+    const [pesanGagal, setPesanGagal] = useState<string | null>(null);
 
+    /**
+     * Keluar. Dulu lewat router.post Inertia: kalau token formulirnya sudah
+     * kedaluwarsa (sesi di server habis lebih dulu), Inertia menampilkan
+     * jendela galat "Page Expired" di atas dialog ini dan layar terasa macet.
+     * Kini logout dikirim langsung, lalu apa pun jawabannya halaman dimuat
+     * ulang ke halaman login.
+     */
     const keluar = useCallback(() => {
         if (keluarRef.current) return;
         keluarRef.current = true;
-        router.post(route('logout'));
+        const token = decodeURIComponent(
+            document.cookie
+                .split('; ')
+                .find((c) => c.startsWith('XSRF-TOKEN='))
+                ?.split('=')[1] ?? '',
+        );
+        fetch(route('logout'), {
+            method: 'POST',
+            credentials: 'same-origin',
+            redirect: 'manual',
+            headers: { Accept: 'text/html', 'X-XSRF-TOKEN': token },
+        })
+            .catch(() => undefined)
+            .finally(() => window.location.assign(route('login')));
     }, []);
 
     /** Tanya sisa waktu ke server, lalu samakan hitungan lokal dengannya. */
@@ -114,6 +135,9 @@ export function SessionTimeoutWarning() {
     }, [keluar]);
 
     const lanjutkan = async () => {
+        if (memproses) return;
+        setMemproses(true);
+        setPesanGagal(null);
         try {
             // Token diambil dari kuki XSRF-TOKEN, bukan dari meta bernama
             // `csrf-token`.
@@ -133,21 +157,39 @@ export function SessionTimeoutWarning() {
             const res = await fetch(route('session.extend'), {
                 method: 'POST',
                 credentials: 'same-origin',
+                // Sesi yang sudah habis di server dijawab dengan pengalihan ke
+                // halaman login. Diikuti diam-diam, jawabannya HTML "200 OK"
+                // yang gagal dibaca sebagai JSON, dan dialog ini tetap di
+                // layar tanpa reaksi apa pun - terasa seperti tombol mati.
+                redirect: 'manual',
                 headers: {
                     Accept: 'application/json',
                     'X-XSRF-TOKEN': token,
                 },
             });
-            if (res.ok) {
+            const json = res.ok && (res.headers.get('content-type') ?? '').includes('json');
+            if (json) {
                 const data = (await res.json()) as { secondsRemaining: number };
                 setSisaDetik(data.secondsRemaining);
                 sisaRef.current = data.secondsRemaining;
+                setMemproses(false);
 
                 return;
             }
+            if (res.type === 'opaqueredirect' || [401, 403, 419].includes(res.status) || res.ok) {
+                // Sesi di server sudah berakhir: tidak ada yang bisa diperpanjang.
+                setPesanGagal('Sesi Anda di server sudah berakhir. Mengalihkan ke halaman masuk...');
+                keluarRef.current = true;
+                setTimeout(() => window.location.assign(route('login')), 1800);
+
+                return;
+            }
+            setPesanGagal('Server menolak perpanjangan sesi. Coba sekali lagi, atau pilih Keluar.');
         } catch {
             // Gagal memperpanjang — jangan diam-diam dianggap berhasil.
+            setPesanGagal('Tidak dapat terhubung ke server. Periksa jaringan, lalu coba lagi.');
         }
+        setMemproses(false);
         // Baik gagal maupun ditolak server: tanyakan keadaan sebenarnya, supaya
         // dialognya tidak tertutup sementara sesinya sebetulnya tetap akan habis.
         sinkron();
@@ -174,9 +216,27 @@ export function SessionTimeoutWarning() {
                         </span>
                     </AlertDialogDescription>
                 </AlertDialogHeader>
+                {pesanGagal && (
+                    <p
+                        role="alert"
+                        className="rounded-md border border-red-300 bg-red-50 p-2 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/30 dark:text-red-300"
+                    >
+                        {pesanGagal}
+                    </p>
+                )}
                 <AlertDialogFooter>
                     <AlertDialogCancel onClick={keluar}>Keluar</AlertDialogCancel>
-                    <AlertDialogAction onClick={lanjutkan}>Lanjutkan</AlertDialogAction>
+                    {/* preventDefault: AlertDialogAction bawaan Radix langsung meminta
+                        dialog ditutup; penutupan di sini ditentukan jawaban server. */}
+                    <AlertDialogAction
+                        disabled={memproses}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            lanjutkan();
+                        }}
+                    >
+                        {memproses ? 'Memperpanjang…' : 'Lanjutkan'}
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
