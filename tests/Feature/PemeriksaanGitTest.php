@@ -86,6 +86,47 @@ class PemeriksaanGitTest extends TestCase
         $this->assertSame(0, $hasil['di_belakang']);
     }
 
+    /**
+     * Berkas LFS yang hanya "meragukan" bagi git (ditulis sedetik dengan
+     * indeks) tampak berubah karena status dijalankan tanpa filter LFS; ia
+     * bukan halangan selama isinya cocok dengan penunjuk LFS di HEAD.
+     */
+    public function test_berkas_lfs_yang_isinya_sama_bukan_halangan(): void
+    {
+        $dir = sys_get_temp_dir().'/periksa-lfs-'.uniqid();
+        mkdir($dir.'/public/video', 0777, true);
+        file_put_contents($dir.'/public/video/a.mp4', 'isi video');
+        $penunjuk = "version https://git-lfs.github.com/spec/v1\noid sha256:".hash('sha256', 'isi video')."\nsize 9\n";
+
+        $this->palsukanGit([
+            '*status*--porcelain*' => ' M public/video/a.mp4',
+            '*cat-file*-p*HEAD:public/video/a.mp4*' => $penunjuk,
+        ]);
+        Cache::flush();
+        $hasil = (new PemeriksaanGitService($dir))->periksa();
+        $this->assertSame([], $hasil['berubah']);
+        $this->assertSame([], $hasil['halangan']);
+
+        // Isinya benar-benar diganti (ukuran sama): tetap halangan.
+        file_put_contents($dir.'/public/video/a.mp4', 'isi lain!');
+        touch($dir.'/public/video/a.mp4', time() + 5);
+        clearstatcache();
+        $hasil = (new PemeriksaanGitService($dir))->periksa();
+        $this->assertSame([' M public/video/a.mp4'], $hasil['berubah']);
+        $this->assertNotSame([], $hasil['halangan']);
+
+        @unlink($dir.'/public/video/a.mp4');
+    }
+
+    public function test_status_dijalankan_tanpa_filter_lfs(): void
+    {
+        $this->palsukanGit();
+        app(PemeriksaanGitService::class)->periksa();
+
+        Process::assertRan(fn ($p) => str_contains($this->perintah($p), 'status')
+            && str_contains($this->perintah($p), 'filter.lfs.clean='));
+    }
+
     public function test_berkas_berubah_di_server_menjadi_halangan(): void
     {
         $this->palsukanGit(['*status*--porcelain*' => " M app/Http/Kernel.php\n?? catatan.txt"]);

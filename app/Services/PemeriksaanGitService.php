@@ -39,12 +39,60 @@ class PemeriksaanGitService
         return $this->base !== '' ? $this->base : base_path();
     }
 
+    /**
+     * `git status` tanpa filter Git LFS.
+     *
+     * Deploy menarik video LFS sebagai root. Berkas yang ditulis pada detik
+     * yang sama dengan indeks dianggap git "meragukan" dan isinya diperiksa
+     * ulang lewat filter clean LFS, yang harus menulis ke .git/lfs/tmp milik
+     * root. Pemeriksaan ini berjalan sebagai www-data, jadi status gagal
+     * ("permission denied") dan tombol Deploy terkunci walau kodenya sama
+     * persis dengan GitHub (13 November 2026, sesudah video tutorial baru).
+     * Tanpa filter, berkas LFS yang meragukan tampak berubah; kecocokannya
+     * diperiksa sendiri di buangLfsYangSama() tanpa menulis apa pun.
+     */
+    private const TANPA_LFS = ['-c', 'filter.lfs.process=', '-c', 'filter.lfs.clean=', '-c', 'filter.lfs.smudge=', '-c', 'filter.lfs.required=false'];
+
+    /**
+     * Buang dari daftar `status --porcelain` berkas LFS yang isinya ternyata
+     * sama persis dengan penunjuk LFS di HEAD (ukuran dan SHA-256 cocok).
+     * Hasil hash disimpan per ukuran+waktu ubah berkas, jadi berkas ratusan
+     * MB hanya dihitung sekali.
+     *
+     * @param  list<string>  $baris
+     * @return list<string>
+     */
+    private function buangLfsYangSama(array $baris): array
+    {
+        return array_values(array_filter($baris, function (string $b) {
+            if (! str_starts_with($b, ' M ')) {
+                return true;
+            }
+            $jalur = substr($b, 3);
+            [$ok, $penunjuk] = $this->git(['cat-file', '-p', 'HEAD:'.$jalur]);
+            if (! $ok || ! preg_match('/^oid sha256:([0-9a-f]{64})$/m', $penunjuk, $oid) || ! preg_match('/^size (\d+)$/m', $penunjuk, $ukuran)) {
+                return true;
+            }
+            $berkas = $this->base().DIRECTORY_SEPARATOR.$jalur;
+            if (! is_file($berkas) || filesize($berkas) !== (int) $ukuran[1]) {
+                return true;
+            }
+            $kunci = 'git_lfs_sha:'.md5($jalur.'|'.filesize($berkas).'|'.filemtime($berkas));
+            $sha = Cache::remember($kunci, now()->addDays(30), fn () => hash_file('sha256', $berkas));
+
+            return $sha !== $oid[1];
+        }));
+    }
+
     /** Jalankan satu perintah git; kembalikan [sukses, keluaran-terpangkas]. */
-    private function git(array $arg, int $timeout = 30): array
+    private function git(array $arg, int $timeout = 30, bool $pangkasKiri = true): array
     {
         $r = Process::timeout($timeout)->run(array_merge(['git', '-C', $this->base()], $arg));
+        $keluaran = $r->output() !== '' ? $r->output() : $r->errorOutput();
 
-        return [$r->successful(), trim($r->output() !== '' ? $r->output() : $r->errorOutput())];
+        // `status --porcelain` diawali spasi bermakna (" M jalur" = berubah
+        // tetapi belum di-stage); trim() biasa memakannya di baris pertama.
+        return [$r->successful(), $pangkasKiri ? trim($keluaran) : rtrim($keluaran)];
     }
 
     /**
@@ -74,8 +122,8 @@ class PemeriksaanGitService
         [$ok, $lokal] = $this->git(['rev-parse', '--short', 'HEAD']);
         $lokal = $ok ? $lokal : '';
 
-        [$ok, $status] = $this->git(['status', '--porcelain']);
-        $berubah = $ok ? array_values(array_filter(explode("\n", $status))) : [];
+        [$ok, $status] = $this->git([...self::TANPA_LFS, 'status', '--porcelain'], pangkasKiri: false);
+        $berubah = $ok ? $this->buangLfsYangSama(array_values(array_filter(explode("\n", $status)))) : [];
         if (! $ok) {
             $halangan[] = 'git status gagal: '.$status;
         } elseif ($berubah !== []) {
