@@ -9,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -355,9 +356,9 @@ class RiskExcelImportService
         foreach ($module['fields'] as $field) {
             $rules[$field] = in_array($field, $module['required_fields'], true) ? ['required', 'string'] : ['nullable', 'string'];
         }
-        foreach ($module['input_only_fields'] as $field) {
-            $rules[$field] = ['required', 'integer', 'min:1', 'max:5'];
-        }
+        // Kolom skala (skala_info_fields) TIDAK divalidasi dan TIDAK dibaca:
+        // sejak 13 November 2026 skala hanya boleh dipilih lewat tabel
+        // kriteria di Form Input, jadi angka yang diketik di Excel diabaikan.
         foreach ($module['enum_fields'] as $field => $options) {
             $rules[$field] = ['nullable', 'in:'.implode(',', $options)];
         }
@@ -365,9 +366,6 @@ class RiskExcelImportService
         $payload = [];
         foreach ($module['fields'] as $field) {
             $payload[$field] = $data[$field] ?? '';
-        }
-        foreach ($module['input_only_fields'] as $field) {
-            $payload[$field] = $data[$field] !== '' ? (int) $data[$field] : null;
         }
         foreach ($module['enum_fields'] as $field => $options) {
             $payload[$field] = $data[$field] !== '' ? $data[$field] : null;
@@ -548,6 +546,7 @@ class RiskExcelImportService
         }
 
         $skorFields = [
+            'SKALA DAMPAK', 'SKALA KEMUNGKINAN',
             'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN', 'SKALA RISIKO INHEREN',
             'KATEGORI EXISTING CONTROL', 'KATEGORI PROYEKSI RTP',
             'SKALA DAMPAK TARGET', 'SKALA KEMUNGKINAN TARGET', 'SKALA RISIKO TARGET',
@@ -560,7 +559,21 @@ class RiskExcelImportService
             }
         }
 
-        $hasil = $this->riskRef->hitungSemuaSkala($data);
+        // Skala tidak lagi datang dari Excel. Baris baru belum punya skala
+        // sama sekali, dan baris lama bisa saja belum lengkap (mis. Inheren
+        // kosong): keduanya bukan alasan menggagalkan seluruh impor. Skala
+        // dibiarkan apa adanya dan dilengkapi PIC di Form Input, yang Simpan-
+        // nya memang ditahan sampai nilai risiko lengkap.
+        $adaSkala = collect(['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'])
+            ->contains(fn ($f) => filled($data[$f] ?? null));
+        if (! $adaSkala) {
+            return $attributes;
+        }
+        try {
+            $hasil = $this->riskRef->hitungSemuaSkala($data);
+        } catch (ValidationException) {
+            return $attributes;
+        }
 
         // hitungSemuaSkala() mengembalikan SELURUH field yg diproses
         // (termasuk yg cuma dibaca dari $existing utk konteks) — cukup
@@ -609,10 +622,9 @@ class RiskExcelImportService
             $attributes[$field] = $value === '' ? null : $value;
         }
 
-        foreach ($module['input_only_fields'] as $field) {
-            $value = trim((string) ($data[$field] ?? ''));
-            $attributes[$field] = $value === '' ? null : (int) $value;
-        }
+        // skala_info_fields sengaja tidak dibawa: baris baru tersimpan tanpa
+        // skala (PIC melengkapinya di Form Input), baris lama mempertahankan
+        // skala yang sudah tersimpan.
 
         foreach ($module['constant_fields'] as $field => $value) {
             $attributes[$field] = $value;

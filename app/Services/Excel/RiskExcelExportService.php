@@ -5,6 +5,7 @@ namespace App\Services\Excel;
 use App\Support\RiskExcelRegistry;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Protection;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
@@ -67,6 +68,22 @@ class RiskExcelExportService
                 $this->writeRow($sheet, $module, $header, $rowIndex, $row);
                 $rowIndex++;
             }
+        }
+
+        // Kolom skala hanya untuk dibaca: diabaikan saat impor karena skala
+        // dipilih lewat tabel kriteria di Form Input. Dikunci dan diberi warna
+        // abu-abu supaya tidak disangka bisa diisi di sini.
+        $maxBaris = max(2, $sheet->getHighestRow());
+        foreach ($module['skala_info_fields'] as $f) {
+            $c = array_search($f, $header, true);
+            if ($c === false) {
+                continue;
+            }
+            $sheet->getStyle([$c + 1, 1, $c + 1, $maxBaris])->getProtection()->setLocked(Protection::PROTECTION_PROTECTED);
+            $sheet->getStyle([$c + 1, 1, $c + 1, $maxBaris])->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('E5E7EB');
+            $sheet->getComment([$c + 1, 1])->getText()->createTextRun(
+                'Hanya informasi, DIABAIKAN saat impor. Skala dipilih lewat tabel kriteria di Form Input; risiko baru dari Excel tersimpan tanpa skala dan dilengkapi di sana.'
+            );
         }
 
         // Kolom _ROW_ID (kolom terakhir) dikunci di seluruh sheet (termasuk

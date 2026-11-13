@@ -50,7 +50,7 @@ class RiskExcelRegistry
                 'required_fields' => ['PROGRAM PRIORITAS', 'OPD PENANGGUNGJAWAB PROGRAM'],
                 'computed_fields' => [],
                 'constant_fields' => [],
-                'input_only_fields' => [],
+                'skala_info_fields' => [],
                 'enum_fields' => [],
                 'cross_ref' => null,
                 'sync' => KrsIrsSyncService::class,
@@ -74,7 +74,7 @@ class RiskExcelRegistry
                 'required_fields' => ['URAIAN RISIKO'],
                 'computed_fields' => ['SKALA RISIKO', 'SKALA PRIORITAS'],
                 'constant_fields' => ['TINGKAT RISIKO' => 'Risiko Strategis Pemda'],
-                'input_only_fields' => ['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
+                'skala_info_fields' => ['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
                 'enum_fields' => ['TRIWULAN' => self::TRIWULAN_OPTIONS],
                 'cross_ref' => ['field' => 'SASARAN RPJMD', 'parent_module' => 'krs_pemda', 'parent_field' => 'SASARAN RPJMD'],
                 'sync' => KrsIrsSyncService::class,
@@ -101,7 +101,7 @@ class RiskExcelRegistry
                 'required_fields' => ['PROGRAM PD', 'SUBKEGIATAN PD', 'OPD PENANGGUNG JAWAB KEGIATAN'],
                 'computed_fields' => [],
                 'constant_fields' => [],
-                'input_only_fields' => [],
+                'skala_info_fields' => [],
                 'enum_fields' => [],
                 'cross_ref' => ['field' => 'SASARAN RPJMD', 'parent_module' => 'krs_pemda', 'parent_field' => 'SASARAN RPJMD', 'optional' => true],
                 'sync' => KrsIrsPdSyncService::class,
@@ -123,7 +123,7 @@ class RiskExcelRegistry
                 'required_fields' => ['PROGRAM PD', 'SUBKEGIATAN PD', 'OPD PENANGGUNG JAWAB KEGIATAN'],
                 'computed_fields' => [],
                 'constant_fields' => [],
-                'input_only_fields' => [],
+                'skala_info_fields' => [],
                 'enum_fields' => [],
                 'cross_ref' => ['field' => 'SASARAN RENSTRA', 'parent_module' => 'krs_pd', 'parent_field' => 'SASARAN STRATEGIS PD', 'optional' => true],
                 'sync' => KroIroPdSyncService::class,
@@ -147,7 +147,7 @@ class RiskExcelRegistry
                 'required_fields' => ['URAIAN RISIKO'],
                 'computed_fields' => ['SKALA RISIKO', 'SKALA PRIORITAS'],
                 'constant_fields' => ['TINGKAT RISIKO' => 'Risiko Strategis OPD'],
-                'input_only_fields' => ['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
+                'skala_info_fields' => ['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
                 'enum_fields' => ['TRIWULAN' => self::TRIWULAN_OPTIONS],
                 'cross_ref' => ['field' => 'SASARAN RENSTRA', 'parent_module' => 'krs_pd', 'parent_field' => 'SASARAN STRATEGIS PD'],
                 'sync' => KrsIrsPdSyncService::class,
@@ -171,7 +171,7 @@ class RiskExcelRegistry
                 'required_fields' => ['URAIAN RISIKO'],
                 'computed_fields' => ['SKALA RISIKO', 'SKALA PRIORITAS'],
                 'constant_fields' => ['TINGKAT RISIKO' => 'Risiko Operasional OPD'],
-                'input_only_fields' => ['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
+                'skala_info_fields' => ['SKALA DAMPAK', 'SKALA KEMUNGKINAN', 'SKALA DAMPAK INHEREN', 'SKALA KEMUNGKINAN INHEREN'],
                 'enum_fields' => ['TRIWULAN' => self::TRIWULAN_OPTIONS],
                 'cross_ref' => ['field' => 'KEGIATAN PD', 'parent_module' => 'kro_pd', 'parent_field' => 'KEGIATAN PD'],
                 'sync' => KroIroPdSyncService::class,
@@ -221,14 +221,14 @@ class RiskExcelRegistry
     }
 
     /**
-     * Header lengkap satu sheet, urutan: fields + input_only_fields +
+     * Header lengkap satu sheet, urutan: fields + skala_info_fields +
      * computed_fields + key constant_fields + _ROW_ID di akhir.
      */
     public static function headerFor(array $module): array
     {
         return array_merge(
             $module['fields'],
-            $module['input_only_fields'],
+            $module['skala_info_fields'],
             $module['computed_fields'],
             array_keys($module['constant_fields']),
             ['_ROW_ID'],

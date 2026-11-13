@@ -120,6 +120,11 @@ export default function BackupExcel({ modules, pendingRequests, myRequests }: Pr
                             Upload file hasil unduhan Ekspor/Template yang sudah diisi. Baris dengan ID kosong dianggap data baru; baris dengan ID
                             terisi akan memperbarui data yang sudah ada. Baris yang ada di database tapi tidak muncul di file tidak akan dihapus.
                         </p>
+                        <p className="text-sm text-sky-700 dark:text-sky-300">
+                            Kolom skala (Skala Dampak/Kemungkinan, Residual dan Inheren) hanya informasi dan diabaikan saat impor. Risiko baru dari
+                            Excel tersimpan tanpa skala; lengkapi nilainya di Form Input lewat tabel kriteria. Risiko yang sudah ada tetap memakai
+                            skala yang tersimpan.
+                        </p>
                         <p className="text-sm text-amber-600 dark:text-amber-400">
                             Khusus akun Admin (bukan Super Admin): impor tidak langsung diproses — file akan menunggu persetujuan Super Admin terlebih
                             dahulu.
