@@ -15,10 +15,9 @@ import AutocompleteTextarea from '@/components/ui/autocomplete-textarea';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import CategorizedTextarea from '@/components/ui/categorized-textarea';
+import DaftarIsianWajib from '@/components/ui/daftar-isian-wajib';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ExistingControlToggleSection, { penilaianTabelLengkap } from '@/components/ui/existing-control-toggle-section';
-import DaftarIsianWajib from '@/components/ui/daftar-isian-wajib';
-import { periksaIsianRisiko } from '@/lib/periksa-isian-risiko';
 import FieldInfoPopover from '@/components/ui/field-info-popover';
 import HighlightText from '@/components/ui/highlight-text';
 import { Input } from '@/components/ui/input';
@@ -53,6 +52,7 @@ import {
     penyebabKategoriSuffix,
 } from '@/lib/irs-reference-data';
 import { canManageRow } from '@/lib/ownership';
+import { periksaIsianRisiko } from '@/lib/periksa-isian-risiko';
 import { riskLevelClassNameWithHover } from '@/lib/risk-level';
 import { Head, router, useForm } from '@inertiajs/react';
 import { ChevronDown, ChevronUp, Edit, Grid3x3, Plus, Search, Trash2, X } from 'lucide-react';

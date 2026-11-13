@@ -1,10 +1,10 @@
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { type ReactNode, useLayoutEffect, useRef, useState } from 'react';
 import { KopSurat, muatSatuHalaman, TtdInspektur, type ArepData } from '@/pages/erpika/arep/forms/bagian';
 import { SuntingBar } from '@/pages/erpika/arep/forms/sunting';
+import { type BreadcrumbItem } from '@/types';
+import { Head, Link } from '@inertiajs/react';
+import { useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 
 interface Props {
     data?: ArepData;
@@ -61,8 +61,8 @@ function SuratTugas({ d }: { d: ArepData }) {
             <div className="mt-4 space-y-2 text-justify leading-relaxed">
                 <p>Untuk melakukan penugasan {d.frasa}.</p>
                 <p>
-                    Kegiatan tersebut akan dilaksanakan selama {d.jangka.hari_kerja} ({d.jangka.hari_kerja_terbilang}) hari
-                    kerja, terhitung mulai tanggal {d.jangka.rentang}.
+                    Kegiatan tersebut akan dilaksanakan selama {d.jangka.hari_kerja} ({d.jangka.hari_kerja_terbilang}) hari kerja, terhitung mulai
+                    tanggal {d.jangka.rentang}.
                 </p>
                 <p>Penugasan ini agar dilaksanakan dengan sebaik-baiknya dan penuh tanggung jawab.</p>
             </div>
@@ -118,13 +118,10 @@ function SuratPengantar({ d }: { d: ArepData }) {
                 ))}
             </ol>
             <div className="mt-2 space-y-1.5 text-justify leading-snug">
+                <p>Kami akan melaksanakan penugasan {d.frasa}, untuk itu kami menugaskan Tim sebagaimana Surat Tugas terlampir.</p>
                 <p>
-                    Kami akan melaksanakan penugasan {d.frasa}, untuk itu kami menugaskan Tim sebagaimana Surat Tugas
-                    terlampir.
-                </p>
-                <p>
-                    Biaya terkait penugasan ini menjadi beban dalam Dokumen Pelaksanaan Anggaran Inspektorat Kabupaten Aceh
-                    Barat Tahun Anggaran {d.rpp.tahun ?? ''}.
+                    Biaya terkait penugasan ini menjadi beban dalam Dokumen Pelaksanaan Anggaran Inspektorat Kabupaten Aceh Barat Tahun Anggaran{' '}
+                    {d.rpp.tahun ?? ''}.
                 </p>
                 <p>Kami harap agar Saudara tidak memberikan gratifikasi dalam bentuk apapun kepada Tim.</p>
                 <p>Atas perhatian dan kerjasama yang baik, kami ucapkan terima kasih.</p>
@@ -170,9 +167,9 @@ function Pernyataan({ d }: { d: ArepData }) {
             <KopSurat kop={d.kop} />
             <div className="mt-3 text-center text-[13pt] font-bold underline">PERNYATAAN INDEPENDENSI DAN INTEGRITAS</div>
             <p className="mt-4 text-justify leading-relaxed">
-                Berdasarkan Surat Tugas Inspektur Kabupaten Aceh Barat Nomor: {d.nomor.st} Tanggal {d.tanggal.st} tentang{' '}
-                {d.frasa}, kami yang bertandatangan di bawah ini menyatakan bahwa kami tidak mempunyai hubungan
-                kekerabatan, usaha, dan tidak terdapat benturan kepentingan dalam melaksanakan tugas tersebut.
+                Berdasarkan Surat Tugas Inspektur Kabupaten Aceh Barat Nomor: {d.nomor.st} Tanggal {d.tanggal.st} tentang {d.frasa}, kami yang
+                bertandatangan di bawah ini menyatakan bahwa kami tidak mempunyai hubungan kekerabatan, usaha, dan tidak terdapat benturan kepentingan
+                dalam melaksanakan tugas tersebut.
             </p>
             <p className="mt-2">Dalam melaksanakan tugas sebagaimana disebutkan di atas, kami menyatakan:</p>
             <ol className="ml-[8mm] list-decimal space-y-1 pl-4 text-justify">
@@ -251,7 +248,9 @@ export default function SuratTugasCetak({ data, dokumen = 'semua', mulaiSunting,
                         {!sunting && (
                             <>
                                 <a href={`/erpika/arep/surat-tugas/${data.penugasan_id}/word?dok=${dokumen}`}>
-                                    <Button variant="outline" size="sm">Unduh Word</Button>
+                                    <Button variant="outline" size="sm">
+                                        Unduh Word
+                                    </Button>
                                 </a>
                                 <a href={`/erpika/arep/surat-tugas/${data.penugasan_id}/pdf?dok=${dokumen}`}>
                                     <Button size="sm">Unduh PDF</Button>
@@ -271,18 +270,13 @@ export default function SuratTugasCetak({ data, dokumen = 'semua', mulaiSunting,
                 </div>
                 {sunting && (
                     <p className="text-muted-foreground text-sm">
-                        Mode sunting: klik teks lalu ketik seperti di Word (Ctrl+B/I/U). Suntingan hanya untuk berkas yang
-                        diunduh — data RPP tidak berubah.
+                        Mode sunting: klik teks lalu ketik seperti di Word (Ctrl+B/I/U). Suntingan hanya untuk berkas yang diunduh — data RPP tidak
+                        berubah.
                     </p>
                 )}
             </div>
 
-            <div
-                ref={isi}
-                contentEditable={sunting}
-                suppressContentEditableWarning
-                className="bg-muted/40 pb-8 print:bg-white print:pb-0"
-            >
+            <div ref={isi} contentEditable={sunting} suppressContentEditableWarning className="bg-muted/40 pb-8 print:bg-white print:pb-0">
                 {tampil('st') && <SuratTugas d={data} />}
                 {tampil('sp') && <SuratPengantar d={data} />}
                 {tampil('pernyataan') && <Pernyataan d={data} />}

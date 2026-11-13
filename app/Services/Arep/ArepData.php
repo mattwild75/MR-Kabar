@@ -2,10 +2,13 @@
 
 namespace App\Services\Arep;
 
+use App\Models\Lhp;
 use App\Models\RppPenugasan;
 use App\Models\RppSetting;
 use App\Models\RppTeamMember;
 use Carbon\CarbonInterface;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * Menormalkan satu penugasan RPP (RppPenugasan) menjadi larik data siap pakai
@@ -228,7 +231,7 @@ class ArepData
      * jam seluruh anggota. Jumlah HP = WPJ+Dalnis+KT+AT(per orang); Jumlah Jam
      * = jumlah seluruh kolom Jam.
      *
-     * @param  \Illuminate\Support\Collection<int, RppTeamMember>  $anggota
+     * @param  Collection<int, RppTeamMember>  $anggota
      * @return array<string, mixed>
      */
     private function anggaranWaktu(?RppTeamMember $wpj, ?RppTeamMember $dalnis, ?RppTeamMember $kt, $anggota, ?CarbonInterface $mulai = null, ?CarbonInterface $selesai = null, bool $rangkap = false): array
@@ -338,8 +341,6 @@ class ArepData
         return fmod($x, 1.0) === 0.0 ? (int) $x : $x;
     }
 
-
-
     /** @return list<int> */
     private function bulanTugas(?CarbonInterface $a, ?CarbonInterface $b): array
     {
@@ -382,16 +383,16 @@ class ArepData
      */
     private function dataLhp(string $nomorSt): array
     {
-        if ($nomorSt === '' || ! \Illuminate\Support\Facades\Schema::hasTable('lhp')) {
+        if ($nomorSt === '' || ! Schema::hasTable('lhp')) {
             return [];
         }
 
-        return \App\Models\Lhp::where('nomor_st', $nomorSt)
+        return Lhp::where('nomor_st', $nomorSt)
             ->with('temuan.sebab.rekomendasi.tindakLanjut')->orderBy('tanggal_lhp')->get()
             ->map(fn ($l) => [
                 'nomor' => (string) $l->nomor_lhp,
                 'tanggal' => $this->tglPanjang($l->tanggal_lhp),
-                'status' => \App\Models\Lhp::STATUS[$l->status_lhp] ?? '',
+                'status' => Lhp::STATUS[$l->status_lhp] ?? '',
                 'temuan' => $l->temuan->map(function ($t) {
                     $rek = $t->sebab->flatMap->rekomendasi;
                     $tl = $rek->flatMap->tindakLanjut;

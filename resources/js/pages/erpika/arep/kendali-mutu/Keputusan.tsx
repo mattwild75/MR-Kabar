@@ -231,7 +231,7 @@ export default function Keputusan({ pedoman, inspektur }: Props) {
                                         {bg.judul && <h3 className="font-bold">{bg.judul}</h3>}
                                         {bg.isi.map((x, j) =>
                                             typeof x === 'string' ? (
-                                                <p key={j} className="mt-1 indent-[10mm] text-justify">
+                                                <p key={j} className="mt-1 text-justify indent-[10mm]">
                                                     {x}
                                                 </p>
                                             ) : (
@@ -266,8 +266,8 @@ export default function Keputusan({ pedoman, inspektur }: Props) {
                                 </tbody>
                             </table>
                             <p className="mt-2 text-[10pt] italic">
-                                Bentuk setiap formulir diterbitkan melalui aplikasi ERPIKA menu AREP &gt; Kendali Mutu (PDF dan Excel), satu
-                                lembar per formulir.
+                                Bentuk setiap formulir diterbitkan melalui aplikasi ERPIKA menu AREP &gt; Kendali Mutu (PDF dan Excel), satu lembar
+                                per formulir.
                             </p>
                         </section>
                         <Ttd tahun={tahun} inspektur={inspektur} lengkap={false} />

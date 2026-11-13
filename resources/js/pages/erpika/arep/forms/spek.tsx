@@ -7,7 +7,16 @@ export type SelSpek = string | { t: string; c?: number; r?: number; a?: 'l' | 'c
 export type BlokSpek =
     | { jenis: 'judul'; baris: string[]; kecil?: boolean; kiri?: boolean }
     | { jenis: 'info'; isi: (string | null)[][] }
-    | { jenis: 'tabel'; kepala: SelSpek[][]; nomor?: boolean; baris?: SelSpek[][]; kosong?: number; kaki?: SelSpek[][]; lebar?: number[]; tanpaGaris?: boolean }
+    | {
+          jenis: 'tabel';
+          kepala: SelSpek[][];
+          nomor?: boolean;
+          baris?: SelSpek[][];
+          kosong?: number;
+          kaki?: SelSpek[][];
+          lebar?: number[];
+          tanpaGaris?: boolean;
+      }
     | { jenis: 'teks'; isi: string[]; rata?: 'kiri' | 'tengah' | 'kanan' | 'rata' }
     | { jenis: 'ttd'; kolom: (string | null)[][]; tanggal?: string };
 
@@ -52,7 +61,7 @@ function Tabel({ b }: { b: Extract<BlokSpek, { jenis: 'tabel' }> }) {
                 key={key}
                 colSpan={x.c ?? 1}
                 rowSpan={x.r ?? 1}
-                className={`${garis} px-1 py-0.5 align-top ${rata} ${x.b || (kepala && !b.tanpaGaris) ? 'font-bold' : ''} ${kepala && !b.tanpaGaris ? 'align-middle bg-neutral-100' : ''}`}
+                className={`${garis} px-1 py-0.5 align-top ${rata} ${x.b || (kepala && !b.tanpaGaris) ? 'font-bold' : ''} ${kepala && !b.tanpaGaris ? 'bg-neutral-100 align-middle' : ''}`}
             >
                 <Multi t={x.t} />
             </td>

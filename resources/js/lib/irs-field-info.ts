@@ -236,18 +236,24 @@ const CATATAN_ENVIRONMENT =
 export const PENYEBAB_KATEGORI_INFO: Record<string, string> = {
     // 7M+1E — INTERNAL (dalam kendali/pengaruh OPD)
     Men: 'Men (Manusia/SDM) — Internal, 7M+1E.\nKompetensi, jumlah, atau perilaku SDM.\nContoh: kurangnya jumlah petugas, SDM belum terlatih.',
-    Machine: 'Machine (Mesin/Peralatan/Sistem) — Internal, 7M+1E.\nPeralatan, mesin, atau sistem/aplikasi.\nContoh: server sering down, aplikasi belum terintegrasi.',
+    Machine:
+        'Machine (Mesin/Peralatan/Sistem) — Internal, 7M+1E.\nPeralatan, mesin, atau sistem/aplikasi.\nContoh: server sering down, aplikasi belum terintegrasi.',
     Method: 'Method (Metode/Prosedur/Kebijakan) — Internal, 7M+1E.\nProsedur, SOP, atau kebijakan yang belum ada/belum memadai.\nContoh: belum ada SOP baku.',
-    Material: 'Material (Bahan/Data/Dokumen) — Internal, 7M+1E.\nKetersediaan/kualitas bahan, data, atau dokumen.\nContoh: data tidak akurat, dokumen sumber tidak lengkap.',
+    Material:
+        'Material (Bahan/Data/Dokumen) — Internal, 7M+1E.\nKetersediaan/kualitas bahan, data, atau dokumen.\nContoh: data tidak akurat, dokumen sumber tidak lengkap.',
     Money: 'Money (Anggaran/Pembiayaan) — Internal, 7M+1E.\nKetersediaan/kecukupan anggaran.\nContoh: anggaran terbatas, pencairan anggaran terlambat.',
-    Management: 'Management (Tata Kelola/Pengawasan) — Internal, 7M+1E.\nKelemahan pengawasan, koordinasi lintas unit, atau kepemimpinan.\nContoh: belum ada mekanisme monitoring berkala, pengawasan berjenjang lemah.',
-    Measurement: 'Measurement (Pengukuran/Indikator) — Internal, 7M+1E.\nKesalahan atau ketiadaan indikator/standar pengukuran kinerja.\nContoh: indikator kinerja tidak terukur jelas, tidak ada baseline data.',
+    Management:
+        'Management (Tata Kelola/Pengawasan) — Internal, 7M+1E.\nKelemahan pengawasan, koordinasi lintas unit, atau kepemimpinan.\nContoh: belum ada mekanisme monitoring berkala, pengawasan berjenjang lemah.',
+    Measurement:
+        'Measurement (Pengukuran/Indikator) — Internal, 7M+1E.\nKesalahan atau ketiadaan indikator/standar pengukuran kinerja.\nContoh: indikator kinerja tidak terukur jelas, tidak ada baseline data.',
     Environment: `Environment (Lingkungan kerja INTERNAL) — Internal, 7M+1E.\nKondisi fisik kantor/fasilitas kerja.\nContoh: ruang kerja tidak memadai, fasilitas penunjang rusak/kurang. BUKAN cuaca/bencana alam (itu masuk Environmental di PESTLE).\n\n${CATATAN_ENVIRONMENT}`,
     // PESTLE — EKSTERNAL (di luar kendali OPD)
-    Political: 'Political (Politik/Kebijakan) — Eksternal, PESTLE.\nPerubahan kebijakan pemerintah pusat/daerah lain, dinamika politik.\nContoh: perubahan regulasi mendadak dari pusat.',
+    Political:
+        'Political (Politik/Kebijakan) — Eksternal, PESTLE.\nPerubahan kebijakan pemerintah pusat/daerah lain, dinamika politik.\nContoh: perubahan regulasi mendadak dari pusat.',
     Economic: 'Economic (Ekonomi) — Eksternal, PESTLE.\nKondisi ekonomi makro/daerah.\nContoh: inflasi, resesi, penurunan pendapatan daerah.',
     Social: 'Social (Sosial) — Eksternal, PESTLE.\nDinamika sosial masyarakat.\nContoh: resistensi masyarakat, perubahan pola perilaku warga.',
-    Technological: 'Technological (Teknologi) — Eksternal, PESTLE.\nPerkembangan/gangguan teknologi dari luar OPD.\nContoh: serangan siber pihak luar, ketergantungan sistem pihak ketiga yang bermasalah.',
+    Technological:
+        'Technological (Teknologi) — Eksternal, PESTLE.\nPerkembangan/gangguan teknologi dari luar OPD.\nContoh: serangan siber pihak luar, ketergantungan sistem pihak ketiga yang bermasalah.',
     Legal: 'Legal (Hukum) — Eksternal, PESTLE.\nPerubahan peraturan perundang-undangan atau putusan hukum di luar kendali OPD.\nContoh: putusan pengadilan, perubahan undang-undang.',
     Environmental: `Environmental (Lingkungan alam EKSTERNAL) — Eksternal, PESTLE.\nKondisi alam, cuaca, geografis, atau bencana alam.\nContoh: curah hujan ekstrem, bencana alam, kondisi geografis terpencil.\n\n${CATATAN_ENVIRONMENT}`,
 };
@@ -255,7 +261,9 @@ export const PENYEBAB_KATEGORI_INFO: Record<string, string> = {
 export const RESPON_RISIKO_KATEGORI_INFO: Record<string, string> = {
     Avoid: 'Avoid (Menghindari) — AAMSA.\nMengurangi kemungkinan: YA | Mengurangi dampak: YA\nTidak memulai/melanjutkan kegiatan sumber risiko, sehingga secara konsep kemungkinan dan dampak idealnya sama-sama hilang total (risiko tidak lagi relevan).\n\nDi aplikasi ini kedua sumbu tetap dihitung lewat faktor reduksi Kategori Proyeksi RTP yang sama seperti kategori lain (maksimal turun ke faktor Efektif = 0.4×, TIDAK otomatis menjadi nol) — pilih kategori efektivitas "Efektif (E)" jika RTP Avoid benar-benar menghentikan sumber risiko secara tuntas.\n\nPilih bila: RTP menghilangkan kemungkinan dan dampak sekaligus (hentikan sumber risiko).',
     Abate: 'Abate (Mengubah/Mengurangi Kemungkinan) — AAMSA.\nMengurangi kemungkinan: YA | Mengurangi dampak: TIDAK\nFokus murni ke frekuensi/kemungkinan terjadinya risiko — istilah lain: pencegahan (prevention).\n\nPilih bila: RTP murni menyasar frekuensi/kemungkinan.\n\nCatatan pedoman: Abate dan Mitigate terkadang disebut dalam satu istilah, yaitu mengurangi risiko (reduce); keduanya boleh dikombinasikan pada satu RTP.',
-    Mitigate: 'Mitigate (Mengubah/Mengurangi Konsekuensi) — AAMSA.\nMengurangi kemungkinan: TIDAK | Mengurangi dampak: YA\nFokus murni ke besarnya dampak jika risiko terjadi — istilah lain: penanggulangan.\n\nPilih bila: RTP murni menyasar besarnya dampak.\n\nCatatan pedoman: Abate dan Mitigate terkadang disebut dalam satu istilah, yaitu mengurangi risiko (reduce); keduanya boleh dikombinasikan pada satu RTP.',
-    'Share/Transfer': 'Share/Transfer (Membagi/Mentransfer) — AAMSA.\nMengurangi kemungkinan: TIDAK (probabilitas tetap sama) | Mengurangi dampak: YA (dibagi ke pihak lain)\nTidak mengubah probabilitas terjadinya risiko, tetapi mengurangi beban dampak yang ditanggung sendiri — dampak "dipindahkan" sebagian/seluruhnya ke pihak lain (asuransi, kontrak, kemitraan).\n\nPilih bila: RTP memindahkan beban dampak ke pihak eksternal tanpa mengubah kemungkinan.',
+    Mitigate:
+        'Mitigate (Mengubah/Mengurangi Konsekuensi) — AAMSA.\nMengurangi kemungkinan: TIDAK | Mengurangi dampak: YA\nFokus murni ke besarnya dampak jika risiko terjadi — istilah lain: penanggulangan.\n\nPilih bila: RTP murni menyasar besarnya dampak.\n\nCatatan pedoman: Abate dan Mitigate terkadang disebut dalam satu istilah, yaitu mengurangi risiko (reduce); keduanya boleh dikombinasikan pada satu RTP.',
+    'Share/Transfer':
+        'Share/Transfer (Membagi/Mentransfer) — AAMSA.\nMengurangi kemungkinan: TIDAK (probabilitas tetap sama) | Mengurangi dampak: YA (dibagi ke pihak lain)\nTidak mengubah probabilitas terjadinya risiko, tetapi mengurangi beban dampak yang ditanggung sendiri — dampak "dipindahkan" sebagian/seluruhnya ke pihak lain (asuransi, kontrak, kemitraan).\n\nPilih bila: RTP memindahkan beban dampak ke pihak eksternal tanpa mengubah kemungkinan.',
     Accept: 'Accept/Retain (Menerima) — AAMSA.\nMengurangi kemungkinan: TIDAK | Mengurangi dampak: TIDAK\nTidak ada pengurangan apa pun — risiko (sisa) diterima apa adanya.\n\nPilih bila: tidak ada tindakan tambahan, risiko residual diterima.',
 };

@@ -86,13 +86,7 @@ export interface ArepData {
 /** Kop Inspektorat — memakai gambar berkas asli bila ada, jika tidak teks. */
 export function KopSurat({ kop, gambar = true }: { kop: ArepData['kop']; gambar?: boolean }) {
     if (gambar) {
-        return (
-            <img
-                src="/images/erpika/kop-inspektorat.png"
-                alt="Kop Inspektorat Kabupaten Aceh Barat"
-                className="mx-auto w-full max-w-none"
-            />
-        );
+        return <img src="/images/erpika/kop-inspektorat.png" alt="Kop Inspektorat Kabupaten Aceh Barat" className="mx-auto w-full max-w-none" />;
     }
     return (
         <div className="border-b-2 border-black pb-1 text-center leading-tight">

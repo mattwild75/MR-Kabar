@@ -1,9 +1,9 @@
 /** Komponen 30 Formulir Kendali Mutu (KMA 1–30). Tiap komponen menerima data
  * ternormalisasi (ArepData) dan mengembalikan isi satu halaman formulir. */
-import { Fragment, type ReactNode } from 'react';
 import { type ArepData, type AwBaris } from '@/pages/erpika/arep/forms/bagian';
 import { Baris, JudulKm, KopKm, KotakTtd } from '@/pages/erpika/arep/forms/km-bagian';
 import { FormulirSpek, type Spek } from '@/pages/erpika/arep/forms/spek';
+import { Fragment, type ReactNode } from 'react';
 
 export interface KmMeta {
     no: number;
@@ -151,11 +151,7 @@ function Km6({ d }: { d: ArepData }) {
             <div className={`grid gap-2 ${d.dalnis_rangkap ? 'grid-cols-2' : 'grid-cols-3'}`}>
                 <KotakTtd jabatan="Inspektur Kabupaten Aceh Barat" nama={d.inspektur.nama} nip={d.inspektur.nip_spasi} />
                 {!d.dalnis_rangkap && <KotakTtd jabatan="Pengendali Teknis" nama={d.dalnis.nama} nip={d.dalnis.nip_spasi} />}
-                <KotakTtd
-                    jabatan={d.dalnis_rangkap ? 'PPJ / Pengendali Teknis' : 'Wakil Penanggung Jawab'}
-                    nama={d.wpj.nama}
-                    nip={d.wpj.nip_spasi}
-                />
+                <KotakTtd jabatan={d.dalnis_rangkap ? 'PPJ / Pengendali Teknis' : 'Wakil Penanggung Jawab'} nama={d.wpj.nama} nip={d.wpj.nip_spasi} />
             </div>
         </div>
     );
@@ -292,7 +288,12 @@ function Km7({ d }: { d: ArepData }) {
                 <KotakTtd pra="Disusun oleh," jabatan="Ketua Tim," nama={d.kt.nama} nip={d.kt.nip_spasi} />
             </div>
             <div className="mx-auto mt-1 w-[70mm]">
-                <KotakTtd pra="Mengetahui/Menyetujui :" jabatan="Inspektur Kabupaten Aceh Barat," nama={d.inspektur.nama} nip={d.inspektur.nip_spasi} />
+                <KotakTtd
+                    pra="Mengetahui/Menyetujui :"
+                    jabatan="Inspektur Kabupaten Aceh Barat,"
+                    nama={d.inspektur.nama}
+                    nip={d.inspektur.nip_spasi}
+                />
             </div>
         </div>
     );

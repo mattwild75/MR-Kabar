@@ -28,7 +28,7 @@ return new class extends Migration
         });
 
         // Isi Inspektorat untuk data lama agar tidak kosong.
-        \DB::table('lhp')->whereNull('inspektorat')->update(['inspektorat' => 'Inspektorat Aceh Barat']);
+        DB::table('lhp')->whereNull('inspektorat')->update(['inspektorat' => 'Inspektorat Aceh Barat']);
     }
 
     public function down(): void

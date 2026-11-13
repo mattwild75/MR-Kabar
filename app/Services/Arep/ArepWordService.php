@@ -2,6 +2,7 @@
 
 namespace App\Services\Arep;
 
+use App\Models\RppSetting;
 use App\Support\Arep\PedomanKendaliMutu;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\IOFactory;
@@ -46,7 +47,7 @@ class ArepWordService
         $p = PedomanKendaliMutu::isi();
         $k = $p['keputusan'];
         $tahun = now()->year;
-        $insp = \App\Models\RppSetting::inspektur();
+        $insp = RppSetting::inspektur();
         $nip = preg_replace('/\D/', '', (string) ($insp?->nip ?? ''));
         $nipS = strlen($nip) === 18 ? substr($nip, 0, 8).' '.substr($nip, 8, 6).' '.substr($nip, 14, 1).' '.substr($nip, 15) : '............';
         $namaInsp = mb_strtoupper((string) ($insp?->nama ?? '............'));
@@ -172,7 +173,9 @@ class ArepWordService
         $jenis = isset($x['angka']) ? 'angka' : (isset($x['huruf']) ? 'huruf' : 'butir');
         foreach ($x[$jenis] as $i => $b) {
             [$teks, $sub] = is_array($b) ? [$b[0], $b[1] ?? []] : [$b, []];
-            $pen = match ($jenis) { 'angka' => ($i + 1).'.', 'huruf' => chr(97 + $i).'.', default => '•' };
+            $pen = match ($jenis) {
+                'angka' => ($i + 1).'.', 'huruf' => chr(97 + $i).'.', default => '•'
+            };
             $sec->addText($pen."\t".$teks, [], ['alignment' => Jc::BOTH, 'spaceAfter' => 60, 'indentation' => ['left' => 850, 'hanging' => 425], 'tabs' => [new Tab('left', 850)]]);
             foreach ($sub as $j => $s) {
                 $sec->addText(chr(97 + $j).".\t".$s, [], ['alignment' => Jc::BOTH, 'spaceAfter' => 40, 'indentation' => ['left' => 1275, 'hanging' => 425], 'tabs' => [new Tab('left', 1275)]]);

@@ -122,7 +122,7 @@ class Pengetahuan
                 'desc' => 'Laporan hasil pemeriksaan pindahan SimHP: temuan, sebab, rekomendasi, tindak lanjut; dipakai KMA 18–21.',
                 'tautan' => [['disimpan di', $t('/^lhp/')], ['dikelola di', $k('/^LhpController$/')]]],
             ['id' => 'konsep:keamanan', 'label' => 'Keamanan Akses', 'type' => 'konsep',
-                'desc' => 'Peran dan izin (Spatie), menu berizin (CheckMenuPermission, fail-open untuk menu tanpa izin), dua faktor, batas sesi, dan peran peninjau yang hanya-baca.',
+                'desc' => 'Peran dan izin (Spatie), menu berizin (CheckMenuPermission, fail-open untuk menu tanpa izin), dua faktor, batas sesi, dan peran peninjau yang hanya-baca. Peran yang wajib memasang dua faktor diatur DUA_FAKTOR_PERAN_WAJIB (config mrkabar.dua_faktor.peran_wajib); sejak 13 November 2026 bakunya hanya super-admin, karena akun admin belum punya pemegang tetap. Admin yang sudah memasang 2FA tetap diminta kodenya.',
                 'tautan' => [['ditegakkan oleh', ['type' => 'middleware', 'label' => '/^(CheckMenuPermission|WajibDuaFaktor|ViewerReadOnly|ForceLogoutAfterMaxDuration|RestrictLaporRisikoRole|RestrictCeeSurveyRole)$/']], ['memakai', $l('/^DuaFaktorService$/')]]],
             ['id' => 'konsep:cadangan', 'label' => 'Cadangan, Versi, dan Deploy', 'type' => 'konsep',
                 'desc' => 'Cadangan basis data (terenkripsi) di server dan Google Drive, snapshot versi berpasangan, pemeriksaan kesamaan kode dengan GitHub sebelum deploy, dan kesehatan server.',

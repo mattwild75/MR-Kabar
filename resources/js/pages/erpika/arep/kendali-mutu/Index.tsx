@@ -10,11 +10,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
+import { type KmMeta } from '@/pages/erpika/arep/forms/km';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { Eye, FileDown, FileSpreadsheet, FileText, ScrollText, Search, X } from 'lucide-react';
 import { useState } from 'react';
-import { type KmMeta } from '@/pages/erpika/arep/forms/km';
 
 interface Penugasan {
     id: number;
@@ -63,8 +63,8 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                 <div>
                     <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Kendali Mutu</h1>
                     <p className="text-muted-foreground text-sm">
-                        30 Formulir Kendali Mutu (KMA 1–30) menurut Pedoman Kendali Mutu Audit Inspektorat. Data ditarik dari
-                        RPP Perencanaan; cetak per formulir (PDF/Excel), satu halaman tiap formulir.
+                        30 Formulir Kendali Mutu (KMA 1–30) menurut Pedoman Kendali Mutu Audit Inspektorat. Data ditarik dari RPP Perencanaan; cetak
+                        per formulir (PDF/Excel), satu halaman tiap formulir.
                     </p>
                 </div>
 
@@ -74,9 +74,7 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                         <ScrollText className="text-muted-foreground mt-0.5 h-5 w-5" />
                         <div>
                             <div className="font-medium">Keputusan Inspektur tentang Pedoman Kendali Mutu Audit</div>
-                            <div className="text-muted-foreground text-sm">
-                                Draft penetapan pedoman (kerangka baku, siap disunting di Word).
-                            </div>
+                            <div className="text-muted-foreground text-sm">Draft penetapan pedoman (kerangka baku, siap disunting di Word).</div>
                         </div>
                     </div>
                     <div className="flex gap-2">
@@ -107,7 +105,12 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                         <div className="flex flex-col gap-1">
                             <label className="text-muted-foreground text-xs">Cari</label>
                             <div className="flex gap-1">
-                                <Input value={cari} onChange={(e) => setCari(e.target.value)} placeholder="Nomor ST, objek, nama…" className="h-9 w-56" />
+                                <Input
+                                    value={cari}
+                                    onChange={(e) => setCari(e.target.value)}
+                                    placeholder="Nomor ST, objek, nama…"
+                                    className="h-9 w-56"
+                                />
                                 <Button type="submit" size="sm" className="h-9">
                                     <Search className="mr-1 h-4 w-4" /> Cari
                                 </Button>
@@ -130,7 +133,10 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                     </form>
                     <div className="flex flex-col gap-1">
                         <label className="text-muted-foreground text-xs">Tahun</label>
-                        <Select value={filter.tahun ? String(filter.tahun) : SEMUA} onValueChange={(v) => terapkan({ tahun: v === SEMUA ? null : Number(v) })}>
+                        <Select
+                            value={filter.tahun ? String(filter.tahun) : SEMUA}
+                            onValueChange={(v) => terapkan({ tahun: v === SEMUA ? null : Number(v) })}
+                        >
                             <SelectTrigger className="h-9 w-28">
                                 <SelectValue placeholder="Semua" />
                             </SelectTrigger>
@@ -146,7 +152,10 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                     </div>
                     <div className="flex flex-col gap-1">
                         <label className="text-muted-foreground text-xs">Jenis</label>
-                        <Select value={filter.jenis ? String(filter.jenis) : SEMUA} onValueChange={(v) => terapkan({ jenis: v === SEMUA ? null : Number(v) })}>
+                        <Select
+                            value={filter.jenis ? String(filter.jenis) : SEMUA}
+                            onValueChange={(v) => terapkan({ jenis: v === SEMUA ? null : Number(v) })}
+                        >
                             <SelectTrigger className="h-9 w-44">
                                 <SelectValue placeholder="Semua" />
                             </SelectTrigger>
@@ -221,13 +230,13 @@ export default function KendaliMutuIndex({ penugasan, filter, tahunTersedia, jen
                                                                 .filter((k) => k.tahapan === th)
                                                                 .map((k) => (
                                                                     <DropdownMenuItem key={k.no} asChild>
-                                                                        <Link
-                                                                            href={`/erpika/arep/kendali-mutu/${p.id}/preview?form=${k.no}`}
-                                                                        >
+                                                                        <Link href={`/erpika/arep/kendali-mutu/${p.id}/preview?form=${k.no}`}>
                                                                             <span className="text-muted-foreground mr-2 w-10 shrink-0 tabular-nums">
                                                                                 {k.kode}
                                                                             </span>
-                                                                            <span className="truncate" title={k.nama}>{k.nama}</span>
+                                                                            <span className="truncate" title={k.nama}>
+                                                                                {k.nama}
+                                                                            </span>
                                                                             {k.autofill && (
                                                                                 <span className="ml-auto text-[10px] text-emerald-600">auto</span>
                                                                             )}

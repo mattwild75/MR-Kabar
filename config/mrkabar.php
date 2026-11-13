@@ -48,9 +48,18 @@ return [
      * CEE_Survey — sengaja TIDAK diwajibkan. Akun bersama dipakai bergantian
      * oleh banyak orang lewat kode QR; mewajibkan satu ponsel di situ justru
      * membuatnya tidak bisa dipakai siapa pun.
+     *
+     * Daftarnya dapat diganti lewat DUA_FAKTOR_PERAN_WAJIB (dipisah koma).
+     * Sejak 13 November 2026 bakunya hanya `super-admin`: akun `admin` belum
+     * dipegang orang tertentu, sehingga belum ada ponsel yang bisa memegang
+     * kodenya. Kewajiban bagi `admin` dinyalakan lagi dengan
+     * DUA_FAKTOR_PERAN_WAJIB=super-admin,admin begitu pemegangnya ditetapkan.
      */
     'dua_faktor' => [
-        'peran_wajib' => ['super-admin', 'admin'],
+        'peran_wajib' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) env('DUA_FAKTOR_PERAN_WAJIB', 'super-admin')),
+        ))),
     ],
 
 ];

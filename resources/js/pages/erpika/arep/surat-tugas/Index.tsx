@@ -63,8 +63,8 @@ export default function SuratTugasIndex({ penugasan, filter, tahunTersedia, jeni
                 <div>
                     <h1 className="text-xl font-semibold tracking-tight md:text-2xl">Surat Tugas</h1>
                     <p className="text-muted-foreground text-sm">
-                        Menerbitkan paket penugasan dari RPP Perencanaan: Surat Tugas (ST), Surat Pengantar (SP), dan
-                        Pernyataan Independensi dan Integritas. Cetak PDF atau Word.
+                        Menerbitkan paket penugasan dari RPP Perencanaan: Surat Tugas (ST), Surat Pengantar (SP), dan Pernyataan Independensi dan
+                        Integritas. Cetak PDF atau Word.
                     </p>
                 </div>
 

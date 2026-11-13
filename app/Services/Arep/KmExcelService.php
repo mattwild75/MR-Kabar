@@ -396,7 +396,9 @@ class KmExcelService
                             }
                             $ws->setCellValueExplicit($kol($c).$r, (string) $s['t'], DataType::TYPE_STRING);
                             $gaya = ['alignment' => ['wrapText' => true, 'vertical' => $kepala ? Alignment::VERTICAL_CENTER : Alignment::VERTICAL_TOP,
-                                'horizontal' => match ($s['a'] ?? ($kepala ? 'c' : 'l')) { 'c' => Alignment::HORIZONTAL_CENTER, 'r' => Alignment::HORIZONTAL_RIGHT, default => Alignment::HORIZONTAL_LEFT }],
+                                'horizontal' => match ($s['a'] ?? ($kepala ? 'c' : 'l')) {
+                                    'c' => Alignment::HORIZONTAL_CENTER, 'r' => Alignment::HORIZONTAL_RIGHT, default => Alignment::HORIZONTAL_LEFT
+                                }],
                                 'font' => ['bold' => ($kepala && $garis) || ! empty($s['b'])]];
                             if ($garis) {
                                 $gaya += $this->tepi;

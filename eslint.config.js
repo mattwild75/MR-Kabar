@@ -73,6 +73,12 @@ export default [
             // ditulis tangan, dan sebagian memuat literal raksasa.
             'video-edukasi/**/animation.html',
             'video-edukasi/**/scenes.js',
+            'video-tutorial/**/scenes.js',
+            // Mesin perakit video dan pengambil cuplikan: dijalankan di
+            // halaman perakitan dengan variabel global yang disuntik dari
+            // scenes.js, sehingga no-undef selalu salah tangkap di sini.
+            'video-edukasi/**/engine.js',
+            'video-edukasi/**/ambil_*.cjs',
         ],
     },
     prettier, // Turn off all rules that might conflict with Prettier

@@ -1,1 +1,7 @@
 resources/js/components/ui/*
+
+# Data bangkitan skrip (video dan splash): ditulis ulang tiap pembangunan,
+# jadi format tangan tidak bertahan.
+resources/js/data/edu-video-chapters.json
+resources/js/data/splash-logo.json
+resources/js/data/tutorial-video-chapters.json

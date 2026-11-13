@@ -12,10 +12,11 @@
  */
 require __DIR__.'/../../vendor/autoload.php';
 $app = require_once __DIR__.'/../../bootstrap/app.php';
-$app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$app->make(Kernel::class)->bootstrap();
 
 use App\Models\User;
 use App\Services\DuaFaktorService;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Str;
 
 const NAMA = 'shot_v6';
