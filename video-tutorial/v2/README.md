@@ -117,6 +117,16 @@ menelaah laporan dari bab 8.
 
 ## Jebakan yang sudah ditemui
 
+- Sejak 13 November 2026 nilai Residual/Current (atau Inheren = Residual
+  bila Existing Control "Tidak") dipilih dengan mengklik tabel kriteria:
+  `klik("Sering Terjadi")` untuk baris Kemungkinan dan `klik("4 - Signifikan")`
+  untuk kolom Dampak. Level "Terjadi" WAJIB `persis=True`, karena teksnya
+  juga bagian dari "Sering Terjadi" dan lainnya. Matriks hanya untuk titik
+  Inheren dan Target; titik R terkunci.
+- Herd menyuntikkan lencana "Edit with Herd" ke situs .test; pengendali
+  memasang `window.__HERD_STUDIO__ = true` supaya lencana itu tidak terekam.
+- Ketikan login sesekali hilang karena formulir belum siap; pengendali
+  mencoba login sampai tiga kali dan menyimpan `rekam/gagal-masuk.png`.
 - Breadcrumb halaman Lapor bertulisan "Lapor", sama dengan tombol kirimnya;
   klik teks "Lapor" mendarat di breadcrumb dan laporannya tidak pernah
   terkirim. Tombol kirim dituju lewat `button[type="submit"]`.

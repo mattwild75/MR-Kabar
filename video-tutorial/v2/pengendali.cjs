@@ -1428,7 +1428,9 @@ class Jadwal {
   if (!Object.keys(WAKTU).length && !CEPAT) console.log('CATATAN: audio/waktu.json belum ada.');
 
   const huruf = (n) => 'data:font/ttf;base64,' + fs.readFileSync(path.join(DIR, '..', '..', 'video-edukasi', 'v6', 'fonts', n)).toString('base64');
-  const HURUF = `window.__ZOOM = ${ZOOM}; window.__HURUF = ${JSON.stringify({ bebas: huruf('BebasNeue-Regular.ttf'), jakarta: huruf('PlusJakartaSans[wght].ttf') })};`;
+  // __HERD_STUDIO__: lencana "Edit with Herd" yang disuntikkan Herd ke situs
+  // .test berhenti sendiri bila penanda ini sudah ada; tanpanya ia terekam.
+  const HURUF = `window.__HERD_STUDIO__ = true; window.__ZOOM = ${ZOOM}; window.__HURUF = ${JSON.stringify({ bebas: huruf('BebasNeue-Regular.ttf'), jakarta: huruf('PlusJakartaSans[wght].ttf') })};`;
 
   const browser = await puppeteer.launch({
     headless: 'new',
@@ -1445,11 +1447,32 @@ class Jadwal {
   await page.goto(`${ASAL}/login`, { waitUntil: 'networkidle2' });
   await page.waitForSelector('#username');
   if (!bab.dariLogin) {
-    await page.type('#username', AKUN.user, { delay: 10 });
-    await page.type('#password', AKUN.sandi, { delay: 10 });
-    await page.click('button[type="submit"]');
-    await tidur(3000);
-    if (/\/login/.test(page.url())) { console.log('GAGAL MASUK'); await browser.close(); process.exit(1); }
+    // Sesekali ketikan masuk sebelum React selesai memasang formulir login,
+    // sehingga isiannya hilang dan formulir terkirim kosong. Tiga percobaan,
+    // tiap kali dengan halaman login yang dimuat ulang.
+    for (let coba = 1; coba <= 3; coba++) {
+      if (coba > 1) {
+        console.log(`  login diulang (percobaan ${coba})`);
+        await page.goto(`${ASAL}/login`, { waitUntil: 'networkidle2' }).catch(() => {});
+        await page.waitForSelector('#username');
+      }
+      await tidur(800);
+      await page.click('#username', { clickCount: 3 });
+      await page.type('#username', AKUN.user, { delay: 10 });
+      await page.click('#password', { clickCount: 3 });
+      await page.type('#password', AKUN.sandi, { delay: 10 });
+      await page.click('button[type="submit"]');
+      // Login bisa lebih lama dari 3 dtk saat server dingin; tunggu sampai
+      // halaman benar-benar berpindah (paling lama 20 dtk).
+      await page.waitForFunction(() => !/\/login/.test(location.pathname), { timeout: 20000 }).catch(() => {});
+      if (!/\/login/.test(page.url())) break;
+    }
+    if (/\/login/.test(page.url())) {
+      const pesan = await page.evaluate(() => document.body.innerText.slice(0, 400)).catch(() => '');
+      fs.mkdirSync(path.join(DIR, 'rekam'), { recursive: true });
+      await page.screenshot({ path: path.join(DIR, 'rekam', 'gagal-masuk.png') }).catch(() => {});
+      console.log('GAGAL MASUK\n' + pesan); await browser.close(); process.exit(1);
+    }
   }
 
   const tangan = new Tangan(page);

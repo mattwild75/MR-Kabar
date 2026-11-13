@@ -11,104 +11,104 @@
         "id": "bab-1",
         "judul": "1. Masuk dan mengenal layar",
         "mulai": 56.3,
-        "selesai": 149.03,
-        "durasi": 92.73,
+        "selesai": 149.7,
+        "durasi": 93.4,
         "sasaran": "Semua"
     },
     {
         "id": "bab-2",
         "judul": "2. Data Umum",
-        "mulai": 149.03,
-        "selesai": 293.9,
-        "durasi": 144.87,
+        "mulai": 149.7,
+        "selesai": 295.73,
+        "durasi": 146.03,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-3",
         "judul": "3. CEE — lingkungan pengendalian",
-        "mulai": 293.9,
-        "selesai": 603.0,
-        "durasi": 309.1,
+        "mulai": 295.73,
+        "selesai": 610.27,
+        "durasi": 314.54,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-4",
         "judul": "4. Risiko Strategis Pemerintah Daerah",
-        "mulai": 603.0,
-        "selesai": 836.93,
-        "durasi": 233.93,
+        "mulai": 610.27,
+        "selesai": 868.03,
+        "durasi": 257.76,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-5",
         "judul": "5. Risiko Strategis Perangkat Daerah",
-        "mulai": 836.93,
-        "selesai": 1161.53,
-        "durasi": 324.6,
+        "mulai": 868.03,
+        "selesai": 1205.47,
+        "durasi": 337.44,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-6",
         "judul": "6. Risiko Operasional Perangkat Daerah",
-        "mulai": 1161.53,
-        "selesai": 1408.9,
-        "durasi": 247.37,
+        "mulai": 1205.47,
+        "selesai": 1458.0,
+        "durasi": 252.53,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-7",
         "judul": "7. Monitoring dan Evaluasi",
-        "mulai": 1408.9,
-        "selesai": 1507.67,
-        "durasi": 98.77,
+        "mulai": 1458.0,
+        "selesai": 1556.5,
+        "durasi": 98.5,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-8",
         "judul": "8. Ketika risiko terjadi: pelapor",
-        "mulai": 1507.67,
-        "selesai": 1679.37,
-        "durasi": 171.7,
+        "mulai": 1556.5,
+        "selesai": 1727.77,
+        "durasi": 171.27,
         "sasaran": "Semua"
     },
     {
         "id": "bab-9",
         "judul": "9. Dari laporan menjadi catatan",
-        "mulai": 1679.37,
-        "selesai": 1941.33,
-        "durasi": 261.96,
+        "mulai": 1727.77,
+        "selesai": 1995.7,
+        "durasi": 267.93,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-10",
         "judul": "10. Form Cetak",
-        "mulai": 1941.33,
-        "selesai": 2027.57,
-        "durasi": 86.24,
+        "mulai": 1995.7,
+        "selesai": 2085.57,
+        "durasi": 89.87,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-11",
         "judul": "11. Laporan",
-        "mulai": 2027.57,
-        "selesai": 2069.7,
-        "durasi": 42.13,
+        "mulai": 2085.57,
+        "selesai": 2128.27,
+        "durasi": 42.7,
         "sasaran": "PIC OPD"
     },
     {
         "id": "bab-12",
         "judul": "12. Membaca hasilnya",
-        "mulai": 2069.7,
-        "selesai": 2269.83,
-        "durasi": 200.13,
+        "mulai": 2128.27,
+        "selesai": 2327.23,
+        "durasi": 198.96,
         "sasaran": "Pimpinan"
     },
     {
         "id": "bab-13",
         "judul": "Penutup: tiga penolong kecil",
-        "mulai": 2269.83,
-        "selesai": 2372.8,
-        "durasi": 102.97,
+        "mulai": 2327.23,
+        "selesai": 2430.5,
+        "durasi": 103.27,
         "sasaran": "Semua"
     }
 ]
