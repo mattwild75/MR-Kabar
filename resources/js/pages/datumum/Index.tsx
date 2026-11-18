@@ -48,6 +48,8 @@ interface PageProps {
     targetUserBelumAda: boolean;
     /** true kalau baris DataUmum utk `tahun` di atas belum pernah diisi (form kosong krn memang belum ada data, BUKAN krn field2nya sengaja dikosongkan). */
     belumAdaData: boolean;
+    /** Kolom yang masih kosong lalu diisi bawaan nomenklatur SKPK (Permendagri 90/2019); tersimpan saat Simpan ditekan. */
+    bawaanOpd?: string[];
 }
 
 // Field yg nilainya Pemda-wide (sama utk semua OPD) — hanya Admin/Super
@@ -81,8 +83,8 @@ const SECTIONS: { title: string; fields: [string, string, 'text' | 'date'][] }[]
         title: 'Identitas',
         fields: [
             ['pemerintah_kabkota', 'Pemerintah Provinsi / Kabupaten / Kota', 'text'],
-            ['nama_urusan', 'Nama Urusan', 'text'],
-            ['nama_sub_urusan', 'Nama Sub-Urusan', 'text'],
+            ['nama_urusan', 'Urusan / Unsur Pemerintahan', 'text'],
+            ['nama_sub_urusan', 'Bidang Urusan / Bidang Unsur', 'text'],
             ['nama_dinas_opd', 'Nama Dinas SKPK / OPD', 'text'],
             ['periode_penilaian', 'Periode Penilaian', 'text'],
         ],
@@ -136,7 +138,18 @@ type DataUmumForm = Record<string, string | Signatory[]>;
 // jadi ganti tahun via navigateTahun() (yg preserveState:true, sengaja
 // dipertahankan utk UX scroll/dsb) TIDAK otomatis me-reset form ke data
 // tahun baru tanpa remount paksa lewat key ini.
-function DataUmumForm({ data, isAdmin, opdOptions, opdId, tahunAktif, tahun, belumPilihOpd, targetUserBelumAda, belumAdaData }: PageProps) {
+function DataUmumForm({
+    data,
+    isAdmin,
+    opdOptions,
+    opdId,
+    tahunAktif,
+    tahun,
+    belumPilihOpd,
+    targetUserBelumAda,
+    belumAdaData,
+    bawaanOpd = [],
+}: PageProps) {
     const { auth } = usePage<SharedData>().props;
     const isCeeSurvey = auth.user?.roles?.some((r) => r.name === 'cee-survey') ?? false;
 
@@ -330,6 +343,12 @@ function DataUmumForm({ data, isAdmin, opdOptions, opdId, tahunAktif, tahun, bel
                                                         </datalist>
                                                     )}
                                                 </>
+                                            )}
+                                            {bawaanOpd.includes(key) && (form[key] as string) === (data[key] as string) && (
+                                                <p className="text-xs text-sky-700 dark:text-sky-300">
+                                                    Terisi otomatis sesuai SKPK ini (nomenklatur Permendagri 90/2019); boleh diubah, tersimpan saat
+                                                    Simpan ditekan.
+                                                </p>
                                             )}
                                             {errors[key] && <p className="text-destructive text-sm">{errors[key]}</p>}
                                         </div>

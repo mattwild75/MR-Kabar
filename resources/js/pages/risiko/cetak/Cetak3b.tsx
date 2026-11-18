@@ -114,7 +114,7 @@ export default function Cetak3b({ opdOptions, opd, tahun, periode, identifikasi,
                                 <td className="py-0.5">: {tahun}</td>
                             </tr>
                             <tr>
-                                <td className="py-0.5">Urusan Pemerintahan</td>
+                                <td className="py-0.5">Urusan / Unsur Pemerintahan</td>
                                 <td className="py-0.5">: {clean(urusanPemerintahan)}</td>
                             </tr>
                             <tr>

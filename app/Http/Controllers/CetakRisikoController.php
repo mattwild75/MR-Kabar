@@ -14,6 +14,7 @@ use App\Models\KrsPemda;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Services\PdfPrintService;
+use App\Support\NomenklaturUrusanOpd;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -352,8 +353,8 @@ class CetakRisikoController extends Controller
             // digabung jadi satu string krn user bisa beda urusan antar OPD.
             'urusan_list' => $dataUmumRegistrants->map(fn ($d) => [
                 'opd' => $d->nama_dinas_opd,
-                'urusan' => $d->nama_urusan,
-            ])->filter(fn ($u) => $u['urusan'])->values(),
+                'urusan' => NomenklaturUrusanOpd::untukCetak($d->nama_urusan, $d->nama_sub_urusan, $d->nama_dinas_opd),
+            ])->filter(fn ($u) => filled($u['urusan']))->values(),
             'pic_list' => $dataUmumRegistrants->map(fn ($d) => [
                 'opd' => $d->nama_dinas_opd,
                 'nama' => $d->nama_pic,
@@ -527,7 +528,7 @@ class CetakRisikoController extends Controller
             'konteks' => $konteks,
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
             'sumberData' => $opd ? $this->sumberDataRenstra($opd->nama, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rso')) : null,
-            'urusanPemerintahan' => $dataUmum?->nama_urusan,
+            'urusanPemerintahan' => NomenklaturUrusanOpd::untukCetak($dataUmum?->nama_urusan, $dataUmum?->nama_sub_urusan, $opd?->nama),
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
@@ -674,7 +675,7 @@ class CetakRisikoController extends Controller
             'konteks' => $konteks,
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
             'sumberData' => $opd ? $this->sumberDataRenja($opd->nama, $tahun, $this->dokumenSumber($dataUmum, 'dokumen_sumber_roo')) : null,
-            'urusanPemerintahan' => $dataUmum?->nama_urusan,
+            'urusanPemerintahan' => NomenklaturUrusanOpd::untukCetak($dataUmum?->nama_urusan, $dataUmum?->nama_sub_urusan, $opd?->nama),
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
@@ -1030,7 +1031,7 @@ class CetakRisikoController extends Controller
             'identifikasi' => $identifikasi,
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
             'sumberData' => $opd ? $this->sumberDataRenstra($opd->nama, $pengaturan->periode_penilaian, $this->dokumenSumber($dataUmum, 'dokumen_sumber_rso')) : null,
-            'urusanPemerintahan' => $dataUmum?->nama_urusan,
+            'urusanPemerintahan' => NomenklaturUrusanOpd::untukCetak($dataUmum?->nama_urusan, $dataUmum?->nama_sub_urusan, $opd?->nama),
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }
@@ -1109,7 +1110,7 @@ class CetakRisikoController extends Controller
             'identifikasi' => $identifikasi,
             'pemerintahKabkota' => $pengaturan->pemerintah_kabkota ?: 'Pemerintah Kabupaten Aceh Barat',
             'sumberData' => $opd ? $this->sumberDataRenja($opd->nama, $tahun, $this->dokumenSumber($dataUmum, 'dokumen_sumber_roo')) : null,
-            'urusanPemerintahan' => $dataUmum?->nama_urusan,
+            'urusanPemerintahan' => NomenklaturUrusanOpd::untukCetak($dataUmum?->nama_urusan, $dataUmum?->nama_sub_urusan, $opd?->nama),
             'dataUmum' => $this->dataUmumForInertia($dataUmum),
         ]);
     }

@@ -200,7 +200,7 @@ export default function Cetak2b({
                                 <td className="py-0.5">: {tahun}</td>
                             </tr>
                             <tr>
-                                <td className="py-0.5">Urusan Pemerintahan</td>
+                                <td className="py-0.5">Urusan / Unsur Pemerintahan</td>
                                 <td className="py-0.5">: {urusanPemerintahan ?? '-'}</td>
                             </tr>
                             <tr>

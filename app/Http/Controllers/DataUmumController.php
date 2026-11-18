@@ -6,6 +6,7 @@ use App\Models\DataUmum;
 use App\Models\Opd;
 use App\Models\PengaturanPemda;
 use App\Models\User;
+use App\Support\NomenklaturUrusanOpd;
 use App\Support\SafeUpsert;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -92,6 +93,22 @@ class DataUmumController extends Controller
             ? DataUmum::firstOrNew(['user_id' => $targetUser->id, 'tahun_penilaian' => (string) $tahun])
             : new DataUmum;
 
+        // Bawaan per-SKPK (nomenklatur Permendagri 90/2019) untuk kolom yang
+        // masih kosong: nama SKPK, Urusan/Unsur, dan Bidang. Hanya mengisi
+        // tampilan; tersimpan bila PIC menekan Simpan, dan tetap bisa diubah.
+        $bawaanOpd = [];
+        $namaOpd = $targetUser?->opd?->nama;
+        if ($namaOpd) {
+            $nomenklatur = NomenklaturUrusanOpd::untuk($namaOpd);
+            $isiBawaan = ['nama_dinas_opd' => $namaOpd, 'nama_urusan' => $nomenklatur['urusan'] ?? null, 'nama_sub_urusan' => $nomenklatur['bidang'] ?? null];
+            foreach ($isiBawaan as $kolom => $nilai) {
+                if (blank($data->{$kolom}) && filled($nilai)) {
+                    $data->{$kolom} = $nilai;
+                    $bawaanOpd[] = $kolom;
+                }
+            }
+        }
+
         return Inertia::render('datumum/Index', [
             'isAdmin' => $isAdmin,
             // Picker OPD hanya relevan/dikirim utk Admin/Super Admin — PIC
@@ -109,6 +126,7 @@ class DataUmumController extends Controller
             // dipakai frontend utk tampilkan banner "belum ada data utk
             // tahun ini" (BUKAN diam2 fallback ke data tahun lain).
             'belumAdaData' => ! $data->exists,
+            'bawaanOpd' => $bawaanOpd,
             'data' => [
                 ...collect(self::FIELDS)->mapWithKeys(function ($f) use ($data, $default) {
                     if ($f === 'tanggal_pembuatan') {

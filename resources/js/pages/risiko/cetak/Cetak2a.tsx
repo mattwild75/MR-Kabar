@@ -339,7 +339,7 @@ export default function Cetak2a({ tahun, periode, konteks, pemerintahKabkota, su
                     {/* 6. Urusan Pemerintahan Daerah — per OPD terkait, sesuai isian Data Umum masing2 */}
                     <table className="mt-3 w-full border-collapse border border-black text-xs">
                         <tbody>
-                            <Baris label="Urusan Pemerintahan Daerah">
+                            <Baris label="Urusan / Unsur Pemerintahan Daerah">
                                 {konteks.urusan_list.length === 0
                                     ? '-'
                                     : konteks.urusan_list.map((u, i) => (

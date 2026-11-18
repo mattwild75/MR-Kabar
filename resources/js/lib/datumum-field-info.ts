@@ -11,21 +11,21 @@ Cara mengisi: tulis nama resmi lengkap sesuai peraturan daerah, huruf kapital se
 
 Contoh: "PEMERINTAH KABUPATEN ACEH BARAT"`,
 
-    nama_urusan: `Definisi: Nama urusan pemerintahan (wajib/pilihan) yang menaungi OPD ini, sesuai UU 23/2014 tentang Pemerintahan Daerah.
+    nama_urusan: `Definisi: Kelompok urusan pemerintahan atau unsur yang menaungi SKPK ini, menurut klasifikasi Permendagri 90/2019 (sama dengan SIPD dan dokumen anggaran SKPK).
 
-Fungsi: Dicetak sebagai identitas konteks pada header Form Cetak CEE, menunjukkan bidang urusan pemerintahan yang dinilai risikonya.
+Fungsi: Dicetak pada kepala Form Cetak (bersama Bidang) sebagai identitas urusan/unsur pemerintahan yang dinilai risikonya.
 
-Cara mengisi: tulis nama urusan sesuai SOTK (Struktur Organisasi dan Tata Kerja) OPD ini.
+Cara mengisi: sudah terisi otomatis sesuai SKPK; ubah bila DPA SKPK menyebut lain. Dinas memakai Urusan (wajib pelayanan dasar, wajib non-pelayanan dasar, atau pilihan); SKPK bukan dinas memakai Unsur (pendukung, penunjang, pengawasan, kewilayahan, pemerintahan umum).
 
-Contoh: "Urusan Pemerintahan Bidang Kesehatan", "Unsur Staf Urusan Pemerintahan" (untuk Sekretariat Daerah)`,
+Contoh: "Urusan Pemerintahan Wajib yang Berkaitan dengan Pelayanan Dasar" (Dinas Kesehatan), "Unsur Pengawasan Urusan Pemerintahan" (Inspektorat), "Unsur Kewilayahan" (Kecamatan)`,
 
-    nama_sub_urusan: `Definisi: Nama sub-urusan/bidang spesifik di bawah Nama Urusan di atas, kalau OPD ini menangani sub-bidang tertentu.
+    nama_sub_urusan: `Definisi: Bidang urusan atau bidang unsur di bawah Urusan / Unsur Pemerintahan di atas, menurut Permendagri 90/2019.
 
-Fungsi: Melengkapi identitas konteks pada header Form Cetak CEE, memberi rincian lebih spesifik dari Nama Urusan.
+Fungsi: Dicetak pada kepala Form Cetak, memberi rincian bidang yang ditangani SKPK ini.
 
-Cara mengisi: opsional — isi kalau OPD punya sub-bidang spesifik yang relevan, kosongkan kalau tidak ada.
+Cara mengisi: sudah terisi otomatis sesuai SKPK; SKPK yang memegang beberapa bidang menuliskannya berurutan dipisah titik koma.
 
-Contoh: "Rehabilitasi dan Perlindungan Sosial", "Tata Kelola Pemerintahan"`,
+Contoh: "Kesehatan", "Pendidikan; Kebudayaan", "Inspektorat Daerah", "Kecamatan"`,
 
     nama_dinas_opd: `Definisi: Nama resmi lengkap OPD (Organisasi Perangkat Daerah) yang identitasnya sedang diisi di halaman ini.
 
