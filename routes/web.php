@@ -65,6 +65,7 @@ use App\Http\Controllers\TrashController;
 use App\Http\Controllers\TroubleshootReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserFileController;
+use App\Models\SettingApp;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -111,7 +112,7 @@ Route::get('/login/cee-survey', CeeSurveyQrLoginController::class)
 // 'menu.permission'] di bawah — tidak ada perubahan apa pun ke situ.
 // robots.txt dan sitemap.xml dibuat dari APP_URL, bukan berkas statis — berkas
 // statis lama masih menunjuk mrkabar.test setelah go-live, sehingga Google tidak
-// pernah mendapat alamat yang benar. Hanya dua halaman publik yang boleh
+// pernah mendapat alamat yang benar. Hanya halaman publik yang boleh
 // diindeks; selebihnya di balik login (dan dilarang di sini sekadar penegasan).
 // Status publik ringkas (tanpa data): untuk pemantau luar dan pengelola.
 Route::get('/status', StatusController::class)->name('status');
@@ -121,6 +122,7 @@ Route::get('/robots.txt', function () {
 ', [
         'User-agent: *',
         'Allow: /panduan-publik',
+        'Allow: /edukasi',
         'Allow: /login',
         'Disallow: /',
         '',
@@ -137,6 +139,7 @@ Route::get('/sitemap.xml', function () {
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 '
         .$url('/panduan-publik', '1.0').'
+'.$url('/edukasi', '0.9').'
 '.$url('/login', '0.5').'
 </urlset>
 ';
@@ -153,6 +156,22 @@ Route::get('/panduan-publik', function () {
         'sumberUrl' => url('/panduan-publik'),
     ]);
 })->name('panduan.public');
+
+// Halaman tonton video PUBLIK — tanpa login, tautannya dibagikan ke seluruh
+// ASN dan pemangku kepentingan Pemkab Aceh Barat. Urutan: video edukasi
+// manajemen risiko, video edukasi dugaan kecurangan, video tutorial.
+//
+// CATATAN KEAMANAN: tidak ada query selain baris pengaturan aplikasi, dan
+// dari baris itu HANYA kolom setelan video yang dikirim (lihat
+// SettingApp::KOLOM_VIDEO). Baris lengkapnya memuat contact_email, jadi
+// HandleInertiaRequests sengaja tidak membagikan `setting` ke rute ini.
+// Berkas videonya sendiri memang sudah publik (public/video, disajikan
+// langsung oleh server web).
+Route::get('/edukasi', function () {
+    return Inertia::render('edukasi/Index', [
+        'setting' => SettingApp::cached()?->only(SettingApp::KOLOM_VIDEO),
+    ]);
+})->middleware('throttle:60,1')->name('edukasi');
 
 // Panduan versi PDF — juga tanpa login, karena gunanya memang dibagikan
 // kepada orang yang belum tentu punya akun: sosialisasi, rapat, arsip luring.

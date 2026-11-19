@@ -14,7 +14,7 @@
     @php
         $seo = $setting['seo'] ?? [];
         $deskripsi = $seo['description'] ?? 'MR Kabar (Manajemen Risiko terKabar) — sistem manajemen risiko Pemerintah Kabupaten Aceh Barat: identifikasi, analisis, dan pemantauan risiko 49 perangkat daerah oleh Inspektorat. Risiko terKabar, Daerah Terjaga.';
-        $publik = in_array(request()->path(), ['login', 'panduan-publik'], true);
+        $publik = in_array(request()->path(), ['login', 'panduan-publik', 'edukasi'], true);
     @endphp
 
     <title inertia>{{ $appName }}</title>
@@ -61,7 +61,7 @@
 
 
     {{--
-        Daftar rute Ziggy TIDAK dikirim ke /panduan-publik. Halaman itu terbuka
+        Daftar rute Ziggy TIDAK dikirim ke /panduan-publik dan /edukasi. Halaman itu terbuka
         tanpa login, dan @routes tanpa penyaring menuliskan SELURUH 260 definisi
         rute ke dalam HTML — termasuk seluruh permukaan administrasi seperti
         roles.destroy dan users.reset-password. Rutenya sendiri tetap terkunci
@@ -72,7 +72,7 @@
         '/login' apa adanya, bukan route('login'), karena Ziggy hanya tersedia
         di peramban (lihat komentarnya di berkas itu).
     --}}
-    @unless (request()->routeIs('panduan.public'))
+    @unless (request()->routeIs('panduan.public', 'edukasi'))
         @routes
     @endunless
     @viteReactRefresh

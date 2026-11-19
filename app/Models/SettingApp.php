@@ -8,6 +8,37 @@ class SettingApp extends Model
 {
     protected $table = 'settingapp';
 
+    /**
+     * Kolom setelan ketiga video. Hanya kolom ini yang boleh dikirim ke halaman
+     * publik /edukasi; kolom lain (mis. contact_email) tidak.
+     */
+    public const KOLOM_VIDEO = [
+        'edu_video_enabled',
+        'edu_video_path',
+        'edu_video_subtitle_path',
+        'edu_video_gain_narration',
+        'edu_video_gain_music',
+        'edu_video_gain_sfx',
+        'edu_video_subtitle_enabled',
+        'edu_video_subtitle_size',
+        'tutorial_video_enabled',
+        'tutorial_video_path',
+        'tutorial_video_subtitle_path',
+        'tutorial_video_gain_narration',
+        'tutorial_video_gain_music',
+        'tutorial_video_gain_sfx',
+        'tutorial_video_subtitle_enabled',
+        'tutorial_video_subtitle_size',
+        'kecurangan_video_enabled',
+        'kecurangan_video_path',
+        'kecurangan_video_subtitle_path',
+        'kecurangan_video_gain_narration',
+        'kecurangan_video_gain_music',
+        'kecurangan_video_gain_sfx',
+        'kecurangan_video_subtitle_enabled',
+        'kecurangan_video_subtitle_size',
+    ];
+
     protected $fillable = [
         'nama_app',
         'deskripsi',
