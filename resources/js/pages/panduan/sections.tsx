@@ -698,9 +698,9 @@ export const SECTIONS: Section[] = [
 
                 <p className="text-foreground mt-3 font-medium">Akun bersama CEE_Survey — isi kuesioner tanpa login manual</p>
                 <p>
-                    Responden CEE (siapa saja min. eselon IV lintas-OPD) tidak perlu akun pribadi untuk mengisi <code>1a_Kuesioner CEE</code> — cukup
-                    pakai akun bersama <strong>CEE_Survey</strong>, yang otomatis hanya bisa mengakses Dashboard, halaman Panduan ini, dan grup menu
-                    CEE (Data Umum + 1a/1b/1c/1d) — sama sekali tidak bisa melihat/mengubah data Risiko OPD mana pun.
+                    Responden CEE (seluruh pegawai SKPK, pejabat maupun staf) tidak perlu akun pribadi untuk mengisi <code>1a_Kuesioner CEE</code> —
+                    cukup pakai akun bersama <strong>CEE_Survey</strong>, yang otomatis hanya bisa mengakses Dashboard, halaman Panduan ini, dan grup
+                    menu CEE (Data Umum + 1a/1b/1c/1d) — sama sekali tidak bisa melihat/mengubah data Risiko OPD mana pun.
                 </p>
                 <CeeSurveyQrCode />
 

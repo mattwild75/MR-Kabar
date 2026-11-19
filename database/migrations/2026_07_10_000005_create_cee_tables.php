@@ -46,8 +46,8 @@ return new class extends Migration
         // Form 1a: satu baris = satu jawaban satu responden atas satu
         // pertanyaan, untuk satu OPD & satu tahun penilaian. Identitas
         // responden dicatat per-submission (bukan terikat user_id tertentu)
-        // karena akun CEE_Survey dipakai bergantian oleh siapa saja min.
-        // eselon IV di OPD tersebut.
+        // karena akun CEE_Survey dipakai bergantian oleh seluruh pegawai
+        // di OPD tersebut.
         Schema::create('cee_jawaban', function (Blueprint $table) {
             $table->id();
             $table->foreignId('opd_id')->constrained('opd')->cascadeOnDelete();

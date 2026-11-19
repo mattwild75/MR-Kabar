@@ -92,7 +92,7 @@ class Pengetahuan
                 'desc' => 'Laporan pelaksanaan penilaian risiko, laporan berkala, laporan pemantauan unit kepatuhan, dan laporan pembinaan komite.',
                 'tautan' => [['dicetak oleh', $k('/^CetakLaporanController$/')], ['disimpan di', $t('/^laporan_narasi$/')]]],
             ['id' => 'konsep:cee', 'label' => 'CEE (Control Environment Evaluation)', 'type' => 'konsep',
-                'desc' => 'Evaluasi lingkungan pengendalian per OPD: 1a kuesioner persepsi (8 sub-unsur), 1b berdasarkan dokumen, 1c simpulan survei, 1d RTP CEE. Responden masuk lewat QR.',
+                'desc' => 'Evaluasi lingkungan pengendalian per OPD: 1a kuesioner persepsi (8 sub-unsur), 1b berdasarkan dokumen, 1c simpulan survei, 1d RTP CEE. Responden seluruh pegawai SKPK (tanpa batas eselon, sesuai Perdep: survei persepsi pegawai), masuk lewat QR.',
                 'tautan' => [['dikelola di', $k('/^(CeeForm|CeePertanyaan|CetakCee)Controller$/')], ['disimpan di', $t('/^cee_/')], ['diakses lewat', $k('/^CeeSurveyQrLoginController$/')]]],
             ['id' => 'konsep:data-umum', 'label' => 'Data Umum dan Penanda Tangan', 'type' => 'konsep',
                 'desc' => 'Identitas kertas kerja dan penanda tangan per PIC; sumber kepala dan blok tanda tangan seluruh Form Cetak. Kolom Urusan / Unsur Pemerintahan dan Bidang Urusan / Bidang Unsur (kolom nama_urusan dan nama_sub_urusan) terisi bawaan per SKPK dari NomenklaturUrusanOpd (Permendagri 90/2019, 49 SKPK) selama masih kosong, tetap bisa diubah; Form Cetak menampilkannya sebagai "Bidang (Urusan/Unsur)".',

@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Role;
  *
  * Juga menyiapkan role 'cee-survey' + akun bersama CEE_Survey (password dari
  * env CEE_SURVEY_ACCOUNT_PASSWORD, lihat CeeSurveyQrLoginController)
- * yang dipakai bergantian oleh siapa saja minimal eselon IV lintas OPD untuk
+ * yang dipakai bergantian oleh seluruh pegawai lintas OPD untuk
  * mengisi Form Input CEE 1a/1b/1c — dibatasi HANYA ke menu CEE oleh middleware
  * RestrictCeeSurveyRole (bukan lewat permission_name menu, krn banyak menu
  * lain fail-open utk semua user login).

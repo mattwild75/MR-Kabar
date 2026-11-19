@@ -221,7 +221,7 @@ export default function Form1a({ opdOptions, opdStatus, opdId, tahun, unsurs, re
                                 </div>
                                 <div className="space-y-1">
                                     <div className="flex items-center gap-1.5">
-                                        <Label htmlFor="responden_jabatan">Jabatan (minimal Eselon IV)</Label>
+                                        <Label htmlFor="responden_jabatan">Jabatan</Label>
                                         <FieldInfoPopover text={CEE_FORM1A_FIELD_INFO.RESPONDEN_JABATAN} />
                                     </div>
                                     <Input

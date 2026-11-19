@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Akun CEE_Survey (role 'cee-survey') dipakai BERGANTIAN oleh siapa saja
- * min. eselon IV lintas OPD, khusus mengisi Form Input CEE (1a/1b/1c). Menu
+ * Akun CEE_Survey (role 'cee-survey') dipakai BERGANTIAN oleh seluruh
+ * pegawai lintas OPD, khusus mengisi Form Input CEE (1a/1b/1c). Menu
  * lain (termasuk data risiko krs_pemda dkk) sengaja TIDAK punya permission_name
  * di CheckMenuPermission (fail-open utk semua user login) — jadi role ini
  * butuh proteksi TERPISAH & lebih ketat: default-deny kecuali whitelist CEE.

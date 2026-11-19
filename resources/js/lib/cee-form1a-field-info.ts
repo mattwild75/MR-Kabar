@@ -11,9 +11,9 @@ Cara mengisi: ketik nama lengkap sesuai KTP/SK, tanpa gelar berlebihan.
 Contoh:
 dr. Marlina Yusuf, Sp.PD`,
 
-    RESPONDEN_JABATAN: `Definisi: Jabatan struktural/fungsional responden saat mengisi kuesioner — minimal Eselon IV, sesuai ketentuan Perdep bahwa responden CEE adalah pejabat yang memahami kondisi lingkungan pengendalian OPD.
+    RESPONDEN_JABATAN: `Definisi: Jabatan responden saat mengisi kuesioner, baik pejabat struktural, fungsional, maupun pelaksana. Survei CEE menurut Perdep PPKD No. 4/2019 menghimpun persepsi pegawai, sehingga seluruh pegawai SKPK boleh menjadi responden.
 
-Fungsi: Menjadi bukti bahwa responden memenuhi syarat minimal eselon, dan membantu Sekretaris/Kepala OPD menilai keterwakilan unit kerja saat menyusun Form 1c.
+Fungsi: Menunjukkan sebaran responden (pejabat dan staf), dan membantu Sekretaris/Kepala OPD menilai keterwakilan unit kerja saat menyusun Form 1c.
 
 Cara mengisi: tulis nama jabatan resmi sesuai SK penempatan.
 
