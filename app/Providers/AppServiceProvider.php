@@ -114,8 +114,18 @@ class AppServiceProvider extends ServiceProvider
         // Masuk lewat QR hanya membuat sesi. Di sini sesi BELUM ada saat
         // permintaannya tiba, jadi tidak bisa dikunci per sesi — dikunci per
         // IP, dinaikkan supaya satu ruangan sosialisasi yang memindai QR
-        // bersama-sama tidak saling menghalangi.
-        RateLimiter::for('qr-login', fn (Request $r) => Limit::perMinute(60)->by($r->ip()));
+        // bersama-sama tidak saling menghalangi. 300 (dulu 60): seluruh
+        // pegawai satu kantor yang membuka tautan survei CEE lewat Wi-Fi
+        // kantor tampil sebagai SATU alamat IP. Tiap kunjungan hanya membuat
+        // satu sesi, jadi 5 permintaan per detik dari satu sumber masih
+        // ringan, sementara banjir dari satu sumber tetap terbendung.
+        RateLimiter::for('qr-login', fn (Request $r) => Limit::perMinute(300)->by($r->ip()));
+
+        // Halaman publik tanpa login (/edukasi). Sama alasannya: satu aula
+        // atau satu kantor berbagi satu IP. Halamannya hanya 6-7 KB dan video
+        // baru diunduh ketika diputar, jadi 300 per menit per IP tidak
+        // membebani server.
+        RateLimiter::for('halaman-publik', fn (Request $r) => Limit::perMinute(300)->by($r->ip()));
 
         RateLimiter::for('lapor-submit', fn (Request $r) => [
             Limit::perMinute(10)->by($r->session()->getId()),

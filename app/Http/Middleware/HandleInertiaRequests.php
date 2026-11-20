@@ -105,8 +105,10 @@ class HandleInertiaRequests extends Middleware
                 'tiketBaru' => session('tiketBaru'),
                 'hasilTiket' => session('hasilTiket'),
             ],
-            // TIDAK dibagikan ke /panduan-publik dan /edukasi (/edukasi menerima
-            // hanya kolom setelan video lewat prop halamannya sendiri). Halaman itu terbuka tanpa
+            // TIDAK dibagikan ke /panduan-publik, dan ke /edukasi selama
+            // pengunjungnya belum login (tamu /edukasi menerima hanya kolom
+            // setelan video lewat prop halamannya sendiri; yang sudah login
+            // melihatnya di dalam tata letak aplikasi). Halaman itu terbuka tanpa
             // login, dan baris settingapp memuat 32 kolom — di antaranya
             // contact_email, yang berisi surel pribadi pemegang akun Super
             // Admin. Seluruhnya ikut terserialisasi ke atribut data-page dan
@@ -117,7 +119,7 @@ class HandleInertiaRequests extends Middleware
             // memerlukannya untuk logo, nama aplikasi, dan video pembuka —
             // jadi penyaringnya berdasarkan nama rute, bukan "sudah login
             // atau belum".
-            'setting' => fn () => $request->routeIs('panduan.public', 'edukasi')
+            'setting' => fn () => $request->routeIs('panduan.public') || ($request->routeIs('edukasi') && ! $request->user())
                 ? null
                 : SettingApp::cached(),
             // Penanda versi berkas video edukasi bawaan, ditempelkan sebagai

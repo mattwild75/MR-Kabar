@@ -66,6 +66,7 @@ use App\Http\Controllers\TroubleshootReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserFileController;
 use App\Models\SettingApp;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -167,11 +168,16 @@ Route::get('/panduan-publik', function () {
 // HandleInertiaRequests sengaja tidak membagikan `setting` ke rute ini.
 // Berkas videonya sendiri memang sudah publik (public/video, disajikan
 // langsung oleh server web).
-Route::get('/edukasi', function () {
-    return Inertia::render('edukasi/Index', [
+//
+// Pengguna yang SUDAH login (menu "Video Edukasi" di sidebar) melihat
+// halaman yang sama di dalam tata letak aplikasi, jadi baginya `setting` dan
+// daftar rute dikirim seperti halaman lain — tidak ada yang baru terbuka,
+// karena keduanya memang sudah ia terima di setiap halaman aplikasi.
+Route::get('/edukasi', function (Request $request) {
+    return Inertia::render('edukasi/Index', $request->user() ? [] : [
         'setting' => SettingApp::cached()?->only(SettingApp::KOLOM_VIDEO),
     ]);
-})->middleware('throttle:60,1')->name('edukasi');
+})->middleware('throttle:halaman-publik')->name('edukasi');
 
 // Panduan versi PDF — juga tanpa login, karena gunanya memang dibagikan
 // kepada orang yang belum tentu punya akun: sosialisasi, rapat, arsip luring.

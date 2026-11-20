@@ -29,6 +29,12 @@ class RestrictCeeSurveyRole
         '/data-umum',
         '/dashboard',
         '/panduan',
+        // Halaman publik (video edukasi, pre-test/post-test, panduan publik).
+        // Ponsel yang tadi dipakai membuka tautan survei CEE atau QR LAPOR
+        // masih memegang sesi akun bersama; tanpa baris ini halaman publik
+        // itu memantulkannya ke /dashboard.
+        '/edukasi',
+        '/panduan-publik',
         // Termasuk /login/lapor-kejadian & /login/cee-survey. Tanpa ini,
         // perangkat yang tadi dipakai memindai QR CEE akan dipantulkan ke
         // /dashboard begitu memindai QR LAPOR — penjaga ini berjalan pada

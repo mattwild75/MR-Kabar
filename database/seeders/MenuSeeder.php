@@ -36,13 +36,29 @@ class MenuSeeder extends Seeder
             ]
         );
 
+        // MENU: Video Edukasi — halaman /edukasi (tiga video, kelak juga pintu
+        // pre-test dan post-test). Halamannya publik, jadi menu ini fail-open
+        // dan ikut tampil untuk akun bersama CEE_Survey dan LAPOR (lihat
+        // ShareMenus). Di produksi dipasang lewat migrasi
+        // 2026_11_20_000001_tambah_menu_video_edukasi, karena deploy tidak
+        // menjalankan seeder.
+        Menu::updateOrCreate(
+            ['title' => 'Video Edukasi', 'parent_id' => null],
+            [
+                'icon' => 'MonitorPlay',
+                'route' => '/edukasi',
+                'order' => 3,
+                'permission_name' => null,
+            ]
+        );
+
         // GROUP: Access
         $access = Menu::updateOrCreate(
             ['title' => 'Access', 'parent_id' => null],
             [
                 'icon' => 'KeyRound',
                 'route' => '#',
-                'order' => 8,
+                'order' => 9,
                 'permission_name' => 'access-view',
             ]
         );
@@ -83,7 +99,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Settings2',
                 'route' => '#',
-                'order' => 10,
+                'order' => 11,
                 'permission_name' => 'settings-view',
             ]
         );
@@ -169,7 +185,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Wrench',
                 'route' => '#',
-                'order' => 9,
+                'order' => 10,
                 'permission_name' => 'utilities-view',
             ]
         );
@@ -292,7 +308,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'FilePen',
                 'route' => '#',
-                'order' => 3,
+                'order' => 4,
                 'permission_name' => null,
             ]
         );
@@ -308,7 +324,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Activity',
                 'route' => '#',
-                'order' => 4,
+                'order' => 5,
                 'permission_name' => null,
             ]
         );
@@ -341,7 +357,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'Printer',
                 'route' => '#',
-                'order' => 5,
+                'order' => 6,
                 'permission_name' => null,
             ]
         );
@@ -971,7 +987,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'ChartPie',
                 'route' => '#',
-                'order' => 6,
+                'order' => 7,
                 'permission_name' => null,
             ]
         );
@@ -991,7 +1007,7 @@ class MenuSeeder extends Seeder
             [
                 'icon' => 'LayoutGrid',
                 'route' => '#',
-                'order' => 7,
+                'order' => 8,
                 'permission_name' => null,
             ]
         );

@@ -24,6 +24,7 @@ class ShareMenus
         $allowedTitlesForCeeSurvey = [
             'Dashboard',
             'Apa itu Manajemen Risiko / MR Kabar',
+            'Video Edukasi',
             'Form Input',
             'Data Umum',
             'CEE',
@@ -43,6 +44,7 @@ class ShareMenus
         $allowedTitlesForLaporRisiko = [
             'Dashboard',
             'Apa itu Manajemen Risiko / MR Kabar',
+            'Video Edukasi',
             'Utilities',
             'Lapor Kejadian Risiko',
         ];

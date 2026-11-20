@@ -24,6 +24,12 @@ class RestrictLaporRisikoRole
         '/lapor-kecurangan',
         '/dashboard',
         '/panduan',
+        // Halaman publik (video edukasi, pre-test/post-test, panduan publik).
+        // Ponsel yang tadi dipakai membuka tautan survei CEE atau QR LAPOR
+        // masih memegang sesi akun bersama; tanpa baris ini halaman publik
+        // itu memantulkannya ke /dashboard.
+        '/edukasi',
+        '/panduan-publik',
         // Lihat catatan yang sama di RestrictCeeSurveyRole: URL QR harus
         // lolos, kalau tidak pemindaian silang berakhir di /dashboard.
         '/login',

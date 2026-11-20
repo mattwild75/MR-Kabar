@@ -72,7 +72,7 @@
         '/login' apa adanya, bukan route('login'), karena Ziggy hanya tersedia
         di peramban (lihat komentarnya di berkas itu).
     --}}
-    @unless (request()->routeIs('panduan.public', 'edukasi'))
+    @unless (request()->routeIs('panduan.public') || (request()->routeIs('edukasi') && ! auth()->check()))
         @routes
     @endunless
     @viteReactRefresh
