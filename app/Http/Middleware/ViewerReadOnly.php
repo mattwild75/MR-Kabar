@@ -35,6 +35,14 @@ class ViewerReadOnly
         'session.extend',
         'notifications.read',
         'notifications.read-all',
+        // Peserta pre-test/post-test: identitasnya bukan akun login, jadi
+        // akun peninjau yang kebetulan masih login di ponselnya tidak boleh
+        // menghalangi jawaban.
+        'edukasi.tes.masuk',
+        'edukasi.tes.biodata',
+        'edukasi.tes.jawab',
+        'edukasi.tes.denyut',
+        'edukasi.tes.lupakan',
     ];
 
     /**

@@ -119,7 +119,7 @@ class HandleInertiaRequests extends Middleware
             // memerlukannya untuk logo, nama aplikasi, dan video pembuka —
             // jadi penyaringnya berdasarkan nama rute, bukan "sudah login
             // atau belum".
-            'setting' => fn () => $request->routeIs('panduan.public') || ($request->routeIs('edukasi') && ! $request->user())
+            'setting' => fn () => $request->routeIs('panduan.public') || ($request->routeIs('edukasi', 'edukasi.tes.*') && ! $request->user())
                 ? null
                 : SettingApp::cached(),
             // Penanda versi berkas video edukasi bawaan, ditempelkan sebagai

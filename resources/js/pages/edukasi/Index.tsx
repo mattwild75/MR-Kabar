@@ -4,8 +4,101 @@ import { useEduVideo, useVersiVideo } from '@/lib/edu-video';
 import { useKecuranganVideo } from '@/lib/kecurangan-video';
 import { useTutorialVideo, useVersiTutorial } from '@/lib/tutorial-video';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { BookOpen, LogIn, PlayCircle, ShieldAlert, Wrench } from 'lucide-react';
+import { Activity, BarChart3, BookOpen, ClipboardCheck, LogIn, MonitorPlay, PlayCircle, Settings2, ShieldAlert, Wrench } from 'lucide-react';
 import type { ReactNode } from 'react';
+
+interface PanelPelatihan {
+    id: number;
+    nama: string;
+    tanggal: string | null;
+    sesi: { id: number; jenis: 'pre' | 'post'; label: string; status: 'draf' | 'lobi' | 'berjalan' | 'selesai'; jumlah_peserta: number }[];
+}
+
+const LABEL_STATUS_SESI: Record<PanelPelatihan['sesi'][number]['status'], string> = {
+    draf: 'belum dibuka',
+    lobi: 'pendaftaran dibuka',
+    berjalan: 'berjalan',
+    selesai: 'selesai',
+};
+
+/**
+ * Pintu pre-test (paling atas) dan post-test (paling bawah, sesudah video
+ * tutorial). Keduanya menuju halaman peserta yang sama; tokennya yang
+ * menentukan sesi mana.
+ */
+function KartuTes({ jenis }: { jenis: 'pre' | 'post' }) {
+    const pre = jenis === 'pre';
+
+    return (
+        <section className="rounded-md border border-sky-500/50 bg-gradient-to-r from-sky-500/10 to-transparent p-4 sm:p-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-start gap-3">
+                    <ClipboardCheck className="mt-0.5 h-6 w-6 shrink-0 text-sky-600" aria-hidden />
+                    <div>
+                        <h2 className="text-lg font-semibold">{pre ? 'Pre-Test' : 'Post-Test'}</h2>
+                        <p className="text-muted-foreground max-w-prose text-sm">
+                            {pre
+                                ? 'Untuk peserta pelatihan: kerjakan sebelum menonton video, bersama-sama dipandu di layar. Siapkan token dari pemandu.'
+                                : 'Untuk peserta pelatihan: kerjakan sesudah ketiga video selesai, bersama-sama dipandu di layar. Siapkan token dari pemandu.'}
+                        </p>
+                    </div>
+                </div>
+                <a
+                    href="/edukasi/tes"
+                    className="inline-flex items-center gap-2 rounded-md bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700"
+                >
+                    Ikuti {pre ? 'pre-test' : 'post-test'}
+                </a>
+            </div>
+        </section>
+    );
+}
+
+function PanelPemandu({ pelatihan }: { pelatihan: PanelPelatihan[] }) {
+    return (
+        <section className="bg-card space-y-3 rounded-md border p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="font-semibold">Panel Pemandu Pre-Test dan Post-Test</p>
+                <Link href="/edukasi/kelola" className="inline-flex items-center gap-1 text-sm text-sky-600 hover:underline">
+                    <Settings2 className="h-4 w-4" /> Kelola pelatihan, token, bank soal, video
+                </Link>
+            </div>
+            {pelatihan.length === 0 ? (
+                <p className="text-muted-foreground text-sm">Belum ada pelatihan. Buat dari halaman Kelola.</p>
+            ) : (
+                <div className="divide-y rounded-md border">
+                    {pelatihan.map((p) => (
+                        <div key={p.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 p-3 text-sm">
+                            <span className="min-w-48 flex-1 font-medium">{p.nama}</span>
+                            {p.sesi.map((s) => (
+                                <span key={s.id} className="flex items-center gap-2">
+                                    <span className="text-muted-foreground">
+                                        {s.label}: {LABEL_STATUS_SESI[s.status]} · {s.jumlah_peserta} peserta
+                                    </span>
+                                    <a
+                                        href={`/edukasi/tayang/${s.id}`}
+                                        target="_blank"
+                                        rel="noopener"
+                                        className="text-sky-600 hover:underline"
+                                        title="Layar tayang (proyektor)"
+                                    >
+                                        <MonitorPlay className="h-4 w-4" />
+                                    </a>
+                                    <Link href={`/edukasi/pantau/${s.id}`} className="text-sky-600 hover:underline" title="Pantau langsung">
+                                        <Activity className="h-4 w-4" />
+                                    </Link>
+                                </span>
+                            ))}
+                            <Link href={`/edukasi/hasil/${p.id}`} className="inline-flex items-center gap-1 text-sky-600 hover:underline">
+                                <BarChart3 className="h-4 w-4" /> Hasil
+                            </Link>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </section>
+    );
+}
 
 /**
  * Halaman tonton video (/edukasi). Tautannya dibagikan ke seluruh ASN dan
@@ -44,7 +137,7 @@ function Bagian({ id, ikon, judul, durasi, children }: { id: string; ikon: React
     );
 }
 
-export default function EdukasiPublik() {
+export default function EdukasiPublik({ panelPemandu = null }: { panelPemandu?: PanelPelatihan[] | null }) {
     const edu = useEduVideo();
     const kecurangan = useKecuranganVideo();
     const tutorial = useTutorialVideo();
@@ -74,6 +167,8 @@ export default function EdukasiPublik() {
 
     const isi = (
         <div className="space-y-4">
+            {panelPemandu && <PanelPemandu pelatihan={panelPemandu} />}
+            <KartuTes jenis="pre" />
             <div className="space-y-2">
                 <h1 className="text-2xl font-semibold tracking-tight text-balance sm:text-3xl">Video Edukasi Manajemen Risiko</h1>
                 <p className="text-muted-foreground max-w-prose text-sm leading-relaxed">
@@ -199,6 +294,8 @@ export default function EdukasiPublik() {
                     />
                 </Bagian>
             )}
+
+            <KartuTes jenis="post" />
 
             {!sudahMasuk && (
                 <footer className="text-muted-foreground border-t pt-4 text-xs leading-relaxed">

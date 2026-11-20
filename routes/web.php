@@ -18,6 +18,10 @@ use App\Http\Controllers\CetakStrukturPengelolaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataRisikoGabunganController;
 use App\Http\Controllers\DataUmumController;
+use App\Http\Controllers\Edukasi\TesHasilController;
+use App\Http\Controllers\Edukasi\TesKelolaController;
+use App\Http\Controllers\Edukasi\TesPesertaController;
+use App\Http\Controllers\Edukasi\TesTayangController;
 use App\Http\Controllers\Erpika\AnalisisController;
 use App\Http\Controllers\Erpika\AnevaController;
 use App\Http\Controllers\Erpika\DataTerhapusController;
@@ -66,6 +70,7 @@ use App\Http\Controllers\TroubleshootReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserFileController;
 use App\Models\SettingApp;
+use App\Models\TesPelatihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -174,10 +179,43 @@ Route::get('/panduan-publik', function () {
 // daftar rute dikirim seperti halaman lain — tidak ada yang baru terbuka,
 // karena keduanya memang sudah ia terima di setiap halaman aplikasi.
 Route::get('/edukasi', function (Request $request) {
-    return Inertia::render('edukasi/Index', $request->user() ? [] : [
-        'setting' => SettingApp::cached()?->only(SettingApp::KOLOM_VIDEO),
-    ]);
+    $user = $request->user();
+    if (! $user) {
+        return Inertia::render('edukasi/Index', [
+            'setting' => SettingApp::cached()?->only(SettingApp::KOLOM_VIDEO),
+        ]);
+    }
+
+    // Panel Pemandu pre-test/post-test, hanya untuk admin dan super-admin.
+    $panel = $user->hasAnyRole(['admin', 'super-admin'])
+        ? TesPelatihan::with(['sesi' => fn ($q) => $q->withCount([
+            'peserta as jumlah_peserta' => fn ($p) => $p->whereNotNull('biodata_pada')->whereNull('dikeluarkan_pada'),
+        ])])->orderByDesc('tanggal')->orderByDesc('id')->limit(5)->get()->map(fn (TesPelatihan $p) => [
+            'id' => $p->id,
+            'nama' => $p->nama,
+            'tanggal' => $p->tanggal?->toDateString(),
+            'sesi' => $p->sesi->sortBy(fn ($s) => $s->jenis === 'pre' ? 0 : 1)->values()->map(fn ($s) => [
+                'id' => $s->id, 'jenis' => $s->jenis, 'label' => $s->labelJenis(), 'status' => $s->status, 'jumlah_peserta' => (int) $s->jumlah_peserta,
+            ]),
+        ])
+        : null;
+
+    return Inertia::render('edukasi/Index', ['panelPemandu' => $panel]);
 })->middleware('throttle:halaman-publik')->name('edukasi');
+
+// Pre-test dan post-test langsung, halaman PESERTA (tanpa login). Ponsel
+// peserta hanya menerima nomor soal dan tombol A-D; soalnya dibaca bersama di
+// layar proyektor. Pembatasnya per SESI peserta, karena satu aula berbagi
+// satu IP (lihat pembatas tes-peserta di AppServiceProvider).
+Route::prefix('edukasi/tes')->name('edukasi.tes.')->controller(TesPesertaController::class)->group(function () {
+    Route::get('/', 'halaman')->middleware('throttle:halaman-publik')->name('halaman');
+    Route::post('masuk', 'masuk')->middleware('throttle:halaman-publik')->name('masuk');
+    Route::post('biodata', 'biodata')->middleware('throttle:tes-peserta')->name('biodata');
+    Route::post('jawab', 'jawab')->middleware('throttle:tes-peserta')->name('jawab');
+    Route::post('denyut', 'denyut')->middleware('throttle:tes-peserta')->name('denyut');
+    Route::get('status', 'status')->middleware('throttle:tes-peserta')->name('status');
+    Route::post('lupakan', 'lupakan')->middleware('throttle:tes-peserta')->name('lupakan');
+});
 
 // Panduan versi PDF — juga tanpa login, karena gunanya memang dibagikan
 // kepada orang yang belum tentu punya akun: sosialisasi, rapat, arsip luring.
@@ -208,6 +246,34 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'menu.permission'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Pre-test dan post-test: kelola, layar tayang, pantau langsung, hasil.
+    // Rute ini lolos menu.permission (menu /edukasi terbuka), jadi penjaga
+    // sesungguhnya ada di controller: hanya admin dan super-admin.
+    Route::prefix('edukasi')->name('edukasi.')->group(function () {
+        Route::get('kelola', [TesKelolaController::class, 'index'])->name('kelola');
+        Route::post('kelola/pelatihan', [TesKelolaController::class, 'simpanPelatihan'])->name('kelola.pelatihan.simpan');
+        Route::put('kelola/pelatihan/{pelatihan}', [TesKelolaController::class, 'ubahPelatihan'])->name('kelola.pelatihan.ubah');
+        Route::delete('kelola/pelatihan/{pelatihan}', [TesKelolaController::class, 'hapusPelatihan'])->name('kelola.pelatihan.hapus');
+        Route::post('kelola/sesi/{sesi}/atur', [TesKelolaController::class, 'aturSesi'])->name('kelola.sesi.atur');
+        Route::post('kelola/soal/impor', [TesKelolaController::class, 'imporSoal'])->name('kelola.soal.impor');
+        Route::get('kelola/soal/ekspor', [TesKelolaController::class, 'eksporSoal'])->name('kelola.soal.ekspor');
+        Route::put('kelola/soal/{soal}', [TesKelolaController::class, 'ubahSoal'])->name('kelola.soal.ubah');
+        Route::post('kelola/video/{jenis}', [TesKelolaController::class, 'simpanVideo'])->whereIn('jenis', ['pre', 'post'])->name('kelola.video.simpan');
+        Route::delete('kelola/video/{jenis}', [TesKelolaController::class, 'hapusVideo'])->whereIn('jenis', ['pre', 'post'])->name('kelola.video.hapus');
+        Route::get('kelola/video/{jenis}/putar', [TesKelolaController::class, 'putarVideo'])->whereIn('jenis', ['pre', 'post'])->name('kelola.video.putar');
+
+        Route::get('tayang/{sesi}', [TesTayangController::class, 'tayang'])->name('tayang');
+        Route::post('tayang/{sesi}/aksi', [TesTayangController::class, 'aksi'])->name('tayang.aksi');
+        Route::get('tayang/{sesi}/statistik', [TesTayangController::class, 'statistik'])->name('tayang.statistik');
+        Route::post('tayang/{sesi}/peserta/{peserta}/keluarkan', [TesTayangController::class, 'keluarkan'])->name('tayang.keluarkan');
+        Route::get('pantau/{sesi}', [TesTayangController::class, 'pantau'])->name('pantau');
+
+        Route::get('hasil/{pelatihan}', [TesHasilController::class, 'hasil'])->name('hasil');
+        Route::get('hasil/{pelatihan}/excel', [TesHasilController::class, 'excel'])->name('hasil.excel');
+        Route::get('hasil/{pelatihan}/cetak', [TesHasilController::class, 'cetak'])->name('hasil.cetak');
+        Route::get('hasil/{pelatihan}/pdf', [TesHasilController::class, 'pdf'])->name('hasil.pdf');
+    });
     // Pencarian global Ctrl+K — hasil disekat per pengguna di dalam controllernya.
     Route::get('pencarian', PencarianController::class)->name('pencarian');
     // Riwayat perubahan satu baris (dari activity_log), untuk dialog Riwayat di tabel.

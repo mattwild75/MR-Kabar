@@ -127,6 +127,16 @@ class AppServiceProvider extends ServiceProvider
         // membebani server.
         RateLimiter::for('halaman-publik', fn (Request $r) => Limit::perMinute(300)->by($r->ip()));
 
+        // Peserta pre-test/post-test: dikunci per SESI (satu ponsel = satu
+        // sesi), pagar per IP-nya sangat longgar karena seluruh aula berbagi
+        // satu IP. Pemakaian normal satu ponsel: denyut 6 kali per menit dan
+        // satu-dua jawaban; bila berkas status usang, ponsel membaca status
+        // lewat aplikasi tiap 2 detik (30 per menit).
+        RateLimiter::for('tes-peserta', fn (Request $r) => [
+            Limit::perMinute(120)->by('tes:'.$r->session()->getId()),
+            Limit::perMinute(6000)->by('tes-ip:'.$r->ip()),
+        ]);
+
         RateLimiter::for('lapor-submit', fn (Request $r) => [
             Limit::perMinute(10)->by($r->session()->getId()),
             Limit::perMinute(60)->by($r->ip()),
