@@ -9,6 +9,7 @@ use App\Models\TesPeserta;
 use App\Models\TesSesi;
 use App\Services\Tes\AnalisisTesService;
 use App\Services\Tes\StatusTesService;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -194,15 +195,27 @@ class TesPesertaController extends Controller
 
         $waktuMs = $sesi->soal_dibuka_ms ? max(0, self::sekarangMs() - (int) $sesi->soal_dibuka_ms) : 0;
 
-        $jawaban = TesJawaban::firstOrNew(['peserta_id' => $peserta->id, 'nomor' => $data['nomor']]);
-        $diganti = $jawaban->exists && $jawaban->pilihan !== $data['pilihan'];
-        $jawaban->fill([
-            'sesi_id' => $sesi->id,
-            'pilihan' => $data['pilihan'],
-            'waktu_ms' => $waktuMs,
-            'dijawab_pada' => $sekarang,
-            'diubah' => (int) $jawaban->diubah + ($diganti ? 1 : 0),
-        ])->save();
+        $simpan = function () use ($peserta, $sesi, $data, $waktuMs, $sekarang): TesJawaban {
+            $jawaban = TesJawaban::firstOrNew(['peserta_id' => $peserta->id, 'nomor' => $data['nomor']]);
+            $diganti = $jawaban->exists && $jawaban->pilihan !== $data['pilihan'];
+            $jawaban->fill([
+                'sesi_id' => $sesi->id,
+                'pilihan' => $data['pilihan'],
+                'waktu_ms' => $waktuMs,
+                'dijawab_pada' => $sekarang,
+                'diubah' => (int) $jawaban->diubah + ($diganti ? 1 : 0),
+            ])->save();
+
+            return $jawaban;
+        };
+
+        try {
+            $jawaban = $simpan();
+        } catch (UniqueConstraintViolationException) {
+            // Dua ketukan nyaris bersamaan dari ponsel yang sama: yang kedua
+            // mendapati baris sudah dibuat yang pertama, lalu memperbaruinya.
+            $jawaban = $simpan();
+        }
 
         $peserta->forceFill(['terakhir_aktif' => $sekarang, 'di_halaman' => true])->save();
 
