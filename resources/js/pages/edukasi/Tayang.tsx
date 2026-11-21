@@ -46,7 +46,9 @@ const KERAS_MUSIK_TUNGGU = 0.32;
  * suara.
  */
 function useMusikTunggu(hidup: boolean) {
-    const mesin = useRef<{ ctx: AudioContext; gain: GainNode; buffer: Promise<AudioBuffer | null>; sumber: AudioBufferSourceNode | null } | null>(null);
+    const mesin = useRef<{ ctx: AudioContext; gain: GainNode; buffer: Promise<AudioBuffer | null>; sumber: AudioBufferSourceNode | null } | null>(
+        null,
+    );
 
     useEffect(() => {
         if (!hidup && !mesin.current) {
@@ -461,13 +463,7 @@ export default function Tayang({ sesi, soal, video, urlPeserta }: Props) {
                             {tampilBahas ? (
                                 <PanelPembahasan key={soalAktif.nomor} soal={soalAktif} stat={stat} />
                             ) : (
-                                <PitaMenjawab
-                                    menjawab={menjawab}
-                                    bergabung={bergabung}
-                                    terbuka={st.terbuka}
-                                    lama={lamaTerbuka}
-                                    nomor={menunggu}
-                                />
+                                <PitaMenjawab menjawab={menjawab} bergabung={bergabung} terbuka={st.terbuka} lama={lamaTerbuka} nomor={menunggu} />
                             )}
                         </div>
                     )}
