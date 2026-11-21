@@ -36,8 +36,8 @@ export interface OpsiPeriksa {
     existingControlStatus: 'ya' | 'tidak' | null;
 }
 
-const kosong = (v: string | undefined | null) => {
-    const t = (v ?? '').trim();
+const kosong = (v: string | number | undefined | null) => {
+    const t = String(v ?? '').trim();
     return t === '' || t === '-';
 };
 

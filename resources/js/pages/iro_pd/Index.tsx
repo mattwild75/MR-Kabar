@@ -330,7 +330,8 @@ export default function IroPdIndex({
         setPrefillFromLaporan(false);
         setEditing(row);
         const values = emptyForm();
-        FIELDS.forEach((f) => (values[f] = (row[f] as string) ?? ''));
+        // Kolom berangka (mis. skala) datang sebagai number; formulir dan pemeriksa isian butuh teks.
+        FIELDS.forEach((f) => (values[f] = row[f] != null ? String(row[f]) : ''));
         EXTRA_SCALE_FIELDS.forEach((f) => (values[f] = row[f] != null ? String(row[f]) : ''));
         setData(values);
         setDialogOpen(true);
