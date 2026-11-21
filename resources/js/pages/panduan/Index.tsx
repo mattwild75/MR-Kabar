@@ -103,7 +103,7 @@ export default function PanduanIndex({ bolehLihatRekap = false, rekapKuis = null
                             <h2 className="mb-1 text-lg font-semibold">Video Edukasi (versi lengkap)</h2>
                             <p className="text-muted-foreground mb-4 text-sm">
                                 {video.bawaan
-                                    ? 'Video 15 menit "Berlayar dengan Peta Risiko": apa itu risiko, siapa nakhodanya, lima tahap Perdep PPKD No.4/2019, cara menulis pernyataan risiko, membaca matriks 5×5, sampai satu contoh risiko yang ditelusuri dari awal hingga muncul di Dashboard. Klik judul bab untuk melompat langsung ke bagiannya.'
+                                    ? 'Video 17 menit "Berlayar dengan Peta Risiko" (animasi paper cut): apa itu risiko, siapa memegang kemudi, lima tahap Perdep PPKD No.4/2019, cara menulis pernyataan risiko, membaca matriks 5×5 dan Selera Risiko, melapor lewat kode QR, sampai satu contoh risiko yang ditelusuri dari awal hingga muncul di Dashboard. Klik judul bab untuk melompat langsung ke bagiannya.'
                                     : 'Video edukasi yang dipasang oleh admin aplikasi.'}
                             </p>
                             <EduVideoPlayer

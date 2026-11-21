@@ -197,11 +197,11 @@ export default function EdukasiPublik({ panelPemandu = null }: { panelPemandu?: 
                     id="video-edukasi"
                     ikon={<PlayCircle className="h-5 w-5 text-sky-500" />}
                     judul="1. Berlayar dengan Peta Risiko"
-                    durasi={edu.bawaan ? '15 menit' : undefined}
+                    durasi={edu.bawaan ? '17 menit' : undefined}
                 >
                     <p className="text-muted-foreground mb-4 text-sm">
                         {edu.bawaan
-                            ? 'Apa itu risiko, siapa nakhodanya, lima tahap pengelolaan risiko menurut Perdep PPKD BPKP No. 4/2019, cara menulis pernyataan risiko, membaca matriks 5×5, sampai satu contoh risiko yang ditelusuri dari awal hingga muncul di Dashboard.'
+                            ? 'Animasi paper cut bersama Ardi, Gadis, dan Pak Syahbandar: apa itu risiko, siapa memegang kemudi, lima tahap pengelolaan risiko menurut Perdep PPKD BPKP No. 4/2019, menulis pernyataan risiko, membaca matriks 5×5 dan Selera Risiko, melapor lewat kode QR, sampai satu contoh risiko yang ditelusuri hingga muncul di Dashboard.'
                             : 'Video edukasi manajemen risiko.'}
                     </p>
                     <EduVideoPlayer

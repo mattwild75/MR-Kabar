@@ -25,14 +25,14 @@ const SOAL: Soal[] = [
         pilihan: ['Inspektorat', 'Kepala Daerah', 'Sekretaris Daerah', 'PIC di masing-masing OPD'],
         benar: 1,
         alasan: 'Kepala Daerah — tunggal dan tidak didelegasikan. Sekretaris Daerah adalah Koordinator Penyelenggaraan, sedangkan Inspektorat berperan sebagai Lini Ketiga yang mengevaluasi secara independen.',
-        bab: '3:34 — Babak 3 · Siapa nakhodanya',
+        bab: '3:41 — Babak 3 · Siapa memegang kemudi',
     },
     {
         tanya: '"Anggaran tidak mencukupi" — dalam kertas kerja, ini termasuk apa?',
         pilihan: ['Risiko', 'Penyebab', 'Dampak', 'Rencana Tindak Pengendalian'],
         benar: 1,
         alasan: 'Itu penyebab. Rumusnya: karena PENYEBAB, mungkin terjadi RISIKO, sehingga menimbulkan DAMPAK. Risikonya bisa berupa "keterlambatan penyelesaian pekerjaan fisik".',
-        bab: '7:47 — Babak 6 · Menuliskan risiko',
+        bab: '8:05 — Babak 6 · Membaca peta risiko',
     },
     {
         tanya: 'Menurut Bab III Perdep, apa yang dikerjakan SEBELUM menilai risiko?',
@@ -44,14 +44,14 @@ const SOAL: Soal[] = [
         ],
         benar: 1,
         alasan: 'Tahap 1 adalah Identifikasi Kelemahan Lingkungan Pengendalian lewat CEE (Form 1a, 1b, 1c). Menilai risiko tanpa itu sama saja berlayar dengan lambung yang bocor.',
-        bab: '6:26 — Babak 5 · Memeriksa kapal (CEE)',
+        bab: '6:08 — Babak 5 · Lima pelampung & memeriksa kapal (CEE)',
     },
     {
         tanya: 'Dampak 5 dan Kemungkinan 1 menghasilkan Skala Risiko berapa?',
         pilihan: ['5', '9', '20', '25'],
         benar: 2,
         alasan: 'Dua puluh. Matriksnya BUKAN perkalian, melainkan peringkat 1–25 yang sengaja memberi bobot lebih besar pada dampak. Bandingkan: Dampak 1 × Kemungkinan 5 hanya menghasilkan 9.',
-        bab: '8:44 — Babak 6 · Matriks 5×5',
+        bab: '9:36 — Babak 7 · Mengukur ombak',
     },
     {
         tanya: 'Kategori mana yang WAJIB punya Rencana Tindak Pengendalian?',
@@ -63,7 +63,7 @@ const SOAL: Soal[] = [
         ],
         benar: 3,
         alasan: 'Batasnya bukan angka tetap. Selera Risiko ditetapkan Pemerintah Daerah sendiri di menu Keterangan Pendukung, lalu tergambar sebagai garis putus-putus pada matriks: semua yang di atas garis wajib punya RTP. Setelan Aceh Barat saat ini menerima sampai dengan tingkat Sedang — jadi untuk sekarang jawabannya Sangat Tinggi dan Tinggi, tetapi itu bisa berubah bila seleranya digeser.',
-        bab: '9:19 — Babak 6 · Selera Risiko',
+        bab: '10:02 — Babak 7 · Selera Risiko',
     },
 ];
 

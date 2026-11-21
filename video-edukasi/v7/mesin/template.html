@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>MR Kabar — Berlayar dengan Peta Risiko (v7, paper cut)</title>
+<style>
+@font-face { font-family: "Bebas"; src: url("aset/fonts/BebasNeue-Regular.ttf"); }
+@font-face { font-family: "Jakarta"; src: url("aset/fonts/PlusJakartaSans[wght].ttf"); font-weight: 200 800; }
+@font-face { font-family: "Mono"; src: url("aset/fonts/JetBrainsMono[wght].ttf"); font-weight: 100 800; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #000; }
+#layar { position: absolute; inset: 0; display: block; }
+#butir { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; mix-blend-mode: multiply; opacity: .45; }
+#vinyet { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 84% 80% at 50% 46%, rgba(0,0,0,0) 62%, rgba(60,30,5,.30) 100%); }
+#kilat { position: absolute; inset: 0; pointer-events: none; background: #fff8dc; opacity: 0; mix-blend-mode: screen; }
+text { font-family: "Jakarta", sans-serif; }
+.bebas { font-family: "Bebas", sans-serif; }
+.mono { font-family: "Mono", monospace; }
+</style>
+</head>
+<body>
+<svg id="layar" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <!-- bayangan kertas: makin depan lapisannya, makin tebal bayangannya -->
+    <filter id="b1" x="-5%" y="-10%" width="110%" height="130%"><feDropShadow dx="0" dy="3" stdDeviation="2.2" flood-color="#0b2540" flood-opacity=".28"/></filter>
+    <filter id="b2" x="-5%" y="-10%" width="110%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="3.5" flood-color="#0b2540" flood-opacity=".33"/></filter>
+    <filter id="b3" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="2" dy="8" stdDeviation="5" flood-color="#0b1a2b" flood-opacity=".38"/></filter>
+    <filter id="bt" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="2" dy="4" stdDeviation="2.4" flood-color="#1b1b2b" flood-opacity=".35"/></filter>
+    <filter id="pendar" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="abu"><feColorMatrix type="saturate" values="0.15"/></filter>
+    <linearGradient id="langitPagi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0ef"/><stop offset="1" stop-color="#d9f2fb"/></linearGradient>
+    <linearGradient id="langitSiang" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6fc2ec"/><stop offset="1" stop-color="#cdeefa"/></linearGradient>
+    <linearGradient id="langitSore" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7fb6e0"/><stop offset=".7" stop-color="#f6d7a7"/><stop offset="1" stop-color="#f7c08a"/></linearGradient>
+    <linearGradient id="langitSenja" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d4f8f"/><stop offset=".55" stop-color="#e0807a"/><stop offset="1" stop-color="#f7b267"/></linearGradient>
+    <linearGradient id="langitBadai" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#151b33"/><stop offset="1" stop-color="#3c4566"/></linearGradient>
+    <linearGradient id="kertasLama" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3e6c4"/><stop offset="1" stop-color="#e2cfa0"/></linearGradient>
+    <linearGradient id="layarTablet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f8fafc"/><stop offset="1" stop-color="#e2e8f0"/></linearGradient>
+    <radialGradient id="cahayaLampu"><stop offset="0" stop-color="#fff6c8" stop-opacity=".9"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></radialGradient>
+    <linearGradient id="gulung" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbbf9f"/><stop offset=".45" stop-color="#fbf6e7"/><stop offset="1" stop-color="#a99d7e"/></linearGradient>
+    <pattern id="batikBiru" width="26" height="26" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
+      <rect width="26" height="26" fill="#27456f"/><rect y="0" width="26" height="6" fill="#1a3054"/>
+      <circle cx="6" cy="16" r="2.6" fill="#e9c46a"/><circle cx="19" cy="16" r="1.8" fill="#9ec1e6"/></pattern>
+    <pattern id="batikUngu" width="30" height="30" patternUnits="userSpaceOnUse">
+      <rect width="30" height="30" fill="#6a2c70"/>
+      <g fill="#a35ca8"><ellipse cx="15" cy="7" rx="4" ry="6"/><ellipse cx="15" cy="23" rx="4" ry="6"/><ellipse cx="7" cy="15" rx="6" ry="4"/><ellipse cx="23" cy="15" rx="6" ry="4"/></g>
+      <circle cx="15" cy="15" r="2.2" fill="#f2c46b"/></pattern>
+    <pattern id="batikHijau" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">
+      <rect width="28" height="28" fill="#2f6b55"/><path d="M0 14 Q7 6 14 14 T28 14" stroke="#9ed4b8" stroke-width="2.4" fill="none"/>
+      <circle cx="14" cy="22" r="2" fill="#f2c46b"/></pattern>
+    <pattern id="gabus" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#d6a46c"/><circle cx="7" cy="9" r="1.6" fill="#b98550"/><circle cx="26" cy="5" r="1.2" fill="#e9c08a"/>
+      <circle cx="18" cy="24" r="1.8" fill="#b98550"/><circle cx="33" cy="30" r="1.4" fill="#c4915b"/><circle cx="9" cy="33" r="1.1" fill="#e9c08a"/></pattern>
+    <pattern id="kayu" width="120" height="26" patternUnits="userSpaceOnUse">
+      <rect width="120" height="26" fill="#a0703f"/><path d="M0 8 Q30 4 60 9 T120 7" stroke="#8a5d33" stroke-width="2" fill="none"/>
+      <path d="M0 18 Q40 22 80 17 T120 19" stroke="#b98250" stroke-width="1.6" fill="none"/></pattern>
+    <pattern id="papanKayu" width="200" height="40" patternUnits="userSpaceOnUse">
+      <rect width="200" height="40" fill="#8c5a33"/><rect y="38" width="200" height="2" fill="#5e3a1f"/>
+      <path d="M0 14 Q50 9 100 15 T200 12" stroke="#7a4b29" stroke-width="2" fill="none"/></pattern>
+    <pattern id="garisBuku" width="10" height="34" patternUnits="userSpaceOnUse">
+      <rect width="10" height="34" fill="#fffdf5"/><rect y="33" width="10" height="1.2" fill="rgba(29,53,87,.14)"/></pattern>
+  </defs>
+</svg>
+<canvas id="butir" width="960" height="540"></canvas>
+<div id="kilat"></div>
+<div id="vinyet"></div>
+<script>window.TL = __TL__; window.KREDIT = __KREDIT__; window.MODE = "__MODE__";</script>
+<script>
+__SKRIP__
+</script>
+</body>
+</html>

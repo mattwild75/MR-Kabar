@@ -1,82 +1,98 @@
 [
     {
         "id": "s1",
-        "judul": "Pembuka: laut tak pernah tenang",
+        "judul": "Pembuka · Badai yang datang terlalu cepat",
         "mulai": 0.0,
-        "selesai": 69.7,
-        "durasi": 69.7,
+        "selesai": 74.3,
+        "durasi": 74.3,
         "sasaran": "Semua"
     },
     {
         "id": "s2",
         "judul": "Babak 1 · Apa itu risiko",
-        "mulai": 69.7,
-        "selesai": 134.1,
-        "durasi": 64.4,
+        "mulai": 74.3,
+        "selesai": 143.6,
+        "durasi": 69.3,
         "sasaran": "Semua"
     },
     {
         "id": "s3",
         "judul": "Babak 2 · Mengapa harus dikelola",
-        "mulai": 134.1,
-        "selesai": 199.4,
-        "durasi": 65.3,
+        "mulai": 143.6,
+        "selesai": 208.4,
+        "durasi": 64.8,
         "sasaran": "Semua"
     },
     {
         "id": "s4",
-        "judul": "Babak 3 · Siapa nakhodanya",
-        "mulai": 199.4,
-        "selesai": 312.8,
-        "durasi": 113.4,
+        "judul": "Babak 3 · Siapa memegang kemudi",
+        "mulai": 208.4,
+        "selesai": 314.7,
+        "durasi": 106.2,
         "sasaran": "Pimpinan"
     },
     {
         "id": "s5",
         "judul": "Babak 4 · Kapan berlayar",
-        "mulai": 312.8,
-        "selesai": 359.9,
-        "durasi": 47.1,
+        "mulai": 314.7,
+        "selesai": 364.3,
+        "durasi": 49.6,
         "sasaran": "Pimpinan"
     },
     {
         "id": "s6",
-        "judul": "Babak 5 · Lima tahap & memeriksa kapal (CEE)",
-        "mulai": 359.9,
-        "selesai": 432.8,
-        "durasi": 72.9,
+        "judul": "Babak 5 · Lima pelampung & memeriksa kapal (CEE)",
+        "mulai": 364.3,
+        "selesai": 446.5,
+        "durasi": 82.3,
         "sasaran": "PIC OPD"
     },
     {
         "id": "s7",
         "judul": "Babak 6 · Membaca peta risiko",
-        "mulai": 432.8,
-        "selesai": 583.2,
-        "durasi": 150.4,
+        "mulai": 446.5,
+        "selesai": 532.2,
+        "durasi": 85.7,
         "sasaran": "PIC OPD"
     },
     {
         "id": "s8",
-        "judul": "Babak 7 · Mengendalikan & memantau",
-        "mulai": 583.2,
-        "selesai": 731.3,
-        "durasi": 148.1,
+        "judul": "Babak 7 · Mengukur ombak",
+        "mulai": 532.2,
+        "selesai": 623.8,
+        "durasi": 91.5,
         "sasaran": "PIC OPD"
     },
     {
         "id": "s9",
-        "judul": "Babak 8 · Satu risiko, satu perjalanan",
-        "mulai": 731.3,
-        "selesai": 818.6,
-        "durasi": 87.4,
-        "sasaran": "Semua"
+        "judul": "Babak 8 · Mengatur layar",
+        "mulai": 623.8,
+        "selesai": 709.9,
+        "durasi": 86.2,
+        "sasaran": "PIC OPD"
     },
     {
         "id": "s10",
-        "judul": "Penutup · Tiga pelajaran",
-        "mulai": 818.6,
-        "selesai": 924.5,
-        "durasi": 105.9,
+        "judul": "Babak 9 · Buku harian kapal & lonceng",
+        "mulai": 709.9,
+        "selesai": 818.1,
+        "durasi": 108.2,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s11",
+        "judul": "Babak 10 · Satu risiko, satu perjalanan",
+        "mulai": 818.1,
+        "selesai": 916.9,
+        "durasi": 98.7,
+        "sasaran": "Semua"
+    },
+    {
+        "id": "s12",
+        "judul": "Penutup · Badai kedua & tiga pelajaran",
+        "mulai": 916.9,
+        "selesai": 1016.9,
+        "durasi": 100.0,
         "sasaran": "Semua"
     }
 ]

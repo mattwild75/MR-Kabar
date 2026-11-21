@@ -79,6 +79,9 @@ export default [
             // scenes.js, sehingga no-undef selalu salah tangkap di sini.
             'video-edukasi/**/engine.js',
             'video-edukasi/**/ambil_*.cjs',
+            // Mesin paper cut v7: berkas peramban yang dirakit rakit.cjs
+            // menjadi satu skrip dan saling memakai fungsi global.
+            'video-edukasi/**/mesin/*.js',
         ],
     },
     prettier, // Turn off all rules that might conflict with Prettier

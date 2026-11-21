@@ -1,141 +1,188 @@
 TRANSKRIP — VIDEO EDUKASI MR KABAR
-Berlayar dengan Peta Risiko
+Berlayar dengan Peta Risiko (v7, animasi paper cut)
 Manajemen Risiko Pemerintah Kabupaten Aceh Barat
-Mengacu pada PP 60 Tahun 2008 (SPIP) dan Perdep PPKD No. 4 Tahun 2019
-Durasi 15 menit 24 detik · 101 kalimat
+Mengacu pada PP 60 Tahun 2008 (SPIP) dan Peraturan Deputi PPKD BPKP Nomor 4 Tahun 2019
+Durasi 16 menit 56 detik · 142 kalimat
 
 ==============================================================================
 
-[0:00]  PEMBUKA: LAUT TAK PERNAH TENANG   (untuk: Semua)
+[0:00]  PEMBUKA · BADAI YANG DATANG TERLALU CEPAT   (untuk: Semua)
 ------------------------------------------------------------------------------
-  [0:04] Pernah kebayang enggak, sebuah program yang sudah dianggarkan, sudah direncanakan matang, akhirnya gagal juga, hanya karena satu hal yang sebenarnya bisa diduga sejak awal?
-  [0:15] Di pesisir barat Aceh, para nelayan tahu betul satu hal. Laut tidak pernah benar-benar tenang.
-  [0:22] Nelayan yang pulang dengan selamat bukan yang paling beruntung. Mereka membaca langit sebelum berangkat, memeriksa perahu, dan tahu harus berbuat apa kalau badai datang.
-  [0:31] Pemerintah daerah pun begitu. Setiap program adalah sebuah pelayaran.
-  [0:38] Tujuannya jelas, tertulis di RPJMD. Tapi di antara dermaga dan tujuan itu, ada angin, arus, dan karang yang tidak kelihatan.
-  [0:47] Cara membaca semua itu punya nama: manajemen risiko. Dan di Aceh Barat, peta pelayarannya bernama MR Kabar.
-  [0:59] Yuk, kita berlayar bersama. Ada delapan babak, dan di ujungnya tiga pelajaran yang bisa langsung dibawa ke meja kerja.
+  [0:01] Si Badai: Hahaha! Berangkat tanpa membaca langit? Selamat datang di laut lepas!
+  [0:07] Ardi: Aduh! Layarnya robek! Gadis, petanya mana?
+  [0:10] Gadis: Peta apa? Kapalnya saja tidak kita periksa!
+  [0:14] Si Badai: Ombak besar datang! Tiga... dua...
+  [0:17] Pak Syahbandar: Tunggu.
+  [0:20] Pak Syahbandar: Kita ulang. Dari dermaga.
+  [0:24] Pak Syahbandar: Di pesisir barat Aceh, nelayan tahu satu hal. Laut tidak pernah benar-benar tenang.
+  [0:31] Ardi: Makanya kita harus cepat berangkat, Pak!
+  [0:33] Pak Syahbandar: Yang pulang selamat bukan yang paling cepat, Nak. Tapi yang membaca langit, memeriksa kapal, dan tahu harus berbuat apa saat badai datang.
+  [0:42] Gadis: Seperti program pemerintah daerah ya, Pak? Setiap program adalah sebuah pelayaran.
+  [0:48] Pak Syahbandar: Tepat. Tujuannya tertulis di RPJMD. Di antara dermaga dan tujuan itu, ada angin, arus, dan karang yang tidak kelihatan.
+  [0:58] Pak Syahbandar: Cara membacanya bernama manajemen risiko. Di Aceh Barat, petanya bernama MR Kabar.
+  [1:09] Gadis: Yuk, berlayar! Sepuluh babak, lalu tiga pelajaran untuk meja kerja Anda.
 
-[1:09]  BABAK 1 · APA ITU RISIKO   (untuk: Semua)
+[1:14]  BABAK 1 · APA ITU RISIKO   (untuk: Semua)
 ------------------------------------------------------------------------------
-  [1:13] Kita mulai dari kata yang paling sering disalahpahami: risiko.
-  [1:17] Menurut Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.
-  [1:26] Ada tiga kata kunci di sana: kemungkinan, mengancam, dan tujuan.
-  [1:33] Kemungkinan, artinya belum terjadi. Awan gelap di cakrawala masih risiko. Kalau hujannya sudah turun, itu bukan risiko lagi. Itu masalah.
-  [1:45] Mengancam, artinya fokusnya pada ancaman. Sedikit lebih sempit dari ISO 31000, yang juga menghitung peluang.
-  [1:53] Dan tujuan, artinya risiko selalu terikat pada satu tujuan. Tanpa pelabuhan yang hendak dituju, tidak ada badai yang perlu diperhitungkan.
-  [2:02] Jadi manajemen risiko adalah cara sistematis untuk mengenali, menilai, mengendalikan, dan memantau kemungkinan-kemungkinan itu, sebelum sempat terjadi.
+  [1:18] Pak Syahbandar: Kita mulai dari kata yang paling sering disalahpahami. Risiko.
+  [1:24] Gadis: Menurut Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.
+  [1:35] Ardi: Intinya apa, Pak?
+  [1:36] Pak Syahbandar: Tiga kata. Kemungkinan, mengancam, dan tujuan.
+  [1:43] Pak Syahbandar: Kemungkinan, artinya belum terjadi. Awan gelap di cakrawala itu masih risiko.
+  [1:48] Si Badai: Hehe. Aku masih kemungkinan.
+  [1:50] Ardi: Kalau hujannya sudah turun?
+  [1:52] Pak Syahbandar: Itu bukan risiko lagi. Itu masalah.
+  [1:56] Gadis: Mengancam: fokusnya pada ancaman. Sedikit lebih sempit dari ISO 31000, yang juga menghitung peluang.
+  [2:05] Pak Syahbandar: Dan tujuan. Tanpa pelabuhan yang hendak dituju, tidak ada badai yang perlu diperhitungkan.
+  [2:10] Gadis: Jadi manajemen risiko adalah cara sistematis untuk mengenali, menilai, mengendalikan, dan memantau kemungkinan itu, sebelum sempat terjadi.
 
-[2:14]  BABAK 2 · MENGAPA HARUS DIKELOLA   (untuk: Semua)
+[2:23]  BABAK 2 · MENGAPA HARUS DIKELOLA   (untuk: Semua)
 ------------------------------------------------------------------------------
-  [2:17] Lalu, kenapa harus repot-repot dikelola?
-  [2:20] Karena BPKP pernah memotret praktik penilaian risiko di pemerintah daerah, dan menemukan sebelas persoalan. Itulah latar lahirnya Peraturan Deputi PPKD Nomor 4 Tahun 2019.
-  [2:31] Penilaian dikerjakan sekadar formalitas. Rencana pengendalian disusun, lalu dilupakan.
-  [2:40] Waktunya tidak baku. Penanggung jawabnya tidak jelas. Pejabat strategisnya belum terlibat. Fokusnya baru risiko operasional, dikerjakan sendiri-sendiri per OPD.
-  [2:51] Dan satu lagi: semuanya masih manual.
-  [2:55] Dulu, kertas kerjanya tersebar di puluhan berkas Excel dan Word, di puluhan komputer berbeda. Mudah hilang, sulit direkap, dan tidak ada jejak siapa mengubah apa.
-  [3:06] MR Kabar menyatukannya. Satu aplikasi, satu struktur data sesuai Perdep, setiap perubahan tercatat, setiap OPD mengelola datanya sendiri, dan pimpinan melihat seluruh kabupaten dari satu layar.
+  [2:28] Ardi: Tapi Pak, selama ini kita berlayar juga, kan? Kenapa harus repot dikelola?
+  [2:33] Pak Syahbandar: Berlayar, iya. Selamat, belum tentu. BPKP pernah memotret penilaian risiko di pemerintah daerah, dan menemukan sebelas persoalan.
+  [2:43] Pak Syahbandar: Dari situlah lahir Peraturan Deputi PPKD Nomor 4 Tahun 2019, pedoman yang menjadi acuan MR Kabar.
+  [2:50] Gadis: Penilaiannya sekadar formalitas. Rencana pengendalian disusun, lalu dilupakan.
+  [2:56] Ardi: Waduh. Kok mirip cerita kita.
+  [2:59] Pak Syahbandar: Waktunya tidak baku, penanggung jawabnya tidak jelas, pejabat strategisnya belum terlibat. Dan semuanya masih manual.
+  [3:07] Gadis: Kertas kerjanya tersebar di puluhan berkas Excel dan Word. Mudah hilang, sulit direkap, tanpa jejak siapa mengubah apa.
+  [3:15] Pak Syahbandar: MR Kabar menyatukannya. Satu aplikasi, satu struktur data sesuai Perdep, setiap perubahan tercatat, dan pimpinan melihat seluruh kabupaten dari satu layar.
 
-[3:19]  BABAK 3 · SIAPA NAKHODANYA   (untuk: Pimpinan)
+[3:28]  BABAK 3 · SIAPA MEMEGANG KEMUDI   (untuk: Pimpinan)
 ------------------------------------------------------------------------------
-  [3:22] Setiap kapal butuh nakhoda. Jadi, siapa nakhoda manajemen risiko di kabupaten ini?
-  [3:29] Bukan operator aplikasi. Dan bukan hanya Inspektorat.
-  [3:34] Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, dan tidak didelegasikan. Beliaulah yang menetapkan arah kebijakannya.
-  [3:44] Sekretaris Daerah menjadi Koordinator Penyelenggaraan, baik untuk risiko tingkat Pemda maupun tingkat OPD.
-  [3:50] Awak kapalnya adalah Unit Pemilik Risiko, atau UPR, yang tersusun berjenjang. Tingkat Pemda diketuai Kepala Daerah dan beranggotakan seluruh Kepala OPD, lalu turun ke Eselon Dua, Tiga, dan Empat.
-  [4:03] Susunan itu direkam MR Kabar sebagai data, dan bagannya digambar sendiri. Berganti pejabat, cukup ubah datanya.
-  [4:13] Agar kapal tetap di jalurnya, ada tiga lapis penjaga, yang dikenal sebagai Three Lines of Defense.
-  [4:19] Lini pertama, UPR, yang mengelola risiko sehari-hari. Lini kedua, Unit Kepatuhan yang dijabat Asisten Sekretaris Daerah, memantau seluruh UPR.
-  [4:30] Dan lini ketiga, Inspektorat. Seperti mercusuar, ia berdiri di luar kapal, dan mengevaluasi secara independen.
-  [4:38] Satu hal lagi. Ada tiga peran yang namanya mirip, dan sering tertukar.
-  [4:45] Penanggung Jawab Pengelolaan Risiko: Kepala Daerah, melekat pada jabatan, dan tidak pernah menjadi kolom isian.
-  [4:52] Pemilik Risiko: sebuah unit, bukan seseorang, tercatat di setiap baris risiko.
-  [4:57] Penanggung Jawab Pengendalian: jabatan yang berwenang membangun kontrolnya, melekat pada rencana pengendalian, bukan pada risikonya.
-  [5:05] Ketiganya boleh jatuh pada orang yang sama. Yang tidak boleh, mengisinya sambil menebak.
+  [3:32] Gadis: Pak, siapa nakhoda manajemen risiko di kabupaten ini?
+  [3:36] Ardi: Operator aplikasinya, kan?
+  [3:38] Pak Syahbandar: Bukan. Dan bukan hanya Inspektorat.
+  [3:41] Pak Syahbandar: Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, dan tidak didelegasikan. Beliaulah yang menetapkan arahnya.
+  [3:51] Pak Syahbandar: Sekretaris Daerah menjadi Koordinator Penyelenggaraan, untuk risiko tingkat Pemda maupun OPD. Seperti kompas, memastikan semua bergerak ke arah yang sama.
+  [4:01] Pak Syahbandar: Awaknya adalah Unit Pemilik Risiko, atau UPR, yang berjenjang. Tingkat Pemda diketuai Kepala Daerah, beranggotakan seluruh Kepala OPD, lalu turun ke Eselon Dua, Tiga, dan Empat.
+  [4:13] Pak Syahbandar: Agar kapal tetap di jalurnya, ada tiga lapis penjaga: Three Lines of Defense.
+  [4:18] Ardi: Lini pertama, kami! UPR, awak yang mengelola risiko sehari-hari.
+  [4:22] Petugas Patroli: Lini kedua, kapal patroli: Unit Kepatuhan, dijabat Asisten Sekretaris Daerah. Kami memantau seluruh UPR.
+  [4:30] Penjaga Mercusuar: Lini ketiga, Inspektorat. Saya berdiri di luar kapal, tidak ikut memegang kemudi. Jadi saya bisa mengevaluasi secara independen.
+  [4:41] Gadis: Ada tiga peran yang namanya mirip, dan sering tertukar.
+  [4:45] Pak Syahbandar: Penanggung Jawab Pengelolaan Risiko: Kepala Daerah, melekat pada jabatan, tidak pernah menjadi kolom isian.
+  [4:51] Pak Syahbandar: Pemilik Risiko: sebuah unit, bukan perorangan, tercatat di setiap baris risiko.
+  [4:57] Pak Syahbandar: Penanggung Jawab Pengendalian: jabatan yang berwenang membangun kontrolnya. Melekat pada rencana pengendalian, bukan pada risikonya.
+  [5:05] Gadis: Ketiganya boleh jatuh pada orang yang sama. Yang tidak boleh: mengisinya sambil menebak.
 
-[5:12]  BABAK 4 · KAPAN BERLAYAR   (untuk: Pimpinan)
+[5:14]  BABAK 4 · KAPAN BERLAYAR   (untuk: Pimpinan)
 ------------------------------------------------------------------------------
-  [5:16] Pelayaran ini tidak sekali jalan. Ia berulang, mengikuti kalender perencanaan.
-  [5:22] Risiko Strategis Pemda mengikuti siklus RPJMD lima tahunan. Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan Renja dan pagu anggaran.
-  [5:31] Risiko Operasional OPD mengikuti Renja dan RKA tahunan, dikerjakan sejak penyusunan RKA sampai DPA ditetapkan.
-  [5:38] Lalu setiap triwulan, dan sekali lagi di akhir tahun, laporannya disusun.
-  [5:45] Arahnya ditetapkan Kepala Daerah lewat Surat Edaran Arahan dan Kebijakan Penilaian Risiko: satu yang lima tahunan, dan satu lagi setiap tahun.
-  [5:53] Di MR Kabar, tahapannya tampil di Dashboard sebagai garis waktu, lengkap dengan tanda merah untuk tenggat yang sudah terlewat.
+  [5:19] Ardi: Kapan kita berlayar, Pak? Sekali setahun?
+  [5:22] Pak Syahbandar: Berulang, mengikuti kalender perencanaan. Seperti jadwal pasang surut.
+  [5:27] Pak Syahbandar: Risiko Strategis Pemda mengikuti RPJMD lima tahunan. Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan Renja dan pagu anggaran.
+  [5:35] Pak Syahbandar: Risiko Operasional OPD mengikuti Renja dan RKA tahunan, sejak penyusunan RKA sampai DPA ditetapkan.
+  [5:42] Gadis: Laporannya disusun setiap triwulan, dan sekali lagi di akhir tahun.
+  [5:46] Pak Syahbandar: Arahnya ditetapkan Kepala Daerah lewat Surat Edaran Arahan dan Kebijakan Penilaian Risiko: yang lima tahunan, dan yang tahunan.
+  [5:54] Gadis: Di Dashboard, jadwalnya tampil sebagai garis waktu. Tenggat yang terlewat, ditandai merah.
+  [6:00] Ardi: Jangan sampai merah.
 
-[5:59]  BABAK 5 · LIMA TAHAP & MEMERIKSA KAPAL (CEE)   (untuk: PIC OPD)
+[6:04]  BABAK 5 · LIMA PELAMPUNG & MEMERIKSA KAPAL (CEE)   (untuk: PIC OPD)
 ------------------------------------------------------------------------------
-  [6:03] Sekarang inti Perdep, Bab Tiga: lima tahap pengelolaan risiko. Bayangkan lima pelampung di sepanjang jalur pelayaran.
-  [6:11] Satu, Identifikasi Kelemahan Lingkungan Pengendalian. Dua, Penilaian Risiko. Tiga, Kegiatan Pengendalian. Empat, Informasi dan Komunikasi. Dan lima, Pemantauan.
-  [6:26] Pelampung pertama: periksa dulu kapalnya, sebelum berlayar.
-  [6:32] Metodenya Control Environment Evaluation, atau CEE. Setiap OPD menilai lingkungan pengendaliannya sendiri.
-  [6:40] Ada delapan unsur, dijabarkan menjadi 37 pertanyaan di Form 1a. Form 1b menilai dokumen pendukungnya. Lalu Form 1c menyimpulkan setiap unsur: Memadai, atau Kurang Memadai.
-  [6:53] Kalau dokumen dan persepsi pegawai saling bertentangan, MR Kabar menandainya, dan alasan pendalamannya wajib ditulis.
-  [7:00] Setiap unsur yang Kurang Memadai wajib punya rencana perbaikan, disusun di Form 1d.
-  [7:07] Menilai risiko tanpa memeriksa lingkungan pengendaliannya sama saja dengan berlayar memakai lambung yang bocor.
+  [6:08] Pak Syahbandar: Sekarang inti Perdep, Bab Tiga: lima tahap pengelolaan risiko. Bayangkan lima pelampung di jalur pelayaran.
+  [6:15] Gadis: Satu, Identifikasi Kelemahan Lingkungan Pengendalian. Dua, Penilaian Risiko. Tiga, Kegiatan Pengendalian. Empat, Informasi dan Komunikasi. Lima, Pemantauan.
+  [6:28] Ardi: Lho, bukan langsung menilai risiko?
+  [6:31] Pak Syahbandar: Bukan. Periksa dulu kapalnya, sebelum berlayar.
+  [6:36] Pak Syahbandar: Metodenya Control Environment Evaluation, atau CEE. Setiap OPD menilai lingkungan pengendaliannya sendiri.
+  [6:43] Gadis: Delapan unsur, dijabarkan menjadi 37 pertanyaan di Form 1a, dijawab para pegawainya.
+  [6:50] Pak Syahbandar: Yang dinilai bukan sekadar ada atau tidaknya aturan, tapi apakah aturan itu dijalankan.
+  [6:57] Ardi: Jadi kode etik yang cuma ditempel di dinding, belum dapat nilai sempurna, ya Pak?
+  [7:01] Pak Syahbandar: Tepat.
+  [7:02] Gadis: Form 1b menilai dokumen pendukungnya. Form 1c menyimpulkan setiap unsur: Memadai, atau Kurang Memadai.
+  [7:11] Gadis: Unsur yang Kurang Memadai wajib punya rencana perbaikan, di Form 1d.
+  [7:16] Pak Syahbandar: Menilai risiko tanpa memeriksa lingkungan pengendalian, sama saja dengan berlayar memakai lambung yang bocor.
 
-[7:12]  BABAK 6 · MEMBACA PETA RISIKO   (untuk: PIC OPD)
+[7:26]  BABAK 6 · MEMBACA PETA RISIKO   (untuk: PIC OPD)
 ------------------------------------------------------------------------------
-  [7:16] Pelampung kedua, Penilaian Risiko. Tiga langkahnya: tetapkan konteks, kenali risikonya, lalu ukur.
-  [7:25] Konteks menjawab satu pertanyaan: tujuan mana yang sedang kita lindungi? Ada tiga ketinggian.
-  [7:31] Strategis Pemda bersumber dari RPJMD. Strategis OPD dari Renstra. Dan Operasional OPD dari Renja dan RKA. Semuanya tertaut dalam satu pohon: Visi, Misi, Tujuan, Sasaran, sampai Kegiatan.
-  [7:47] Lalu langkah yang paling sering keliru: menuliskan risikonya.
-  [7:52] Anggaran tidak mencukupi? Itu bukan risiko. Itu penyebab.
-  [7:58] Opini laporan keuangan turun? Itu juga bukan risiko. Itu dampak.
-  [8:05] Risiko adalah kejadian di antara keduanya. Karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.
-  [8:13] Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.
-  [8:23] Penyebabnya diklasifikasikan: internal dengan kerangka 7M-1E, eksternal dengan PESTLE. Lalu ditandai, masih dalam kendali, Controllable, atau di luar kendali, Uncontrollable.
-  [8:36] Kemudian risikonya diukur pada dua sumbu, dampak dan kemungkinan, masing-masing satu sampai lima, dengan kriteria baku dari menu Keterangan Pendukung.
-  [8:44] Keduanya bertemu di Matriks Analisis Risiko lima kali lima. Dan ingat, angka di dalamnya bukan hasil perkalian.
-  [8:52] Dampak lima, kemungkinan satu, hasilnya dua puluh. Dampak satu, kemungkinan lima, hanya sembilan.
-  [9:02] Matriks ini sengaja memberi bobot lebih besar pada dampak. Kejadian langka yang dampaknya besar tetap diperlakukan sebagai risiko serius.
-  [9:10] Hasilnya lima warna. Sangat Tinggi merah, Tinggi oranye, Sedang kuning, Rendah hijau, dan Sangat Rendah biru.
-  [9:19] Lalu, sampai mana yang masih boleh diterima?
-  [9:23] Bukan aplikasi yang memutuskan. Pemerintah Daerah sendiri yang menetapkan, namanya Selera Risiko. Setelan Aceh Barat saat ini: diterima sampai dengan tingkat Sedang.
-  [9:34] Yang berada di atas garis itu, Tinggi dan Sangat Tinggi, wajib punya Rencana Tindak Pengendalian, dan masuk Daftar Risiko Prioritas.
+  [7:31] Pak Syahbandar: Pelampung kedua, Penilaian Risiko. Tiga langkah: tetapkan konteks, kenali risikonya, lalu ukur.
+  [7:37] Gadis: Konteks itu apa, Pak?
+  [7:40] Pak Syahbandar: Jawaban atas satu pertanyaan: tujuan mana yang sedang kita lindungi? Ada tiga ketinggian.
+  [7:47] Pak Syahbandar: Strategis Pemda bersumber dari RPJMD. Strategis OPD dari Renstra. Operasional OPD dari Renja dan RKA.
+  [7:54] Gadis: Semuanya tertaut dalam satu pohon: Visi, Misi, Tujuan, Sasaran, sampai Kegiatan.
+  [8:01] Pak Syahbandar: Lalu langkah yang paling sering keliru: menuliskan risikonya.
+  [8:05] Ardi: Gampang! Risikonya: anggaran tidak mencukupi!
+  [8:08] Pak Syahbandar: Itu bukan risiko. Itu penyebab.
+  [8:12] Ardi: Kalau opini laporan keuangan turun?
+  [8:14] Gadis: Itu juga bukan, Ardi. Itu dampak.
+  [8:19] Pak Syahbandar: Risiko adalah kejadian di antara keduanya. Karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.
+  [8:27] Gadis: Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.
+  [8:35] Ardi: Ooh. Sekarang saya paham.
+  [8:37] Pak Syahbandar: Penyebabnya diklasifikasikan: internal dengan kerangka 7M-1E, eksternal dengan PESTLE. Lalu ditandai: masih dalam kendali, Controllable, atau di luar kendali, Uncontrollable.
 
-[9:43]  BABAK 7 · MENGENDALIKAN & MEMANTAU   (untuk: PIC OPD)
+[8:52]  BABAK 7 · MENGUKUR OMBAK   (untuk: PIC OPD)
 ------------------------------------------------------------------------------
-  [9:46] Pelampung ketiga, Kegiatan Pengendalian. Saatnya mengatur layar, dengan menyusun Rencana Tindak Pengendalian, atau RTP.
-  [9:55] Ada lima pilihan respons. Mudah diingat: A-A-M-S-A.
-  [10:03] Avoid, hindari kegiatan berisikonya. Abate, tekan kemungkinannya. Mitigate, kurangi dampaknya. Share, bagi risikonya lewat asuransi atau kemitraan. Dan Accept, terima sisanya, sebagai pilihan terakhir.
-  [10:20] Risiko yang Uncontrollable praktis hanya punya dua pilihan: Share, atau Accept.
-  [10:26] Setiap rencana wajib punya Penanggung Jawab Pengendalian, jabatan yang benar-benar berwenang. Kontrol berupa Peraturan Bupati tidak bisa dibebankan kepada pejabat setingkat seksi.
-  [10:36] Lalu ada empat titik skor untuk setiap risiko.
-  [10:40] Inheren, sebelum ada pengendalian apa pun. Residual, setelah pengendalian yang sudah berjalan. Target, yang ingin dicapai RTP. Dan Aktual, hasil nyatanya di lapangan.
-  [10:53] Efektivitas pengendalian dinilai dalam empat tingkat: Tidak Efektif, Kurang Efektif, Cukup Efektif, dan Efektif. Kalau masih kurang, MR Kabar menanyakan di mana celahnya, memakai lima kriteria baku Perdep.
-  [11:07] Dan sebelum ditetapkan, rancangan pengendalian diuji coba dulu dalam lingkup kecil. Hasilnya dicatat di Form 9.
-  [11:14] Pelampung keempat, Informasi dan Komunikasi. Hasilnya tidak boleh berhenti di dalam folder.
-  [11:22] Form Cetak MR Kabar menghasilkan empat belas dokumen resmi siap tanda tangan, ditambah bagan struktur pengelolaan risiko.
-  [11:29] Pelampung kelima, Pemantauan. Memastikan rencana benar-benar dijalankan.
-  [11:36] Form 8 mencatat rencana pemantauan. Form 9 mencatat realisasinya, berikut Skala Aktual. Form 10 mencatat kejadian risiko yang benar-benar terjadi.
-  [11:47] Dan siapa pun bisa melaporkan kejadian nyata, cukup dengan memindai kode QR Lapor Kejadian Risiko, tanpa perlu akun sendiri.
-  [11:54] Semuanya bermuara ke empat laporan wajib. Form 11 pelaksanaan penilaian risiko. Form 12 laporan berkala UPR. Form 13 laporan pemantauan Unit Kepatuhan. Dan Form 14, laporan pembinaan Komite Pengelolaan Risiko.
+  [8:56] Pak Syahbandar: Langkah ketiga: ukur ombaknya, pada dua sumbu. Dampak, dan kemungkinan, masing-masing satu sampai lima.
+  [9:04] Gadis: Di MR Kabar, isi dulu Existing Control: apakah sudah ada pengendalian yang berjalan?
+  [9:10] Gadis: Lalu pilih level Kemungkinan dan Dampak langsung dari tabel kriteria. Tidak ada angka yang diketik.
+  [9:17] Pak Syahbandar: Belum ada pengendalian? Pilihan itu sekaligus menjadi skala Inheren dan Residual.
+  [9:22] Pak Syahbandar: Sudah ada? Pilihan itu menjadi Residual, dan Inherennya diisi lewat tombol Isi Nilai Risiko, di matriks lima kali lima.
+  [9:29] Ardi: Matriksnya dampak dikali kemungkinan, kan?
+  [9:32] Pak Syahbandar: Bukan perkalian. Lihat.
+  [9:36] Gadis: Dampak lima, kemungkinan satu: dua puluh. Dampak satu, kemungkinan lima: hanya sembilan!
+  [9:44] Pak Syahbandar: Matriks ini sengaja memberi bobot lebih pada dampak. Kejadian langka yang dampaknya besar tetap diperlakukan sebagai risiko serius.
+  [9:51] Gadis: Hasilnya lima warna: Sangat Tinggi merah, Tinggi oranye, Sedang kuning, Rendah hijau, Sangat Rendah biru.
+  [9:59] Ardi: Lalu, sampai mana yang masih boleh diterima?
+  [10:02] Pak Syahbandar: Bukan aplikasi yang memutuskan. Pemerintah Daerah sendiri yang menetapkan: Selera Risiko. Setelan Aceh Barat saat ini, diterima sampai dengan Sedang.
+  [10:12] Gadis: Di atas garis itu, Tinggi dan Sangat Tinggi, wajib punya Rencana Tindak Pengendalian, dan masuk Daftar Risiko Prioritas.
 
-[12:11]  BABAK 8 · SATU RISIKO, SATU PERJALANAN   (untuk: Semua)
+[10:23]  BABAK 8 · MENGATUR LAYAR   (untuk: PIC OPD)
 ------------------------------------------------------------------------------
-  [12:14] Sekarang, mari kita ikuti satu risiko dari awal sampai akhir.
-  [12:20] Dinas Kelautan dan Perikanan membangun tempat pendaratan ikan.
-  [12:24] Risikonya: karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.
-  [12:33] Penyebabnya eksternal, kategori Legal. Sifatnya Uncontrollable, karena pembebasan lahan bukan kewenangan dinas itu sendiri.
-  [12:42] Dampak empat, kemungkinan tiga. Skala risikonya tujuh belas, kategori Tinggi. Melampaui selera.
-  [12:51] Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya Sekretaris Dinas.
-  [13:02] Skala Target ditetapkan tiga belas, turun ke Sedang. Setiap triwulan realisasinya dicatat, dan Skala Aktualnya, misalnya, empat belas.
-  [13:13] Selisih satu angka itu bukan kegagalan. Justru itulah informasi yang dicari: rencananya hampir tepat.
-  [13:21] Dan satu baris risiko itu ikut menyusun gambar besar di anjungan kapal: Dashboard MR Kabar.
-  [13:27] Peta risiko lengkap dengan garis Selera Risiko, Daftar Risiko Prioritas, siklus empat skor, ranking eksposur antar OPD yang bisa diklik, sampai kepatuhan pelaporan seluruh Perangkat Daerah.
+  [10:28] Pak Syahbandar: Pelampung ketiga, Kegiatan Pengendalian. Saatnya mengatur layar, lewat Rencana Tindak Pengendalian, atau RTP.
+  [10:36] Gadis: Lima pilihan respons. Mudah diingat: A-A-M-S-A.
+  [10:42] Pak Syahbandar: Avoid, hindari kegiatan berisikonya. Abate, tekan kemungkinannya. Mitigate, kurangi dampaknya. Share, bagi risikonya lewat asuransi atau kemitraan. Dan Accept, terima sisanya, sebagai pilihan terakhir.
+  [10:55] Ardi: Kalau risikonya di luar kendali kita?
+  [10:58] Pak Syahbandar: Yang Uncontrollable praktis hanya punya dua pilihan: Share, atau Accept.
+  [11:02] Pak Syahbandar: Setiap rencana wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang. Kontrol berupa peraturan kepala daerah tidak bisa dibebankan kepada pejabat setingkat seksi.
+  [11:14] Gadis: Lalu empat titik skor untuk setiap risiko.
+  [11:17] Pak Syahbandar: Inheren, sebelum ada pengendalian apa pun. Residual, keadaan sekarang, setelah pengendalian yang sudah berjalan. Target, yang ingin dicapai RTP. Dan Aktual, hasil nyatanya di lapangan.
+  [11:29] Pak Syahbandar: Efektivitasnya dinilai empat tingkat, dari Tidak Efektif sampai Efektif. Kalau kurang, MR Kabar menanyakan celahnya.
+  [11:37] Pak Syahbandar: Sebelum ditetapkan, rancangan pengendalian diuji coba dulu dalam lingkup kecil, seperti mencoba layar baru di teluk. Hasilnya dicatat di Form 9.
 
-[13:38]  PENUTUP · TIGA PELAJARAN   (untuk: Semua)
+[11:49]  BABAK 9 · BUKU HARIAN KAPAL & LONCENG   (untuk: Semua)
 ------------------------------------------------------------------------------
-  [13:42] Lalu, apa pelajarannya buat kita?
-  [13:45] Pertama. Risiko bukan untuk ditakuti, tapi untuk dikenali. Yang paling berbahaya adalah risiko yang tidak pernah ditulis.
-  [13:55] Kedua. Pengendalian bukan dokumen, tapi tindakan. Dirancang, diuji, dipantau, lalu diperbaiki.
-  [14:05] Ketiga. Satu alur data, dari Visi kabupaten sampai satu baris risiko, membuat janji RPJMD bisa benar-benar ditepati.
-  [14:15] Langkah pertama Anda hari ini sederhana. Buka menu Data Umum, dan lengkapi identitas Perangkat Daerah Anda.
-  [14:25] Setelah itu isi CEE, susun konteks di KRS, lalu catat risiko pertama Anda. Panduan lengkap setiap langkah tersedia di menu Panduan.
-  [14:34] Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi PPKD Nomor 4 Tahun 2019.
-  [14:43] Laut memang tidak pernah benar-benar tenang. Tapi kapal yang membaca petanya, selalu pulang.
-  [14:51] MR Kabar. Risiko TerKabar, Daerah Terjaga.
-  [14:58] Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.
+  [11:54] Gadis: Pelampung keempat, Informasi dan Komunikasi. Hasilnya tidak boleh berhenti di dalam folder.
+  [12:01] Pak Syahbandar: Form 8 mencatat cara pengendalian dikomunikasikan: lewat media apa, dari siapa, kepada siapa, dan kapan.
+  [12:08] Pak Syahbandar: Form Cetak MR Kabar menghasilkan empat belas dokumen resmi siap tanda tangan, ditambah bagan struktur pengelolaan risiko.
+  [12:15] Gadis: Pelampung kelima, Pemantauan: buku harian kapal. Form 9 mencatat pemantauan dan realisasinya, berikut Skala Aktual. Form 10, kejadian risiko yang sudah terjadi.
+  [12:27] Pak Udin: Pak! Atap gudang arsip bocor, dokumennya basah. Tapi saya tidak punya akun...
+  [12:32] Pak Syahbandar: Tidak perlu akun, Pak Udin. Pindai kode QR Lapor itu, tulis nama lengkap, pilih Perangkat Daerahnya, ceritakan kejadiannya.
+  [12:40] Gadis: Laporannya langsung sampai ke admin, dan ke Perangkat Daerah yang dipilih.
+  [12:45] Ardi: Kalau ada yang sengaja, Pak?
+  [12:47] Pak Syahbandar: Itu lain soal. Kejadian risiko terjadi tanpa niat: petir menyambar server, atap bocor. Kecurangan selalu punya niat.
+  [12:56] Pak Syahbandar: Untuk itu ada pintu tersendiri: Dugaan Kecurangan. Boleh tanpa nama.
+  [13:01] Gadis: Layar menampilkan nomor tiket dan kode akses. Catat keduanya. Kode akses hanya muncul sekali.
+  [13:10] Penjaga Mercusuar: Menurut segitiga kecurangan Donald Cressey, kecurangan lahir saat tiga hal bertemu: tekanan, kesempatan, dan rasionalisasi. Yang paling bisa ditutup organisasi: kesempatan.
+  [13:25] Gadis: Hadiah karena jabatan, sekalipun dibungkus ucapan terima kasih, adalah gratifikasi. Wajib dilaporkan ke KPK paling lambat tiga puluh hari kerja.
+
+[13:38]  BABAK 10 · SATU RISIKO, SATU PERJALANAN   (untuk: Semua)
+------------------------------------------------------------------------------
+  [13:43] Gadis: Sekarang, mari ikuti satu risiko, dari awal sampai akhir.
+  [13:47] Pak Syahbandar: Dinas Kelautan dan Perikanan membangun tempat pendaratan ikan.
+  [13:51] Pak Syahbandar: Risikonya: karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.
+  [14:00] Gadis: Penyebabnya eksternal, kategori Legal. Uncontrollable, karena pembebasan lahan bukan kewenangan dinas itu sendiri.
+  [14:08] Ardi: Dampak empat, kemungkinan tiga: tujuh belas. Tinggi! Melampaui selera.
+  [14:14] Pak Syahbandar: Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya, Sekretaris Dinas.
+  [14:25] Gadis: Skala Target tiga belas, turun ke Sedang. Setiap triwulan realisasinya dicatat. Skala Aktualnya, misalnya, empat belas.
+  [14:36] Ardi: Yah, meleset satu.
+  [14:38] Pak Syahbandar: Selisih satu itu bukan kegagalan, Nak. Justru itulah informasi yang dicari: rencananya hampir tepat.
+  [14:46] Pak Syahbandar: Semuanya bermuara ke empat laporan wajib. Form 11, pelaksanaan penilaian risiko. Form 12, laporan berkala UPR. Form 13, pemantauan Unit Kepatuhan. Dan Form 14, pembinaan Komite Pengelolaan Risiko.
+  [15:00] Gadis: Dan satu baris risiko itu ikut menyusun gambar besar di anjungan: Dashboard MR Kabar.
+  [15:07] Pak Syahbandar: Peta risiko dengan garis Selera Risiko, Daftar Risiko Prioritas, ranking eksposur antar OPD, sampai kepatuhan pelaporan.
+
+[15:16]  PENUTUP · BADAI KEDUA & TIGA PELAJARAN   (untuk: Semua)
+------------------------------------------------------------------------------
+  [15:21] Si Badai: Hahaha! Aku kembali!
+  [15:23] Ardi: Kami sudah siap. Petanya sudah dibaca, layarnya sudah diatur.
+  [15:27] Gadis: Dan mercusuar menyala!
+  [15:29] Si Badai: Hmph. Kalian membosankan.
+  [15:33] Pak Syahbandar: Lalu, apa pelajarannya buat kita?
+  [15:37] Pak Syahbandar: Pertama. Risiko bukan untuk ditakuti, tapi untuk dikenali. Yang paling berbahaya adalah risiko yang tidak pernah ditulis.
+  [15:45] Gadis: Kedua. Pengendalian bukan dokumen, tapi tindakan. Dirancang, diuji, dipantau, lalu diperbaiki.
+  [15:54] Ardi: Ketiga. Satu alur data, dari Visi kabupaten sampai satu baris risiko, membuat janji RPJMD bisa benar-benar ditepati.
+  [16:01] Gadis: Langkah pertama hari ini: lengkapi Data Umum, isi CEE, susun konteks di KRS, lalu catat risiko pertama Anda. Panduannya ada di menu Panduan.
+  [16:13] Pak Syahbandar: Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi PPKD Nomor 4 Tahun 2019.
+  [16:22] Pak Syahbandar: Laut memang tidak pernah benar-benar tenang. Tapi kapal yang membaca petanya, selalu pulang.
+  [16:32] Gadis: MR Kabar. Risiko TerKabar, Daerah Terjaga.
+  [16:38] Ardi: Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.
 
 ==============================================================================
 KREDIT FOTO (Wikimedia Commons)
@@ -143,18 +190,19 @@ KREDIT FOTO (Wikimedia Commons)
   - Sunset at Meulaboh beach.jpg — Cravegun — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Sunset_at_Meulaboh_beach.jpg
   - Meulaboh beach rainbow sunset.jpg — Cravegun — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Meulaboh_beach_rainbow_sunset.jpg
   - Pantai Meulaboh - panoramio.jpg — hotmahtg — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Pantai_Meulaboh_-_panoramio.jpg
-  - Jembatan Meulaboh - panoramio.jpg — Palar Banjarnahor — CC BY-SA 3.0 — https://commons.wikimedia.org/wiki/File:Jembatan_Meulaboh_-_panoramio.jpg
+  - Mesjid agung meulaboh.jpg — Diskominsaacehbarat — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Mesjid_agung_meulaboh.jpg
   - Acehnese traditional fishermen.jpg — Ayie7791 — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Acehnese_traditional_fishermen.jpg
-  - Acehnese traditional fishermen at laweueng beach.jpg — LonNyoe — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Acehnese_traditional_fishermen_at_laweueng_beach.jpg
   - Nelayan Tarek Pukat.jpg — M1qbalimages — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Nelayan_Tarek_Pukat.jpg
   - Traditional boats in Aceh.jpg — Si Gam — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Traditional_boats_in_Aceh.jpg
+  - A traditional boat anchored off the coast of aceh (5074343314).jpg — USAID Indonesia — Public domain — https://commons.wikimedia.org/wiki/File:A_traditional_boat_anchored_off_the_coast_of_aceh_(5074343314).jpg
   - Lightning storm over ocean.jpg — bigwavephoto — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Lightning_storm_over_ocean.jpg
   - De Nieuwe Lichttoren van Poeloe-Bras, Sumatra, NG-1983-67.jpg — Rijksmuseum — CC0 — https://commons.wikimedia.org/wiki/File:De_Nieuwe_Lichttoren_van_Poeloe-Bras,_Sumatra,_NG-1983-67.jpg
   - Kaart van Atjeh, RP-P-2018-1014.jpg — Rijksmuseum — CC0 — https://commons.wikimedia.org/wiki/File:Kaart_van_Atjeh,_RP-P-2018-1014.jpg
-  - AMH-5147-NA Map of the west coast of Sumatra.jpg — Isaak de Graaf — Public domain — https://commons.wikimedia.org/wiki/File:AMH-5147-NA_Map_of_the_west_coast_of_Sumatra.jpg
-  - Lampulo 19-05-02 HNDY1976.jpg — Zaintama — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Lampulo_19-05-02_HNDY1976.jpg
   - Caranx tille in Banda Aceh.jpg — Si Gam — CC BY-SA 4.0 — https://commons.wikimedia.org/wiki/File:Caranx_tille_in_Banda_Aceh.jpg
   - Suasana kapal di tempat pelelangan ikan Jember.jpg — Astari28 — CC BY 4.0 — https://commons.wikimedia.org/wiki/File:Suasana_kapal_di_tempat_pelelangan_ikan_Jember.jpg
+  - Pemandangan di tempat pelelangan ikan Jember.jpg — Astari28 — CC BY 4.0 — https://commons.wikimedia.org/wiki/File:Pemandangan_di_tempat_pelelangan_ikan_Jember.jpg
 
-Huruf: Bebas Neue, Plus Jakarta Sans, Playfair Display, JetBrains Mono (SIL Open Font License).
-Musik: komposisi orisinal. Narasi: suara sintetis.
+Huruf: Bebas Neue, Plus Jakarta Sans, JetBrains Mono (SIL Open Font License).
+Animasi paper cut, musik, dan efek suara: karya orisinal. Suara tokoh: suara sintetis.
+
+Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.

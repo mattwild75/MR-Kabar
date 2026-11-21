@@ -1,0 +1,1280 @@
+[
+ {
+  "id": 1,
+  "scene": "s1",
+  "tokoh": "badai",
+  "rasa": "mengejek",
+  "markah": "Hahaha! Berangkat tanpa membaca langit? // Selamat datang di laut lepas!",
+  "display": "Hahaha! Berangkat tanpa membaca langit? Selamat datang di laut lepas!",
+  "text": "Hahaha! Berangkat tanpa membaca langit? // Selamat datang di laut lepas!"
+ },
+ {
+  "id": 2,
+  "scene": "s1",
+  "tokoh": "ardi",
+  "rasa": "cemas",
+  "markah": "Aduh! Layarnya robek! Gadis, petanya mana?",
+  "display": "Aduh! Layarnya robek! Gadis, petanya mana?",
+  "text": "Aduh! Layarnya robek! Gadis, petanya mana?"
+ },
+ {
+  "id": 3,
+  "scene": "s1",
+  "tokoh": "gadis",
+  "rasa": "cemas",
+  "markah": "Peta apa? Kapalnya saja tidak kita periksa!",
+  "display": "Peta apa? Kapalnya saja tidak kita periksa!",
+  "text": "Peta apa? Kapalnya saja tidak kita periksa!"
+ },
+ {
+  "id": 4,
+  "scene": "s1",
+  "tokoh": "badai",
+  "rasa": "mengejek",
+  "markah": "Ombak besar datang! Tiga... / dua...",
+  "display": "Ombak besar datang! Tiga... dua...",
+  "text": "Ombak besar datang! Tiga... / dua..."
+ },
+ {
+  "id": 5,
+  "scene": "s1",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Tunggu.",
+  "display": "Tunggu.",
+  "text": "Tunggu."
+ },
+ {
+  "id": 6,
+  "scene": "s1",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Kita ulang. // Dari dermaga.",
+  "display": "Kita ulang. Dari dermaga.",
+  "text": "Kita ulang. // Dari dermaga."
+ },
+ {
+  "id": 7,
+  "scene": "s1",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Di pesisir barat Aceh, nelayan tahu satu hal. // Laut tidak pernah benar-benar tenang.",
+  "display": "Di pesisir barat Aceh, nelayan tahu satu hal. Laut tidak pernah benar-benar tenang.",
+  "text": "Di pesisir barat Aceh, nelayan tahu satu hal. // Laut tidak pernah benar-benar tenang."
+ },
+ {
+  "id": 8,
+  "scene": "s1",
+  "tokoh": "ardi",
+  "rasa": "semangat",
+  "markah": "Makanya kita harus cepat berangkat, Pak!",
+  "display": "Makanya kita harus cepat berangkat, Pak!",
+  "text": "Makanya kita harus cepat berangkat, Pak!"
+ },
+ {
+  "id": 9,
+  "scene": "s1",
+  "tokoh": "syahbandar",
+  "rasa": "jenaka",
+  "markah": "Yang pulang selamat bukan yang paling cepat, Nak. // Tapi yang membaca langit, memeriksa kapal, dan tahu harus berbuat apa saat badai datang.",
+  "display": "Yang pulang selamat bukan yang paling cepat, Nak. Tapi yang membaca langit, memeriksa kapal, dan tahu harus berbuat apa saat badai datang.",
+  "text": "Yang pulang selamat bukan yang paling cepat, Nak. // Tapi yang membaca langit, memeriksa kapal, dan tahu harus berbuat apa saat badai datang."
+ },
+ {
+  "id": 10,
+  "scene": "s1",
+  "tokoh": "gadis",
+  "rasa": "heran",
+  "markah": "Seperti program pemerintah daerah ya, Pak? Setiap program adalah sebuah pelayaran.",
+  "display": "Seperti program pemerintah daerah ya, Pak? Setiap program adalah sebuah pelayaran.",
+  "text": "Seperti program pemerintah daerah ya, Pak? Setiap program adalah sebuah pelayaran."
+ },
+ {
+  "id": 11,
+  "scene": "s1",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Tepat. Tujuannya tertulis di RPJMD. // Di antara dermaga dan tujuan itu, ada angin, arus, / dan karang yang tidak kelihatan.",
+  "display": "Tepat. Tujuannya tertulis di RPJMD. Di antara dermaga dan tujuan itu, ada angin, arus, dan karang yang tidak kelihatan.",
+  "text": "Tepat. Tujuannya tertulis di Er-Pe-Je-Em-De. // Di antara dermaga dan tujuan itu, ada angin, arus, / dan karang yang tidak kelihatan."
+ },
+ {
+  "id": 12,
+  "scene": "s1",
+  "tokoh": "syahbandar",
+  "rasa": "bangga",
+  "markah": "Cara membacanya bernama *manajemen risiko*. // Di Aceh Barat, petanya bernama MR Kabar.",
+  "display": "Cara membacanya bernama manajemen risiko. Di Aceh Barat, petanya bernama MR Kabar.",
+  "text": "Cara membacanya bernama *manajemen risiko*. // Di Aceh Barat, petanya bernama Em-Er Kabar."
+ },
+ {
+  "id": 13,
+  "scene": "s1",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Yuk, berlayar! Sepuluh babak, lalu tiga pelajaran untuk meja kerja Anda.",
+  "display": "Yuk, berlayar! Sepuluh babak, lalu tiga pelajaran untuk meja kerja Anda.",
+  "text": "Yuk, berlayar! Sepuluh babak, lalu tiga pelajaran untuk meja kerja Anda."
+ },
+ {
+  "id": 14,
+  "scene": "s2",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Kita mulai dari kata yang paling sering disalahpahami. /// *Risiko.*",
+  "display": "Kita mulai dari kata yang paling sering disalahpahami. Risiko.",
+  "text": "Kita mulai dari kata yang paling sering disalahpahami. /// *Risiko.*"
+ },
+ {
+  "id": 15,
+  "scene": "s2",
+  "tokoh": "gadis",
+  "rasa": "serius",
+  "markah": "Menurut Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.",
+  "display": "Menurut Peraturan Pemerintah Nomor 60 Tahun 2008 tentang SPIP, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah.",
+  "text": "Menurut Peraturan Pemerintah Nomor 60 Tahun 2008 tentang Es-Pe-I-Pe, risiko adalah kemungkinan kejadian yang mengancam pencapaian tujuan dan sasaran instansi pemerintah."
+ },
+ {
+  "id": 16,
+  "scene": "s2",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Intinya apa, Pak?",
+  "display": "Intinya apa, Pak?",
+  "text": "Intinya apa, Pak?"
+ },
+ {
+  "id": 17,
+  "scene": "s2",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Tiga kata. // *Kemungkinan*, / *mengancam*, / dan *tujuan*.",
+  "display": "Tiga kata. Kemungkinan, mengancam, dan tujuan.",
+  "text": "Tiga kata. // *Kemungkinan*, / *mengancam*, / dan *tujuan*."
+ },
+ {
+  "id": 18,
+  "scene": "s2",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Kemungkinan, artinya belum terjadi. Awan gelap di cakrawala itu masih risiko.",
+  "display": "Kemungkinan, artinya belum terjadi. Awan gelap di cakrawala itu masih risiko.",
+  "text": "Kemungkinan, artinya belum terjadi. Awan gelap di cakrawala itu masih risiko."
+ },
+ {
+  "id": 19,
+  "scene": "s2",
+  "tokoh": "badai",
+  "rasa": "jenaka",
+  "markah": "Hehe. Aku masih kemungkinan.",
+  "display": "Hehe. Aku masih kemungkinan.",
+  "text": "Hehe. Aku masih kemungkinan."
+ },
+ {
+  "id": 20,
+  "scene": "s2",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Kalau hujannya sudah turun?",
+  "display": "Kalau hujannya sudah turun?",
+  "text": "Kalau hujannya sudah turun?"
+ },
+ {
+  "id": 21,
+  "scene": "s2",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Itu bukan risiko lagi. // Itu *masalah*.",
+  "display": "Itu bukan risiko lagi. Itu masalah.",
+  "text": "Itu bukan risiko lagi. // Itu *masalah*."
+ },
+ {
+  "id": 22,
+  "scene": "s2",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Mengancam: fokusnya pada ancaman. Sedikit lebih sempit dari ISO 31000, yang juga menghitung peluang.",
+  "display": "Mengancam: fokusnya pada ancaman. Sedikit lebih sempit dari ISO 31000, yang juga menghitung peluang.",
+  "text": "Mengancam: fokusnya pada ancaman. Sedikit lebih sempit dari I-Es-O tiga satu nol nol nol, yang juga menghitung peluang."
+ },
+ {
+  "id": 23,
+  "scene": "s2",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Dan tujuan. Tanpa pelabuhan yang hendak dituju, tidak ada badai yang perlu diperhitungkan.",
+  "display": "Dan tujuan. Tanpa pelabuhan yang hendak dituju, tidak ada badai yang perlu diperhitungkan.",
+  "text": "Dan tujuan. Tanpa pelabuhan yang hendak dituju, tidak ada badai yang perlu diperhitungkan."
+ },
+ {
+  "id": 24,
+  "scene": "s2",
+  "tokoh": "gadis",
+  "rasa": "semangat",
+  "markah": "Jadi manajemen risiko adalah cara sistematis untuk mengenali, menilai, mengendalikan, dan memantau kemungkinan itu, // sebelum sempat terjadi.",
+  "display": "Jadi manajemen risiko adalah cara sistematis untuk mengenali, menilai, mengendalikan, dan memantau kemungkinan itu, sebelum sempat terjadi.",
+  "text": "Jadi manajemen risiko adalah cara sistematis untuk mengenali, menilai, mengendalikan, dan memantau kemungkinan itu, // sebelum sempat terjadi."
+ },
+ {
+  "id": 25,
+  "scene": "s3",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Tapi Pak, selama ini kita berlayar juga, kan? Kenapa harus repot dikelola?",
+  "display": "Tapi Pak, selama ini kita berlayar juga, kan? Kenapa harus repot dikelola?",
+  "text": "Tapi Pak, selama ini kita berlayar juga, kan? Kenapa harus repot dikelola?"
+ },
+ {
+  "id": 26,
+  "scene": "s3",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Berlayar, iya. Selamat, belum tentu. // BPKP pernah memotret penilaian risiko di pemerintah daerah, dan menemukan *sebelas* persoalan.",
+  "display": "Berlayar, iya. Selamat, belum tentu. BPKP pernah memotret penilaian risiko di pemerintah daerah, dan menemukan sebelas persoalan.",
+  "text": "Berlayar, iya. Selamat, belum tentu. // Be-Pe-Ka-Pe pernah memotret penilaian risiko di pemerintah daerah, dan menemukan *sebelas* persoalan."
+ },
+ {
+  "id": 27,
+  "scene": "s3",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Dari situlah lahir Peraturan Deputi PPKD Nomor 4 Tahun 2019, pedoman yang menjadi acuan MR Kabar.",
+  "display": "Dari situlah lahir Peraturan Deputi PPKD Nomor 4 Tahun 2019, pedoman yang menjadi acuan MR Kabar.",
+  "text": "Dari situlah lahir Peraturan Deputi Pe-Pe-Ka-De Nomor 4 Tahun 2019, pedoman yang menjadi acuan Em-Er Kabar."
+ },
+ {
+  "id": 28,
+  "scene": "s3",
+  "tokoh": "gadis",
+  "rasa": "serius",
+  "markah": "Penilaiannya sekadar formalitas. Rencana pengendalian disusun, / lalu dilupakan.",
+  "display": "Penilaiannya sekadar formalitas. Rencana pengendalian disusun, lalu dilupakan.",
+  "text": "Penilaiannya sekadar formalitas. Rencana pengendalian disusun, / lalu dilupakan."
+ },
+ {
+  "id": 29,
+  "scene": "s3",
+  "tokoh": "ardi",
+  "rasa": "jenaka",
+  "markah": "Waduh. Kok mirip cerita kita.",
+  "display": "Waduh. Kok mirip cerita kita.",
+  "text": "Waduh. Kok mirip cerita kita."
+ },
+ {
+  "id": 30,
+  "scene": "s3",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Waktunya tidak baku, penanggung jawabnya tidak jelas, pejabat strategisnya belum terlibat. // Dan semuanya masih manual.",
+  "display": "Waktunya tidak baku, penanggung jawabnya tidak jelas, pejabat strategisnya belum terlibat. Dan semuanya masih manual.",
+  "text": "Waktunya tidak baku, penanggung jawabnya tidak jelas, pejabat strategisnya belum terlibat. // Dan semuanya masih manual."
+ },
+ {
+  "id": 31,
+  "scene": "s3",
+  "tokoh": "gadis",
+  "rasa": "cemas",
+  "markah": "Kertas kerjanya tersebar di puluhan berkas Excel dan Word. Mudah hilang, sulit direkap, tanpa jejak siapa mengubah apa.",
+  "display": "Kertas kerjanya tersebar di puluhan berkas Excel dan Word. Mudah hilang, sulit direkap, tanpa jejak siapa mengubah apa.",
+  "text": "Kertas kerjanya tersebar di puluhan berkas Eksel dan Word. Mudah hilang, sulit direkap, tanpa jejak siapa mengubah apa."
+ },
+ {
+  "id": 32,
+  "scene": "s3",
+  "tokoh": "syahbandar",
+  "rasa": "bangga",
+  "markah": "MR Kabar menyatukannya. // Satu aplikasi, satu struktur data sesuai Perdep, setiap perubahan tercatat, dan pimpinan melihat seluruh kabupaten dari satu layar.",
+  "display": "MR Kabar menyatukannya. Satu aplikasi, satu struktur data sesuai Perdep, setiap perubahan tercatat, dan pimpinan melihat seluruh kabupaten dari satu layar.",
+  "text": "Em-Er Kabar menyatukannya. // Satu aplikasi, satu struktur data sesuai Perdep, setiap perubahan tercatat, dan pimpinan melihat seluruh kabupaten dari satu layar."
+ },
+ {
+  "id": 33,
+  "scene": "s4",
+  "tokoh": "gadis",
+  "rasa": "heran",
+  "markah": "Pak, siapa nakhoda manajemen risiko di kabupaten ini?",
+  "display": "Pak, siapa nakhoda manajemen risiko di kabupaten ini?",
+  "text": "Pak, siapa nakhoda manajemen risiko di kabupaten ini?"
+ },
+ {
+  "id": 34,
+  "scene": "s4",
+  "tokoh": "ardi",
+  "rasa": "riang",
+  "markah": "Operator aplikasinya, kan?",
+  "display": "Operator aplikasinya, kan?",
+  "text": "Operator aplikasinya, kan?"
+ },
+ {
+  "id": 35,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "jenaka",
+  "markah": "Bukan. Dan bukan hanya Inspektorat.",
+  "display": "Bukan. Dan bukan hanya Inspektorat.",
+  "text": "Bukan. Dan bukan hanya Inspektorat."
+ },
+ {
+  "id": 36,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Penanggung Jawab Pengelolaan Risiko adalah *Kepala Daerah*. Tunggal, dan tidak didelegasikan. // Beliaulah yang menetapkan arahnya.",
+  "display": "Penanggung Jawab Pengelolaan Risiko adalah Kepala Daerah. Tunggal, dan tidak didelegasikan. Beliaulah yang menetapkan arahnya.",
+  "text": "Penanggung Jawab Pengelolaan Risiko adalah *Kepala Daerah*. Tunggal, dan tidak didelegasikan. // Beliaulah yang menetapkan arahnya."
+ },
+ {
+  "id": 37,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Sekretaris Daerah menjadi Koordinator Penyelenggaraan, untuk risiko tingkat Pemda maupun OPD. // Seperti kompas, memastikan semua bergerak ke arah yang sama.",
+  "display": "Sekretaris Daerah menjadi Koordinator Penyelenggaraan, untuk risiko tingkat Pemda maupun OPD. Seperti kompas, memastikan semua bergerak ke arah yang sama.",
+  "text": "Sekretaris Daerah menjadi Koordinator Penyelenggaraan, untuk risiko tingkat Pemda maupun O-Pe-De. // Seperti kompas, memastikan semua bergerak ke arah yang sama."
+ },
+ {
+  "id": 38,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Awaknya adalah Unit Pemilik Risiko, atau UPR, yang berjenjang. Tingkat Pemda diketuai Kepala Daerah, beranggotakan seluruh Kepala OPD, lalu turun ke Eselon Dua, Tiga, dan Empat.",
+  "display": "Awaknya adalah Unit Pemilik Risiko, atau UPR, yang berjenjang. Tingkat Pemda diketuai Kepala Daerah, beranggotakan seluruh Kepala OPD, lalu turun ke Eselon Dua, Tiga, dan Empat.",
+  "text": "Awaknya adalah Unit Pemilik Risiko, atau U-Pe-Er, yang berjenjang. Tingkat Pemda diketuai Kepala Daerah, beranggotakan seluruh Kepala O-Pe-De, lalu turun ke Eselon Dua, Tiga, dan Empat."
+ },
+ {
+  "id": 39,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Agar kapal tetap di jalurnya, ada tiga lapis penjaga: Three Lines of Defense.",
+  "display": "Agar kapal tetap di jalurnya, ada tiga lapis penjaga: Three Lines of Defense.",
+  "text": "Agar kapal tetap di jalurnya, ada tiga lapis penjaga: Tri Lains of Difens."
+ },
+ {
+  "id": 40,
+  "scene": "s4",
+  "tokoh": "ardi",
+  "rasa": "semangat",
+  "markah": "Lini pertama, kami! UPR, awak yang mengelola risiko sehari-hari.",
+  "display": "Lini pertama, kami! UPR, awak yang mengelola risiko sehari-hari.",
+  "text": "Lini pertama, kami! U-Pe-Er, awak yang mengelola risiko sehari-hari."
+ },
+ {
+  "id": 41,
+  "scene": "s4",
+  "tokoh": "patroli",
+  "rasa": "tegas",
+  "markah": "Lini kedua, kapal patroli: Unit Kepatuhan, dijabat Asisten Sekretaris Daerah. Kami memantau seluruh UPR.",
+  "display": "Lini kedua, kapal patroli: Unit Kepatuhan, dijabat Asisten Sekretaris Daerah. Kami memantau seluruh UPR.",
+  "text": "Lini kedua, kapal patroli: Unit Kepatuhan, dijabat Asisten Sekretaris Daerah. Kami memantau seluruh U-Pe-Er."
+ },
+ {
+  "id": 42,
+  "scene": "s4",
+  "tokoh": "mercusuar",
+  "rasa": "tenang",
+  "markah": "Lini ketiga, Inspektorat. // Saya berdiri di luar kapal, tidak ikut memegang kemudi. Jadi saya bisa mengevaluasi secara independen.",
+  "display": "Lini ketiga, Inspektorat. Saya berdiri di luar kapal, tidak ikut memegang kemudi. Jadi saya bisa mengevaluasi secara independen.",
+  "text": "Lini ketiga, Inspektorat. // Saya berdiri di luar kapal, tidak ikut memegang kemudi. Jadi saya bisa mengevaluasi secara independen."
+ },
+ {
+  "id": 43,
+  "scene": "s4",
+  "tokoh": "gadis",
+  "rasa": "serius",
+  "markah": "Ada tiga peran yang namanya mirip, dan sering tertukar.",
+  "display": "Ada tiga peran yang namanya mirip, dan sering tertukar.",
+  "text": "Ada tiga peran yang namanya mirip, dan sering tertukar."
+ },
+ {
+  "id": 44,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Penanggung Jawab Pengelolaan Risiko: Kepala Daerah, melekat pada jabatan, tidak pernah menjadi kolom isian.",
+  "display": "Penanggung Jawab Pengelolaan Risiko: Kepala Daerah, melekat pada jabatan, tidak pernah menjadi kolom isian.",
+  "text": "Penanggung Jawab Pengelolaan Risiko: Kepala Daerah, melekat pada jabatan, tidak pernah menjadi kolom isian."
+ },
+ {
+  "id": 45,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Pemilik Risiko: sebuah unit, bukan perorangan, tercatat di setiap baris risiko.",
+  "display": "Pemilik Risiko: sebuah unit, bukan perorangan, tercatat di setiap baris risiko.",
+  "text": "Pemilik Risiko: sebuah unit, bukan perorangan, tercatat di setiap baris risiko."
+ },
+ {
+  "id": 46,
+  "scene": "s4",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Penanggung Jawab Pengendalian: jabatan yang *berwenang* membangun kontrolnya. Melekat pada rencana pengendalian, bukan pada risikonya.",
+  "display": "Penanggung Jawab Pengendalian: jabatan yang berwenang membangun kontrolnya. Melekat pada rencana pengendalian, bukan pada risikonya.",
+  "text": "Penanggung Jawab Pengendalian: jabatan yang *berwenang* membangun kontrolnya. Melekat pada rencana pengendalian, bukan pada risikonya."
+ },
+ {
+  "id": 47,
+  "scene": "s4",
+  "tokoh": "gadis",
+  "rasa": "jenaka",
+  "markah": "Ketiganya boleh jatuh pada orang yang sama. // Yang tidak boleh: mengisinya sambil menebak.",
+  "display": "Ketiganya boleh jatuh pada orang yang sama. Yang tidak boleh: mengisinya sambil menebak.",
+  "text": "Ketiganya boleh jatuh pada orang yang sama. // Yang tidak boleh: mengisinya sambil menebak."
+ },
+ {
+  "id": 48,
+  "scene": "s5",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Kapan kita berlayar, Pak? Sekali setahun?",
+  "display": "Kapan kita berlayar, Pak? Sekali setahun?",
+  "text": "Kapan kita berlayar, Pak? Sekali setahun?"
+ },
+ {
+  "id": 49,
+  "scene": "s5",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Berulang, mengikuti kalender perencanaan. Seperti jadwal pasang surut.",
+  "display": "Berulang, mengikuti kalender perencanaan. Seperti jadwal pasang surut.",
+  "text": "Berulang, mengikuti kalender perencanaan. Seperti jadwal pasang surut."
+ },
+ {
+  "id": 50,
+  "scene": "s5",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Risiko Strategis Pemda mengikuti RPJMD lima tahunan. Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan Renja dan pagu anggaran.",
+  "display": "Risiko Strategis Pemda mengikuti RPJMD lima tahunan. Risiko Strategis OPD mengikuti Renstra, disinkronkan dengan Renja dan pagu anggaran.",
+  "text": "Risiko Strategis Pemda mengikuti Er-Pe-Je-Em-De lima tahunan. Risiko Strategis O-Pe-De mengikuti Renstra, disinkronkan dengan Renja dan pagu anggaran."
+ },
+ {
+  "id": 51,
+  "scene": "s5",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Risiko Operasional OPD mengikuti Renja dan RKA tahunan, sejak penyusunan RKA sampai DPA ditetapkan.",
+  "display": "Risiko Operasional OPD mengikuti Renja dan RKA tahunan, sejak penyusunan RKA sampai DPA ditetapkan.",
+  "text": "Risiko Operasional O-Pe-De mengikuti Renja dan Er-Ka-A tahunan, sejak penyusunan Er-Ka-A sampai De-Pe-A ditetapkan."
+ },
+ {
+  "id": 52,
+  "scene": "s5",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Laporannya disusun setiap triwulan, dan sekali lagi di akhir tahun.",
+  "display": "Laporannya disusun setiap triwulan, dan sekali lagi di akhir tahun.",
+  "text": "Laporannya disusun setiap triwulan, dan sekali lagi di akhir tahun."
+ },
+ {
+  "id": 53,
+  "scene": "s5",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Arahnya ditetapkan Kepala Daerah lewat Surat Edaran Arahan dan Kebijakan Penilaian Risiko: yang lima tahunan, dan yang tahunan.",
+  "display": "Arahnya ditetapkan Kepala Daerah lewat Surat Edaran Arahan dan Kebijakan Penilaian Risiko: yang lima tahunan, dan yang tahunan.",
+  "text": "Arahnya ditetapkan Kepala Daerah lewat Surat Edaran Arahan dan Kebijakan Penilaian Risiko: yang lima tahunan, dan yang tahunan."
+ },
+ {
+  "id": 54,
+  "scene": "s5",
+  "tokoh": "gadis",
+  "rasa": "jenaka",
+  "markah": "Di Dashboard, jadwalnya tampil sebagai garis waktu. Tenggat yang terlewat, / ditandai merah.",
+  "display": "Di Dashboard, jadwalnya tampil sebagai garis waktu. Tenggat yang terlewat, ditandai merah.",
+  "text": "Di Desbor, jadwalnya tampil sebagai garis waktu. Tenggat yang terlewat, / ditandai merah."
+ },
+ {
+  "id": 55,
+  "scene": "s5",
+  "tokoh": "ardi",
+  "rasa": "cemas",
+  "markah": "Jangan sampai merah.",
+  "display": "Jangan sampai merah.",
+  "text": "Jangan sampai merah."
+ },
+ {
+  "id": 56,
+  "scene": "s6",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Sekarang inti Perdep, Bab Tiga: lima tahap pengelolaan risiko. Bayangkan lima pelampung di jalur pelayaran.",
+  "display": "Sekarang inti Perdep, Bab Tiga: lima tahap pengelolaan risiko. Bayangkan lima pelampung di jalur pelayaran.",
+  "text": "Sekarang inti Perdep, Bab Tiga: lima tahap pengelolaan risiko. Bayangkan lima pelampung di jalur pelayaran."
+ },
+ {
+  "id": 57,
+  "scene": "s6",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Satu, Identifikasi Kelemahan Lingkungan Pengendalian. Dua, Penilaian Risiko. Tiga, Kegiatan Pengendalian. Empat, Informasi dan Komunikasi. Lima, Pemantauan.",
+  "display": "Satu, Identifikasi Kelemahan Lingkungan Pengendalian. Dua, Penilaian Risiko. Tiga, Kegiatan Pengendalian. Empat, Informasi dan Komunikasi. Lima, Pemantauan.",
+  "text": "Satu, Identifikasi Kelemahan Lingkungan Pengendalian. Dua, Penilaian Risiko. Tiga, Kegiatan Pengendalian. Empat, Informasi dan Komunikasi. Lima, Pemantauan."
+ },
+ {
+  "id": 58,
+  "scene": "s6",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Lho, bukan langsung menilai risiko?",
+  "display": "Lho, bukan langsung menilai risiko?",
+  "text": "Lho, bukan langsung menilai risiko?"
+ },
+ {
+  "id": 59,
+  "scene": "s6",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Bukan. // Periksa dulu kapalnya, sebelum berlayar.",
+  "display": "Bukan. Periksa dulu kapalnya, sebelum berlayar.",
+  "text": "Bukan. // Periksa dulu kapalnya, sebelum berlayar."
+ },
+ {
+  "id": 60,
+  "scene": "s6",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Metodenya Control Environment Evaluation, atau CEE. Setiap OPD menilai lingkungan pengendaliannya sendiri.",
+  "display": "Metodenya Control Environment Evaluation, atau CEE. Setiap OPD menilai lingkungan pengendaliannya sendiri.",
+  "text": "Metodenya Kontrol Invaironment Evaluesyen, atau Ce-E-E. Setiap O-Pe-De menilai lingkungan pengendaliannya sendiri."
+ },
+ {
+  "id": 61,
+  "scene": "s6",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Delapan unsur, dijabarkan menjadi 37 pertanyaan di Form 1a, dijawab para pegawainya.",
+  "display": "Delapan unsur, dijabarkan menjadi 37 pertanyaan di Form 1a, dijawab para pegawainya.",
+  "text": "Delapan unsur, dijabarkan menjadi 37 pertanyaan di Form satu A, dijawab para pegawainya."
+ },
+ {
+  "id": 62,
+  "scene": "s6",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Yang dinilai bukan sekadar *ada* atau tidaknya aturan, // tapi apakah aturan itu *dijalankan*.",
+  "display": "Yang dinilai bukan sekadar ada atau tidaknya aturan, tapi apakah aturan itu dijalankan.",
+  "text": "Yang dinilai bukan sekadar *ada* atau tidaknya aturan, // tapi apakah aturan itu *dijalankan*."
+ },
+ {
+  "id": 63,
+  "scene": "s6",
+  "tokoh": "ardi",
+  "rasa": "jenaka",
+  "markah": "Jadi kode etik yang cuma ditempel di dinding, belum dapat nilai sempurna, ya Pak?",
+  "display": "Jadi kode etik yang cuma ditempel di dinding, belum dapat nilai sempurna, ya Pak?",
+  "text": "Jadi kode etik yang cuma ditempel di dinding, belum dapat nilai sempurna, ya Pak?"
+ },
+ {
+  "id": 64,
+  "scene": "s6",
+  "tokoh": "syahbandar",
+  "rasa": "jenaka",
+  "markah": "Tepat.",
+  "display": "Tepat.",
+  "text": "Tepat."
+ },
+ {
+  "id": 65,
+  "scene": "s6",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Form 1b menilai dokumen pendukungnya. Form 1c menyimpulkan setiap unsur: Memadai, / atau Kurang Memadai.",
+  "display": "Form 1b menilai dokumen pendukungnya. Form 1c menyimpulkan setiap unsur: Memadai, atau Kurang Memadai.",
+  "text": "Form satu B menilai dokumen pendukungnya. Form satu C menyimpulkan setiap unsur: Memadai, / atau Kurang Memadai."
+ },
+ {
+  "id": 66,
+  "scene": "s6",
+  "tokoh": "gadis",
+  "rasa": "tegas",
+  "markah": "Unsur yang Kurang Memadai wajib punya rencana perbaikan, di Form 1d.",
+  "display": "Unsur yang Kurang Memadai wajib punya rencana perbaikan, di Form 1d.",
+  "text": "Unsur yang Kurang Memadai wajib punya rencana perbaikan, di Form satu D."
+ },
+ {
+  "id": 67,
+  "scene": "s6",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Menilai risiko tanpa memeriksa lingkungan pengendalian, // sama saja dengan berlayar memakai lambung yang bocor.",
+  "display": "Menilai risiko tanpa memeriksa lingkungan pengendalian, sama saja dengan berlayar memakai lambung yang bocor.",
+  "text": "Menilai risiko tanpa memeriksa lingkungan pengendalian, // sama saja dengan berlayar memakai lambung yang bocor."
+ },
+ {
+  "id": 68,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Pelampung kedua, Penilaian Risiko. Tiga langkah: tetapkan konteks, kenali risikonya, lalu ukur.",
+  "display": "Pelampung kedua, Penilaian Risiko. Tiga langkah: tetapkan konteks, kenali risikonya, lalu ukur.",
+  "text": "Pelampung kedua, Penilaian Risiko. Tiga langkah: tetapkan konteks, kenali risikonya, lalu ukur."
+ },
+ {
+  "id": 69,
+  "scene": "s7",
+  "tokoh": "gadis",
+  "rasa": "heran",
+  "markah": "Konteks itu apa, Pak?",
+  "display": "Konteks itu apa, Pak?",
+  "text": "Konteks itu apa, Pak?"
+ },
+ {
+  "id": 70,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Jawaban atas satu pertanyaan: tujuan mana yang sedang kita lindungi? // Ada tiga ketinggian.",
+  "display": "Jawaban atas satu pertanyaan: tujuan mana yang sedang kita lindungi? Ada tiga ketinggian.",
+  "text": "Jawaban atas satu pertanyaan: tujuan mana yang sedang kita lindungi? // Ada tiga ketinggian."
+ },
+ {
+  "id": 71,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Strategis Pemda bersumber dari RPJMD. Strategis OPD dari Renstra. Operasional OPD dari Renja dan RKA.",
+  "display": "Strategis Pemda bersumber dari RPJMD. Strategis OPD dari Renstra. Operasional OPD dari Renja dan RKA.",
+  "text": "Strategis Pemda bersumber dari Er-Pe-Je-Em-De. Strategis O-Pe-De dari Renstra. Operasional O-Pe-De dari Renja dan Er-Ka-A."
+ },
+ {
+  "id": 72,
+  "scene": "s7",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Semuanya tertaut dalam satu pohon: Visi, Misi, Tujuan, Sasaran, sampai Kegiatan.",
+  "display": "Semuanya tertaut dalam satu pohon: Visi, Misi, Tujuan, Sasaran, sampai Kegiatan.",
+  "text": "Semuanya tertaut dalam satu pohon: Visi, Misi, Tujuan, Sasaran, sampai Kegiatan."
+ },
+ {
+  "id": 73,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Lalu langkah yang paling sering keliru: / menuliskan risikonya.",
+  "display": "Lalu langkah yang paling sering keliru: menuliskan risikonya.",
+  "text": "Lalu langkah yang paling sering keliru: / menuliskan risikonya."
+ },
+ {
+  "id": 74,
+  "scene": "s7",
+  "tokoh": "ardi",
+  "rasa": "semangat",
+  "markah": "Gampang! Risikonya: anggaran tidak mencukupi!",
+  "display": "Gampang! Risikonya: anggaran tidak mencukupi!",
+  "text": "Gampang! Risikonya: anggaran tidak mencukupi!"
+ },
+ {
+  "id": 75,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Itu bukan risiko. // Itu *penyebab*.",
+  "display": "Itu bukan risiko. Itu penyebab.",
+  "text": "Itu bukan risiko. // Itu *penyebab*."
+ },
+ {
+  "id": 76,
+  "scene": "s7",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Kalau opini laporan keuangan turun?",
+  "display": "Kalau opini laporan keuangan turun?",
+  "text": "Kalau opini laporan keuangan turun?"
+ },
+ {
+  "id": 77,
+  "scene": "s7",
+  "tokoh": "gadis",
+  "rasa": "jenaka",
+  "markah": "Itu juga bukan, Ardi. // Itu *dampak*.",
+  "display": "Itu juga bukan, Ardi. Itu dampak.",
+  "text": "Itu juga bukan, Ardi. // Itu *dampak*."
+ },
+ {
+  "id": 78,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Risiko adalah kejadian di antara keduanya. // Karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.",
+  "display": "Risiko adalah kejadian di antara keduanya. Karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak.",
+  "text": "Risiko adalah kejadian di antara keduanya. // Karena penyebab, mungkin terjadi risiko, sehingga menimbulkan dampak."
+ },
+ {
+  "id": 79,
+  "scene": "s7",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.",
+  "display": "Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun.",
+  "text": "Karena anggaran tidak mencukupi, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga opini laporan keuangan turun."
+ },
+ {
+  "id": 80,
+  "scene": "s7",
+  "tokoh": "ardi",
+  "rasa": "riang",
+  "markah": "Ooh. Sekarang saya paham.",
+  "display": "Ooh. Sekarang saya paham.",
+  "text": "Ooh. Sekarang saya paham."
+ },
+ {
+  "id": 81,
+  "scene": "s7",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Penyebabnya diklasifikasikan: internal dengan kerangka 7M-1E, eksternal dengan PESTLE. Lalu ditandai: masih dalam kendali, Controllable, / atau di luar kendali, Uncontrollable.",
+  "display": "Penyebabnya diklasifikasikan: internal dengan kerangka 7M-1E, eksternal dengan PESTLE. Lalu ditandai: masih dalam kendali, Controllable, atau di luar kendali, Uncontrollable.",
+  "text": "Penyebabnya diklasifikasikan: internal dengan kerangka tujuh Em satu E, eksternal dengan Pestel. Lalu ditandai: masih dalam kendali, Kontrolebel, / atau di luar kendali, Ankontrolebel."
+ },
+ {
+  "id": 82,
+  "scene": "s8",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Langkah ketiga: ukur ombaknya, pada dua sumbu. Dampak, dan kemungkinan, masing-masing satu sampai lima.",
+  "display": "Langkah ketiga: ukur ombaknya, pada dua sumbu. Dampak, dan kemungkinan, masing-masing satu sampai lima.",
+  "text": "Langkah ketiga: ukur ombaknya, pada dua sumbu. Dampak, dan kemungkinan, masing-masing satu sampai lima."
+ },
+ {
+  "id": 83,
+  "scene": "s8",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Di MR Kabar, isi dulu Existing Control: apakah sudah ada pengendalian yang berjalan?",
+  "display": "Di MR Kabar, isi dulu Existing Control: apakah sudah ada pengendalian yang berjalan?",
+  "text": "Di Em-Er Kabar, isi dulu Eksisting Kontrol: apakah sudah ada pengendalian yang berjalan?"
+ },
+ {
+  "id": 84,
+  "scene": "s8",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Lalu pilih level Kemungkinan dan Dampak langsung dari tabel kriteria. // Tidak ada angka yang diketik.",
+  "display": "Lalu pilih level Kemungkinan dan Dampak langsung dari tabel kriteria. Tidak ada angka yang diketik.",
+  "text": "Lalu pilih level Kemungkinan dan Dampak langsung dari tabel kriteria. // Tidak ada angka yang diketik."
+ },
+ {
+  "id": 85,
+  "scene": "s8",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Belum ada pengendalian? Pilihan itu sekaligus menjadi skala Inheren dan Residual.",
+  "display": "Belum ada pengendalian? Pilihan itu sekaligus menjadi skala Inheren dan Residual.",
+  "text": "Belum ada pengendalian? Pilihan itu sekaligus menjadi skala Inheren dan Residual."
+ },
+ {
+  "id": 86,
+  "scene": "s8",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Sudah ada? Pilihan itu menjadi Residual, dan Inherennya diisi lewat tombol Isi Nilai Risiko, di matriks lima kali lima.",
+  "display": "Sudah ada? Pilihan itu menjadi Residual, dan Inherennya diisi lewat tombol Isi Nilai Risiko, di matriks lima kali lima.",
+  "text": "Sudah ada? Pilihan itu menjadi Residual, dan Inherennya diisi lewat tombol Isi Nilai Risiko, di matriks lima kali lima."
+ },
+ {
+  "id": 87,
+  "scene": "s8",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Matriksnya dampak dikali kemungkinan, kan?",
+  "display": "Matriksnya dampak dikali kemungkinan, kan?",
+  "text": "Matriksnya dampak dikali kemungkinan, kan?"
+ },
+ {
+  "id": 88,
+  "scene": "s8",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "*Bukan* perkalian. // Lihat.",
+  "display": "Bukan perkalian. Lihat.",
+  "text": "*Bukan* perkalian. // Lihat."
+ },
+ {
+  "id": 89,
+  "scene": "s8",
+  "tokoh": "gadis",
+  "rasa": "kaget",
+  "markah": "Dampak lima, kemungkinan satu: dua puluh. // Dampak satu, kemungkinan lima: hanya sembilan!",
+  "display": "Dampak lima, kemungkinan satu: dua puluh. Dampak satu, kemungkinan lima: hanya sembilan!",
+  "text": "Dampak lima, kemungkinan satu: dua puluh. // Dampak satu, kemungkinan lima: hanya sembilan!"
+ },
+ {
+  "id": 90,
+  "scene": "s8",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Matriks ini sengaja memberi bobot lebih pada dampak. Kejadian langka yang dampaknya besar tetap diperlakukan sebagai risiko serius.",
+  "display": "Matriks ini sengaja memberi bobot lebih pada dampak. Kejadian langka yang dampaknya besar tetap diperlakukan sebagai risiko serius.",
+  "text": "Matriks ini sengaja memberi bobot lebih pada dampak. Kejadian langka yang dampaknya besar tetap diperlakukan sebagai risiko serius."
+ },
+ {
+  "id": 91,
+  "scene": "s8",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Hasilnya lima warna: Sangat Tinggi merah, Tinggi oranye, Sedang kuning, Rendah hijau, Sangat Rendah biru.",
+  "display": "Hasilnya lima warna: Sangat Tinggi merah, Tinggi oranye, Sedang kuning, Rendah hijau, Sangat Rendah biru.",
+  "text": "Hasilnya lima warna: Sangat Tinggi merah, Tinggi oranye, Sedang kuning, Rendah hijau, Sangat Rendah biru."
+ },
+ {
+  "id": 92,
+  "scene": "s8",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Lalu, sampai mana yang masih boleh diterima?",
+  "display": "Lalu, sampai mana yang masih boleh diterima?",
+  "text": "Lalu, sampai mana yang masih boleh diterima?"
+ },
+ {
+  "id": 93,
+  "scene": "s8",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Bukan aplikasi yang memutuskan. // Pemerintah Daerah sendiri yang menetapkan: *Selera Risiko*. Setelan Aceh Barat saat ini, diterima sampai dengan Sedang.",
+  "display": "Bukan aplikasi yang memutuskan. Pemerintah Daerah sendiri yang menetapkan: Selera Risiko. Setelan Aceh Barat saat ini, diterima sampai dengan Sedang.",
+  "text": "Bukan aplikasi yang memutuskan. // Pemerintah Daerah sendiri yang menetapkan: *Selera Risiko*. Setelan Aceh Barat saat ini, diterima sampai dengan Sedang."
+ },
+ {
+  "id": 94,
+  "scene": "s8",
+  "tokoh": "gadis",
+  "rasa": "tegas",
+  "markah": "Di atas garis itu, Tinggi dan Sangat Tinggi, wajib punya Rencana Tindak Pengendalian, dan masuk Daftar Risiko Prioritas.",
+  "display": "Di atas garis itu, Tinggi dan Sangat Tinggi, wajib punya Rencana Tindak Pengendalian, dan masuk Daftar Risiko Prioritas.",
+  "text": "Di atas garis itu, Tinggi dan Sangat Tinggi, wajib punya Rencana Tindak Pengendalian, dan masuk Daftar Risiko Prioritas."
+ },
+ {
+  "id": 95,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "semangat",
+  "markah": "Pelampung ketiga, Kegiatan Pengendalian. // Saatnya mengatur layar, lewat Rencana Tindak Pengendalian, atau RTP.",
+  "display": "Pelampung ketiga, Kegiatan Pengendalian. Saatnya mengatur layar, lewat Rencana Tindak Pengendalian, atau RTP.",
+  "text": "Pelampung ketiga, Kegiatan Pengendalian. // Saatnya mengatur layar, lewat Rencana Tindak Pengendalian, atau Er-Te-Pe."
+ },
+ {
+  "id": 96,
+  "scene": "s9",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Lima pilihan respons. Mudah diingat: A-A-M-S-A.",
+  "display": "Lima pilihan respons. Mudah diingat: A-A-M-S-A.",
+  "text": "Lima pilihan respons. Mudah diingat: A, A, Em, Es, A."
+ },
+ {
+  "id": 97,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Avoid, hindari kegiatan berisikonya. Abate, tekan *kemungkinannya*. Mitigate, kurangi *dampaknya*. Share, bagi risikonya lewat asuransi atau kemitraan. Dan Accept, terima sisanya, sebagai pilihan terakhir.",
+  "display": "Avoid, hindari kegiatan berisikonya. Abate, tekan kemungkinannya. Mitigate, kurangi dampaknya. Share, bagi risikonya lewat asuransi atau kemitraan. Dan Accept, terima sisanya, sebagai pilihan terakhir.",
+  "text": "Evoid, hindari kegiatan berisikonya. Ebeit, tekan *kemungkinannya*. Mitigeit, kurangi *dampaknya*. Syer, bagi risikonya lewat asuransi atau kemitraan. Dan Eksept, terima sisanya, sebagai pilihan terakhir."
+ },
+ {
+  "id": 98,
+  "scene": "s9",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Kalau risikonya di luar kendali kita?",
+  "display": "Kalau risikonya di luar kendali kita?",
+  "text": "Kalau risikonya di luar kendali kita?"
+ },
+ {
+  "id": 99,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Yang Uncontrollable praktis hanya punya dua pilihan: Share, / atau Accept.",
+  "display": "Yang Uncontrollable praktis hanya punya dua pilihan: Share, atau Accept.",
+  "text": "Yang Ankontrolebel praktis hanya punya dua pilihan: Syer, / atau Eksept."
+ },
+ {
+  "id": 100,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Setiap rencana wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang. // Kontrol berupa peraturan kepala daerah tidak bisa dibebankan kepada pejabat setingkat seksi.",
+  "display": "Setiap rencana wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang. Kontrol berupa peraturan kepala daerah tidak bisa dibebankan kepada pejabat setingkat seksi.",
+  "text": "Setiap rencana wajib punya Penanggung Jawab Pengendalian: jabatan yang benar-benar berwenang. // Kontrol berupa peraturan kepala daerah tidak bisa dibebankan kepada pejabat setingkat seksi."
+ },
+ {
+  "id": 101,
+  "scene": "s9",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Lalu empat titik skor untuk setiap risiko.",
+  "display": "Lalu empat titik skor untuk setiap risiko.",
+  "text": "Lalu empat titik skor untuk setiap risiko."
+ },
+ {
+  "id": 102,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Inheren, sebelum ada pengendalian apa pun. Residual, keadaan sekarang, setelah pengendalian yang sudah berjalan. Target, yang ingin dicapai RTP. Dan Aktual, hasil nyatanya di lapangan.",
+  "display": "Inheren, sebelum ada pengendalian apa pun. Residual, keadaan sekarang, setelah pengendalian yang sudah berjalan. Target, yang ingin dicapai RTP. Dan Aktual, hasil nyatanya di lapangan.",
+  "text": "Inheren, sebelum ada pengendalian apa pun. Residual, keadaan sekarang, setelah pengendalian yang sudah berjalan. Target, yang ingin dicapai Er-Te-Pe. Dan Aktual, hasil nyatanya di lapangan."
+ },
+ {
+  "id": 103,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Efektivitasnya dinilai empat tingkat, dari Tidak Efektif sampai Efektif. Kalau kurang, MR Kabar menanyakan celahnya.",
+  "display": "Efektivitasnya dinilai empat tingkat, dari Tidak Efektif sampai Efektif. Kalau kurang, MR Kabar menanyakan celahnya.",
+  "text": "Efektivitasnya dinilai empat tingkat, dari Tidak Efektif sampai Efektif. Kalau kurang, Em-Er Kabar menanyakan celahnya."
+ },
+ {
+  "id": 104,
+  "scene": "s9",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Sebelum ditetapkan, rancangan pengendalian diuji coba dulu dalam lingkup kecil, seperti mencoba layar baru di teluk. // Hasilnya dicatat di Form 9.",
+  "display": "Sebelum ditetapkan, rancangan pengendalian diuji coba dulu dalam lingkup kecil, seperti mencoba layar baru di teluk. Hasilnya dicatat di Form 9.",
+  "text": "Sebelum ditetapkan, rancangan pengendalian diuji coba dulu dalam lingkup kecil, seperti mencoba layar baru di teluk. // Hasilnya dicatat di Form 9."
+ },
+ {
+  "id": 105,
+  "scene": "s10",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Pelampung keempat, Informasi dan Komunikasi. Hasilnya tidak boleh berhenti di dalam folder.",
+  "display": "Pelampung keempat, Informasi dan Komunikasi. Hasilnya tidak boleh berhenti di dalam folder.",
+  "text": "Pelampung keempat, Informasi dan Komunikasi. Hasilnya tidak boleh berhenti di dalam folder."
+ },
+ {
+  "id": 106,
+  "scene": "s10",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Form 8 mencatat cara pengendalian dikomunikasikan: lewat media apa, dari siapa, kepada siapa, dan kapan.",
+  "display": "Form 8 mencatat cara pengendalian dikomunikasikan: lewat media apa, dari siapa, kepada siapa, dan kapan.",
+  "text": "Form 8 mencatat cara pengendalian dikomunikasikan: lewat media apa, dari siapa, kepada siapa, dan kapan."
+ },
+ {
+  "id": 107,
+  "scene": "s10",
+  "tokoh": "syahbandar",
+  "rasa": "bangga",
+  "markah": "Form Cetak MR Kabar menghasilkan empat belas dokumen resmi siap tanda tangan, ditambah bagan struktur pengelolaan risiko.",
+  "display": "Form Cetak MR Kabar menghasilkan empat belas dokumen resmi siap tanda tangan, ditambah bagan struktur pengelolaan risiko.",
+  "text": "Form Cetak Em-Er Kabar menghasilkan empat belas dokumen resmi siap tanda tangan, ditambah bagan struktur pengelolaan risiko."
+ },
+ {
+  "id": 108,
+  "scene": "s10",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Pelampung kelima, Pemantauan: buku harian kapal. Form 9 mencatat pemantauan dan realisasinya, berikut Skala Aktual. Form 10, kejadian risiko yang *sudah* terjadi.",
+  "display": "Pelampung kelima, Pemantauan: buku harian kapal. Form 9 mencatat pemantauan dan realisasinya, berikut Skala Aktual. Form 10, kejadian risiko yang sudah terjadi.",
+  "text": "Pelampung kelima, Pemantauan: buku harian kapal. Form 9 mencatat pemantauan dan realisasinya, berikut Skala Aktual. Form 10, kejadian risiko yang *sudah* terjadi."
+ },
+ {
+  "id": 109,
+  "scene": "s10",
+  "tokoh": "udin",
+  "rasa": "cemas",
+  "markah": "Pak! Atap gudang arsip bocor, dokumennya basah. Tapi saya tidak punya akun...",
+  "display": "Pak! Atap gudang arsip bocor, dokumennya basah. Tapi saya tidak punya akun...",
+  "text": "Pak! Atap gudang arsip bocor, dokumennya basah. Tapi saya tidak punya akun..."
+ },
+ {
+  "id": 110,
+  "scene": "s10",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Tidak perlu akun, Pak Udin. Pindai kode QR Lapor itu, tulis nama lengkap, pilih Perangkat Daerahnya, ceritakan kejadiannya.",
+  "display": "Tidak perlu akun, Pak Udin. Pindai kode QR Lapor itu, tulis nama lengkap, pilih Perangkat Daerahnya, ceritakan kejadiannya.",
+  "text": "Tidak perlu akun, Pak Udin. Pindai kode Kiu-Ar Lapor itu, tulis nama lengkap, pilih Perangkat Daerahnya, ceritakan kejadiannya."
+ },
+ {
+  "id": 111,
+  "scene": "s10",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Laporannya langsung sampai ke admin, dan ke Perangkat Daerah yang dipilih.",
+  "display": "Laporannya langsung sampai ke admin, dan ke Perangkat Daerah yang dipilih.",
+  "text": "Laporannya langsung sampai ke admin, dan ke Perangkat Daerah yang dipilih."
+ },
+ {
+  "id": 112,
+  "scene": "s10",
+  "tokoh": "ardi",
+  "rasa": "heran",
+  "markah": "Kalau ada yang *sengaja*, Pak?",
+  "display": "Kalau ada yang sengaja, Pak?",
+  "text": "Kalau ada yang *sengaja*, Pak?"
+ },
+ {
+  "id": 113,
+  "scene": "s10",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Itu lain soal. // Kejadian risiko terjadi tanpa niat: petir menyambar server, atap bocor. Kecurangan selalu punya niat.",
+  "display": "Itu lain soal. Kejadian risiko terjadi tanpa niat: petir menyambar server, atap bocor. Kecurangan selalu punya niat.",
+  "text": "Itu lain soal. // Kejadian risiko terjadi tanpa niat: petir menyambar server, atap bocor. Kecurangan selalu punya niat."
+ },
+ {
+  "id": 114,
+  "scene": "s10",
+  "tokoh": "syahbandar",
+  "rasa": "tegas",
+  "markah": "Untuk itu ada pintu tersendiri: Dugaan Kecurangan. Boleh tanpa nama.",
+  "display": "Untuk itu ada pintu tersendiri: Dugaan Kecurangan. Boleh tanpa nama.",
+  "text": "Untuk itu ada pintu tersendiri: Dugaan Kecurangan. Boleh tanpa nama."
+ },
+ {
+  "id": 115,
+  "scene": "s10",
+  "tokoh": "gadis",
+  "rasa": "serius",
+  "markah": "Layar menampilkan nomor tiket dan kode akses. // Catat keduanya. Kode akses hanya muncul *sekali*.",
+  "display": "Layar menampilkan nomor tiket dan kode akses. Catat keduanya. Kode akses hanya muncul sekali.",
+  "text": "Layar menampilkan nomor tiket dan kode akses. // Catat keduanya. Kode akses hanya muncul *sekali*."
+ },
+ {
+  "id": 116,
+  "scene": "s10",
+  "tokoh": "mercusuar",
+  "rasa": "tenang",
+  "markah": "Menurut segitiga kecurangan Donald Cressey, kecurangan lahir saat tiga hal bertemu: tekanan, kesempatan, dan rasionalisasi. // Yang paling bisa ditutup organisasi: *kesempatan*.",
+  "display": "Menurut segitiga kecurangan Donald Cressey, kecurangan lahir saat tiga hal bertemu: tekanan, kesempatan, dan rasionalisasi. Yang paling bisa ditutup organisasi: kesempatan.",
+  "text": "Menurut segitiga kecurangan Donald Kresi, kecurangan lahir saat tiga hal bertemu: tekanan, kesempatan, dan rasionalisasi. // Yang paling bisa ditutup organisasi: *kesempatan*."
+ },
+ {
+  "id": 117,
+  "scene": "s10",
+  "tokoh": "gadis",
+  "rasa": "tegas",
+  "markah": "Hadiah karena jabatan, sekalipun dibungkus ucapan terima kasih, adalah gratifikasi. Wajib dilaporkan ke KPK paling lambat tiga puluh hari kerja.",
+  "display": "Hadiah karena jabatan, sekalipun dibungkus ucapan terima kasih, adalah gratifikasi. Wajib dilaporkan ke KPK paling lambat tiga puluh hari kerja.",
+  "text": "Hadiah karena jabatan, sekalipun dibungkus ucapan terima kasih, adalah gratifikasi. Wajib dilaporkan ke Ka-Pe-Ka paling lambat tiga puluh hari kerja."
+ },
+ {
+  "id": 118,
+  "scene": "s11",
+  "tokoh": "gadis",
+  "rasa": "semangat",
+  "markah": "Sekarang, mari ikuti satu risiko, dari awal sampai akhir.",
+  "display": "Sekarang, mari ikuti satu risiko, dari awal sampai akhir.",
+  "text": "Sekarang, mari ikuti satu risiko, dari awal sampai akhir."
+ },
+ {
+  "id": 119,
+  "scene": "s11",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Dinas Kelautan dan Perikanan membangun tempat pendaratan ikan.",
+  "display": "Dinas Kelautan dan Perikanan membangun tempat pendaratan ikan.",
+  "text": "Dinas Kelautan dan Perikanan membangun tempat pendaratan ikan."
+ },
+ {
+  "id": 120,
+  "scene": "s11",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Risikonya: karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.",
+  "display": "Risikonya: karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai.",
+  "text": "Risikonya: karena lokasi pembangunan belum tuntas dibebaskan, mungkin terjadi keterlambatan penyelesaian pekerjaan fisik, sehingga target produksi perikanan tidak tercapai."
+ },
+ {
+  "id": 121,
+  "scene": "s11",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Penyebabnya eksternal, kategori Legal. Uncontrollable, karena pembebasan lahan bukan kewenangan dinas itu sendiri.",
+  "display": "Penyebabnya eksternal, kategori Legal. Uncontrollable, karena pembebasan lahan bukan kewenangan dinas itu sendiri.",
+  "text": "Penyebabnya eksternal, kategori Ligel. Ankontrolebel, karena pembebasan lahan bukan kewenangan dinas itu sendiri."
+ },
+ {
+  "id": 122,
+  "scene": "s11",
+  "tokoh": "ardi",
+  "rasa": "cemas",
+  "markah": "Dampak empat, kemungkinan tiga: tujuh belas. Tinggi! // Melampaui selera.",
+  "display": "Dampak empat, kemungkinan tiga: tujuh belas. Tinggi! Melampaui selera.",
+  "text": "Dampak empat, kemungkinan tiga: tujuh belas. Tinggi! // Melampaui selera."
+ },
+ {
+  "id": 123,
+  "scene": "s11",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya, Sekretaris Dinas.",
+  "display": "Karena Uncontrollable, responsnya Share: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya, Sekretaris Dinas.",
+  "text": "Karena Ankontrolebel, responsnya Syer: koordinasi resmi dengan panitia pengadaan tanah, dituangkan dalam perjanjian kerja sama. Penanggung Jawab Pengendaliannya, Sekretaris Dinas."
+ },
+ {
+  "id": 124,
+  "scene": "s11",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Skala Target tiga belas, turun ke Sedang. // Setiap triwulan realisasinya dicatat. Skala Aktualnya, misalnya, / empat belas.",
+  "display": "Skala Target tiga belas, turun ke Sedang. Setiap triwulan realisasinya dicatat. Skala Aktualnya, misalnya, empat belas.",
+  "text": "Skala Target tiga belas, turun ke Sedang. // Setiap triwulan realisasinya dicatat. Skala Aktualnya, misalnya, / empat belas."
+ },
+ {
+  "id": 125,
+  "scene": "s11",
+  "tokoh": "ardi",
+  "rasa": "kecewa",
+  "markah": "Yah, meleset satu.",
+  "display": "Yah, meleset satu.",
+  "text": "Yah, meleset satu."
+ },
+ {
+  "id": 126,
+  "scene": "s11",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Selisih satu itu bukan kegagalan, Nak. // Justru itulah informasi yang dicari: rencananya hampir tepat.",
+  "display": "Selisih satu itu bukan kegagalan, Nak. Justru itulah informasi yang dicari: rencananya hampir tepat.",
+  "text": "Selisih satu itu bukan kegagalan, Nak. // Justru itulah informasi yang dicari: rencananya hampir tepat."
+ },
+ {
+  "id": 127,
+  "scene": "s11",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Semuanya bermuara ke empat laporan wajib. Form 11, pelaksanaan penilaian risiko. Form 12, laporan berkala UPR. Form 13, pemantauan Unit Kepatuhan. Dan Form 14, pembinaan Komite Pengelolaan Risiko.",
+  "display": "Semuanya bermuara ke empat laporan wajib. Form 11, pelaksanaan penilaian risiko. Form 12, laporan berkala UPR. Form 13, pemantauan Unit Kepatuhan. Dan Form 14, pembinaan Komite Pengelolaan Risiko.",
+  "text": "Semuanya bermuara ke empat laporan wajib. Form 11, pelaksanaan penilaian risiko. Form 12, laporan berkala U-Pe-Er. Form 13, pemantauan Unit Kepatuhan. Dan Form 14, pembinaan Komite Pengelolaan Risiko."
+ },
+ {
+  "id": 128,
+  "scene": "s11",
+  "tokoh": "gadis",
+  "rasa": "bangga",
+  "markah": "Dan satu baris risiko itu ikut menyusun gambar besar di anjungan: Dashboard MR Kabar.",
+  "display": "Dan satu baris risiko itu ikut menyusun gambar besar di anjungan: Dashboard MR Kabar.",
+  "text": "Dan satu baris risiko itu ikut menyusun gambar besar di anjungan: Desbor Em-Er Kabar."
+ },
+ {
+  "id": 129,
+  "scene": "s11",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Peta risiko dengan garis Selera Risiko, Daftar Risiko Prioritas, ranking eksposur antar OPD, sampai kepatuhan pelaporan.",
+  "display": "Peta risiko dengan garis Selera Risiko, Daftar Risiko Prioritas, ranking eksposur antar OPD, sampai kepatuhan pelaporan.",
+  "text": "Peta risiko dengan garis Selera Risiko, Daftar Risiko Prioritas, ranking eksposur antar O-Pe-De, sampai kepatuhan pelaporan."
+ },
+ {
+  "id": 130,
+  "scene": "s12",
+  "tokoh": "badai",
+  "rasa": "mengejek",
+  "markah": "Hahaha! Aku kembali!",
+  "display": "Hahaha! Aku kembali!",
+  "text": "Hahaha! Aku kembali!"
+ },
+ {
+  "id": 131,
+  "scene": "s12",
+  "tokoh": "ardi",
+  "rasa": "tenang",
+  "markah": "Kami sudah siap. Petanya sudah dibaca, layarnya sudah diatur.",
+  "display": "Kami sudah siap. Petanya sudah dibaca, layarnya sudah diatur.",
+  "text": "Kami sudah siap. Petanya sudah dibaca, layarnya sudah diatur."
+ },
+ {
+  "id": 132,
+  "scene": "s12",
+  "tokoh": "gadis",
+  "rasa": "semangat",
+  "markah": "Dan mercusuar menyala!",
+  "display": "Dan mercusuar menyala!",
+  "text": "Dan mercusuar menyala!"
+ },
+ {
+  "id": 133,
+  "scene": "s12",
+  "tokoh": "badai",
+  "rasa": "kesal",
+  "markah": "Hmph. Kalian membosankan.",
+  "display": "Hmph. Kalian membosankan.",
+  "text": "Hmm. Kalian membosankan."
+ },
+ {
+  "id": 134,
+  "scene": "s12",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Lalu, apa pelajarannya buat kita?",
+  "display": "Lalu, apa pelajarannya buat kita?",
+  "text": "Lalu, apa pelajarannya buat kita?"
+ },
+ {
+  "id": 135,
+  "scene": "s12",
+  "tokoh": "syahbandar",
+  "rasa": "serius",
+  "markah": "Pertama. Risiko bukan untuk ditakuti, tapi untuk dikenali. // Yang paling berbahaya adalah risiko yang tidak pernah ditulis.",
+  "display": "Pertama. Risiko bukan untuk ditakuti, tapi untuk dikenali. Yang paling berbahaya adalah risiko yang tidak pernah ditulis.",
+  "text": "Pertama. Risiko bukan untuk ditakuti, tapi untuk dikenali. // Yang paling berbahaya adalah risiko yang tidak pernah ditulis."
+ },
+ {
+  "id": 136,
+  "scene": "s12",
+  "tokoh": "gadis",
+  "rasa": "tenang",
+  "markah": "Kedua. Pengendalian bukan dokumen, tapi tindakan. Dirancang, diuji, dipantau, / lalu diperbaiki.",
+  "display": "Kedua. Pengendalian bukan dokumen, tapi tindakan. Dirancang, diuji, dipantau, lalu diperbaiki.",
+  "text": "Kedua. Pengendalian bukan dokumen, tapi tindakan. Dirancang, diuji, dipantau, / lalu diperbaiki."
+ },
+ {
+  "id": 137,
+  "scene": "s12",
+  "tokoh": "ardi",
+  "rasa": "semangat",
+  "markah": "Ketiga. Satu alur data, dari Visi kabupaten sampai satu baris risiko, membuat janji RPJMD bisa benar-benar ditepati.",
+  "display": "Ketiga. Satu alur data, dari Visi kabupaten sampai satu baris risiko, membuat janji RPJMD bisa benar-benar ditepati.",
+  "text": "Ketiga. Satu alur data, dari Visi kabupaten sampai satu baris risiko, membuat janji Er-Pe-Je-Em-De bisa benar-benar ditepati."
+ },
+ {
+  "id": 138,
+  "scene": "s12",
+  "tokoh": "gadis",
+  "rasa": "riang",
+  "markah": "Langkah pertama hari ini: lengkapi Data Umum, isi CEE, susun konteks di KRS, lalu catat risiko pertama Anda. Panduannya ada di menu Panduan.",
+  "display": "Langkah pertama hari ini: lengkapi Data Umum, isi CEE, susun konteks di KRS, lalu catat risiko pertama Anda. Panduannya ada di menu Panduan.",
+  "text": "Langkah pertama hari ini: lengkapi Data Umum, isi Ce-E-E, susun konteks di Ka-Er-Es, lalu catat risiko pertama Anda. Panduannya ada di menu Panduan."
+ },
+ {
+  "id": 139,
+  "scene": "s12",
+  "tokoh": "syahbandar",
+  "rasa": "tenang",
+  "markah": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi PPKD Nomor 4 Tahun 2019.",
+  "display": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi PPKD Nomor 4 Tahun 2019.",
+  "text": "Video ini disusun Inspektorat Kabupaten Aceh Barat sebagai bahan sosialisasi manajemen risiko, mengacu pada Peraturan Deputi Pe-Pe-Ka-De Nomor 4 Tahun 2019."
+ },
+ {
+  "id": 140,
+  "scene": "s12",
+  "tokoh": "syahbandar",
+  "rasa": "hangat",
+  "markah": "Laut memang tidak pernah benar-benar tenang. /// Tapi kapal yang membaca petanya, // selalu pulang.",
+  "display": "Laut memang tidak pernah benar-benar tenang. Tapi kapal yang membaca petanya, selalu pulang.",
+  "text": "Laut memang tidak pernah benar-benar tenang. /// Tapi kapal yang membaca petanya, // selalu pulang."
+ },
+ {
+  "id": 141,
+  "scene": "s12",
+  "tokoh": "gadis",
+  "rasa": "bangga",
+  "markah": "MR Kabar. // Risiko TerKabar, Daerah Terjaga.",
+  "display": "MR Kabar. Risiko TerKabar, Daerah Terjaga.",
+  "text": "Em-Er Kabar. // Risiko terkabar, Daerah Terjaga."
+ },
+ {
+  "id": 142,
+  "scene": "s12",
+  "tokoh": "ardi",
+  "rasa": "tenang",
+  "markah": "Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.",
+  "display": "Copyright © 2026, System Architecture & Development by Nurhikmat Muhammad, Inspektorat Aceh Barat.",
+  "text": "Kopirait 2026, Sistem Arkitekcer en Divelopmen bai Nurhikmat Muhammad, Inspektorat Aceh Barat."
+ }
+]

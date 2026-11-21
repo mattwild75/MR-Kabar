@@ -58,3 +58,19 @@ fraud/v2/fonts/
 fraud/v2/smoke/
 fraud/v2/isyarat.json
 fraud/v2/ikon.json
+
+# v7 (paper cut): aset disalin/diambil ulang (huruf & foto dari v6, logo dari
+# public/img, tangkapan layar lewat ambil_layar.cjs), frame uji, potongan
+# render, isyarat bunyi & berkas antara.
+v7/aset/fonts/
+v7/aset/foto/*.jpg
+v7/aset/layar/
+v7/uji/
+v7/potongan/
+v7/_pratinjau/
+v7/isyarat.json
+v7/lembar.html
+v7/papan_cerita.html
+v7/perkiraan_durasi.json
+v7/suara_log.txt
+v7/pasang_log.txt
