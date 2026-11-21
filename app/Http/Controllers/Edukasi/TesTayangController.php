@@ -34,15 +34,12 @@ class TesTayangController extends Controller
     {
         TesKelolaController::pastikanAdmin($request);
         $sesi->load('pelatihan');
-        $video = TesVideo::where('jenis', $sesi->jenis)->first();
+        $video = TesVideo::untuk($sesi->jenis);
 
         return Inertia::render('edukasi/Tayang', [
             'sesi' => $this->infoSesi($sesi) + ['token' => $sesi->token],
             'soal' => $this->daftarSoal($sesi->jenis),
-            'video' => $video?->berkas ? [
-                'url' => '/edukasi/kelola/video/'.$sesi->jenis.'/putar?v='.$video->updated_at?->timestamp,
-                'isyarat' => $video->isyarat ?? [],
-            ] : null,
+            'video' => $video ? ['url' => $video['url'], 'isyarat' => $video['isyarat']] : null,
             'urlPeserta' => url('/edukasi/tes'),
         ]);
     }

@@ -289,7 +289,7 @@ class TesKelolaController extends Controller
         }
         $video?->delete();
 
-        return back()->with('success', 'Video dihapus; layar tayang kembali memakai kartu soal.');
+        return back()->with('success', TesVideo::untuk($jenis) ? 'Video unggahan dihapus; layar tayang kembali memakai film bawaan aplikasi.' : 'Video dihapus; layar tayang kembali memakai kartu soal.');
     }
 
     public function putarVideo(Request $request, string $jenis): BinaryFileResponse
@@ -307,9 +307,9 @@ class TesKelolaController extends Controller
     /** @return array<string, mixed>|null */
     private function infoVideo(string $jenis): ?array
     {
-        $video = TesVideo::where('jenis', $jenis)->first();
+        $video = TesVideo::untuk($jenis);
 
-        return $video?->berkas ? ['isyarat' => $video->isyarat ?? [], 'diperbarui' => $video->updated_at?->toIso8601String()] : null;
+        return $video ? ['isyarat' => $video['isyarat'], 'diperbarui' => $video['diperbarui'], 'sumber' => $video['sumber']] : null;
     }
 
     /** @return array<string, mixed> */

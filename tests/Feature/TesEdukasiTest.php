@@ -9,6 +9,7 @@ use App\Models\TesPelatihan;
 use App\Models\TesPeserta;
 use App\Models\TesSesi;
 use App\Models\TesSoal;
+use App\Models\TesVideo;
 use App\Models\User;
 use App\Services\Tes\AnalisisTesService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -431,5 +432,35 @@ class TesEdukasiTest extends TestCase
         // rata-rata 30, simpangan baku sqrt(250) = 15,81; t = 30 / (15,81 / sqrt(5)) = 4,243
         $this->assertEqualsWithDelta(4.243, $uji['t'], 0.001);
         $this->assertTrue($uji['signifikan']);
+    }
+
+    public function test_film_bawaan_punya_20_titik_berhenti_yang_terus_naik(): void
+    {
+        foreach (['pre', 'post'] as $jenis) {
+            $titik = TesVideo::BAWAAN[$jenis]['isyarat'];
+            $this->assertCount(TesSesi::JUMLAH_SOAL, $titik, $jenis);
+            for ($i = 1; $i < count($titik); $i++) {
+                $this->assertGreaterThan($titik[$i - 1], $titik[$i], "$jenis titik ".($i + 1));
+            }
+        }
+    }
+
+    public function test_video_unggahan_didahulukan_dari_film_bawaan(): void
+    {
+        TesVideo::create(['jenis' => 'pre', 'berkas' => 'tes-video/pre.mp4', 'isyarat' => range(10, 29)]);
+
+        $video = TesVideo::untuk('pre');
+        $this->assertSame('unggahan', $video['sumber']);
+        $this->assertStringStartsWith('/edukasi/kelola/video/pre/putar', $video['url']);
+
+        // Tanpa unggahan: film bawaan dipakai bila berkasnya ada (bukan penunjuk Git LFS).
+        $bawaan = TesVideo::untuk('post');
+        $berkas = public_path(TesVideo::BAWAAN['post']['berkas']);
+        if (is_file($berkas) && filesize($berkas) > 1_000_000) {
+            $this->assertSame('bawaan', $bawaan['sumber']);
+            $this->assertSame(TesVideo::BAWAAN['post']['isyarat'], $bawaan['isyarat']);
+        } else {
+            $this->assertNull($bawaan);
+        }
     }
 }

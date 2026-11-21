@@ -72,7 +72,7 @@ interface Props {
     pelatihan: Pelatihan[];
     soal: { pre: Soal[]; post: Soal[] };
     bagian: Record<string, string>;
-    video: { pre: { isyarat: number[]; diperbarui: string | null } | null; post: { isyarat: number[]; diperbarui: string | null } | null };
+    video: { pre: InfoVideo | null; post: InfoVideo | null };
 }
 
 const LABEL_STATUS: Record<Sesi['status'], { teks: string; kelas: string }> = {
@@ -674,7 +674,14 @@ function DialogSoal({ soal, bagian, onTutup }: { soal: Soal; bagian: Record<stri
     );
 }
 
-function FormVideo({ jenis, info }: { jenis: 'pre' | 'post'; info: { isyarat: number[]; diperbarui: string | null } | null }) {
+/** sumber "bawaan" = film yang ikut aplikasi (public/video); "unggahan" = berkas yang diunggah di sini dan didahulukan. */
+interface InfoVideo {
+    isyarat: number[];
+    diperbarui: string | null;
+    sumber: 'bawaan' | 'unggahan';
+}
+
+function FormVideo({ jenis, info }: { jenis: 'pre' | 'post'; info: InfoVideo | null }) {
     const { data, setData, post, processing, errors, progress } = useForm<{ berkas: File | null; isyarat: string }>({
         berkas: null,
         isyarat: (info?.isyarat ?? []).map((d) => formatDetik(d * 1000)).join(', '),
@@ -686,7 +693,7 @@ function FormVideo({ jenis, info }: { jenis: 'pre' | 'post'; info: { isyarat: nu
     };
 
     const hapus = () => {
-        if (window.confirm('Hapus video ini? Layar tayang kembali memakai kartu soal.')) {
+        if (window.confirm('Hapus video unggahan ini? Layar tayang kembali memakai film bawaan aplikasi (atau kartu soal bila tidak ada).')) {
             router.delete(`/edukasi/kelola/video/${jenis}`, { preserveScroll: true });
         }
     };
@@ -696,9 +703,15 @@ function FormVideo({ jenis, info }: { jenis: 'pre' | 'post'; info: { isyarat: nu
             <div className="flex items-center justify-between">
                 <p className="font-semibold">{jenis === 'pre' ? 'Pre-Test' : 'Post-Test'}</p>
                 <span className={`rounded px-2 py-0.5 text-xs ${info ? 'bg-emerald-600 text-white' : 'bg-zinc-500 text-white'}`}>
-                    {info ? 'Video terpasang' : 'Belum ada video'}
+                    {!info ? 'Belum ada video' : info.sumber === 'bawaan' ? 'Film bawaan aplikasi' : 'Video unggahan terpasang'}
                 </span>
             </div>
+            {info?.sumber === 'bawaan' && (
+                <p className="text-muted-foreground text-xs">
+                    Layar tayang sudah memakai film {jenis === 'pre' ? '"Sebelum Lepas Tali"' : '"Pulang Membawa Peta"'} beserta 20 titik berhentinya.
+                    Unggah berkas di bawah hanya bila ingin menggantinya.
+                </p>
+            )}
             <div className="space-y-1.5">
                 <Label>Berkas MP4</Label>
                 <Input type="file" accept="video/mp4" onChange={(e) => setData('berkas', e.target.files?.[0] ?? null)} />
@@ -720,9 +733,9 @@ function FormVideo({ jenis, info }: { jenis: 'pre' | 'post'; info: { isyarat: nu
                 <Button type="submit" size="sm" disabled={processing}>
                     Simpan
                 </Button>
-                {info && (
+                {info?.sumber === 'unggahan' && (
                     <Button type="button" size="sm" variant="ghost" onClick={hapus}>
-                        <Trash2 className="h-4 w-4" /> Hapus video
+                        <Trash2 className="h-4 w-4" /> Hapus video unggahan
                     </Button>
                 )}
             </div>
