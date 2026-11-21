@@ -54,6 +54,21 @@ interface Props {
     hasil: HasilSaya | null;
 }
 
+/**
+ * Kirim permintaan Inertia sesudah halaman pertama selesai dipasang.
+ *
+ * Efek komponen halaman berjalan LEBIH DULU daripada efek komponen App milik
+ * Inertia yang menyiapkan router. Memanggil router.post() langsung di efek
+ * pertama berakhir dengan "Cannot read properties of undefined (reading
+ * 'version')": permintaannya tidak pernah terkirim dan tombol Masuk tertahan
+ * di putaran memuat. Ditunda satu giliran, router sudah siap.
+ */
+function kirimSesudahInertiaSiap(kirim: () => void): () => void {
+    const id = window.setTimeout(kirim, 50);
+
+    return () => window.clearTimeout(id);
+}
+
 function Bingkai({ judul, subjudul, children }: { judul: string; subjudul?: string | null; children: ReactNode }) {
     return (
         <div className="bg-background text-foreground flex min-h-svh flex-col">
@@ -78,19 +93,19 @@ export default function TesPeserta(props: Props) {
     const { tahap, sesi } = props;
     const judul = sesi ? sesi.label : 'Pre-Test dan Post-Test';
 
-    // Tautan berbagi membawa token. Token dibuang dari bilah alamat begitu
-    // dipakai; peserta yang masih berada di sesi lain (mis. pre-test) langsung
-    // dipindahkan ke sesi tautan ini.
+    // Tautan berbagi membawa token. Peserta yang masih berada di sesi lain
+    // (mis. pre-test yang sudah selesai) langsung dipindahkan ke sesi tautan
+    // ini; sesudah berhasil, alamatnya kembali /edukasi/tes tanpa token.
     const tautanDipakai = useRef(false);
     useEffect(() => {
-        if (!props.tokenAwal || tautanDipakai.current) {
+        if (!props.tokenAwal || tahap === 'token' || tautanDipakai.current) {
             return;
         }
-        tautanDipakai.current = true;
-        window.history.replaceState(window.history.state, '', '/edukasi/tes');
-        if (tahap !== 'token') {
+
+        return kirimSesudahInertiaSiap(() => {
+            tautanDipakai.current = true;
             router.post('/edukasi/tes/masuk', { token: props.tokenAwal });
-        }
+        });
     }, [props.tokenAwal, tahap]);
 
     if (tahap === 'token' || !sesi) {
@@ -142,10 +157,14 @@ function FormToken({ tokenAwal }: { tokenAwal: string | null }) {
     // Dibuka dari tautan berbagi: kirim tokennya sekali, tanpa perlu diketik.
     const terkirim = useRef(false);
     useEffect(() => {
-        if (tokenAwal && !terkirim.current) {
+        if (!tokenAwal || terkirim.current) {
+            return;
+        }
+
+        return kirimSesudahInertiaSiap(() => {
             terkirim.current = true;
             post('/edukasi/tes/masuk');
-        }
+        });
     }, [tokenAwal, post]);
 
     const kirim = (e: FormEvent) => {

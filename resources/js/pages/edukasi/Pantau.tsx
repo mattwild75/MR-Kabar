@@ -1,4 +1,5 @@
 import { BenderaIsyarat, HURUF } from '@/components/edukasi/bendera-isyarat';
+import { TombolKunci } from '@/components/edukasi/tombol-kunci';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
@@ -71,6 +72,8 @@ export default function Pantau({ sesi, soal }: Props) {
     const [galat, setGalat] = useState<string | null>(null);
     const [cari, setCari] = useState('');
     const [saring, setSaring] = useState('semua');
+    // Kunci tersembunyi setiap kali halaman dibuka: halaman ini bisa ikut tampil di proyektor.
+    const [tampilKunci, setTampilKunci] = useState(false);
     const [kini, setKini] = useState(() => Date.now());
     const selisihJam = useRef(0);
 
@@ -226,11 +229,19 @@ export default function Pantau({ sesi, soal }: Props) {
 
                 {soalAktif && (
                     <div className="bg-card space-y-3 rounded-md border p-4">
-                        <p className="text-sm">
-                            <span className="font-semibold">Soal {soalAktif.nomor}</span> · {soalAktif.indikator} · kunci{' '}
-                            <strong>{soalAktif.kunci}</strong>
-                            {stat?.soal_aktif?.persen_benar != null && ` · ${stat.soal_aktif.persen_benar}% benar`}
-                        </p>
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                            <p className="text-sm">
+                                <span className="font-semibold">Soal {soalAktif.nomor}</span> · {soalAktif.indikator}
+                                {tampilKunci && (
+                                    <>
+                                        {' '}
+                                        · kunci <strong>{soalAktif.kunci}</strong>
+                                        {stat?.soal_aktif?.persen_benar != null && ` · ${stat.soal_aktif.persen_benar}% benar`}
+                                    </>
+                                )}
+                            </p>
+                            <TombolKunci tampil={tampilKunci} onUbah={setTampilKunci} />
+                        </div>
                         <p className="text-muted-foreground text-sm">{soalAktif.pertanyaan}</p>
                         <div className="grid gap-2 sm:grid-cols-4">
                             {HURUF.map((h) => {
@@ -238,7 +249,10 @@ export default function Pantau({ sesi, soal }: Props) {
                                 const persen = jumlahJawab ? Math.round((n / jumlahJawab) * 100) : 0;
 
                                 return (
-                                    <div key={h} className={`rounded-md border p-2 ${soalAktif.kunci === h ? 'border-emerald-500' : ''}`}>
+                                    <div
+                                        key={h}
+                                        className={`rounded-md border p-2 ${tampilKunci && soalAktif.kunci === h ? 'border-emerald-500' : ''}`}
+                                    >
                                         <div className="flex items-center gap-2 text-sm">
                                             <BenderaIsyarat huruf={h} className="h-4 w-6" />
                                             <span className="font-semibold">{h}</span>
@@ -248,7 +262,7 @@ export default function Pantau({ sesi, soal }: Props) {
                                         </div>
                                         <div className="bg-muted mt-1.5 h-1.5 overflow-hidden rounded-full">
                                             <div
-                                                className={`h-full ${soalAktif.kunci === h ? 'bg-emerald-500' : 'bg-sky-500'}`}
+                                                className={`h-full ${tampilKunci && soalAktif.kunci === h ? 'bg-emerald-500' : 'bg-sky-500'}`}
                                                 style={{ width: `${persen}%` }}
                                             />
                                         </div>
@@ -314,7 +328,7 @@ export default function Pantau({ sesi, soal }: Props) {
                                         {p.sudah_menjawab ? (
                                             <span className="inline-flex items-center gap-1">
                                                 <CheckCircle2
-                                                    className={`h-4 w-4 ${p.pilihan === stat?.soal_aktif?.kunci ? 'text-emerald-600' : 'text-rose-600'}`}
+                                                    className={`h-4 w-4 ${!tampilKunci ? 'text-sky-600' : p.pilihan === stat?.soal_aktif?.kunci ? 'text-emerald-600' : 'text-rose-600'}`}
                                                 />
                                                 {p.pilihan}
                                             </span>

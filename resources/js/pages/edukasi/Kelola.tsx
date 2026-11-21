@@ -1,4 +1,5 @@
 import { BenderaIsyarat, HURUF, type Huruf } from '@/components/edukasi/bendera-isyarat';
+import { KUNCI_TERSEMBUNYI, TombolKunci } from '@/components/edukasi/tombol-kunci';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -425,6 +426,8 @@ function DialogPelatihan({ pelatihan, onTutup }: { pelatihan: Pelatihan | null; 
 function BankSoal({ soal, bagian, onUbah }: { soal: Props['soal']; bagian: Record<string, string>; onUbah: (s: Soal) => void }) {
     const [jenis, setJenis] = useState<'pre' | 'post'>('pre');
     const [buka, setBuka] = useState<number | null>(null);
+    // Kunci tersembunyi setiap kali halaman dibuka: halaman ini bisa ikut tampil di proyektor.
+    const [tampilKunci, setTampilKunci] = useState(false);
     const { setData, post, processing, errors, reset } = useForm<{ berkas: File | null }>({ berkas: null });
     const daftar = soal[jenis];
 
@@ -460,6 +463,7 @@ function BankSoal({ soal, bagian, onUbah }: { soal: Props['soal']; bagian: Recor
                             <Download className="h-4 w-4" /> Ekspor JSON
                         </a>
                     </Button>
+                    <TombolKunci tampil={tampilKunci} onUbah={setTampilKunci} />
                 </div>
             </div>
             <InputError message={errors.berkas} />
@@ -499,6 +503,7 @@ function BankSoal({ soal, bagian, onUbah }: { soal: Props['soal']; bagian: Recor
                                 terbuka={buka === s.id}
                                 onBuka={() => setBuka(buka === s.id ? null : s.id)}
                                 onUbah={() => onUbah(s)}
+                                tampilKunci={tampilKunci}
                             />
                         ))}
                     </tbody>
@@ -514,12 +519,14 @@ function FragmenSoal({
     terbuka,
     onBuka,
     onUbah,
+    tampilKunci,
 }: {
     soal: Soal;
     bagian: Record<string, string>;
     terbuka: boolean;
     onBuka: () => void;
     onUbah: () => void;
+    tampilKunci: boolean;
 }) {
     const pilihan: Record<Huruf, string> = { A: soal.pilihan_a, B: soal.pilihan_b, C: soal.pilihan_c, D: soal.pilihan_d };
 
@@ -532,7 +539,7 @@ function FragmenSoal({
                     {soal.bagian}. {bagian[soal.bagian]}
                 </td>
                 <td className="px-3 py-2">{soal.indikator}</td>
-                <td className="px-3 py-2 text-center font-semibold">{soal.kunci}</td>
+                <td className="px-3 py-2 text-center font-semibold">{tampilKunci ? soal.kunci : KUNCI_TERSEMBUNYI}</td>
                 <td className="px-3 py-2 text-right">
                     <Button
                         size="sm"
@@ -555,7 +562,7 @@ function FragmenSoal({
                             {HURUF.map((h) => (
                                 <li
                                     key={h}
-                                    className={`flex items-start gap-2 ${soal.kunci === h ? 'font-semibold text-emerald-700 dark:text-emerald-400' : ''}`}
+                                    className={`flex items-start gap-2 ${tampilKunci && soal.kunci === h ? 'font-semibold text-emerald-700 dark:text-emerald-400' : ''}`}
                                 >
                                     <BenderaIsyarat huruf={h} className="mt-0.5 h-4 w-6 shrink-0" />
                                     <span>
@@ -564,7 +571,13 @@ function FragmenSoal({
                                 </li>
                             ))}
                         </ul>
-                        {soal.pembahasan && <p className="text-muted-foreground text-sm">Pembahasan: {soal.pembahasan}</p>}
+                        {tampilKunci ? (
+                            soal.pembahasan && <p className="text-muted-foreground text-sm">Pembahasan: {soal.pembahasan}</p>
+                        ) : (
+                            <p className="text-muted-foreground text-xs italic">
+                                Kunci dan pembahasan disembunyikan. Tekan "Tampilkan kunci" untuk melihatnya.
+                            </p>
+                        )}
                     </td>
                 </tr>
             )}

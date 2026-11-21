@@ -1,4 +1,5 @@
 import { BenderaIsyarat, HURUF } from '@/components/edukasi/bendera-isyarat';
+import { KUNCI_TERSEMBUNYI, TombolKunci } from '@/components/edukasi/tombol-kunci';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -36,6 +37,8 @@ const TAB: { id: Tab; label: string }[] = [
 
 export default function Hasil({ pelatihan, analisis, soal, bagian }: Props) {
     const [tab, setTab] = useState<Tab>('ringkasan');
+    // Kunci tersembunyi setiap kali halaman dibuka: halaman ini bisa ikut tampil di proyektor.
+    const [tampilKunci, setTampilKunci] = useState(false);
 
     return (
         <AppLayout
@@ -73,6 +76,7 @@ export default function Hasil({ pelatihan, analisis, soal, bagian }: Props) {
                                 <FileDown className="h-4 w-4" /> PDF daftar hadir
                             </a>
                         </Button>
+                        <TombolKunci tampil={tampilKunci} onUbah={setTampilKunci} />
                         <Button asChild size="sm" variant="ghost">
                             <Link href="/edukasi/kelola">
                                 <Settings2 className="h-4 w-4" /> Kelola
@@ -96,9 +100,9 @@ export default function Hasil({ pelatihan, analisis, soal, bagian }: Props) {
 
                 {tab === 'ringkasan' && <Ringkasan a={analisis} />}
                 {tab === 'peringkat' && <Peringkat a={analisis} />}
-                {tab === 'peserta' && <DaftarPeserta a={analisis} soal={soal} bagian={bagian} />}
+                {tab === 'peserta' && <DaftarPeserta a={analisis} soal={soal} bagian={bagian} tampilKunci={tampilKunci} />}
                 {tab === 'bagian' && <PerBagian a={analisis} />}
-                {tab === 'soal' && <PerSoal a={analisis} soal={soal} bagian={bagian} />}
+                {tab === 'soal' && <PerSoal a={analisis} soal={soal} bagian={bagian} tampilKunci={tampilKunci} />}
                 {tab === 'skpk' && <PerSkpk a={analisis} />}
             </div>
         </AppLayout>
@@ -319,7 +323,7 @@ interface BarisGabung {
     ngain: number | null;
 }
 
-function DaftarPeserta({ a, soal, bagian }: { a: Analisis; soal: Props['soal']; bagian: Record<string, string> }) {
+function DaftarPeserta({ a, soal, bagian, tampilKunci }: { a: Analisis; soal: Props['soal']; bagian: Record<string, string>; tampilKunci: boolean }) {
     const [cari, setCari] = useState('');
     const [pilih, setPilih] = useState<BarisGabung | null>(null);
 
@@ -427,12 +431,24 @@ function DaftarPeserta({ a, soal, bagian }: { a: Analisis; soal: Props['soal']; 
                     </tbody>
                 </table>
             </div>
-            {pilih && <RincianPeserta g={pilih} soal={soal} bagian={bagian} onTutup={() => setPilih(null)} />}
+            {pilih && <RincianPeserta g={pilih} soal={soal} bagian={bagian} tampilKunci={tampilKunci} onTutup={() => setPilih(null)} />}
         </div>
     );
 }
 
-function RincianPeserta({ g, soal, bagian, onTutup }: { g: BarisGabung; soal: Props['soal']; bagian: Record<string, string>; onTutup: () => void }) {
+function RincianPeserta({
+    g,
+    soal,
+    bagian,
+    tampilKunci,
+    onTutup,
+}: {
+    g: BarisGabung;
+    soal: Props['soal'];
+    bagian: Record<string, string>;
+    tampilKunci: boolean;
+    onTutup: () => void;
+}) {
     const persenBagian = (r: BarisNilai | null, jenis: 'pre' | 'post', b: number) => {
         if (!r) {
             return null;
@@ -528,16 +544,20 @@ function RincianPeserta({ g, soal, bagian, onTutup }: { g: BarisGabung; soal: Pr
                                                         <td className="py-1">{s.indikator}</td>
                                                         <td className="w-14 py-1 text-center">
                                                             {jwb ? (
-                                                                <span
-                                                                    className={`inline-flex items-center gap-1 ${benar ? 'text-emerald-600' : 'text-rose-600'}`}
-                                                                >
-                                                                    {benar ? (
-                                                                        <CheckCircle2 className="h-3.5 w-3.5" />
-                                                                    ) : (
-                                                                        <XCircle className="h-3.5 w-3.5" />
-                                                                    )}
-                                                                    {jwb}
-                                                                </span>
+                                                                tampilKunci ? (
+                                                                    <span
+                                                                        className={`inline-flex items-center gap-1 ${benar ? 'text-emerald-600' : 'text-rose-600'}`}
+                                                                    >
+                                                                        {benar ? (
+                                                                            <CheckCircle2 className="h-3.5 w-3.5" />
+                                                                        ) : (
+                                                                            <XCircle className="h-3.5 w-3.5" />
+                                                                        )}
+                                                                        {jwb}
+                                                                    </span>
+                                                                ) : (
+                                                                    <span className="font-medium">{jwb}</span>
+                                                                )
                                                             ) : (
                                                                 <span className="text-muted-foreground">kosong</span>
                                                             )}
@@ -611,7 +631,7 @@ function PerBagian({ a }: { a: Analisis }) {
     );
 }
 
-function PerSoal({ a, soal, bagian }: { a: Analisis; soal: Props['soal']; bagian: Record<string, string> }) {
+function PerSoal({ a, soal, bagian, tampilKunci }: { a: Analisis; soal: Props['soal']; bagian: Record<string, string>; tampilKunci: boolean }) {
     const [jenis, setJenis] = useState<'pre' | 'post'>('post');
     const [buka, setBuka] = useState<number | null>(null);
     const butir: Butir[] = a[jenis].butir;
@@ -656,6 +676,7 @@ function PerSoal({ a, soal, bagian }: { a: Analisis; soal: Props['soal']; bagian
                                     namaBagian={bagian[String(b.bagian)]}
                                     terbuka={buka === b.nomor}
                                     onBuka={() => setBuka(buka === b.nomor ? null : b.nomor)}
+                                    tampilKunci={tampilKunci}
                                 />
                             );
                         })}
@@ -673,6 +694,7 @@ function FragmenButir({
     namaBagian,
     terbuka,
     onBuka,
+    tampilKunci,
 }: {
     b: Butir;
     s: SoalHasil | undefined;
@@ -680,6 +702,7 @@ function FragmenButir({
     namaBagian: string;
     terbuka: boolean;
     onBuka: () => void;
+    tampilKunci: boolean;
 }) {
     return (
         <>
@@ -689,13 +712,13 @@ function FragmenButir({
                     {b.indikator}
                     <span className="text-muted-foreground block text-xs">{namaBagian}</span>
                 </td>
-                <td className="px-3 py-2 text-center font-semibold">{b.kunci}</td>
+                <td className="px-3 py-2 text-center font-semibold">{tampilKunci ? b.kunci : KUNCI_TERSEMBUNYI}</td>
                 <td className="px-3 py-2">
                     <div className="flex h-4 w-48 overflow-hidden rounded">
                         {HURUF.map((h) => (
                             <div
                                 key={h}
-                                className={h === b.kunci ? 'bg-emerald-500' : 'bg-slate-400/70'}
+                                className={tampilKunci && h === b.kunci ? 'bg-emerald-500' : 'bg-slate-400/70'}
                                 style={{ width: `${jumlah ? (b.sebaran[h] / jumlah) * 100 : 0}%` }}
                                 title={`${h}: ${b.sebaran[h]}`}
                             />
@@ -727,7 +750,7 @@ function FragmenButir({
                         {HURUF.map((h) => (
                             <p
                                 key={h}
-                                className={`flex items-start gap-2 ${s.kunci === h ? 'font-semibold text-emerald-700 dark:text-emerald-400' : ''}`}
+                                className={`flex items-start gap-2 ${tampilKunci && s.kunci === h ? 'font-semibold text-emerald-700 dark:text-emerald-400' : ''}`}
                             >
                                 <BenderaIsyarat huruf={h} className="mt-0.5 h-4 w-6 shrink-0" />
                                 {h}. {s.pilihan[h]}
