@@ -28,9 +28,92 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
  * Seluruh tampilan mengikuti keadaan di server (statistik tiap 1,5 detik),
  * jadi tombol di halaman Pantau ikut menggerakkan layar ini.
  *
+ * Selama soal dibuka, musik tunggu lembut berulang (public/media/tes/menunggu.wav,
+ * disusun oleh scripts/edukasi/musik_menunggu.py) lalu memudar saat soal ditutup.
+ *
  * Kendali: Spasi/Enter/panah kanan = langkah berikutnya, B = buka ulang soal
- * aktif, P = tampilkan/sembunyikan peringkat, F = layar penuh.
+ * aktif, P = tampilkan/sembunyikan peringkat, F = layar penuh, M = musik tunggu
+ * nyala/mati.
  */
+
+const URL_MUSIK_TUNGGU = '/media/tes/menunggu.wav';
+const KERAS_MUSIK_TUNGGU = 0.32;
+
+/**
+ * Musik tunggu lewat Web Audio: loop sampel-akurat (tanpa jeda di sambungan)
+ * dengan pudar masuk dan keluar. AudioContext baru dibuat saat pertama kali
+ * dibutuhkan; saat itu pemandu sudah menekan tombol, jadi peramban mengizinkan
+ * suara.
+ */
+function useMusikTunggu(hidup: boolean) {
+    const mesin = useRef<{ ctx: AudioContext; gain: GainNode; buffer: Promise<AudioBuffer | null>; sumber: AudioBufferSourceNode | null } | null>(null);
+
+    useEffect(() => {
+        if (!hidup && !mesin.current) {
+            return;
+        }
+        if (!mesin.current) {
+            const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+            if (!Ctx) {
+                return;
+            }
+            const ctx = new Ctx();
+            const gain = ctx.createGain();
+            gain.gain.value = 0;
+            gain.connect(ctx.destination);
+            const buffer = fetch(URL_MUSIK_TUNGGU)
+                .then((r) => r.arrayBuffer())
+                .then((b) => ctx.decodeAudioData(b))
+                .catch(() => null);
+            mesin.current = { ctx, gain, buffer, sumber: null };
+        }
+        const m = mesin.current;
+        let batal = false;
+        let henti: number | undefined;
+        const kini = m.ctx.currentTime;
+        m.gain.gain.cancelScheduledValues(kini);
+        m.gain.gain.setValueAtTime(m.gain.gain.value, kini);
+        if (hidup) {
+            m.ctx.resume().catch(() => {});
+            m.buffer.then((buf) => {
+                if (batal || !buf) {
+                    return;
+                }
+                if (!m.sumber) {
+                    const src = m.ctx.createBufferSource();
+                    src.buffer = buf;
+                    src.loop = true;
+                    src.connect(m.gain);
+                    src.start();
+                    m.sumber = src;
+                }
+                const t = m.ctx.currentTime;
+                m.gain.gain.cancelScheduledValues(t);
+                m.gain.gain.setValueAtTime(m.gain.gain.value, t);
+                m.gain.gain.linearRampToValueAtTime(KERAS_MUSIK_TUNGGU, t + 1.2);
+            });
+        } else {
+            m.gain.gain.linearRampToValueAtTime(0, kini + 0.8);
+            henti = window.setTimeout(() => {
+                m.sumber?.stop();
+                m.sumber = null;
+            }, 900);
+        }
+
+        return () => {
+            batal = true;
+            window.clearTimeout(henti);
+        };
+    }, [hidup]);
+
+    useEffect(
+        () => () => {
+            mesin.current?.ctx.close().catch(() => {});
+            mesin.current = null;
+        },
+        [],
+    );
+}
 
 interface Props {
     sesi: {
@@ -53,6 +136,7 @@ export default function Tayang({ sesi, soal, video, urlPeserta }: Props) {
     const [galat, setGalat] = useState<string | null>(null);
     const [tampilToken, setTampilToken] = useState(true);
     const [lihatPeringkat, setLihatPeringkat] = useState(false);
+    const [bisu, setBisu] = useState(false);
     const [kini, setKini] = useState(() => Date.now());
     const selisihJam = useRef(0);
 
@@ -279,6 +363,8 @@ export default function Tayang({ sesi, soal, video, urlPeserta }: Props) {
                 setLihatPeringkat((x) => !x);
             } else if (e.key.toLowerCase() === 'f') {
                 layarPenuh();
+            } else if (e.key.toLowerCase() === 'm') {
+                setBisu((x) => !x);
             } else if (e.key === 'ArrowLeft' && modeVideo && menunggu === null && videoRef.current) {
                 videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 5);
             }
@@ -300,6 +386,7 @@ export default function Tayang({ sesi, soal, video, urlPeserta }: Props) {
     const menjawab = stat?.soal_aktif?.menjawab ?? 0;
     const lamaTerbuka = stat?.sesi.soal_dibuka_ms && st.terbuka ? kini + selisihJam.current - stat.sesi.soal_dibuka_ms : null;
     const tampilPeringkat = st.status === 'selesai' || lihatPeringkat;
+    useMusikTunggu(st.status === 'berjalan' && st.terbuka && !bisu && !tampilPeringkat);
 
     return (
         <div className="relative min-h-svh overflow-hidden bg-[#071a33] text-slate-50 select-none">
@@ -349,40 +436,43 @@ export default function Tayang({ sesi, soal, video, urlPeserta }: Props) {
                 ) : (
                     <p className="mt-24 text-center text-2xl text-sky-100">Soal {st.soal} belum ada di bank soal. Isi bank soal di halaman Kelola.</p>
                 )}
-
-                {modeVideo && (
-                    <div
-                        className={`absolute inset-0 top-0 items-center justify-center px-8 ${
-                            tampilPeringkat || st.status === 'draf' || st.status === 'lobi' ? 'hidden' : 'flex'
-                        }`}
-                    >
-                        <video
-                            ref={videoRef}
-                            src={srcVideo ?? undefined}
-                            className="max-h-[80vh] w-full rounded-lg shadow-2xl"
-                            playsInline
-                            preload="auto"
-                            onLoadedMetadata={lanjutDariSoalTerakhir}
-                            onEnded={() => st.status === 'berjalan' && aksi('selesai')}
-                        />
-                        {menunggu !== null && soalAktif && (
-                            <div className="absolute inset-x-8 bottom-6">
-                                {tampilBahas ? (
-                                    <PanelPembahasan key={soalAktif.nomor} soal={soalAktif} stat={stat} />
-                                ) : (
-                                    <PitaMenjawab
-                                        menjawab={menjawab}
-                                        bergabung={bergabung}
-                                        terbuka={st.terbuka}
-                                        lama={lamaTerbuka}
-                                        nomor={menunggu}
-                                    />
-                                )}
-                            </div>
-                        )}
-                    </div>
-                )}
             </main>
+
+            {/* Video mengisi seluruh layar di bawah kepala halaman. Film menyisakan
+                pita bawah frame yang kosong, tempat pita "awak sudah menjawab"
+                dan pembahasan menumpang tanpa menutupi kartu soal. */}
+            {modeVideo && (
+                <div
+                    className={`absolute inset-x-0 top-[4.75rem] bottom-6 z-10 px-6 ${
+                        tampilPeringkat || st.status === 'draf' || st.status === 'lobi' ? 'hidden' : 'block'
+                    }`}
+                >
+                    <video
+                        ref={videoRef}
+                        src={srcVideo ?? undefined}
+                        className="h-full w-full object-contain"
+                        playsInline
+                        preload="auto"
+                        onLoadedMetadata={lanjutDariSoalTerakhir}
+                        onEnded={() => st.status === 'berjalan' && aksi('selesai')}
+                    />
+                    {menunggu !== null && soalAktif && (
+                        <div className="absolute inset-x-10 bottom-3">
+                            {tampilBahas ? (
+                                <PanelPembahasan key={soalAktif.nomor} soal={soalAktif} stat={stat} />
+                            ) : (
+                                <PitaMenjawab
+                                    menjawab={menjawab}
+                                    bergabung={bergabung}
+                                    terbuka={st.terbuka}
+                                    lama={lamaTerbuka}
+                                    nomor={menunggu}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
+            )}
 
             {st.status === 'berjalan' && !modeVideo && soalAktif && !tampilPeringkat && (
                 <footer className="absolute inset-x-0 bottom-0 z-10 px-8 pb-6">
@@ -391,7 +481,7 @@ export default function Tayang({ sesi, soal, video, urlPeserta }: Props) {
             )}
 
             <p className="absolute right-8 bottom-1 z-10 text-[11px] text-sky-300/70">
-                Spasi: langkah berikutnya · B: buka ulang soal · P: peringkat · F: layar penuh
+                Spasi: langkah berikutnya · B: buka ulang soal · P: peringkat · F: layar penuh · M: musik tunggu {bisu ? 'mati' : 'nyala'}
             </p>
         </div>
     );

@@ -56,3 +56,6 @@ docs/audit/
 
 # tangkapan layar pemeriksaan render (cek_login.cjs)
 login_prod.png
+
+# Sumber film pre-test/post-test: memuat soal, jangan masuk repositori publik
+/video-tes
