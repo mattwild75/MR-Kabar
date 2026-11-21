@@ -124,8 +124,10 @@ export default function Kelola({ pelatihan, soal, bagian, video }: Props) {
                         <Film className="h-5 w-5" /> Video film pendek
                     </h2>
                     <p className="text-muted-foreground text-sm">
-                        Satu video utuh per tes yang berhenti sendiri pada 20 titik soal. Selama video belum diunggah, layar tayang memakai kartu
-                        soal. Video disimpan di penyimpanan tertutup dan hanya bisa diputar admin dan super-admin.
+                        Satu video utuh per tes yang berhenti sendiri pada 20 titik soal. Aplikasi sudah membawa film bawaan untuk kedua tes; video
+                        yang diunggah di sini menggantikannya, disimpan di penyimpanan tertutup, dan hanya bisa diputar admin dan super-admin. Tanpa
+                        video sama sekali, layar tayang memakai kartu soal. Buka layar tayang beberapa menit sebelum tes dimulai supaya film selesai
+                        dimuat ke laptop.
                     </p>
                     <div className="grid gap-4 md:grid-cols-2">
                         <FormVideo jenis="pre" info={video.pre} />
